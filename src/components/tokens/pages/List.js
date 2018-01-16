@@ -22,7 +22,6 @@ function Page(props){
           <Components.ListActionsBar  />
           <Empty height="15px" />
           <Components.ListTable />
-          <Common.ListPagination />
           <Components.ListLayer />
       </Containers.StandList>
     </div>

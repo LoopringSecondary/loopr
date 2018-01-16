@@ -36,7 +36,7 @@ function ListLayer({ actions={},LIST={},configs={},children}){
       visible:thisLayer.visible,
       // title:thisLayer.title
       footer:null,
-      closable:false,
+      closable:true,
       maskClosable:true,
       wrapClassName:"rs",
       onCancel:hideLayer.bind(this,type),

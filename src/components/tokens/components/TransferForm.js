@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,Button,Icon,Card,Modal,Input,Radio,Select,Checkbox} from 'antd';
+import { Form,Button,Icon,Card,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 
 let FiltersForm = ({
   filters,
@@ -36,6 +36,13 @@ let FiltersForm = ({
     formItemLayout = {}
     buttonItemLayout={}
   }
+
+  const sliderMarks = {
+    0: '2100',
+    100: {
+      label: '21000'
+    },
+  };
   return (
       <div>
         <div className="emp15"></div>
@@ -54,11 +61,12 @@ let FiltersForm = ({
           >
             <Select
                 showSearch
-                placeholder="search"
+                placeholder="Search/Select"
                 optionFilterProp="children"
                 onChange={()=>{}}
                 onFocus={()=>{}}
                 onBlur={()=>{}}
+                size="large"
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               >
                 <Select.Option value="jack">LRC</Select.Option>
@@ -70,30 +78,32 @@ let FiltersForm = ({
             label="Recipient"
             {...formItemLayout}
           >
-            <Input placeholder="" />
+            <Input placeholder="" size="large" />
           </Form.Item>
           <Form.Item
             label="Amount To Send"
             {...formItemLayout}
           >
-            <Input placeholder="" />
+            <Input placeholder="" size="large" />
           </Form.Item>
 
           <Form.Item
-            label={null}
+            label="GasLimit"
             {...formItemLayout}
           >
-            
+            <Slider min={2100} max={21000} step={2100} defaultValue={8400} 
+              marks={{
+                2100: '2100',
+                8400: '8400',
+                21000: {
+                  label: '21000'
+                }
+              }} 
+            />
           </Form.Item>
-
-          {
-            false &&
-            <Form.Item {...buttonItemLayout}>
-              <Button type="primary" className="mr10">Submit</Button>
-              <Button type="default">Reset</Button>
-            </Form.Item>
-          }
-          
+          <Form.Item {...buttonItemLayout}>
+            <Button type="primary" className="d-block w-100" size="large">Continue</Button>
+          </Form.Item>
         </Form>
       </div>
   );

@@ -42,14 +42,7 @@ let FiltersForm = ({
   return (
       <div>
         <div className="emp15"></div>
-        {
-        	false &&
-        	<div>
-        		<Button size="large" type="primary" onClick={handleSubmit} className="mr10"><Icon type="search"></Icon>搜索</Button>
-        		<Button size="large" type="ghost" onClick={handleReset} className="mr10">重置</Button>
-        		<Button size="large" type="ghost" onClick={handleCancle}>取消</Button>
-        	</div>
-        }
+        
         <Form layout={formLayout}>
           <Form.Item
             label="Token"
@@ -58,7 +51,7 @@ let FiltersForm = ({
             <Select
                 showSearch
                 style={{ width: 200 }}
-                placeholder="search"
+                placeholder="Search/Select"
                 optionFilterProp="children"
                 onChange={()=>{}}
                 onFocus={()=>{}}
@@ -82,7 +75,6 @@ let FiltersForm = ({
           >
             <Checkbox>Hide 0 Balance</Checkbox>
           </Form.Item>
-
           {
             false &&
             <Form.Item {...buttonItemLayout}>
@@ -90,7 +82,6 @@ let FiltersForm = ({
               <Button type="default">Reset</Button>
             </Form.Item>
           }
-          
         </Form>
       </div>
   );
