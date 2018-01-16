@@ -6,14 +6,13 @@ import { Table,Badge,Button } from 'antd';
 import schema from '../schema';
 import tokens from './tokens';
 
-function ListBlock({LIST,actions}) {
+function ListBlock({LIST,actions,modal}) {
   const {
       // items=[],
       loading,
       page={}
   } = LIST
   const items = tokens
-
   const renders = {
       ringHash:(value,item,index)=><Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/rings/detail/${value}`}>{value}</Link>,
       miner:(value,item,index)=> <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/miner/detail/${value}`}>{value}</Link>,
@@ -24,27 +23,16 @@ function ListBlock({LIST,actions}) {
       totalLrcFee:(value,item,index)=> (Number(value)/1e18).toFixed(6),
       timestamp:(value,item,index)=> moment(value).format('YYYY/MM/DD HH:mm:ss')
   }
-  let showLayer = type => {
-    actions.layerChange({
-      [type]:{
-        visible:true,
-      }
-    })
-  }
-  let hideLayer = type => {
-    actions.layerChange({
-      [type]:{
-        visible:false,
-      }
-    })
-  }
+  const showModal = modal.actions && modal.actions.showModal
+  if(typeof showModal != 'function'){throw Error('showModal must be a function')}
+
   const actionRender = (value,item,index)=>{
     return (
       <div>
-        <Button className="mr5" onClick={showLayer.bind(this,'transfer')}>Transfer</Button>
-        <Button className="mr5" icon="qrcode" onClick={showLayer.bind(this,'receive')}>Receive</Button>
-        <Button className="mr5" hidden onClick={showLayer.bind(this,'convert')}>Convert</Button>
-        <Button className="mr5" onClick={showLayer.bind(this,'approve')}>Approve</Button>
+        <Button className="mr5" onClick={showModal.bind(this,'transfer')}>Transfer</Button>
+        <Button className="mr5" icon="qrcode" onClick={showModal.bind(this,'receive')}>Receive</Button>
+        <Button className="mr5" hidden onClick={showModal.bind(this,'convert')}>Convert</Button>
+        <Button className="mr5" onClick={showModal.bind(this,'approve')}>Approve</Button>
         <Button className="mr5" >Trade</Button>
       </div>
     )

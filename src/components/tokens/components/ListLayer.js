@@ -8,30 +8,13 @@ function Approve(props){
 function Convert(props){
 	return <div>Convert TODO</div>
 }
-function ListLayer({ actions={},LIST={},configs={},children}){
-  let {
-    filters={},
-    columns=[],
-    page={},
-    sort={},
-    layer={},
-  } = LIST;
-  let showLayer = type => {
-    actions.layerChange({
-      [type]:{
-        visible:true,
-      }
-    })
-  }
-  let hideLayer = type => {
-    actions.layerChange({
-      [type]:{
-        visible:false,
-      }
-    })
-  }
+function ListLayer({ modal={},children}){
+  
+  const modalState = modal.state
+  const modalActions = modal.actions
+
   const getModalProps = type => {
-    let thisLayer = layer[type] || {};
+    let thisLayer = modalState[type] || {}
     return {
       visible:thisLayer.visible,
       // title:thisLayer.title
@@ -39,7 +22,7 @@ function ListLayer({ actions={},LIST={},configs={},children}){
       closable:true,
       maskClosable:true,
       wrapClassName:"rs",
-      onCancel:hideLayer.bind(this,type),
+      onCancel:modalActions.hideModal.bind(this,type),
     }
   }
 
@@ -47,7 +30,7 @@ function ListLayer({ actions={},LIST={},configs={},children}){
   return (
     <div>
       <Modal {...getModalProps('transfer')} title="Transfer"  >
-        <TransferForm LIST={LIST} actions={actions} />
+        <TransferForm />
       </Modal>
       <Modal {...getModalProps('receive')} title="My Ethereum Address"  >
         <Receive />
