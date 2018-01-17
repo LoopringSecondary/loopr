@@ -1,6 +1,16 @@
 import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
 
+let formOptions = {
+  onFieldsChange:(props,values)=>{
+    console.log('values1',values);
+  },
+  onValuesChange:(props,values)=>{
+    console.log('values1',values);
+  }
+
+}
+
 let FiltersForm = ({
   filters,
   fields,
@@ -9,6 +19,15 @@ let FiltersForm = ({
   form,
   }) => {
   function handleSubmit() {
+    form.validateFields((err,values) => {
+      console.log('values2',values);
+      if(!err){
+        // TODO
+      }
+    }); 
+  }
+  function handleChange() {
+      handleSubmit()
   }
   function handleCancle() {
   }
@@ -16,87 +35,57 @@ let FiltersForm = ({
   }
 
   let formLayout = 'inline'
-  let formItemLayout = {}
-  let buttonItemLayout = {}
-
-  if( formLayout == 'horizontal'){
-  	formItemLayout = {
-  		labelCol: { span: 4 },
-  		wrapperCol: { span: 14 },
-  	}
-  	buttonItemLayout ={
-  		wrapperCol: { span: 14, offset: 4 },
-  	}
-  }
-  if( formLayout == 'inline'){
-  	formItemLayout = {}
-  	buttonItemLayout={}
-  }
-  if( formLayout == 'vertical'){
-  	formItemLayout = {}
-  	buttonItemLayout={}
-  }
-
-
-
   return (
       <div>
         <div className="emp15"></div>
-        {
-        	false &&
-        	<div>
-        		<Button size="large" type="primary" onClick={handleSubmit} className="mr10"><Icon type="search"></Icon>搜索</Button>
-        		<Button size="large" type="ghost" onClick={handleReset} className="mr10">重置</Button>
-        		<Button size="large" type="ghost" onClick={handleCancle}>取消</Button>
-        	</div>
-        }
-        
-        <Form layout={formLayout}>
-          <Form.Item
-            label="Market"
-            {...formItemLayout}
-          >
-            <Select
-                showSearch
-                style={{ width: 200 }}
-                placeholder="search"
-                optionFilterProp="children"
-                onChange={()=>{}}
-                onFocus={()=>{}}
-                onBlur={()=>{}}
-                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-              >
-                <Select.Option value="jack">LRC/ETH</Select.Option>
-                <Select.Option value="lucy">USDT/ETH</Select.Option>
-                <Select.Option value="tom">BNB/ETH</Select.Option>
-              </Select>
+        <Form layout="inline">
+          <Form.Item label="Market" >
+            {form.getFieldDecorator('token', {
+              initialValue:'',
+              rules:[]
+            })(
+              <Select
+                  showSearch
+                  allowClear
+                  style={{width:'200px'}}
+                  placeholder="search"
+                  optionFilterProp="children"
+                  onChange={handleChange}
+                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                  <Select.Option value="LRC/ETH">LRC/ETH</Select.Option>
+                  <Select.Option value="USDT/ETH">USDT/ETH</Select.Option>
+                  <Select.Option value="BNB/ETH">BNB/ETH</Select.Option>
+                </Select>
+            )}
           </Form.Item>
-          <Form.Item
-            label="Side"
-            {...formItemLayout}
-          >
-            <Radio.Group defaultValue="all" >
-              <Radio.Button value="all">All</Radio.Button>
-              <Radio.Button value="horizontal">Sell</Radio.Button>
-              <Radio.Button value="vertical">Buy</Radio.Button>
-            </Radio.Group>
+          <Form.Item label="Side" >
+            {form.getFieldDecorator('side', {
+              initialValue:'all',
+              rules:[]
+            })(
+              <Radio.Group onChange={handleChange}>
+                <Radio.Button value="all">All</Radio.Button>
+                <Radio.Button value="sell">Sell</Radio.Button>
+                <Radio.Button value="buy">Buy</Radio.Button>
+              </Radio.Group>
+            )}
+            
           </Form.Item>
-          <Form.Item
-            label="Status"
-            {...formItemLayout}
-          >
-            <Radio.Group defaultValue="all" >
-              <Radio.Button value="all">All</Radio.Button>
-              <Radio.Button value="completed">Completed</Radio.Button>
-              <Radio.Button value="pending">Pending</Radio.Button>
-              <Radio.Button value="canceled">Canceled</Radio.Button>
-            </Radio.Group>
+          <Form.Item label="Status" >
+            {form.getFieldDecorator('status', {
+              initialValue:'all',
+              rules:[]
+            })(
+              <Radio.Group onChange={handleChange}>
+                <Radio.Button value="all">All</Radio.Button>
+                <Radio.Button value="completed">Completed</Radio.Button>
+                <Radio.Button value="pending">Pending</Radio.Button>
+                <Radio.Button value="canceled">Canceled</Radio.Button>
+              </Radio.Group>
+            )}
           </Form.Item>
-          <Form.Item {...buttonItemLayout}>
-            {
-              false &&
-              <Button type="primary" className="mr10">Submit</Button>
-            }
+          <Form.Item>
             <Button type="default">Reset</Button>
           </Form.Item>
         </Form>
@@ -105,6 +94,6 @@ let FiltersForm = ({
 };
 
 
-export default Form.create()(FiltersForm);
+export default Form.create(formOptions)(FiltersForm);
 
  
