@@ -2,24 +2,30 @@ import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 
 let Transfer = ({
-  filters,
-  fields,
-  onSubmit,
-  onCancle,
   form,
   modal,
   }) => {
   function handleSubmit() {
-    modal.actions.hideModal('transfer')
+    modal.hideModal('transfer')
+    form.validateFields((err,values) => {
+      // console.log('values',values);
+      console.log('values',values);
+      if(!err){
+        // TODO
+      }
+    });
+    
   }
   function handleCancle() {
+    modal.hideModal('transfer')
   }
   function handleReset() {
-  }
 
+  }
   let formLayout = 'vertical'
   let formItemLayout = {}
   let buttonItemLayout = {}
+
   return (
       <div>
         <Form layout={formLayout}>
@@ -54,7 +60,6 @@ let Transfer = ({
           >
             <Input placeholder="" size="large" />
           </Form.Item>
-
           <Form.Item
             label="GasLimit"
             {...formItemLayout}

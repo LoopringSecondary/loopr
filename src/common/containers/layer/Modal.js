@@ -27,10 +27,8 @@ class ModalContainer extends React.Component {
       ...this.props,
       modal:{
         state:this.state,
-        actions:{
-          showModal:this.showModal.bind(this), // fix bug for context error
-          hideModal:this.hideModal.bind(this), // fix bug for context error
-        }
+        showModal:this.showModal.bind(this), // fix bug for context error
+        hideModal:this.hideModal.bind(this), // fix bug for context error
       }
     }
     console.log('modal childProps',childProps)

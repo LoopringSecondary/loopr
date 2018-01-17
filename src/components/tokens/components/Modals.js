@@ -7,7 +7,7 @@ import Approve from './Approve'
 
 function Modals({ modal={},children}){
   const modalState = modal.state
-  const modalActions = modal.actions
+  const hideModal = modal.hideModal
 
   const getModalProps = type => {
     let thisLayer = modalState[type] || {}
@@ -18,7 +18,7 @@ function Modals({ modal={},children}){
       closable:true,
       maskClosable:true,
       wrapClassName:"rs",
-      onCancel:modalActions.hideModal.bind(this,type),
+      onCancel:hideModal.bind(this,type),
     }
   }
   let _this = this;

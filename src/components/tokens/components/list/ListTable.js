@@ -23,7 +23,7 @@ function ListBlock({LIST,actions,modal}) {
       totalLrcFee:(value,item,index)=> (Number(value)/1e18).toFixed(6),
       timestamp:(value,item,index)=> moment(value).format('YYYY/MM/DD HH:mm:ss')
   }
-  const showModal = modal.actions && modal.actions.showModal
+  const showModal = modal.showModal
   if(typeof showModal != 'function'){throw Error('showModal must be a function')}
 
   const actionRender = (value,item,index)=>{
