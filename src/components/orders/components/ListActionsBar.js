@@ -1,8 +1,21 @@
 import React from 'react';
 import ListFiltersForm from './ListFiltersForm'
-import {Button} from 'antd'
+import {Button,Modal} from 'antd'
 
-function ListActionsBar({actions={},LIST={}}){
+export default function ListActionsBar({actions={},LIST={}}){
+  const cancelAllOrder = ()=>{
+    Modal.confirm({
+        title: 'Do you Want to cancel all orders?',
+        content: 'Some descriptions',
+        onOk:()=>{
+          // TODO
+          // actions.cancelAll()
+        },
+        onCancel:()=>{},
+        okText:'Yes',
+        cancelText:'No',
+    })
+  }
   return (
     <div>
         <div className="row">
@@ -13,10 +26,10 @@ function ListActionsBar({actions={},LIST={}}){
 
             </div>
             <div className="col-auto">
-                <Button type="primary">Cancel All</Button>
+                <Button type="primary" onClick={cancelAllOrder}>Cancel All</Button>
             </div>
         </div>
     </div>
-  );
+  )
 }
-export default ListActionsBar;
+

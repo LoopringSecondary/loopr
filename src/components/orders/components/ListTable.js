@@ -21,8 +21,12 @@ function ListBlock({LIST,actions}) {
       totalLrcFee:(value,item,index)=> (Number(value)/1e18).toFixed(6),
       timestamp:(value,item,index)=> moment(value).format('YYYY/MM/DD HH:mm:ss')
   }
+  const cancelOrder = (value,item,)=>{
+    // TODO
+    // actions.cancel()
+  }
   const actionRender = (value,item,index)=>{
-    return <Button>Cancel</Button>
+    return <Button onClick={cancelOrder.bind(this,value,item)}>Cancel</Button>
   }
   const actionColumn = {
     title:'Options',
