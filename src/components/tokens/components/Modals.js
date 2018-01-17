@@ -1,16 +1,17 @@
 import React, { PropTypes } from 'react';
-import {  Popconfirm, Pagination,Dropdown,Popover,Button,Icon,Menu,Modal,Checkbox,Badge} from 'antd';
+import { Modal,Divider} from 'antd';
 import Transfer from './Transfer'
+import TransferPreview from './TransferPreview'
 import Receive from './Receive'
 import Convert from './Convert'
 import Approve from './Approve'
 
+
 function Modals({ modal={},children}){
-  const modalState = modal.state
-  const hideModal = modal.hideModal
+
 
   const getModalProps = type => {
-    let thisLayer = modalState[type] || {}
+    let thisLayer = modal[type] || {}
     return {
       visible:thisLayer.visible,
       // title:thisLayer.title
@@ -18,7 +19,7 @@ function Modals({ modal={},children}){
       closable:true,
       maskClosable:true,
       wrapClassName:"rs",
-      onCancel:hideModal.bind(this,type),
+      onCancel:modal.hideModal.bind(this,type),
     }
   }
   let _this = this;
@@ -36,6 +37,12 @@ function Modals({ modal={},children}){
       <Modal {...getModalProps('convert')} title="Convert"  >
         <Convert modal={modal} />
       </Modal>
+      <Modal {...getModalProps('transfer/preview')} width="50%" style={{maxWidth:'100%',width:'60%'}} title="You are about to send"  >
+        <div className="p15">
+          <TransferPreview modal={modal} />
+        </div>
+      </Modal>
+
     </div>
   );
 }

@@ -19,7 +19,6 @@ function Page(props){
   }
   return (
     <div className="">
-
       <Containers.StandList {...containerProps}>
           <ModalContainer>
             <Components.ListActionsBar  />
