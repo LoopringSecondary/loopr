@@ -1,37 +1,30 @@
 import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
 
-let formOptions = {
-  onFieldsChange:(props,values)=>{
-    console.log('values1',values);
-  },
-  onValuesChange:(props,values)=>{
-    console.log('values1',values);
-  }
-
-}
-
 let FiltersForm = ({
-  filters,
-  fields,
-  onSubmit,
-  onCancle,
   form,
+  actions,
   }) => {
   function handleSubmit() {
     form.validateFields((err,values) => {
-      console.log('values2',values);
+      console.log('values',values)
       if(!err){
         // TODO
+        actions.filtersChange({
+          filters:values
+        })
       }
-    }); 
+    })
   }
   function handleChange() {
-      handleSubmit()
+    setTimeout(handleSubmit, 0) // fix bug for form state unsync
   }
   function handleCancle() {
+
   }
   function handleReset() {
+    form.resetFields()
+    handleSubmit()
   }
 
   let formLayout = 'inline'
@@ -48,7 +41,7 @@ let FiltersForm = ({
                   showSearch
                   allowClear
                   style={{width:'200px'}}
-                  placeholder="search"
+                  placeholder="Search/Select"
                   optionFilterProp="children"
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
@@ -86,7 +79,7 @@ let FiltersForm = ({
             )}
           </Form.Item>
           <Form.Item>
-            <Button type="default">Reset</Button>
+            <Button onClick={handleReset} type="default">Reset</Button>
           </Form.Item>
         </Form>
       </div>
@@ -94,6 +87,6 @@ let FiltersForm = ({
 };
 
 
-export default Form.create(formOptions)(FiltersForm);
+export default Form.create()(FiltersForm);
 
  
