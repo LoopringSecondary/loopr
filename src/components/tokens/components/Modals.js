@@ -1,15 +1,11 @@
 import React, { PropTypes } from 'react';
 import {  Popconfirm, Pagination,Dropdown,Popover,Button,Icon,Menu,Modal,Checkbox,Badge} from 'antd';
-import TransferForm from './TransferForm'
+import Transfer from './Transfer'
 import Receive from './Receive'
-function Approve(props){
-	return <div>Approve TODO</div>
-}
-function Convert(props){
-	return <div>Convert TODO</div>
-}
-function ListLayer({ modal={},children}){
-  
+import Convert from './Convert'
+import Approve from './Approve'
+
+function Modals({ modal={},children}){
   const modalState = modal.state
   const modalActions = modal.actions
 
@@ -25,24 +21,23 @@ function ListLayer({ modal={},children}){
       onCancel:modalActions.hideModal.bind(this,type),
     }
   }
-
   let _this = this;
   return (
     <div>
       <Modal {...getModalProps('transfer')} title="Transfer"  >
-        <TransferForm />
+        <Transfer modal={modal} />
       </Modal>
       <Modal {...getModalProps('receive')} title="My Ethereum Address"  >
-        <Receive />
+        <Receive modal={modal} />
       </Modal>
       <Modal {...getModalProps('approve')} title="Approve"  >
-        <Approve />
+        <Approve modal={modal} />
       </Modal>
       <Modal {...getModalProps('convert')} title="Convert"  >
-        <Approve />
+        <Convert modal={modal} />
       </Modal>
     </div>
   );
 }
 
-export default ListLayer;
+export default Modals;

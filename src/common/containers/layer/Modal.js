@@ -7,7 +7,6 @@ class ModalContainer extends React.Component {
     }
   }
   showModal(type,paylaod){
-    console.log('modal container this',this)
     this.setState({
       [type]:{
         visible:true,
@@ -29,8 +28,8 @@ class ModalContainer extends React.Component {
       modal:{
         state:this.state,
         actions:{
-          showModal:this.showModal,
-          hideModal:this.hideModal,
+          showModal:this.showModal.bind(this), // fix bug for context error
+          hideModal:this.hideModal.bind(this), // fix bug for context error
         }
       }
     }

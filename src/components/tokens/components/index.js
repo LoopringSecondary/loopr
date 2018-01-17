@@ -1,19 +1,8 @@
-import ListTable from './ListTable'
- 
-import ListFiltersForm from './ListFiltersForm'
-import ListActionsBar from './ListActionsBar'
-import ListItem from './ListItem'
-import Detail from './Detail'
-import TransferForm from './TransferForm'
-import ListLayer from './ListLayer'
-
-
+import List from './list'
+import Transfer from './Transfer'
+import Modals from './Modals'
 export default {
-  ListTable,
-  Detail,
-  ListFiltersForm,
-  ListActionsBar,
-  ListItem,
-  TransferForm,
-  ListLayer,
+  ...List,
+  Transfer,
+  Modals,
 }

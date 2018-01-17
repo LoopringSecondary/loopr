@@ -1,14 +1,16 @@
 import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 
-let FiltersForm = ({
+let Transfer = ({
   filters,
   fields,
   onSubmit,
   onCancle,
   form,
+  modal,
   }) => {
   function handleSubmit() {
+    modal.actions.hideModal('transfer')
   }
   function handleCancle() {
   }
@@ -18,42 +20,8 @@ let FiltersForm = ({
   let formLayout = 'vertical'
   let formItemLayout = {}
   let buttonItemLayout = {}
-
-  if( formLayout == 'horizontal'){
-    formItemLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 14 },
-    }
-    buttonItemLayout ={
-      wrapperCol: { span: 14, offset: 4 },
-    }
-  }
-  if( formLayout == 'inline'){
-    formItemLayout = {}
-    buttonItemLayout={}
-  }
-  if( formLayout == 'vertical'){
-    formItemLayout = {}
-    buttonItemLayout={}
-  }
-
-  const sliderMarks = {
-    0: '2100',
-    100: {
-      label: '21000'
-    },
-  };
   return (
       <div>
-        <div className="emp15"></div>
-        {
-          false &&
-          <div>
-            <Button size="large" type="primary" onClick={handleSubmit} className="mr10"><Icon type="search"></Icon>搜索</Button>
-            <Button size="large" type="ghost" onClick={handleReset} className="mr10">重置</Button>
-            <Button size="large" type="ghost" onClick={handleCancle}>取消</Button>
-          </div>
-        }
         <Form layout={formLayout}>
           <Form.Item
             label="Token"
@@ -102,7 +70,7 @@ let FiltersForm = ({
             />
           </Form.Item>
           <Form.Item {...buttonItemLayout}>
-            <Button type="primary" className="d-block w-100" size="large">Continue</Button>
+            <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Continue</Button>
           </Form.Item>
         </Form>
       </div>
@@ -110,6 +78,6 @@ let FiltersForm = ({
 };
 
 
-export default Form.create()(FiltersForm);
+export default Form.create()(Transfer);
 
  

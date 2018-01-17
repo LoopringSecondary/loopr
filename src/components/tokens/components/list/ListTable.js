@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import moment from 'moment';
 import { Table,Badge,Button } from 'antd';
-import schema from '../schema';
+import schema from '../../schema';
 import tokens from './tokens';
 
 function ListBlock({LIST,actions,modal}) {

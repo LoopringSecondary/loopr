@@ -5,6 +5,7 @@ import Common from '../../common';
 import Containers from '../../../modules/tokens/containers';
 import ModalContainer from '../../../common/containers/layer/Modal';
 
+console.log('Components',Components)
 function Empty(props){
   return <div style={{height:props.height}}></div>
 }
@@ -24,7 +25,7 @@ function Page(props){
             <Components.ListActionsBar  />
             <Empty height="15px" />
             <Components.ListTable />
-            <Components.ListLayer />
+            <Components.Modals />
           </ModalContainer>
       </Containers.StandList>
     </div>
