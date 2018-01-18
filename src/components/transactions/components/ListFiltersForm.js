@@ -13,7 +13,7 @@ let FiltersForm = ({
   }
   return (
       <div>
-        <div className="emp15"></div>
+        
         <Form layout="inline">
           <Form.Item label="Token">
             <Select

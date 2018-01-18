@@ -30,7 +30,7 @@ let FiltersForm = ({
   let formLayout = 'inline'
   return (
       <div>
-        <div className="emp15"></div>
+        
         <Form layout="inline">
           <Form.Item label="Market" >
             {form.getFieldDecorator('token', {

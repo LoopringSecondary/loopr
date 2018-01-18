@@ -26,12 +26,12 @@ function ListBlock({LIST,actions}) {
         </div>
         <div className="col-auto mr5">
           <Tooltip title="Only Show My Favorites">
-            <Button icon="star-o" shape="circle"></Button>
+            <Button className="color-grey-600" icon="star-o" shape="circle"></Button>
           </Tooltip>
         </div>
         <div className="col-auto mr5">
           <Tooltip title="Hide 0 Balances">
-            <Button icon="eye-o" shape="circle"></Button>
+            <Button className="color-grey-600" icon="eye-o" shape="circle"></Button>
           </Tooltip>
         </div>
         <div className="col-auto">
@@ -48,7 +48,7 @@ function ListBlock({LIST,actions}) {
                 </div>
               }
             >
-              <Button shape="circle">
+              <Button className="color-grey-600" shape="circle">
                 <i class="fa fa-sort"></i>
               </Button>
             </Popover>
@@ -62,7 +62,7 @@ function ListBlock({LIST,actions}) {
             <div className="col-auto pr10">
               {
                 index <=4 &&
-                <Icon type="star" className="color-blue-700" />
+                <Icon type="star" className="color-blue-600" />
               }
               {
                 index >4 &&
