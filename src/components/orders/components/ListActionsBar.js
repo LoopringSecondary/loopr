@@ -20,7 +20,7 @@ export default function ListActionsBar({actions={},LIST={}}){
     <div>
         <div className="row">
             <div className="col-auto">
-                    <ListFiltersForm actions={actions} LIST={LIST} />
+                <ListFiltersForm actions={actions} LIST={LIST} />
             </div>
             <div className="col">
 

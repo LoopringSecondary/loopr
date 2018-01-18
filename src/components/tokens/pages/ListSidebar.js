@@ -20,12 +20,7 @@ function Page(props){
     <div className="">
       <Containers.StandList {...containerProps}>
           <ModalContainer>
-
-            <Components.ListActionsBar  />
-            <Empty height="15px" />
             <Components.ListItem />
-            <Empty height="15px" />
-            <Components.ListTable />
             <Components.Modals />
           </ModalContainer>
       </Containers.StandList>
