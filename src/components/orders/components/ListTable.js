@@ -1,47 +1,57 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import moment from 'moment';
-import { Table,Badge,Button } from 'antd';
-import schema from '../schema';
-
+import { Table,Badge,Button,Modal } from 'antd';
+import schema from '../../../modules/orders/schema';
 function ListBlock({LIST,actions}) {
   const {
       items=[],
       loading,
       page={}
   } = LIST
+  const cancelOrder = ()=>{
+    Modal.confirm({
+        title: 'Do you Want to cancel this order?',
+        content: 'Some descriptions',
+        onOk:()=>{
+          // TODO
+          // actions.cancelOrder()
+        },
+        onCancel:()=>{},
+        okText:'Yes',
+        cancelText:'No',
+    })
+  }
   const renders = {
-      ringHash:(value,item,index)=><Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/rings/detail/${value}`}>{value}</Link>,
-      miner:(value,item,index)=> <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/miner/detail/${value}`}>{value}</Link>,
-      feeRecipient:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
-      txHash:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/tx/${value}`}>{value}</a>,
-      blockNumber:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/block/${value}`}>{value}</a>,
-      protocol:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
-      totalLrcFee:(value,item,index)=> (Number(value)/1e18).toFixed(6),
-      timestamp:(value,item,index)=> moment(value).format('YYYY/MM/DD HH:mm:ss')
-  }
-  const cancelOrder = (value,item,)=>{
-    // TODO
-    // actions.cancel()
-  }
-  const actionRender = (value,item,index)=>{
-    return <Button onClick={cancelOrder.bind(this,value,item)}>Cancel</Button>
-  }
-  const actionColumn = {
-    title:'Options',
-    render:actionRender,
-    fixed:'right',
+      orderHash:(value,item,index)=><Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>{value}</Link>,
+      status:(value,item,index)=>value,
+      action:(value,item,index)=><Button onClick={cancelOrder.bind(this,value,item)}>Cancel</Button>,
   }
   let columns = schema.map(field=>{
+    const renderGenerator = (value,item,index)=>{
+      if(typeof field.formatter === 'function'){
+        value = field.formatter(item)
+      }
+      const render = renders[field.name]
+      if(typeof render === 'function'){
+        return render(value,item,index)
+      }else{
+        return value
+      }
+    }
     return {
         title:field.title,
         dataIndex:field.name,
-        render:renders[field.name],
+        render:renderGenerator,
         className:'text-nowrap',
         sorter:true,
     }
   })
+  const actionColumn = {
+    title:'Options',
+    render:renders.action,
+    fixed:'right',
+  }
   columns.push(actionColumn)
 
   const tableChange = (pagination, filters, sorter)=>{
@@ -62,6 +72,7 @@ function ListBlock({LIST,actions}) {
     scroll:{x:1000},
     onChange:tableChange,
     bordered:true,
+    size:'small',
   }
   return (
     <div className="">

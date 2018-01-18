@@ -20,7 +20,8 @@ const app = dva();
 
 let models  = [
   require('./modules/rings/models/list').default,
-  require('./modules/trades/models/list').default
+  require('./modules/trades/models/list').default,
+  require('./modules/orders/models/list').default
 ]
 models.map(model=>{
   app.model(model)

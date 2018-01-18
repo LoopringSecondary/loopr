@@ -2,25 +2,18 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Card,ListItem } from 'antd';
-import schema from '../schema';
+import schema from '../../../modules/orders/schema';
 
 function DetailBlock({LIST={},actions={}}) {
   let { items=[],loading } = LIST
   const item = items[0] || {}
   const renders = {
-      ringHash:(value,item,index)=><Link className="text-truncate d-block" style={{}} to={`/rings/detail/${value}`}>{value}</Link>,
-      miner:(value,item,index)=> <Link className="text-truncate d-block" style={{}} to={`/miner/detail/${value}`}>{value}</Link>,
-      feeRecipient:(value,item,index)=> <a className="text-truncate d-block" style={{}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
-      txHash:(value,item,index)=> <a className="text-truncate d-block" style={{}} target="_blank" href={`https://etherscan.io/tx/${value}`}>{value}</a>,
-      blockNumber:(value,item,index)=> <a className="text-truncate d-block" style={{}} target="_blank" href={`https://etherscan.io/block/${value}`}>{value}</a>,
-      protocol:(value,item,index)=> <a className="text-truncate d-block" style={{}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
+      orderHash:(value,item,index)=><Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>{value}</Link>,
+      status:(value,item,index)=>value,
   }
   return (
     <div className="">
-      <Card title="Ring Chart">
-        TODO Chart
-      </Card>
-      <Card title="Ring Infomation" loading={loading}>
+      <Card title="Order Detail" loading={loading}>
         {
           schema.map((field,index)=>
             <div className="row pb10" key={index}>

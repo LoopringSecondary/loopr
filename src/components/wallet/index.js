@@ -5,6 +5,7 @@ import Trade from '../trades/pages'
 import Order from '../orders/pages'
 import Token from '../tokens/pages'
 import Transaction from '../transactions/pages'
+import Ring from '../rings/pages'
 
 export default function Home(props){
   const { children } = props
@@ -29,6 +30,10 @@ export default function Home(props){
         <Tabs.TabPane tab={<div className="fs18 pb5">Trades</div>} key="4">
           <Trade.List />
         </Tabs.TabPane>
+        <Tabs.TabPane tab={<div className="fs18 pb5">Rings</div>} key="5">
+          <Ring.List />
+        </Tabs.TabPane>
+
       </Tabs>
     </div>
     

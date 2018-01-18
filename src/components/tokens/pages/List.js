@@ -5,7 +5,6 @@ import Common from '../../common';
 import Containers from '../../../modules/tokens/containers';
 import ModalContainer from '../../../common/containers/layer/Modal';
 
-console.log('Components',Components)
 function Empty(props){
   return <div style={{height:props.height}}></div>
 }

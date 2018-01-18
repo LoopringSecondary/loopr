@@ -6,12 +6,12 @@ let Transfer = ({
   modal,
   }) => {
   function handleSubmit() {
-    modal.hideModal('transfer')
-    modal.showModal('transfer/preview')
     form.validateFields((err,values) => {
       console.log('values',values);
       if(!err){
         // TODO
+        modal.hideModal('transfer')
+        modal.showModal('transfer/preview')
       }
     });
   }
@@ -19,7 +19,7 @@ let Transfer = ({
     modal.hideModal('transfer')
   }
   function handleReset() {
-
+    form.resetFields()
   }
   function resetForm(){
     if(modal.state && modal['transfer']){

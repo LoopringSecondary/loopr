@@ -5,20 +5,28 @@ let headers = {
 }
 
 export async function fetchList(payload){
+    // https://github.com/Loopring/relay/blob/master/JSONRPC.md#loopring_getorders
+    // params: {
+    //   "owner" : "0x847983c3a34afa192cfee860698584c030f4c9db1",
+    //   "orderHash" : "0xf0b75ed18109403b88713cd7a1a8423352b9ed9260e39cb1ea0f423e2b6664f0",
+    //   "status" : "ORDER_CANCEL",
+    //   "contractVersion" : "v1.0",
+    //   "market" : "coss-weth",
+    // }
     let {page,filters,sort} = payload
     let filter = {}
     if(filters){
-      filter.ringHash = filters.ringHash
+      filter = {
+        ...filters
+      }
     }
     if(page){
       filter.pageIndex = page.current
       filter.pageSize = page.size
     }
-    // TODO Validator
-    // filter: ringHash, pageIndex, pageSize,contractVersion
     
     let body = {}
-    body.method = 'loopring_getRingMined'
+    body.method = 'loopring_getOrders'
     body.params = [filter]
     return request({
       method:'post',

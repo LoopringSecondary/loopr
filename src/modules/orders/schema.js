@@ -1,53 +1,83 @@
+import moment from 'moment';
+
+// example
+// {
+//   cancelledAmountB: "0x0"
+//   cancelledAmountS: "0x0"
+//   dealtAmountB: "0x0"
+//   dealtAmountS: "0x0"
+//   originalOrder: 
+//     address: "0x1661D680C4C19b7Bcc7aA7c4330a4a6c3200244a"
+//     amountB: "0x2b5e3af16b1880000"
+//     amountS: "0xe6ed27d6668000"
+//     buyNoMoreThanAmountB: true
+//     hash: "0x048e62bfa2378e303fab8e48b474f6132a51268e2aea8ae2b4cfea6562e34e59"
+//     lrcFee: "0xb1a2bc2ec50000"
+//     marginSplitPercentage: "0x32"
+//     protocol: "0x03E0F73A93993E5101362656Af1162eD80FB54F2"
+//     salt: "0x3f445cd"
+//     timestamp: 1515997219
+//     tokenB: "LRC"
+//     tokenS: "WETH"
+//     ttl: "0xe10"
+//     v: "0x1c"
+//     r: "0x0b31f70267047a51d116b9c7c5b6704f5817cc48762855c3d3a7fafc4c7fd9c7"
+//     s: "0x376a8411656dc6ea8b222d052e53b042071366d2329a0570bc5ea2819e72c389"
+//   status: "ORDER_NEW"
+// }
+
+const status = {
+  ORDER_NEW:{},
+  ORDER_PARTIAL:{},
+  ORDER_FINISHED:{},
+  ORDER_CANCEL:{},
+  ORDER_CUTOFF:{}
+}
 const schema = [
     {
-      title:'ID',
-      name:'id',
+      title:'Order',
+      name:'orderHash',
+      formatter:(item)=>item.originalOrder.hash,
     },
     {
-      title:'Ring',
-      description:'The ring hash',
-      name:'ringHash',
+      title:'Status',
+      name:'status',
+      formatter:(item)=>item.status,
+    },
+    {
+      title:'Maket',
+      name:'market',
+      formatter:(item)=>`${item.originalOrder.tokenB}-${item.originalOrder.tokenS}`,
+    },
+    {
+      title:'Side',
+      name:'side',
+    },
+    {
+      title:'Amount',
+      name:'amount',
+      formatter:(item)=>item.originalOrder.amountS,
+    },
+    {
+      title:'Price',
+      name:'price',
+      formatter:(item)=>Number(item.originalOrder.amountB/item.originalOrder.amountS).toFixed(5),
     },
     {
       title:'Size',
-      description:'The fills number int the ring.',
-      name:'tradeAmount',
-    },
-    {
-      title:'Miner',
-      description:'The miner that submit match orders.',
-      name:'miner',
-    },
-
-    {
-      title:'FeeRecipient',
-      description:'The fee recepient address.',
-      name:'feeRecipient',
-    },
-    {
-      title:'Transaction',
-      description:' The ring match transaction hash.',
-      name:'txHash',
-    },
-    {
-      title:'BlockNumber',
-      description:'The number of the block which contains the transaction.',
-      name:'blockNumber',
+      name:'size',
+      formatter:(item)=>item.originalOrder.amountB,
     },
     {
       title:'LrcFee',
-      description:'The total lrc fee.',
-      name:'totalLrcFee',
+      name:'lrcFee',
+      formatter:(item)=>item.originalOrder.lrcFee,
     },
-
+    
     {
       title:'Time',
-      description:'The ring matched time',
       name:'timestamp',
-    },
-    {
-      title:'Protocol',
-      name:'protocol',
+      formatter:(item)=> moment(item.originalOrder.timestamp).format('YYYY/MM/DD HH:mm:ss'),
     },
   ]
   export default schema
