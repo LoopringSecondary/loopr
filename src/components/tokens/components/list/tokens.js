@@ -7,6 +7,14 @@ export default [
     "title":'Ethereum',
 },
 {
+    "token": "WETH",
+    "balance": "0",
+    "allowance": "0",
+    "logo":'https://files.coinmarketcap.com/static/img/coins/32x32/weth.png',
+    "title":'WETH',
+},
+
+{
     "token": "LRC",
     "balance": "0",
     "allowance": "0",
@@ -18,7 +26,7 @@ export default [
     "balance": "0",
     "allowance": "0",
     "logo":'https://files.coinmarketcap.com/static/img/coins/32x32/binance-coin.png',
-    "tile":'Binance',
+    "title":'Binance',
 },
 {
     "token": "ZRX",
