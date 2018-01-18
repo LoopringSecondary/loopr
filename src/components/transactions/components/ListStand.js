@@ -15,7 +15,7 @@ function ListBlock({LIST,actions}) {
   
   return (
     <div className="">
-      <div className="row zb-b-b pb10 no-gutters">
+      <div className="row zb-b-b pb10 no-gutters align-items-center">
         <div className="col">
           <div className="fs20 color-grey-900">Transactions</div>
         </div>
