@@ -59,7 +59,7 @@ function ListBlock({LIST,actions}) {
       {
         items.map((item,index)=>
           <div className="row align-items-center no-gutters flex-nowrap zb-b-b pt10 pb10" key={index}>
-            <div className="col-auto pr10">
+            <div className="col-auto pr5">
               {
                 index <=4 &&
                 <Icon type="star" className="color-blue-600" />
@@ -69,13 +69,13 @@ function ListBlock({LIST,actions}) {
                 <Icon type="star" className="color-grey-300" />
               }
             </div>
-            <div className="col-auto pr10">
+            <div className="col-auto pr5">
               <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5" />
             </div>
             <div className="col pr10">
               <div className="">
                 <span className="fs18 color-grey-900">{item.token}</span>
-                <span className="fs12 ml5 color-grey-400 text-nowrap text-truncate">{item.title}</span>
+                <span className="fs12 ml5 color-grey-400 text-truncate d-inline-block text-nowrap" style={{maxWidth:'65px'}}>{item.title}</span>
               </div>
               <div className="">
                 <span className="fs14 color-grey-900">0.00</span>

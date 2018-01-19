@@ -6,6 +6,7 @@ import ringsRoutes from './rings/routes';
 
 export default (
 		<Switch>
+			<Route path="/" exact component={Wallet} />
 			<Route path="/wallet" exact component={Wallet} />
 			{ordersRoutes}
 			{ringsRoutes}
