@@ -19,9 +19,3 @@ function RouterConfig({ history }) {
   );
 }
 export default RouterConfig;
-
-/*<Switch>
-    <Route path="/" exact component={Containers.List} />
-    <Route path="/ring/list" exact component={Containers.List} />
-    <Route path="/ring/detail" exact component={Containers.Detail} />
-</Switch>*/

@@ -1,6 +1,11 @@
 import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select,Checkbox} from 'antd';
 
+let formOptions = {
+  onValuesChange:(props,values)=>{
+  }
+}
+
 let FiltersForm = ({
   filters,
   fields,
@@ -9,6 +14,8 @@ let FiltersForm = ({
   form,
   }) => {
   function handleSubmit() {
+  }
+  function handleChanage() {
   }
   function handleCancle() {
   }
@@ -20,36 +27,27 @@ let FiltersForm = ({
   let buttonItemLayout = {}
 
   if( formLayout == 'horizontal'){
-  	formItemLayout = {
-  		labelCol: { span: 4 },
-  		wrapperCol: { span: 14 },
-  	}
-  	buttonItemLayout ={
-  		wrapperCol: { span: 14, offset: 4 },
-  	}
+    formItemLayout = {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 14 },
+    }
+    buttonItemLayout ={
+      wrapperCol: { span: 14, offset: 4 },
+    }
   }
   if( formLayout == 'inline'){
-  	formItemLayout = {}
-  	buttonItemLayout={}
+    formItemLayout = {}
+    buttonItemLayout={}
   }
   if( formLayout == 'vertical'){
-  	formItemLayout = {}
-  	buttonItemLayout={}
+    formItemLayout = {}
+    buttonItemLayout={}
   }
-
-
 
   return (
       <div>
-        <div className="emp15"></div>
-        {
-        	false &&
-        	<div>
-        		<Button size="large" type="primary" onClick={handleSubmit} className="mr10"><Icon type="search"></Icon>搜索</Button>
-        		<Button size="large" type="ghost" onClick={handleReset} className="mr10">重置</Button>
-        		<Button size="large" type="ghost" onClick={handleCancle}>取消</Button>
-        	</div>
-        }
+        
+        
         <Form layout={formLayout}>
           <Form.Item
             label="Token"
@@ -58,9 +56,9 @@ let FiltersForm = ({
             <Select
                 showSearch
                 style={{ width: 200 }}
-                placeholder="search"
+                placeholder="Search/Select"
                 optionFilterProp="children"
-                onChange={()=>{}}
+                onChange={handleChange}
                 onFocus={()=>{}}
                 onBlur={()=>{}}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
@@ -74,15 +72,14 @@ let FiltersForm = ({
             label={null}
             {...formItemLayout}
           >
-            <Checkbox>Show My Favorite Only</Checkbox>
+            <Checkbox onChange={handleChange}>Show My Favorite Only</Checkbox>
           </Form.Item>
           <Form.Item
             label={null}
             {...formItemLayout}
           >
-            <Checkbox>Hide 0 Balance</Checkbox>
+            <Checkbox onChange={handleChange}>Hide 0 Balance</Checkbox>
           </Form.Item>
-
           {
             false &&
             <Form.Item {...buttonItemLayout}>
@@ -90,13 +87,12 @@ let FiltersForm = ({
               <Button type="default">Reset</Button>
             </Form.Item>
           }
-          
         </Form>
       </div>
   );
 };
 
 
-export default Form.create()(FiltersForm);
+export default Form.create(formOptions)(FiltersForm);
 
  

@@ -2,7 +2,12 @@ import React from 'react';
 import {Breadcrumb} from 'antd';
 import Components from '../components';
 import Common from '../../common';
-import Containers from '../../../modules/rings/containers';
+import Containers from '../../../modules/tokens/containers';
+import ModalContainer from '../../../common/containers/layer/Modal';
+
+function Empty(props){
+  return <div style={{height:props.height}}></div>
+}
 function Page(props){
   const filters = {
     ringHash:null
@@ -12,10 +17,12 @@ function Page(props){
     filters
   }
   return (
-    <div>
+    <div className="">
       <Containers.StandList {...containerProps}>
-          <Components.ListTable />
-          <Common.ListPagination />
+          <ModalContainer>
+            <Components.ListItem />
+            <Components.Modals />
+          </ModalContainer>
       </Containers.StandList>
     </div>
   )

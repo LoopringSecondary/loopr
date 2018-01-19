@@ -2,10 +2,7 @@ import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select,DatePicker} from 'antd';
 
 let FiltersForm = ({
-  filters,
-  fields,
-  onSubmit,
-  onCancle,
+  actions,
   form,
   }) => {
   function handleSubmit() {
@@ -14,48 +11,11 @@ let FiltersForm = ({
   }
   function handleReset() {
   }
-
-  let formLayout = 'inline'
-  let formItemLayout = {}
-  let buttonItemLayout = {}
-
-  if( formLayout == 'horizontal'){
-  	formItemLayout = {
-  		labelCol: { span: 4 },
-  		wrapperCol: { span: 14 },
-  	}
-  	buttonItemLayout ={
-  		wrapperCol: { span: 14, offset: 4 },
-  	}
-  }
-  if( formLayout == 'inline'){
-  	formItemLayout = {}
-  	buttonItemLayout={}
-  }
-  if( formLayout == 'vertical'){
-  	formItemLayout = {}
-  	buttonItemLayout={}
-  }
-
-
-
   return (
       <div>
-        <div className="emp15"></div>
-        {
-        	false &&
-        	<div>
-        		<Button size="large" type="primary" onClick={handleSubmit} className="mr10"><Icon type="search"></Icon>搜索</Button>
-        		<Button size="large" type="ghost" onClick={handleReset} className="mr10">重置</Button>
-        		<Button size="large" type="ghost" onClick={handleCancle}>取消</Button>
-        	</div>
-        }
         
-        <Form layout={formLayout}>
-          <Form.Item
-            label="Token"
-            {...formItemLayout}
-          >
+        <Form layout="inline">
+          <Form.Item label="Token">
             <Select
                 showSeach={true}
                 style={{ width: 200 }}
@@ -71,10 +31,7 @@ let FiltersForm = ({
                 <Select.Option value="BTC">BTC</Select.Option>
               </Select>
           </Form.Item>
-          <Form.Item
-            label="Type"
-            {...formItemLayout}
-          >
+          <Form.Item label="Type">
             <Select
                 style={{ width: 200 }}
                 placeholder="Select"
@@ -90,13 +47,10 @@ let FiltersForm = ({
                 <Select.Option value="Approve">Approve</Select.Option>
               </Select>
           </Form.Item>
-          <Form.Item
-            label="Time"
-            {...formItemLayout}
-          >
+          <Form.Item label="Time">
             <DatePicker.RangePicker />
           </Form.Item>
-          <Form.Item {...buttonItemLayout}>
+          <Form.Item>
             <Button type="default">Reset</Button>
           </Form.Item>
         </Form>

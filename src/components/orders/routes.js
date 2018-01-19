@@ -4,8 +4,8 @@ import Pages from './pages';
 
 export default (
 		<Switch>
-			<Route path="/trades" exact component={Pages.List} />
-			<Route path="/trades/list" exact component={Pages.List} />
-			<Route path="/trades/detail/:id" exact component={Pages.Detail} />
+			<Route path="/orders" exact component={Pages.List} />
+			<Route path="/orders/list" exact component={Pages.List} />
+			<Route path="/orders/detail/:id" exact component={Pages.Detail} />
 		</Switch>
 )

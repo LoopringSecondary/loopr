@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const schema = [
     {
       title:'ID',
@@ -38,12 +40,14 @@ const schema = [
       title:'LrcFee',
       description:'The total lrc fee.',
       name:'totalLrcFee',
+      formatter:(item)=> (Number(item.totalLrcFee)/1e18).toFixed(6),
     },
 
     {
       title:'Time',
       description:'The ring matched time',
       name:'timestamp',
+      formatter:(item)=> moment(item.timestamp).format('YYYY/MM/DD HH:mm:ss'),
     },
     {
       title:'Protocol',

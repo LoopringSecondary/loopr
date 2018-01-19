@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Card,ListItem } from 'antd';
-import schema from '../schema';
+import schema from '../../../modules/trades/schema';
 
 function DetailBlock({LIST={},actions={}}) {
   let { items=[],loading } = LIST

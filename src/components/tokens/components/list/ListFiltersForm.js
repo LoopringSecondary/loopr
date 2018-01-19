@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
+import { Form,Button,Icon,Card,Modal,Input,Radio,Select,Checkbox} from 'antd';
 
 let FiltersForm = ({
   actions,
@@ -11,34 +11,31 @@ let FiltersForm = ({
   }
   function handleReset() {
   }
+
   return (
       <div>
         <Form layout="inline">
-          <Form.Item label="Market">
+          <Form.Item label="Token">
             <Select
                 showSearch
                 style={{ width: 200 }}
-                placeholder="Search"
+                placeholder="Search/Select"
                 optionFilterProp="children"
                 onChange={()=>{}}
                 onFocus={()=>{}}
                 onBlur={()=>{}}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               >
-                <Select.Option value="jack">LRC/ETH</Select.Option>
-                <Select.Option value="lucy">USDT/ETH</Select.Option>
-                <Select.Option value="tom">BNB/ETH</Select.Option>
+                <Select.Option value="LRC">LRC</Select.Option>
+                <Select.Option value="USDT">USDT</Select.Option>
+                <Select.Option value="BNB">BNB</Select.Option>
               </Select>
           </Form.Item>
-          <Form.Item label="Side">
-            <Radio.Group defaultValue="all" >
-              <Radio.Button value="all">All</Radio.Button>
-              <Radio.Button value="horizontal">Sell</Radio.Button>
-              <Radio.Button value="vertical">Buy</Radio.Button>
-            </Radio.Group>
+          <Form.Item>
+            <Checkbox>Show My Favorite Only</Checkbox>
           </Form.Item>
           <Form.Item>
-            <Button type="default">Reset</Button>
+            <Checkbox>Hide 0 Balance</Checkbox>
           </Form.Item>
         </Form>
       </div>

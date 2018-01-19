@@ -1,8 +1,53 @@
 export default [
 {
-    "token": "DRP",
+    "token": "ETH",
     "balance": "0",
-    "allowance": "0"
+    "allowance": "0",
+    "logo":'https://shapeshift.io/images/coins/ether.png',
+    "title":'Ethereum',
+},
+{
+    "token": "WETH",
+    "balance": "0",
+    "allowance": "0",
+    "logo":'https://files.coinmarketcap.com/static/img/coins/32x32/weth.png',
+    "title":'WETH',
+},
+
+{
+    "token": "LRC",
+    "balance": "0",
+    "allowance": "0",
+    "logo":'https://loopring.io/images/favicon.ico',
+    "title":'Loopring',
+},
+{
+    "token": "BNB",
+    "balance": "0",
+    "allowance": "0",
+    "logo":'https://files.coinmarketcap.com/static/img/coins/32x32/binance-coin.png',
+    "title":'Binance',
+},
+{
+    "token": "ZRX",
+    "balance": "0",
+    "allowance": "0",
+    "logo":'https://files.coinmarketcap.com/static/img/coins/32x32/0x.png',
+    "title":'0x',
+},
+{
+    "token": "XRP",
+    "balance": "0",
+    "allowance": "0",
+    "logo":'https://files.coinmarketcap.com/static/img/coins/32x32/ripple.png',
+    "title":'Ripple',
+},
+{
+    "token": "RDN",
+    "balance": "0",
+    "allowance": "0",
+    "logo": "https://files.coinmarketcap.com/static/img/coins/32x32/raiden-network-token.png",
+    "title": "Raiden Network",
 },
 {
     "token": "BTM",
