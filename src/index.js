@@ -5,8 +5,11 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import containers from './common/containers'
 import redux from './common/redux'
+import * as apis from './common/apis/apis'
 window.CONTAINERS = containers
 window.EASY_REDUX = redux
+window.APIS = apis
+
 moment.locale('zh-cn');
 
 // 1. Initialize

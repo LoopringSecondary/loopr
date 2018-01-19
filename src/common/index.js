@@ -1,11 +1,10 @@
 
 import containers from './containers';
 import redux from './redux';
-
-window.CONTAINERS = containers;
-window.EASY_REDUX = redux;
+import apis from './apis';
 
 export default {
 	containers,
 	redux,
+	apis,
 }

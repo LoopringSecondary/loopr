@@ -1,6 +1,6 @@
-import * as APIS from '../apis'
 import namespace from '../namespace'
 const {MODULES} = namespace
+const fetchList = window.APIS.getOrders
 
 export default {
   namespace: MODULES,
@@ -59,7 +59,7 @@ export default {
         }
       }
 
-      const res = yield call(APIS.fetchList, new_payload);
+      const res = yield call(fetchList, new_payload);
       if (res.items) {
         yield put({
           type: 'fetchSuccess',
