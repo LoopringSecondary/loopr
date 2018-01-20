@@ -66,83 +66,82 @@ const numbers = [
   {title:'24H Volume',number:''},
 ]
 const ExchangeItem = (props)=>(
-  <div className="row">
-    <div className="col-auto">
-      <div className="fs18 color-grey-900">0.0012 ETH</div>
-      <div className="fs12 color-grey-400">Binance Reference Price</div>
+    <div className="row bg-white pt15 pb15 mt15 mb15 ml0 mr0">
+      <div className="col-auto">
+        <div className="fs18 color-grey-900">0.0012 ETH</div>
+        <div className="fs12 color-grey-400">Binance Reference Price</div>
+      </div>
+      <div className="col-auto">
+        <div className="fs18 color-grey-900">+ 12%</div>
+        <div className="fs12 color-grey-400">24H Change</div>
+      </div>
+      <div className="col-auto">
+        <div className="fs18 color-grey-900">523,6.88 ETH</div>
+        <div className="fs12 color-grey-400">24H Volume</div>
+      </div>
     </div>
-    <div className="col-auto">
-      <div className="fs18 color-grey-900">+ 12%</div>
-      <div className="fs12 color-grey-400">24H Change</div>
-    </div>
-    <div className="col-auto">
-      <div className="fs18 color-grey-900">523,6.88 ETH</div>
-      <div className="fs12 color-grey-400">24H Volume</div>
-    </div>
-  </div>
 )
 
 export default function Home(props){
   const { children } = props
   return (
    <div>
-     <div className="row align-items-center zb-b pt15 pb15">
-        <div className="col-sm-6 col-lg-2 zb-b-r">
-          <MarketHeader />
-        </div>
-        <div className="col-sm-6 col-lg-2 zb-b-r">
-          <div className="fs16 color-grey-900">
-            0.00107934 ETH $ 1.200
-          </div>
-          <div className="fs12 color-grey-400">
-            Latest Price
-          </div>
-        </div>
-        <div className="col-sm-6 col-lg-2 zb-b-r">
-          <div className="fs16 color-grey-900">
-           + 10%
-          </div>
-          <div className="fs12 color-grey-400">
-            24H Change
-          </div>
-        </div>
-        <div className="col-sm-6 col-lg-2 zb-b-r">
-          <div className="fs16 color-grey-900">
-           0.00116918
-          </div>
-          <div className="fs12 color-grey-400">
-            24H High
-          </div>
-        </div>
-        <div className="col-sm-6 col-lg-2 zb-b-r">
-          <div className="fs16 color-grey-900">
-           0.00089000
-          </div>
-          <div className="fs12 color-grey-400">
-            24H High
-          </div>
-        </div>
-        <div className="col-sm-6 col-lg-2 zb-b-r">
-          <div className="fs16 color-grey-900">
-           4,382.34 ETH
-          </div>
-          <div className="fs12 color-grey-400">
-            24H Volume
-          </div>
-        </div>
-     </div>
-
-     <div className="row align-items-center zb-b pt15 pb15 mt15">
-        <div className="col-sm-6 col-lg-4 zb-b-r">
-          <ExchangeItem />
-        </div>
-        <div className="col-sm-6 col-lg-4 zb-b-r">
-          <ExchangeItem />
-        </div>
-        <div className="col-sm-6 col-lg-4 zb-b-r">
-          <ExchangeItem />
-        </div>
-     </div>
+    <div className="row align-items-center zb-b pt15 pb15 bg-white ml0 mr0">
+       <div className="col-sm-6 col-lg-2 zb-b-r">
+         <MarketHeader />
+       </div>
+       <div className="col-sm-6 col-lg-2 zb-b-r">
+         <div className="fs16 color-grey-900">
+           0.00107934 ETH $ 1.200
+         </div>
+         <div className="fs12 color-grey-400">
+           Latest Price
+         </div>
+       </div>
+       <div className="col-sm-6 col-lg-2 zb-b-r">
+         <div className="fs16 color-grey-900">
+          + 10%
+         </div>
+         <div className="fs12 color-grey-400">
+           24H Change
+         </div>
+       </div>
+       <div className="col-sm-6 col-lg-2 zb-b-r">
+         <div className="fs16 color-grey-900">
+          0.00116918
+         </div>
+         <div className="fs12 color-grey-400">
+           24H High
+         </div>
+       </div>
+       <div className="col-sm-6 col-lg-2 zb-b-r">
+         <div className="fs16 color-grey-900">
+          0.00089000
+         </div>
+         <div className="fs12 color-grey-400">
+           24H High
+         </div>
+       </div>
+       <div className="col-sm-6 col-lg-2 zb-b-r">
+         <div className="fs16 color-grey-900">
+          4,382.34 ETH
+         </div>
+         <div className="fs12 color-grey-400">
+           24H Volume
+         </div>
+       </div>
+    </div>
+    <div className="row ml0 mr0">
+       <div className="col-sm-6 col-lg-4 pl0">
+         <ExchangeItem />
+       </div>
+       <div className="col-sm-6 col-lg-4">
+         <ExchangeItem />
+       </div>
+       <div className="col-sm-6 col-lg-4 pr0">
+         <ExchangeItem />
+       </div>
+    </div>
      <Card title="Trade">
       <div className="row justify-content-around">
         <div className="col-sm-4">
@@ -156,6 +155,8 @@ export default function Home(props){
      <Card title="My Open Orders">
       <Order.List />
      </Card>
+     
+     
 
 
    </div>

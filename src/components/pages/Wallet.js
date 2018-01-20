@@ -10,7 +10,7 @@ import Ring from '../rings/pages'
 export default function Home(props){
   const { children } = props
   return (
-    <div className="pt10 pl20 pr20 pb20">
+    <div className="pt10 pl20 pr20 pb20 bg-white">
       <Tabs defaultActiveKey="0" animated={false} >
         <Tabs.TabPane tab={<div className="fs20 pb5">Assets</div>} key="0">
          <div className="row">

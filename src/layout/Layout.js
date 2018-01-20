@@ -13,9 +13,7 @@ export default function MainLayout(props){
         <Navbar />
       </Header>
       <Content className="pl50 pr50 pt30">
-        <div className="bg-white">
-          {children}
-        </div>
+        {children}
       </Content>
       <Footer className="">
         <GlobalFooter />
