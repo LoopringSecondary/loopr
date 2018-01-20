@@ -1,11 +1,12 @@
 import React from 'react';
-import { Icon,Popover,Tabs } from 'antd'
+import { Icon,Popover,Tabs,Card } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/pages'
 import Token from '../tokens/pages'
 import Transaction from '../transactions/pages'
 import Ring from '../rings/pages'
+import SellForm from './SellForm'
 
 const MarketList = (props)=>{
   const tab = (text)=> <div className="fs14">{text}</div>
@@ -80,6 +81,7 @@ const ExchangeItem = (props)=>(
     </div>
   </div>
 )
+
 export default function Home(props){
   const { children } = props
   return (
@@ -141,6 +143,21 @@ export default function Home(props){
           <ExchangeItem />
         </div>
      </div>
+     <Card title="Trade">
+      <div className="row justify-content-around">
+        <div className="col-sm-4">
+          <SellForm />
+        </div>
+        <div className="col-sm-4">
+          <SellForm />
+        </div>
+      </div>
+     </Card>
+     <Card title="My Open Orders">
+      <Order.List />
+     </Card>
+
+
    </div>
   )
 }
