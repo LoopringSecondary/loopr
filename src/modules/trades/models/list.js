@@ -24,7 +24,7 @@ export default {
           dispatch({type: 'fetch'});
         }
       });
-    },
+    }
   },
   effects: {
     *pageChange({payload},{call, select,put}){
