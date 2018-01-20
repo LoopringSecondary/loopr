@@ -1,13 +1,14 @@
 import React from 'react';
 import { Route, Switch } from 'dva/router';
-import Wallet from './wallet/index';
+import Pages from './pages';
 import ordersRoutes from './orders/routes';
 import ringsRoutes from './rings/routes';
 
 export default (
 		<Switch>
-			<Route path="/" exact component={Wallet} />
-			<Route path="/wallet" exact component={Wallet} />
+			<Route path="/" exact component={Pages.Wallet} />
+			<Route path="/wallet" exact component={Pages.Wallet} />
+			<Route path="/market" exact component={Pages.Market} />
 			{ordersRoutes}
 			{ringsRoutes}
 		</Switch>
