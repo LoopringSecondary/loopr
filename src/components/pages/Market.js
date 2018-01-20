@@ -25,26 +25,26 @@ const MarketList = (props)=>{
 
 const MarketHeader = (props)=>{
   return (
-    <Popover
-      title={null}
-      placement="bottomLeft"
-      arrowPointAtCenter={false}
-      content={
-        <div className="zb-b" style={{width:'450px'}}>
-          <MarketList />
-        </div>
-      }
-    >
-      <div className="row align-items-center">
-        <div className="col-auto">
-          <Icon type="star-o" />
-        </div>
-        <div className="col">
-          <div className="fs18 color-grey-900">LRC/ETH</div>
-          <div className="fs12 color-grey-400">Select Market <Icon className="" type="down" /></div>
-        </div>
+    <div className="row align-items-center">
+      <div className="col-auto pr5 pl20">
+        <Icon className="fs16 color-blue-600" type="star" />
       </div>
-    </Popover>
+      <div className="col">
+        <div className="fs18 color-grey-900">LRC/ETH</div>
+        <Popover
+          title={null}
+          placement="bottomLeft"
+          arrowPointAtCenter={false}
+          content={
+            <div className="zb-b" style={{width:'450px'}}>
+              <MarketList />
+            </div>
+          }
+        >
+          <div className="fs12 color-grey-400">Select Market <Icon className="" type="down" /></div>  
+        </Popover>
+      </div>
+    </div>
   )
 }
 const NumberCaption = (props)=>(
@@ -66,14 +66,14 @@ const numbers = [
   {title:'24H Volume',number:''},
 ]
 const ExchangeItem = (props)=>(
-    <div className="row bg-white pt15 pb15 mt15 mb15 ml0 mr0">
+    <div className="row bg-white pt15 pb15 mt15 mb15 ml0 mr0 zb-b">
       <div className="col-auto">
         <div className="fs18 color-grey-900">0.0012 ETH</div>
-        <div className="fs12 color-grey-400">Binance Reference Price</div>
+        <div className="fs12 color-grey-400 text-truncate" style={{maxWidth:'120px'}}>Binance Price</div>
       </div>
       <div className="col-auto">
         <div className="fs18 color-grey-900">+ 12%</div>
-        <div className="fs12 color-grey-400">24H Change</div>
+        <div className="fs12 color-grey-400 ">24H Change</div>
       </div>
       <div className="col-auto">
         <div className="fs18 color-grey-900">523,6.88 ETH</div>
@@ -91,15 +91,15 @@ export default function Home(props){
          <MarketHeader />
        </div>
        <div className="col-sm-6 col-lg-2 zb-b-r">
-         <div className="fs16 color-grey-900">
-           0.00107934 ETH $ 1.200
+         <div className="fs18 color-green-600">
+           0.00107934 ≈ $1.200
          </div>
          <div className="fs12 color-grey-400">
            Latest Price
          </div>
        </div>
        <div className="col-sm-6 col-lg-2 zb-b-r">
-         <div className="fs16 color-grey-900">
+         <div className="fs18 color-green-600">
           + 10%
          </div>
          <div className="fs12 color-grey-400">
@@ -107,7 +107,7 @@ export default function Home(props){
          </div>
        </div>
        <div className="col-sm-6 col-lg-2 zb-b-r">
-         <div className="fs16 color-grey-900">
+         <div className="fs18 color-grey-900">
           0.00116918
          </div>
          <div className="fs12 color-grey-400">
@@ -115,7 +115,7 @@ export default function Home(props){
          </div>
        </div>
        <div className="col-sm-6 col-lg-2 zb-b-r">
-         <div className="fs16 color-grey-900">
+         <div className="fs18 color-grey-900">
           0.00089000
          </div>
          <div className="fs12 color-grey-400">
@@ -123,7 +123,7 @@ export default function Home(props){
          </div>
        </div>
        <div className="col-sm-6 col-lg-2 zb-b-r">
-         <div className="fs16 color-grey-900">
+         <div className="fs18 color-grey-900">
           4,382.34 ETH
          </div>
          <div className="fs12 color-grey-400">
@@ -152,13 +152,9 @@ export default function Home(props){
         </div>
       </div>
      </Card>
-     <Card title="My Open Orders">
+     <Card title="My Open Orders" className="mt15">
       <Order.List />
      </Card>
-     
-     
-
-
    </div>
   )
 }
