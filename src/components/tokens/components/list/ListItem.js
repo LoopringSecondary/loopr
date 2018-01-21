@@ -72,7 +72,7 @@ function ListBlock({LIST,actions,modal}) {
               }
             >
               <Button className="color-grey-600" shape="circle">
-                <i class="fa fa-sort"></i>
+                <i className="fa fa-sort"></i>
               </Button>
             </Popover>
           </Tooltip>

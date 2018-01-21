@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
-import Order from '../orders/pages'
+import Order from '../orders/containers'
 import Token from '../tokens/pages'
 import Transaction from '../transactions/pages'
 import Ring from '../rings/pages'
