@@ -178,9 +178,31 @@ export default function Home(props){
         </div>
       </div>
      </Card>
-     <Card title="My Open Orders" className="mt15">
-      <Order.List />
-     </Card>
+    <div className="zb-b bg-white mt15">
+      <Tabs defaultActiveKey="open" animated={false} tabBarStyle={{paddingLeft:'50px',marginBottom:'0px'}}>
+        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Open Orders</div>} key="open">
+          <div className="pt15 pb15 pl20 pr20">
+            <Order.List />
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My History Orders</div>} key="history">
+          <div className="pt15 pb15 pl20 pr20">
+            <Order.List />
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Trades</div>} key="trade">
+          <div className="pt15 pb15 pl20 pr20">
+            <Order.List />
+          </div>
+        </Tabs.TabPane>
+
+      </Tabs>
+    </div>
+    
+
+
+     
+
    </div>
   )
 }

@@ -32,7 +32,6 @@ export default function Home(props){
             <Trade.List />
           </div>
         </Tabs.TabPane>
-        
       </Tabs>
     </div>
     
