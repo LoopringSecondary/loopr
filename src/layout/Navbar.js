@@ -1,5 +1,6 @@
 import React from 'react';
 import {Menu} from 'antd';
+import {Link} from 'dva/router';
 import logo from '../assets/images/logo@2x.png'
 export default function Navbar(props){
   return (
@@ -11,32 +12,35 @@ export default function Navbar(props){
           </a>
         </div>
         <div className="col-auto" hidden>
-          <a href="/" className="d-block h-100" >
-            <span className="color-white fs28">Ringinfo</span>
-          </a>
-        </div>
-        <div className="col-auto" hidden>
           <div className="color-grey-400 fs16">
             A Looring Ring Explorer
           </div>
         </div>
         <div className="col">
-        </div>
+          <Menu
+            theme="dark"
+            className="bg-none border-0"
+            mode="horizontal"
+            style={{ lineHeight: '64px' }}
+          >
+            <Menu.Item key="1">
+              <Link to="/market">Market</Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/wallet">Wallet</Link>
+            </Menu.Item>
+          </Menu>
+        </div>  
         <div className="col-auto">
-          {
-            false &&
             <Menu
               theme="dark"
-              className="bg-grey-900"
+              className="bg-none border-0"
               mode="horizontal"
               style={{ lineHeight: '64px' }}
             >
-              <Menu.Item key="1">Market</Menu.Item>
-              <Menu.Item key="2">Wallet</Menu.Item>
-              <Menu.Item key="3">Loopring</Menu.Item>
-              <Menu.Item key="4">ENG</Menu.Item>
+              <Menu.Item key="3">Setting</Menu.Item>
+              <Menu.Item key="4">English</Menu.Item>
             </Menu>
-          }
         </div>
       </div>
     </div>

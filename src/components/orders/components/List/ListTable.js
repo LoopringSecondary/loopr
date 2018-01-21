@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Table,Badge,Button,Modal } from 'antd';
-import schema from '../../../modules/orders/schema';
+import schema from '../../../../modules/orders/schema';
 function ListBlock({LIST,actions}) {
   const {
       items=[],

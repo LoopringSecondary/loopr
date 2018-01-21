@@ -39,7 +39,7 @@ function ListBlock({LIST,actions,modal}) {
   )
   return (
     <div className="">
-      <div className="row zb-b-b pb10 no-gutters">
+      <div className="row zb-b-b p10 no-gutters">
         <div className="col mr5">
           <Input
             placeholder=""
@@ -81,7 +81,7 @@ function ListBlock({LIST,actions,modal}) {
       </div>
       {
         items.map((item,index)=>
-          <div className="row align-items-center no-gutters flex-nowrap zb-b-b pt10 pb10" key={index}>
+          <div className="row align-items-center no-gutters flex-nowrap zb-b-b p10" key={index}>
             <div className="col-auto pr10">
               {
                 index <=4 &&

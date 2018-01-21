@@ -1,6 +1,6 @@
 import React from 'react';
 import {Breadcrumb} from 'antd';
-import List from '../list';
+import Components from '../components';
 import Common from '../../common';
 import Containers from '../../../modules/orders/containers';
 
@@ -18,9 +18,9 @@ function ListContainer(props){
   return (
     <div className="">
       <Containers.StandList {...containerProps}>
-          <List.ListActionsBar  />
+          <Components.List.ListActionsBar  />
           <Empty height="15px" />
-          <List.ListTable />
+          <Components.List.ListTable />
           <Empty height="25px" />
           <Common.ListPagination />
       </Containers.StandList>
