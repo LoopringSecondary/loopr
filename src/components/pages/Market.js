@@ -8,19 +8,45 @@ import Transaction from '../transactions/pages'
 import Ring from '../rings/pages'
 import SellForm from './SellForm'
 
+
 const MarketList = (props)=>{
+  
+  return (
+    <table className="table table-sm table-striped">
+      <tr className="">
+        <th className="fs12 border-0 pl0"></th>
+        <th className="fs12 border-0 ">Pair</th>
+        <th className="fs12 border-0 ">Price</th>
+        <th className="fs12 border-0 ">Change</th>
+        <th className="fs12 border-0 ">Volume</th>
+      </tr>
+      {
+        [1,1,1,1,1].map((item,index)=>
+          <tr>
+            <td className="fs12 border-0 pl0"><Icon type="star" /></td>
+            <td className="fs12 border-0 ">LRC/ETH</td>
+            <td className="fs12 border-0 color-green-600">0.00113489</td>
+            <td className="fs12 border-0 color-green-600">+6.17%</td>
+            <td className="fs12 border-0 ">6,767.31 ETH</td>
+          </tr>
+        )
+      }
+    </table>
+  )
+}
+
+const MarketTabs = (props)=>{
   const tab = (text)=> <div className="fs14">{text}</div>
   return (
     <Tabs defaultActiveKey="Favorites" animated={false} >
       <Tabs.TabPane tab={tab('Favorites')} key="Favorites">
-       Favorites
+       <MarketList />
       </Tabs.TabPane>
       <Tabs.TabPane tab={tab('ETH')} key="ETH">
-       ETH
+       <MarketList />
       </Tabs.TabPane>
     </Tabs>
   )
-  
 }
 
 const MarketHeader = (props)=>{
@@ -36,8 +62,8 @@ const MarketHeader = (props)=>{
           placement="bottomLeft"
           arrowPointAtCenter={false}
           content={
-            <div className="zb-b" style={{width:'450px'}}>
-              <MarketList />
+            <div className="" style={{width:'450px'}}>
+              <MarketTabs />
             </div>
           }
         >
