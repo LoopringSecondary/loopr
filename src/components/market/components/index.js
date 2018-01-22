@@ -1,13 +1,8 @@
-import ListTable from './ListTable'
- 
-import ListFiltersForm from './ListFiltersForm'
-import ListActionsBar from './ListActionsBar'
+import List from './List'
 import Detail from './Detail'
 
-export default {
-  ListTable,
-  Detail,
 
-  ListFiltersForm,
-  ListActionsBar,
+export default {
+  List,
+  Detail,
 }

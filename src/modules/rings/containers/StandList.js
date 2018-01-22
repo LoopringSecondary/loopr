@@ -8,7 +8,7 @@ let formatedActionCreators = {
 	...actionCreators.list,
 	...actionCreators.route,
 }
-console.log('actionCreators',actionCreators)
+
 let ListAsyncContainer = ListAsync.createContainer(ListAsync.ByStore,MODULES,formatedActionCreators);
 
 function Container(props){

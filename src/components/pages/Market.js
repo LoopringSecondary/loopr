@@ -3,11 +3,6 @@ import { Icon,Popover,Tabs,Card } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/containers'
-import Token from '../tokens/pages'
-import Transaction from '../transactions/pages'
-import Ring from '../rings/pages'
-import SellForm from './SellForm'
-
 
 const MarketList = (props)=>{
   
@@ -171,10 +166,10 @@ export default function Home(props){
      <Card title="Trade">
       <div className="row justify-content-around">
         <div className="col-sm-4">
-          <SellForm />
+          <Order.TradeForm side="sell" />
         </div>
         <div className="col-sm-4">
-          <SellForm />
+          <Order.TradeForm side="buy" />
         </div>
       </div>
      </Card>
@@ -198,11 +193,6 @@ export default function Home(props){
 
       </Tabs>
     </div>
-    
-
-
-     
-
    </div>
   )
 }

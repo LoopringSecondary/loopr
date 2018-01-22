@@ -1,8 +1,9 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
 
-let Sell = ({
+let TradeForm = ({
   form,
+  side='sell',
   }) => {
   function handleSubmit() {
     form.validateFields((err,values) => {
@@ -19,9 +20,9 @@ let Sell = ({
   }
   return (
       <div>
-        <Form layout="">
+        <Form layout="horizontal">
           <Form.Item >
-            <div className="fs18 color-grey-900">Sell LRC</div>
+            <div className="fs18 color-grey-900">{side.toUpperCase()} LRC</div>
           </Form.Item>
           <Form.Item label="Amount">
             {form.getFieldDecorator('amount', {
@@ -96,6 +97,6 @@ let Sell = ({
 };
 
 
-export default Form.create()(Sell);
+export default Form.create()(TradeForm);
 
  

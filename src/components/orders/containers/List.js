@@ -1,5 +1,4 @@
 import React from 'react';
-import {Breadcrumb} from 'antd';
 import Components from '../components';
 import Common from '../../common';
 import Containers from '../../../modules/orders/containers';
