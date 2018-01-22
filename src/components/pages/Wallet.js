@@ -34,6 +34,5 @@ export default function Home(props){
         </Tabs.TabPane>
       </Tabs>
     </div>
-    
   )
 }
