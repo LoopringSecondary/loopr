@@ -8,7 +8,7 @@ export default (
 		<div>
 			<Switch>
 				<Route path="/" exact component={Pages.Wallet} />
-				<Route path="/wallet" exact component={Pages.Wallet} />
+				<Route path="/wallet"  component={Pages.Wallet} />
 				<Route path="/market" exact component={Pages.Market} />
 			</Switch>
 			{ringsRoutes}
