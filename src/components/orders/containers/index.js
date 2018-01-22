@@ -1,9 +1,9 @@
-import Detail from './Detail'
 import List from './List'
+import Detail from './Detail'
 import TradeForm from './TradeForm'
 
 export default {
-  Detail,
   List,
+  Detail,
   TradeForm,
 }

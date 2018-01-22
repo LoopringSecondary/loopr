@@ -6,17 +6,40 @@ import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover }
 import schema from '../../../../modules/tokens/schema';
 import tokens from './tokens';
 
-function ListBlock({LIST,actions}) {
+function ListBlock({LIST,actions,modal}) {
   const {
       // items=[],
       loading,
       page={}
   } = LIST
   const items = tokens
-  
+  const actionsCard = (
+    <div style={{width:'150px'}}>
+      <div className="row no-gutters">
+        <div className="col-12 p5">
+          <Button onClick={modal.showModal.bind(this,'transfer')} className="w-100 " type="primary" icon="pay-circle-o">Transfer</Button>
+        </div>
+        <div className="col-12 p5">
+          <Button onClick={modal.showModal.bind(this,'receive')} className="w-100 " type="primary" icon="qrcode">Receive</Button>
+        </div>
+        <div className="col-12 p5">
+          <Button onClick={modal.showModal.bind(this,'approve')} className="w-100 " type="primary" icon="safety">Approve</Button>
+        </div>
+        <div className="col-12 p5">
+          <Button className="w-100 " type="primary" icon="retweet">Convert</Button>
+        </div>
+        <div className="col-12 p5">
+          <Button className="w-100 " type="primary">
+            <i className="fa fa-line-chart mr5"></i>Trade
+          </Button>
+        </div>
+
+      </div>
+    </div>
+  )
   return (
     <div className="">
-      <div className="row zb-b-b pb10 no-gutters">
+      <div className="row zb-b-b p10 no-gutters">
         <div className="col mr5">
           <Input
             placeholder=""
@@ -49,7 +72,7 @@ function ListBlock({LIST,actions}) {
               }
             >
               <Button className="color-grey-600" shape="circle">
-                <i class="fa fa-sort"></i>
+                <i className="fa fa-sort"></i>
               </Button>
             </Popover>
           </Tooltip>
@@ -58,8 +81,8 @@ function ListBlock({LIST,actions}) {
       </div>
       {
         items.map((item,index)=>
-          <div className="row align-items-center no-gutters flex-nowrap zb-b-b pt10 pb10" key={index}>
-            <div className="col-auto pr5">
+          <div className="row align-items-center no-gutters flex-nowrap zb-b-b p10" key={index}>
+            <div className="col-auto pr10">
               {
                 index <=4 &&
                 <Icon type="star" className="color-blue-600" />
@@ -69,13 +92,13 @@ function ListBlock({LIST,actions}) {
                 <Icon type="star" className="color-grey-300" />
               }
             </div>
-            <div className="col-auto pr5">
+            <div className="col-auto pr10">
               <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5" />
             </div>
             <div className="col pr10">
               <div className="">
                 <span className="fs18 color-grey-900">{item.token}</span>
-                <span className="fs12 ml5 color-grey-400 text-truncate d-inline-block text-nowrap" style={{maxWidth:'65px'}}>{item.title}</span>
+                <span className="fs12 ml5 color-grey-400 text-truncate text-nowrap" style={{maxWidth:'65px'}}>{item.title}</span>
               </div>
               <div className="">
                 <span className="fs14 color-grey-900">0.00</span>
@@ -93,31 +116,7 @@ function ListBlock({LIST,actions}) {
                 title="Actions"
                 placement="right"
                 arrowPointAtCenter
-                content={
-                  <div style={{width:'150px'}}>
-                    <div className="row no-gutters">
-                      <div className="col-12 p5">
-                        <Button className="w-100 " type="primary" icon="pay-circle-o">Transfer</Button>
-                      </div>
-                      <div className="col-12 p5">
-                        <Button className="w-100 " type="primary" icon="qrcode">Receive</Button>
-                      </div>
-                      <div className="col-12 p5">
-                        <Button className="w-100 " type="primary" icon="safety">Approve</Button>
-                      </div>
-                      <div className="col-12 p5">
-                        <Button className="w-100 " type="primary" icon="retweet">Convert</Button>
-                      </div>
-                      <div className="col-12 p5">
-                        <Button className="w-100 " type="primary">
-                          <i className="fa fa-line-chart mr5"></i>Trade
-                        </Button>
-                      </div>
-
-                    </div>
-                  </div>
-                  
-                }
+                content={actionsCard}
               >
                 <Button shape="circle">
                   <Icon type="ellipsis" />

@@ -1,7 +1,6 @@
-import * as APIS from '../apis'
 import namespace from '../namespace'
 const {MODULES} = namespace
-
+const fetchList = window.APIS.getRings
 export default {
   namespace: MODULES,
   state: {
@@ -25,7 +24,7 @@ export default {
           dispatch({type: 'fetch'});
         }
       });
-    },
+    }
   },
   effects: {
     *pageChange({payload},{call, select,put}){
@@ -59,7 +58,7 @@ export default {
         }
       }
 
-      const res = yield call(APIS.fetchList, new_payload);
+      const res = yield call(fetchList, new_payload);
       if (res.items) {
         yield put({
           type: 'fetchSuccess',

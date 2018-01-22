@@ -3,7 +3,7 @@ import Components from '../components';
 import Common from '../../common';
 import Containers from '../../../modules/orders/containers';
 
-function Page(props){
+function DetailContainer(props){
   const id = props.match && props.match.params && props.match.params.id
   const filters = {
     ringHash:id
@@ -19,6 +19,6 @@ function Page(props){
   )
 }
 
-export default Page
+export default DetailContainer
 
 

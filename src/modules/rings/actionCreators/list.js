@@ -1,6 +1,6 @@
 import namespace from '../namespace'
 const {MODULES} = namespace
-const modelCreator = window.EASY_REDUX.modelCreator.List;
+const modelCreator = window.REDUX.modelCreator.List;
 let { actionCreators }= modelCreator(MODULES);
 actionCreators = {
   ...actionCreators,

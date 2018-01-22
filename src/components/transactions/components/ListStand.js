@@ -15,17 +15,17 @@ function ListBlock({LIST,actions}) {
   
   return (
     <div className="">
-      <div className="row zb-b-b pb10 no-gutters align-items-center">
+      <div className="row zb-b-b p10 no-gutters align-items-center">
         <div className="col">
           <div className="fs20 color-grey-900">Transactions</div>
         </div>
-        <div className="col-auto">
+        <div className="col-auto" style={{height:'32px'}}>
             <ListFiltersFormSimple actions={actions} LIST={LIST} />
         </div>
       </div>
       {
         items.map((item,index)=>
-          <div className="row align-items-center no-gutters flex-nowrap zb-b-b pt20 pb20" key={index}>
+          <div className="row align-items-center no-gutters flex-nowrap zb-b-b p20" key={index}>
             <div className="col-auto pr15">
               <div className="text-center">
                 <Avatar size="large" className="bg-blue-600" />
