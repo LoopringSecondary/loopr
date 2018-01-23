@@ -12,7 +12,6 @@ function RouterConfig({ history }) {
     		</Layout>
         </Router>
     </Locales>
-    
-  );
+  )
 }
 export default RouterConfig;

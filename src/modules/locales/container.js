@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { LocaleProvider } from 'antd';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
-import enUS from 'antd/lib/locale-provider/en_US'; 
+import zh from 'antd/lib/locale-provider/zh_CN';
+import en from 'antd/lib/locale-provider/en_US'; 
 import {IntlProvider,addLocaleData,injectIntl} from 'react-intl';
-import en from 'react-intl/locale-data/en';  
-import zh from 'react-intl/locale-data/zh';  
-addLocaleData([...en, ...zh]); 
+import enApp from 'react-intl/locale-data/en';  
+import zhApp from 'react-intl/locale-data/zh';  
+addLocaleData([...enApp, ...zhApp]);
+const antdLocales = {zh,en}
 
 const Locales = ({ history,locales={},children})=>{
 		const appProps = {
 			locale:locales.locale,
 			messages:locales.messages,
 		}
+		const antdProps = {
+			locale:antdLocales[locales.locale],
+		}
+
 	  return (
 	  	<IntlProvider {...appProps}>
-	  		<LocaleProvider locale={enUS}>
+	  		<LocaleProvider {...antdProps}>
 	  			{children}
 	  		</LocaleProvider>
 	  	</IntlProvider>
