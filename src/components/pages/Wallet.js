@@ -11,8 +11,8 @@ export default function Home(props){
   const { children } = props
   return (
     <div className="zb-b bg-white">
-      <Tabs defaultActiveKey="0" animated={false} tabBarStyle={{paddingLeft:'50px',marginBottom:'0px'}}>
-        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Assets</div>} key="0">
+      <Tabs defaultActiveKey="assets" animated={false} tabBarStyle={{paddingLeft:'50px',marginBottom:'0px'}}>
+        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Assets</div>} key="assets">
          <div className="row no-gutters">
            <div className="col-3 zb-b-r">
             <Token.ListSidebar />
@@ -22,17 +22,25 @@ export default function Home(props){
            </div>
          </div>
         </Tabs.TabPane>
-        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Orders</div>} key="3">
+        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Orders</div>} key="orders">
           <div className="pt15 pb15 pl20 pr20">
             <Order.List />
           </div>
         </Tabs.TabPane>
-        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trades</div>} key="4">
+        <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trades</div>} key="trades">
           <div className="pt15 pb15 pl20 pr20">
             <Trade.List />
           </div>
         </Tabs.TabPane>
       </Tabs>
+      {
+        false &&
+        <Tabs defaultActiveKey="assets" animated={false} tabBarStyle={{paddingLeft:'50px',marginBottom:'0px'}}>
+          <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Assets</div>} key="assets" />
+          <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Orders</div>} key="orders" />
+          <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trades</div>} key="trades" />
+        </Tabs>
+      }
     </div>
   )
 }

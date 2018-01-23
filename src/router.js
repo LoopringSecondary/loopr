@@ -5,14 +5,17 @@ import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import enUS from 'antd/lib/locale-provider/en_US';
 import pageRoutes from './components/routes';
-
+import Locales from './locales'
 function RouterConfig({ history }) {
   return (
     <LocaleProvider locale={enUS}>
         <Router history={history}>
-            <Layout>
-                {pageRoutes}
-            </Layout>
+        		<Locales>
+        			<Layout>
+        			    {pageRoutes}
+        			</Layout>
+        		</Locales>
+            
         </Router>
     </LocaleProvider>
     

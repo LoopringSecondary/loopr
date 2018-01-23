@@ -4,7 +4,6 @@ import GlobalFooter from './Footer'
 import Navbar from './Navbar'
 const { Header, Content, Footer } = Layout
 
-
 export default function MainLayout(props){
   const { children } = props
   return (
