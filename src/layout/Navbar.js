@@ -47,7 +47,7 @@ function Navbar(props){
             </Menu>
         </div>
         <div className="col-auto">
-          <Select defaultValue="en" style={{ width: 120 }} onChange={localeChange}>
+          <Select defaultValue="en" onChange={localeChange}>
             <Select.Option value="en">English</Select.Option>
             <Select.Option value="zh">中文</Select.Option>
           </Select>

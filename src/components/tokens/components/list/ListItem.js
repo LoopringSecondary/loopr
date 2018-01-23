@@ -13,7 +13,7 @@ function ListBlock({LIST,actions,modal}) {
       page={}
   } = LIST
   const items = tokens
-  const actionsCard = (
+  const actionsRender = (token)=>(
     <div style={{width:'150px'}}>
       <div className="row no-gutters">
         <div className="col-12 p5">
@@ -22,18 +22,17 @@ function ListBlock({LIST,actions,modal}) {
         <div className="col-12 p5">
           <Button onClick={modal.showModal.bind(this,'receive')} className="w-100 " type="primary" icon="qrcode">Receive</Button>
         </div>
-        <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'approve')} className="w-100 " type="primary" icon="safety">Approve</Button>
-        </div>
-        <div className="col-12 p5">
-          <Button className="w-100 " type="primary" icon="retweet">Convert</Button>
-        </div>
+        {
+          token.token === 'ETH' &&
+          <div className="col-12 p5">
+            <Button className="w-100 " type="primary" icon="retweet">Convert</Button>
+          </div>
+        }
         <div className="col-12 p5">
           <Button className="w-100 " type="primary">
             <i className="fa fa-line-chart mr5"></i>Trade
           </Button>
         </div>
-
       </div>
     </div>
   )
@@ -107,16 +106,19 @@ function ListBlock({LIST,actions,modal}) {
             </div>
             <div className="col"></div>
             <div className="col-auto mr5">
-              <Tooltip title="Some Tips To Say">
-                <Switch checkedChildren="on" unCheckedChildren="off" defaultChecked={index<=3} />
-              </Tooltip>
+              {
+                item.token != 'ETH' &&
+                <Tooltip title="Some Tips To Say">
+                  <Switch checkedChildren="on" unCheckedChildren="off" defaultChecked={index<=3} />
+                </Tooltip>
+              }
             </div>
             <div className="col-auto">
               <Popover
                 title="Actions"
                 placement="right"
                 arrowPointAtCenter
-                content={actionsCard}
+                content={actionsRender(item)}
               >
                 <Button shape="circle">
                   <Icon type="ellipsis" />
