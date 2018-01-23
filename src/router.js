@@ -8,16 +8,15 @@ import pageRoutes from './components/routes';
 import Locales from './locales'
 function RouterConfig({ history }) {
   return (
-    <LocaleProvider locale={enUS}>
-        <Router history={history}>
-        		<Locales>
-        			<Layout>
-        			    {pageRoutes}
-        			</Layout>
-        		</Locales>
-            
-        </Router>
-    </LocaleProvider>
+    <Locales>
+        <LocaleProvider locale={enUS}>
+            <Router history={history}>
+    			<Layout>
+    			    {pageRoutes}
+    			</Layout>
+            </Router>
+        </LocaleProvider>
+    </Locales>
     
   );
 }
