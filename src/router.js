@@ -1,20 +1,17 @@
 import React from 'react';
 import { Router, Route, Switch } from 'dva/router';
 import Layout from './layout/Layout';
-import { LocaleProvider } from 'antd';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
-import enUS from 'antd/lib/locale-provider/en_US';
 import pageRoutes from './components/routes';
-
+import Locales from './modules/locales/container'
 function RouterConfig({ history }) {
   return (
-    <LocaleProvider locale={enUS}>
+    <Locales>
         <Router history={history}>
-            <Layout>
-                {pageRoutes}
-            </Layout>
+    		<Layout>
+    		    {pageRoutes}
+    		</Layout>
         </Router>
-    </LocaleProvider>
+    </Locales>
     
   );
 }

@@ -1,8 +1,18 @@
 import React from 'react';
-import {Menu} from 'antd';
+import {connect} from 'dva';
+import {FormattedMessage,injectIntl} from 'react-intl';
+import {Menu,Select} from 'antd';
 import {Link} from 'dva/router';
 import logo from '../assets/images/logo@2x.png'
-export default function Navbar(props){
+function Navbar(props){
+  const localeChange = (value)=>{
+    props.dispatch({
+      type:'locales/localeChange',
+      payload:{
+        locale:value
+      }
+    })
+  }
   return (
     <div className="">
       <div className="row pl15 pr15 align-items-stretch">
@@ -10,11 +20,6 @@ export default function Navbar(props){
           <a href="/" className="d-block" >
             <img src="https://loopring.io/images/logo.svg" alt="" style={{height:'38px'}} />
           </a>
-        </div>
-        <div className="col-auto" hidden>
-          <div className="color-grey-400 fs16">
-            A Looring Ring Explorer
-          </div>
         </div>
         <div className="col">
           <Menu
@@ -24,10 +29,10 @@ export default function Navbar(props){
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
-              <Link to="/market">Market</Link>
+              <Link to="/market"><FormattedMessage id='navbar.market' /></Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="/wallet">Wallet</Link>
+              <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
             </Menu.Item>
           </Menu>
         </div>  
@@ -38,13 +43,18 @@ export default function Navbar(props){
               mode="horizontal"
               style={{ lineHeight: '64px' }}
             >
-              <Menu.Item key="3">Setting</Menu.Item>
-              <Menu.Item key="4">English</Menu.Item>
+              <Menu.Item key="3"><FormattedMessage id='navbar.setting' /></Menu.Item>
             </Menu>
+        </div>
+        <div className="col-auto">
+          <Select defaultValue="en" style={{ width: 120 }} onChange={localeChange}>
+            <Select.Option value="en">English</Select.Option>
+            <Select.Option value="zh">中文</Select.Option>
+          </Select>
         </div>
       </div>
     </div>
-    
-    
   )
 }
+
+export default connect(({locales})=>({locales}))(Navbar)

@@ -11,7 +11,8 @@
     "babel-plugin-import": "^1.6.3",
     "dva": "^2.1.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-intl": "^2.4.0"
   },
   "devDependencies": {
     "babel-plugin-dva-hmr": "^0.3.2",
