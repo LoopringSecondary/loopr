@@ -100,17 +100,20 @@ const Perference = ({
             </Select>
           )}
         </Form.Item>
-
-        <Form.Item className="mt-auto">
-          <div className="row">
-            <div className="col">
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
+        {
+          false &&
+          <Form.Item className="mt-auto">
+            <div className="row">
+              <div className="col">
+                <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
+              </div>
+              <div className="col">
+                <Button onClick={handleReset} type="" className="d-block w-100" size="large">Reset</Button>
+              </div>
             </div>
-            <div className="col">
-              <Button onClick={handleReset} type="" className="d-block w-100" size="large">Reset</Button>
-            </div>
-          </div>
-        </Form.Item>
+          </Form.Item>
+        }
+        
       </Form>
     </div>
   );

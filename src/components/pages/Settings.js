@@ -21,7 +21,7 @@ const App = (props) => {
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Relay</div>} key="relay">
               <div className="pt15 pb15 pl20 pr20">
-                Relay...
+                <Settings.Relay/>
               </div>
             </Tabs.TabPane>
           </Tabs>
