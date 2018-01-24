@@ -5,10 +5,10 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import containers from './common/containers'
 import redux from './common/redux'
-import * as apis from './common/apis/apis'
+import Loopring from './common/Loopring'
 window.CONTAINERS = containers
 window.REDUX = redux
-window.APIS = apis
+window.Loopring = Loopring
 
 moment.locale('zh-cn');
 
