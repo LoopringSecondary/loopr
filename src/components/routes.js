@@ -10,10 +10,11 @@ export default (
 				<Route path="/" exact component={Pages.Wallet} />
 				<Route path="/wallet"  component={Pages.Wallet} />
 				<Route path="/market" exact component={Pages.Market} />
+        <Route path="/setting" exact component={Pages.Settings} />
 			</Switch>
 			{ringsRoutes}
 			{ordersRoutes}
 		</div>
 	</div>
-		
+
 )

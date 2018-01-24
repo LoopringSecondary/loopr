@@ -25,7 +25,8 @@ let models  = [
   require('./modules/locales/model').default,
   require('./modules/rings/models/list').default,
   require('./modules/trades/models/list').default,
-  require('./modules/orders/models/list').default
+  require('./modules/orders/models/list').default,
+  require('./modules/settings/model').default,
 ]
 models.map(model=>{
   app.model(model)
