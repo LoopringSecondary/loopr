@@ -28,6 +28,7 @@ function Navbar(props){
             mode="horizontal"
             style={{ lineHeight: '64px' }}
           >
+            <Menu.Item key="3" ><Link to="/portfolio"><FormattedMessage id='navbar.portfolio'/></Link></Menu.Item>
             <Menu.Item key="1">
               <Link to="/market"><FormattedMessage id='navbar.market' /></Link>
             </Menu.Item>
@@ -35,7 +36,7 @@ function Navbar(props){
               <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
             </Menu.Item>
           </Menu>
-        </div>  
+        </div>
         <div className="col-auto">
             <Menu
               theme="dark"

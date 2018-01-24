@@ -1,0 +1,22 @@
+{
+  "UTC−12:00": "Baker Island",
+  "UTC−11:00": "Pago Pago",
+  "UTC−10:00": "Papeete, Honolulu",
+  "UTC−09:30": "French Polynesia",
+  "UTC−09:00": "Anchorage",
+  "UTC−08:00": "Los Angeles, Vancouver, Tijuana",
+  "UTC−07:00": "Phoenix, Calgary, Ciudad Juárez",
+  "UTC−06:00": "Chicago, Guatemala City, Mexico City, San José, San Salvador, Winnipeg",
+  "UTC−05:00": "New York, Lima, Toronto, Bogotá, Havana, Kingston",
+  "UTC−04:00": "Caracas, Santiago, La Paz, Manaus, Halifax, Santo Domingo",
+  "UTC−03:30": "St. John's",
+  "UTC−03:00": "Buenos Aires, Montevideo, São Paulo",
+  "UTC−02:00": "Brazil",
+  "UTC−01:00": "Praia",
+  "UTC+00:00": "Accra, Casablanca, Dakar, Dublin, Lisbon, London",
+  "UTC+01:00": "Berlin, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw",
+  "UTC+02:00": "Athens, Bucharest, Cairo, Helsinki, Jerusalem, Johannesburg, Kiev",
+  "UTC+03:00": "Istanbul, Moscow, Nairobi, Baghdad, Doha, Minsk, Riyadh",
+  "UTC+03:30": "Tehran",
+  "UTC+04:00": "Baku, Dubai, Samara, Muscat"
+}

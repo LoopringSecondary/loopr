@@ -5,5 +5,6 @@ export default {
 	"page.wallet.assets":'资产',
 	"page.wallet.orders":'订单',
 	"page.wallet.trades":'交易记录',
+  "navbar.portfolio":"投资组合",
 	"title":'路印钱包&去中心化交易所',
 }

@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-
+.idea
 # production
 /dist
 
