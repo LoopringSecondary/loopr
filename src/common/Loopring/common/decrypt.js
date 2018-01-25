@@ -24,11 +24,11 @@
 
 */
 
-import {createDecipheriv,createHash} from 'crypto';
+import {createDecipheriv, createHash} from 'crypto';
 
 export function decryptPrivKey(encprivkey, password) {
   let cipher = encprivkey.slice(0, 128);
-  cipher =decodeCryptojsSalt(cipher);
+  cipher = decodeCryptojsSalt(cipher);
   const evp = this.evp_kdf(Buffer.from(password), cipher.salt, {
     keysize: 32,
     ivsize: 16

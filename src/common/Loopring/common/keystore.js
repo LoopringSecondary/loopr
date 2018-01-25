@@ -25,7 +25,7 @@
 */
 
 import {randomBytes, pbkdf2Sync, createCipheriv, createDecipheriv} from 'crypto';
-import { decipherBuffer, decodeCryptojsSalt, evp_kdf } from './decrypt';
+import {decipherBuffer, decodeCryptojsSalt, evp_kdf} from './decrypt';
 import {sha3, privateToAddress} from 'ethereumjs-util';
 import scrypt from 'scryptsy';
 import uuid from 'uuid';
