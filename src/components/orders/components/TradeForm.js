@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
+import TradeConfirmModal from './TradeConfirmModal'
 
 let TradeForm = ({
   form,
@@ -92,6 +93,7 @@ let TradeForm = ({
 
           
         </Form>
+        <TradeConfirmModal/>
       </div>
   );
 };
