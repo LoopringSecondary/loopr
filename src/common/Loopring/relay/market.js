@@ -1,4 +1,4 @@
-import request from './request'
+import request from '../common/request'
 
 // import {ADDRESS,RPC_TAG,HEX} from './types'
 
@@ -63,7 +63,7 @@ export async function getTrend(market){
 export async function getRingMined(filter){
     // TODO Validator
     // filter: ringHash, pageIndex, pageSize,contractVersion
-    
+
     let body = {}
     body.method = 'loopring_getRingMined'
     body.params = [filter]
