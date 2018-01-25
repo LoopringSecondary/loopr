@@ -25,7 +25,7 @@ function Modals({ modal={},children}){
   let _this = this;
   return (
     <div>
-      <Modal {...getModalProps('transfer')} title="Transfer"  >
+      <Modal {...getModalProps('transfer')} title="Send LRC"  >
         <Transfer modal={modal} />
       </Modal>
       <Modal {...getModalProps('receive')} title="My Ethereum Address"  >

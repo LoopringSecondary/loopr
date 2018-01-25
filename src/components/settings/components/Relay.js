@@ -50,7 +50,7 @@ const RealySettingForm = ({
       <Form layout="horizontal" style={{height:'420px'}} className="d-flex flex-column preference-form">
         <Form.Item label="Choose Relay" colon={false}>
           {form.getFieldDecorator('relay', {
-            initialValue:{},
+            initialValue:'1',
             rules:[]
           })(
             <Radio.Group className="">

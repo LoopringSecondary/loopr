@@ -17,7 +17,7 @@ const TradeConfirm = ({
     )
   }
   return (
-      <Modal title="Buy LRC" visible={true} footer={null}>
+      <Modal title="Buy LRC" visible={false} footer={null}>
         <div className="caption zb-b-b text-center p25 pt0">
           <div className="fs16 color-grey-500 mb5">You are buying</div>
           <div className="fs28 color-grey-900">5,260.88 LRC</div>

@@ -32,19 +32,19 @@ const SettingPage = (props) => {
       <div className="bg-white">
           <Tabs defaultActiveKey="preference" animated={false} tabBarStyle={{marginBottom:'0px'}}>
             <Tabs.TabPane tab={<div className="fs16">Preference</div>} key="preference">
-              <div className="p15">
+              <div className="p15 pl0 pr0">
                 <SettingsContainer>
                   <Settings.Preference />
                 </SettingsContainer>
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trading</div>} key="trading">
-              <div className="p15">
+              <div className="p15 pl0 pr0">
                 <Settings.Trading/>
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Relay</div>} key="relay">
-              <div className="p15">
+              <div className="p15 pl0 pr0">
                 <Settings.Relay/>
               </div>
             </Tabs.TabPane>

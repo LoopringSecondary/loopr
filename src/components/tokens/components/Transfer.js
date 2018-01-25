@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
+import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
 
 let Transfer = ({
   form,
@@ -31,31 +31,14 @@ let Transfer = ({
     }
   }
   resetForm()
+  const formImemLayout = {
+    labelCol: { span: 7 },
+    wrapperCol: { span: 17 },
+  }
   return (
       <div>
-        <Form layout="vertical">
-          <Form.Item label="Token">
-            {form.getFieldDecorator('token', {
-              initialValue:'',
-              rules:[]
-            })(
-              <Select
-                  showSearch
-                  allowClear
-                  placeholder="Search/Select"
-                  optionFilterProp="children"
-                  size="large"
-                  disabled
-                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                >
-                  <Select.Option value="LRC">LRC</Select.Option>
-                  <Select.Option value="lucy">USDT</Select.Option>
-                  <Select.Option value="tom">BNB</Select.Option>
-              </Select>
-            )}
-            
-          </Form.Item>
-          <Form.Item label="Recipient">
+        <Form layout="horizontal">
+          <Form.Item label="Recipient" {...formImemLayout}>
             {form.getFieldDecorator('to', {
               initialValue:'',
               rules:[]
@@ -63,7 +46,7 @@ let Transfer = ({
               <Input placeholder="" size="large" />
             )}
           </Form.Item>
-          <Form.Item label="Amount To Send">
+          <Form.Item label="Amount" {...formImemLayout}>
             {form.getFieldDecorator('amount', {
               initialValue:0,
               rules:[]
@@ -71,24 +54,65 @@ let Transfer = ({
               <Input className="d-block w-100" placeholder="" size="large" />
             )}
           </Form.Item>
-          <Form.Item label="GasLimit">
-            {form.getFieldDecorator('gasLimit', {
-              initialValue:8400,
-              rules:[]
-            })(
-              <Slider min={2100} max={21000} step={2100} 
-                marks={{
-                  2100: '2100',
-                  4200: '4200',
-                  8400: '8400',
-                  16800: '16800',
-                  21000: {
-                    label: '21000'
-                  }
-                }} 
-              />
-            )}
-          </Form.Item>
+          <Collapse accordion bordered={false} defaultActiveKey={['advanced']}>
+            <Collapse.Panel className="" style={{border:'none',margin:'0px -15px',padding:'0px -15px'}} 
+              header={<div>Transaction Fee</div>} 
+              key="advanced"
+              showArrow={false}
+            >
+              <Form.Item className="mb0" label={null && "Transaction Fee"}>
+                {form.getFieldDecorator('transactionFee', {
+                  initialValue:8400,
+                  rules:[]
+                })(
+                  <Slider min={2100} max={21000} step={2100} 
+                    marks={{
+                      2100: 'slow',
+                      8400: '8400',
+                      21000: 'fast'
+                    }} 
+                  />
+                )}
+              </Form.Item>
+            </Collapse.Panel>
+            <Collapse.Panel className="" 
+              style={{border:'none',margin:'0px -15px',padding:'0px -15px'}} 
+              header={<div>Advanced</div>} 
+              key="2"
+            >
+              <Form.Item label="Data" {...formImemLayout}>
+                {form.getFieldDecorator('data', {
+                  initialValue:0,
+                  rules:[]
+                })(
+                  <Input className="d-block w-100" placeholder="" size="large" />
+                )}
+              </Form.Item>
+              <Form.Item label="Gas Limit" {...formImemLayout}>
+                {form.getFieldDecorator('gasLimit', {
+                  initialValue:0,
+                  rules:[]
+                })(
+                  <Input className="d-block w-100" placeholder="" size="large" />
+                )}
+              </Form.Item>
+              <Form.Item label="GasPrice">
+                {form.getFieldDecorator('gasPrice', {
+                  initialValue:8400,
+                  rules:[]
+                })(
+                  <Slider min={2100} max={21000} step={2100} 
+                    marks={{
+                      2100: 'slow',
+                      8400: '8400',
+                      21000: 'fast'
+                    }} 
+                  />
+                )}
+              </Form.Item>
+            </Collapse.Panel>
+          </Collapse>
+          
           <Form.Item >
             <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Continue</Button>
           </Form.Item>
