@@ -3,6 +3,7 @@ import { Route, Switch } from 'dva/router';
 import Pages from './pages';
 import ordersRoutes from './orders/routes';
 import ringsRoutes from './rings/routes';
+import wallet from './wallet/components';
 export default (
 	<div>
 		<div>
@@ -12,6 +13,7 @@ export default (
 				<Route path="/market" exact component={Pages.Market} />
         <Route path="/setting" exact component={Pages.Settings} />
         <Route path="/portfolio" exact component={Pages.Portfolio}/>
+        <Route path="/unlock" exact component={wallet.UnlockWallet}/>
 			</Switch>
 			{ringsRoutes}
 			{ordersRoutes}
