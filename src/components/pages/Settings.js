@@ -50,11 +50,6 @@ const SettingPage = (props) => {
             </Tabs.TabPane>
           </Tabs>
       </div>
-      <div className="row justify-content-center" hidden>
-        <div className="col-lg-5 col-md-6" style={{height:'500px'}}>
-          
-        </div>
-      </div>
     </Modal>
     
   )

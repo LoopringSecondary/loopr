@@ -14,10 +14,11 @@ export default (
         <Route path="/setting" exact component={Pages.Settings} />
         <Route path="/portfolio" exact component={Pages.Portfolio}/>
         <Route path="/unlock" exact component={wallet.UnlockWallet}/>
+        <Route path="/generate" exact component={wallet.GenerateWallet}/>
+        <Route path="/backup" exact component={wallet.BackupWallet}/>
 			</Switch>
 			{ringsRoutes}
 			{ordersRoutes}
 		</div>
 	</div>
-
 )

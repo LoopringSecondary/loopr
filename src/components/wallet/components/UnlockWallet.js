@@ -12,24 +12,31 @@ function UnlockWallet({form}) {
       Recommended
     </Badge>
   )
+  const footer = (
+    <div className="fs14 mt20 pt15 color-grey-900 zb-b-t">
+      Don't have a Wallet? Let's <a className="color-blue-600 ml5">generate one</a> !
+    </div>
+  )
   return (
     <div className="row align-items-center justify-content-center">
-      <div className="col-7">
+      <div className="col-6">
         <Card title="Unlock Wallet">
+          <div className="fs16 pb20 color-grey-700" hidden>How would you like to access your wallet ?</div>
           <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true}>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">MetaMask{false && recommended}</div>} key="metamask">
+            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">MetaMask{false && recommended}</div>} key="metamask">
               <UnlockByMetaMask />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Keystore / JSON File</div>} key="keystore">
+            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Keystore</div>} key="keystore">
              <UnlockByKeystore />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Mnemonic</div>} key="mnemonic">
+            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Mnemonic</div>} key="mnemonic">
               Mnemonic
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Private Key</div>} key="privatekey">
+            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Private Key</div>} key="privatekey">
              Private Key
             </Tabs.TabPane>
           </Tabs>
+          {footer}
         </Card>
         <div className="mb15"></div>
         <Card title="Unlock Wallet">
@@ -55,6 +62,7 @@ function UnlockWallet({form}) {
                 </Radio.Group>
               )}
             </Form.Item>
+            {footer}
           </Form> 
         </Card>
       </div>
