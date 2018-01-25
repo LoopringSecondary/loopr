@@ -1,7 +1,6 @@
 import Schema from 'async-validator';
 import basicSchemas from './validator_schemas';
-import transactionSchemas from '../transaction/schemas';
-import orderSchemas from '../order/schemas';
+import transactionSchemas from '../ethereum/transaction_schemas';
 
 const schemas = {
   basic:{
