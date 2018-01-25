@@ -13,6 +13,15 @@ function Navbar(props){
       }
     })
   }
+  const showSetting = ()=>{
+    props.dispatch({
+      type:'modals/modalChange',
+      payload:{
+        id:'setting',
+        visible:true
+      }
+    })
+  }
   return (
     <div className="">
       <div className="row pl15 pr15 align-items-stretch">
@@ -44,7 +53,9 @@ function Navbar(props){
               mode="horizontal"
               style={{ lineHeight: '64px' }}
             >
-              <Menu.Item key="3"><FormattedMessage id='navbar.setting' /></Menu.Item>
+              <Menu.Item key="3">
+                <a onClick={showSetting}><FormattedMessage id='navbar.setting' /></a>
+              </Menu.Item>
             </Menu>
         </div>
         <div className="col-auto">

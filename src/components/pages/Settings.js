@@ -1,34 +1,63 @@
 import React from 'react';
-import { Tabs,Card } from 'antd'
+import { Tabs,Card,Modal } from 'antd'
+import { connect } from 'dva'
 import Settings from '../settings/components'
 import SettingsContainer from '../../modules/settings/container'
+import ModalContainer from '../../modules/modals/container'
 
-const App = (props) => {
+const SettingPage = (props) => {
+  const { modals,dispatch } = props
+  const id='setting'
+  let thisModal = modals[id] || {}
+  const hideModal = (payload)=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        id:id,
+        visible:false,
+      }
+    })
+  }
+  const modalProps = {
+    visible:thisModal.visible,
+    title:thisModal.title || 'Setting',
+    footer:null,
+    closable:true,
+    maskClosable:true,
+    wrapClassName:"rs",
+    onCancel:hideModal,
+  }
   return (
-    <div className="row justify-content-center">
-      <div className="col-6" style={{height:'500px'}}>
-        <Card>
-          <Tabs defaultActiveKey="preference" animated={false}>
+    <Modal {...modalProps}>
+      <div className="bg-white">
+          <Tabs defaultActiveKey="preference" animated={false} tabBarStyle={{marginBottom:'0px'}}>
             <Tabs.TabPane tab={<div className="fs16">Preference</div>} key="preference">
-              <SettingsContainer>
-                <Settings.Preference/>
-              </SettingsContainer>
+              <div className="p15">
+                <SettingsContainer>
+                  <Settings.Preference />
+                </SettingsContainer>
+              </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trading</div>} key="trading">
-              <div className="pt15 pb15 pl20 pr20">
+              <div className="p15">
                 <Settings.Trading/>
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Relay</div>} key="relay">
-              <div className="pt15 pb15 pl20 pr20">
+              <div className="p15">
                 <Settings.Relay/>
               </div>
             </Tabs.TabPane>
           </Tabs>
-        </Card>
       </div>
-    </div>
+      <div className="row justify-content-center" hidden>
+        <div className="col-lg-5 col-md-6" style={{height:'500px'}}>
+          
+        </div>
+      </div>
+    </Modal>
+    
   )
-};
+}
 
-export default App
+export default connect(({modals})=>({modals}))(SettingPage)

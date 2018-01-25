@@ -55,7 +55,7 @@ const Perference = ({
               onChange={handleChange.bind(this, "language")}
             >
               {languagesArray && languagesArray.map((item,index)=>
-                <Select.Option value={item.language}>
+                <Select.Option value={item.language} key={index}>
                   <div className="d-flex justify-content-between">
                     <div>{item.value.display}</div>
                     <div>{item.value.logo}</div>

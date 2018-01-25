@@ -1,10 +1,21 @@
 import React from 'react';
+import {connect} from 'dva';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
+import AddRelayModal from './AddRelayModal'
 
-const TradingSettingForm = ({
-    settings,form
+const RealySettingForm = ({
+    settings,form,modals,dispatch
   }) => {
+  const showModal = ()=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        id:'addRelay',
+        visible:true,
+      }
+    })
+  }
   function handleChange(type, value) {
     console.log(type+":"+value);
   }
@@ -68,16 +79,17 @@ const TradingSettingForm = ({
         <Form.Item className="">
           <div className="row">
             <div className="col">
-              <Button type="primary" className="d-block w-100" size="large">Add Cutom Relay</Button>
+              <Button type="primary" onClick={showModal} className="d-block w-100" size="large">Add Cutom Relay</Button>
             </div>
           </div>
         </Form.Item>
       </Form>
+      <AddRelayModal />
     </div>
   );
 };
 
 
-export default Form.create()(TradingSettingForm);
+export default Form.create()(connect(({modals})=>(modals))(RealySettingForm));
 
 
