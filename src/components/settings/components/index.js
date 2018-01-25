@@ -1,5 +1,9 @@
 import Preference from './Preference'
+import Trading from './Trading'
+import Relay from './Relay'
 
 export default {
-  Preference
+  Preference,
+  Trading,
+  Relay,
 }

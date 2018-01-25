@@ -3,22 +3,9 @@ import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} 
 import './Preference.less'
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
-const Layout = (props)=>{
-  return (
-      <div className="d-flex flex-column" style={{height:'420px'}}>
-        <div className="mb-auto">
-          Body
-          <br/>
-          <br/>
-          Body
-        </div>
-        <div className="">
-          Footer
-        </div>
-      </div>
-  )
-}
-let Perference = ({
+// filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+
+const Perference = ({
     settings,form
   }) => {
   const {preference} = settings
@@ -40,7 +27,6 @@ let Perference = ({
   function resetForm(){
     form.resetFields()
   }
-  resetForm()
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -53,12 +39,11 @@ let Perference = ({
   };
 
   return (
-    <div className="pt20" >
+    <div className="" >
       <Form layout="horizontal" style={{height:'420px'}} className="d-flex flex-column preference-form">
-
         <Form.Item {...formItemLayout} label="Language" colon={false}>
-          {form.getFieldDecorator('token', {
-            initialValue:'',
+          {form.getFieldDecorator('language', {
+            initialValue:'en',
             rules:[]
           })(
             <Select
@@ -66,7 +51,7 @@ let Perference = ({
               placeholder="Search/Select"
               optionFilterProp="children"
               size="large"
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              
               onChange={handleChange.bind(this, "language")}
             >
               {languagesArray && languagesArray.map((item,index)=>
@@ -81,8 +66,8 @@ let Perference = ({
           )}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Currency" colon={false}>
-          {form.getFieldDecorator('to', {
-            initialValue:'',
+          {form.getFieldDecorator('currency', {
+            initialValue:'USD',
             rules:[]
           })(
             <Select
@@ -90,7 +75,6 @@ let Perference = ({
               placeholder="Search/Select"
               optionFilterProp="children"
               size="large"
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               onChange={handleChange.bind(this, "currency")}
             >
               <Select.Option value="USD">USD</Select.Option>
@@ -99,7 +83,7 @@ let Perference = ({
           )}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Timezone" colon={false}>
-          {form.getFieldDecorator('amount', {
+          {form.getFieldDecorator('timezone', {
             initialValue:'',
             rules:[]
           })(
@@ -108,7 +92,6 @@ let Perference = ({
               placeholder="Search/Select"
               optionFilterProp="children"
               size="large"
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               onChange={handleChange.bind(this, "timezone")}
             >
               {timezoneArray && timezoneArray.map((item, index)=>
@@ -117,10 +100,20 @@ let Perference = ({
             </Select>
           )}
         </Form.Item>
-
-        <Form.Item className="mt-auto">
-          <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
-        </Form.Item>
+        {
+          false &&
+          <Form.Item className="mt-auto">
+            <div className="row">
+              <div className="col">
+                <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
+              </div>
+              <div className="col">
+                <Button onClick={handleReset} type="" className="d-block w-100" size="large">Reset</Button>
+              </div>
+            </div>
+          </Form.Item>
+        }
+        
       </Form>
     </div>
   );
