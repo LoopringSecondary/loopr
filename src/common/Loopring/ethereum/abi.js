@@ -78,6 +78,12 @@ function generateWithdrawData (amount){
   return '0x' + method + data;
 }
 
+function generateDeposit() {
+  const method = methodID('deposit', ['']).toString('hex');
+  return '0x' + method ;
+
+}
+
 function generateTransferData (address, amount) {
   validator.validate({value:address,type:'ADDRESS'});
   validator.validate({value:amount,type:'QUANTITY'});
@@ -139,6 +145,9 @@ function generateAbiData({method,timestamp,address,amount,order,owner,spender}){
   }
   if (method === 'withdraw') {
     return generateWithdrawData(amount);
+  }
+  if(method === 'deposit'){
+    return generateDeposit();
   }
   if (method === 'transfer') {
     return generateTransferData(address, amount);
