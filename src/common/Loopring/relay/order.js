@@ -28,19 +28,17 @@ export async function getOrders(filter){
   })
 }
 
-export async function getCutoff(filter){
+export async function getCutoff(address, contractVersion){
   try {
-    //[wallet.address, settingsVersion, "latest"]
-    await validator.validate({value: filter[0], type: 'STRING'})
-    await validator.validate({value: filter[1], type: 'STRING'})
-    await filter[2] && validator.validate({value: filter[2], type: 'DEFAULT_BLOCK'})
+    await validator.validate({value: address, type: 'STRING'})
+    await validator.validate({value: contractVersion, type: 'STRING'})
   } catch (e) {
     console.error(e)
     return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
   }
   let body = {}
   body.method = 'loopring_getCutoff'
-  body.params = [filter]
+  body.params = [address, contractVersion, "latest"]
   return request({
     method:'post',
     headers,
