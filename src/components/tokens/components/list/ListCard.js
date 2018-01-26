@@ -26,12 +26,13 @@ function ListBlock({LIST={},actions,modal}) {
       </div>
     )
     return (
-      <Card bordered title={header} className="token-list-card">
+      <Card bordered title={header} className="token-list-card text-left">
         <div className="fs22 color-grey-700 mb5">USD 5343.53</div>
         <div className="row align-items-center">
-          <div className="col">
+          <div className="col-auto">
             <div className="fs14 color-grey-500">Amount: {item.balance}</div>
           </div>
+          <div className="col"></div>
           <div className="col-auto">
             <div className="fs14 color-green-500">
               <Icon type="arrow-up" />34.5%

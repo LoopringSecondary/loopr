@@ -13,24 +13,12 @@ function ListBlock({LIST,actions,modal}) {
   } = LIST
   const items = tokens
   const renders = {}
-  const showModal = modal.showModal
-  if(typeof showModal != 'function'){throw Error('showModal must be a function')}
+  
 
-  const actionRender = (value,item,index)=>{
-    return (
-      <div>
-        <Button className="mr5" onClick={showModal.bind(this,'transfer')}>Transfer</Button>
-        <Button className="mr5" icon="qrcode" onClick={showModal.bind(this,'receive')}>Receive</Button>
-        <Button className="mr5" hidden onClick={showModal.bind(this,'convert')}>Convert</Button>
-        <Button className="mr5" onClick={showModal.bind(this,'approve')}>Approve</Button>
-        <Button className="mr5" >Trade</Button>
-      </div>
-    )
-    
-  }
+  
   const actionColumn = {
     title:'Options',
-    render:actionRender,
+    // render:actionRender,
     // fixed:'right',
   }
   let columns = schema.map(field=>{
@@ -43,7 +31,7 @@ function ListBlock({LIST,actions,modal}) {
     }
   })
   // columns = [...columns,actionColumn]
-  columns.push(actionColumn)
+  // columns.push(actionColumn)
 
   const tableChange = (pagination, filters, sorter)=>{
     // sorder {field,order}
