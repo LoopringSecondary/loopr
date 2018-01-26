@@ -1,7 +1,9 @@
-import ethUtil from 'ethereumjs-util'
+import ethUtil from 'ethereumjs-util';
+import Big from 'bignumber.js';
+import BN from "bn.js";
 
 
-function toBuffer (buffer) {
+function toBuffer(buffer) {
   if (buffer instanceof Buffer) {
     return buffer;
   } else {
@@ -9,80 +11,95 @@ function toBuffer (buffer) {
   }
 }
 
-function toHex(mixed){
-  // tweb3 lib
-  // http://web3js.readthedocs.io/en/1.0/web3-utils.html#tohex
-  // http://web3js.readthedocs.io/en/1.0/web3-utils.html#utf8tohex
-  // http://web3js.readthedocs.io/en/1.0/web3-utils.html#numbertohex
+// Number | BigNumber |  BN  | Buffer | String
+function toHex(mixed) {
 
-  // loopring demand
-  // '0x' + xxx.toString('hex')
-  return mixed;
+  if (mixed instanceof Number || mixed instanceof Big || mixed instanceof BN) {
+    return "0x" + mixed.toString(16)
+  }
 
-}
+  if (mixed instanceof Buffer) {
+    return "0x" + mixed.toString('hex')
+  }
 
-function toNumber(mixed){
-  // web3 lib
-  // http://web3js.readthedocs.io/en/1.0/web3-utils.html#hextonumber
-  // http://web3js.readthedocs.io/en/1.0/web3-utils.html#hextonumberstring
+  if (mixed instanceof String) {
 
-  // loopring demand
-  //Number(signature.v.toString())
-  return mixed;
-}
+    const regex = new RegExp(/^0x[0-9a-fA-F]*$/);
 
-
-function toBN(mixed){
-  // web3 lib
-  // http://web3js.readthedocs.io/en/1.0/web3-utils.html#tobn
-  //
-  // loopring ex
-  // new BN(new BigNumber(amountS).toString(10), 10),
-  return mixed;
-}
-
-function format(payload){
-  let {type, value, onError, onSuccess} = payload
-
-  return value;
-}
-
-
-function formatPrivateKey (payload){
-  let {target, value} = payload;
-  // target valiadte'
-
-  if (target === 'buffer') {
-    if (value instanceof Buffer) {
-
-    }
-    if (typeof value === 'string') {
-
-    }
-
-
-  } else if (target === 'string') {
+    return regex.test(mixed) ? mixed : "0x" + toBuffer(String).toString('hex')
 
   }
-}
 
-function formatAddress(payload){
-  let {target, value} = payload;
-  // target valiadte'
+  throw new Error('Unsupported type')
 
 }
-function formatQuantity(payload){
-  let {target, value} = payload;
-  // target valiadte'
+
+function toNumber(mixed) {
+  if (mixed instanceof Number) {
+    return mixed
+  }
+
+  if (mixed instanceof Big || mixed instanceof BN) {
+    mixed.toNumber()
+  }
+
+  if (mixed instanceof String) {
+    return Number(mixed)
+  }
+
+  throw new Error('Unsupported type')
+}
+
+function toBig(mixed) {
+
+  if (mixed instanceof Number) {
+
+    return new Big(mixed.toString())
+  }
+
+  if (mixed instanceof String) {
+
+    return new Big(mixed)
+  }
+
+  throw new Error('Unsupported type')
 
 }
+
+function toBN(mixed) {
+  return new BN(toBig(mixed).toString(), 10);
+}
+
+function formatPrivateKey(mixed) {
+
+  if(mixed instanceof Buffer){
+   return '0x' + mixed.toString('hex')
+  }
+
+  if(mixed instanceof String){
+    return mixed.startsWith("0x") ? mixed : "0x" + mixed
+  }
+  throw new Error('Unsupported type')
+}
+
+function formatAddress(mixed) {
+  if(mixed instanceof Buffer){
+    return '0x' + mixed.toString('hex')
+  }
+
+  if(mixed instanceof String){
+    return mixed.startsWith("0x") ? mixed : "0x" + mixed
+  }
+  throw new Error('Unsupported type')
+
+}
+
 
 export default {
-  format,
-  formatPrivateKey,
-  formatQuantity,
+
   toHex,
   toBuffer,
   toNumber,
+  toBig,
   toBN,
 }

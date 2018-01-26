@@ -9,17 +9,17 @@ const schemas = {
   stand:{
     ...transactionSchemas
   }
-}
+};
 
 let handleErrors = (errors, fields)=>{
-  let msgs = errors.map(err=>err.message).join()
+  let msgs = errors.map(err=>err.message).join();
   throw new Error(`data type invalid: ${msgs} \n`)
-}
+};
 
 let validate = (payload)=>{
-  let {type,value,onError,onSuccess}= payload
-  let source = {}
-  let schema = {}
+  let {type,value,onError,onSuccess}= payload;
+  let source = {};
+  let schema = {};
 
   // fix bug: if value undefined or null
   if(typeof value === 'undefined'){ throw new Error(`data type invalid: ${type} should not be undefined`) }
@@ -27,12 +27,12 @@ let validate = (payload)=>{
 
   if(schemas['basic'][type]){
     // validate one field , schema & source must just has one field
-    schema[type] = schemas['basic'][type]
+    schema[type] = schemas['basic'][type];
     source[type] = value
   }
   if(schemas['stand'][type]){
     // validate multiple fields
-    schema = schemas['stand'][type]
+    schema = schemas['stand'][type];
     source = value
   }
 
