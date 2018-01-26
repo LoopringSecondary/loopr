@@ -7,23 +7,20 @@ let headers = {
   'Content-Type': 'application/json'
 }
 
-export async function getRings(filter){
+export async function getBalance(filter) {
   try {
     await validator.validate({value: filter.contractVersion, type: 'STRING'})
-    await validator.validate({value: filter.pageIndex, type: 'OPTION_NUMBER'})
-    await validator.validate({value: filter.pageSize, type: 'OPTION_NUMBER'})
+    await validator.validate({value: filter.owner, type: 'STRING'})
   } catch (e) {
     console.error(e)
     return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
   }
   let body = {}
-  body.method = 'loopring_getRingMined'
+  body.method = 'loopring_getBalance'
   body.params = [filter]
   return request({
-    method:'post',
+    method: 'post',
     headers,
     body,
   })
 }
-
-

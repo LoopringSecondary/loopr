@@ -1,13 +1,9 @@
 import Schema from 'async-validator';
 import basicSchemas from './validator_schemas';
-import transactionSchemas from '../ethereum/transaction_schemas';
 
 const schemas = {
   basic:{
     ...basicSchemas
-  },
-  stand:{
-    ...transactionSchemas
   }
 }
 
@@ -29,11 +25,6 @@ let validate = (payload)=>{
     // validate one field , schema & source must just has one field
     schema[type] = schemas['basic'][type]
     source[type] = value
-  }
-  if(schemas['stand'][type]){
-    // validate multiple fields
-    schema = schemas['stand'][type]
-    source = value
   }
 
   // TODO: if schema empty

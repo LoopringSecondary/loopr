@@ -7,6 +7,19 @@ let basicSchemas ={
     type:'string',
     required:true,
   },
+  OPTION_NUMBER:{
+    validator:(rule,value,cb)=>{
+      if (value) {
+        if (value instanceof Number){
+          cb()
+        }else{
+          cb('page number valid')
+        }
+      } else {
+        cb()
+      }
+    }
+  },
   URL:{
     type:'url',
     required:true,
@@ -57,6 +70,11 @@ let basicSchemas ={
     required:true,
     enum:['USD','CNY'],
   },
+  DEFAULT_BLOCK:{
+    type:'string',
+    required:true,
+    enum:['earliest','latest', 'pending'],
+  }
 }
 
 export default basicSchemas

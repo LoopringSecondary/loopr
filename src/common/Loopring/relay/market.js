@@ -1,6 +1,7 @@
 import request from '../common/request'
 import validator from './market_validator'
 import Response from '../common/response'
+import code from "../common/code"
 
 // import {ADDRESS,RPC_TAG,HEX} from './types'
 
@@ -16,7 +17,8 @@ export async function getPriceQuote(currency) {
   try {
     await validator.validate({value: currency, type: 'CURRENCY'})
   } catch (e) {
-    return new Response("111", "msg")
+    console.error(e)
+    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
   }
   let body = {}
   body.method = 'loopring_getPriceQuote'
@@ -28,15 +30,26 @@ export async function getPriceQuote(currency) {
   })
 }
 
+export async function getSupportedMarket() {
+  let body = {}
+  body.method = 'loopring_getSupportedMarket'
+  body.params = []
+  return request({
+    method: 'post',
+    headers,
+    body,
+  })
+}
+
 export async function getDepth(filter) {
   try {
     await validator.validate({value: filter.contractVersion, type: 'STRING'})
     await validator.validate({value: filter.market, type: 'STRING'})
-    await validator.validate({value: filter.length, type: 'STRING'})
+    await validator.validate({value: filter.length, type: 'OPTION_NUMBER'})
   } catch (e) {
-    return new Response("111", "msg")
+    console.error(e)
+    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
   }
-
   let body = {}
   body.method = 'loopring_getDepth'
   body.params = [filter]
@@ -47,11 +60,16 @@ export async function getDepth(filter) {
   })
 }
 
-export async function getTicker(market) {
-  // TODO Validator
+export async function getTicker(filter) {
+  try {
+    await validator.validate({value: filter[0], type: 'STRING'});// contractVersion
+  } catch (e) {
+    console.error(e)
+    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
+  }
   let body = {}
   body.method = 'loopring_getTicker'
-  body.params = [market]
+  body.params = [filter]
   return request({
     method: 'post',
     headers,
@@ -61,24 +79,15 @@ export async function getTicker(market) {
 
 
 export async function getTrend(market) {
-  // TODO Validator
+  try {
+    await validator.validate({value: market, type: 'STRING'})
+  } catch (e) {
+    console.error(e)
+    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
+  }
   let body = {}
   body.method = 'loopring_getTrend'
   body.params = [market]
-  return request({
-    method: 'post',
-    headers,
-    body,
-  })
-}
-
-export async function getRingMined(filter) {
-  // TODO Validator
-  // filter: ringHash, pageIndex, pageSize,contractVersion
-
-  let body = {}
-  body.method = 'loopring_getRingMined'
-  body.params = [filter]
   return request({
     method: 'post',
     headers,
