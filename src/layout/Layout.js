@@ -9,7 +9,7 @@ export default function MainLayout(props){
   const { children } = props
   return (
     <Layout className="layout">
-      <Header className="bg-blue-500">
+      <Header className="bg-blue-700">
         <Navbar />
       </Header>
       <Content className="pl50 pr50 pt30">

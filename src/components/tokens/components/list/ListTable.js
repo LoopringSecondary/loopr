@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import moment from 'moment';
 import { Table,Badge,Button } from 'antd';
 import schema from '../../../../modules/tokens/schema';
 import tokens from './tokens';
@@ -62,7 +61,7 @@ function ListBlock({LIST,actions,modal}) {
     pagination:false,
     loading:loading,
     scroll:{x:1000},
-    size:'small',
+    size:'',
     onChange:tableChange,
 
   }

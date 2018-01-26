@@ -10,6 +10,7 @@ export default class GenerateWallet extends React.Component {
     super(props)
     this.state = {
       visible:false,
+      value:''
     }
   }
   togglePassword(){
@@ -18,6 +19,7 @@ export default class GenerateWallet extends React.Component {
     })
   }
   passwordChange(value){
+    console.log('value',value)
   }
 
   render() {
@@ -27,7 +29,7 @@ export default class GenerateWallet extends React.Component {
       </div>
     )
     const passwordVisible = (
-        <div className="fs14">
+        <div className="fs14 pl5 pr5">
           {
             this.state.visible && <i className="fa fa-eye" onClick={this.togglePassword.bind(this)}></i>
           }
@@ -49,6 +51,7 @@ export default class GenerateWallet extends React.Component {
             <Input 
               type={this.state.visible ? 'text' : 'password'} 
               size="large" 
+              placeholder="Set a strong password"
               addonAfter={passwordVisible}
               onChange={this.passwordChange.bind(this)}
             />
@@ -57,7 +60,7 @@ export default class GenerateWallet extends React.Component {
                 <span className="fs12 color-grey-900">Password Strength</span>
               </div>
               <div className="col-5">
-                <Progress className="d-inline-block" percent={80} strokeWidth={4}  status="success" showInfo={'Strong'}  format={progressFormat}/>
+                <Progress className="d-inline-block" percent={80} strokeWidth={4}  status="success" showInfo={false}  format={progressFormat}/>
               </div>
             </div>
             <Button className="w-100 d-block mt15" type="primary" size="large" >Generate Now</Button>

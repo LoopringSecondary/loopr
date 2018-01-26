@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/containers'
@@ -54,7 +54,7 @@ const MarketHeader = (props)=>{
         <div className="fs18 color-grey-900">LRC/ETH</div>
         <Popover
           title={null}
-          placement="bottomLeft"
+          placement="bottom"
           arrowPointAtCenter={false}
           content={
             <div className="" style={{width:'450px'}}>
@@ -107,6 +107,7 @@ export default function Home(props){
   const { children } = props
   return (
    <div>
+
     <div className="row align-items-center zb-b pt15 pb15 bg-white ml0 mr0">
        <div className="col-sm-6 col-lg-2 zb-b-r">
          <MarketHeader />

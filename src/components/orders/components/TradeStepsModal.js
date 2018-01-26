@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal,Collapse,Button,Input} from 'antd';
+import { Modal,Collapse,Button,Input,Steps,Popover} from 'antd';
 
 const TradeConfirm = ({
   }) => {
@@ -17,13 +17,7 @@ const TradeConfirm = ({
     )
   }
   return (
-      <Modal title="Buy LRC" visible={false} footer={null}>
-        <div className="caption zb-b-b text-center p25 pt0">
-          <div className="fs16 color-grey-500 mb5">You are buying</div>
-          <div className="fs28 color-grey-900">5,260.88 LRC</div>
-          <div className="fs14 color-grey-500 mt5">0.0013108 x 5,260.88 = 10.35 ETH </div>
-        </div>
-
+      <Modal title="Place Order Steps" visible={false} footer={null} width="600px">
         <MetaItem label="LRC Fee" value="2100" />
         <MetaItem label="Margin Split" value="50%" />
         <MetaItem label="Valid Since " value="xx" />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
 import TradeConfirmModal from './TradeConfirmModal'
+import TradeStepsModal from './TradeStepsModal'
 
 let TradeForm = ({
   form,
@@ -19,13 +20,23 @@ let TradeForm = ({
   function handleReset() {
     form.resetFields()
   }
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 6 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 18 },
+    },
+  };
   return (
       <div>
         <Form layout="horizontal">
           <Form.Item >
             <div className="fs18 color-grey-900">{side.toUpperCase()} LRC</div>
           </Form.Item>
-          <Form.Item label="Amount">
+          <Form.Item label="Amount" {...formItemLayout}>
             {form.getFieldDecorator('amount', {
               initialValue:'',
               rules:[]
@@ -33,7 +44,7 @@ let TradeForm = ({
               <Input placeholder="" size="large" />
             )}
           </Form.Item>
-          <Form.Item label="Price">
+          <Form.Item label="Price" {...formItemLayout}>
             {form.getFieldDecorator('price', {
               initialValue:0,
               rules:[]
@@ -41,7 +52,7 @@ let TradeForm = ({
               <Input className="d-block w-100" placeholder="" size="large" />
             )}
           </Form.Item>
-          <Form.Item label="Total">
+          <Form.Item label="Total" {...formItemLayout}>
             {form.getFieldDecorator('total', {
               initialValue:0,
               rules:[]
@@ -88,12 +99,21 @@ let TradeForm = ({
           </Collapse>
 
           <Form.Item >
-            <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Place Order</Button>
+            {
+              side == 'sell' &&
+              <Button onClick={handleSubmit} type="primary" className="d-block w-100 bg-green-600 border-none" size="large">Place Order</Button>
+            }
+            {
+              side == 'buy' &&
+              <Button onClick={handleSubmit} type="primary" className="d-block w-100 bg-red-600 border-none" size="large">Place Order</Button>
+            }
+
           </Form.Item>
 
           
         </Form>
         <TradeConfirmModal/>
+        <TradeStepsModal/>
       </div>
   );
 };

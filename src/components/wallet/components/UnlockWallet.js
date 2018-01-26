@@ -7,7 +7,7 @@ import UnlockByKeystore from './UnlockByKeystore'
 
 function UnlockWallet({form}) {
   const recommended = (
-    <Badge style={{fontSize:'6px'}} className="bg-green-600" size="small" icon="like">
+    <Badge style={{fontSize:'6px'}} className="bg-green-600 ml10" size="small" icon="like">
       <Icon type='like' className="mr5" />
       Recommended
     </Badge>
@@ -48,7 +48,7 @@ function UnlockWallet({form}) {
               })(
                 <Radio.Group className="">
                   <Radio className="d-flex align-items-center mb15 w-100" value={'metamask'}>
-                    MetaMask <Button type="primary" className="bg-green-600 border-none" size="small" icon="like">Recommended</Button>
+                    MetaMask <Button type="primary" className="bg-green-600 border-none ml10" size="small" icon="like">Recommended</Button>
                   </Radio>
                   <Radio className="d-flex align-items-center mb15 w-100" value={'keystore'}>
                      Keystore / JSON File  

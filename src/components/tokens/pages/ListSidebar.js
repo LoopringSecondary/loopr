@@ -20,7 +20,7 @@ function Page(props){
     <div className="">
       <Containers.StandList {...containerProps}>
           <ModalContainer>
-            <Components.ListItem />
+            <Components.ListSidebar />
             <Components.Modals />
           </ModalContainer>
       </Containers.StandList>
