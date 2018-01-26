@@ -16,13 +16,9 @@ const Portfolio = () => {
               <TokensComp.ListCard />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5"><Icon type="bars" /></div>} key="orders" >
-              <div className="bg-white">
-                <Tokens.List />
-              </div>
+              <Tokens.List />
             </Tabs.TabPane>
           </Tabs>
-        
-        
         
       </div>
     </div>

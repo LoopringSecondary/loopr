@@ -48,13 +48,14 @@ function ListBlock({LIST,actions,modal}) {
     columns:columns,
     pagination:false,
     loading:loading,
-    scroll:{x:1000},
+    // scroll:{x:1000},
     size:'',
+    bordered:true,
     onChange:tableChange,
 
   }
   return (
-    <div className="">
+    <div className="bg-white">
       <Table {...tableProps}/>  
     </div>
   )
