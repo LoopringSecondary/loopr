@@ -1,6 +1,7 @@
 import {soliditySHA3,rawEncode,methodID} from 'ethereumjs-abi';
 import validator from '../common/validator';
 import {sha3,ecsign,toBuffer,ecrecover,pubToAddress,bufferToHex,addHexPrefix} from 'ethereumjs-util';
+
 function solSHA3(types, data) {
   return soliditySHA3(types, data);
 }
@@ -102,7 +103,6 @@ function generateAllowanceData(owner, spender) {
   const data = rawEncode(['address', 'address'], [owner, spender]).toString('hex');
   return '0x' + method + data;
 }
-
 
 function sign(message, privateKey){
 
