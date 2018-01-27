@@ -8,7 +8,8 @@ export default (
 	<div>
 		<div>
 			<Switch>
-				<Route path="/" exact component={Pages.Wallet} />
+				<Route path="/" exact component={Pages.Home} />
+				<Route path="/home" exact component={Pages.Home} />
 				<Route path="/wallet"  component={Pages.Wallet} />
 				<Route path="/market" exact component={Pages.Market} />
         <Route path="/setting" exact component={Pages.Settings} />
