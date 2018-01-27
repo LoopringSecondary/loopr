@@ -3,6 +3,7 @@ import { Icon,Popover,Tabs,Card,Steps } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/containers'
+import Layout from '../../layout/Layout'
 
 const MarketList = (props)=>{
   
@@ -106,7 +107,7 @@ const ExchangeItem = (props)=>(
 export default function Home(props){
   const { children } = props
   return (
-   <div>
+   <Layout {...props}>
 
     <div className="row align-items-center zb-b pt15 pb15 bg-white ml0 mr0">
        <div className="col-sm-6 col-lg-2 zb-b-r">
@@ -194,6 +195,6 @@ export default function Home(props){
 
       </Tabs>
     </div>
-   </div>
+   </Layout>
   )
 }
