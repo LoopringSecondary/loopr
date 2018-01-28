@@ -10,16 +10,6 @@ export default class ModalContainer extends React.Component {
   	const {dispatch,modals,id,title} = this.props
   	let thisModal = modals[id] || {}
 
-  	const showModal = (payload)=>{
-  	  dispatch({
-  	  	type:'modals/modalChange',
-  	  	payload:{
-  	  		...payload,
-  	  		id:id,
-  	  		visible:true,
-  	  	}
-  	  })
-  	}
   	const hideModal = (payload)=>{
   	  dispatch({
   	  	type:'modals/modalChange',
@@ -41,11 +31,8 @@ export default class ModalContainer extends React.Component {
   	}
   	let childProps = {
   	  ...this.props,
-  	  modals:{
-  	    showModal:showModal.bind(this), // fix bug for context error
-  	    hideModal:hideModal.bind(this), // fix bug for context error
-  	    ...modals,
-  	  }
+  	  modals,
+  	  dispatch,
   	}
     return (
   		<Modal {...modalProps}>

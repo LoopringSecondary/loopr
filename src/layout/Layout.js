@@ -10,7 +10,7 @@ const HomeLayout = (props)=>{
 	const { children,location } = props
 	return (
 		<Layout className="layout">
-		  <Header className="bg-white position-fixed w-100">
+		  <Header className="bg-white position-fixed w-100" style={{zIndex:'100'}}>
 		    <Navbar />
 		  </Header>
 		  <Content className="">
@@ -31,12 +31,11 @@ const MainLayout = (props)=>{
 		  <Header className="bg-white">
 		    <Navbar />
 		  </Header>
-		  <Content className="">
-		    <div className="container">
+		  <Content className="" style={{background:'#F8F8F8'}}>
+		    <div className="">
 		      {children}
 		    </div>
 		  </Content>
-		  <GlobalFooter />
 		  <SettingModal />
 		</Layout>
 	)

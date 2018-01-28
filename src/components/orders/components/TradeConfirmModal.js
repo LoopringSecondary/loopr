@@ -2,13 +2,39 @@ import React from 'react';
 import { Modal,Collapse,Button,Input} from 'antd';
 
 const TradeConfirm = ({
+  modals,
+  dispatch,
   }) => {
+  const showModal = (payload)=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        ...payload,
+        visible:true
+      }
+    })
+  }
+  const hideModal = (payload)=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        ...payload,
+        visible:false
+      }
+    })
+  }
+  const handelSubmit = ()=>{
+    // TODO
+    hideModal({id:'trade/confirm'})
+    showModal({id:'trade/steps'})
+  }
+
   const MetaItem = (props)=>{
     const {label,value}=props
     return (
       <div className="row zb-b-b pt10 pb10 no-gutters">
         <div className="col">
-          <div className="fs14 color-grey-500">{label}</div>
+          <div className="fs14 color-grey-600">{label}</div>
         </div>
         <div className="col-auto">
           <div className="fs14 color-grey-900">{value}</div>
@@ -17,13 +43,12 @@ const TradeConfirm = ({
     )
   }
   return (
-      <Modal title="Buy LRC" visible={false} footer={null}>
+      <div>
         <div className="caption zb-b-b text-center p25 pt0">
           <div className="fs16 color-grey-500 mb5">You are buying</div>
           <div className="fs28 color-grey-900">5,260.88 LRC</div>
           <div className="fs14 color-grey-500 mt5">0.0013108 x 5,260.88 = 10.35 ETH </div>
         </div>
-
         <MetaItem label="LRC Fee" value="2100" />
         <MetaItem label="Margin Split" value="50%" />
         <MetaItem label="Valid Since " value="xx" />
@@ -48,16 +73,14 @@ const TradeConfirm = ({
         </Collapse>
 
         <div className="pt15 text-center">
-          <Button type="primary" className="d-block w-100" size="large">
-            Submit Order
-          </Button>
-          <div className="fs12 color-grey-500 mt10">
+          <div className="fs12 color-grey-500 mb10">
             Submit order is free and does no consume gas
           </div>
+          <Button onClick={handelSubmit} type="primary" className="d-block w-100" size="large">
+            Submit Order
+          </Button>
         </div>
-        
-
-      </Modal>
+      </div>
   );
 };
 

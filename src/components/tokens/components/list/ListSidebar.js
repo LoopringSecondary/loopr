@@ -66,7 +66,7 @@ function ListBlock({LIST,actions,modal}) {
           {
             item.token != 'ETH' &&
             <Tooltip title="Some Tips To Say">
-              <Switch checkedChildren="on" unCheckedChildren="off" defaultChecked={index<=3} />
+              <Switch checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
             </Tooltip>
           }
         </div>
@@ -97,6 +97,11 @@ function ListBlock({LIST,actions,modal}) {
       <div className="col-auto mr5">
         <Tooltip title="Only Show My Favorites">
           <Button className="color-grey-600" icon="star-o" shape="circle"></Button>
+        </Tooltip>
+      </div>
+      <div className="col-auto mr5">
+        <Tooltip title="Add Custom Token">
+          <Button className="color-grey-600" icon="plus" shape="circle"></Button>
         </Tooltip>
       </div>
       <div className="col-auto mr5">

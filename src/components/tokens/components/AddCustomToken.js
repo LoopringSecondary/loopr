@@ -1,8 +1,7 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
-import {languagesArray, timezoneArray} from '../../../common/config/data'
 
-const AddRelayForm = ({
+const AddCustomToken = ({
     form
   }) => {
   function handleChange(type, value) {
@@ -44,7 +43,7 @@ const AddRelayForm = ({
         <Form.Item className="mt-auto hidden">
           <div className="row">
             <div className="col">
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Add Relay</Button>
+              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Add</Button>
             </div>
           </div>
         </Form.Item>
@@ -54,6 +53,6 @@ const AddRelayForm = ({
 };
 
 
-export default Form.create()(AddRelayForm);
+export default Form.create()(AddCustomToken);
 
 

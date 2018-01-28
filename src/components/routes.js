@@ -10,7 +10,7 @@ export default (
 		<Route path="/" exact component={Pages.Home} />
 		<Route path="/home" exact component={Pages.Home} />
 		<Route path="/wallet"  component={Pages.Wallet} />
-		<Route path="/market" exact component={Pages.Market} />
+		<Route path="/trade" exact component={Pages.Trade} />
     <Route path="/setting" exact component={Pages.Settings} />
     <Route path="/portfolio" exact component={Pages.Portfolio}/>
     <Route path="/unlock" exact component={wallet.UnlockWallet}/>

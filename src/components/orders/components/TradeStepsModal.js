@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal,Collapse,Button,Input,Steps,Popover} from 'antd';
+import { Modal,Collapse,Button,Input,Steps,Popover,Alert} from 'antd';
+import iconSuccess from '../../../assets/images/icon-success.png'
 
 const TradeConfirm = ({
   }) => {
@@ -16,42 +17,33 @@ const TradeConfirm = ({
       </div>
     )
   }
-  return (
-      <Modal title="Place Order Steps" visible={false} footer={null} width="600px">
-        <MetaItem label="LRC Fee" value="2100" />
-        <MetaItem label="Margin Split" value="50%" />
-        <MetaItem label="Valid Since " value="xx" />
-        <MetaItem label="Valid Until " value="xx" />
-        <Collapse bordered={false} defaultActiveKey={[]}>
-          <Collapse.Panel className="" 
-            style={{border:'none',margin:'0px -15px',padding:'0px -15px'}} 
-            header={<div style={{}}>Sign</div>} 
-            key="1"
-          >
-            <div className="row">
-              <div className="col">
-                <div className="fs12 color-grey-500">Raw Order</div>
-                <Input.TextArea disabled rows="4" className="d-block w-100 bg-grey-100 border-0" placeholder="" size="large" />
-              </div>
-              <div className="col">
-                <div className="fs12 color-grey-500">Signed Order</div>
-                <Input.TextArea disabled rows="4" className="d-block w-100 bg-grey-100 border-0" placeholder="" size="large" />
-              </div>
-            </div>
-          </Collapse.Panel>
-        </Collapse>
 
-        <div className="pt15 text-center">
-          <Button type="primary" className="d-block w-100" size="large">
-            Submit Order
-          </Button>
-          <div className="fs12 color-grey-500 mt10">
-            Submit order is free and does no consume gas
+  return (
+      <div>
+        {
+          false &&
+          <Modal title="Place Order Steps" visible={false} footer={null} width="600px">
+          </Modal>
+        }
+        <div className="text-center p15 zb-b-b">
+          <img src={iconSuccess} alt="" style={{width:'60px'}} className="mb15"/>
+          <div className="fs24 color-grey-900 mb10">Success</div>
+          <div className="fs14 color-grey-500">
+            Congratulation! Your order is under trading now!
           </div>
         </div>
-        
+        <div className="pt15 pb15">
+          <div className="fs12 color-grey-500 mb10">
+            Your order has been submitted successfully, but you need to enable the following tokend before your orders can be filled. Why?
+          </div>
 
-      </Modal>
+          <Alert type="error" message="TODO" showIcon>
+
+          </Alert>
+        </div>
+      </div>
+        
+      
   );
 };
 

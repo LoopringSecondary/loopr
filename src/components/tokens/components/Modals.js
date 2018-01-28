@@ -4,7 +4,6 @@ import Transfer from './Transfer'
 import TransferPreview from './TransferPreview'
 import Receive from './Receive'
 import Convert from './Convert'
-import Approve from './Approve'
 
 
 function Modals({ modal={},children}){
@@ -30,9 +29,6 @@ function Modals({ modal={},children}){
       </Modal>
       <Modal {...getModalProps('receive')} title="My Ethereum Address"  >
         <Receive modal={modal} />
-      </Modal>
-      <Modal {...getModalProps('approve')} title="Approve"  >
-        <Approve modal={modal} />
       </Modal>
       <Modal {...getModalProps('convert')} title="Convert"  >
         <Convert modal={modal} />

@@ -40,35 +40,9 @@ export default function Footer(props){
       ]
     },
   ]
-  const MarkItem = (props)=>{
-    return (
-      <div className="p15 text-left" style={{background:'#0077FF'}}>
-        <div className="fs16">
-          <span className="color-white mr5">LRC/ETH</span>
-          <span className="color-green-400">
-            <Icon type="arrow-up" />10.5%
-          </span>
-        </div>
-        <div className="fs20">
-          <span className="color-white mr5">0.003</span>
-          <span className="color-white">ETH</span>
-        </div>
-
-      </div>
-    )
-  }
   return (
 
     <div className="bg-white">
-      <div className="row no-gutters">
-        {
-         Array(6).fill(1).map((item,index)=>
-           <div className="col">
-             <MarkItem key={index} item={item} />
-           </div>
-         )
-        }
-      </div>
       <div className="container mt50">
         <div className="row justify-content-center">
           {
