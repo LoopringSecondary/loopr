@@ -43,8 +43,11 @@ const RelayEditForm = ({
         </Form.Item>
         <Form.Item className="mt-auto hidden">
           <div className="row">
-            <div className="col">
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Add Relay</Button>
+            <div className="col-12">
+              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
+            </div>
+            <div className="col-12 pt10">
+              <Button onClick={handleSubmit} type="danger" className="d-block w-100 bg-red-600 border-0 color-white" size="large">Delete</Button>
             </div>
           </div>
         </Form.Item>

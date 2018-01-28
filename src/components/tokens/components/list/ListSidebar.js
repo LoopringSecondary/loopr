@@ -12,19 +12,68 @@ function ListBlock({LIST,actions,modal}) {
       page={}
   } = LIST
   const items = tokens
-  const TokenItemActionsRender = (token)=>(
+  const TokenListAcionsBar = (
+    <div className="row zb-b-b p15 no-gutters">
+      <div className="col mr5">
+        <Input
+          placeholder=""
+          prefix={<Icon type="search" className="color-grey-600"/>}
+          className="d-block w-100"
+        />
+      </div>
+      <div className="col-auto mr5">
+        <Tooltip title="Only Show My Favorites">
+          <Button className="color-grey-600" icon="star-o" shape="circle"></Button>
+        </Tooltip>
+      </div>
+      <div className="col-auto mr5">
+        <Tooltip title="Add Custom Token">
+          <Button onClick={modal.showModal.bind(this,'token/add')} className="color-grey-600" icon="plus" shape="circle"></Button>
+        </Tooltip>
+      </div>
+      <div className="col-auto">
+        <Tooltip title="Hide 0 Balances">
+          <Button className="color-grey-600" icon="eye-o" shape="circle"></Button>
+        </Tooltip>
+      </div>
+      <div className="col-auto" hidden>
+        <Tooltip title="">
+          <Popover
+            title="Sort"
+            placement="bottom"
+            arrowPointAtCenter
+            content={
+              <div>
+                <div className="fs12 pb10 zb-b-b">Sort By Name</div>
+                <div className="fs12 pt10 pb10 zb-b-b">Sort By Balance</div>
+                <div className="fs12 pt10 ">Sort By Amount</div>
+              </div>
+            }
+          >
+            <Button className="color-grey-600" shape="circle">
+              <i className="fa fa-sort"></i>
+            </Button>
+          </Popover>
+        </Tooltip>
+      </div>
+    </div>
+  )
+  const TokenItemActions = (token)=>(
     <div style={{width:'150px'}}>
       <div className="row no-gutters">
         <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'transfer')} className="w-100 " type="primary" icon="pay-circle-o">Transfer</Button>
+          <Button onClick={modal.showModal.bind(this,'token/transfer')} className="w-100 " type="primary" icon="pay-circle-o">Transfer</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'receive')} className="w-100 " type="primary" icon="qrcode">Receive</Button>
+          <Button onClick={modal.showModal.bind(this,'token/receive')} className="w-100 " type="primary" icon="qrcode">Receive</Button>
+        </div>
+        <div className="col-12 p5">
+          <Button onClick={modal.showModal.bind(this,'token/edit')} className="w-100 " type="primary" icon="edit">Edit</Button>
         </div>
         {
           token.token === 'ETH' &&
           <div className="col-12 p5">
-            <Button className="w-100 " type="primary" icon="retweet">Convert</Button>
+            <Button onClick={modal.showModal.bind(this,'token/wrap')} className="w-100 " type="primary" icon="retweet">Wrap</Button>
           </div>
         }
         <div className="col-12 p5">
@@ -37,7 +86,7 @@ function ListBlock({LIST,actions,modal}) {
   )
   const TokenItem = ({item,index})=>{
     return (
-      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p10">
+      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p10 pl15 pr15">
         <div className="col-auto pr10">
           {
             index <=4 &&
@@ -75,7 +124,7 @@ function ListBlock({LIST,actions,modal}) {
             title="Actions"
             placement="right"
             arrowPointAtCenter
-            content={TokenItemActionsRender(item)}
+            content={TokenItemActions(item)}
           >
             <Button shape="circle">
               <Icon type="ellipsis" />
@@ -85,53 +134,8 @@ function ListBlock({LIST,actions,modal}) {
       </div>
     )
   }
-  const TokenListAcionsBar = (
-    <div className="row zb-b-b p10 no-gutters">
-      <div className="col mr5">
-        <Input
-          placeholder=""
-          prefix={<Icon type="search" className="color-grey-600"/>}
-          className="d-block w-100"
-        />
-      </div>
-      <div className="col-auto mr5">
-        <Tooltip title="Only Show My Favorites">
-          <Button className="color-grey-600" icon="star-o" shape="circle"></Button>
-        </Tooltip>
-      </div>
-      <div className="col-auto mr5">
-        <Tooltip title="Add Custom Token">
-          <Button className="color-grey-600" icon="plus" shape="circle"></Button>
-        </Tooltip>
-      </div>
-      <div className="col-auto mr5">
-        <Tooltip title="Hide 0 Balances">
-          <Button className="color-grey-600" icon="eye-o" shape="circle"></Button>
-        </Tooltip>
-      </div>
-      <div className="col-auto">
-        <Tooltip title="">
-          <Popover
-            title="Sort"
-            placement="bottom"
-            arrowPointAtCenter
-            content={
-              <div>
-                <div className="fs12 pb10 zb-b-b">Sort By Name</div>
-                <div className="fs12 pt10 pb10 zb-b-b">Sort By Balance</div>
-                <div className="fs12 pt10 ">Sort By Amount</div>
-              </div>
-            }
-          >
-            <Button className="color-grey-600" shape="circle">
-              <i className="fa fa-sort"></i>
-            </Button>
-          </Popover>
-        </Tooltip>
 
-      </div>
-    </div>
-  )
+  
   return (
     <div className="">
       {TokenListAcionsBar}

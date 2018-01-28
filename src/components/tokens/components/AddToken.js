@@ -1,8 +1,7 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
-import {languagesArray, timezoneArray} from '../../../common/config/data'
 
-const AddRelayForm = ({
+const AddCustomToken = ({
     form
   }) => {
   function handleChange(type, value) {
@@ -25,7 +24,7 @@ const AddRelayForm = ({
   return (
     <div className="" >
       <Form layout="horizontal" className="">
-        <Form.Item label="Relay Name" colon={false}>
+        <Form.Item label="Token Name" colon={false}>
           {form.getFieldDecorator('name', {
             initialValue:'',
             rules:[]
@@ -33,7 +32,7 @@ const AddRelayForm = ({
             <Input size="large"/>
           )}
         </Form.Item>
-        <Form.Item label="Relay URL" colon={false}>
+        <Form.Item label="Token Contract Address" colon={false}>
           {form.getFieldDecorator('marginSplit', {
             initialValue:'',
             rules:[]
@@ -41,10 +40,35 @@ const AddRelayForm = ({
             <Input size="large" />
           )}
         </Form.Item>
-        <Form.Item className="mt-auto hidden">
+        <div className="row">
+        	<div className="col">
+	        	<Form.Item label="Token Symbol" colon={false}>
+	        	  {form.getFieldDecorator('symbol', {
+	        	    initialValue:'',
+	        	    rules:[]
+	        	  })(
+	        	    <Input size="large"/>
+	        	  )}
+	        	</Form.Item>
+        	</div>
+        	<div className="col">
+	        	<Form.Item label="Decimals" colon={false}>
+	        	  {form.getFieldDecorator('decimals', {
+	        	    initialValue:'',
+	        	    rules:[]
+	        	  })(
+	        	    <Input size="large"/>
+	        	  )}
+	        	</Form.Item>
+        	</div>
+
+        </div>
+        <Form.Item className="">
           <div className="row">
             <div className="col">
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
+              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">
+              	Save
+              </Button>
             </div>
           </div>
         </Form.Item>
@@ -54,6 +78,6 @@ const AddRelayForm = ({
 };
 
 
-export default Form.create()(AddRelayForm);
+export default Form.create()(AddCustomToken);
 
 

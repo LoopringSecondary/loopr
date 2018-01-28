@@ -78,7 +78,7 @@ const RealySettingForm = ({
                           <Input size="large" value="27.0.0.01" />
                         </div>
                         <div className="col-auto">
-                          <a onClick={showEditModal} className="">Edit</a>
+                          <a href="" onClick={showEditModal} className="">Edit</a>
                         </div>
                       </div>
                     </div>
