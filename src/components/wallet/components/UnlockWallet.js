@@ -18,9 +18,8 @@ function UnlockWallet({form}) {
     </div>
   )
   return (
-    <div className="row align-items-center justify-content-center">
-      <div className="col-6">
-        <Card title="Unlock Wallet">
+    <div className="">
+        <div>
           <div className="fs16 pb20 color-grey-700" hidden>How would you like to access your wallet ?</div>
           <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true}>
             <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">MetaMask{false && recommended}</div>} key="metamask">
@@ -37,9 +36,9 @@ function UnlockWallet({form}) {
             </Tabs.TabPane>
           </Tabs>
           {footer}
-        </Card>
+        </div>
         <div className="mb15"></div>
-        <Card title="Unlock Wallet">
+        <div>
           <Form layout="horizontal"className="d-flex flex-column preference-form">
             <Form.Item label="How would you like to access your wallet" colon={false}>
               {form.getFieldDecorator('way', {
@@ -64,8 +63,7 @@ function UnlockWallet({form}) {
             </Form.Item>
             {footer}
           </Form> 
-        </Card>
-      </div>
+        </div>
     </div>
   )
 }

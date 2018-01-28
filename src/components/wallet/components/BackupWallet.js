@@ -13,9 +13,7 @@ function BackupWallet({form}) {
     </div>
   )
   return (
-    <div className="row align-items-center justify-content-center">
-      <div className="col-6">
-        <Modal title="Backup Wallet" visible={true} footer={null}>
+        <div>
           <div className="text-center">
             <img src={icon} className="mt25 mb25" style={{width:'100px'}}/>
             <div className="fs20 color-grey-900 mb5">Dont Lose It!</div>
@@ -26,9 +24,7 @@ function BackupWallet({form}) {
             <div className="fs14 color-grey-600 mb15">Secure it like the millions of dollars it may one day be worth.</div>
           </div>
           <Button className="d-block w-100 mt25" size="large" type="primary">I Understand, Download Wallet File </Button>
-        </Modal>
-      </div>
-    </div>
+        </div>
   )
 }
 

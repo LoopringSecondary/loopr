@@ -23,6 +23,30 @@ export default class GenerateWallet extends React.Component {
   }
 
   render() {
+    const {dispatch} = this.props
+    const showModal = ()=>{
+        dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/backup',
+            visible:true,
+          }
+        })
+    }
+    const hideModal = ()=>{
+        dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/generate',
+            visible:false,
+          }
+        })
+    }
+
+    const handelSubmit = ()=>{
+      hideModal()
+      showModal()
+    }
     const footer = (
       <div className="fs14 color-grey-900 text-center pt10 pb10">
         Already have a wallet ? <a className="color-blue-600 ml5">Click to unlock</a> !
@@ -45,27 +69,23 @@ export default class GenerateWallet extends React.Component {
     }
 
     return (
-      <div className="row align-items-center justify-content-center">
-        <div className="col-6">
-          <Modal title="Generate Wallet" visible={true} footer={footer}>
-            <Input 
-              type={this.state.visible ? 'text' : 'password'} 
-              size="large" 
-              placeholder="Set a strong password"
-              addonAfter={passwordVisible}
-              onChange={this.passwordChange.bind(this)}
-            />
-            <div className="row pt10 pb10">
-              <div className="col-auto pr0">
-                <span className="fs12 color-grey-900">Password Strength</span>
-              </div>
-              <div className="col-5">
-                <Progress className="d-inline-block" percent={80} strokeWidth={4}  status="success" showInfo={false}  format={progressFormat}/>
-              </div>
-            </div>
-            <Button className="w-100 d-block mt15" type="primary" size="large" >Generate Now</Button>
-          </Modal>
+      <div>
+        <Input 
+          type={this.state.visible ? 'text' : 'password'} 
+          size="large" 
+          placeholder="Set a strong password"
+          addonAfter={passwordVisible}
+          onChange={this.passwordChange.bind(this)}
+        />
+        <div className="row pt10 pb10">
+          <div className="col-auto pr0">
+            <span className="fs12 color-grey-900">Password Strength</span>
+          </div>
+          <div className="col-5">
+            <Progress className="d-inline-block" percent={80} strokeWidth={4}  status="success" showInfo={false}  format={progressFormat}/>
+          </div>
         </div>
+        <Button onClick={handelSubmit} className="w-100 d-block mt15" type="primary" size="large" >Generate Now</Button>
       </div>
     );
   }

@@ -1,10 +1,22 @@
 import React from 'react';
 import { Button,Icon } from 'antd'
+import { connect } from 'dva'
 import { Route } from 'dva/router'
 import Layout from '../../layout/Layout'
+import Wallet from '../wallet/components'
+import ModalContainer from '../../modules/modals/container'
 
-export default function Home(props){
-  const { children } = props
+function Home(props){
+  const { children,dispatch } = props
+  const showModal = (id)=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        id:id,
+        visible:true,
+      }
+    })
+  }
   const MarkItem = (props)=>{
     return (
       <div className="p15 text-left" style={{background:'#0077FF'}}>
@@ -30,21 +42,32 @@ export default function Home(props){
          <div className="fs40 color-grey-900 mb10">Welcome To Loopring Wallet</div>
          <div className="fs24 color-grey-500 mb10">Secure token trading right from your own wallet .</div>
          <div className="">
-           <Button className="m15" style={{width:'255px'}} type="primary" size="large">Unlock Wallet</Button>
-           <Button className="m15" style={{width:'255px'}} type="" size="large">Generate Wallet</Button>  
+           <Button onClick={showModal.bind(this,'wallet/unlock')} className="m15" style={{width:'255px'}} type="primary" size="large">Unlock Wallet</Button>
+           <Button onClick={showModal.bind(this,'wallet/generate')} className="m15" style={{width:'255px'}} type="" size="large">Generate Wallet</Button>  
          </div>
        </div>
        <div className="position-absolute row no-gutters mb0 w-100" style={{bottom:'0px'}}>
          {
           Array(6).fill(1).map((item,index)=>
-            <div className="col">
+            <div className="col" key={index}>
               <MarkItem key={index} item={item} />
             </div>
           )
          }
        </div>
       </div>
+      <ModalContainer id="wallet/unlock" title="Unlock Wallet">
+        <Wallet.UnlockWallet />
+      </ModalContainer>
+      <ModalContainer id="wallet/generate" title="Generate Wallet">
+        <Wallet.GenerateWallet />
+      </ModalContainer>
+      <ModalContainer id="wallet/backup" title="Backup Wallet">
+        <Wallet.BackupWallet />
+      </ModalContainer>
     </Layout>
     
   )
 }
+
+export default connect()(Home)
