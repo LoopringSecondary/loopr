@@ -11,7 +11,7 @@ let TradeForm = ({
   pair='LRC/ETH',
   dispatch,
   }) => {
-  
+
   const token = pair.split('/')[0]
 
   const showModal = ()=>{
@@ -70,7 +70,7 @@ let TradeForm = ({
               <Input className="d-block w-100" placeholder="" size="large" />
             )}
           </Form.Item>
-          <Form.Item label="Total" {...formItemLayout}>
+          <Form.Item className="mb5" label="Total" {...formItemLayout}>
             {form.getFieldDecorator('total', {
               initialValue:0,
               rules:[]
@@ -82,7 +82,7 @@ let TradeForm = ({
             <Collapse.Panel className="" style={{border:'none',margin:'0px -15px',padding:'0px -15px'}} header={<div style={{}}>Advanced</div>} key="1">
               <div className="row">
                 <div className="col-12">
-                  <Form.Item label="Time to live">
+                  <Form.Item className="mb5" label="Time to live">
                     {form.getFieldDecorator('time', {
                       initialValue:0,
                       rules:[]
@@ -92,7 +92,7 @@ let TradeForm = ({
                   </Form.Item>
                 </div>
                 <div className="col">
-                  <Form.Item label="Lrc Fee">
+                  <Form.Item className="mb5" label="Lrc Fee">
                     {form.getFieldDecorator('lrcFee', {
                       initialValue:0,
                       rules:[]
@@ -103,7 +103,7 @@ let TradeForm = ({
                 </div>
 
                 <div className="col">
-                  <Form.Item label="MarginSplit">
+                  <Form.Item className="mb5" label="MarginSplit">
                     {form.getFieldDecorator('marginSplit', {
                       initialValue:0,
                       rules:[]
