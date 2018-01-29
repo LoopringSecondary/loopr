@@ -72,7 +72,7 @@ function ListBlock({LIST,actions}) {
     scroll:{x:1000},
     onChange:tableChange,
     bordered:true,
-    size:'small',
+    size:'default',
   }
   return (
     <div className="">

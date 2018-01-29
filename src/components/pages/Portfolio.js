@@ -1,57 +1,34 @@
 import React from 'react';
 import {connect} from 'dva';
-import { Card, Col, Row ,Avatar,Icon} from 'antd'
-const { Meta } = Card;
+import { Card, Col, Row ,Avatar,Icon,Tabs} from 'antd'
+import Tokens from '../tokens/pages'
+import TokensComp from '../tokens/components'
+import Layout from '../../layout/Layout'
+import circleChart from '../../assets/images/portfolio-circle-chart.png'
 
-const Portfolio = () => {
-
-  const TokenItem = (props)=>{
-    const header = (
-      <div className="row justify-content-between align-items-center ml0 mr0">
-        <div className="col">
-          <div>
-            <img />
-            <span className="color-grey-900 fs20">LRC</span>  
-          </div>
-        </div>
-        <div className="col-auto">
-          <div className="color-grey-400">Amount: 15888</div>
-        </div>
-      </div>
-    )
-    return (
-      <Card bordered title={header}>
-        <div className="fs18 color-grey-700 mb5">USD 5343.53</div>
-        <div className="row align-items-center ml0 mr0">
-          <div className="col">
-            <div className="color-green-600 fs14"><Icon type="arrow-up"/> 8.15%</div>
-          </div>
-          <div className="col-auto">
-            <span className="fs10 color-blue-600 mr5">●</span>34.5%
-          </div>
-        </div>
-      </Card>
-    )
-  }
-
+const Portfolio = (props) => {
   return (
-    <div style={{width: "80%",margin:"0 auto"}}>
-      <div style={{textAlign:"center"}}>
-        <h1>TODO</h1>
+    <Layout {...props}>
+      <div className="pt50 container">
+        <div style={{textAlign:"center"}}>
+          <img src={circleChart} alt="" style={{width:'320px'}}/>
+          <div className="fs32 color-grey-900 mt10">
+            USD 39,484,950
+          </div>
+          <div className="fs16 color-grey-500">
+            Total Value
+          </div>
+        </div>
+        <Tabs defaultActiveKey="assets" animated={false} className="rs nobar text-right">
+          <Tabs.TabPane tab={<div className="fs18 pb5 pt5"><Icon type="appstore-o" /></div>} key="assets" >
+            <TokensComp.ListCard />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={<div className="fs18 pb5 pt5"><Icon type="bars" /></div>} key="orders" >
+            <Tokens.List />
+          </Tabs.TabPane>
+        </Tabs>
       </div>
-      <div className="row float-right">  </div>
-      <div>
-        <Row gutter={30}>
-          {
-            Array(6).fill(1).map((item,index)=>
-              <Col span={8} key={index} className="mb15">
-                <TokenItem />
-              </Col>
-            )
-          }
-        </Row>
-      </div>
-    </div>
+    </Layout>
   )
 };
 

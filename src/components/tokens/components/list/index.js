@@ -1,11 +1,13 @@
 import ListTable from './ListTable'
 import ListFiltersForm from './ListFiltersForm'
 import ListActionsBar from './ListActionsBar'
-import ListItem from './ListItem'
+import ListSidebar from './ListSidebar'
+import ListCard from './ListCard'
 
 export default {
   ListTable,
   ListFiltersForm,
   ListActionsBar,
-  ListItem,
+  ListSidebar,
+  ListCard,
 }

@@ -36,7 +36,7 @@ const TradingSettingForm = ({
 
   return (
     <div className="" >
-      <Form layout="horizontal" style={{height:'420px'}} className="d-flex flex-column preference-form">
+      <Form layout="horizontal" className="">
         <Form.Item {...formItemLayout} label="Contract Version" colon={false}>
           {form.getFieldDecorator('contractVersion', {
             initialValue:'v1.0',
@@ -87,28 +87,13 @@ const TradingSettingForm = ({
             />
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Custom Token" colon={false}>
-          {form.getFieldDecorator('customTokens', {
-            initialValue:'',
-            rules:[]
-          })(
-            <Input />
-          )}
-        </Form.Item>
-        {
-          false &&
-          <Form.Item className="mt-auto hidden">
-            <div className="row">
-              <div className="col">
-                <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
-              </div>
-              <div className="col">
-                <Button onClick={handleReset} type="" className="d-block w-100" size="large">Reset</Button>
-              </div>
+        <Form.Item className="">
+          <div className="row">
+            <div className="col">
+              <Button onClick={handleReset} type="" className="">Reset</Button>
             </div>
-          </Form.Item>
-        }
-        
+          </div>
+        </Form.Item>
       </Form>
     </div>
   );

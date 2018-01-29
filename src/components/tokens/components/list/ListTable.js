@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import moment from 'moment';
 import { Table,Badge,Button } from 'antd';
 import schema from '../../../../modules/tokens/schema';
 import tokens from './tokens';
@@ -14,24 +13,12 @@ function ListBlock({LIST,actions,modal}) {
   } = LIST
   const items = tokens
   const renders = {}
-  const showModal = modal.showModal
-  if(typeof showModal != 'function'){throw Error('showModal must be a function')}
+  
 
-  const actionRender = (value,item,index)=>{
-    return (
-      <div>
-        <Button className="mr5" onClick={showModal.bind(this,'transfer')}>Transfer</Button>
-        <Button className="mr5" icon="qrcode" onClick={showModal.bind(this,'receive')}>Receive</Button>
-        <Button className="mr5" hidden onClick={showModal.bind(this,'convert')}>Convert</Button>
-        <Button className="mr5" onClick={showModal.bind(this,'approve')}>Approve</Button>
-        <Button className="mr5" >Trade</Button>
-      </div>
-    )
-    
-  }
+  
   const actionColumn = {
     title:'Options',
-    render:actionRender,
+    // render:actionRender,
     // fixed:'right',
   }
   let columns = schema.map(field=>{
@@ -44,7 +31,7 @@ function ListBlock({LIST,actions,modal}) {
     }
   })
   // columns = [...columns,actionColumn]
-  columns.push(actionColumn)
+  // columns.push(actionColumn)
 
   const tableChange = (pagination, filters, sorter)=>{
     // sorder {field,order}
@@ -61,13 +48,14 @@ function ListBlock({LIST,actions,modal}) {
     columns:columns,
     pagination:false,
     loading:loading,
-    scroll:{x:1000},
-    size:'small',
+    // scroll:{x:1000},
+    size:'',
+    bordered:true,
     onChange:tableChange,
 
   }
   return (
-    <div className="">
+    <div className="bg-white">
       <Table {...tableProps}/>  
     </div>
   )
