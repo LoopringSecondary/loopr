@@ -96,7 +96,6 @@ function formatAddress(mixed) {
 
 
 export default {
-
   toHex,
   toBuffer,
   toNumber,

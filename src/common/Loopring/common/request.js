@@ -18,12 +18,17 @@ let checkHost = () => {
   }
 }
 
+let headers = {
+  'Content-Type': 'application/json'
+}
+
 function request(options) {
   checkHost();
   let url = window.LOOPRING_PROVIDER_HOST;
   let method;
   if (options.body) {
     method = options.body.method;
+    options.headers = options.headers || headers;
     options.body.id = id();
     options.body = JSON.stringify(options.body)
   }
@@ -31,15 +36,12 @@ function request(options) {
     .then(checkStatus)
     .then(parseJSON)
     .then(res => {
-      console.log(`${method} response:`, res)
+      console.log(`${method} response:`, res);
       if (res.error) {
         throw new Error('res error: ' + res.error.message)
       }
       return res
     })
-  // .catch(error=>{
-  //   throw new Error(error)
-  // })
 }
 
 function id() {

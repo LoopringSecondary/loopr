@@ -24,3 +24,17 @@ export async function getBalance(filter) {
     body,
   })
 }
+
+export async function getTransactionCount(add,tag){
+  validator.validate({value:add,type:'ADDRESS'})
+  validator.validate({value:tag,type:'RPC_TAG'})
+
+  let body = {}
+  body.method = 'eth_getTransactionCount'
+  body.params = [add,tag]
+  return request({
+    method:'post',
+    headers,
+    body,
+  })
+}
