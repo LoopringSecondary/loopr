@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination} from 'antd';
 
-function DataTablePagination({actions={},LIST={}}){
+function DataTablePagination({actions={},LIST={},className}){
   let {page={}} = LIST;
   let handlePageChange = (current,size) => {
     // action.payload { page,filters,sort,cloumns }
@@ -17,7 +17,7 @@ function DataTablePagination({actions={},LIST={}}){
   //   return `共 ${total} 条记录，当前第 ${range[0]}-${range[1]} 条`;
   // }
   let paginationProps = {
-     className:'',
+     className:className,
      total:page.total,
      current:page.current,
      onChange:handlePageChange,

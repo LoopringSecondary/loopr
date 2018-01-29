@@ -8,6 +8,7 @@ import ListFiltersFormSimple from './ListFiltersFormSimple'
 import iconTransfer from '../../../assets/images/icon-tx-type-transfer.png'
 import iconReceive from '../../../assets/images/icon-tx-type-receive.png'
 import iconTrade from '../../../assets/images/icon-tx-type-trade.png'
+const uiFormatter = window.uiFormatter
 
 function ListBlock({LIST,actions}) {
   const {
@@ -36,12 +37,21 @@ function ListBlock({LIST,actions}) {
         </div>
         <div className="col pr10">
           <div className="">
-            <div className="fs20 color-grey-900 mb5">Sent LRC</div>
-            <div className="fs14  color-grey-400 text-nowrap text-truncate">
-              From 0xeae8bd296df8e90e63b14021640652045ee84d5b
+            <div className="fs20 color-grey-900 mb5">
+            {index%8 == 0 && 'Send LRC'}  
+            {index%8 == 1 && 'Received LRC'}  
+            {index%8 == 2 && 'Approve LRC'}  
+            {index%8 == 3 && 'Sell LRC'}  
+            {index%8 == 4 && 'Buy LRC'}  
+            {index%8 == 5 && 'Convert ETH To WETH'}  
+            {index%8 == 6 && 'Convert WETH To ETH'} 
+            {index%8 == 7 && 'Cancle Orders'} 
             </div>
-            <div className="fs14  color-grey-400 text-nowrap text-truncate">
-              At 2018-01-20 10:00:00
+            <div className="fs14 color-grey-400 text-nowrap text-truncate">
+              To: {uiFormatter.getShortAddress('0xeae8bd296df8e90e63b14021640652045ee84d5b')}
+            </div>
+            <div className="fs14 color-grey-400 text-nowrap text-truncate">
+              3 mins ago ( 2018-01-20 10:00:00 )
             </div>
           </div>
         </div>

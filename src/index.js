@@ -6,9 +6,11 @@ import 'moment/locale/zh-cn';
 import containers from './common/containers'
 import redux from './common/redux'
 import Loopring from './common/Loopring'
+import uiFormatter from './common/utils/uiFormatter'
 window.CONTAINERS = containers
 window.REDUX = redux
 window.Loopring = Loopring
+window.uiFormatter = uiFormatter
 
 moment.locale('zh-cn');
 

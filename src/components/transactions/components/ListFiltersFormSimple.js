@@ -17,8 +17,11 @@ let FiltersForm = ({
     {label:'Receive',value:'receive'},
     {label:'Sell',value:'sell'},
     {label:'Buy',value:'buy'},
+    {label:'Approve',value:'approve'},
+    {label:'Cancel Orders',value:'cancel'},
     {label:'Wrap',value:'wrap'},
-    {label:'Cancel',value:'cancel'},
+    {label:'Unwrap',value:'unwrap'},
+    {label:'Convert',value:'convert'},
   ]
   return (
       <div>

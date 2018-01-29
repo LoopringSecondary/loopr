@@ -17,11 +17,9 @@ function ListContainer(props){
   return (
     <div className="">
       <Containers.StandList {...containerProps}>
-          <Components.List.ListActionsBar  />
-          <Empty height="15px" />
-          <Components.List.ListTable />
-          <Empty height="25px" />
-          <Common.ListPagination />
+          <Components.List.ListActionsBar className="mb15" />
+          <Components.List.ListTable className="" style={{borderTop:'1px solid #e8e8e8'}} />
+          <Common.ListPagination className="mt25 ml15" />
       </Containers.StandList>
     </div>
   )

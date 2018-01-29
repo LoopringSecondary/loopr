@@ -38,7 +38,7 @@ function UnlockWallet({form}) {
           {footer}
         </div>
         <div className="mb15"></div>
-        <div>
+        <div hidden>
           <Form layout="horizontal"className="d-flex flex-column preference-form">
             <Form.Item label="How would you like to access your wallet" colon={false}>
               {form.getFieldDecorator('way', {

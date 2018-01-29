@@ -3,7 +3,9 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Table,Badge,Button,Modal } from 'antd';
 import schema from '../../../../modules/orders/schema';
-function ListBlock({LIST,actions}) {
+const uiFormatter = window.uiFormatter
+
+function ListBlock({LIST,actions,className,style}) {
   const {
       items=[],
       loading,
@@ -23,8 +25,20 @@ function ListBlock({LIST,actions}) {
     })
   }
   const renders = {
-      orderHash:(value,item,index)=><Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>{value}</Link>,
+      orderHash:(value,item,index)=>(
+          <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>
+          {uiFormatter.getShortAddress(value)}
+          </Link>
+      ),
       status:(value,item,index)=>value,
+      side:(value,item,index)=>{
+        if(index < 3){
+          return <div className="color-green-500">Sell</div>
+        }
+        if(index >= 3){
+          return <div className="color-red-500">Buy</div>
+        }
+      },
       action:(value,item,index)=><Button onClick={cancelOrder.bind(this,value,item)}>Cancel</Button>,
   }
   let columns = schema.map(field=>{
@@ -65,19 +79,21 @@ function ListBlock({LIST,actions}) {
     }) 
   }
   const tableProps={
+    // className:className,
     dataSource:items,
     columns:columns,
     pagination:false,
     loading:loading,
     scroll:{x:1000},
     onChange:tableChange,
-    bordered:true,
+    bordered:false,
     size:'default',
   }
   return (
-    <div className="">
-      <Table {...tableProps}/>  
+    <div className={className} style={style}>
+      <Table {...tableProps}/>
     </div>
+      
   )
 }
 

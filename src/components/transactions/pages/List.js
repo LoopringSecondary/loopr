@@ -21,8 +21,7 @@ function Page(props){
           <Components.ListActionsBar  />
           <Empty height="15px" />
           <Components.ListTable />
-          <Empty height="25px" />
-          <Common.ListPagination />
+          <Common.ListPagination className="" />
       </Containers.StandList>
     </div>
   )

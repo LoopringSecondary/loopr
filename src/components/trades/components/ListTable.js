@@ -3,15 +3,20 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Table,Badge,Button } from 'antd';
 import schema from '../../../modules/trades/schema';
+const uiFormatter = window.uiFormatter
 
-function ListBlock({LIST,actions}) {
+function ListBlock({LIST,actions,className,style}) {
   const {
       items=[],
       loading,
       page={}
   } = LIST
   const renders = {
-      ringHash:(value,item,index)=><Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/rings/detail/${value}`}>{value}</Link>,
+      ringHash:(value,item,index)=>(
+        <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/rings/detail/${value}`}>
+          {uiFormatter.getShortAddress(value)}
+        </Link>
+      ),
       miner:(value,item,index)=> <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/miner/detail/${value}`}>{value}</Link>,
       feeRecipient:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
       txHash:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/tx/${value}`}>{value}</a>,
@@ -47,10 +52,10 @@ function ListBlock({LIST,actions}) {
     loading:loading,
     scroll:{x:1000},
     onChange:tableChange,
-    bordered:true,
+    bordered:false,
   }
   return (
-    <div className="">
+    <div className={className} style={style}>
       <Table {...tableProps}/>  
     </div>
   )
