@@ -1,10 +1,33 @@
 import React from 'react';
+import {connect} from 'dva';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
-import {languagesArray, timezoneArray} from '../../../common/config/data'
+import ModalContainer from '../../../modules/modals/container'
+import RelayAdd from './RelayAdd'
+import RelayEdit from './RelayEdit'
 
-const TradingSettingForm = ({
-    settings,form
+const RealySettingForm = ({
+    settings,form,modals,dispatch
   }) => {
+  const showEditModal = (e)=>{
+    e.preventDefault();
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        id:'setting/relay/edit',
+        visible:true,
+      }
+    })
+  }
+  const showAddModal = ()=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        id:'setting/relay/add',
+        visible:true,
+      }
+    })
+  }
+
   function handleChange(type, value) {
     console.log(type+":"+value);
   }
@@ -36,10 +59,10 @@ const TradingSettingForm = ({
 
   return (
     <div className="" >
-      <Form layout="horizontal" style={{height:'420px'}} className="d-flex flex-column preference-form">
+      <Form layout="horizontal" className="">
         <Form.Item label="Choose Relay" colon={false}>
           {form.getFieldDecorator('relay', {
-            initialValue:{},
+            initialValue:2,
             rules:[]
           })(
             <Radio.Group className="">
@@ -47,15 +70,15 @@ const TradingSettingForm = ({
                 [1,2,3].map((item,index)=>
                   <Radio className="d-flex align-items-center mb15 w-100" value={item} key={index}>
                     <div className="ml10">
-                      <div className="row align-items-center">
-                        <div className="col">
-                          <Input size="large" />
+                      <div className="row align-items-center no-gutters">
+                        <div className="col-7 mr10">
+                          <Input size="large" value="Default Loopring Relay"  />
                         </div>
-                        <div className="col">
-                          <Input size="large" />
+                        <div className="col mr10">
+                          <Input size="large" value="27.0.0.01" />
                         </div>
                         <div className="col-auto">
-                          <Button type="" icon="edit" shape="circle" size=""></Button>
+                          <a href="" onClick={showEditModal} className="">Edit</a>
                         </div>
                       </div>
                     </div>
@@ -68,16 +91,22 @@ const TradingSettingForm = ({
         <Form.Item className="">
           <div className="row">
             <div className="col">
-              <Button type="primary" className="d-block w-100" size="large">Add Cutom Relay</Button>
+              <Button type="primary" onClick={showAddModal} className="">Add Cutom Relay</Button>
             </div>
           </div>
         </Form.Item>
       </Form>
+      <ModalContainer id='setting/relay/add' title="Add Relay">
+        <RelayAdd />
+      </ModalContainer>
+      <ModalContainer id='setting/relay/edit' title="Edit Relay">
+        <RelayEdit />
+      </ModalContainer>
     </div>
   );
 };
 
 
-export default Form.create()(TradingSettingForm);
+export default Form.create()(connect(({modals})=>(modals))(RealySettingForm));
 
 

@@ -40,7 +40,7 @@ const Perference = ({
 
   return (
     <div className="" >
-      <Form layout="horizontal" style={{height:'420px'}} className="d-flex flex-column preference-form">
+      <Form layout="horizontal" className="d-flex flex-column preference-form">
         <Form.Item {...formItemLayout} label="Language" colon={false}>
           {form.getFieldDecorator('language', {
             initialValue:'en',
@@ -55,7 +55,7 @@ const Perference = ({
               onChange={handleChange.bind(this, "language")}
             >
               {languagesArray && languagesArray.map((item,index)=>
-                <Select.Option value={item.language}>
+                <Select.Option value={item.language} key={index}>
                   <div className="d-flex justify-content-between">
                     <div>{item.value.display}</div>
                     <div>{item.value.logo}</div>
@@ -100,19 +100,13 @@ const Perference = ({
             </Select>
           )}
         </Form.Item>
-        {
-          false &&
-          <Form.Item className="mt-auto">
-            <div className="row">
-              <div className="col">
-                <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
-              </div>
-              <div className="col">
-                <Button onClick={handleReset} type="" className="d-block w-100" size="large">Reset</Button>
-              </div>
+        <Form.Item className="">
+          <div className="row">
+            <div className="col">
+              <Button onClick={handleReset} type="" className="">Reset</Button>
             </div>
-          </Form.Item>
-        }
+          </div>
+        </Form.Item>
         
       </Form>
     </div>

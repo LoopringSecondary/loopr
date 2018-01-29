@@ -1,12 +1,14 @@
 
+import Home from './Home'
 import Wallet from './Wallet'
-import Market from './Market'
+import Trade from './Trade'
 import Settings from "./Settings"
 import Portfolio from './Portfolio'
 
 export default {
+  Home,
   Wallet,
-  Market,
+  Trade,
   Settings,
   Portfolio,
 }
