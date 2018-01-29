@@ -27,15 +27,16 @@ function ListBlock({LIST,actions,modal}) {
         </Tooltip>
       </div>
       <div className="col-auto mr5">
-        <Tooltip title="Add Custom Token">
-          <Button onClick={modal.showModal.bind(this,'token/add')} className="color-grey-600" icon="plus" shape="circle"></Button>
-        </Tooltip>
-      </div>
-      <div className="col-auto">
         <Tooltip title="Hide 0 Balances">
           <Button className="color-grey-600" icon="eye-o" shape="circle"></Button>
         </Tooltip>
       </div>
+      <div className="col-auto">
+        <Tooltip title="Add Custom Token">
+          <Button onClick={modal.showModal.bind(this,'token/add')} className="color-grey-600" icon="plus" shape="circle"></Button>
+        </Tooltip>
+      </div>
+      
       <div className="col-auto" hidden>
         <Tooltip title="">
           <Popover

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Table,Badge,Button,Modal } from 'antd';
+import { Table,Badge,Button,Modal,Icon,Popover,Steps } from 'antd';
 import schema from '../../../../modules/orders/schema';
 const uiFormatter = window.uiFormatter
 
@@ -30,7 +30,29 @@ function ListBlock({LIST,actions,className,style}) {
           {uiFormatter.getShortAddress(value)}
           </Link>
       ),
-      status:(value,item,index)=>value,
+      status:(value,item,index)=>{
+        const content = <div className="p25">
+          <Steps current={1} progressDot>
+            <Steps.Step title="Allowance" />
+            <Steps.Step title="Balance" />
+            <Steps.Step title="Wrap" />
+          </Steps>
+          <div className="p15">
+            TODODO
+          </div>
+        </div>
+        if( index%4 == 0 ) return (
+          <Popover content={content} title="You Need To Do">
+            <div className="color-red-500">
+              <Icon className="mr5" type="exclamation-circle" /> 
+              <span className="fs12">UnEnough</span>
+            </div>
+          </Popover>
+        )
+        if( index%4 == 1 ) return <Badge status="processing" text="open" /> 
+        if( index%4 == 2 ) return <Badge status="success" text="completed" /> 
+        if( index%4 == 3 ) return <Badge status="default" text="cancelled" /> 
+      },
       side:(value,item,index)=>{
         if(index < 3){
           return <div className="color-green-500">Sell</div>
