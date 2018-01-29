@@ -47,7 +47,7 @@ const schema = [
     {
       title:'Maket',
       name:'market',
-      formatter:(item)=>`${item.originalOrder.tokenB}-${item.originalOrder.tokenS}`,
+      formatter:(item)=>`${item.originalOrder.tokenB}/${item.originalOrder.tokenS}`,
     },
     {
       title:'Side',

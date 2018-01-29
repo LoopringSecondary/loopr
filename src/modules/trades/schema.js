@@ -9,6 +9,15 @@ const schema = [
       name:'ringHash',
     },
     {
+      title:'Side',
+      name:'side',
+    },
+    {
+      title:'Maket',
+      name:'market',
+    },
+
+    {
       title:'Size',
       description:'The fills number int the ring.',
       name:'tradeAmount',

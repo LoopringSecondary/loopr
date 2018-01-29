@@ -17,6 +17,14 @@ function ListBlock({LIST,actions,className,style}) {
           {uiFormatter.getShortAddress(value)}
         </Link>
       ),
+      side:(value,item,index)=>{
+        if(index < 3){
+          return <div className="color-green-500">Sell</div>
+        }
+        if(index >= 3){
+          return <div className="color-red-500">Buy</div>
+        }
+      },
       miner:(value,item,index)=> <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/miner/detail/${value}`}>{value}</Link>,
       feeRecipient:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
       txHash:(value,item,index)=> 
@@ -27,6 +35,7 @@ function ListBlock({LIST,actions,className,style}) {
       protocol:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>
       {uiFormatter.getShortAddress(value)}
       </a>,
+
   }
   const actionRender = (value,item,index)=>{
     return <Button>Cancel</Button>
