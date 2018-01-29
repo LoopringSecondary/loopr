@@ -13,7 +13,7 @@ export async function getBalance(filter) {
     await validator.validate({value: filter.owner, type: 'STRING'})
   } catch (e) {
     console.error(e)
-    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
+    return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
   let body = {}
   body.method = 'loopring_getBalance'
