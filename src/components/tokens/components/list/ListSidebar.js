@@ -115,7 +115,7 @@ function ListBlock({LIST,actions,modal}) {
           {
             item.token != 'ETH' &&
             <Tooltip title="Some Tips To Say">
-              <Switch checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
+              <Switch size="" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
             </Tooltip>
           }
         </div>

@@ -11,17 +11,47 @@ let FiltersForm = ({
   }
   function handleReset() {
   }
+  const types = [
+    {label:'All',value:'all'},
+    {label:'Transfer',value:'transfer'},
+    {label:'Receive',value:'receive'},
+    {label:'Sell',value:'sell'},
+    {label:'Buy',value:'buy'},
+    {label:'Wrap',value:'wrap'},
+    {label:'Cancel',value:'cancel'},
+  ]
   return (
       <div>
         <Form layout="inline">
-          <Form.Item>
-            <Radio.Group defaultValue="all" >
-              <Radio.Button value="all">All</Radio.Button>
-              <Radio.Button value="Transfer">Transfer</Radio.Button>
-              <Radio.Button value="Receive">Receive</Radio.Button>
-              <Radio.Button value="Approve">Approve</Radio.Button>
-            </Radio.Group>
+          <Form.Item label="Status" >
+            <Select
+                style={{ width: 120 }}
+                placeholder="All"
+                optionFilterProp="children"
+                onChange={()=>{}}
+                onFocus={()=>{}}
+                onBlur={()=>{}}
+                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+                <Select.Option value="all">All</Select.Option>
+                <Select.Option value="pending">Pending</Select.Option>
+                <Select.Option value="success">Success</Select.Option>
+                <Select.Option value="failed">Failed</Select.Option>
+              </Select>
           </Form.Item>
+          <Form.Item label="Type" className="mr0">
+            <Select
+              style={{ width: 120 }}
+              placeholder="All"
+            >
+              { 
+                types.map((item,index)=>
+                  <Select.Option value={item.value} key={index}>{item.label}</Select.Option>
+                )
+              }
+            </Select>
+          </Form.Item>
+          
         </Form>
       </div>
   );
