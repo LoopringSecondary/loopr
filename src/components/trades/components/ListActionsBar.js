@@ -5,7 +5,7 @@ import {Button} from 'antd'
 function ListActionsBar({actions={},LIST={}}){
   return (
     <div>
-    	<div className="row">
+    	<div className="row ml0 mr0">
     		<div className="col-auto">
     				<ListFiltersForm actions={actions} LIST={LIST} />
     		</div>
