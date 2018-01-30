@@ -1,9 +1,7 @@
-import {generateAbiData} from './abi'
-import validator from './validator'
-import Transaction from './transaction'
-import request from '../common/request'
-import {privateToAddress} from 'ethereumjs-util';
-import {toBuffer, toHex} from '../common/formatter';
+import {generateAbiData} from './abi';
+import validator from './validator';
+import Transaction from './transaction';
+import request from '../common/request';
 
 export default class Token {
 
@@ -23,12 +21,8 @@ export default class Token {
   }
 
   async transfer(privateKey, to, amount, gasPrice, gasLimit, nonce, chainId) {
-
-    validator.validate({value:privateKey,type:"PRIVATE_KEY"});
-
     const tx = {};
     tx.to = this.address;
-    tx.from = toHex(privateToAddress(toBuffer(privateKey)));
     tx.value = "0x0";
     tx.data = generateAbiData({method: "transfer", address:to, amount});
 
@@ -49,11 +43,8 @@ export default class Token {
   }
 
   async approve(spender, amount,privateKey, gasPrice, gasLimit, nonce, chainId) {
-    validator.validate({value:privateKey,type:"PRIVATE_KEY"});
-
     const tx = {};
     tx.to = this.address;
-    tx.from = toHex(privateToAddress(toBuffer(privateKey)));
     tx.value = "0x0";
     tx.data = generateAbiData({method: "approve", spender, amount});
     if (gasPrice) {
