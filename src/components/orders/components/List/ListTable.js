@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Table,Badge,Button,Modal } from 'antd';
+import { Table,Badge,Button,Modal,Icon,Popover,Steps } from 'antd';
 import schema from '../../../../modules/orders/schema';
-function ListBlock({LIST,actions}) {
+const uiFormatter = window.uiFormatter
+
+function ListBlock({LIST,actions,className,style}) {
   const {
       items=[],
       loading,
@@ -23,8 +25,42 @@ function ListBlock({LIST,actions}) {
     })
   }
   const renders = {
-      orderHash:(value,item,index)=><Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>{value}</Link>,
-      status:(value,item,index)=>value,
+      orderHash:(value,item,index)=>(
+          <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>
+          {uiFormatter.getShortAddress(value)}
+          </Link>
+      ),
+      status:(value,item,index)=>{
+        const content = <div className="p25">
+          <Steps current={1} progressDot>
+            <Steps.Step title="Allowance" />
+            <Steps.Step title="Balance" />
+            <Steps.Step title="Wrap" />
+          </Steps>
+          <div className="p15">
+            TODODO
+          </div>
+        </div>
+        if( index%4 == 0 ) return (
+          <Popover content={content} title="You Need To Do">
+            <div className="color-red-500">
+              <Icon className="mr5" type="exclamation-circle" /> 
+              <span className="fs12">UnEnough</span>
+            </div>
+          </Popover>
+        )
+        if( index%4 == 1 ) return <Badge status="processing" text="open" /> 
+        if( index%4 == 2 ) return <Badge status="success" text="completed" /> 
+        if( index%4 == 3 ) return <Badge status="default" text="cancelled" /> 
+      },
+      side:(value,item,index)=>{
+        if(index < 3){
+          return <div className="color-green-500">Sell</div>
+        }
+        if(index >= 3){
+          return <div className="color-red-500">Buy</div>
+        }
+      },
       action:(value,item,index)=><Button onClick={cancelOrder.bind(this,value,item)}>Cancel</Button>,
   }
   let columns = schema.map(field=>{
@@ -65,19 +101,21 @@ function ListBlock({LIST,actions}) {
     }) 
   }
   const tableProps={
+    // className:className,
     dataSource:items,
     columns:columns,
     pagination:false,
     loading:loading,
     scroll:{x:1000},
     onChange:tableChange,
-    bordered:true,
+    bordered:false,
     size:'default',
   }
   return (
-    <div className="">
-      <Table {...tableProps}/>  
+    <div className={className} style={style}>
+      <Table {...tableProps}/>
     </div>
+      
   )
 }
 

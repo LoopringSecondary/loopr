@@ -17,11 +17,10 @@ function Page(props){
     filters
   }
   return (
-    <div className="">
+    <div className="bg-white" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
       <Containers.StandList {...containerProps}>
           <ModalContainer>
             <Components.ListActionsBar  />
-            <Empty height="15px" />
             <Components.ListTable />
             <Components.Modals />
           </ModalContainer>

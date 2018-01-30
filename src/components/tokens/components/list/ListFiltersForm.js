@@ -18,8 +18,8 @@ let FiltersForm = ({
           <Form.Item label="Token">
             <Select
                 showSearch
-                style={{ width: 200 }}
-                placeholder="Search/Select"
+                style={{ width: 150 }}
+                placeholder=""
                 optionFilterProp="children"
                 onChange={()=>{}}
                 onFocus={()=>{}}

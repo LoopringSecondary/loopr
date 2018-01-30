@@ -19,10 +19,8 @@ function Page(props){
     <div className="">
       <Containers.StandList {...containerProps}>
           <Components.ListActionsBar  />
-          <Empty height="15px" />
-          <Components.ListTable />
-          <Empty height="25px" />
-          <Common.ListPagination />
+          <Components.ListTable className="mt15" style={{borderTop:'1px solid #e8e8e8'}}/>
+          <Common.ListPagination className="m15 mt25" />
       </Containers.StandList>
     </div>
   )

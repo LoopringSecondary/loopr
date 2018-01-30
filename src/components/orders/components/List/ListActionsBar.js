@@ -2,7 +2,7 @@ import React from 'react';
 import ListFiltersForm from './ListFiltersForm'
 import {Button,Modal} from 'antd'
 
-export default function ListActionsBar({actions={},LIST={}}){
+export default function ListActionsBar({actions={},LIST={},className}){
   const cancelAllOrders = ()=>{
     Modal.confirm({
         title: 'Do you Want to cancel all orders?',
@@ -17,8 +17,8 @@ export default function ListActionsBar({actions={},LIST={}}){
     })
   }
   return (
-    <div>
-        <div className="row ml0 mr0">
+    <div className={className}>
+        <div className="row ml0 mr0 align-items-center">
             <div className="col-auto">
                 <ListFiltersForm actions={actions} LIST={LIST} />
             </div>

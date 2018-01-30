@@ -32,8 +32,8 @@ let FiltersForm = ({
       <div className="">
         <Form layout="inline">
           <Form.Item label="Market" >
-            {form.getFieldDecorator('token', {
-              initialValue:'',
+            {form.getFieldDecorator('pair', {
+              initialValue:'all',
               rules:[]
             })(
               <Select
@@ -45,6 +45,7 @@ let FiltersForm = ({
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
+                  <Select.Option value="all">All</Select.Option>
                   <Select.Option value="LRC/ETH">LRC/ETH</Select.Option>
                   <Select.Option value="USDT/ETH">USDT/ETH</Select.Option>
                   <Select.Option value="BNB/ETH">BNB/ETH</Select.Option>

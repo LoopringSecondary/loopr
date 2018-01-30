@@ -17,7 +17,7 @@ let FiltersForm = ({
           <Form.Item label="Market">
             <Select
                 showSearch
-                style={{ width: 200 }}
+                style={{ width: 120 }}
                 placeholder="Search"
                 optionFilterProp="children"
                 onChange={()=>{}}
@@ -25,6 +25,7 @@ let FiltersForm = ({
                 onBlur={()=>{}}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               >
+                <Select.Option value="all">All</Select.Option>
                 <Select.Option value="jack">LRC/ETH</Select.Option>
                 <Select.Option value="lucy">USDT/ETH</Select.Option>
                 <Select.Option value="tom">BNB/ETH</Select.Option>
