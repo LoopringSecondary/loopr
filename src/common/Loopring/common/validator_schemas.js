@@ -1,18 +1,17 @@
-
 // Schema Help： https://github.com/yiminghe/async-validator
 // required: value should be not empty eg: null, undefined, ''
 
-let basicSchemas ={
-  STRING:{
-    type:'string',
-    required:true,
+let basicSchemas = {
+  STRING: {
+    type: 'string',
+    required: true,
   },
-  OPTION_NUMBER:{
-    validator:(rule,value,cb)=>{
+  OPTION_NUMBER: {
+    validator: (rule, value, cb) => {
       if (value) {
-        if (value instanceof Number){
+        if (value instanceof Number) {
           cb()
-        }else{
+        } else {
           cb('page number valid')
         }
       } else {
@@ -20,60 +19,65 @@ let basicSchemas ={
       }
     }
   },
-  URL:{
-    type:'url',
-    required:true,
+  URL: {
+    type: 'url',
+    required: true,
   },
-  ADDRESS:{
-    type:'string',
-    required:true,
-    pattern:/^0x[0-9a-fA-F]{40}$/g,
+  ADDRESS: {
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{40}$/g,
   },
-  HEX:{
-    type:'string',
-    required:true,
-    pattern:/^0x[0-9a-fA-F]+$/g,
+  HEX: {
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]+$/g,
   },
-  QUANTITY:{
-    type:'string',
-    required:true,
+  ETH_DATA: {
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{1，64}$/g,
   },
-  PRIVATE_KEY:{
-    type:'string',
-    required:true,
-    length:64,
+  QUANTITY: {
+    type: 'string',
+    required: true,
   },
-  ABI_METHOD:{
-    type:'enum',
-    required:true,
-    enum:['cancelOrder','setCutoff','approve','withdraw','transfer','balanceOf','allowance'],
+  PRIVATE_KEY: {
+    type: 'string',
+    required: true,
+    length: 64,
   },
-  RPC_TAG:{
-    type:'enum',
-    required:true,
-    enum:['latest','earliest','pending'],
+  ABI_METHOD: {
+    type: 'enum',
+    required: true,
+    enum: ['cancelOrder', 'setCutoff', 'approve', 'withdraw', 'transfer', 'balanceOf', 'allowance'],
   },
-  TIMESTAMP:{
-    type:'string',
+  RPC_TAG: {
+    type: 'enum',
+    required: true,
+    enum: ['latest', 'earliest', 'pending'],
   },
-  PRIVATE_KEY_BUFFER:{
-    validator:(rule,value,cb)=>{
-      if (value instanceof Buffer && value.length === 32){
-          cb()
-      }else{
-          cb('private_key must be buffer')
+  TIMESTAMP: {
+    type: 'string',
+  },
+  PRIVATE_KEY_BUFFER: {
+    validator: (rule, value, cb) => {
+      if (value instanceof Buffer && value.length === 32) {
+        cb()
+      } else {
+        cb('private_key must be buffer')
       }
     }
   },
-  CURRENCY:{
-    type:'string',
-    required:true,
-    enum:['USD','CNY'],
+  CURRENCY: {
+    type: 'string',
+    required: true,
+    enum: ['USD', 'CNY'],
   },
-  DEFAULT_BLOCK:{
-    type:'string',
-    required:true,
-    enum:['earliest','latest', 'pending'],
+  DEFAULT_BLOCK: {
+    type: 'string',
+    required: true,
+    enum: ['earliest', 'latest', 'pending'],
   }
 }
 

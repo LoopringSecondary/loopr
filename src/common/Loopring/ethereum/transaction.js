@@ -1,111 +1,64 @@
 import EthTransaction from 'ethereumjs-tx'
-import validator from '../common/validator'
+import validator from './ethereum_validator'
 import {toHex, toBuffer} from '../common/formatter'
+import {estimateGas, getGasPrice, getTransactionCount} from './utils';
+import {generateAbiData} from './abi';
 import request from '../common/request'
+
 
 export default class Transaction {
   constructor(rawTx) {
-    // TODO validator.validate({value:tx,type:'TX'})
-    this.raw = rawTx
-    this.setGasLimit()
-    this.setGasPrice()
-    this.setTo()
-    this.setValue()
-    this.setChainId()
-    this.setData()
+    validator.validate({value: rawTx, type: 'BASIC_TX'});
+    this.raw = rawTx;
   }
 
-  setGasLimit(){
-    const gasLimit = this.input.gasLimit
-    this.raw.gasLimit = utils.getGasLimit(gasLimit)
-  }
-  setGasPrice(){
-    this.raw.gasPrice = utils.getGasPrice()
-  }
-  setTo(){
-    const token = this.token
-    const address = this.input.address
-    if(this.type === ('approve' || 'convert' || 'approveCancel')){
-      this.raw.to = token.address	 // token address
-    }
-    if(this.type === 'transfer'){
-      if(token.name ===' ETH'){
-        this.raw.to = address  // user address
-      }else{
-        this.raw.to = token.address
+  async setGasLimit() {
+    if (!this.raw.gasLimit) {
+      const tx = {to: this.raw.to};
+      if (this.raw.data) {
+        tx.data = this.raw.data
       }
+      this.raw.gasLimit = await estimateGas(tx).result
     }
-    if(this.type ==== ('cancelOrder' || 'cancelAllOrders') ){
-      this.raw.to = utils.getContractAddress() // TO CONFIRM: loopring contract address
-    }
-  }
-  setValue(){
-    if(this.type === ('approve' || 'approveCancel' || 'cancelOrder' || 'cancelAllOrders')){
-      this.raw.value = utils.getAmount(0)
-    }
-    if(this.type === ('transfer' || 'convert')){
-      if(token.name==='ETH'){
-        this.raw.value = utils.getAmount(amount)
-      }else{
-        this.raw.value = utils.getAmount(0)
-      }
-    }
-  }
-  setData(){
-    const digits = this.token.digits
-    const amount = this.amount && utils.getAmount(this.amount,digits)
-    if(this.type === 'approve'){
-      const spender = utils.getDelegateAddress()
-      this.raw.data = abis.generateTransferData(spender, amount)
-      if(token.allowance > 0){
-        this.cancelTx = {...this.raw}
-        this.cancelTx.data = abis.generateTransferData(spender, '0x0')
-      }
-    }
-    if(this.type === 'transfer'){
-      const address = this.address // user address ,not token address
-      const token = this.token // TODO
-      if(token.name==='ETH'){
-        this.raw.data = data || '0x'
-      }else{
-        this.raw.data = abis.generateTransferData(address, amount)
-      }
-    }
-    if(this.type === 'convert'){
-      const fromToken = this.input.fromToken // TODO
-      const token = this.token // TODO
-      if(fromToken === 'ETH'){
-        this.raw.data = '0xd0e30db0'
-      }else{
-        this.raw.data = abis.generateWithdrawData(amount)
-      }
-    }
-    if(this.type === 'cancelOrder'){
-      const signedOrder = this.input.signedOrder
-      this.raw.data = abis.generateCancelOrderData(signedOrder)
-    }
-    if(this.type === 'cancelAllOrders'){
-      const timestamp = utils.toHex(Date.parse(new Date()) / 1000)
-      this.raw.data = abis.generateCutOffData(timestamp)
-    }
-  }
-  setChainId(){
-    this.raw.chainId = this.input.chainId || 1
-  }
-  async setNonce(address,tag){
-    const tag = tag ? tag || 'latest'
-    const nonce = await apis.getTransactionCount(address,tag)
-    this.raw.nonce = utils.toHex(nonce+1)
   }
 
+  async setGasPrice() {
+    if (!this.raw.gasPrice) {
+      this.raw.gasPrice = await getGasPrice().result
+    }
+  }
 
-  hash() {
+  setChainId() {
+    this.raw.chainId = this.raw.chainId || 1
+  }
+
+  async setNonce(address, tag) {
+    tag = tag || 'pending';
+    this.raw.nonce = await getTransactionCount(address, tag).result;
+  }
+
+  async hash() {
+    try {
+      validator.validate({value: this.raw, type: "TX"});
+    } catch (e) {
+      await this.complete();
+    }
     return new EthTransaction(this.raw).hash()
   }
 
-  sign(privateKey) {
-    validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+  async sign(privateKey) {
+
+    try {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+    } catch (e) {
+
+    }
     privateKey = toBuffer(privateKey);
+    try {
+      validator.validate({value: this.raw, type: "TX"});
+    } catch (e) {
+      await this.complete();
+    }
     const ethTx = new EthTransaction(this.raw);
     const signed = ethTx.sign(privateKey).serialize();
     this.signed = signed;
@@ -113,17 +66,23 @@ export default class Transaction {
   }
 
   async send(privateKey) {
-    if(!this.signed){
-      this.sign(privateKey)
+    if (!this.signed) {
+     await this.sign(privateKey)
     }
-    validator.validate({value:this.signed,type:'HEX',});
     let body = {};
     body.method = 'eth_sendRawTransaction';
     body.params = [this.signed];
     return request({
-      method:'post',
+      method: 'post',
       body,
     })
+  }
+
+  async complete() {
+    this.setChainId();
+    this.setGasLimit();
+    this.setGasPrice();
+    this.setNonce();
   }
 }
 
