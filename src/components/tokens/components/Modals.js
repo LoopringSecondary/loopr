@@ -4,7 +4,8 @@ import Transfer from './Transfer'
 import TransferPreview from './TransferPreview'
 import Receive from './Receive'
 import Convert from './Convert'
-import Approve from './Approve'
+import AddToken from './AddToken'
+import EditToken from './EditToken'
 
 
 function Modals({ modal={},children}){
@@ -25,16 +26,13 @@ function Modals({ modal={},children}){
   let _this = this;
   return (
     <div>
-      <Modal {...getModalProps('transfer')} title="Transfer"  >
+      <Modal {...getModalProps('token/transfer')} title="Send LRC"  >
         <Transfer modal={modal} />
       </Modal>
-      <Modal {...getModalProps('receive')} title="My Ethereum Address"  >
+      <Modal {...getModalProps('token/receive')} title="My Ethereum Address"  >
         <Receive modal={modal} />
       </Modal>
-      <Modal {...getModalProps('approve')} title="Approve"  >
-        <Approve modal={modal} />
-      </Modal>
-      <Modal {...getModalProps('convert')} title="Convert"  >
+      <Modal {...getModalProps('token/wrap')} title="Wrap ETH to WETH"  >
         <Convert modal={modal} />
       </Modal>
       <Modal {...getModalProps('transfer/preview')} width="50%" style={{maxWidth:'100%',width:'60%'}} title="You are about to send"  >
@@ -42,7 +40,12 @@ function Modals({ modal={},children}){
           <TransferPreview modal={modal} />
         </div>
       </Modal>
-
+      <Modal {...getModalProps('token/add')} title="Add Token"  >
+          <AddToken modal={modal} />
+      </Modal>
+      <Modal {...getModalProps('token/edit')} title="Edit Token"  >
+          <EditToken modal={modal} />
+      </Modal>
     </div>
   );
 }

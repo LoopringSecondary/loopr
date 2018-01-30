@@ -29,8 +29,7 @@ let FiltersForm = ({
 
   let formLayout = 'inline'
   return (
-      <div>
-        
+      <div className="">
         <Form layout="inline">
           <Form.Item label="Market" >
             {form.getFieldDecorator('token', {
@@ -40,7 +39,7 @@ let FiltersForm = ({
               <Select
                   showSearch
                   allowClear
-                  style={{width:'200px'}}
+                  style={{width:'120px'}}
                   placeholder="Search/Select"
                   optionFilterProp="children"
                   onChange={handleChange}
@@ -49,7 +48,28 @@ let FiltersForm = ({
                   <Select.Option value="LRC/ETH">LRC/ETH</Select.Option>
                   <Select.Option value="USDT/ETH">USDT/ETH</Select.Option>
                   <Select.Option value="BNB/ETH">BNB/ETH</Select.Option>
-                </Select>
+              </Select>
+            )}
+          </Form.Item>
+          <Form.Item label="Status" >
+            {form.getFieldDecorator('status', {
+              initialValue:'all',
+              rules:[]
+            })(
+              <Select
+                  showSearch
+                  allowClear
+                  style={{width:'120px'}}
+                  placeholder="Search/Select"
+                  optionFilterProp="children"
+                  onChange={handleChange}
+                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                  <Select.Option value="all">All</Select.Option>
+                  <Select.Option value="opened">Opened</Select.Option>
+                  <Select.Option value="completed">Completed</Select.Option>
+                  <Select.Option value="cancelled">Cancelled</Select.Option>
+              </Select>
             )}
           </Form.Item>
           <Form.Item label="Side" >
@@ -64,19 +84,6 @@ let FiltersForm = ({
               </Radio.Group>
             )}
             
-          </Form.Item>
-          <Form.Item label="Status" >
-            {form.getFieldDecorator('status', {
-              initialValue:'all',
-              rules:[]
-            })(
-              <Radio.Group onChange={handleChange}>
-                <Radio.Button value="all">All</Radio.Button>
-                <Radio.Button value="completed">Completed</Radio.Button>
-                <Radio.Button value="pending">Pending</Radio.Button>
-                <Radio.Button value="canceled">Canceled</Radio.Button>
-              </Radio.Group>
-            )}
           </Form.Item>
           <Form.Item>
             <Button onClick={handleReset} type="default">Reset</Button>

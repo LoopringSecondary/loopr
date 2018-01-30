@@ -31,7 +31,6 @@ class ModalContainer extends React.Component {
         ...this.state,
       }
     }
-    console.log('modal childProps',childProps)
     return (
       <div>
          {

@@ -34,7 +34,6 @@ let Preview = ({
           <div className="col-auto">
             <div className="text-center">
               <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-              <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00</div>
             </div>
           </div>
           <div className="col">
@@ -48,15 +47,14 @@ let Preview = ({
           <div className="col-auto">
             <div className="text-center">
               <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-              <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00</div>
             </div>
           </div>
         </div>
-        <MetaItem label="To" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
         <MetaItem label="From" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
+        <MetaItem label="To" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
         <MetaItem label="GasLimit" value="2100" />
-        <MetaItem label="GasPrice" value="21 Gwei ( 0.000012 LRC )" />
-        <MetaItem label="Max Tx Fee" value="12 LRC ( 420000 Gwei )" />
+        <MetaItem label="GasPrice" value="21 Gwei" />
+        <MetaItem label="Transaction Fee" value="0.00012 ETH ( USD 2.2 )" />
         <div className="row pt40">
           <div className="col pl0">
             <Button className="d-block w-100" type="" size="large">No, Cancel It</Button>

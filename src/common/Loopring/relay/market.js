@@ -18,7 +18,7 @@ export async function getPriceQuote(currency) {
     await validator.validate({value: currency, type: 'CURRENCY'})
   } catch (e) {
     console.error(e)
-    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
+    return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
   let body = {}
   body.method = 'loopring_getPriceQuote'
@@ -48,7 +48,7 @@ export async function getDepth(filter) {
     await validator.validate({value: filter.length, type: 'OPTION_NUMBER'})
   } catch (e) {
     console.error(e)
-    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
+    return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
   let body = {}
   body.method = 'loopring_getDepth'
@@ -65,7 +65,7 @@ export async function getTicker(filter) {
     await validator.validate({value: filter[0], type: 'STRING'});// contractVersion
   } catch (e) {
     console.error(e)
-    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
+    return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
   let body = {}
   body.method = 'loopring_getTicker'
@@ -83,7 +83,7 @@ export async function getTrend(market) {
     await validator.validate({value: market, type: 'STRING'})
   } catch (e) {
     console.error(e)
-    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
+    return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
   let body = {}
   body.method = 'loopring_getTrend'

@@ -17,7 +17,7 @@ export async function getFills(filter){
     await filter.pageSize && validator.validate({value: filter.pageSize, type: 'OPTION_NUMBER'})
   } catch (e) {
     console.error(e)
-    return new Response(code.PARAM_VALID.code, code.PARAM_VALID.msg)
+    return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
   let body = {}
   body.method = 'loopring_getFills'
