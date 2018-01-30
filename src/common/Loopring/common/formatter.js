@@ -3,7 +3,7 @@ import Big from 'bignumber.js';
 import BN from "bn.js";
 
 
-function toBuffer(buffer) {
+export function toBuffer(buffer) {
   if (buffer instanceof Buffer) {
     return buffer;
   } else {
@@ -12,7 +12,7 @@ function toBuffer(buffer) {
 }
 
 // Number | BigNumber |  BN  | Buffer | String
-function toHex(mixed) {
+export function toHex(mixed) {
 
   if (mixed instanceof Number || mixed instanceof Big || mixed instanceof BN) {
     return "0x" + mixed.toString(16)
@@ -34,7 +34,7 @@ function toHex(mixed) {
 
 }
 
-function toNumber(mixed) {
+export function toNumber(mixed) {
   if (mixed instanceof Number) {
     return mixed
   }
@@ -50,7 +50,7 @@ function toNumber(mixed) {
   throw new Error('Unsupported type')
 }
 
-function toBig(mixed) {
+export function toBig(mixed) {
 
   if (mixed instanceof Number) {
 
@@ -66,28 +66,28 @@ function toBig(mixed) {
 
 }
 
-function toBN(mixed) {
+export function toBN(mixed) {
   return new BN(toBig(mixed).toString(), 10);
 }
 
-function formatPrivateKey(mixed) {
+export function formatPrivateKey(mixed) {
 
-  if(mixed instanceof Buffer){
-   return '0x' + mixed.toString('hex')
-  }
-
-  if(mixed instanceof String){
-    return mixed.startsWith("0x") ? mixed : "0x" + mixed
-  }
-  throw new Error('Unsupported type')
-}
-
-function formatAddress(mixed) {
-  if(mixed instanceof Buffer){
+  if (mixed instanceof Buffer) {
     return '0x' + mixed.toString('hex')
   }
 
-  if(mixed instanceof String){
+  if (mixed instanceof String) {
+    return mixed.startsWith("0x") ? mixed : "0x" + mixed
+  }
+  throw new Error('Unsupported type')
+}
+
+export function formatAddress(mixed) {
+  if (mixed instanceof Buffer) {
+    return '0x' + mixed.toString('hex')
+  }
+
+  if (mixed instanceof String) {
     return mixed.startsWith("0x") ? mixed : "0x" + mixed
   }
   throw new Error('Unsupported type')
@@ -95,10 +95,3 @@ function formatAddress(mixed) {
 }
 
 
-export default {
-  toHex,
-  toBuffer,
-  toNumber,
-  toBig,
-  toBN,
-}

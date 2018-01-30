@@ -2,7 +2,7 @@ import {soliditySHA3,rawEncode,methodID} from 'ethereumjs-abi';
 import validator from '../common/validator';
 import {sha3,ecsign,toBuffer,ecrecover,pubToAddress,bufferToHex,addHexPrefix} from 'ethereumjs-util';
 
-function solSHA3(types, data) {
+export function solSHA3(types, data) {
   return soliditySHA3(types, data);
 }
 
@@ -110,7 +110,7 @@ function generateAllowanceData(owner, spender) {
   return '0x' + method + data;
 }
 
-function sign(message, privateKey){
+export function sign(message, privateKey){
 
   const hash = sha3(message);
   const sig =ecsign(hash, toBuffer(privateKey));
@@ -125,14 +125,14 @@ function sign(message, privateKey){
   }
 }
 
-function isValidSig(message, sig, address){
+export function isValidSig(message, sig, address){
   const hash = sha3(message);
   const pubKey = ecrecover(hash, sig.v, toBuffer(sig.r), toBuffer(sig.s));
   const recoveredAddress = bufferToHex(pubToAddress(pubKey));
   return addHexPrefix(recoveredAddress) === address.toLowerCase();
 }
 
-function generateAbiData({method,timestamp,address,amount,order,owner,spender}){
+export function generateAbiData({method,timestamp,address,amount,order,owner,spender}){
   validator.validate({value:method,type:'ABI_METHOD'})
   if (method === 'cancelOrder') {
     return generateCancelOrderData(order);
@@ -153,17 +153,11 @@ function generateAbiData({method,timestamp,address,amount,order,owner,spender}){
     return generateTransferData(address, amount);
   }
   if (method === 'balanceOf') {
-    generateBalanceOfData(address);
-    return generateAllowanceData(owner, spender);
+    return  generateBalanceOfData(address);
   }
   if (method === 'allowance') {
     return generateAllowanceData(owner, spender);
   }
 }
 
-export default {
-  generateAbiData,
-  solSHA3,
-  sign,
-  isValidSig
-}
+

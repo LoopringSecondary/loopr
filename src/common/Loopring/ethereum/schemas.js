@@ -57,8 +57,73 @@ let standSchemas = {
     signed: {
       type: 'string'
     }
+  },
+  BASIC_TOKEN:{
+    address:{
+      ...basicSchemas.ADDRESS
+    },
+    symbol:{
+      type:"string"
+    },
+    name:{
+      type:"string"
+    },
+    digits:{
+      type:"number"
+    },
+    unit:{
+      type:"string"
+    },
+    website:{
+      type:"url"
+    },
+    allowance:{
+      type:"number"
+    },
+    precision:{
+      type:"number"
+    },
+    minTradeValue:{
+      type:"number"
+    }
+  },
+  TOKEN:{
+    address:{
+      ...basicSchemas.ADDRESS
+    },
+    symbol:{
+      type:"string",
+      required:true
+    },
+    name:{
+      type:"string",
+      required:true
+    },
+    digits:{
+      type:"number",
+      required:true
+    },
+    unit:{
+      type:"string",
+      required:true
+    },
+    website:{
+      type:"url"
+    },
+    allowance:{
+      type:"number",
+      required:true
+    },
+    precision:{
+      type:"number",
+      required:true
+    },
+    minTradeValue:{
+      type:"number",
+      required:true
+    }
   }
-}
+};
 
 export default standSchemas
 

@@ -48,9 +48,9 @@ export default class Transaction {
   async sign(privateKey) {
 
     try {
-      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+        validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
     } catch (e) {
-
+      throw new Error('Invalid private key')
     }
     privateKey = toBuffer(privateKey);
     try {
@@ -66,7 +66,7 @@ export default class Transaction {
 
   async send(privateKey) {
     if (!this.signed) {
-     await this.sign(privateKey)
+      await this.sign(privateKey)
     }
     let body = {};
     body.method = 'eth_sendRawTransaction';
@@ -78,10 +78,10 @@ export default class Transaction {
   }
 
   async complete() {
-    this.setChainId();
-    this.setGasLimit();
-    this.setGasPrice();
-    this.setNonce();
+    await this.setChainId();
+    await this.setGasLimit();
+    await this.setGasPrice();
+    await this.setNonce();
   }
 }
 
