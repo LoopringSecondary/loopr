@@ -2,19 +2,20 @@ import validator from '../common/validator'
 import {toHex, toBuffer} from '../common/formatter'
 import {decryptKeystoreToPkey, pkeyToKeystore} from '../common/keystore'
 import {randomBytes} from 'crypto'
-import {privateToAddress, privateToPublic, publicToAddress,isValidPrivate} from 'ethereumjs-util'
+import {privateToAddress, privateToPublic, publicToAddress} from 'ethereumjs-util'
 
 export default class Account {
   constructor(privateKey) {
     if (!privateKey) {
       this.privateKey = randomBytes(32)
     } else {
-      if(isValidPrivate(toBuffer(privateKey))){
-        this.privateKey = privateKey
-      }else{
-        throw new Error('Invalid private key');
+      try {
+        validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      } catch (e) {
+        throw new Error('Invalid private key')
       }
     }
+    this.privateKey = toBuffer(privateKey);
     this.publicKey = privateToPublic(privateKey);
     this.address = privateToAddress(privateKey)
   }
