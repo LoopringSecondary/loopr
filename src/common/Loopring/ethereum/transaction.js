@@ -1,8 +1,7 @@
 import EthTransaction from 'ethereumjs-tx'
-import validator from './ethereum_validator'
+import validator from './validator'
 import {toHex, toBuffer} from '../common/formatter'
 import {estimateGas, getGasPrice, getTransactionCount} from './utils';
-import {generateAbiData} from './abi';
 import request from '../common/request'
 
 

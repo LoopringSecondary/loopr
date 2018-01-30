@@ -1,6 +1,6 @@
 import Schema from 'async-validator';
 import basicSchemas from '../common/validator_schemas';
-import transactionSchmas from './transaction_schemas';
+import transactionSchmas from './schemas';
 
 const schemas = {
   basic:{
