@@ -109,7 +109,7 @@ const numbers = [
   {title:'24H Volume',number:''},
 ]
 const ExchangeItem = (props)=>(
-    <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 mt15 mb15 ml0 mr0 zb-b">
+    <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 mt15 mb15 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
       <div className="col-auto">
         <div className="fs16 color-grey-900">0.00107934</div>
         <div className="fs12 color-grey-400 text-truncate" style={{maxWidth:'120px'}}>Binance</div>
@@ -144,7 +144,7 @@ export default function Home(props){
              </div>
            </div>
            <div className="col-auto">
-             <div className="fs18 " style={{color:'#00E831'}}>
+             <div className="fs16 " style={{color:'#00E831'}}>
               + 10%
              </div>
              <div className="fs12 color-white opacity-70">
@@ -152,7 +152,7 @@ export default function Home(props){
              </div>
            </div>
            <div className="col-auto">
-             <div className="fs18 color-white">
+             <div className="fs16 color-white">
               0.00116918
              </div>
              <div className="fs12 color-white opacity-70">
@@ -160,7 +160,7 @@ export default function Home(props){
              </div>
            </div>
            <div className="col-auto">
-             <div className="fs18 color-white">
+             <div className="fs16 color-white">
               0.00089000
              </div>
              <div className="fs12 color-white opacity-70">
@@ -168,7 +168,7 @@ export default function Home(props){
              </div>
            </div>
            <div className="col-sm-6 col-lg-2">
-             <div className="fs18 color-white">
+             <div className="fs16 color-white">
               4,382.34 ETH
              </div>
              <div className="fs12 color-white opacity-70">
@@ -192,7 +192,7 @@ export default function Home(props){
            <ExchangeItem />
          </div>
       </div>
-       <Card title="Order Form">
+       <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
         <div className="row justify-content-around">
           <div className="col-sm-6 pl40 pr40 zb-b-r">
             <Order.TradeForm side="sell" pair="LRC/ETH" />
@@ -202,16 +202,16 @@ export default function Home(props){
           </div>
         </div>
        </Card>
-       <div className="zb-b bg-white mt15">
+       <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
          <Tabs defaultActiveKey="open" animated={false} tabBarStyle={{marginBottom:'0px'}}>
            <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Open Orders</div>} key="open">
-             <div className="pt15 pb15 pl20 pr20">
+             <div className="pt15">
                <Order.List />
              </div>
            </Tabs.TabPane>
            <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Recent Trades</div>} key="trade">
-             <div className="pt15 pb15 pl20 pr20">
-               <Order.List />
+             <div className="pt15">
+               <Trade.List />
              </div>
            </Tabs.TabPane>
          </Tabs>

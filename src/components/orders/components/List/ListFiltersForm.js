@@ -87,7 +87,7 @@ let FiltersForm = ({
             
           </Form.Item>
           <Form.Item>
-            <Button style={{marginTop:'3px'}} onClick={handleReset} type="default">Reset</Button>
+            <Button onClick={handleReset} type="default">Reset</Button>
           </Form.Item>
         </Form>
       </div>

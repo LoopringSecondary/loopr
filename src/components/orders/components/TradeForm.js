@@ -118,13 +118,13 @@ let TradeForm = ({
           <Form.Item >
             {
               side == 'buy' &&
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100 bg-red-600 border-none" size="large">
+              <Button onClick={handleSubmit} type="" className="d-block w-100 bg-red-500 border-none color-white" size="large">
                 Place Order
               </Button>
             }
             {
               side == 'sell' &&
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100 bg-green-600 border-none" size="large">
+              <Button onClick={handleSubmit} type="" className="d-block w-100 bg-green-500 border-none color-white" size="large">
                 Place Order
               </Button>
             }

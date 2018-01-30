@@ -18,7 +18,7 @@ export default function Home(props){
         <div className=" ">
           <Tabs className="rs nobar" defaultActiveKey="assets" animated={false}>
             <Tabs.TabPane tab={<div className="fs18 pl0 pr20 pt30 pb20"><FormattedMessage id="page.wallet.assets"/></div>} key="assets">
-             <div className="row no-gutters bg-white" style={{borderRadius:'6px',border:'1px solid #e8e8e8'}}>
+             <div className="row no-gutters bg-white" style={{borderRadius:'6px',border:'1px solid #dadada'}}>
                <div className="col-4 zb-b-r">
                 <Token.ListSidebar />
                </div>
@@ -28,12 +28,12 @@ export default function Home(props){
              </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb20"><FormattedMessage id="page.wallet.orders"/></div>} key="orders">
-              <div className="pt15 pb15 bg-white" style={{borderRadius:'6px',border:'1px solid #e8e8e8'}}>
+              <div className="pt15 pb15 bg-white" style={{borderRadius:'6px',border:'1px solid #dadada'}}>
                 <Order.List />
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb20"><FormattedMessage id="page.wallet.trades"/></div>} key="trades">
-              <div className="pt15 pb15 bg-white" style={{borderRadius:'6px',border:'1px solid #e8e8e8'}}>
+              <div className="pt15 pb15 bg-white" style={{borderRadius:'6px',border:'1px solid #dadada'}}>
                 <Trade.List />
               </div>
             </Tabs.TabPane>
