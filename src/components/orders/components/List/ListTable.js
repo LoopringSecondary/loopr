@@ -41,17 +41,18 @@ function ListBlock({LIST,actions,className,style}) {
             TODODO
           </div>
         </div>
-        if( index%4 == 0 ) return (
+        if( index%5 == 0 ) return (
           <Popover content={content} title="You Need To Do">
             <div className="color-red-500">
-              <Icon className="mr5" type="exclamation-circle" /> 
+              <Icon className="mr5" type="exclamation-circle"/> 
               <span className="fs12">UnEnough</span>
             </div>
           </Popover>
         )
-        if( index%4 == 1 ) return <Badge status="processing" text="open" /> 
-        if( index%4 == 2 ) return <Badge status="success" text="completed" /> 
-        if( index%4 == 3 ) return <Badge status="default" text="cancelled" /> 
+        if( index%5 == 1 ) return <Badge status="processing" text="Opened" /> 
+        if( index%5 == 2 ) return <Badge status="success" text="Completed" /> 
+        if( index%5 == 3 ) return <Badge status="default" text="Cancelled" /> 
+        if( index%5 == 4 ) return <Badge status="default" text="Expired" /> 
       },
       side:(value,item,index)=>{
         if(index < 3){
@@ -61,7 +62,15 @@ function ListBlock({LIST,actions,className,style}) {
           return <div className="color-red-500">Buy</div>
         }
       },
-      action:(value,item,index)=><Button onClick={cancelOrder.bind(this,value,item)}>Cancel</Button>,
+      action:(value,item,index)=>{
+        
+        // <span onClick={cancelOrder.bind(this,value,item)} className="fs12">Cancel</span>
+        if(index%5 == 0 || index%5 == 1){
+         return <Button size="small" className="color-blue-600 border-blue-600">Cancel</Button> 
+        }else{
+          return null
+        }
+      },
   }
   let columns = schema.map(field=>{
     const renderGenerator = (value,item,index)=>{
