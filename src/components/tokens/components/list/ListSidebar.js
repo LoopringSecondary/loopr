@@ -14,7 +14,7 @@ function ListBlock({LIST,actions,modal}) {
   } = LIST
   const items = tokens
   const TokenListAcionsBar = (
-    <div className="row zb-b-b p15 no-gutters">
+    <div className="row zb-b-b p15 pl10 pr10 no-gutters">
       <div className="col mr5">
         <Input
           placeholder=""
@@ -61,77 +61,117 @@ function ListBlock({LIST,actions,modal}) {
     </div>
   )
   const TokenItemActions = (token)=>(
-    <div style={{width:'150px'}}>
+    <div style={{width:'120px'}}>
       <div className="row no-gutters">
         <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'token/transfer')} className="w-100 " type="primary" icon="pay-circle-o">Transfer</Button>
+          <Button onClick={modal.showModal.bind(this,'token/transfer')} className="" type="primary" icon="pay-circle-o">Transfer</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'token/receive')} className="w-100 " type="primary" icon="qrcode">Receive</Button>
+          <Button onClick={modal.showModal.bind(this,'token/receive')} className="" type="primary" icon="qrcode">Receive</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'token/edit')} className="w-100 " type="primary" icon="edit">Edit</Button>
+          <Button onClick={modal.showModal.bind(this,'token/edit')} className="" type="primary" icon="edit">Edit</Button>
         </div>
         {
           token.token === 'ETH' &&
           <div className="col-12 p5">
-            <Button onClick={modal.showModal.bind(this,'token/wrap')} className="w-100 " type="primary" icon="retweet">Wrap</Button>
+            <Button onClick={modal.showModal.bind(this,'token/wrap')} className="" type="primary" icon="retweet">Wrap</Button>
           </div>
         }
         <div className="col-12 p5">
-          <Button className="w-100 " type="primary">
+          <Button className="" type="primary">
             <i className="fa fa-line-chart mr5"></i>Trade
           </Button>
         </div>
       </div>
     </div>
   )
+  const TokenItemActions2 = (token)=>(
+    <div>
+      <div className="row no-gutters justify-content-end">
+
+        <div className="col-auto p5">
+          <Button onClick={modal.showModal.bind(this,'token/transfer')} className="" type="default" icon="pay-circle-o">Send</Button>
+        </div>
+        <div className="col-auto p5">
+          <Button onClick={modal.showModal.bind(this,'token/receive')} className="" type="default" icon="qrcode">Receive</Button>
+        </div>
+        {
+          token.token === 'ETH' &&
+          <div className="col-auto p5">
+            <Button onClick={modal.showModal.bind(this,'token/wrap')} className="" type="default" icon="retweet">Wrap</Button>
+          </div>
+        }
+      </div>
+    </div>
+  )
+
   const TokenItem = ({item,index})=>{
     return (
-      <div className={`row align-items-center no-gutters flex-nowrap p10 pl15 pr15 ${index==2 && 'token-item-sidebar-dark'}`} style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}}>
-        <div className="col-auto pr10">
-          {
-            index <=4 && <Icon type="star" className="color-yellow-700" />
-          }
-          {
-            index >4 &&
-            <Icon type="star" className="color-grey-300" />
-          }
-        </div>
-        <div className="col-auto pr10">
-          <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5" />
-        </div>
-        <div className="col pr10">
-          <div className="">
-            <span className="fs18 color-grey-900">{item.token}</span>
-            <span className="fs12 ml5 color-grey-400 text-truncate text-nowrap" style={{maxWidth:'65px'}}>{item.title}</span>
+      <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}}>
+        <div className={`row align-items-center no-gutters p10 ${index==2 && 'token-item-sidebar-dark'}`} >
+          <div className="col-auto pr10">
+            {
+              index <=4 && <Icon type="star" className="color-yellow-700" />
+            }
+            {
+              index >4 &&
+              <Icon type="star" className="color-grey-300" />
+            }
           </div>
-          <div className="">
-            <span className="fs14 color-grey-900">0.00</span>
-            <span className="fs12 ml5 color-grey-400">$ 0.00</span>
+          <div className="col-auto pr10">
+            <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5" />
           </div>
-        </div>
-        <div className="col"></div>
-        <div className="col-auto mr5">
-          {
-            item.token != 'ETH' &&
-            <Tooltip title="Some Tips To Say">
-              <Switch size="" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
-            </Tooltip>
-          }
-        </div>
-        <div className="col-auto">
-          <Popover
-            title="Actions"
-            placement="right"
-            arrowPointAtCenter
-            content={TokenItemActions(item)}
-          >
+          <div className="col pr10">
+            <div className="">
+              <span className="fs18 color-grey-900">{item.token}</span>
+              <span hidden className="fs12 ml5 color-grey-400 text-truncate text-nowrap d-inline-block" style={{width:'55px'}}>{item.title}</span>
+            </div>
+            <div className="">
+              <span className="fs14 color-grey-900">0.00</span>
+              <span className="fs12 ml5 color-grey-400">$ 0.00</span>
+            </div>
+          </div>
+          <div className="col-auto mr5">
+            {
+              item.token != 'ETH' &&
+              <Tooltip title="Some Tips To Say">
+                <Switch size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
+              </Tooltip>
+            }
+          </div>
+          <div className="col-auto pr5">
             <Button shape="circle" className="bg-none color-grey-400 border-grey-300">
-              <Icon type="ellipsis" />
+              <Icon type="retweet" />
             </Button>
-          </Popover>
+          </div>
+          <div className="col-auto pr5">
+            <Button shape="circle" className="bg-none color-grey-400 border-grey-300">
+              <Icon type="qrcode" />
+            </Button>
+          </div>
+          <div className="col-auto">
+            <Popover
+              title="Actions"
+              placement="right"
+              arrowPointAtCenter
+              content={TokenItemActions(item)}
+            >
+              <Button shape="circle" className="bg-none color-grey-400 border-grey-300">
+                <Icon type="ellipsis" />
+              </Button>
+            </Popover>
+          </div>
+          <div class="w-100"></div>
+          {
+            false && index==2 &&
+            <div className="col mt5 pr0">
+              {TokenItemActions2(item)}
+            </div>
+          }
+          
         </div>
+        
       </div>
     )
   }

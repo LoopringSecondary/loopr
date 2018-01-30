@@ -38,9 +38,20 @@
     .border-grey-600{
       border-color:rgba(255,255,255,0.7) !important;
     }
-    .ant-switch-checked{
-      background: #fff ;
+    
+    .ant-switch{
+      // background: #aaa; 
+      // &:before, &:after{
+      //   background: #fff;
+      // }
+      &.ant-switch-checked{
+        background: #fff ;
+        &:before, &:after{
+          background: #0077FF;
+        }
+      }
     }
+
     .ant-switch:before, .ant-switch:after{
       background: #0077FF;
     }
