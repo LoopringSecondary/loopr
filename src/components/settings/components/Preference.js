@@ -58,7 +58,7 @@ const Perference = ({
                 <Select.Option value={item.language} key={index}>
                   <div className="d-flex justify-content-between">
                     <div>{item.value.display}</div>
-                    <div>{item.value.logo}</div>
+                    <div>{false && item.value.logo}</div>
                   </div>
                 </Select.Option>
               )}

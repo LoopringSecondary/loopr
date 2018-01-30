@@ -4,6 +4,7 @@ import { Link } from 'dva/router';
 import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover } from 'antd';
 import schema from '../../../../modules/tokens/schema';
 import tokens from './tokens';
+import './ListSidebar.less'
 
 function ListBlock({LIST,actions,modal}) {
   const {
@@ -87,11 +88,10 @@ function ListBlock({LIST,actions,modal}) {
   )
   const TokenItem = ({item,index})=>{
     return (
-      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p10 pl15 pr15">
+      <div className={`row align-items-center no-gutters flex-nowrap p10 pl15 pr15 ${index==2 && 'token-item-sidebar-dark'}`} style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}}>
         <div className="col-auto pr10">
           {
-            index <=4 &&
-            <Icon type="star" className="color-blue-600" />
+            index <=4 && <Icon type="star" className="color-yellow-700" />
           }
           {
             index >4 &&
@@ -127,7 +127,7 @@ function ListBlock({LIST,actions,modal}) {
             arrowPointAtCenter
             content={TokenItemActions(item)}
           >
-            <Button shape="circle">
+            <Button shape="circle" className="bg-none color-grey-400 border-grey-300">
               <Icon type="ellipsis" />
             </Button>
           </Popover>
