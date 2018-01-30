@@ -27,7 +27,7 @@ let basicSchemas ={
   ADDRESS:{
     type:'string',
     required:true,
-    pattern:/^0x[0-9a-fA-F]{1,64}$/g,
+    pattern:/^0x[0-9a-fA-F]{40}$/g,
   },
   HEX:{
     type:'string',
@@ -58,7 +58,7 @@ let basicSchemas ={
   },
   PRIVATE_KEY_BUFFER:{
     validator:(rule,value,cb)=>{
-      if (value instanceof Buffer && pk.length === 32){
+      if (value instanceof Buffer && value.length === 32){
           cb()
       }else{
           cb('private_key must be buffer')
