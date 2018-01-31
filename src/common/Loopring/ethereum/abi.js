@@ -1,26 +1,26 @@
 import {soliditySHA3,rawEncode,methodID} from 'ethereumjs-abi';
 import validator from '../common/validator';
 import {sha3,ecsign,toBuffer,ecrecover,pubToAddress,bufferToHex,addHexPrefix} from 'ethereumjs-util';
-
+import {toBN} from '../common/formatter'
 export function solSHA3(types, data) {
   return soliditySHA3(types, data);
 }
 
-function generateCancelOrderData(signedOrder){
+function generateCancelOrderData(signedOrder, amount){
   // TODO signedOrder schema
   // amountS，amountB 是否在orderSchema中
   let {
     owner, tokenS, tokenB,
-    amountS, amountB, timestamp, ttl, salt, lrcFee,
+    amountS, amountB, timestamp, ttl, lrcFee,
     buyNoMoreThanAmountB,
     marginSplitPercentage,
     v,
     r,
     s
   } = signedOrder;
-  const addresses = [owner, tokenS, tokenB]
-  const amount = signedOrder.buyNoMoreThanAmountB ? signedOrder.amountB : signedOrder.amountS
-  const orderValues = [amountS, amountB, timestamp, ttl, salt, lrcFee, amount]
+  const addresses = [owner, tokenS, tokenB];
+  amount = amount ? amount : (buyNoMoreThanAmountB ? amountB : amountS);
+  const orderValues = [toBN(amountS), toBN(amountB), toBN(timestamp), toBN(ttl), toBN(lrcFee), toBN(amount)];
   const data = rawEncode([
     'address[3]',
     'uint[7]',

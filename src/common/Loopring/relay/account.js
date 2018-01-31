@@ -1,5 +1,5 @@
 import request from '../common/request'
-import validator from '../common/validator'
+import validator from './validator'
 import Response from '../common/response'
 import code from "../common/code"
 

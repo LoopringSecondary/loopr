@@ -1,7 +1,9 @@
 import request from '../common/request'
-import validator from '../common/validator'
 import Response from '../common/response'
 import code from "../common/code"
+import {generateAbiData} from '../ethereum/abi'
+import validator from './validator'
+import Transaction from './transaction'
 
 let headers = {
   'Content-Type': 'application/json'
@@ -46,4 +48,47 @@ export async function getCutoff(address, contractVersion){
   })
 }
 
+export async function cancelOrder(order,privateKey,gasPrice, gasLimit, nonce, chainId){
 
+  // validator.validate({value:order,type:"Order"});
+  const tx = {};
+  tx.to = this.address;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "cancelOrder",order});
+
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  const transaction = new Transaction(tx);
+  return transaction.send(privateKey)
+}
+export async function cancelAllOrders(privateKey,timestamp,gasPrice, gasLimit, nonce, chainId){
+  const tx = {};
+  tx.to = this.address;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "setCutoff",timestamp});
+
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  const transaction = new Transaction(tx);
+  return transaction.send(privateKey)
+}

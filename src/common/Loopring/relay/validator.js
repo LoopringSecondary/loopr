@@ -1,13 +1,13 @@
 import Schema from 'async-validator';
 import basicSchemas from '../common/validator_schemas';
-import marketSchemas from './market_validator_schemas';
+import relaySchemas from './schemas';
 
 const schemas = {
   basic:{
     ...basicSchemas
   },
-  market:{
-    ...marketSchemas
+  relay:{
+    ...relaySchemas
   }
 }
 
@@ -30,9 +30,9 @@ let validate = (payload)=>{
     schema[type] = schemas['basic'][type]
     source[type] = value
   }
-  if(schemas['market'][type]){
+  if(schemas['relay'][type]){
     // validate multiple fields
-    schema = schemas['market'][type]
+    schema = schemas['relay'][type]
     source = value
   }
 

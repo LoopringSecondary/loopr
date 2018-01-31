@@ -67,7 +67,7 @@ export function toBig(mixed) {
 }
 
 export function toBN(mixed) {
-  return new BN(toBig(mixed).toString(), 10);
+  return (mixed instanceof BN) ? mixed : new BN(toBig(mixed).toString(), 10);
 }
 
 export function formatPrivateKey(mixed) {
