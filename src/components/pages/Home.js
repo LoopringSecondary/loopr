@@ -3,8 +3,6 @@ import { Button,Icon } from 'antd'
 import { connect } from 'dva'
 import { Route } from 'dva/router'
 import Layout from '../../layout/Layout'
-import Wallet from '../wallet/components'
-import ModalContainer from '../../modules/modals/container'
 
 function Home(props){
   const { children,dispatch } = props
@@ -56,15 +54,6 @@ function Home(props){
          }
        </div>
       </div>
-      <ModalContainer id="wallet/unlock" >
-        <Wallet.UnlockWallet />
-      </ModalContainer>
-      <ModalContainer id="wallet/generate" >
-        <Wallet.GenerateWallet />
-      </ModalContainer>
-      <ModalContainer id="wallet/backup" >
-        <Wallet.BackupWallet />
-      </ModalContainer>
     </Layout>
   )
 }

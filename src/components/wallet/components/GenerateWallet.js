@@ -23,29 +23,11 @@ export default class GenerateWallet extends React.Component {
   }
 
   render() {
-    const {dispatch} = this.props
-    const showModal = ()=>{
-        dispatch({
-          type:'modals/modalChange',
-          payload:{
-            id:'wallet/backup',
-            visible:true,
-          }
-        })
-    }
-    const hideModal = ()=>{
-        dispatch({
-          type:'modals/modalChange',
-          payload:{
-            id:'wallet/generate',
-            visible:false,
-          }
-        })
-    }
-
+    const {modals} = this.props
     const handelSubmit = ()=>{
-      hideModal()
-      showModal()
+      // TODO
+      modals.hideModal({id:'wallet/generate'})
+      modals.showModal({id:'wallet/backup'})
     }
     const footer = (
       <div className="fs14 color-grey-900 text-center pt10 pb10">
@@ -55,10 +37,12 @@ export default class GenerateWallet extends React.Component {
     const passwordVisible = (
         <div className="fs14 pl5 pr5">
           {
-            this.state.visible && <i className="fa fa-eye" onClick={this.togglePassword.bind(this)}></i>
+            this.state.visible && 
+            <i className="fa fa-eye" onClick={this.togglePassword.bind(this)}></i>
           }
           {
-            !this.state.visible && <i className="fa fa-eye-slash" onClick={this.togglePassword.bind(this)}></i>
+            !this.state.visible && 
+            <i className="fa fa-eye-slash" onClick={this.togglePassword.bind(this)}></i>
           }
         </div>
     )
@@ -67,7 +51,6 @@ export default class GenerateWallet extends React.Component {
         'Strong'
       )
     }
-
     return (
       <Card title='Generate Wallet'>
         <Input 

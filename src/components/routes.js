@@ -8,6 +8,7 @@ import Settings from './settings/pages/Settings';
 import TradeConfirm from './orders/components/TradeConfirm';
 import TradeSteps from './orders/components/TradeSteps';
 import ModalContainer from '../modules/modals/container'
+import Wallet from './wallet/components'
 
 export default (
 	<div>
@@ -26,6 +27,15 @@ export default (
 			</ModalContainer>
 			<ModalContainer id="trade/steps">
 			  <TradeSteps />
+			</ModalContainer>
+			<ModalContainer id="wallet/unlock" >
+			  <Wallet.UnlockWallet />
+			</ModalContainer>
+			<ModalContainer id="wallet/generate" >
+			  <Wallet.GenerateWallet />
+			</ModalContainer>
+			<ModalContainer id="wallet/backup" >
+			  <Wallet.BackupWallet />
 			</ModalContainer>
 	</div>
 	
