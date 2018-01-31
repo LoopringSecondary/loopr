@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar,Icon,Button } from 'antd';
 
 let Preview = ({
-  modal,
+  modals,
   }) => {
 
   const MetaItem = (props)=>{

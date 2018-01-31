@@ -3,7 +3,6 @@ import {Breadcrumb} from 'antd';
 import Components from '../components';
 import Common from '../../common';
 import Containers from '../../../modules/tokens/containers';
-import ModalContainer from '../../../common/containers/layer/Modal';
 
 function Empty(props){
   return <div style={{height:props.height}}></div>
@@ -19,10 +18,7 @@ function Page(props){
   return (
     <div className="">
       <Containers.StandList {...containerProps}>
-          <ModalContainer>
-            <Components.ListSidebar />
-            <Components.Modals />
-          </ModalContainer>
+          <Components.ListSidebar />
       </Containers.StandList>
     </div>
   )

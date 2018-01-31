@@ -10,8 +10,6 @@ let Convert = ({form}) => {
 	    console.log('values',values);
 	    if(!err){
 	      // TODO
-	      // modal.hideModal('transfer')
-	      // modal.showModal('transfer/preview')
 	    }
 	  });
 	}

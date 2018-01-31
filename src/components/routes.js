@@ -6,9 +6,10 @@ import ringsRoutes from './rings/routes';
 import wallet from './wallet/components';
 import Settings from './settings/pages/Settings';
 import TradeConfirm from './orders/components/TradeConfirm';
+import TokenModals from './tokens/components/Modals';
 import TradeSteps from './orders/components/TradeSteps';
-import ModalContainer from '../modules/modals/container'
 import Wallet from './wallet/components'
+import ModalContainer from '../modules/modals/container'
 
 export default (
 	<div>
@@ -37,6 +38,7 @@ export default (
 			<ModalContainer id="wallet/backup" >
 			  <Wallet.BackupWallet />
 			</ModalContainer>
+			<TokenModals />
 	</div>
 	
 )

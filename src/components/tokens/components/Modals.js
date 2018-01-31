@@ -9,19 +9,7 @@ import EditToken from './EditToken'
 import ModalContainer from '../../../modules/modals/container'
 
 function Modals({ modal={},children}){
-  const getModalProps = type => {
-    let thisLayer = modal[type] || {}
-    return {
-      visible:thisLayer.visible,
-      // title:thisLayer.title
-      footer:null,
-      closable:true,
-      maskClosable:true,
-      wrapClassName:"rs",
-      onCancel:modal.hideModal.bind(this,type),
-    }
-  }
-  let _this = this;
+  const getModalProps = type => {}
   return (
     <div>
       <ModalContainer id='token/transfer'>
@@ -30,7 +18,10 @@ function Modals({ modal={},children}){
       <ModalContainer id='token/transfer/preview'>
         <TransferPreview />
       </ModalContainer>
-      <ModalContainer id='token/conver'>
+      <ModalContainer id='token/receive'>
+        <Receive />
+      </ModalContainer>
+      <ModalContainer id='token/convert'>
         <Convert />
       </ModalContainer>
       <ModalContainer id='token/add'>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,Button,Icon,Card,Modal,Input,Radio,Select,Checkbox,message} from 'antd';
+import { Button,Icon,Card,Modal,Input,Radio,Select,Checkbox,message} from 'antd';
 import QRCode from 'qrcode.react';
 import copy from 'copy-to-clipboard';
 const Search = Input.Search;
@@ -19,6 +19,6 @@ let Receive = (props) => {
   );
 };
 
-export default Form.create()(Receive);
+export default Receive;
 
 
