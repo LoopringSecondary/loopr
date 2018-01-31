@@ -41,12 +41,8 @@ const AddRelayForm = ({
             <Input size="large" />
           )}
         </Form.Item>
-        <Form.Item className="mt-auto hidden">
-          <div className="row">
-            <div className="col">
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
-            </div>
-          </div>
+        <Form.Item className="mb0">
+          <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
         </Form.Item>
       </Form>
     </Card>

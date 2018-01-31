@@ -2,7 +2,7 @@ import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
-// filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+
 
 const Perference = ({
     form
@@ -37,8 +37,8 @@ const Perference = ({
   };
 
   return (
-    <div className="" >
-      <Form layout="horizontal" className="d-flex flex-column preference-form">
+    <div className="">
+      <Form layout="horizontal" className="p15">
         <Form.Item {...formItemLayout} label="Language" colon={false}>
           {form.getFieldDecorator('language', {
             initialValue:'en',
@@ -48,8 +48,8 @@ const Perference = ({
               showSearch
               placeholder="Search/Select"
               optionFilterProp="children"
+              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               size="large"
-              
               onChange={handleChange.bind(this, "language")}
             >
               {languagesArray && languagesArray.map((item,index)=>
@@ -80,7 +80,7 @@ const Perference = ({
             </Select>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Timezone" colon={false}>
+        <Form.Item {...formItemLayout} label="Timezone" colon={false} className="mb0">
           {form.getFieldDecorator('timezone', {
             initialValue:'',
             rules:[]
@@ -98,15 +98,10 @@ const Perference = ({
             </Select>
           )}
         </Form.Item>
-        <Form.Item className="">
-          <div className="row">
-            <div className="col">
-              <Button onClick={handleReset} type="" className="">Reset</Button>
-            </div>
-          </div>
-        </Form.Item>
-        
       </Form>
+      <div className="p15 zb-b-t text-right">
+        <Button onClick={handleReset} type="" className="">Reset</Button>
+      </div>
     </div>
   );
 };

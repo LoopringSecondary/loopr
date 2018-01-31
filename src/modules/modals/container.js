@@ -38,14 +38,23 @@ export default class ModalContainer extends React.Component {
       })
     }
     const hideLoading = (payload)=>{
+      dispatch({
+        type:'modals/modalChange',
+        payload:{
+          ...payload,
+          loading:false,
+        }
+      })
+    }
+    const modalChange = (payload)=>{
   	  dispatch({
   	  	type:'modals/modalChange',
   	  	payload:{
   	  		...payload,
-  	  		loading:false,
   	  	}
   	  })
   	}
+
   	const modalProps = {
   		visible:thisModal.visible,
   		title:null,
@@ -61,8 +70,9 @@ export default class ModalContainer extends React.Component {
         ...modals,
         showModal:showModal.bind(this),
         hideModal:hideModal.bind(this),
-        showLoading:hideLoading.bind(this),
+        showLoading:showLoading.bind(this),
         hideLoading:hideLoading.bind(this),
+        modalChange:modalChange.bind(this),
       }
   	}
     return (

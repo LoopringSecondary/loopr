@@ -36,7 +36,7 @@ const TradingSettingForm = ({
 
   return (
     <div className="" >
-      <Form layout="horizontal" className="">
+      <Form layout="horizontal" className="p15">
         <Form.Item {...formItemLayout} label="Contract Version" colon={false}>
           {form.getFieldDecorator('contractVersion', {
             initialValue:'v1.0',
@@ -70,7 +70,7 @@ const TradingSettingForm = ({
             <Input size="large" addonAfter="％"/>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Gas Price" colon={false}>
+        <Form.Item {...formItemLayout} label="Gas Price" colon={false} className="mb5">
           {form.getFieldDecorator('gasPrice', {
             initialValue:30,
             rules:[]
@@ -87,14 +87,10 @@ const TradingSettingForm = ({
             />
           )}
         </Form.Item>
-        <Form.Item className="">
-          <div className="row">
-            <div className="col">
-              <Button onClick={handleReset} type="" className="">Reset</Button>
-            </div>
-          </div>
-        </Form.Item>
       </Form>
+      <div className="p15 zb-b-t text-right">
+        <Button onClick={handleReset} type="" className="">Reset</Button>
+      </div>
     </div>
   );
 };

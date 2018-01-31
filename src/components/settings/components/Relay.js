@@ -47,7 +47,7 @@ const RealySettingForm = ({
 
   return (
     <div className="" >
-      <Form layout="horizontal" className="">
+      <Form layout="horizontal" className="p15">
         <Form.Item label="Choose Relay" colon={false}>
           {form.getFieldDecorator('relay', {
             initialValue:2,
@@ -66,7 +66,9 @@ const RealySettingForm = ({
                           <Input size="large" value="27.0.0.01" />
                         </div>
                         <div className="col-auto">
-                          <a href="" onClick={gotoEdit} className="">Edit</a>
+                          { index >0 &&
+                            <a href="" onClick={gotoEdit} className="">Edit</a>
+                          }
                         </div>
                       </div>
                     </div>
@@ -76,14 +78,12 @@ const RealySettingForm = ({
             </Radio.Group>
           )}
         </Form.Item>
-        <Form.Item className="">
-          <div className="row">
-            <div className="col">
-              <Button type="primary" onClick={gotoAdd} className="">Add Cutom Relay</Button>
-            </div>
-          </div>
-        </Form.Item>
+        
       </Form>
+      <div className="p15 zb-b-t text-right">
+        <Button onClick={handleReset} type="" className="mr5">Reset</Button>
+        <Button type="primary" onClick={gotoAdd} className="">Add Cutom Relay</Button>
+      </div>
     </div>
   );
 };
