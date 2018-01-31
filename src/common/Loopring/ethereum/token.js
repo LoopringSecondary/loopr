@@ -21,6 +21,7 @@ export default class Token {
   }
 
   async transfer(privateKey, to, amount, gasPrice, gasLimit, nonce, chainId) {
+    validator.validate({value:amount,type:"ETH_DATA"});
     const tx = {};
     tx.to = this.address;
     tx.value = "0x0";
@@ -43,6 +44,7 @@ export default class Token {
   }
 
   async approve(spender, amount,privateKey, gasPrice, gasLimit, nonce, chainId) {
+    validator.validate({value:amount,type:"ETH_DATA"});
     const tx = {};
     tx.to = this.address;
     tx.value = "0x0";

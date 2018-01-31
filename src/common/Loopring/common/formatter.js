@@ -70,14 +70,14 @@ export function toBN(mixed) {
   return (mixed instanceof BN) ? mixed : new BN(toBig(mixed).toString(), 10);
 }
 
-export function formatPrivateKey(mixed) {
+export function formatKey(mixed) {
 
   if (mixed instanceof Buffer) {
-    return '0x' + mixed.toString('hex')
+    return mixed.toString('hex')
   }
 
   if (mixed instanceof String) {
-    return mixed.startsWith("0x") ? mixed : "0x" + mixed
+    return mixed.startsWith("0x") ? mixed : mixed
   }
   throw new Error('Unsupported type')
 }
@@ -93,5 +93,28 @@ export function formatAddress(mixed) {
   throw new Error('Unsupported type')
 
 }
+
+export function addHexPrefix(input) {
+
+  if(input instanceof String){
+
+   return input.startsWith('0x') ? input : "0x" + input;
+  }
+
+  throw new Error('Unsupported type')
+}
+
+export function clearPrefix(input) {
+
+
+  if(input instanceof String){
+
+    return input.startsWith('0x') ? input.slice(2) : input;
+  }
+
+  throw new Error('Unsupported type')
+
+}
+
 
 

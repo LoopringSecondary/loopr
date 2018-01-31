@@ -6,7 +6,7 @@ import Transaction from './transaction'
 export default class WETH extends Token {
 
   async deposit(amount, privateKey, gasPrice, gasLimit, nonce, chainId) {
-    validator.validate({value: privateKey, type: "PRIVATE_KEY"});
+    validator.validate({value:amount,type:"ETH_DATA"});
     const tx = {};
     tx.to = this.address;
     tx.value = amount;
@@ -30,7 +30,7 @@ export default class WETH extends Token {
   }
 
   async withDraw(amount, privateKey, gasPrice, gasLimit, nonce, chainId) {
-    validator.validate({value: privateKey, type: "PRIVATE_KEY"});
+    validator.validate({value:amount,type:"ETH_DATA"});
     const tx = {};
     tx.to = this.address;
     tx.value = amount;
