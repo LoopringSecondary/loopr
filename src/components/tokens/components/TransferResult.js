@@ -1,11 +1,11 @@
 import React from 'react';
-import { Avatar,Icon,Button } from 'antd';
+import { Avatar,Icon,Button,Card } from 'antd';
 
 let Preview = ({
   modals,
   }) => {
   return (
-      <div>
+      <Card title="Result">
         <div className="p25 text-center">
           <Icon className="fs60" type="check-circle"></Icon>
           <div className="fs20 color-grey-900">
@@ -20,7 +20,7 @@ let Preview = ({
             <Button className="d-block w-100" type="primary" size="large">Send Again</Button>
           </div>
         </div>
-      </div>
+      </Card>
   );
 };
 

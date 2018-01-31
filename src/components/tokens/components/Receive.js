@@ -10,12 +10,15 @@ let Receive = (props) => {
     copy(value) ? message.success('Copy Successfully') :  message.error("Copy Failed")
   }
   return (
-    <div style={{textAlign:'center'}}>
-      <div style={{padding:"30px 20px"}}>
-      <QRCode value="0xe0cC17fe6B36Fd310cb1f98048f6c42b43Cfde45" size={240}/>
+    <Card title="My Ethereum Address">
+      <div style={{textAlign:'center'}}>
+        <div style={{padding:"30px 20px"}}>
+        <QRCode value="0xe0cC17fe6B36Fd310cb1f98048f6c42b43Cfde45" size={240}/>
+        </div>
+        <Search enterButton="Copy" value="0xe0cC17fe6B36Fd310cb1f98048f6c42b43Cfde45" disabled onSearch={copyToClipboard}/>
       </div>
-      <Search enterButton="Copy" value="0xe0cC17fe6B36Fd310cb1f98048f6c42b43Cfde45" disabled onSearch={copyToClipboard}/>
-    </div>
+    </Card>
+   
   );
 };
 

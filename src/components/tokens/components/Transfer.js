@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
+import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Card} from 'antd';
 
 let Transfer = ({
   form,
@@ -10,8 +10,8 @@ let Transfer = ({
       console.log('values',values);
       if(!err){
         // TODO
-        modals.hideModal({id:'transfer'})
-        modals.showModal({id:'transfer/preview'})
+        modals.hideModal({id:'token/transfer'})
+        modals.showModal({id:'token/transfer/preview'})
       }
     });
   }
@@ -36,7 +36,7 @@ let Transfer = ({
     wrapperCol: { span: 17 },
   }
   return (
-      <div>
+      <Card title="Send LRC">
         <Form layout="horizontal">
           <Form.Item label="Recipient" {...formImemLayout}>
             {form.getFieldDecorator('to', {
@@ -117,7 +117,7 @@ let Transfer = ({
             <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Continue</Button>
           </Form.Item>
         </Form>
-      </div>
+      </Card>
   );
 };
 

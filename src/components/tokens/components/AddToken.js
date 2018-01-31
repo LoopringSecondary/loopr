@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
+import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Card} from 'antd';
 
 const AddCustomToken = ({
     form
@@ -22,7 +22,7 @@ const AddCustomToken = ({
     form.resetFields()
   }
   return (
-    <div className="" >
+    <Card title="Add Custom Token" className="" >
       <Form layout="horizontal" className="">
         <Form.Item label="Token Name" colon={false}>
           {form.getFieldDecorator('name', {
@@ -73,7 +73,7 @@ const AddCustomToken = ({
           </div>
         </Form.Item>
       </Form>
-    </div>
+    </Card>
   );
 };
 

@@ -1,9 +1,20 @@
 import React from 'react';
-import { Avatar,Icon,Button } from 'antd';
+import { Avatar,Icon,Button,Card } from 'antd';
 
 let Preview = ({
   modals,
   }) => {
+
+  const handelSubmit = ()=>{
+    modals.hideModal({id:'token/transfer/preview'})
+    modals.showModal({id:'token/transfer/result'})
+  }
+
+  const handelCancel = ()=>{
+    modals.hideModal({id:'token/transfer/preview'})
+  }
+
+
 
   const MetaItem = (props)=>{
     const {label,value} = props
@@ -29,7 +40,7 @@ let Preview = ({
       </div>
   )
   return (
-      <div>
+      <Card title="You are about to send">
         <div className="row flex-nowrap zb-b-b pb30">
           <div className="col-auto">
             <div className="text-center">
@@ -57,13 +68,13 @@ let Preview = ({
         <MetaItem label="Transaction Fee" value="0.00012 ETH ( USD 2.2 )" />
         <div className="row pt40">
           <div className="col pl0">
-            <Button className="d-block w-100" type="" size="large">No, Cancel It</Button>
+            <Button onClick={handelCancel} className="d-block w-100" type="" size="large">No, Cancel It</Button>
           </div>
           <div className="col pr0">
-            <Button className="d-block w-100" type="primary" size="large">Yes, Send Now</Button>
+            <Button onClick={handelSubmit} className="d-block w-100" type="primary" size="large">Yes, Send Now</Button>
           </div>
         </div>
-      </div>
+      </Card>
   );
 };
 
