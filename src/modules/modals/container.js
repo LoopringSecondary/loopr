@@ -9,7 +9,7 @@ export default class ModalContainer extends React.Component {
   render() {
   	const {dispatch,modals,id,title} = this.props
   	let thisModal = modals[id] || {}
-    console.log('modal container re-render',id)
+    // console.log('modal container re-render',id)
   	const hideModal = (payload)=>{
       dispatch({
         type:'modals/modalChange',
