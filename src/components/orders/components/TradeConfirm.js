@@ -5,10 +5,14 @@ const TradeConfirm = ({
   modals,
   dispatch,
   }) => {
+  const modal = modals['trade/confirm'] || {}
+  const { side, pair} = modal
+  const token = pair.split('/')[0]
+
   const handelSubmit = ()=>{
     // TODO
-    // hideModal({id:'trade/confirm'})
-    // showModal({id:'trade/steps'})
+    modals.hideModal({id:'trade/confirm'})
+    modals.showModal({id:'trade/steps'})
   }
 
   const MetaItem = (props)=>{
@@ -24,8 +28,9 @@ const TradeConfirm = ({
       </div>
     )
   }
+  const title = <div className="text-capitalize">{side} {token}</div>
   return (
-      <Card title="">
+      <Card title={title}>
         <div className="caption zb-b-b text-center p25 pt0">
           <div className="fs16 color-grey-500 mb5">You are buying</div>
           <div className="fs28 color-grey-900">5,260.88 LRC</div>

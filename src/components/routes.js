@@ -11,7 +11,6 @@ import ModalContainer from '../modules/modals/container'
 
 export default (
 	<div>
-
 			<Switch>
 				<Route path="/" exact component={Pages.Home} />
 				<Route path="/home" exact component={Pages.Home} />

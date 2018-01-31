@@ -10,14 +10,15 @@ let TradeForm = ({
   }) => {
 
   const token = pair.split('/')[0]
-
-  const showModal = ()=>{
+  
+  const showTradeModal = ()=>{
     dispatch({
       type:'modals/modalChange',
       payload:{
         id:'trade/confirm',
         visible:true,
-        data:{}
+        side,
+        pair,
       }
     })
   }
@@ -26,7 +27,7 @@ let TradeForm = ({
       console.log('values',values);
       if(!err){
         // TODO
-        showModal()
+        showTradeModal()
       }
     });
   }

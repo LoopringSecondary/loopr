@@ -11,12 +11,20 @@ export default class ModalContainer extends React.Component {
   	let thisModal = modals[id] || {}
 
   	const hideModal = (payload)=>{
+      dispatch({
+        type:'modals/modalChange',
+        payload:{
+          ...payload,
+          visible:false,
+        }
+      })
+    }
+    const showModal = (payload)=>{
   	  dispatch({
   	  	type:'modals/modalChange',
   	  	payload:{
   	  		...payload,
-  	  		id:id,
-  	  		visible:false,
+  	  		visible:true,
   	  	}
   	  })
   	}
@@ -28,12 +36,14 @@ export default class ModalContainer extends React.Component {
   		maskClosable:true,
       // wrapClassName:"rs", // reset modal
   		className:"rs", // reset modal
-  		onCancel:hideModal.bind(this),
+  		onCancel:hideModal.bind(this,{id}),
   	}
   	let childProps = {
-  	  ...this.props,
-  	  modals,
-  	  dispatch,
+      modals:{
+        ...modals,
+        showModal:showModal.bind(this),
+        hideModal:hideModal.bind(this),
+      }
   	}
     return (
   		<Modal {...modalProps}>
