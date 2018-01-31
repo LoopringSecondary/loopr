@@ -18,6 +18,7 @@ let FiltersForm = ({
           <Form.Item label="Token">
             <Select
                 showSeach={true}
+                allowClear
                 style={{ width: 200 }}
                 placeholder="Select"
                 optionFilterProp="children"
@@ -35,6 +36,7 @@ let FiltersForm = ({
             <Select
                 style={{ width: 200 }}
                 placeholder="Select"
+                allowClear
                 optionFilterProp="children"
                 onChange={()=>{}}
                 onFocus={()=>{}}

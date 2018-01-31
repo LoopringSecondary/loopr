@@ -63,10 +63,8 @@ function ListBlock({LIST,actions,className,style}) {
         }
       },
       action:(value,item,index)=>{
-        
-        // <span onClick={cancelOrder.bind(this,value,item)} className="fs12">Cancel</span>
         if(index%5 == 0 || index%5 == 1){
-         return <Button size="small" className="color-blue-600 border-blue-600">Cancel</Button> 
+         return <Button onClick={cancelOrder.bind(this,value,item)} size="small" className="color-blue-600 border-blue-600">Cancel</Button> 
         }else{
           return null
         }

@@ -1,15 +1,13 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
-import './Preference.less'
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
 // filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
 
 const Perference = ({
-    settings,form
+    form
   }) => {
-  const {preference} = settings
-
+  // const {preference} = settings
   function handleChange(type, value) {
     console.log(type+":"+value);
   }

@@ -29,6 +29,7 @@ let FiltersForm = ({
           <Form.Item label="Status" >
             <Select
                 style={{ width: 120 }}
+                allowClear
                 placeholder="All"
                 optionFilterProp="children"
                 onChange={()=>{}}
@@ -45,6 +46,7 @@ let FiltersForm = ({
           <Form.Item label="Type" className="mr0">
             <Select
               style={{ width: 120 }}
+              allowClear
               placeholder="All"
             >
               { 

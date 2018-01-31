@@ -3,8 +3,8 @@ export default {
 	"navbar.trade":'Trade',
 	"navbar.wallet":'Wallet',
 	"navbar.setting":'Setting',
-	"page.wallet.assets":'Assets',
-	"page.wallet.orders":'Orders',
-	"page.wallet.trades":'Trades',
+	"page.wallet.assets":'My Assets',
+	"page.wallet.orders":'My Orders',
+	"page.wallet.trades":'My Trades',
   "navbar.portfolio":"Portfolio",
 }

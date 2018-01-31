@@ -6,7 +6,7 @@ import schema from '../../../../modules/tokens/schema';
 import tokens from './tokens';
 import './ListSidebar.less'
 
-function ListBlock({LIST,actions,modal}) {
+function ListSidebar({LIST,actions,modal}) {
   const {
       // items=[],
       loading,
@@ -162,7 +162,7 @@ function ListBlock({LIST,actions,modal}) {
               </Button>
             </Popover>
           </div>
-          <div class="w-100"></div>
+          <div className="w-100"></div>
           {
             false && index==2 &&
             <div className="col mt5 pr0">
@@ -187,5 +187,5 @@ function ListBlock({LIST,actions,modal}) {
   )
 }
 
-export default ListBlock
+export default ListSidebar
 
