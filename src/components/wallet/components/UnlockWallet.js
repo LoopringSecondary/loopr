@@ -18,8 +18,8 @@ function UnlockWallet({form}) {
     </div>
   )
   return (
-    <div className="">
-        <div>
+    <Card title="Unlock Wallet">
+        <div title="UnLock Wallet">
           <div className="fs16 pb20 color-grey-700" hidden>How would you like to access your wallet ?</div>
           <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true}>
             <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">MetaMask{false && recommended}</div>} key="metamask">
@@ -63,7 +63,7 @@ function UnlockWallet({form}) {
             {footer}
           </Form> 
         </div>
-    </div>
+    </Card>
   )
 }
 

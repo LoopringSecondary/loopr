@@ -69,7 +69,7 @@ export default class GenerateWallet extends React.Component {
     }
 
     return (
-      <div>
+      <Card title='Generate Wallet'>
         <Input 
           type={this.state.visible ? 'text' : 'password'} 
           size="large" 
@@ -86,7 +86,7 @@ export default class GenerateWallet extends React.Component {
           </div>
         </div>
         <Button onClick={handelSubmit} className="w-100 d-block mt15" type="primary" size="large" >Generate Now</Button>
-      </div>
+      </Card>
     );
   }
 }
