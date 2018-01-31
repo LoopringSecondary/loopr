@@ -49,7 +49,7 @@ const TradingSettingForm = ({
               size="large"
             >
               {[1,1,1,1].map((item,index)=>
-                <Select.Option value={'v1.0'} >V1.0</Select.Option>
+                <Select.Option key={index} value={'v1.0'} >V1.0</Select.Option>
               )}
             </Select>
           )}
@@ -72,7 +72,7 @@ const TradingSettingForm = ({
         </Form.Item>
         <Form.Item {...formItemLayout} label="Gas Price" colon={false}>
           {form.getFieldDecorator('gasPrice', {
-            initialValue:'30',
+            initialValue:30,
             rules:[]
           })(
             <Slider min={10} max={80} step={10} 

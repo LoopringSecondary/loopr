@@ -22,7 +22,7 @@ const SettingPage = (props) => {
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Relay</div>} key="relay">
-              <div className="p15 pt25">
+              <div className="p15">
                 <Settings.Relay />
               </div>
             </Tabs.TabPane>
@@ -32,7 +32,7 @@ const SettingPage = (props) => {
 }
 const SettingModal = (props)=>{
   return (
-    <ModalContainer id='setting' >
+    <ModalContainer id='setting' className="rs-body">
       <SettingPage />
     </ModalContainer>
   )

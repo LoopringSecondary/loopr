@@ -93,7 +93,7 @@ const Perference = ({
               onChange={handleChange.bind(this, "timezone")}
             >
               {timezoneArray && timezoneArray.map((item, index)=>
-                <Select.Option value={item.timezone} title={"("+item.timezone+") "+item.principal}>({item.timezone}) {item.principal}</Select.Option>
+                <Select.Option key={index} value={item.timezone} title={"("+item.timezone+") "+item.principal}>({item.timezone}) {item.principal}</Select.Option>
               )}
             </Select>
           )}

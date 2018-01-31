@@ -22,11 +22,12 @@ export default class ModalContainer extends React.Component {
   	}
   	const modalProps = {
   		visible:thisModal.visible,
-  		title:thisModal.title || title,
+  		title:null,
   		footer:null,
   		closable:true,
   		maskClosable:true,
-  		wrapClassName:"rs",
+      // wrapClassName:"rs", // reset modal
+  		className:"rs", // reset modal
   		onCancel:hideModal.bind(this),
   	}
   	let childProps = {
