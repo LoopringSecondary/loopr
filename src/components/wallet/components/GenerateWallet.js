@@ -25,13 +25,16 @@ export default class GenerateWallet extends React.Component {
   render() {
     const {modals} = this.props
     const handelSubmit = ()=>{
-      // TODO
       modals.hideModal({id:'wallet/generate'})
       modals.showModal({id:'wallet/backup'})
     }
+    const gotoUnlock = ()=>{
+      modals.hideModal({id:'wallet/generate'})
+      modals.showModal({id:'wallet/unlock'})
+    }
     const footer = (
       <div className="fs14 color-grey-900 text-center pt10 pb10">
-        Already have a wallet ? <a className="color-blue-600 ml5">Click to unlock</a> !
+        Already have a wallet ? <a className="color-blue-600 ml5" onClick={gotoUnlock}>Click to unlock</a> !
       </div>
     )
     const passwordVisible = (
@@ -69,6 +72,7 @@ export default class GenerateWallet extends React.Component {
           </div>
         </div>
         <Button onClick={handelSubmit} className="w-100 d-block mt15" type="primary" size="large" >Generate Now</Button>
+        {footer}
       </Card>
     );
   }

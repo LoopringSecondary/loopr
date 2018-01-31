@@ -5,7 +5,12 @@ import { Button,Form,Radio,Input,Tabs,Card,Badge,Icon } from 'antd';
 import UnlockByMetaMask from './UnlockByMetaMask'
 import UnlockByKeystore from './UnlockByKeystore'
 
-function UnlockWallet({form}) {
+function UnlockWallet({form,modals}) {
+  
+  const gotoGenerate = ()=>{
+    modals.hideModal({id:'wallet/unlock'})
+    modals.showModal({id:'wallet/generate'})
+  }
   const recommended = (
     <Badge style={{fontSize:'6px'}} className="bg-green-600 ml10" size="small" icon="like">
       <Icon type='like' className="mr5" />
@@ -14,7 +19,7 @@ function UnlockWallet({form}) {
   )
   const footer = (
     <div className="fs14 mt20 pt15 color-grey-900 zb-b-t">
-      Don't have a Wallet? Let's <a className="color-blue-600 ml5">generate one</a> !
+      Don't have a Wallet? Let's <a className="color-blue-600 ml5" onClick={gotoGenerate}>generate one</a> !
     </div>
   )
   return (
