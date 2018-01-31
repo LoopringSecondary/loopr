@@ -56,18 +56,16 @@ function Home(props){
          }
        </div>
       </div>
-      <ModalContainer id="wallet/unlock" title="Unlock Wallet">
+      <ModalContainer id="wallet/unlock" >
         <Wallet.UnlockWallet />
       </ModalContainer>
-      <ModalContainer id="wallet/generate" title="Generate Wallet">
+      <ModalContainer id="wallet/generate" >
         <Wallet.GenerateWallet />
       </ModalContainer>
-      <ModalContainer id="wallet/backup" title="Backup Wallet">
+      <ModalContainer id="wallet/backup" >
         <Wallet.BackupWallet />
       </ModalContainer>
     </Layout>
-    
   )
 }
-
 export default connect()(Home)

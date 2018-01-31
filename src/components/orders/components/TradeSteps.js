@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal,Collapse,Button,Input,Steps,Popover,Alert} from 'antd';
 import iconSuccess from '../../../assets/images/icon-success.png'
 
-const TradeConfirm = ({
+const TradeSteps = ({
   }) => {
   const MetaItem = (props)=>{
     const {label,value}=props
@@ -47,7 +47,6 @@ const TradeConfirm = ({
   );
 };
 
-
-export default TradeConfirm
+export default TradeSteps
 
  

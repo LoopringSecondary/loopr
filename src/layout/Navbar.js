@@ -17,7 +17,7 @@ function Navbar(props){
     props.dispatch({
       type:'modals/modalChange',
       payload:{
-        id:'setting',
+        id:'settings',
         visible:true
       }
     })

@@ -2,10 +2,6 @@ import React from 'react';
 import { Tabs,Card,Modal } from 'antd'
 import { connect } from 'dva'
 import Settings from '../components'
-import SettingsContainer from '../../../modules/settings/container'
-import ModalContainer from '../../../modules/modals/container'
-
-console.log('Settings',Settings)
 
 const SettingPage = (props) => {
   return (
@@ -30,12 +26,4 @@ const SettingPage = (props) => {
       </div>
   )
 }
-const SettingModal = (props)=>{
-  return (
-    <ModalContainer id='setting' className="rs-body">
-      <SettingPage />
-    </ModalContainer>
-  )
-}
-
-export default SettingModal
+export default SettingPage

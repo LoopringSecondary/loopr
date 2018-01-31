@@ -1,32 +1,14 @@
 import React from 'react';
-import { Modal,Collapse,Button,Input} from 'antd';
+import { Modal,Collapse,Button,Input,Card} from 'antd';
 
 const TradeConfirm = ({
   modals,
   dispatch,
   }) => {
-  const showModal = (payload)=>{
-    dispatch({
-      type:'modals/modalChange',
-      payload:{
-        ...payload,
-        visible:true
-      }
-    })
-  }
-  const hideModal = (payload)=>{
-    dispatch({
-      type:'modals/modalChange',
-      payload:{
-        ...payload,
-        visible:false
-      }
-    })
-  }
   const handelSubmit = ()=>{
     // TODO
-    hideModal({id:'trade/confirm'})
-    showModal({id:'trade/steps'})
+    // hideModal({id:'trade/confirm'})
+    // showModal({id:'trade/steps'})
   }
 
   const MetaItem = (props)=>{
@@ -43,7 +25,7 @@ const TradeConfirm = ({
     )
   }
   return (
-      <div>
+      <Card title="">
         <div className="caption zb-b-b text-center p25 pt0">
           <div className="fs16 color-grey-500 mb5">You are buying</div>
           <div className="fs28 color-grey-900">5,260.88 LRC</div>
@@ -80,10 +62,9 @@ const TradeConfirm = ({
             Submit Order
           </Button>
         </div>
-      </div>
+      </Card>
   );
 };
-
 
 export default TradeConfirm
 
