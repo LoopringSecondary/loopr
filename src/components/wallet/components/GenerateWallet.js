@@ -23,35 +23,36 @@ export default class GenerateWallet extends React.Component {
   passwordChange(e){
     const value = e.target.value
     const strength = this.getStrength(value)
+    const disabled = value.length <= 6
     this.setState({
       value,
-      strength
+      strength,
+      disabled
     })
   }
   getStrength(value){
     if(value.length<=6){
       return 'weak'
     }
+    if(value.length > 10){
+      return 'strong'
+    }
     if(6 < value.length <= 10){
       return 'average'
     }
-    if(value.length > 10){
-      console.log('value.length',value.length)
-      return 'strong'
-    }
+  }
+  handelSubmit(){
+    const {modals} = this.props
+    modals.hideModal({id:'wallet/generate'})
+    modals.showModal({id:'wallet/backup'})
+  }
+  gotoUnlock(){
+    const {modals} = this.props
+    modals.hideModal({id:'wallet/generate'})
+    modals.showModal({id:'wallet/unlock'})
   }
   render() {
-    const {modals} = this.props
     const {visible,strength,disabled,value} = this.state
-
-    const handelSubmit = ()=>{
-      modals.hideModal({id:'wallet/generate'})
-      modals.showModal({id:'wallet/backup'})
-    }
-    const gotoUnlock = ()=>{
-      modals.hideModal({id:'wallet/generate'})
-      modals.showModal({id:'wallet/unlock'})
-    }
     const visibleIcon = (
         <div className="fs14 pl5 pr5">
           { visible && 
@@ -92,9 +93,9 @@ export default class GenerateWallet extends React.Component {
           </div>
         }
         <div className="mb25"></div>
-        <Button disabled={disabled} onClick={handelSubmit} className="w-100 d-block mt15" type="primary" size="large" >Generate Now</Button>
+        <Button disabled={disabled} onClick={this.handelSubmit.bind(this)} className="w-100 d-block mt15" type="primary" size="large" >Generate Now</Button>
         <div className="fs14 color-grey-900 text-center pt10 pb10">
-          Already have a wallet ? <a className="color-blue-600 ml5" onClick={gotoUnlock}>Click to unlock</a> !
+          Already have a wallet ? <a className="color-blue-600 ml5" onClick={this.gotoUnlock.bind(this)}>Click to unlock</a> !
         </div>
       </Card>
     );
