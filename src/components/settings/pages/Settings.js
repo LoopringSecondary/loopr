@@ -3,7 +3,8 @@ import { Tabs,Card,Modal } from 'antd'
 import { connect } from 'dva'
 import Settings from '../components'
 
-const SettingPage = (props) => {
+const SettingPage = ({modals}) => {
+
   return (
       <div className="bg-white" style={{borderRadius:'10px'}}>
           <Tabs defaultActiveKey="preference" animated={false} tabBarStyle={{marginBottom:'0px'}}>
@@ -19,7 +20,7 @@ const SettingPage = (props) => {
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Relay</div>} key="relay">
               <div className="p15">
-                <Settings.Relay />
+                <Settings.Relay modals={modals}  />
               </div>
             </Tabs.TabPane>
           </Tabs>

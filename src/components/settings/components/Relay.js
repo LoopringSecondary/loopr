@@ -6,26 +6,14 @@ import RelayAdd from './RelayAdd'
 import RelayEdit from './RelayEdit'
 
 const RealySettingForm = ({
-    settings,form,modals,dispatch
+    settings,form,modals
   }) => {
-  const showEditModal = (e)=>{
+  const gotoEdit = (e)=>{
     e.preventDefault();
-    dispatch({
-      type:'modals/modalChange',
-      payload:{
-        id:'setting/relay/edit',
-        visible:true,
-      }
-    })
+    modals.showModal({id:'settings/relay/edit'})
   }
-  const showAddModal = ()=>{
-    dispatch({
-      type:'modals/modalChange',
-      payload:{
-        id:'setting/relay/add',
-        visible:true,
-      }
-    })
+  const gotoAdd = ()=>{
+    modals.showModal({id:'settings/relay/add'})
   }
 
   function handleChange(type, value) {
@@ -78,7 +66,7 @@ const RealySettingForm = ({
                           <Input size="large" value="27.0.0.01" />
                         </div>
                         <div className="col-auto">
-                          <a href="" onClick={showEditModal} className="">Edit</a>
+                          <a href="" onClick={gotoEdit} className="">Edit</a>
                         </div>
                       </div>
                     </div>
@@ -91,17 +79,11 @@ const RealySettingForm = ({
         <Form.Item className="">
           <div className="row">
             <div className="col">
-              <Button type="primary" onClick={showAddModal} className="">Add Cutom Relay</Button>
+              <Button type="primary" onClick={gotoAdd} className="">Add Cutom Relay</Button>
             </div>
           </div>
         </Form.Item>
       </Form>
-      <ModalContainer id='setting/relay/add' title="Add Relay">
-        <RelayAdd />
-      </ModalContainer>
-      <ModalContainer id='setting/relay/edit' title="Edit Relay">
-        <RelayEdit />
-      </ModalContainer>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Pages from './pages';
 import ordersRoutes from './orders/routes';
 import ringsRoutes from './rings/routes';
 import wallet from './wallet/components';
-import Settings from './settings/pages/Settings';
+import SettingsModals from './settings/pages/Modals';
 import TradeConfirm from './orders/components/TradeConfirm';
 import TokenModals from './tokens/components/Modals';
 import TradeSteps from './orders/components/TradeSteps';
@@ -20,9 +20,8 @@ export default (
 				<Route path="/trade" exact component={Pages.Trade} />
 		    <Route path="/portfolio" exact component={Pages.Portfolio}/>
 			</Switch>
-			<ModalContainer id="settings">
-			  <Settings />
-			</ModalContainer>
+			<TokenModals />
+			<SettingsModals />
 			<ModalContainer id="trade/confirm">
 			  <TradeConfirm />
 			</ModalContainer>
@@ -38,7 +37,7 @@ export default (
 			<ModalContainer id="wallet/backup" >
 			  <Wallet.BackupWallet />
 			</ModalContainer>
-			<TokenModals />
+
 	</div>
 	
 )
