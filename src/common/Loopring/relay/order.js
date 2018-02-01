@@ -92,3 +92,14 @@ export async function cancelAllOrders(privateKey,timestamp,gasPrice, gasLimit, n
   const transaction = new Transaction(tx);
   return transaction.send(privateKey)
 }
+
+export async function placeOrder(order) {
+
+  //TODO
+
+}
+
+export async function sign(order) {
+
+  //TODO
+}
