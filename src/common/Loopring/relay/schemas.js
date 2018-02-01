@@ -26,18 +26,6 @@ let basicSchemas = {
       required: true,
       minimum: 0,
       maximum: 100
-    },
-    r: {
-      type: 'integer',
-      minimum: 0
-    },
-    s: {
-      'type': 'string',
-      pattern: /^0x[0-9a-fA-F]{64}$/g
-    },
-    v: {
-      'type': 'string',
-      pattern: /^0x[0-9a-fA-F]{64}$/g
     }
   },
   ORDER:{
