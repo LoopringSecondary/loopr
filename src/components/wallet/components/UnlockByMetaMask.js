@@ -4,7 +4,7 @@ import { Link } from 'dva/router';
 import { Button,Form,Radio,Input,Tabs } from 'antd';
 
 
-function UnLockByMetaMask(props) {
+function UnlockByMetaMask(props) {
   return (
     <div className="text-left">
       <div className="color-grey-500 fs12 mb10">
@@ -18,4 +18,4 @@ function UnLockByMetaMask(props) {
   )
 }
 
-export default UnLockByMetaMask;
+export default UnlockByMetaMask;

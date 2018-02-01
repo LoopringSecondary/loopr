@@ -4,11 +4,11 @@ import { Link } from 'dva/router';
 import { Button,Form,Radio,Input,Tabs,Card,Badge,Icon } from 'antd';
 import UnlockByMetaMask from './UnlockByMetaMask'
 import UnlockByKeystore from './UnlockByKeystore'
+import UnlockByMnemonic from './UnlockByMnemonic'
+import UnlockByPrivateKey from './UnlockByPrivateKey'
 
 function UnlockWallet({form,modals}) {
-  
   const gotoGenerate = ()=>{
-    modals.showLoading({id:'wallet/unlock'})
     modals.hideModal({id:'wallet/unlock'})
     modals.showModal({id:'wallet/generate'})
   }
@@ -32,16 +32,17 @@ function UnlockWallet({form,modals}) {
           <div className="fs16 pb20 color-grey-700" hidden>How would you like to access your wallet ?</div>
           <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true}>
             <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">MetaMask{false && recommended}</div>} key="metamask">
+              {recommended}
               <UnlockByMetaMask />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Keystore</div>} key="keystore">
              <UnlockByKeystore />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Mnemonic</div>} key="mnemonic">
-              Mnemonic
+              <UnlockByMnemonic />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Private Key</div>} key="privatekey">
-             Private Key
+             <UnlockByPrivateKey />
             </Tabs.TabPane>
           </Tabs>
           {footer}

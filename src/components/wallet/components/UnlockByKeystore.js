@@ -4,7 +4,7 @@ import { Link } from 'dva/router';
 import { Button,Form,Radio,Input,Tabs,Upload,Icon,message } from 'antd';
 
 
-function UnLockByKeyStore({form}) {
+function UnlockByKeyStore({form}) {
 	const uploadProps = {
 	  name: 'file',
 	  action: '//jsonplaceholder.typicode.com/posts/',
@@ -39,10 +39,10 @@ function UnLockByKeyStore({form}) {
        </Form.Item>
        <Form.Item className="" label="password">
          {form.getFieldDecorator('password', {
-           initialValue:'1',
+           initialValue:'',
            rules:[]
          })(
-         	<Input size="large" />
+         	<Input size="large" type="password" />
          )}
        </Form.Item>
        <Form.Item className="">
@@ -53,4 +53,4 @@ function UnLockByKeyStore({form}) {
   )
 }
 
-export default Form.create()(UnLockByKeyStore)
+export default Form.create()(UnlockByKeyStore)
