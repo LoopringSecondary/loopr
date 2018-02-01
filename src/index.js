@@ -7,10 +7,12 @@ import containers from './common/containers'
 import redux from './common/redux'
 import Loopring from './common/Loopring'
 import uiFormatter from './common/utils/uiFormatter'
+import routeActions from './common/utils/routeActions'
 window.CONTAINERS = containers
 window.REDUX = redux
 window.Loopring = Loopring
 window.uiFormatter = uiFormatter
+window.routeActions = routeActions
 
 moment.locale('zh-cn');
 
