@@ -4,7 +4,7 @@ import { Link } from 'dva/router';
 import { Button,Form,Radio,Input,Tabs,Card,Badge,Icon,Modal,Progress } from 'antd';
 import UnlockByMetaMask from './UnlockByMetaMask'
 import UnlockByKeystore from './UnlockByKeystore'
-import {create} from "../../../common/Loopring/ethereum/account"
+import {create} from "Loopring/ethereum/account"
 export default class GenerateWallet extends React.Component {
   constructor(props) {
     super(props)
@@ -46,9 +46,7 @@ export default class GenerateWallet extends React.Component {
     modals.showLoading({id:'wallet/generate'});
     setTimeout(()=>{
       const account = create(this.state.value);
-
       // TODO dispatch action to store account in redux
-      console.log(account.address);
       this.setState({value:null});
       modals.hideLoading({id:'wallet/generate'});
       modals.hideModal({id:'wallet/generate'});
