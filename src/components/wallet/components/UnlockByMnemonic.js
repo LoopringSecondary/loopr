@@ -48,10 +48,8 @@ function UnlockByMnemonic({form}) {
          	<Input size="large" type="password" />
          )}
        </Form.Item>
-       <Form.Item className="">
-         <Button type="primary" className="d-block w-100" size="large">UnLock</Button>
-       </Form.Item>
      </Form> 
+     <Button type="primary" className="d-block w-100" size="large">UnLock</Button>
     </div>
   )
 }

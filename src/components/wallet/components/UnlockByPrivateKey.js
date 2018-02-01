@@ -4,7 +4,17 @@ import { Link } from 'dva/router';
 import { Button,Form,Radio,Input,Tabs,Upload,Icon,message,Alert } from 'antd';
 
 
-function UnlockByPrivateKey({form}) {
+function UnlockByPrivateKey({form,modals}) {
+   function handleSubmit(){
+    form.validateFields( (err,values) => {
+      console.log('values',values);
+      if(!err){
+        // TODO
+        modals.hideModal({id:'wallet/unlock'})
+        window.routeActions.gotoPath('wallet')
+      }
+    });
+  }
   return (
     <div className="">
      <Alert 
@@ -31,10 +41,8 @@ function UnlockByPrivateKey({form}) {
          	<Input size="large" type="password" />
          )}
        </Form.Item>
-       <Form.Item className="">
-         <Button type="primary" className="d-block w-100" size="large">UnLock</Button>
-       </Form.Item>
      </Form> 
+     <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">UnLock</Button>
     </div>
   )
 }

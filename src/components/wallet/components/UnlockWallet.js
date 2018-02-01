@@ -13,7 +13,7 @@ function UnlockWallet({form,modals}) {
     modals.showModal({id:'wallet/generate'})
   }
   const footer = (
-    <div className="fs14 mt20 pt15 color-grey-900 zb-b-t text-center">
+    <div className="fs14 mt20 pt20 color-grey-900 zb-b-t text-center">
       Don't have a Wallet? Let's 
       <a className="color-blue-600 ml5" onClick={gotoGenerate}>
       generate one !
@@ -25,16 +25,16 @@ function UnlockWallet({form,modals}) {
         <div title="UnLock Wallet">
           <Tabs defaultActiveKey="metamask" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">MetaMask</div>} key="metamask">
-              <UnlockByMetaMask />
+              <UnlockByMetaMask modals={modals} />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
-             <UnlockByKeystore />
+             <UnlockByKeystore modals={modals} />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Mnemonic</div>} key="mnemonic">
-              <UnlockByMnemonic />
+              <UnlockByMnemonic modals={modals} />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Private Key</div>} key="privatekey">
-             <UnlockByPrivateKey />
+             <UnlockByPrivateKey modals={modals} />
             </Tabs.TabPane>
           </Tabs>
           {footer}
