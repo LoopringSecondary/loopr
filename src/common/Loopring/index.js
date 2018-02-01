@@ -1,4 +1,4 @@
-import apis from './apis';
+import apis from './common';
 
 export default {
 	apis,

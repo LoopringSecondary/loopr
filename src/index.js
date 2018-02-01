@@ -32,6 +32,7 @@ let models  = [
   require('./modules/trades/models/list').default,
   require('./modules/orders/models/list').default,
   require('./modules/settings/model').default,
+  require('./modules/global/model').default,
 ]
 models.map(model=>{
   app.model(model)
@@ -42,3 +43,4 @@ app.router(require('./router').default);
 
 // 5. Start
 app.start('#root');
+
