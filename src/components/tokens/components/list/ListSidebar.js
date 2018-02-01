@@ -6,12 +6,21 @@ import schema from '../../../../modules/tokens/schema';
 import tokens from './tokens';
 import './ListSidebar.less'
 
-function ListBlock({LIST,actions,modal}) {
+function ListSidebar({LIST,actions,dispatch}) {
   const {
       // items=[],
       loading,
       page={}
   } = LIST
+  const showModal = (payload)=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        ...payload,
+        visible:true,
+      }
+    })
+  }
   const items = tokens
   const TokenListAcionsBar = (
     <div className="row zb-b-b p15 pl10 pr10 no-gutters">
@@ -34,7 +43,7 @@ function ListBlock({LIST,actions,modal}) {
       </div>
       <div className="col-auto">
         <Tooltip title="Add Custom Token">
-          <Button onClick={modal.showModal.bind(this,'token/add')} className="color-grey-600" icon="plus" shape="circle"></Button>
+          <Button onClick={showModal.bind(this,{id:'token/add'})} className="color-grey-600" icon="plus" shape="circle"></Button>
         </Tooltip>
       </div>
       
@@ -64,18 +73,18 @@ function ListBlock({LIST,actions,modal}) {
     <div style={{width:'120px'}}>
       <div className="row no-gutters">
         <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'token/transfer')} className="" type="primary" icon="pay-circle-o">Transfer</Button>
+          <Button onClick={showModal.bind(this,{id:'token/transfer'})} className="" type="primary" icon="pay-circle-o">Transfer</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'token/receive')} className="" type="primary" icon="qrcode">Receive</Button>
+          <Button onClick={showModal.bind(this,{id:'token/receive'})} className="" type="primary" icon="qrcode">Receive</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={modal.showModal.bind(this,'token/edit')} className="" type="primary" icon="edit">Edit</Button>
+          <Button onClick={showModal.bind(this,{id:'token/edit'})} className="" type="primary" icon="edit">Edit</Button>
         </div>
         {
           token.token === 'ETH' &&
           <div className="col-12 p5">
-            <Button onClick={modal.showModal.bind(this,'token/wrap')} className="" type="primary" icon="retweet">Wrap</Button>
+            <Button onClick={showModal.bind(this,{id:'token/convert'})} className="" type="primary" icon="retweet">Wrap</Button>
           </div>
         }
         <div className="col-12 p5">
@@ -91,15 +100,15 @@ function ListBlock({LIST,actions,modal}) {
       <div className="row no-gutters justify-content-end">
 
         <div className="col-auto p5">
-          <Button onClick={modal.showModal.bind(this,'token/transfer')} className="" type="default" icon="pay-circle-o">Send</Button>
+          <Button onClick={showModal.bind(this,{id:'token/transfer'})} className="" type="default" icon="pay-circle-o">Send</Button>
         </div>
         <div className="col-auto p5">
-          <Button onClick={modal.showModal.bind(this,'token/receive')} className="" type="default" icon="qrcode">Receive</Button>
+          <Button onClick={showModal.bind(this,{id:'token/receive'})} className="" type="default" icon="qrcode">Receive</Button>
         </div>
         {
           token.token === 'ETH' &&
           <div className="col-auto p5">
-            <Button onClick={modal.showModal.bind(this,'token/wrap')} className="" type="default" icon="retweet">Wrap</Button>
+            <Button onClick={showModal.bind(this,{id:'token/convert'})} className="" type="default" icon="retweet">Wrap</Button>
           </div>
         }
       </div>
@@ -162,7 +171,7 @@ function ListBlock({LIST,actions,modal}) {
               </Button>
             </Popover>
           </div>
-          <div class="w-100"></div>
+          <div className="w-100"></div>
           {
             false && index==2 &&
             <div className="col mt5 pr0">
@@ -187,5 +196,5 @@ function ListBlock({LIST,actions,modal}) {
   )
 }
 
-export default ListBlock
+export default connect()(ListSidebar)
 

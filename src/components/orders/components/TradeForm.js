@@ -1,9 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
-import TradeConfirmModal from './TradeConfirmModal'
-import TradeStepsModal from './TradeStepsModal'
-import ModalContainer from '../../../modules/modals/container'
 
 let TradeForm = ({
   form,
@@ -13,14 +10,15 @@ let TradeForm = ({
   }) => {
 
   const token = pair.split('/')[0]
-
-  const showModal = ()=>{
+  
+  const showTradeModal = ()=>{
     dispatch({
       type:'modals/modalChange',
       payload:{
         id:'trade/confirm',
         visible:true,
-        data:{}
+        side,
+        pair,
       }
     })
   }
@@ -29,7 +27,7 @@ let TradeForm = ({
       console.log('values',values);
       if(!err){
         // TODO
-        showModal()
+        showTradeModal()
       }
     });
   }
@@ -130,12 +128,6 @@ let TradeForm = ({
             }
           </Form.Item>
         </Form>
-        <ModalContainer id="trade/confirm" title={<div className="text-capitalize">{side} {token} </div>}>
-          <TradeConfirmModal/>
-        </ModalContainer>
-        <ModalContainer id="trade/steps" title="Placing Order">
-          <TradeStepsModal/>
-        </ModalContainer>
       </div>
   );
 };

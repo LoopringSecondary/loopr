@@ -1,34 +1,34 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
+import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Card} from 'antd';
 
 let Transfer = ({
   form,
-  modal,
+  modals,
   }) => {
   function handleSubmit() {
     form.validateFields((err,values) => {
       console.log('values',values);
       if(!err){
         // TODO
-        modal.hideModal('transfer')
-        modal.showModal('transfer/preview')
+        modals.hideModal({id:'token/transfer'})
+        modals.showModal({id:'token/transfer/preview'})
       }
     });
   }
   function handleCancle() {
-    modal.hideModal('transfer')
+    modals.hideModal({id:'transfer'})
   }
   function handleReset() {
     form.resetFields()
   }
   function resetForm(){
-    if(modal.state && modal['transfer']){
-      const values = form.getFieldsValue()
-      const transfer = modal.state['transfer'].data
-      if(transfer.token && values['token'] != transfer['token'] ){
-        form.resetFields()
-      }
-    }
+    // if(modal.state && modal['transfer']){
+    //   const values = form.getFieldsValue()
+    //   const transfer = modal.state['transfer'].data
+    //   if(transfer.token && values['token'] != transfer['token'] ){
+    //     form.resetFields()
+    //   }
+    // }
   }
   resetForm()
   const formImemLayout = {
@@ -36,7 +36,7 @@ let Transfer = ({
     wrapperCol: { span: 17 },
   }
   return (
-      <div>
+      <Card title="Send LRC">
         <Form layout="horizontal">
           <Form.Item label="Recipient" {...formImemLayout}>
             {form.getFieldDecorator('to', {
@@ -117,7 +117,7 @@ let Transfer = ({
             <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Continue</Button>
           </Form.Item>
         </Form>
-      </div>
+      </Card>
   );
 };
 

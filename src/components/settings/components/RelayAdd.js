@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
+import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Card} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
 const AddRelayForm = ({
@@ -23,7 +23,7 @@ const AddRelayForm = ({
     form.resetFields()
   }
   return (
-    <div className="" >
+    <Card title="Add Relay">
       <Form layout="horizontal" className="">
         <Form.Item label="Relay Name" colon={false}>
           {form.getFieldDecorator('name', {
@@ -41,15 +41,11 @@ const AddRelayForm = ({
             <Input size="large" />
           )}
         </Form.Item>
-        <Form.Item className="mt-auto hidden">
-          <div className="row">
-            <div className="col">
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
-            </div>
-          </div>
+        <Form.Item className="mb0">
+          <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
         </Form.Item>
       </Form>
-    </div>
+    </Card>
   );
 };
 

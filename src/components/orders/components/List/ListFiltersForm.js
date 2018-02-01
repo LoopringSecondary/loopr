@@ -67,9 +67,11 @@ let FiltersForm = ({
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
                   <Select.Option value="all">All</Select.Option>
+                  <Select.Option value="unenough">Unenough</Select.Option>
                   <Select.Option value="opened">Opened</Select.Option>
                   <Select.Option value="completed">Completed</Select.Option>
                   <Select.Option value="cancelled">Cancelled</Select.Option>
+                  <Select.Option value="expired">Expired</Select.Option>
               </Select>
             )}
           </Form.Item>

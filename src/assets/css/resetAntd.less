@@ -1,19 +1,30 @@
 :global{
 		.ant-btn-primary{
-			background: #0077FF !important;
+			// background: #0077FF !important;
 		}
-		.ant-tabs-top{
-			.ant-tabs-ink-bar{
-				height:2px !important
-			}
+		.ant-btn-lg{
+			// height:64px !important;
+			height:56px !important;
 		}
     .ant-modal-body{
     	// padding:0px !important
+    }
+    .ant-modal.rs{
+    	background: transparent !important;
+    	.ant-modal-body{
+    		padding:0px !important;
+    		background: transparent !important;
+    	}
     }
     .ant-input{
     	background: #f3f3f3 !important;
     	border:none !important;
     }
+    .ant-input-lg{
+    	height:44px !important;
+    }
+
+
     .ant-input-group-addon{
     	background: #f3f3f3 !important;
     	border:none !important;
@@ -33,17 +44,13 @@
     .ant-form-item-control{
     	line-height: 100% !important;
     }
-    .ant-btn-lg{
-    	// height:64px !important;
-    	height:56px !important;
-    }
+    
     .ant-input-lg{
     	// height:48px !important;
     }
     .ant-card{
-
+			border-radius:6px !important;
     	&.token-list-card{
-    		border-radius:6px !important;
     		border-color:#DADADA !important;
 				.ant-card-head{
 					padding:0px !important;
@@ -87,6 +94,11 @@
 			// }
    }
 
+	 .ant-tabs-top{
+	 	.ant-tabs-ink-bar{
+	 		// height:2px !important
+	 	}
+	 }
 	 .ant-tabs{
 	 	.ant-tabs-nav .ant-tabs-tab{
 	 		margin-right:0px !important;

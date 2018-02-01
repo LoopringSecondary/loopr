@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
+import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Card} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
 const RelayEditForm = ({
@@ -14,7 +14,7 @@ const RelayEditForm = ({
       if(!err){
         // TODO
       }
-    });
+    })
   }
   function handleReset() {
     form.resetFields()
@@ -23,7 +23,7 @@ const RelayEditForm = ({
     form.resetFields()
   }
   return (
-    <div className="" >
+    <Card title="Edit Relay">
       <Form layout="horizontal" className="">
         <Form.Item label="Relay Name" colon={false}>
           {form.getFieldDecorator('name', {
@@ -41,21 +41,14 @@ const RelayEditForm = ({
             <Input size="large" />
           )}
         </Form.Item>
-        <Form.Item className="mt-auto hidden">
-          <div className="row">
-            <div className="col-12">
-              <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
-            </div>
-            <div className="col-12 pt10">
-              <Button onClick={handleSubmit} type="danger" className="d-block w-100 bg-red-600 border-0 color-white" size="large">Delete</Button>
-            </div>
-          </div>
+        <Form.Item className="mb0">
+          <Button onClick={handleSubmit} type="primary" className="d-block w-100 mb15" size="large">Save</Button>
+          <Button onClick={handleSubmit} type="danger" className="d-block w-100 bg-red-600 border-0 color-white" size="large">Delete</Button>
         </Form.Item>
       </Form>
-    </div>
+    </Card>
   );
 };
-
 
 export default Form.create()(RelayEditForm);
 

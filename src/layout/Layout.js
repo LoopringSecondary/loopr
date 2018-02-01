@@ -2,9 +2,7 @@ import React from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd'
 import GlobalFooter from './Footer'
 import Navbar from './Navbar'
-import SettingModal from '../components/pages/Settings'
 const { Header, Content, Footer } = Layout
-
 
 const HomeLayout = (props)=>{
 	const { children,location } = props
@@ -19,7 +17,6 @@ const HomeLayout = (props)=>{
 		    </div>
 		  </Content>
 		  <GlobalFooter />
-		  <SettingModal />
 		</Layout>
 	)
 }
@@ -36,7 +33,6 @@ const MainLayout = (props)=>{
 		      {children}
 		    </div>
 		  </Content>
-		  <SettingModal />
 		</Layout>
 	)
 }

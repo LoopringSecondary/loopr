@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form,Avatar,Input,Button} from 'antd';
+import { Form,Avatar,Input,Button,Card} from 'antd';
 import ethLogo from '../../../assets/images/eth.png';
 import wethLogo from '../../../assets/images/weth.png';
 import wrapArrow from '../../../assets/images/wrap-arrow.png';
@@ -10,8 +10,6 @@ let Convert = ({form}) => {
 	    console.log('values',values);
 	    if(!err){
 	      // TODO
-	      // modal.hideModal('transfer')
-	      // modal.showModal('transfer/preview')
 	    }
 	  });
 	}
@@ -20,7 +18,7 @@ let Convert = ({form}) => {
 	  wrapperCol: { span: 17 },
 	}
   return (
-      <div>
+      <Card title="Convert">
         <div className="row justify-content-center align-items-center mb15">
         	<div className="col text-center">
         		<img className="rounded-circle" src={ethLogo} style={{height:'60px'}} />
@@ -64,7 +62,7 @@ let Convert = ({form}) => {
             <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Yes,Wrap Now!</Button>
           </Form.Item>
         </Form>
-      </div>
+      </Card>
   );
 };
 

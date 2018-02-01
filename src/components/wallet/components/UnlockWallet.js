@@ -4,35 +4,37 @@ import { Link } from 'dva/router';
 import { Button,Form,Radio,Input,Tabs,Card,Badge,Icon } from 'antd';
 import UnlockByMetaMask from './UnlockByMetaMask'
 import UnlockByKeystore from './UnlockByKeystore'
+import UnlockByMnemonic from './UnlockByMnemonic'
+import UnlockByPrivateKey from './UnlockByPrivateKey'
 
-function UnlockWallet({form}) {
-  const recommended = (
-    <Badge style={{fontSize:'6px'}} className="bg-green-600 ml10" size="small" icon="like">
-      <Icon type='like' className="mr5" />
-      Recommended
-    </Badge>
-  )
+function UnlockWallet({form,modals}) {
+  const gotoGenerate = ()=>{
+    modals.hideModal({id:'wallet/unlock'})
+    modals.showModal({id:'wallet/generate'})
+  }
   const footer = (
-    <div className="fs14 mt20 pt15 color-grey-900 zb-b-t">
-      Don't have a Wallet? Let's <a className="color-blue-600 ml5">generate one</a> !
+    <div className="fs14 mt20 pt15 color-grey-900 zb-b-t text-center">
+      Don't have a Wallet? Let's 
+      <a className="color-blue-600 ml5" onClick={gotoGenerate}>
+      generate one !
+      </a> 
     </div>
   )
   return (
-    <div className="">
-        <div>
-          <div className="fs16 pb20 color-grey-700" hidden>How would you like to access your wallet ?</div>
-          <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true}>
-            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">MetaMask{false && recommended}</div>} key="metamask">
+    <Card title="Unlock Wallet">
+        <div title="UnLock Wallet">
+          <Tabs defaultActiveKey="metamask" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">MetaMask</div>} key="metamask">
               <UnlockByMetaMask />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Keystore</div>} key="keystore">
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
              <UnlockByKeystore />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Mnemonic</div>} key="mnemonic">
-              Mnemonic
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Mnemonic</div>} key="mnemonic">
+              <UnlockByMnemonic />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Private Key</div>} key="privatekey">
-             Private Key
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Private Key</div>} key="privatekey">
+             <UnlockByPrivateKey />
             </Tabs.TabPane>
           </Tabs>
           {footer}
@@ -63,7 +65,7 @@ function UnlockWallet({form}) {
             {footer}
           </Form> 
         </div>
-    </div>
+    </Card>
   )
 }
 

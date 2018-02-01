@@ -4,9 +4,7 @@ import Components from '../components';
 function TradeFormContainer(props){
   const {side} = props
   return (
-    <div className="">
-      <Components.TradeForm side={side} />
-    </div>
+    <Components.TradeForm side={side} />
   )
 }
 

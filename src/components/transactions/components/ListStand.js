@@ -17,7 +17,7 @@ function ListBlock({LIST,actions}) {
       page={}
   } = LIST
 
-  const TransferTx = ({item,index})=>{
+  const TxItem = ({item,index})=>{
     return (
       <div className="row align-items-center no-gutters flex-nowrap zb-b-b p20" key={index}>
         <div className="col-auto">
@@ -86,7 +86,7 @@ function ListBlock({LIST,actions}) {
       </div>
       {
         items.map((item,index)=>
-          <TransferTx item={item} index={index} />
+          <TxItem item={item} key={index} index={index}/>
         )
       }
     </div>

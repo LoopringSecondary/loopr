@@ -13,11 +13,11 @@ function Navbar(props){
       }
     })
   }
-  const showSetting = ()=>{
+  const showModal = (id)=>{
     props.dispatch({
       type:'modals/modalChange',
       payload:{
-        id:'setting',
+        id,
         visible:true
       }
     })
@@ -35,14 +35,24 @@ function Navbar(props){
           </div>
 
         </div>
-        
-        
       </div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">QR Code</div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">Tools</div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">Help</div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">Switch Wallet</div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">Quit</div>
+      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+        <a onClick={showModal.bind(this,'token/receive')}>
+          <Icon type="qrcode" className="mr5" />QR Code
+        </a>
+      </div>
+      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+        <Icon type="question-circle-o" className="mr5" />Help
+      </div>
+      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+        Switch Wallet
+      </div>
+      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+        Tools
+      </div>
+      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+        <Icon type="poweroff" className="mr5" />Quit
+      </div>
     </div>
   )
 
@@ -71,7 +81,7 @@ function Navbar(props){
                 <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
               </Menu.Item>
               <Menu.Item key="setting">
-                <a onClick={showSetting}><FormattedMessage id='navbar.setting' /></a>
+                <a onClick={showModal.bind(this,'settings')}><FormattedMessage id='navbar.setting' /></a>
               </Menu.Item>
             </Menu>
           </div>
