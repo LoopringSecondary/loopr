@@ -9,7 +9,7 @@ let basicSchemas = {
   OPTION_NUMBER: {
     validator: (rule, value, cb) => {
       if (value) {
-        if (typeof(value) == 'number') {
+        if (typeof(value) === 'number') {
           cb()
         } else {
           cb('page number valid')
