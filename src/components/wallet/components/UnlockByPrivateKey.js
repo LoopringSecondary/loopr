@@ -1,12 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Button,Form,Radio,Input,Tabs,Upload,Icon,message } from 'antd';
+import { Button,Form,Radio,Input,Tabs,Upload,Icon,message,Alert } from 'antd';
 
 
 function UnlockByPrivateKey({form}) {
   return (
     <div className="">
+     <Alert 
+       message={<div className="color-red-600"><Icon type="exclamation-circle" /> NOT Recommended</div>} 
+       description={<div className="color-red-600">This is a NOT recommended way to access your wallet.</div>} 
+       type="error" 
+       showIcon={false}
+       className="mb15" 
+     /> 
      <Form layout="horizontal" className="">
        <Form.Item className="" label="Paste Your PrivateKey Here">
          {form.getFieldDecorator('privatekey', {

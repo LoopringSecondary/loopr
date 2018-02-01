@@ -1,16 +1,23 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Button,Form,Radio,Input,Tabs,Upload,Icon,message,Select } from 'antd';
+import { Button,Form,Radio,Input,Tabs,Upload,Icon,message,Select,Alert } from 'antd';
 
 
 function UnlockByMnemonic({form}) {
   return (
     <div className="">
+     <Alert 
+       message={<div className="color-red-600"><Icon type="exclamation-circle" /> NOT Recommended</div>} 
+       description={<div className="color-red-600">This is a NOT recommended way to access your wallet.</div>} 
+       type="error" 
+       showIcon={false}
+       className="mb15" 
+     />
      <Form layout="horizontal" className="">
        <Form.Item className="mb15" label="Select Your Wallet Type">
          {form.getFieldDecorator('wallet', {
-           initialValue:'1',
+           initialValue:'',
            rules:[]
          })(
           <Select
@@ -27,7 +34,7 @@ function UnlockByMnemonic({form}) {
        </Form.Item>
        <Form.Item className="mb15" label="Paste Your Mnemonic Here">
          {form.getFieldDecorator('mnemonic', {
-           initialValue:'1',
+           initialValue:'',
            rules:[]
          })(
           <Input.TextArea size="large" autosize={{minRows:3,maxRows:6}} />

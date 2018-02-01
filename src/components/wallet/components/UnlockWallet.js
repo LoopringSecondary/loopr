@@ -12,14 +12,8 @@ function UnlockWallet({form,modals}) {
     modals.hideModal({id:'wallet/unlock'})
     modals.showModal({id:'wallet/generate'})
   }
-  const recommended = (
-    <Badge style={{fontSize:'6px'}} className="bg-green-600 ml10" size="small" icon="like">
-      <Icon type='like' className="mr5" />
-      Recommended
-    </Badge>
-  )
   const footer = (
-    <div className="fs14 mt20 pt15 color-grey-900 zb-b-t">
+    <div className="fs14 mt20 pt15 color-grey-900 zb-b-t text-center">
       Don't have a Wallet? Let's 
       <a className="color-blue-600 ml5" onClick={gotoGenerate}>
       generate one !
@@ -29,19 +23,17 @@ function UnlockWallet({form,modals}) {
   return (
     <Card title="Unlock Wallet">
         <div title="UnLock Wallet">
-          <div className="fs16 pb20 color-grey-700" hidden>How would you like to access your wallet ?</div>
-          <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true}>
-            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">MetaMask{false && recommended}</div>} key="metamask">
-              {recommended}
+          <Tabs defaultActiveKey="metamask" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">MetaMask</div>} key="metamask">
               <UnlockByMetaMask />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Keystore</div>} key="keystore">
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
              <UnlockByKeystore />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Mnemonic</div>} key="mnemonic">
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Mnemonic</div>} key="mnemonic">
               <UnlockByMnemonic />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'-20px'}} className="fs16 text-left">Private Key</div>} key="privatekey">
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Private Key</div>} key="privatekey">
              <UnlockByPrivateKey />
             </Tabs.TabPane>
           </Tabs>
