@@ -3,6 +3,10 @@ import {toHex, toBuffer,formatKey,formatAddress} from '../common/formatter'
 import {decryptKeystoreToPkey, pkeyToKeystore} from '../common/keystore'
 import {randomBytes} from 'crypto'
 import {privateToAddress, privateToPublic, publicToAddress} from 'ethereumjs-util'
+import {mnemonictoPrivatekey} from "../common/mnemonic";
+import {generateMnemonic} from "bip39"
+
+const path = "m/44'/60'/0'/0/0";
 
 export function privateKeytoAddress(privateKey) {
   try {
@@ -32,12 +36,13 @@ export function privateKeytoPublic(privateKey) {
   return formatKey(privateToPublic(toBuffer(privateKey)))
 }
 
-
-export function create() {
-  const privateKey = randomBytes(32);
+export function create(password) {
+  const mnemonic = generateMnemonic();
+  const privateKey = mnemonictoPrivatekey(mnemonic,password,path);
   const publicKey = privateToPublic(privateKey);
   const address = privateToAddress(privateKey);
   return {
+    mnemonic,
     privateKey,
     publicKey,
     address,

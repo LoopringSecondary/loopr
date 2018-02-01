@@ -32,32 +32,32 @@ import uuid from 'uuid';
 
 const kdf = 'scrypt';
 
-exports.decryptKeystoreToPkey = (keystore, password) => {
+export function decryptKeystoreToPkey(keystore, password){
   let wallet;
   const parsed = JSON.parse(keystore);
-  switch (this.determineKeystoreType(keystore)) {
+  switch (determineKeystoreType(keystore)) {
     case 'presale':
-      wallet = this.decryptPresaleToPrivKey(keystore, password);
+      wallet = decryptPresaleToPrivKey(keystore, password);
       break;
     case 'v1-unencrypted':
       wallet = Buffer.from(parsed.private, 'hex');
       break;
     case 'v1-encrypted':
-      wallet = this.decryptMewV1ToPrivKey(keystore, password);
+      wallet = decryptMewV1ToPrivKey(keystore, password);
       break;
     case 'v2-unencrypted':
       wallet = Buffer.from(parsed.privKey, 'hex');
       break;
     case 'v2-v3-utc':
-      wallet = this.decryptUtcKeystoreToPkey(keystore, password);
+      wallet = decryptUtcKeystoreToPkey(keystore, password);
       break;
     default:
       return new Error('unrecognized type of keystore');
   }
   return wallet;
-};
+}
 
-exports.pkeyToKeystore = (privateKey, password) => {
+export function pkeyToKeystore(privateKey, password){
   const salt = randomBytes(32);
   const iv = randomBytes(16);
   const kdfparams = {
@@ -104,9 +104,9 @@ exports.pkeyToKeystore = (privateKey, password) => {
       mac: mac.toString('hex')
     }
   };
-};
+}
 
-exports.decryptUtcKeystoreToPkey = (keystore, password) => {
+export function decryptUtcKeystoreToPkey(keystore, password){
   const kstore = JSON.parse(keystore.toLowerCase());
   if (kstore.version !== 3) {
     throw new Error('Not a V3 wallet');
@@ -155,9 +155,9 @@ exports.decryptUtcKeystoreToPkey = (keystore, password) => {
     seed = Buffer.concat([nullBuff, seed]);
   }
   return seed;
-};
+}
 
-exports.determineKeystoreType = (keystore) => {
+export function determineKeystoreType(keystore) {
   const parsed = JSON.parse(keystore);
   if (parsed.encseed) {
     return 'presale';
@@ -177,9 +177,9 @@ exports.determineKeystoreType = (keystore) => {
   else {
     throw new Error('Invalid keystore');
   }
-};
+}
 
-exports.decryptPresaleToPrivKey = (keystore, password) => {
+export function decryptPresaleToPrivKey (keystore, password){
   const json = JSON.parse(keystore);
   const encseed = Buffer.from(json.encseed, 'hex');
   const derivedKey = pbkdf2Sync(
@@ -202,9 +202,9 @@ exports.decryptPresaleToPrivKey = (keystore, password) => {
     throw new Error('Decoded key mismatch - possibly wrong passphrase');
   }
   return privkey;
-};
+}
 
-exports.decryptMewV1ToPrivKey = (keystore, password) => {
+export function decryptMewV1ToPrivKey(keystore, password) {
   const json = JSON.parse(keystore);
   let privkey;
 
@@ -229,9 +229,9 @@ exports.decryptMewV1ToPrivKey = (keystore, password) => {
     throw new Error('Invalid private key or address');
   }
   return privkey;
-};
+}
 
-exports.isKeystorePassRequired = (keystore) => {
+export function isKeystorePassRequired(keystore){
   switch (this.determineKeystoreType(keystore)) {
     case 'presale':
       return true;
@@ -246,4 +246,4 @@ exports.isKeystorePassRequired = (keystore) => {
     default:
       return false;
   }
-};
+}
