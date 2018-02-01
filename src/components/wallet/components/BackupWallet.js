@@ -7,6 +7,9 @@ import UnlockByKeystore from './UnlockByKeystore'
 import icon from '../../../assets/images/icon-backup-wallet.png'
 
 function BackupWallet({form}) {
+
+
+
   return (
     <Card title="Backup Wallet">
       <div className="text-center">

@@ -4,7 +4,7 @@ import { Link } from 'dva/router';
 import { Button,Form,Radio,Input,Tabs,Card,Badge,Icon,Modal,Progress } from 'antd';
 import UnlockByMetaMask from './UnlockByMetaMask'
 import UnlockByKeystore from './UnlockByKeystore'
-
+import {create} from "../../../common/Loopring/ethereum/account"
 export default class GenerateWallet extends React.Component {
   constructor(props) {
     super(props)
@@ -42,15 +42,19 @@ export default class GenerateWallet extends React.Component {
     }
   }
   handelSubmit(){
-    const {modals} = this.props
-    modals.showLoading({id:'wallet/generate'})
+    const {modals} = this.props;
+    modals.showLoading({id:'wallet/generate'});
     setTimeout(()=>{
-      this.setState({value:null})
-      modals.hideLoading({id:'wallet/generate'})
-      modals.hideModal({id:'wallet/generate'})
+      const account = create(this.state.value);
+
+      // TODO dispatch store account in redux
+      console.log(account.address);
+      this.setState({value:null});
+      modals.hideLoading({id:'wallet/generate'});
+      modals.hideModal({id:'wallet/generate'});
       modals.showModal({id:'wallet/backup'})
     }, 3000);
-    
+
   }
   gotoUnlock(){
     const {modals} = this.props
@@ -58,26 +62,26 @@ export default class GenerateWallet extends React.Component {
     modals.showModal({id:'wallet/unlock'})
   }
   render() {
-    const {visible,strength,disabled,value} = this.state
-    const {modals} = this.props
+    const {visible,strength,disabled,value} = this.state;
+    const {modals} = this.props;
     const loading= modals['wallet/generate'] && modals['wallet/generate']['loading']
 
     const visibleIcon = (
         <div className="fs14 pl5 pr5">
-          { visible && 
+          { visible &&
             <i className="fa fa-eye" onClick={this.togglePassword.bind(this)}></i>
           }
-          { !visible && 
+          { !visible &&
             <i className="fa fa-eye-slash" onClick={this.togglePassword.bind(this)}></i>
           }
         </div>
     )
     return (
       <Card title='Generate Wallet'>
-        <Input 
-          type={visible ? 'text' : 'password'} 
+        <Input
+          type={visible ? 'text' : 'password'}
           value={value}
-          size="large" 
+          size="large"
           placeholder="Set a strong password"
           addonAfter={visibleIcon}
           onChange={this.passwordChange.bind(this)}
@@ -106,7 +110,7 @@ export default class GenerateWallet extends React.Component {
         Generate Now
         </Button>
         <div className="fs14 color-grey-900 text-center pt20 zb-b-t mt20">
-          Already have a wallet ? 
+          Already have a wallet ?
           <a className="color-blue-600 ml5" onClick={this.gotoUnlock.bind(this)}>
           Click to unlock !
           </a>

@@ -1,7 +1,6 @@
 import validator from '../common/validator'
 import {toHex, toBuffer,formatKey,formatAddress} from '../common/formatter'
 import {decryptKeystoreToPkey, pkeyToKeystore} from '../common/keystore'
-import {randomBytes} from 'crypto'
 import {privateToAddress, privateToPublic, publicToAddress} from 'ethereumjs-util'
 import {mnemonictoPrivatekey} from "../common/mnemonic";
 import {generateMnemonic} from "bip39"
@@ -42,9 +41,9 @@ export function create(password) {
   const address = privateToAddress(privateKey);
   return {
     mnemonic,
-    privateKey,
-    publicKey,
-    address,
+    privateKey:formatKey(privateKey),
+    publicKey:formatKey(publicKey),
+    address:formatAddress(address),
   }
 }
 
@@ -57,9 +56,9 @@ export function decrypt(keystoreJsonV3, password) {
   const publicKey = privateToPublic(privateKey);
   const address = publicToAddress(publicKey);
   return {
-    privateKey: toHex(privateKey),
-    publicKey,
-    address,
+    privateKey:formatKey(privateKey),
+    publicKey:formatKey(publicKey),
+    address:formatAddress(address),
   }
 }
 
@@ -70,9 +69,9 @@ export function fromMnemonic(mnemonic,password,dpath) {
   const address = privateToAddress(privateKey);
   return {
     mnemonic,
-    privateKey,
-    publicKey,
-    address,
+    privateKey:formatKey(privateKey),
+    publicKey:formatKey(publicKey),
+    address:formatAddress(address),
   }
 }
 
