@@ -26,7 +26,6 @@ export function publicKeytoAddress(publicKey) {
   return formatAddress(publicKeytoAddress(toBuffer(publicKey)))
 }
 
-
 export function privateKeytoPublic(privateKey) {
   try {
     validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
@@ -65,5 +64,15 @@ export function decrypt(keystoreJsonV3, password) {
 }
 
 
-
+export function fromMnemonic(mnemonic,password,dpath) {
+  const privateKey = mnemonictoPrivatekey(mnemonic,password, dpath||path);
+  const publicKey = privateToPublic(privateKey);
+  const address = privateToAddress(privateKey);
+  return {
+    mnemonic,
+    privateKey,
+    publicKey,
+    address,
+  }
+}
 
