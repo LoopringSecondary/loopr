@@ -20,29 +20,26 @@ export default {
     currency:{},
   },
   reducers: {
-    relayChange(state, { payload }) {
-      console.log(payload)
-      if(socket){
-        console.log("close old connection...")
-        socket.close()
-      }
-      socket = io.connect(payload.host)
-      window.socket = new Socket(socket)
-      return {
-        ...state,
-        socket: {
-          socket: socket,
-          serverName: payload.serverName,
-          host: payload.host,
-        }
-      };
-    },
+    // relayChange(state, { payload }) {
+    //   if(socket){
+    //     console.log("close old connection...")
+    //     socket.close()
+    //   }
+    //   socket = io.connect(payload.host)
+    //   window.socket = new Socket(socket)
+    //   return {
+    //     ...state,
+    //     socket: {
+    //       socket: socket,
+    //       serverName: payload.serverName,
+    //       host: payload.host,
+    //     }
+    //   };
+    // },
     currencyChange(state, { payload }) {
-      console.log(payload)
-      window.socket = new Socket(socket)
       return {
         ...state,
-        currency: payload
+        currency: payload.currency
       };
     }
   },
