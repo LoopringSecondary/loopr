@@ -8,6 +8,7 @@ import UnlockByKeystore from './UnlockByKeystore'
 function UnlockWallet({form,modals}) {
   
   const gotoGenerate = ()=>{
+    modals.showLoading({id:'wallet/unlock'})
     modals.hideModal({id:'wallet/unlock'})
     modals.showModal({id:'wallet/generate'})
   }
@@ -19,7 +20,10 @@ function UnlockWallet({form,modals}) {
   )
   const footer = (
     <div className="fs14 mt20 pt15 color-grey-900 zb-b-t">
-      Don't have a Wallet? Let's <a className="color-blue-600 ml5" onClick={gotoGenerate}>generate one</a> !
+      Don't have a Wallet? Let's 
+      <a className="color-blue-600 ml5" onClick={gotoGenerate}>
+      generate one !
+      </a> 
     </div>
   )
   return (

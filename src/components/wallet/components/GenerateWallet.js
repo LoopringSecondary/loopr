@@ -43,8 +43,14 @@ export default class GenerateWallet extends React.Component {
   }
   handelSubmit(){
     const {modals} = this.props
-    modals.hideModal({id:'wallet/generate'})
-    modals.showModal({id:'wallet/backup'})
+    modals.showLoading({id:'wallet/generate'})
+    setTimeout(()=>{
+      this.setState({value:null})
+      modals.hideLoading({id:'wallet/generate'})
+      modals.hideModal({id:'wallet/generate'})
+      modals.showModal({id:'wallet/backup'})
+    }, 3000);
+    
   }
   gotoUnlock(){
     const {modals} = this.props
@@ -53,6 +59,9 @@ export default class GenerateWallet extends React.Component {
   }
   render() {
     const {visible,strength,disabled,value} = this.state
+    const {modals} = this.props
+    const loading= modals['wallet/generate'] && modals['wallet/generate']['loading']
+
     const visibleIcon = (
         <div className="fs14 pl5 pr5">
           { visible && 
@@ -93,9 +102,14 @@ export default class GenerateWallet extends React.Component {
           </div>
         }
         <div className="mb25"></div>
-        <Button disabled={disabled} onClick={this.handelSubmit.bind(this)} className="w-100 d-block mt15" type="primary" size="large" >Generate Now</Button>
+        <Button disabled={disabled} loading={loading} onClick={this.handelSubmit.bind(this)} className="w-100 d-block mt15" type="primary" size="large" >
+        Generate Now
+        </Button>
         <div className="fs14 color-grey-900 text-center pt10 pb10">
-          Already have a wallet ? <a className="color-blue-600 ml5" onClick={this.gotoUnlock.bind(this)}>Click to unlock</a> !
+          Already have a wallet ? 
+          <a className="color-blue-600 ml5" onClick={this.gotoUnlock.bind(this)}>
+          Click to unlock !
+          </a>
         </div>
       </Card>
     );
