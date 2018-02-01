@@ -47,7 +47,7 @@ export default class GenerateWallet extends React.Component {
     setTimeout(()=>{
       const account = create(this.state.value);
 
-      // TODO dispatch store account in redux
+      // TODO dispatch action to store account in redux
       console.log(account.address);
       this.setState({value:null});
       modals.hideLoading({id:'wallet/generate'});
