@@ -1,4 +1,5 @@
-const APIS = window.Loopring.apis
+import {getOrders} from 'Loopring/relay/order'
+
 
 export async function fetchList(payload){
     let {page,filters,sort} = payload
@@ -10,7 +11,8 @@ export async function fetchList(payload){
       filter.pageIndex = page.current
       filter.pageSize = page.size
     }
-    return APIS.getOrders(filter).then(res=>{
+    filter.contractVersion = 'v1.0'
+    return getOrders(filter).then(res=>{
       return {
         items:res.result.data,
         page:{

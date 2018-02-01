@@ -37,6 +37,7 @@ export default {
     //   };
     // },
     currencyChange(state, { payload }) {
+      window.currency = payload.currency
       return {
         ...state,
         currency: payload.currency
