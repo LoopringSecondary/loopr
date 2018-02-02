@@ -63,13 +63,27 @@ export function decrypt(keystoreJsonV3, password) {
   }
 }
 
-
 export function fromMnemonic(mnemonic,password,dpath) {
   const privateKey = mnemonictoPrivatekey(mnemonic,password, dpath||path);
   const publicKey = privateToPublic(privateKey);
   const address = privateToAddress(privateKey);
   return {
     mnemonic,
+    privateKey:formatKey(privateKey),
+    publicKey:formatKey(publicKey),
+    address:formatAddress(address),
+  }
+}
+
+export function fromPrivateKey(privateKey) {
+  try {
+    validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+  } catch (e) {
+    throw new Error('Invalid private key')
+  }
+  const publicKey = privateToPublic(toBuffer(privateKey));
+  const address = privateToAddress(toBuffer(privateKey));
+  return {
     privateKey:formatKey(privateKey),
     publicKey:formatKey(publicKey),
     address:formatAddress(address),
