@@ -23,7 +23,7 @@ export default class GenerateWallet extends React.Component {
   passwordChange(e){
     const value = e.target.value
     const strength = this.getStrength(value)
-    const disabled = value.length <= 6
+    const disabled = value.length <= 6;
     this.setState({
       value,
       strength,

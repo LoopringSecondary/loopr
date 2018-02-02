@@ -5,8 +5,9 @@ import {Button, Form, Radio, Input, Tabs, Card, Badge, Icon, Modal} from 'antd';
 import UnlockByMetaMask from './UnlockByMetaMask'
 import UnlockByKeystore from './UnlockByKeystore'
 import icon from '../../../assets/images/icon-backup-wallet.png'
-import {create,encrypt} from "../../../common/Loopring/ethereum/account"
-import {addHexPrefix,clearPrefix} from "../../../common/Loopring/common/formatter"
+import {create,encrypt} from "Loopring/ethereum/account"
+import {addHexPrefix,clearPrefix,toBuffer} from "Loopring/common/formatter"
+
 function BackupWallet({form}) {
 
   const download = () =>{
@@ -15,7 +16,7 @@ function BackupWallet({form}) {
     const account = create("123");
     const element = document.createElement('a');
     console.log(account.privateKey);
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(encrypt(addHexPrefix(account.privateKey),"123"))));
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(encrypt(toBuffer(addHexPrefix(account.privateKey)),"123"))));
     const ts = new Date();
     element.setAttribute('download', ['UTC--', ts.toJSON().replace(/:/g, '-'), '--', clearPrefix(account.address), '.json'].join(''));
     element.style.display = 'none';
