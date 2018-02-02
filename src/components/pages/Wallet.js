@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs } from 'antd'
 import {FormattedMessage} from 'react-intl';
-import { Switch,Route } from 'dva/router'
+import { Switch,Route,Redirect } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/containers'
 import Token from '../tokens/pages'
@@ -40,17 +40,6 @@ export default function Home(props){
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trades</div>} key="trades" />
           </Tabs>
             <Switch>
-              <Route path={`${match.url}/`} exact render={()=>
-                <div className="row no-gutters bg-white" style={{borderRadius:'6px',border:'1px solid #dadada'}}>
-                  <div className="col-4 zb-b-r">
-                   <Token.ListSidebar />
-                  </div>
-                  <div className="col-8">
-                   <Transaction.ListStand />
-                  </div>
-                </div>
-              }
-              />
               <Route path={`${match.url}/assets`} exact render={()=>
                 <div className="row no-gutters bg-white" style={{borderRadius:'6px',border:'1px solid #dadada'}}>
                   <div className="col-4 zb-b-r">
@@ -74,6 +63,7 @@ export default function Home(props){
                 </div>
               } 
               />
+              <Redirect path={`${match.url}/`} to={`${match.url}/assets`} />
             </Switch>
           {
             false &&
