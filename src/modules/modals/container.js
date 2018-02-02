@@ -3,13 +3,21 @@ import {connect} from 'dva';
 import {Modal} from 'antd';
 
 @connect(
-	({modals})=>({modals})
+	({modals})=>({modals:modals})
 )
 export default class ModalContainer extends React.Component {
+  shouldComponentUpdate(nextProps, nextState){
+    const { id } = this.props
+    if(nextProps.modals[id] == this.props.modals[id]){
+      return false
+    }else{
+      return true
+    }
+  }
   render() {
   	const {dispatch,modals,id,...rest} = this.props
   	let thisModal = modals[id] || {}
-    // console.log('modal container re-render',id)
+    // console.log('modal container render',id)
   	const hideModal = (payload)=>{
       dispatch({
         type:'modals/modalChange',
