@@ -45,10 +45,7 @@ const Perference = ({
             rules:[]
           })(
             <Select
-              showSearch
               placeholder="Search/Select"
-              optionFilterProp="children"
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               size="large"
               onChange={handleChange.bind(this, "language")}
             >
@@ -69,7 +66,6 @@ const Perference = ({
             rules:[]
           })(
             <Select
-              showSearch
               placeholder="Search/Select"
               optionFilterProp="children"
               size="large"
@@ -82,11 +78,10 @@ const Perference = ({
         </Form.Item>
         <Form.Item {...formItemLayout} label="Timezone" colon={false} className="mb0">
           {form.getFieldDecorator('timezone', {
-            initialValue:'',
+            initialValue:'UTC+00:00',
             rules:[]
           })(
             <Select
-              showSearch
               placeholder="Search/Select"
               optionFilterProp="children"
               size="large"

@@ -5,6 +5,9 @@ export default class Socket {
     this.socket = socket
   }
   // functions
+  getConnection(msg) {
+    this.socket.emit('connection', "")
+  }
   getTicker(msg){
     this.socket.emit('getTicker',{msg: msg});
   }

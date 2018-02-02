@@ -1,10 +1,13 @@
 import React from 'react';
+import {connect} from 'dva';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
 const TradingSettingForm = ({
     settings,form
   }) => {
+
+  const {trading} = settings
 
   function handleChange(type, value) {
     console.log(type+":"+value);
@@ -43,7 +46,6 @@ const TradingSettingForm = ({
             rules:[]
           })(
             <Select
-              showSearch
               placeholder="Search/Select"
               optionFilterProp="children"
               size="large"
@@ -57,7 +59,14 @@ const TradingSettingForm = ({
         <Form.Item {...formItemLayout} label="LRC Fee" colon={false}>
           {form.getFieldDecorator('lrcFee', {
             initialValue:'2',
-            rules:[]
+            rules:[
+              {required: true, message: 'Input valid integer value (0~50).',
+                validator: (rule, value, cb) => {
+                  let v = Number(value);
+                  return value && v.toString() === value && v >=0 && v <=50 ? cb() : cb(true)
+                }
+              }
+            ]
           })(
             <Input size="large" addonAfter="‰"/>
           )}
@@ -65,25 +74,31 @@ const TradingSettingForm = ({
         <Form.Item {...formItemLayout} label="Margin Split" colon={false}>
           {form.getFieldDecorator('marginSplit', {
             initialValue:'50',
-            rules:[]
+            rules:[
+              {required: true, message: 'Input valid integer value (0~100).',
+                validator: (rule, value, cb) => {
+                  let v = Number(value);
+                  return value && v.toString() === value && v >=0 && v <=100 ? cb() : cb(true)
+                }
+              }
+            ]
           })(
             <Input size="large" addonAfter="％"/>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Gas Price" colon={false} className="mb5">
+        <Form.Item label={"Gas Price: "+[trading.gasPrice]+" Gwei"} colon={false} className="mb5">
           {form.getFieldDecorator('gasPrice', {
-            initialValue:30,
+            initialValue:Number([trading.gasPrice]),
             rules:[]
           })(
-            <Slider min={10} max={80} step={10} 
+            <Slider min={1} max={99} step={1}
               marks={{
-                10: 'Slow',
-                30: '30',
-                40: '40',
-                50: '50',
-                60: '60',
-                80: 'Fast',
-              }} 
+                1: 'Slow',
+                99: 'Fast',
+              }}
+              onChange={(value)=> {
+                trading.gasPrice = value
+              }}
             />
           )}
         </Form.Item>
@@ -96,6 +111,6 @@ const TradingSettingForm = ({
 };
 
 
-export default Form.create()(TradingSettingForm);
+export default Form.create()(connect(({settings})=>({settings}))(TradingSettingForm));
 
 

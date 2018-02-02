@@ -1,22 +1,7 @@
 {
   "en": {"display":"English", "logo":"🇺🇸"},
   "de": {"display":"Deutsch", "logo":"🇩🇪"},
-  "el": {"display":"Ελληνικά", "logo":""},
-  "es": {"display":"Español", "logo":"🇪🇸"},
-  "fi": {"display":"Suomi", "logo":""},
-  "fr": {"display":"Français", "logo":"🇫🇷"},
-  "hu": {"display":"Magyar", "logo":""},
-  "id": {"display":"Indonesian", "logo":"🇮🇩"},
-  "it": {"display":"Italiano", "logo":"🇮🇹"},
   "ja": {"display":"日本語", "logo":"🇯🇵"},
-  "nl": {"display":"Nederlands", "logo":""},
-  "no": {"display":"Norsk Bokmål", "logo":""},
-  "pl": {"display":"Polski", "logo":""},
-  "pt": {"display":"Português", "logo":""},
-  "ru": {"display":"Русский", "logo":""},
   "ko": {"display":"Korean", "logo":"🇰🇷"},
-  "tr": {"display":"Türkçe", "logo":""},
-  "vi": {"display":"Tiếng Việt", "logo":""},
-  "zhcn": {"display":"简体中文", "logo":"🇨🇳"},
-  "zhtw": {"display":"繁體中文", "logo":"🇨🇳"}
+  "zhcn": {"display":"简体中文", "logo":"🇨🇳"}
 }
