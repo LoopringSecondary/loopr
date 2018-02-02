@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 
-const GlobalContainer = ({ global={},children})=>{
+const GlobalContainer = (props)=>{
+	const { children,dispatch } = props
+  
   return (
     <div>
-      {children}
+
     </div>
   )
 }

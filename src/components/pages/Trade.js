@@ -6,7 +6,7 @@ import Order from '../orders/containers'
 import Layout from '../../layout/Layout'
 
 const MarketList = (props)=>{
-  
+  console.log('window.currency',window.currency)
   return (
     <table className="table table-striped">
       <tbody>
