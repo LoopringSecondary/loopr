@@ -17,7 +17,6 @@ const AccountContainer = (props)=>{
       ...actions,
     }
   }
-  console.log('childProps',childProps)
   return (
     <div>
       {
