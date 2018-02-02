@@ -74,7 +74,15 @@ export default class ModalContainer extends React.Component {
         showLoading:showLoading.bind(this),
         hideLoading:hideLoading.bind(this),
         modalChange:modalChange.bind(this),
-      }
+      },
+      modal:{
+        ...thisModal,
+        showModal:showModal.bind(this),
+        hideModal:hideModal.bind(this),
+        showLoading:showLoading.bind(this),
+        hideLoading:hideLoading.bind(this),
+        modalChange:modalChange.bind(this),
+      },
   	}
     return (
   		<Modal {...modalProps}>
