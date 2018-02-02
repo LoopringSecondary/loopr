@@ -10,6 +10,7 @@ addLocaleData([...enApp, ...zhApp]);
 const antdLocales = {zh,en}
 
 const Locales = ({ history,locales={},children})=>{
+		console.log('Locales container re-render')
 		const appProps = {
 			locale:locales.locale,
 			messages:locales.messages,
@@ -27,22 +28,6 @@ const Locales = ({ history,locales={},children})=>{
 	  )
 }
 export default connect(({locales})=>({locales}))(Locales)
-
-// @connect(({locales})=>({locales}))
-// export default class Root extends Component {
-// 	render(){
-// 			const {locales={}} = this.props
-// 			const appProps = {
-// 				locale:locales.locale,
-// 				messages:locales.messages,
-// 			}
-// 		  return (
-// 		  	<IntlProvider {...appProps}>
-// 		  		{this.props.children}
-// 		  	</IntlProvider>
-// 		  )
-// 	}
-// }
 
 
 

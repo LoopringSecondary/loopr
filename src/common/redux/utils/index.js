@@ -1,8 +1,8 @@
 
-import actionTypes from './actionTypes';
-import actionCreators from './actionCreators';
+import getActionTypes from './getActionTypes';
+import getActionCreators from './getActionCreators';
 
 export default {
-	actionTypes,
-	actionCreators
+	getActionTypes,
+	getActionCreators
 }

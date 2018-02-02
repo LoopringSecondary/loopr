@@ -1,4 +1,4 @@
-const APIS = window.Loopring.apis
+import {getRings} from 'Loopring/relay/ring'
 
 export async function fetchList(payload){
     let {page,filters,sort} = payload
@@ -10,7 +10,7 @@ export async function fetchList(payload){
       filter.pageIndex = page.current
       filter.pageSize = page.size
     }
-    return APIS.getRings(filter).then(res=>{
+    return getRings(filter).then(res=>{
       return {
         items:res.result.data,
         page:{

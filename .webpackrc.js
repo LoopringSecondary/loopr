@@ -4,6 +4,8 @@ export default {
 	],
 	"alias":{
 		"Loopring":`${__dirname}/src/common/Loopring`
-	}
+	},
+	//"theme": `${__dirname}/theme.js`
 }
+
 

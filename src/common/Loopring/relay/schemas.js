@@ -2,7 +2,7 @@ import basicSchemas from '../common/validator_schemas'
 // Schema Help： https://github.com/yiminghe/async-validator
 // required: value should be not empty eg: null, undefined, ''
 
-let basicSchemas = {
+let schemas = {
 
   RAW_Order: {
     protocol: {
@@ -71,4 +71,4 @@ let basicSchemas = {
 
 }
 
-export default basicSchemas
+export default schemas

@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
+import model from './model'
+const namespace =  model.namespace
+let keys = Object.keys(model.reducers)
+keys = keys.map(key=>key.replace(/settings\//,'')) // TO DO
+const actionCreators = window.REDUX.getActionCreators(namespace,keys);
 
-const Setting = ({ history,settings,children})=>{
-  let childProps = {settings}
-  console.log(childProps)
+const SettingsContainer = (props)=>{
+  const { children,dispatch,settings } = props
+  const actions = bindActionCreators(actionCreators,dispatch)
+  const childProps = {
+    settings:{
+      ...settings,
+      ...actions,
+    }
+  }
   return (
     <div>
       {
@@ -15,4 +26,6 @@ const Setting = ({ history,settings,children})=>{
     </div>
   )
 }
-export default connect(({settings})=>({settings}))(Setting)
+
+export default connect(({settings})=>({settings}))(SettingsContainer)
+
