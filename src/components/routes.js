@@ -8,8 +8,6 @@ import SettingsModals from './settings/pages/Modals';
 import TokenModals from './tokens/components/Modals';
 import WalletModals from './wallet/components/Modals';
 import OrderModals from './orders/components/Modals';
-import ModalContainer from '../modules/modals/container'
-import AccountContainer from '../modules/account/container'
 
 export default (
 	<div>
@@ -20,6 +18,8 @@ export default (
 				<Route path="/trade" exact component={Pages.Trade} />
 		    <Route path="/portfolio" exact component={Pages.Portfolio}/>
 			</Switch>
+			{ordersRoutes}
+			{ringsRoutes}
 			<TokenModals />
 			<WalletModals />
 			<SettingsModals />
