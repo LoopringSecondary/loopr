@@ -117,6 +117,7 @@ function ListBlock({LIST,actions,className,style}) {
     onChange:tableChange,
     bordered:false,
     size:'default',
+    rowKey:(record)=>record.originalOrder.hash, // set each record PK ( primary key)
   }
   return (
     <div className={className} style={style}>
