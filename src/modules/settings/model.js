@@ -38,5 +38,60 @@ export default {
         }
       };
     },
+    tradingChange(state, { payload }) {
+      return {
+        ...state,
+        // TODO
+      };
+    },
+    relayChange(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    languageChange(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    currenryChange(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    timezoneChange(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    addRelay(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    editRelay(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    deleteRelay(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
   },
 };

@@ -105,7 +105,7 @@ export default class GenerateWallet extends React.Component {
         <Button disabled={disabled} loading={loading} onClick={this.handelSubmit.bind(this)} className="w-100 d-block mt15" type="primary" size="large" >
         Generate Now
         </Button>
-        <div className="fs14 color-grey-900 text-center pt10 pb10">
+        <div className="fs14 color-grey-900 text-center pt20 zb-b-t mt20">
           Already have a wallet ? 
           <a className="color-blue-600 ml5" onClick={this.gotoUnlock.bind(this)}>
           Click to unlock !

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 
-const globalContainer = ({ global={},children})=>{
-  console.log('global',global)
-  // window.socket =
+const GlobalContainer = (props)=>{
+	const { children,dispatch } = props
+  
   return (
     <div>
-      {children}
+
     </div>
   )
 }
-export default connect(({global})=>({global}))(globalContainer)
+export default connect(({global})=>({global}))(GlobalContainer)
 
