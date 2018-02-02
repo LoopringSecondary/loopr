@@ -1,0 +1,1325 @@
+{
+    "defaultPricePrecision":8,
+    "defaultVolumePrecision":8,
+    "defaultLrcFeePermillage":2,
+    "defaultGasPrice":21,
+    "defaultMarginSplitPercentage":50,
+    "defaultGasLimit":84000,
+    "defaultExpireTime":30,
+    "defaultExpireTimeUnit":"Day",
+    "delegateAddress":"0x450D10A0C61f2b007384128B626F28b757A75e49",
+    "chainId":1,
+    "qtumBindDeadline":1522512000,
+    "neoBindDeadline":1522512000,
+    "contracts": [
+        {
+            "address": "0x03E0F73A93993E5101362656Af1162eD80FB54F2",
+            "version": "v1.0"
+        },
+        {
+            "address": "0x123456789012340F73A93993E5101362656Af116",
+            "version": "v2.0"
+        }
+    ],
+    "tokens": [
+        {
+            "token": "ETH",
+            "name": "Ether",
+            "digits": 18,
+            "address": "",
+            "unit": "ETH",
+            "website": "https://ethereum.org",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "500000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "WETH",
+            "name": "Ether Token",
+            "digits": 18,
+            "address": "0x2956356cD2a2bf3202F771F50D3D14A367b48070",
+            "unit": "WETH",
+            "website": "https://weth.io",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn":"100000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "LRC",
+            "name": "Loopring",
+            "digits": 18,
+            "address": "0xEF68e7C694F40c8202821eDF525dE3782458639f",
+            "unit": "LRC",
+            "website": "https://loopring.org",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "50000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "EOS",
+            "name": "EOS",
+            "digits": 18,
+            "address": "0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0",
+            "unit": "EOS",
+            "website": "https://eos.io/",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "OMG",
+            "name": "OmiseGO",
+            "digits": 18,
+            "address": "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07",
+            "unit": "OMG",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "REP",
+            "name": "Augur",
+            "digits": 18,
+            "address": "0xe94327d07fc17907b4db788e5adf2ed424addff6",
+            "unit": "REP",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "PAY",
+            "name": "TenX",
+            "digits": 18,
+            "address": "0xB97048628DB6B661D4C2aA833e95Dbe1A905B280",
+            "unit": "PAY",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "GNT",
+            "name": "Golem",
+            "digits": 18,
+            "address": "0xa74476443119A942dE498590Fe1f2454d7D4aC0d",
+            "unit": "GNT",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "BAT",
+            "name": "BAT",
+            "digits": 18,
+            "address": "0x0d8775f648430679a709e98d2b0cb6250d2887ef",
+            "unit": "BAT",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "KNC",
+            "name": "Kyber",
+            "digits": 18,
+            "address": "0xdd974d5c2e2928dea5f71b9825b8b646686bd200",
+            "unit": "KNC",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "SNT",
+            "name": "Status",
+            "digits": 18,
+            "address": "0x744d70fdbe2ba4cf95131626614a1763df805b9e",
+            "unit": "SNT",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "ICN",
+            "name": "Iconomi",
+            "digits": 18,
+            "address": "0x888666CA69E0f178DED6D75b5726Cee99A87D698",
+            "unit": "ICN",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "ZRX",
+            "name": "0x",
+            "digits": 18,
+            "address": "0xe41d2489571d322189246dafa5ebde1f4699f498",
+            "unit": "ZRX",
+            "website": "https://0xproject.org",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "BNT",
+            "name": "Bancor",
+            "digits": 18,
+            "address": "0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c",
+            "unit": "BNT",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "GNO",
+            "name": "Gnosis",
+            "digits": 18,
+            "address": "0x6810e776880C02933D47DB1b9fc05908e5386b96",
+            "unit": "GNO",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "ANT",
+            "name": "Aragon",
+            "digits": 18,
+            "address": "0x960b236A07cf122663c4303350609A66A7B288C0",
+            "unit": "ANT",
+            "website": "https://aragon.one/",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "WINGS",
+            "name": "WINGS",
+            "digits": 18,
+            "address": "0x667088b212ce3d06a1b553a7221E1fD19000d9aF",
+            "unit": "WINGS",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "MLN",
+            "name": "Melon",
+            "digits": 18,
+            "address": "0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1",
+            "unit": "MLN",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "SAN",
+            "name": "Santiment",
+            "digits": 18,
+            "address": "0x7C5A0CE9267ED19B22F8cae653F198e3E8daf098",
+            "unit": "SAN",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "MANA",
+            "name": "Decentraland",
+            "digits": 18,
+            "address": "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942",
+            "unit": "MANA",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "1ST",
+            "name": "FirstBlood",
+            "digits": 18,
+            "address": "0xAf30D2a7E90d7DC361c8C4585e9BB7D2F6f15bc7",
+            "unit": "1ST",
+            "website": "https://firstblood.io/",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "CFI",
+            "name": "Cofoundit",
+            "digits": 18,
+            "address": "0x12fef5e57bf45873cd9b62e9dbd7bfb99e32d73e",
+            "unit": "CFI",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "DNT",
+            "name": "district0x",
+            "digits": 18,
+            "address": "0x0abdace70d3790235af448c88547603b945604ea",
+            "unit": "DNT",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "NMR",
+            "name": "Numeraire",
+            "digits": 18,
+            "address": "0x1776e1f26f98b1a5df9cd347953a26dd3cb46671",
+            "unit": "NMR",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "SWT",
+            "name": "Swarm City",
+            "digits": 18,
+            "address": "0xb9e7f8568e08d5659f5d29c4997173d84cdf2607",
+            "unit": "SWT",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "NET",
+            "name": "Nimiq",
+            "digits": 18,
+            "address": "0xcfb98637bcae43C13323EAa1731cED2B716962fD",
+            "unit": "NET",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "LUN",
+            "name": "Lunyr",
+            "digits": 18,
+            "address": "0xfa05A73FfE78ef8f1a739473e462c54bae6567D9",
+            "unit": "LUN",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "PLU",
+            "name": "Pluton",
+            "digits": 18,
+            "address": "0xD8912C10681D8B21Fd3742244f44658dBA12264E",
+            "unit": "PLU",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "KIN",
+            "name": "Kin",
+            "digits": 18,
+            "address": "0x818fc6c2ec5986bc6e2cbf00939d90556ab12ce5",
+            "unit": "KIN",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "LINK",
+            "name": "ChainLink",
+            "digits": 18,
+            "address": "0x514910771af9ca656af840dff83e8264ecf986ca",
+            "unit": "LINK",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "PPP",
+            "name": "PayPie",
+            "digits": 18,
+            "address": "0xc42209aCcC14029c1012fB5680D95fBd6036E2a0",
+            "unit": "PPP",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "RDN",
+            "name": "Raiden",
+            "digits": 18,
+            "address": "0x255aa6df07540cb5d3d297f0d0d4d84cb52bc8e6",
+            "unit": "RDN",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "AE",
+            "name": "Aeternity",
+            "digits": 18,
+            "address": "0x5ca9a71b1d01849c0a95490cc00559717fcf0d1d",
+            "unit": "AE",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "BNB",
+            "name": "Binance",
+            "digits": 18,
+            "address": "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
+            "unit": "BNB",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "REQ",
+            "name": "Request",
+            "digits": 18,
+            "address": "0x8f8221afbb33998d8584a2b05749ba73c37a938a",
+            "unit": "REQ",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "IND",
+            "name": "Indorse",
+            "digits": 18,
+            "address": "0xf8e386eda857484f5a12e4b5daa9984e06e73705",
+            "unit": "IND",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "WTC",
+            "name": "Walton",
+            "digits": 18,
+            "address": "0xb7cb1c96db6b22b0d3d9536e0108d062bd488f74",
+            "unit": "WTC",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "CAT",
+            "name": "BlockCAT",
+            "digits": 18,
+            "address": "0x56ba2Ee7890461f463F7be02aAC3099f6d5811A8",
+            "unit": "CAT",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "REX",
+            "name": "REX",
+            "digits": 18,
+            "address": "0xf05a9382A4C3F29E2784502754293D88b835109C",
+            "unit": "REX",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "RCN",
+            "name": "Ripio",
+            "digits": 18,
+            "address": "0xf970b8e36e23f7fc3fd752eea86f8be8d83375a6",
+            "unit": "RCN",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "QSP",
+            "name": "Quantstamp",
+            "digits": 18,
+            "address": "0x99ea4db9ee77acd40b119bd1dc4e33e1c070b80d",
+            "unit": "QSP",
+            "website": "",
+            "allowance": "1000000000000000000000",
+            "allowanceWarn": "5000000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "ROL",
+            "name": "DICE",
+            "digits": 16,
+            "address": "0x2e071D2966Aa7D8dECB1005885bA1977D6038A65",
+            "unit": "ROL",
+            "website": "",
+            "allowance": "10000000000000000000",
+            "allowanceWarn": "50000000000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "RLC",
+            "name": "iExec",
+            "digits": 9,
+            "address": "0x607F4C5BB672230e8672085532f7e901544a7375",
+            "unit": "RLC",
+            "website": "",
+            "allowance": "1000000000000",
+            "allowanceWarn": "5000000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "CVC",
+            "name": "Civic",
+            "digits": 8,
+            "address": "0x41e5560054824ea6b0732e656e3ad64e20e94e45",
+            "unit": "CVC",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "MTL",
+            "name": "MetalPay",
+            "digits": 8,
+            "address": "0xF433089366899D83a9f26A773D59ec7eCF30355e",
+            "unit": "MTL",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "ETHOS",
+            "name": "Ethos",
+            "digits": 8,
+            "address": "0x5af2be193a6abca9c8817001f45744777db30756",
+            "unit": "ETHOS",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "FUN",
+            "name": "FunFair",
+            "digits": 8,
+            "address": "0x419D0d8BdD9aF5e606Ae2232ed285Aff190E711b",
+            "unit": "FUN",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "STORJ",
+            "name": "Storj",
+            "digits": 8,
+            "address": "0xB64ef51C888972c908CFacf59B47C1AfBC0Ab8aC",
+            "unit": "STORJ",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "MCO",
+            "name": "Monaco",
+            "digits": 8,
+            "address": "0xB63B606Ac810a52cCa15e44bB630fd42D8d1d83d",
+            "unit": "MCO",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "TKN",
+            "name": "Monolith",
+            "digits": 8,
+            "address": "0xaaaf91d9b90df800df4f55c205fd6989c977e73a",
+            "unit": "TKN",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "XAUR",
+            "name": "Xaurum",
+            "digits": 8,
+            "address": "0x4DF812F6064def1e5e029f1ca858777CC98D2D81",
+            "unit": "XAUR",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "HMQ",
+            "name": "Humaniq",
+            "digits": 8,
+            "address": "0xcbcc0f036ed4788f63fc0fee32873d6a7487b908",
+            "unit": "HMQ",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "BTM",
+            "name": "Bytom",
+            "digits": 8,
+            "address": "0xcB97e65F07DA24D46BcDD078EBebd7C6E6E3d750",
+            "unit": "BTM",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "MGO",
+            "name": "MobileGo",
+            "digits": 8,
+            "address": "0x40395044Ac3c0C57051906dA938B54BD6557F212",
+            "unit": "MGO",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "ATM",
+            "name": "Attention",
+            "digits": 8,
+            "address": "0x9B11EFcAAA1890f6eE52C6bB7CF8153aC5d74139",
+            "unit": "ATM",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "SALT",
+            "name": "Salt",
+            "digits": 8,
+            "address": "0x4156D3342D5c385a87D264F90653733592000581",
+            "unit": "SALT",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "PPT",
+            "name": "Populous",
+            "digits": 8,
+            "address": "0xd4fa1460f537bb9085d22c7bccb5dd450ef28e3a",
+            "unit": "PPT",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "ENG",
+            "name": "Enigma",
+            "digits": 8,
+            "address": "0xf0ee6b27b759c9893ce4f094b49ad28fd15a23e4",
+            "unit": "ENG",
+            "website": "",
+            "allowance": "100000000000",
+            "allowanceWarn": "500000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "TAAS",
+            "name": "Taas",
+            "digits": 6,
+            "address": "0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C",
+            "unit": "TAAS",
+            "website": "",
+            "allowance": "1000000000",
+            "allowanceWarn": "5000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "TRST",
+            "name": "Trustcoin",
+            "digits": 6,
+            "address": "0xcb94be6f13a1182e4a4b6140cb7bf2025d28e41b",
+            "unit": "TRST",
+            "website": "",
+            "allowance": "1000000000",
+            "allowanceWarn": "5000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "TRX",
+            "name": "Tron",
+            "digits": 6,
+            "address": "0xf230b790e05390fc8295f4d3f60332c93bed42e2",
+            "unit": "TRX",
+            "website": "",
+            "allowance": "1000000000",
+            "allowanceWarn": "5000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "POWR",
+            "name": "PowerLedger",
+            "digits": 6,
+            "address": "0x595832f8fc6bf59c85c527fec3740a1b7a361269",
+            "unit": "POWR",
+            "website": "",
+            "allowance": "1000000000",
+            "allowanceWarn": "5000000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "AST",
+            "name": "AirSwap",
+            "digits": 4,
+            "address": "0x27054b13b1B798B345b591a4d22e6562d47eA75a",
+            "unit": "AST",
+            "website": "",
+            "allowance": "10000000",
+            "allowanceWarn": "50000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "GUP",
+            "name": "Guppy",
+            "digits": 3,
+            "address": "0xf7b098298f7c69fc14610bf71d5e02c60792894c",
+            "unit": "GUP",
+            "website": "",
+            "allowance": "1000000",
+            "allowanceWarn": "5000",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "DRP",
+            "name": "DCORP",
+            "digits": 2,
+            "address": "0x621d78f2ef2fd937bfca696cabaf9a779f59b3ed",
+            "unit": "DRP",
+            "website": "",
+            "allowance": "100000",
+            "allowanceWarn": "500",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "DRP",
+            "name": "DCORP",
+            "digits": 2,
+            "address": "0x621d78f2ef2fd937bfca696cabaf9a779f59b3ed",
+            "unit": "DRP",
+            "website": "",
+            "allowance": "100000",
+            "allowanceWarn": "500",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "SNGLS",
+            "name": "SingularDTV",
+            "digits": 0,
+            "address": "0xaeC2E87E0A235266D9C5ADc9DEb4b2E29b54D009",
+            "unit": "SNGLS",
+            "website": "",
+            "allowance": "1000",
+            "allowanceWarn": "5",
+            "precision": 6,
+            "minTradeValue": 0.001
+        },
+        {
+            "token": "EDG",
+            "name": "Edgeless",
+            "digits": 0,
+            "address": "0x08711D3B02C8758F2FB3ab4e80228418a7F8e39c",
+            "unit": "EDG",
+            "website": "",
+            "allowance": "1000",
+            "allowanceWarn": "5",
+            "precision": 6,
+            "minTradeValue": 0.001
+        }
+    ],
+    "langs": [
+        {
+            "value": "en",
+            "label": "English"
+        },
+        {
+            "value": "zh",
+            "label": "中文"
+        }
+    ],
+    "fiat": [
+        {
+            "value": "usd",
+            "label": "USD"
+        },
+        {
+            "value": "cny",
+            "label": "CNY"
+        }
+    ],
+    "relays": [
+        {
+            "value": "https://relay1.loopring.io",
+            "label": "Default Loopring Relay"
+        },
+        {
+            "value": "https://relay2.loopring.io",
+            "label": "Backup Loopring Relay"
+        }
+    ],
+    "markets": [
+        {
+            "tokenx": "LRC",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "EOS",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "OMG",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "REP",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "PAY",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "GNT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "BAT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "KNC",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "SNT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "ICN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "ZRX",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "BNT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "GNO",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "ANT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "WINGS",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "MLN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "SAN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "MANA",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "1ST",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "CFI",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "DNT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "NMR",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "SWT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "NET",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "LUN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "PLU",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "KIN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "LINK",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "PPP",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "RDN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "AE",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "BNB",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "REQ",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "IND",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "WTC",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "CAT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "REX",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "RCN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "QSP",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "ROL",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "RLC",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "CVC",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "MTL",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "ETHOS",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "FUN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "STORJ",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "MCO",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "TKN",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "XAUR",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "HMQ",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "BTM",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "MGO",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "ATM",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "SALT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "PPT",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "ENG",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "TAAS",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "TRST",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "TRX",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "POWR",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "AST",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "GUP",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "DRP",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "SNGLS",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        },
+        {
+            "tokenx": "EDG",
+            "tokeny": "WETH",
+            "pricePrecision": 8
+        }
+    ],
+    "whiteList": [
+        "0x80679a2c82ab82f1e73e14c4bec4ba1992f9f25a",
+        "0x8311804426a24495bd4306daf5f595a443a52e32",
+        "0xeba7136a36da0f5e16c6bdbc739c716bb5b65a00",
+        "0x1742eeA982d8172138fbf8e2f6B296D4E81045C2",
+        "0x71C079107B5af8619D54537A93dbF16e5aab4900",
+        "0x8eAB8Cd147C3aFA7386Da2b3eE3165F9069341CC",
+        "0x6583fb42103A7379df014Cc0Ed39CC1499AE727E",
+        "0x7051bD5aAF7a4F0722e5c93EE65214bE6C8a9207",
+        "0xe3C6A983fAe544aCa1e4f5350297F3e8D466cDda",
+        "0x5e98F5f8CE05aAE77bdF22685EB16b0412556bFd",
+        "0x61ab90B09c9486C44BA1eeDB76d36f60640578C2",
+        "0x3a0db5A1A3AE068d1837F9Af17a387c50aafc9d0",
+        "0x3Ce76711Ffc50Ae2744FDaA5eb18ff0186943f76",
+        "0xc85e0C41F77b45B44723203997e05e80740C85c8",
+        "0x93172c33ABE12A44B54158cB246e7774B44760Ce",
+        "0x53DcbB03DEFa6543F0b04F76c2B7fEfd6aB20b2b",
+        "0xeC4A769D94Ac5F1C2c2866f29d6357Bb6C409772",
+        "0x933650184994CFce9D64A9F3Ed14F1Fd017fF89A",
+        "0x556E74c6e9Ad588F622679429EFA8755eDC07aF1",
+        "0xDa0095d27e7184fa35Fb2eEFe9AF59Bc135eA4F0",
+        "0x07aF04FF753D2fa0a5EB041b229a4Bc88ebA6D4d",
+        "0x2CAB3A5c1d3cFEA0ABaA075D0EeB5FCFF0885246",
+        "0x991890359f273d1f8F3B12405C7d076ACd1955A0",
+        "0xEDF039C36c3fC977C8830d68D75D989D42ED1827",
+        "0x99e7F261c017Bf4190545903D419B7151d5747A5",
+        "0xf4c093a5c7245f978394b0770cd01e9b8351c7e7",
+        "0xf39641be7e317B7DE4e5827f724a1f28f6d5eea0",
+        "0xE4aC2578fd18A7299AA59182865C43A716eF5150",
+        "0x85367De3b306CB02aEe190EEC32ea00Da7F3E296",
+        "0x573d1936D8821Fc3EAFB30e70A63a7f38123Ac1B",
+        "0x280831b7d7231CfA186cE9eFf21d664Ba059418d",
+        "0x49f74133c07169d3501e801581CEE43B01f3960f",
+        "0xa7A13638633B10C51588890b917d3e243D4a5FAb",
+        "0x2af0952b2d00f5a9c32e0b53aa59afe148a11a3f",
+        "0x7518404D73Ca350F127b847533E08b33073C9366",
+        "0x71203F34c020aDFC3CDA3E688d65887CDE039d8e",
+        "0x548774EE940E0beDbc68f521B9a188b840D1E3D5",
+        "0x4CEB79e11BdFBBFFB5ac902d7b50D00B3339875B",
+        "0xb5910C541b5e26899392a5DA45A73d8aafBD0b64",
+        "0x2bbFe5650e9876fb313D6b32352c6Dc5966A7B68",
+        "0x02caD6194a7C6dc4A576d9e4a02D516b6AF2A226",
+        "0xBC9d3bC9D360deE0215edF1DAF3B565774611E0F",
+        "0x52F85fd669200D85056e6A68634C2eD41F0d3Bd8",
+        "0x7B2dd38401190Df23235733A9234238b3be56827",
+        "0xC15A71352482a597b4FAF07BC4Af4Dd93ECea830",
+        "0x1E920C45641f367637F51EfEEc2C5Ed501123cB0",
+        "0x719E2a388502b04EA7C8e783b6B5291f48D56E7D",
+        "0x9EB82435c50068B673a702d2d07F49C045AB359c",
+        "0x45eA35d975C1ae40b1b2736ebe67e46e672F1051",
+        "0x0945F89FCFD5c8170703ccfD1cf08Fc96b81869D",
+        "0xdfBdC1395c61DC19C93CD0323f2716Cb648F6DCe",
+        "0x1Cf62E833A9B983AE6886e144BE8f6c964526392",
+        "0x9f4C6Dd6B5Ba5815AB125D2f2Bfb47b5f15111cd",
+        "0x55e601099f3201a81d878cB67DBb2beEfA12E4e8",
+        "0xE967ce03581d58b1AbAED675ce6a1c7D9c8c52C6",
+        "0xB3F23740cD908e6d8AAB746d7dD41C8765017DC8",
+        "0x024a2Cb80373cc21a650E50420f7994a95B18243",
+        "0xf4d464f7cf62ab50f904180d7243c9523d834204",
+        "0x1A2281352c6d903Dd17Acccc352d2aF181Ee9bC5",
+        "0x59E9E8fd3bFCD734c96BC4A5ccFB3Ec9155f8d8c",
+        "0x8F8732c32C2e655F70a051E6c8ca3Ed912d5e794",
+        "0x5066cf4Bea7C730A56d3eE6B0007382D7e711808",
+        "0xD8f2bE1D74f3dCD81d37D0319b94037d0E7317BA",
+        "0xA68A598BD9F6aF29d307b6E11B5354860fC79D86",
+        "0x00b20933BddAa7853D036F05DC139E2b649A06Ce",
+        "0xce8B2DaC623a2f6708ccc089219FE0fA51fC37Cd",
+        "0xF36e57Fd217C5E83467a52C3172929cf7943D172",
+        "0xAEE048F5f021ABed251EAEC1dcA4C28fA779918f",
+        "0x31dB930FBb03670Ce58cA78bEB0d4cE833788fF0",
+        "0x05a9FeE113dD42B5EFbA7E823D1E314Fa983abbD",
+        "0x060bbae03EF52F1B47db247215Da0FB87FF4B2EB",
+        "0x3F1f5bd22dA1C725490E55d323906919A971dD3C",
+        "0x3df603224183a388517176C35fB306e931A78A9d",
+        "0xc3A0177bc8fD591CBaF64fdd6Cb24A5f0Bee80cB",
+        "0x91461c45fd56156905bFE9fbE0dD056Ebe64d288",
+        "0xfE193e67151Aa6421B31AE743a557dc4766feB43",
+        "0xBC3e8CBcB5F540AF5185f11C5F4916474b5BBCA5",
+        "0x82bf39925a923bc08829651d1f6e84ecfbf92361",
+        "0x6f748e4214F10aFDBEA6D113c6C2F87997193158",
+        "0xcA9216488c563A8B67ADC75283acC90c0C7f50d3",
+        "0xcD848d083E0d66f14Be3d47668a68869feF4BE61",
+        "0xb7A11CdaF961DEF1CBBf7b7D18FFA0605AAE9212",
+        "0xCe855cd625A5C04F93998c80e4388C8c11832Ad7",
+        "0xb3067C6fF28e7E392beD5a0149700b77c26dCe7C",
+        "0xe8fE689f67B6fD92CCbd62096D37D474a910F5B4",
+        "0x40fa43a7a7Efbe22a5B3E675Eede036626B31671",
+        "0x1d13fdaB43c24aB39338091cA680A8A606cbF543",
+        "0xCd5a74fF9cC9F5529e87e3f0a7f4437426bcDB5D",
+        "0x22FB82d2007526e95D3867393Ac186a3aa8e1e70",
+        "0xbf5B15CDE17839518f5DCeff884DaEEb307de811",
+        "0x9a23619BD483C700c69d8a404F3B0177e96A6BCe",
+        "0x429f39a97056c6016f6Ec95F2F7dC1e62272C6F3",
+        "0x6E162fC3c2A9DfdDecbC31614c623B94D6F4c971",
+        "0xd6855E2904e0f2A34C528d675186BbD6b5ED9880",
+        "0x7a40ebfb37d4616c63B2048b942104C95428310F",
+        "0x16fE7d16122ea1de780a508f162f72A35ec77E9b",
+        "0x2bd8d60fA432f270897C601BB51929a3045307Bc",
+        "0x58bAd305ee8809093a46172b8dCCA6e711c7Df5f",
+        "0xd93ec4C91896c90B225B5979f7b75BDD89fAAbDC",
+        "0x42F191E6E0C0c97fE77b81089D530993e310EFaB",
+        "0x9933C7e678a2EC9331c9354bF9fea9b4957b102d",
+        "0xfC2b01686651DF2E247465Ec0e56FAD2A587B3b7",
+        "0xCDB2a4F84C1a46F4Fff1Bc66A0D147d186b53eA7",
+        "0x04f04c5F2e735A223FDEFe94c94978F77c344FB8",
+        "0x5FF7fAAb2d9b405573922b657b98129E74a8e2D2",
+        "0x1661D680C4C19b7Bcc7aA7c4330a4a6c3200244a",
+        "0x23d2292dC528C3FA16139308Bf46836b58107aE0",
+        "0xd6C0545cE17c8a170Af6C2AD1e52A3f5C77F0370",
+        "0x14603a5F99Dd5F626Cf6F86Ea0336379753ED265",
+        "0x34F8f989e851Cb3d970a99e7Ab39Fa5fcE4A342B",
+        "0xffbD857D5b5F01964E54365140EE2d76ea269582",
+        "0x352C736B83C4cBD15aD4089039E5823993C1234A",
+        "0xe17E3cBa7a857667326Cf076b9A632f22cD6c9bA",
+        "0x5930A0ed170c5920621d07769D956a53F6f14Fb9",
+        "0xCBeafE918D2138CEff74Aed52c0b72507b5135AE",
+        "0xCdf91269d4E4bba12F8f3c82Be7a13e4a1D4B3bb",
+        "0x650fEF6534a107783d02a4c26a15Cae30DDEA4FC",
+        "0x0e4e189E54362645DfF5626193585e1d06844499",
+        "0x57AA0E950667f9fFC88cB79D56592A23582eCCe9",
+        "0xF01E331DE31c9c28f01084Daa05eAa34F6fFfCE6",
+        "0xF489C3Df335E4D3DAA16F180B012663aF666Bce6",
+        "0x3b45fA50B1Ebd386667957C204Cf873dc3b28dE7",
+        "0xB91eA2ED7A5B7F558b1fe3bA790F69681Fb80982",
+        "0xd57bF94a95f3658eFAa31ea64EA877a2b2AeD626"
+    ]
+}

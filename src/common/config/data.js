@@ -11,3 +11,5 @@ for(var p in timezones){
   timezoneArray.push({timezone: p, principal:timezones[p]})
 }
 export {timezoneArray}
+
+export const configs = require('./config.json')

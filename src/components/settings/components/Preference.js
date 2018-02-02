@@ -2,14 +2,13 @@ import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
-
-
 const Perference = ({
-    form
+    settings, form
   }) => {
-  // const {preference} = settings
+  const {preference} = settings
   function handleChange(type, value) {
-    console.log(type+":"+value);
+    console.log(type+" changed to:"+value);
+    settings.preferenceChange({...preference, [type]: value})
   }
   function handleSubmit() {
     form.validateFields((err,values) => {
@@ -41,7 +40,7 @@ const Perference = ({
       <Form layout="horizontal" className="p15">
         <Form.Item {...formItemLayout} label="Language" colon={false}>
           {form.getFieldDecorator('language', {
-            initialValue:'en',
+            initialValue:preference.language,
             rules:[]
           })(
             <Select
@@ -62,7 +61,7 @@ const Perference = ({
         </Form.Item>
         <Form.Item {...formItemLayout} label="Currency" colon={false}>
           {form.getFieldDecorator('currency', {
-            initialValue:'USD',
+            initialValue:preference.currency,
             rules:[]
           })(
             <Select
@@ -78,7 +77,7 @@ const Perference = ({
         </Form.Item>
         <Form.Item {...formItemLayout} label="Timezone" colon={false} className="mb0">
           {form.getFieldDecorator('timezone', {
-            initialValue:'UTC+00:00',
+            initialValue:preference.timezone,
             rules:[]
           })(
             <Select

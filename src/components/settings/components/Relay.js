@@ -8,16 +8,17 @@ import RelayEdit from './RelayEdit'
 const RealySettingForm = ({
     settings,form,modals
   }) => {
-  const gotoEdit = (e)=>{
-    e.preventDefault();
-    modals.showModal({id:'settings/relay/edit'})
+  const {relay} = settings
+  const gotoEdit = (relayValue, e)=>{
+    //e.preventDefault();
+    modals.showModal({id:'settings/relay/edit', relay:relayValue})
   }
   const gotoAdd = ()=>{
     modals.showModal({id:'settings/relay/add'})
   }
-
-  function handleChange(type, value) {
-    console.log(type+":"+value);
+  function handleChange(e) {
+    console.log(e.target.value);
+    settings.relayChange({...relay, selected:e.target.value})
   }
   function handleSubmit() {
     form.validateFields((err,values) => {
@@ -44,30 +45,29 @@ const RealySettingForm = ({
     },
   };
 
-
   return (
     <div className="" >
       <Form layout="horizontal" className="p15">
         <Form.Item label="Choose Relay" colon={false}>
           {form.getFieldDecorator('relay', {
-            initialValue:2,
+            initialValue:relay.selected,
             rules:[]
           })(
-            <Radio.Group className="">
+            <Radio.Group className="" onChange={handleChange}>
               {
-                [1,2,3].map((item,index)=>
-                  <Radio className="d-flex align-items-center mb15 w-100" value={item} key={index}>
+                relay.nodes.map((item,index)=>
+                  <Radio className="d-flex align-items-center mb15 w-100" value={item.value} key={index}>
                     <div className="ml10">
                       <div className="row align-items-center no-gutters">
                         <div className="col-7 mr10">
-                          <Input size="large" value="Default Loopring Relay"  />
+                          <Input size="large" value={item.label}  disabled/>
                         </div>
                         <div className="col mr10">
-                          <Input size="large" value="27.0.0.01" />
+                          <Input size="large" value={item.value} disabled/>
                         </div>
                         <div className="col-auto">
-                          { index >0 &&
-                            <a href="" onClick={gotoEdit} className="">Edit</a>
+                          { item.custom &&
+                            <a href="javascript:void(0)" onClick={gotoEdit.bind(this, item.value)} className="">Edit</a>
                           }
                         </div>
                       </div>
@@ -78,7 +78,7 @@ const RealySettingForm = ({
             </Radio.Group>
           )}
         </Form.Item>
-        
+
       </Form>
       <div className="p15 zb-b-t text-right">
         <Button onClick={handleReset} type="" className="mr5">Reset</Button>
@@ -89,6 +89,6 @@ const RealySettingForm = ({
 };
 
 
-export default Form.create()(connect(({modals})=>(modals))(RealySettingForm));
+export default Form.create()(RealySettingForm);
 
 

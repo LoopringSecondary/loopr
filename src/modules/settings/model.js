@@ -1,3 +1,14 @@
+import {configs} from '../../common/config/data'
+const selectedContract = configs.contracts[configs.contracts.length-1]
+//TODO read(may update) selected contract from localStorage
+const relays = configs.relays
+//TODO mock custom relay
+relays.push({
+   "value": "https://relay.my.io",
+   "label": "My Relay",
+   "custom": true
+})
+const selectedRelay = relays[0]
 
 export default {
   namespace: 'settings',
@@ -5,50 +16,39 @@ export default {
     preference: {
       language: "en",
       currency: "USD",
-      timezone: "UTC +8:00"
+      timezone: "UTC+00:00"
     },
     trading: {
       contract: {
-        version: "v2.0",
-        address: "0x1111"
+        version: selectedContract.version,
+        address: selectedContract.address
       },
       lrcFee: 0.001,
       marginSplit: 50,
       gasPrice: 30
     },
-    relay: [
-      {
-        name: "Default",
-        url: "https://relay1.loopring.io"
-      },
-      {
-        name: "Backup",
-        url: "https://relay2.loopring.io"
-      }
-    ]
+    relay: {
+      selected: selectedRelay.value,
+      nodes: relays
+    }
   },
   reducers: {
     preferenceChange(state, { payload }) {
       return {
         ...state,
-        preference:{
-          language: payload.languange,
-          currency: payload.currency,
-          timezone: payload.timezone
-        }
+        preference:payload
       };
     },
     tradingChange(state, { payload }) {
       return {
         ...state,
-        // TODO
+        trading:payload
       };
     },
     relayChange(state,{payload}){
-      // TODO
       return {
-        ...state
-        // TODO
+        ...state,
+        relay:payload
       }
     },
     languageChange(state,{payload}){

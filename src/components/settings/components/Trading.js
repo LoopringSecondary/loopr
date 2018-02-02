@@ -1,16 +1,39 @@
 import React from 'react';
 import {connect} from 'dva';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
-import {languagesArray, timezoneArray} from '../../../common/config/data'
+import {languagesArray, timezoneArray, configs} from '../../../common/config/data'
 
 const TradingSettingForm = ({
     settings,form
   }) => {
-
   const {trading} = settings
-
   function handleChange(type, value) {
-    console.log(type+":"+value);
+    console.log(type+" changed to:"+value);
+    if ("contractVersion" === type){
+      const addresses = configs.contracts.filter(item => item.version === value)
+      if(addresses.length > 0) {
+        settings.tradingChange({...trading, contract:{version:value, address:addresses[0].address}})
+      } else {
+        console.error("error")
+      }
+    } else {
+      if (('lrcFee' === type && validateLrcFee(value))
+        || ('marginSplit' === type && validateMarginSplit(value))
+        || 'gasPrice' === type && validateGasPrice(value)){
+        settings.tradingChange({...trading, [type]:value})
+      }
+    }
+  }
+  function validateLrcFee(value) {
+    let v = Number(value);
+    return value && v.toString() === value && v >=0 && v <=50
+  }
+  function validateMarginSplit(value) {
+    let v = Number(value);
+    return value && v.toString() === value && v >=0 && v <=100
+  }
+  function validateGasPrice(value) {
+    return value >=0 && value < 100;
   }
   function handleSubmit() {
     form.validateFields((err,values) => {
@@ -37,21 +60,24 @@ const TradingSettingForm = ({
     },
   };
 
+  const contractVersionExtra = <div className="fs10 mt5"><a target="_blank" href={"https://etherscan.io/address/"+trading.contract.address}>{trading.contract.address}</a></div>
+
   return (
     <div className="" >
       <Form layout="horizontal" className="p15">
-        <Form.Item {...formItemLayout} label="Contract Version" colon={false}>
+        <Form.Item {...formItemLayout} label="Contract Version" colon={false} extra={contractVersionExtra}>
           {form.getFieldDecorator('contractVersion', {
-            initialValue:'v1.0',
+            initialValue:trading.contract.version,
             rules:[]
           })(
             <Select
               placeholder="Search/Select"
               optionFilterProp="children"
               size="large"
+              onChange={handleChange.bind(this, "contractVersion")}
             >
-              {[1,1,1,1].map((item,index)=>
-                <Select.Option key={index} value={'v1.0'} >V1.0</Select.Option>
+              {configs.contracts.map((item,index)=>
+                <Select.Option key={index} value={item.version} >{item.version}</Select.Option>
               )}
             </Select>
           )}
@@ -61,14 +87,11 @@ const TradingSettingForm = ({
             initialValue:'2',
             rules:[
               {required: true, message: 'Input valid integer value (0~50).',
-                validator: (rule, value, cb) => {
-                  let v = Number(value);
-                  return value && v.toString() === value && v >=0 && v <=50 ? cb() : cb(true)
-                }
+                validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)
               }
             ]
           })(
-            <Input size="large" addonAfter="‰"/>
+            <Input size="large" addonAfter="‰" onChange={handleChange.bind(this, "lrcFee")}/>
           )}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Margin Split" colon={false}>
@@ -76,28 +99,22 @@ const TradingSettingForm = ({
             initialValue:'50',
             rules:[
               {required: true, message: 'Input valid integer value (0~100).',
-                validator: (rule, value, cb) => {
-                  let v = Number(value);
-                  return value && v.toString() === value && v >=0 && v <=100 ? cb() : cb(true)
-                }
+                validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)
               }
             ]
           })(
-            <Input size="large" addonAfter="％"/>
+            <Input size="large" addonAfter="％" onChange={handleChange.bind(this, "marginSplit")}/>
           )}
         </Form.Item>
-        <Form.Item label={"Gas Price: "+[trading.gasPrice]+" Gwei"} colon={false} className="mb5">
+        <Form.Item label={"Gas Price: " +trading.gasPrice+" Gwei"} colon={false} className="mb5">
           {form.getFieldDecorator('gasPrice', {
             initialValue:Number([trading.gasPrice]),
             rules:[]
           })(
-            <Slider min={1} max={99} step={1}
+            <Slider min={1} max={99} step={1} onChange={handleChange.bind(this, "gasPrice")}
               marks={{
                 1: 'Slow',
                 99: 'Fast',
-              }}
-              onChange={(value)=> {
-                trading.gasPrice = value
               }}
             />
           )}
@@ -111,6 +128,6 @@ const TradingSettingForm = ({
 };
 
 
-export default Form.create()(connect(({settings})=>({settings}))(TradingSettingForm));
+export default Form.create()(TradingSettingForm);
 
 

@@ -3,7 +3,7 @@ import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,C
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
 const RelayEditForm = ({
-    form
+    form, modal
   }) => {
   function handleChange(type, value) {
     console.log(type+":"+value);
