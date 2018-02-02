@@ -7,7 +7,7 @@ import {Modal} from 'antd';
 )
 export default class ModalContainer extends React.Component {
   render() {
-  	const {dispatch,modals,id,title} = this.props
+  	const {dispatch,modals,id,...rest} = this.props
   	let thisModal = modals[id] || {}
     // console.log('modal container re-render',id)
   	const hideModal = (payload)=>{
@@ -66,6 +66,7 @@ export default class ModalContainer extends React.Component {
   		onCancel:hideModal.bind(this,{id}),
   	}
   	let childProps = {
+      ...rest,
       modals:{
         ...modals,
         showModal:showModal.bind(this),
@@ -73,7 +74,15 @@ export default class ModalContainer extends React.Component {
         showLoading:showLoading.bind(this),
         hideLoading:hideLoading.bind(this),
         modalChange:modalChange.bind(this),
-      }
+      },
+      modal:{
+        ...thisModal,
+        showModal:showModal.bind(this),
+        hideModal:hideModal.bind(this),
+        showLoading:showLoading.bind(this),
+        hideLoading:hideLoading.bind(this),
+        modalChange:modalChange.bind(this),
+      },
   	}
     return (
   		<Modal {...modalProps}>
