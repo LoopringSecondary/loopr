@@ -8,15 +8,16 @@ import icon from '../../../assets/images/icon-backup-wallet.png'
 import {create,encrypt} from "Loopring/ethereum/account"
 import {addHexPrefix,clearPrefix,toBuffer} from "Loopring/common/formatter"
 
-function BackupWallet({form}) {
+function BackupWallet({form,modals,account}) {
 
   const download = () =>{
-
     //TODO 通过state 获取account
-    const account = create("123");
+    const password = account['password'];
+    console.log(password);
+    const wallet = account['privateKey'];
     const element = document.createElement('a');
-    console.log(account.privateKey);
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(encrypt(toBuffer(addHexPrefix(account.privateKey)),"123"))));
+    console.log(wallet);
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(encrypt(toBuffer(addHexPrefix(account['privateKey'])),password))));
     const ts = new Date();
     element.setAttribute('download', ['UTC--', ts.toJSON().replace(/:/g, '-'), '--', clearPrefix(account.address), '.json'].join(''));
     element.style.display = 'none';

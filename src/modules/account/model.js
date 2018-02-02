@@ -2,21 +2,26 @@
 export default {
   namespace: 'account',
   state: {
-    // TODO
+    address:null,
+    privateKey:null,
+    mnemonic:null,
+    publicKey:null,
+    password:null,
     isUnlocked:false,
   },
   reducers: {
     setAccount(state, { payload }) {
       return {
         ...state,
-        inUnlocked:true,
+        ...payload,
+        isUnlocked:true,
         // TODO
       };
     },
     deleteAccount(state, { payload }) {
       return {
         ...state,
-        inUnlocked:false,
+        isUnlocked:false,
         // TODO
       };
     },

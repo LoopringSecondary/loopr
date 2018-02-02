@@ -29,5 +29,5 @@ const AccountContainer = (props)=>{
   )
 }
 
-export default connect(({Account})=>({Account}))(AccountContainer)
+export default connect(({account})=>({account}))(AccountContainer)
 

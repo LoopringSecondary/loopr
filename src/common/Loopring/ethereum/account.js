@@ -53,7 +53,6 @@ export function encrypt(privateKey, password) {
 
 export function decrypt(keystoreJsonV3, password) {
   const privateKey = decryptKeystoreToPkey(keystoreJsonV3, password); // privateKey
-  console.log(formatKey(privateKey));
   const publicKey = privateToPublic(privateKey);
   const address = publicToAddress(publicKey);
   return {

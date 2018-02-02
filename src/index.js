@@ -33,6 +33,7 @@ let models  = [
   require('./modules/trades/models/list').default,
   require('./modules/orders/models/list').default,
   require('./modules/settings/model').default,
+  require('./modules/account/model').default
 ]
 models.map(model=>{
   app.model(model)

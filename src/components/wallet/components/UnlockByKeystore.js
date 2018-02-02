@@ -35,13 +35,13 @@ import {decrypt} from 'Loopring/ethereum/account';
      this.setState({fileList:[file]});
      return false;
    };
-   handleUpload = () =>{
+   unlock = () =>{
      const {keyStore,password} = this.state;
-     const account = decrypt(keyStore,password);
-     console.log(account);
+     const wallet = decrypt(keyStore,password);
+     const account = this.props.account;
+     account.setAccount({...wallet,password,mnemonic:null})
    };
    setPassword = (e) => {
-
      this.setState({password:e.target.value})
    };
   render() {
@@ -84,7 +84,7 @@ import {decrypt} from 'Loopring/ethereum/account';
             )}
           </Form.Item>}
         </Form>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.handleUpload} disabled={isPasswordRequired && password ===""}>UnLock</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.unlock} disabled={isPasswordRequired && password ===""}>UnLock</Button>
       </div>
     )
   }

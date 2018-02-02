@@ -46,8 +46,8 @@ export default (
 			</ModalContainer>
 
 	</div>
-	
+
 )
 
 
- 
+
