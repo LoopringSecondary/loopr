@@ -8,9 +8,10 @@ keys = keys.map(key=>key.replace(/settings\//,'')) // TO DO
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
 
 const SettingsContainer = (props)=>{
-  const { children,dispatch,settings } = props
+  const { children,dispatch,settings,...rest} = props
   const actions = bindActionCreators(actionCreators,dispatch)
   const childProps = {
+    ...rest,
     settings:{
       ...settings,
       ...actions,
