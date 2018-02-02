@@ -24,9 +24,13 @@ function ListBlock({LIST,actions,className,style}) {
         cancelText:'No',
     })
   }
+  const handleCopy = (value,e)=>{
+    e.preventDefault()
+    e.clipboardData.setData("text", value);
+  }
   const renders = {
       orderHash:(value,item,index)=>(
-          <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>
+          <Link className="text-truncate d-block" onCopy={handleCopy.bind(this,value)} style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>
           {uiFormatter.getShortAddress(value)}
           </Link>
       ),
