@@ -10,6 +10,7 @@ import TokenModals from './tokens/components/Modals';
 import TradeSteps from './orders/components/TradeSteps';
 import Wallet from './wallet/components'
 import ModalContainer from '../modules/modals/container'
+import AccountContainer from '../modules/account/container'
 
 export default (
 	<div>
@@ -23,19 +24,25 @@ export default (
 			<TokenModals />
 			<SettingsModals />
 			<ModalContainer id="trade/confirm">
-			  <TradeConfirm />
+			  	<TradeConfirm />
 			</ModalContainer>
 			<ModalContainer id="trade/steps">
-			  <TradeSteps />
+			  	<TradeSteps />
 			</ModalContainer>
 			<ModalContainer id="wallet/unlock" >
-			  <Wallet.UnlockWallet />
+				<AccountContainer>
+			  	<Wallet.UnlockWallet />
+			  </AccountContainer>
 			</ModalContainer>
 			<ModalContainer id="wallet/generate" >
-			  <Wallet.GenerateWallet />
+				<AccountContainer>
+					<Wallet.GenerateWallet />
+				</AccountContainer>
 			</ModalContainer>
 			<ModalContainer id="wallet/backup" >
-			  <Wallet.BackupWallet />
+				<AccountContainer>
+			  	<Wallet.BackupWallet />
+			  </AccountContainer>
 			</ModalContainer>
 
 	</div>
