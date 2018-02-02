@@ -17,7 +17,7 @@ export default {
     //   host: host,
     // },
     timezone:'',
-    currency:null,
+    currency:'USD',
   },
   reducers: {
     // relayChange(state, { payload }) {
@@ -37,12 +37,47 @@ export default {
     //   };
     // },
     currencyChange(state, { payload }) {
-      window.currency = payload.currency
-      console.log('payload.currency',payload.currency)
+      localStorage.currency = payload.currency
       return {
         ...state,
         currency: payload.currency
-      };
-    }
+      }
+    },
+    timezoneChange(state,{payload}){
+      
+    },
+    tradingChange(state,{payload}){
+      return {
+        ...state,
+      }
+    },
+    addRelay(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    editRelay(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    deleteRelay(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
+    relayChange(state,{payload}){
+      // TODO
+      return {
+        ...state
+        // TODO
+      }
+    },
   },
 };

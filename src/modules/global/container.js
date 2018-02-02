@@ -2,15 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 
 const GlobalContainer = (props)=>{
-	console.log('gloabal container re-render',props)
-	const { children } = props
+	const { children,dispatch } = props
+  
   return (
     <div>
-      {
-        true && React.Children.map(children, child => {
-            return React.cloneElement(child, {...props})
-        })
-      }
 
     </div>
   )

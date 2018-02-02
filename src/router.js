@@ -5,13 +5,11 @@ import Locales from './modules/locales/container'
 import Global from './modules/global/container'
 function RouterConfig({ history }) {
   return (
-  	
       <Locales>
         	<Router history={history}>
           	{pageRoutes}
         	</Router>
       </Locales>
-     
   )
 }
 export default RouterConfig;

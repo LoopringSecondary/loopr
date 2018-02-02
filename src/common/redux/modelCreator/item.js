@@ -22,8 +22,8 @@ function create(module){
         // "deleteSuccess",
         // "deleteError",
   ];
-  let actionTypes = easyRedux.actionTypes(module,keys);
-  let actionCreators = easyRedux.actionCreators(module,keys);
+  let actionTypes = easyRedux.getActionTypes(module,keys);
+  let actionCreators = easyRedux.getActionCreators(module,keys);
   return {
     actionTypes,
     actionCreators,
