@@ -12,7 +12,7 @@ const querySchema = {
   },
   keywords:{
     type:'string',
-    mode:'like',
+    mode:'fulltext',
   },
 }
 apis.fetchList = ({filters={},page={},sort={}})=>{
@@ -20,10 +20,19 @@ apis.fetchList = ({filters={},page={},sort={}})=>{
   let results = []
   keys.map(key=>{
     const type = querySchema[key] && querySchema[key]['type']
+    const mode = querySchema[key] && querySchema[key]['mode']
     results = tokens.filter(token=>{
       if(type==='bool'){
         return !!token[key] === !!filters[key]
       }
+      if(type==='string'){
+        if(mode==='fulltext'){
+            let text = (token.symbol + token.title).toLowerCase()
+            let value = filters[key].toLowerCase()
+            return text.indexOf(value) > -1
+        }
+      }
+
     })
   })
   return {

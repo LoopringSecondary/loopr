@@ -69,20 +69,22 @@ function ListSidebar({LIST,actions,dispatch}) {
     // actions.updateItem()
   }
   const toggleMyFavorite = ()=>{
-    filters.ifOnlyShowMyFavorite = !filters.ifOnlyShowMyFavorite
-    actions.filtersChange({filters:{...filters}})
-
-    // actions.filtersChange()
+    actions.filtersChange({filters:{
+      ...filters,
+      ifOnlyShowMyFavorite: !filters.ifOnlyShowMyFavorite
+    }})
   }
   const toggleSmallBalance = ()=>{
-    // filters.ifHideSmallBalance
-    // actions.filtersChange()
+    actions.filtersChange({filters:{
+      ...filters,
+      ifHideSmallBalance: !filters.ifHideSmallBalance
+    }})
   }
   const searchToken = (e)=>{
-    const value = e.target.value
-    console.log('value',value);
-    // filters.search
-    // actions.filtersChange()
+    actions.filtersChange({filters:{
+      ...filters,
+      keywords: e.target.value
+    }})
   }
   const selectToken = (item)=>{
     console.log('item click');
@@ -101,7 +103,7 @@ function ListSidebar({LIST,actions,dispatch}) {
         <Tooltip title="Only Show My Favorites">
           {
             filters.ifOnlyShowMyFavorite &&
-            <Button onClick={toggleMyFavorite.bind(this)} className="color-blue-600 border-blue-600" icon="star" shape="circle"></Button>
+            <Button onClick={toggleMyFavorite.bind(this)} className="color-white border-blue-600 bg-blue-600" icon="star-o" shape="circle"></Button>
           }
           {
             !filters.ifOnlyShowMyFavorite &&
@@ -114,7 +116,7 @@ function ListSidebar({LIST,actions,dispatch}) {
         <Tooltip title="Hide 0 Balances">
           {
             filters.ifHideSmallBalance &&
-            <Button onClick={toggleSmallBalance.bind(this)} className="color-blue-600 border-blue-600" icon="eye" shape="circle"></Button>
+            <Button onClick={toggleSmallBalance.bind(this)} className="color-white border-blue-600 bg-blue-600" icon="eye-o" shape="circle"></Button>
           }
           {
             !filters.ifHideSmallBalance &&
@@ -215,8 +217,8 @@ function ListSidebar({LIST,actions,dispatch}) {
           </div>
           <div className="col pr10">
             <div className="">
-              <span className="fs18 color-grey-900">{item.token}</span>
-              <span hidden className="fs12 ml5 color-grey-400 text-truncate text-nowrap d-inline-block" style={{width:'55px'}}>{item.title}</span>
+              <span className="fs18 color-grey-900">{item.symbol}</span>
+              <span className="fs12 ml5 color-grey-400 text-truncate text-nowrap d-inline-block" style={{width:'55px'}}>{item.title}</span>
             </div>
             <div className="">
               <span className="fs14 color-grey-900">0.00</span>
