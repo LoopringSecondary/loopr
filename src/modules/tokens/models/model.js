@@ -7,6 +7,7 @@ export default {
   namespace: MODULES,
   state: {
     items: [...tokens],
+    selected:{ETH:true},
     loading: false,
     loaded: false,
     page:{
@@ -99,6 +100,15 @@ export default {
   },
 
   reducers: {
+    selectedChange(state,action){
+      console.log('selectedChange reducer')
+      return {
+        ...state,
+        selected:{
+          ...state.selected,
+          ...action.payload.selected,
+      }}
+    },
     fetchStart(state, action) {
       let {filters,page,sort,defaultState,originQuery}=state;
       let {payload} = action;

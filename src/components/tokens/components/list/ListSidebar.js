@@ -9,6 +9,7 @@ import './ListSidebar.less'
 function ListSidebar({LIST,actions,dispatch}) {
   const {
       items=[],
+      selected={},
       loading,
       filters={},
       page={}
@@ -88,7 +89,14 @@ function ListSidebar({LIST,actions,dispatch}) {
     }})
   }
   const selectToken = (item)=>{
-    console.log('item click');
+    let new_selected = {}
+    for(let key in selected){
+      new_selected[key]=false
+    }
+    actions.selectedChange({selected:{
+      ...new_selected,
+      [item.symbol]:true,
+    }})
   }
   const TokenListAcionsBar = (
     <div className="row zb-b-b p15 pl10 pr10 no-gutters">
@@ -201,7 +209,7 @@ function ListSidebar({LIST,actions,dispatch}) {
 
   const TokenItem = ({item,index})=>{
     return (
-      <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}} onClick={selectToken.bind(this,item)} className={`cursor-pointer token-item-sidebar ${index==2 && 'token-item-sidebar-dark'}`}>
+      <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}} onClick={selectToken.bind(this,item)} className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
         <div className={`row align-items-center no-gutters p10`} >
           <div className="col-auto pr10">
             {
