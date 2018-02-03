@@ -63,7 +63,9 @@ function ListSidebar({LIST,actions,dispatch}) {
       // TODO
     }, 3000)
   }
-  const toggleFavor = (e)=>{
+  const toggleFavor = (item,e)=>{
+    console.log('item',item)
+    console.log('e',e)
     e.stopPropagation()
     // actions.updateItem()
   }
@@ -202,11 +204,12 @@ function ListSidebar({LIST,actions,dispatch}) {
         <div className={`row align-items-center no-gutters p10`} >
           <div className="col-auto pr10">
             {
-              index <=4 && <Icon type="star" className="color-yellow-700" />
+              item.isFavored && 
+              <Icon type="star" className="color-yellow-700" onClick={toggleFavor.bind(this,item)} />
             }
             {
-              index >4 &&
-              <Icon type="star" className="color-grey-300" />
+              !item.isFavored && 
+              <Icon type="star" className="color-grey-300" onClick={toggleFavor.bind(this,item)} />
             }
           </div>
           <div className="col-auto pr10">
