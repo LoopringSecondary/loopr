@@ -2,11 +2,29 @@ import namespace from '../namespace'
 import { tokens } from '../../../common/config/data';
 
 let apis = {}
+
+const querySchema = {
+  ifHideSmallBalance:{
+    type:'bool'
+  },
+  ifOnlyShowMyFavorite:{
+    type:'bool'
+  },
+  keywords:{
+    type:'string',
+    mode:'like',
+  },
+}
 apis.fetchList = ({filters={},page={},sort={}})=>{
   let keys = Object.keys(filters)
-  const results = []
+  let results = []
   keys.map(key=>{
-    results = tokens.filter(token=>token[key]===filters[key])
+    const type = querySchema[key] && querySchema[key]['type']
+    results = tokens.filter(token=>{
+      if(type==='bool'){
+        return !!token[key] === !!filters[key]
+      }
+    })
   })
   return {
     items:results

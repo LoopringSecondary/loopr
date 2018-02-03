@@ -69,7 +69,9 @@ function ListSidebar({LIST,actions,dispatch}) {
     // actions.updateItem()
   }
   const toggleMyFavorite = ()=>{
-    // filters.ifOnlyShowMyFavorite
+    filters.ifOnlyShowMyFavorite = !filters.ifOnlyShowMyFavorite
+    actions.filtersChange({filters:{...filters}})
+
     // actions.filtersChange()
   }
   const toggleSmallBalance = ()=>{
