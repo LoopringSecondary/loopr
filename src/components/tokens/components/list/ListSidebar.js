@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Checkbox } from 'antd';
 import schema from '../../../../modules/tokens/schema';
-import tokens from './tokens';
+import { tokens } from '../../../../common/config/data';
 import './ListSidebar.less'
 
 function ListSidebar({LIST,actions,dispatch}) {
@@ -274,9 +274,12 @@ function ListSidebar({LIST,actions,dispatch}) {
   return (
     <div className="">
       {TokenListAcionsBar}
-      {
-        items.map((item,index)=><TokenItem key={index} index={index} item={item} />)
-      }
+      <div className="token-list-sidebar">
+        {
+          items.map((item,index)=><TokenItem key={index} index={index} item={item} />)
+        }
+      </div>
+      
     </div>
   )
 }
