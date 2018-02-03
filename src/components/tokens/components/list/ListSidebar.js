@@ -63,7 +63,8 @@ function ListSidebar({LIST,actions,dispatch}) {
       // TODO
     }, 3000)
   }
-  const toggleFavor = ()=>{
+  const toggleFavor = (e)=>{
+    e.stopPropagation()
     // actions.updateItem()
   }
   const toggleMyFavorite = ()=>{
@@ -225,7 +226,9 @@ function ListSidebar({LIST,actions,dispatch}) {
             {
               item.symbol != 'ETH' &&
               <Tooltip title="Some Tips To Say" >
+                <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
                   <Switch onChange={toggleApprove.bind(this)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
+                </div>
               </Tooltip>
             }
           </div>
@@ -258,7 +261,6 @@ function ListSidebar({LIST,actions,dispatch}) {
               {TokenItemActions2(item)}
             </div>
           }
-          
         </div>
         
       </div>
