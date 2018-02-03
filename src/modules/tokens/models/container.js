@@ -4,9 +4,9 @@ import { bindActionCreators } from 'redux';
 import model from './model'
 const namespace =  model.namespace
 let keys = Object.keys(model.effects)
+console.log('keys',keys)
 // keys = keys.map(key=>key.replace(`${namespace}/`,''))
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
-
 const SettingsContainer = (props)=>{
   const { children,dispatch,LIST,...rest} = props
   const actions = bindActionCreators(actionCreators,dispatch)
@@ -30,5 +30,5 @@ const SettingsContainer = (props)=>{
   )
 }
 
-export default connect(({[namespace]:LIST})=>({[namespace]:LIST}))(SettingsContainer)
+export default connect(({[namespace]:LIST})=>({LIST}))(SettingsContainer)
 

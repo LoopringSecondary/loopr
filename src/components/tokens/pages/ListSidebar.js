@@ -18,15 +18,15 @@ function Page(props){
   }
   return (
     <div className="">
-      <Containers.StandList {...containerProps}>
+      <ListContainer>
         <Components.ListSidebar />
-      </Containers.StandList>
+      </ListContainer>
+      
       {
         false &&
-        <ListContainer>
+        <Containers.StandList {...containerProps}>
           <Components.ListSidebar />
-        </ListContainer>
-
+        </Containers.StandList>
       }
       
     </div>

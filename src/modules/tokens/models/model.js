@@ -1,10 +1,23 @@
 import namespace from '../namespace'
-import * as apis from '../apis'
+import { tokens } from '../../../common/config/data';
+
+let apis = {}
+apis.fetchList = ({filters={},page={},sort={}})=>{
+  let keys = Object.keys(filters)
+  const results = []
+  keys.map(key=>{
+    results = tokens.filter(token=>token[key]===filters[key])
+  })
+  return {
+    items:results
+  }
+}
+
 const {MODULES} = namespace
 export default {
   namespace: MODULES,
   state: {
-    items: [],
+    items: [...tokens],
     loading: false,
     loaded: false,
     page:{
@@ -16,15 +29,6 @@ export default {
     layer:{},
     defaultState:{},
     originQuery:{},
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(location => {
-        if (location.pathname === `/${MODULES}/list`) {
-          dispatch({type: 'fetch'});
-        }
-      });
-    },
   },
   effects: {
     *pageChange({payload},{call, select,put}){

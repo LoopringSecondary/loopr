@@ -1,5 +1,5 @@
 export default {
-  MODULES : 'trades',
-  MODULE : 'trade',
+  MODULES : 'tokens',
+  MODULE : 'token',
 }
 

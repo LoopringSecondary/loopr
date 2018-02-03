@@ -8,11 +8,10 @@ import './ListSidebar.less'
 
 function ListSidebar({LIST,actions,dispatch}) {
   const {
-      // items=[],
+      items=[],
       loading,
       filters={},
       page={}
-
   } = LIST
   const showModal = (payload)=>{
     dispatch({
@@ -86,9 +85,6 @@ function ListSidebar({LIST,actions,dispatch}) {
   const selectToken = (item)=>{
     console.log('item click');
   }
-
-
-  const items = tokens
   const TokenListAcionsBar = (
     <div className="row zb-b-b p15 pl10 pr10 no-gutters">
       <div className="col mr5">

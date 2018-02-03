@@ -17,15 +17,6 @@ export default {
     defaultState:{},
     originQuery:{},
   },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(location => {
-        if (location.pathname === `/${MODULES}/list`) {
-          dispatch({type: 'fetch'});
-        }
-      });
-    },
-  },
   effects: {
     *pageChange({payload},{call, select,put}){
       yield put({type:'pageChangeStart',payload});
