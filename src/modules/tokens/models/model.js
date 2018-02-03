@@ -1,10 +1,13 @@
 import namespace from '../namespace'
 import * as apis from '../apis'
+import { tokens } from '../../../common/config/data';
+
 const {MODULES} = namespace
 export default {
   namespace: MODULES,
   state: {
-    items: [],
+    items: [...tokens],
+    selected:{ETH:true},
     loading: false,
     loaded: false,
     page:{
@@ -39,7 +42,7 @@ export default {
       yield put({type:'fetch'});
     },
     *fetch({ payload={} }, { call, select, put }) {
-      yield put({ type: 'fetchStart',payload}); // model的state中传入各种参数的一个机会接口
+      yield put({ type: 'fetchStart',payload});
       const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
       let new_payload = {page,filters,sort,originQuery};
       if(defaultState.filters){
@@ -48,7 +51,6 @@ export default {
           ...defaultState.filters
         }
       }
-
       const res = yield call(apis.fetchList, new_payload);
       if (res.items) {
         yield put({
@@ -65,9 +67,48 @@ export default {
         });
       }
     },
+    *updateItem({ payload }, { select, call, put }) {
+      // yield put({ type: 'updateStart' });
+      const res = yield call(apis.updateItem, payload);
+      if (res.items) {
+        yield put({
+          type: 'updateSuccess',
+          payload: {
+            items:res.items,
+            // loading: false,
+            // loaded:true
+          },
+        });
+      }
+      yield put({type: 'fetch'});
+
+    },
+    *deleteItem({ payload }, { call, put }) {
+      // yield put({ type: 'deleteStart' });
+      const res = yield call(apis.deleteItem, payload);
+      if (res.items) {
+        yield put({type: 'fetch'});
+      }
+    },
+    *createItem({ payload }, { call, put }) {
+      yield put({ type: 'createStart' });
+      const res = yield call(apis.createItem, payload);
+      if (res.item) {
+        // TODO
+      }
+    },
   },
 
   reducers: {
+    selectedChange(state,action){
+      console.log('selectedChange reducer')
+      return {
+        ...state,
+        selected:{
+          ...state.selected,
+          ...action.payload.selected,
+      }}
+    },
     fetchStart(state, action) {
       let {filters,page,sort,defaultState,originQuery}=state;
       let {payload} = action;
@@ -99,6 +140,9 @@ export default {
 
     },
     fetchSuccess(state, action) {
+      return { ...state, ...action.payload };
+    },
+    updateSuccess(state, action) {
       return { ...state, ...action.payload };
     },
     pageChangeStart(state,action){

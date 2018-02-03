@@ -3,17 +3,18 @@ import { connect } from 'dva';
 import { bindActionCreators } from 'redux';
 import model from './model'
 const namespace =  model.namespace
-let keys = Object.keys(model.reducers)
-keys = keys.map(key=>key.replace(/account\//,''))
+let keys = [...Object.keys(model.effects),...Object.keys(model.reducers)]
+keys = keys.map(key=>key.replace(`${namespace}/`,''))
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
-
-const AccountContainer = (props)=>{
-  const { children,dispatch,account,...rest} = props
+const SettingsContainer = (props)=>{
+  const { children,dispatch,LIST,...rest} = props
   const actions = bindActionCreators(actionCreators,dispatch)
   const childProps = {
     ...rest,
-    account:{
-      ...account,
+    LIST:{
+      ...LIST,
+    },
+    actions:{
       ...actions,
     }
   }
@@ -28,5 +29,5 @@ const AccountContainer = (props)=>{
   )
 }
 
-export default connect(({Account})=>({Account}))(AccountContainer)
+export default connect(({[namespace]:LIST})=>({LIST}))(SettingsContainer)
 

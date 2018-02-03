@@ -10,7 +10,6 @@ addLocaleData([...enApp, ...zhApp]);
 const antdLocales = {zh,en}
 
 const Locales = ({ history,locales={},children})=>{
-		console.log('Locales container re-render')
 		const appProps = {
 			locale:locales.locale,
 			messages:locales.messages,
