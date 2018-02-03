@@ -10,7 +10,9 @@ function ListSidebar({LIST,actions,dispatch}) {
   const {
       // items=[],
       loading,
+      filters={},
       page={}
+
   } = LIST
   const showModal = (payload)=>{
     dispatch({
@@ -48,12 +50,37 @@ function ListSidebar({LIST,actions,dispatch}) {
       item,
     })
   }
-  const gotoAdd = (item)=>{
+  const gotoAdd = ()=>{
     showModal({
-      id:'token/edit',
-      item,
+      id:'token/add',
     })
   }
+  const toggleApprove = (checked)=>{
+    console.log('checked',checked);
+    setTimeout(()=>{
+      // TODO
+    }, 3000)
+  }
+  const toggleFavor = ()=>{
+    // actions.updateItem()
+  }
+  const toggleMyFavorite = ()=>{
+    // filters.ifOnlyShowMyFavorite
+    // actions.filtersChange()
+  }
+  const toggleSmallBalance = ()=>{
+    // filters.ifHideSmallBalance
+    // actions.filtersChange()
+  }
+  const search = (e)=>{
+    const value = e.target.value
+    console.log('value',value);
+    // filters.search
+    // actions.filtersChange()
+  }
+  
+
+
 
   const items = tokens
   const TokenListAcionsBar = (
@@ -63,16 +90,32 @@ function ListSidebar({LIST,actions,dispatch}) {
           placeholder=""
           prefix={<Icon type="search" className="color-grey-600"/>}
           className="d-block w-100"
+          onChange={search.bind(this)}
         />
       </div>
       <div className="col-auto mr5">
         <Tooltip title="Only Show My Favorites">
-          <Button className="color-grey-600" icon="star-o" shape="circle"></Button>
+          {
+            filters.ifOnlyShowMyFavorite &&
+            <Button onClick={toggleMyFavorite.bind(this)} className="color-blue-600 border-blue-600" icon="star" shape="circle"></Button>
+          }
+          {
+            !filters.ifOnlyShowMyFavorite &&
+            <Button onClick={toggleMyFavorite.bind(this)} className="color-grey-600" icon="star-o" shape="circle"></Button>
+          }
+
         </Tooltip>
       </div>
       <div className="col-auto mr5">
         <Tooltip title="Hide 0 Balances">
-          <Button className="color-grey-600" icon="eye-o" shape="circle"></Button>
+          {
+            filters.ifHideSmallBalance &&
+            <Button onClick={toggleSmallBalance.bind(this)} className="color-blue-600 border-blue-600" icon="eye" shape="circle"></Button>
+          }
+          {
+            !filters.ifHideSmallBalance &&
+            <Button onClick={toggleSmallBalance.bind(this)} className="color-grey-600" icon="eye-o" shape="circle"></Button>
+          }
         </Tooltip>
       </div>
       <div className="col-auto">
@@ -179,7 +222,7 @@ function ListSidebar({LIST,actions,dispatch}) {
             {
               item.symbol != 'ETH' &&
               <Tooltip title="Some Tips To Say">
-                <Switch size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
+                <Switch allowClear onChange={toggleApprove.bind(this)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
               </Tooltip>
             }
           </div>
