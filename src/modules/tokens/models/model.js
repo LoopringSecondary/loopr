@@ -1,44 +1,6 @@
 import namespace from '../namespace'
+import * as apis from '../apis'
 import { tokens } from '../../../common/config/data';
-
-let apis = {}
-
-const querySchema = {
-  ifHideSmallBalance:{
-    type:'bool'
-  },
-  ifOnlyShowMyFavorite:{
-    type:'bool'
-  },
-  keywords:{
-    type:'string',
-    mode:'fulltext',
-  },
-}
-apis.fetchList = ({filters={},page={},sort={}})=>{
-  let keys = Object.keys(filters)
-  let results = []
-  keys.map(key=>{
-    const type = querySchema[key] && querySchema[key]['type']
-    const mode = querySchema[key] && querySchema[key]['mode']
-    results = tokens.filter(token=>{
-      if(type==='bool'){
-        return !!token[key] === !!filters[key]
-      }
-      if(type==='string'){
-        if(mode==='fulltext'){
-            let text = (token.symbol + token.title).toLowerCase()
-            let value = filters[key].toLowerCase()
-            return text.indexOf(value) > -1
-        }
-      }
-
-    })
-  })
-  return {
-    items:results
-  }
-}
 
 const {MODULES} = namespace
 export default {
@@ -79,7 +41,7 @@ export default {
       yield put({type:'fetch'});
     },
     *fetch({ payload={} }, { call, select, put }) {
-      yield put({ type: 'fetchStart',payload}); // model的state中传入各种参数的一个机会接口
+      yield put({ type: 'fetchStart',payload});
       const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
       let new_payload = {page,filters,sort,originQuery};
       if(defaultState.filters){
@@ -88,7 +50,6 @@ export default {
           ...defaultState.filters
         }
       }
-
       const res = yield call(apis.fetchList, new_payload);
       if (res.items) {
         yield put({
@@ -103,6 +64,36 @@ export default {
             loaded:true
           },
         });
+      }
+    },
+    *updateItem({ payload }, { select, call, put }) {
+      // yield put({ type: 'updateStart' });
+      const res = yield call(apis.updateItem, payload);
+      if (res.items) {
+        yield put({
+          type: 'updateSuccess',
+          payload: {
+            items:res.items,
+            // loading: false,
+            // loaded:true
+          },
+        });
+      }
+      yield put({type: 'fetch'});
+
+    },
+    *deleteItem({ payload }, { call, put }) {
+      // yield put({ type: 'deleteStart' });
+      const res = yield call(apis.deleteItem, payload);
+      if (res.items) {
+        yield put({type: 'fetch'});
+      }
+    },
+    *createItem({ payload }, { call, put }) {
+      yield put({ type: 'createStart' });
+      const res = yield call(apis.createItem, payload);
+      if (res.item) {
+        // TODO
       }
     },
   },
@@ -139,6 +130,9 @@ export default {
 
     },
     fetchSuccess(state, action) {
+      return { ...state, ...action.payload };
+    },
+    updateSuccess(state, action) {
       return { ...state, ...action.payload };
     },
     pageChangeStart(state,action){
