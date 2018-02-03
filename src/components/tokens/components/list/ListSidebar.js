@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover } from 'antd';
+import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Checkbox } from 'antd';
 import schema from '../../../../modules/tokens/schema';
 import tokens from './tokens';
 import './ListSidebar.less'
@@ -23,13 +23,15 @@ function ListSidebar({LIST,actions,dispatch}) {
       }
     })
   }
-  const gotoTransfer = (item)=>{
+  const gotoTransfer = (item,e)=>{
+    e.stopPropagation()
     showModal({
       id:'token/transfer',
       item,
     })
   }
-  const gotoReceive = (item)=>{
+  const gotoReceive = (item,e)=>{
+    e.stopPropagation()
     showModal({
       id:'token/receive',
       item,
@@ -56,7 +58,7 @@ function ListSidebar({LIST,actions,dispatch}) {
     })
   }
   const toggleApprove = (checked)=>{
-    console.log('checked',checked);
+    // there is no event in arguments
     setTimeout(()=>{
       // TODO
     }, 3000)
@@ -72,14 +74,15 @@ function ListSidebar({LIST,actions,dispatch}) {
     // filters.ifHideSmallBalance
     // actions.filtersChange()
   }
-  const search = (e)=>{
+  const searchToken = (e)=>{
     const value = e.target.value
     console.log('value',value);
     // filters.search
     // actions.filtersChange()
   }
-  
-
+  const selectToken = (item)=>{
+    console.log('item click');
+  }
 
 
   const items = tokens
@@ -90,7 +93,7 @@ function ListSidebar({LIST,actions,dispatch}) {
           placeholder=""
           prefix={<Icon type="search" className="color-grey-600"/>}
           className="d-block w-100"
-          onChange={search.bind(this)}
+          onChange={searchToken.bind(this)}
         />
       </div>
       <div className="col-auto mr5">
@@ -194,8 +197,8 @@ function ListSidebar({LIST,actions,dispatch}) {
 
   const TokenItem = ({item,index})=>{
     return (
-      <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}}>
-        <div className={`row align-items-center no-gutters p10 ${index==2 && 'token-item-sidebar-dark'}`} >
+      <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}} onClick={selectToken.bind(this,item)} className={`cursor-pointer token-item-sidebar ${index==2 && 'token-item-sidebar-dark'}`}>
+        <div className={`row align-items-center no-gutters p10`} >
           <div className="col-auto pr10">
             {
               index <=4 && <Icon type="star" className="color-yellow-700" />
@@ -221,8 +224,8 @@ function ListSidebar({LIST,actions,dispatch}) {
           <div className="col-auto mr5">
             {
               item.symbol != 'ETH' &&
-              <Tooltip title="Some Tips To Say">
-                <Switch allowClear onChange={toggleApprove.bind(this)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
+              <Tooltip title="Some Tips To Say" >
+                  <Switch onChange={toggleApprove.bind(this)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
               </Tooltip>
             }
           </div>
