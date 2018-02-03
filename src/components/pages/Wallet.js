@@ -11,7 +11,6 @@ import Layout from '../../layout/Layout'
 
 export default function Home(props){
   const { children,match,location } = props
-  
   const handleTabChange = (key) => {
     switch (key) {
       case 'assets':
@@ -27,14 +26,13 @@ export default function Home(props){
         break;
     }
   }
-  const TabTilte = (props)=> <div className="fs18 pb5 pt5">{props.children}</div>
   return (
     <Layout {...props}>
       <div className="container">
-          <Tabs className="rs nobar" onChange={handleTabChange} activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
-            <Tabs.TabPane tab={<div className="fs18 pl0 pr20 pt30 pb20 "><FormattedMessage id="page.wallet.assets"/></div>} key="assets" />
-            <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb20 "><FormattedMessage id="page.wallet.orders"/></div>} key="orders" />
-            <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb20 "><FormattedMessage id="page.wallet.trades"/></div>} key="trades" />
+          <Tabs className="rs mb25" onChange={handleTabChange} activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
+            <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb15  "><FormattedMessage id="page.wallet.assets"/></div>} key="assets" />
+            <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb15  "><FormattedMessage id="page.wallet.orders"/></div>} key="orders" />
+            <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb15  "><FormattedMessage id="page.wallet.trades"/></div>} key="trades" />
           </Tabs>
           <Switch>
             <Route path={`${match.url}/assets`} exact render={()=>

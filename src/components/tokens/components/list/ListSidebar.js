@@ -21,6 +21,40 @@ function ListSidebar({LIST,actions,dispatch}) {
       }
     })
   }
+  const gotoTransfer = (item)=>{
+    showModal({
+      id:'token/transfer',
+      item,
+    })
+  }
+  const gotoReceive = (item)=>{
+    showModal({
+      id:'token/receive',
+      item,
+    })
+  }
+  const gotoConvert = (item)=>{
+    showModal({
+      id:'token/convert',
+      item,
+    })
+  }
+  const gotoTrade = (item)=>{
+    window.routeActions.gotoPath('/trade')
+  }
+  const gotoEdit = (item)=>{
+    showModal({
+      id:'token/edit',
+      item,
+    })
+  }
+  const gotoAdd = (item)=>{
+    showModal({
+      id:'token/edit',
+      item,
+    })
+  }
+
   const items = tokens
   const TokenListAcionsBar = (
     <div className="row zb-b-b p15 pl10 pr10 no-gutters">
@@ -43,7 +77,7 @@ function ListSidebar({LIST,actions,dispatch}) {
       </div>
       <div className="col-auto">
         <Tooltip title="Add Custom Token">
-          <Button onClick={showModal.bind(this,{id:'token/add'})} className="color-grey-600" icon="plus" shape="circle"></Button>
+          <Button onClick={gotoAdd.bind(this)} className="color-grey-600" icon="plus" shape="circle"></Button>
         </Tooltip>
       </div>
       
@@ -73,22 +107,22 @@ function ListSidebar({LIST,actions,dispatch}) {
     <div style={{width:'120px'}}>
       <div className="row no-gutters">
         <div className="col-12 p5">
-          <Button onClick={showModal.bind(this,{id:'token/transfer'})} className="" type="primary" icon="pay-circle-o">Transfer</Button>
+          <Button onClick={gotoTransfer.bind(this,token)} className="" type="primary" icon="pay-circle-o">Transfer</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={showModal.bind(this,{id:'token/receive'})} className="" type="primary" icon="qrcode">Receive</Button>
+          <Button onClick={gotoReceive.bind(this,token)} className="" type="primary" icon="qrcode">Receive</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={showModal.bind(this,{id:'token/edit'})} className="" type="primary" icon="edit">Edit</Button>
+          <Button onClick={gotoEdit.bind(this,token)} className="" type="primary" icon="edit">Edit</Button>
         </div>
         {
-          token.token === 'ETH' &&
+          token.symbol === 'ETH' &&
           <div className="col-12 p5">
-            <Button onClick={showModal.bind(this,{id:'token/convert'})} className="" type="primary" icon="retweet">Wrap</Button>
+            <Button onClick={gotoConvert.bind(this,token)} className="" type="primary" icon="retweet">Wrap</Button>
           </div>
         }
         <div className="col-12 p5">
-          <Button className="" type="primary">
+          <Button onClick={gotoTrade.bind(this,token)} className="" type="primary">
             <i className="fa fa-line-chart mr5"></i>Trade
           </Button>
         </div>
@@ -100,15 +134,15 @@ function ListSidebar({LIST,actions,dispatch}) {
       <div className="row no-gutters justify-content-end">
 
         <div className="col-auto p5">
-          <Button onClick={showModal.bind(this,{id:'token/transfer'})} className="" type="default" icon="pay-circle-o">Send</Button>
+          <Button onClick={gotoTransfer.bind(this,token)} className="" type="default" icon="pay-circle-o">Send</Button>
         </div>
         <div className="col-auto p5">
-          <Button onClick={showModal.bind(this,{id:'token/receive'})} className="" type="default" icon="qrcode">Receive</Button>
+          <Button onClick={gotoReceive.bind(this,token)} className="" type="default" icon="qrcode">Receive</Button>
         </div>
         {
-          token.token === 'ETH' &&
+          token.symbol === 'ETH' &&
           <div className="col-auto p5">
-            <Button onClick={showModal.bind(this,{id:'token/convert'})} className="" type="default" icon="retweet">Wrap</Button>
+            <Button onClick={gotoConvert.bind(this,token)} className="" type="default" icon="retweet">Wrap</Button>
           </div>
         }
       </div>
@@ -143,19 +177,19 @@ function ListSidebar({LIST,actions,dispatch}) {
           </div>
           <div className="col-auto mr5">
             {
-              item.token != 'ETH' &&
+              item.symbol != 'ETH' &&
               <Tooltip title="Some Tips To Say">
                 <Switch size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
               </Tooltip>
             }
           </div>
           <div className="col-auto pr5">
-            <Button shape="circle" className="bg-none color-grey-400 border-grey-300">
+            <Button onClick={gotoTransfer.bind(this,item)} shape="circle" className="bg-none color-grey-400 border-grey-300">
               <Icon type="retweet" />
             </Button>
           </div>
           <div className="col-auto pr5">
-            <Button shape="circle" className="bg-none color-grey-400 border-grey-300">
+            <Button onClick={gotoReceive.bind(this,item)} shape="circle" className="bg-none color-grey-400 border-grey-300">
               <Icon type="qrcode" />
             </Button>
           </div>
