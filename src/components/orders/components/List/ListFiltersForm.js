@@ -17,7 +17,7 @@ let FiltersForm = ({
     })
   }
   function handleChange() {
-    setTimeout(handleSubmit, 0) // fix bug for form state unsync
+    setTimeout(handleSubmit, 0) 
   }
   function handleCancle() {
 
@@ -86,7 +86,6 @@ let FiltersForm = ({
                 <Radio.Button value="buy">Buy</Radio.Button>
               </Radio.Group>
             )}
-            
           </Form.Item>
           <Form.Item>
             <Button onClick={handleReset} type="default">Reset</Button>
