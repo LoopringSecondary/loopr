@@ -6,10 +6,20 @@ let FiltersForm = ({
   form,
   }) => {
   function handleSubmit() {
+    form.validateFields((err,values) => {
+      console.log('values',values)
+      if(!err){
+        // TODO
+        actions.filtersChange({
+          filters:values
+        })
+      }
+    })
+  }
+  function handleChange() {
+    setTimeout(handleSubmit, 0) 
   }
   function handleCancle() {
-  }
-  function handleReset() {
   }
   const types = [
     {label:'All',value:'all'},
@@ -27,34 +37,46 @@ let FiltersForm = ({
       <div>
         <Form layout="inline">
           <Form.Item label="Status" >
-            <Select
-                style={{ width: 120 }}
-                allowClear
-                placeholder="All"
-                optionFilterProp="children"
-                onChange={()=>{}}
-                onFocus={()=>{}}
-                onBlur={()=>{}}
-                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-              >
+            {form.getFieldDecorator('status', {
+              initialValue:'all',
+              rules:[]
+            })(
+              <Select
+                  style={{ width: 120 }}
+                  allowClear
+                  placeholder="All"
+                  optionFilterProp="children"
+                  onChange={handleChange}
+                  onFocus={()=>{}}
+                  onBlur={()=>{}}
+                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
                 <Select.Option value="all">All</Select.Option>
                 <Select.Option value="pending">Pending</Select.Option>
                 <Select.Option value="success">Success</Select.Option>
                 <Select.Option value="failed">Failed</Select.Option>
               </Select>
+            )}
           </Form.Item>
           <Form.Item label="Type" className="mr0">
-            <Select
-              style={{ width: 120 }}
-              allowClear
-              placeholder="All"
-            >
-              { 
-                types.map((item,index)=>
-                  <Select.Option value={item.value} key={index}>{item.label}</Select.Option>
-                )
-              }
-            </Select>
+            {form.getFieldDecorator('type', {
+              initialValue:'all',
+              rules:[]
+            })(
+              <Select
+                style={{ width: 120 }}
+                allowClear
+                onChange={handleChange}
+                placeholder="All"
+
+              >
+                { 
+                  types.map((item,index)=>
+                    <Select.Option value={item.value} key={index}>{item.label}</Select.Option>
+                  )
+                }
+              </Select>
+            )}
           </Form.Item>
           
         </Form>

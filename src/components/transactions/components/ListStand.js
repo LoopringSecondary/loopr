@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import moment from 'moment';
-import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Select, } from 'antd';
+import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Select,Spin } from 'antd';
 import schema from '../../../modules/transactions/schema';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import iconTransfer from '../../../assets/images/icon-tx-type-transfer.png'
@@ -84,11 +84,20 @@ function ListBlock({LIST,actions}) {
             <ListFiltersFormSimple actions={actions} LIST={LIST} />
         </div>
       </div>
-      {
-        items.map((item,index)=>
-          <TxItem item={item} key={index} index={index}/>
-        )
-      }
+      <div style={{}}>
+        {
+          loading &&
+          <div className="p50 text-center">
+            <Spin />
+          </div>
+        }
+        {
+          items.map((item,index)=>
+            <TxItem item={item} key={index} index={index}/>
+          )
+        }
+      </div>
+      
     </div>
   )
 }
