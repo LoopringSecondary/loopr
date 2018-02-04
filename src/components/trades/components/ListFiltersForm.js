@@ -4,7 +4,9 @@ import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
 let FiltersForm = ({
   form,
   actions,
+  LIST,
   }) => {
+  const {filters} = LIST
   function handleSubmit() {
     form.validateFields((err,values) => {
       console.log('values',values)
@@ -32,7 +34,7 @@ let FiltersForm = ({
         <Form layout="inline">
           <Form.Item label="Market" >
             {form.getFieldDecorator('pair', {
-              initialValue:'all',
+              initialValue:filters.pair || 'all',
               rules:[]
             })(
               <Select
@@ -55,7 +57,7 @@ let FiltersForm = ({
           </Form.Item>
           <Form.Item label="Side" >
             {form.getFieldDecorator('side', {
-              initialValue:'all',
+              initialValue:filters.side || 'all',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>
