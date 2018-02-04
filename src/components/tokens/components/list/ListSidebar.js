@@ -63,13 +63,7 @@ function ListSidebar({LIST,actions,dispatch}) {
       // TODO
     }, 3000)
   }
-  const toggleFavor = (item,e)=>{
-    e.stopPropagation()
-    actions.updateItem({item:{
-      symbol:item.symbol,
-      isFavored:!item.isFavored,
-    }})
-  }
+  
   const toggleMyFavorite = ()=>{
     actions.filtersChange({filters:{
       ...filters,
@@ -88,7 +82,14 @@ function ListSidebar({LIST,actions,dispatch}) {
       keywords: e.target.value
     }})
   }
-  const selectToken = (item)=>{
+  const toggleFavored = (item,e)=>{
+    e.stopPropagation()
+    actions.updateItem({item:{
+      symbol:item.symbol,
+      isFavored:!item.isFavored,
+    }})
+  }
+  const toggleSelected = (item)=>{
     let new_selected = {}
     for(let key in selected){
       new_selected[key]=false
@@ -187,38 +188,18 @@ function ListSidebar({LIST,actions,dispatch}) {
       </div>
     </div>
   )
-  const TokenItemActions2 = (token)=>(
-    <div>
-      <div className="row no-gutters justify-content-end">
-
-        <div className="col-auto p5">
-          <Button onClick={gotoTransfer.bind(this,token)} className="" type="default" icon="pay-circle-o">Send</Button>
-        </div>
-        <div className="col-auto p5">
-          <Button onClick={gotoReceive.bind(this,token)} className="" type="default" icon="qrcode">Receive</Button>
-        </div>
-        {
-          token.symbol === 'ETH' &&
-          <div className="col-auto p5">
-            <Button onClick={gotoConvert.bind(this,token)} className="" type="default" icon="retweet">Wrap</Button>
-          </div>
-        }
-      </div>
-    </div>
-  )
-
   const TokenItem = ({item,index})=>{
     return (
-      <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}} onClick={selectToken.bind(this,item)} className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
+      <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this,item)} className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
         <div className={`row align-items-center no-gutters p10`} >
           <div className="col-auto pr10">
             {
               item.isFavored && 
-              <Icon type="star" className="color-yellow-700" onClick={toggleFavor.bind(this,item)} />
+              <Icon type="star" className="color-yellow-700" onClick={toggleFavored.bind(this,item)} />
             }
             {
               !item.isFavored && 
-              <Icon type="star" className="color-grey-300" onClick={toggleFavor.bind(this,item)} />
+              <Icon type="star" className="color-grey-300" onClick={toggleFavored.bind(this,item)} />
             }
           </div>
           <div className="col-auto pr10">
@@ -234,45 +215,53 @@ function ListSidebar({LIST,actions,dispatch}) {
               <span className="fs12 ml5 color-grey-400">$ 0.00</span>
             </div>
           </div>
-          <div className="col-auto mr5">
-            {
-              item.symbol != 'ETH' &&
-              <Tooltip title="Some Tips To Say" >
-                <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
-                  <Switch onChange={toggleApprove.bind(this)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
-                </div>
-              </Tooltip>
-            }
+          {
+            item.symbol != 'ETH' &&
+            <div className="col-auto mr5">
+                {
+                  item.allowance > item.balance &&
+                  <Tooltip title={`Disable ${item.symbol}`} >
+                    <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
+                      <Switch onChange={toggleApprove.bind(this,item)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
+                    </div>
+                  </Tooltip>
+                }
+                {
+                  item.allowance <= item.balance &&
+                  <Tooltip title={`Enable ${item.symbol}`} >
+                    <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
+                      <Switch onChange={toggleApprove.bind(this,item)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
+                    </div>
+                  </Tooltip>
+                }
+            </div>
+          }
+          <div className="col-auto pr5">
+            <Tooltip title="Send/Transfer" >
+              <Button onClick={gotoTransfer.bind(this,item)} shape="circle" className="bg-none color-grey-500 border-grey-400">
+                <Icon type="retweet" />
+              </Button>
+            </Tooltip>
           </div>
           <div className="col-auto pr5">
-            <Button onClick={gotoTransfer.bind(this,item)} shape="circle" className="bg-none color-grey-400 border-grey-300">
-              <Icon type="retweet" />
-            </Button>
+            <Tooltip title="Receive" >
+              <Button onClick={gotoReceive.bind(this,item)} shape="circle" className="bg-none color-grey-500 border-grey-400">
+                <Icon type="qrcode" />
+              </Button>
+            </Tooltip>
           </div>
-          <div className="col-auto pr5">
-            <Button onClick={gotoReceive.bind(this,item)} shape="circle" className="bg-none color-grey-400 border-grey-300">
-              <Icon type="qrcode" />
-            </Button>
-          </div>
-          <div className="col-auto">
+          <div className="col-auto" onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
             <Popover
               title="Actions"
               placement="right"
               arrowPointAtCenter
               content={TokenItemActions(item)}
             >
-              <Button shape="circle" className="bg-none color-grey-400 border-grey-300">
+              <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
                 <Icon type="ellipsis" />
               </Button>
             </Popover>
           </div>
-          <div className="w-100"></div>
-          {
-            false && index==2 &&
-            <div className="col mt5 pr0">
-              {TokenItemActions2(item)}
-            </div>
-          }
         </div>
         
       </div>
