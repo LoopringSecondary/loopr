@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { bindActionCreators } from 'redux';
 import model from './model'
 const namespace =  model.namespace
-let keys = [...Object.keys(model.effects),...Object.keys(model.reducers)]
+let keys = Object.keys(model.reducers)
 keys = keys.map(key=>key.replace(`${namespace}/`,''))
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
 const SettingsContainer = (props)=>{

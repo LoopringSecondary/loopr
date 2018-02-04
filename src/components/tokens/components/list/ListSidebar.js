@@ -63,7 +63,6 @@ function ListSidebar({LIST,actions,dispatch}) {
       // TODO
     }, 3000)
   }
-  
   const toggleMyFavorite = ()=>{
     actions.filtersChange({filters:{
       ...filters,
@@ -211,8 +210,8 @@ function ListSidebar({LIST,actions,dispatch}) {
               <span className="fs12 ml5 color-grey-400 align-middle text-truncate text-nowrap d-inline-block" style={{width:'55px'}}>{item.title}</span>
             </div>
             <div className="">
-              <span className="fs14 color-grey-900">0.00</span>
-              <span className="fs12 ml5 color-grey-400">$ 0.00</span>
+              <span className="fs14 color-grey-900">{item.balance}</span>
+              <span className="fs12 ml5 color-grey-400">$ {item.balance}</span>
             </div>
           </div>
           {
@@ -268,13 +267,34 @@ function ListSidebar({LIST,actions,dispatch}) {
     )
   }
 
+  let results = [...items]
+  let keys = Object.keys(filters)
+  keys.map(key=>{
+    const value = filters[key]
+    if(key==='ifOnlyShowMyFavorite'){
+      if(value){
+        results = results.filter(token=> !!token.isFavored == !!value)
+      }
+    }
+    if(key==='ifHideSmallBalance'){
+      if(value){
+        results = results.filter(token=>Number(token['balance']) > 0) 
+      }
+    }
+    if(key==='keywords'){
+      results = results.filter(token=>{
+        let text = (token.symbol + token.title).toLowerCase()
+        return text.indexOf(value.toLowerCase()) > -1
+      })
+    }
+  })
   
   return (
     <div className="">
       {TokenListAcionsBar}
       <div className="token-list-sidebar">
         {
-          items.map((item,index)=><TokenItem key={index} index={index} item={item} />)
+          results.map((item,index)=><TokenItem key={index} index={index} item={item} />)
         }
       </div>
       

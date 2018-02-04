@@ -1,13 +1,13 @@
 import {getOrders} from 'Loopring/relay/order'
 import { tokens } from '../../common/config/data';
 
-export function fetchList({filters={},page={},sort={}}){
+export function fetchList({filters={},page={},sort={},}){
   let keys = Object.keys(filters)
   let results = [...tokens]
   keys.map(key=>{
     const value = filters[key]
     if(key==='ifOnlyShowMyFavorite'){
-      results = results.filter(token=>!!token['isFavored'] === !!value)
+      results = results.filter(token=> !!token.isFavored == !!value)
     }
     if(key==='ifHideSmallBalance'){
       if(value){
