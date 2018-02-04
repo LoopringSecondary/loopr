@@ -28,7 +28,6 @@ class ListAsync extends React.Component {
     let childProps = {actions,LIST};
     return (
        <div>
-        <div hidden>Async Layer</div>
           {
             React.Children.map(this.props.children, child => {
                 return React.cloneElement(child, {...childProps})

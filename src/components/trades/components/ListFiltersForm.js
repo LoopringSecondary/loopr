@@ -20,7 +20,6 @@ let FiltersForm = ({
     setTimeout(handleSubmit, 0) 
   }
   function handleCancle() {
-
   }
   function handleReset() {
     form.resetFields()
