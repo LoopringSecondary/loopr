@@ -12,7 +12,7 @@ import React from 'react';
  * 
  */
 
-class ListAsync extends React.Component {
+class ListAsync extends React.PureComponent {
   constructor(props) {
     super(props); 
   }
@@ -24,8 +24,15 @@ class ListAsync extends React.Component {
     actions.fetch({filters,page,sort,originQuery,defaultState});
   }
   render() {
-    let { actions,LIST,dispatch} = this.props;
+    let { actions,LIST,dispatch,filters} = this.props;
+    if(LIST.filters && filters){
+      LIST.filters={
+        ...LIST.fitlers,
+        ...filters
+      }
+    }
     let childProps = {actions,LIST};
+
     return (
        <div>
           {

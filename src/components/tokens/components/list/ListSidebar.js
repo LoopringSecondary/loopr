@@ -97,6 +97,7 @@ function ListSidebar({LIST,actions,dispatch}) {
       ...new_selected,
       [item.symbol]:true,
     }})
+    window.routeActions.gotoPath(`/wallet/assets/txs/${item.symbol}`)
   }
   const TokenListAcionsBar = (
     <div className="row zb-b-b p15 pl10 pr10 no-gutters">

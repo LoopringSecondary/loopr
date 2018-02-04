@@ -1,5 +1,4 @@
 import {getFills} from 'Loopring/relay/trade'
-import {getOrders} from 'Loopring/relay/order'
 
 export async function fetchList(payload){
     let {page,filters,sort} = payload

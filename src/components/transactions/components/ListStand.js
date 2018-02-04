@@ -14,7 +14,8 @@ function ListBlock({LIST,actions}) {
   const {
       items=[],
       loading,
-      page={}
+      page={},
+      filters,
   } = LIST
 
   const TxItem = ({item,index})=>{
@@ -78,7 +79,7 @@ function ListBlock({LIST,actions}) {
     <div className="">
       <div className="row zb-b-b p15 no-gutters align-items-center">
         <div className="col">
-          <div className="fs20 color-grey-900">Transactions</div>
+          <div className="fs20 color-grey-900">{filters.token || 'All'} Transactions</div>
         </div>
         <div className="col-auto" style={{height:'32px'}}>
             <ListFiltersFormSimple actions={actions} LIST={LIST} />

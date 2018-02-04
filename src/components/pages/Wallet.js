@@ -34,14 +34,16 @@ export default function Home(props){
             <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb15  "><FormattedMessage id="page.wallet.orders"/></div>} key="orders" />
             <Tabs.TabPane tab={<div className="fs18 pl20 pr20 pt30 pb15  "><FormattedMessage id="page.wallet.trades"/></div>} key="trades" />
           </Tabs>
-          <Switch>
-            <Route path={`${match.url}/assets`} exact render={()=>
+            <Route path={`${match.url}/assets`} render={()=>
               <div className="row no-gutters bg-white" style={{borderRadius:'6px',border:'1px solid #dadada'}}>
                 <div className="col-4 zb-b-r">
                  <Token.ListSidebar />
                 </div>
                 <div className="col-8">
-                 <Transaction.ListStand />
+                  <Route path={`${match.url}/assets/txs/:token`} exact render={(props)=>{
+                    const token = props.match.params && props.match.params.token
+                    return <Transaction.ListStand filters={{token}}  />
+                  }} />
                 </div>
               </div>
             }
@@ -58,8 +60,11 @@ export default function Home(props){
               </div>
             } 
             />
-            <Redirect path={`${match.url}/`} to={`${match.url}/assets`} />
-          </Switch>
+            {
+              false &&
+              <Redirect path={`${match.url}/`} to={`${match.url}/assets`} />
+            }
+            
       </div>
     </Layout>
     
