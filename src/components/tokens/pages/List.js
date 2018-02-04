@@ -9,16 +9,9 @@ function Empty(props){
   return <div style={{height:props.height}}></div>
 }
 function Page(props){
-  const filters = {
-    ringHash:null
-  }
-  const containerProps={
-    ...props,
-    filters
-  }
   return (
     <div className="bg-white" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
-      <Containers.StandList {...containerProps}>
+      <Containers.StandList {...props}>
           <ModalContainer>
             <Components.ListActionsBar  />
             <Components.ListTable />

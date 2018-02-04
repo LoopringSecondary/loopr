@@ -17,7 +17,8 @@ function ListBlock({LIST,actions}) {
       page={},
       filters,
   } = LIST
-
+  // const token = Object.keys(selected).find(key=>selected[key])
+  // console.log('token',token)
   const TxItem = ({item,index})=>{
     return (
       <div className="row align-items-center no-gutters flex-nowrap zb-b-b p20" key={index}>

@@ -97,7 +97,15 @@ function ListSidebar({LIST,actions,dispatch}) {
       ...new_selected,
       [item.symbol]:true,
     }})
-    window.routeActions.gotoPath(`/wallet/assets/txs/${item.symbol}`)
+    updateTransations(item.symbol)
+  }
+  const updateTransations = (token)=>{
+    dispatch({
+      type:'transactions/filtersChange',
+      payload:{
+        filters:{token}
+      }
+    })
   }
   const TokenListAcionsBar = (
     <div className="row zb-b-b p15 pl10 pr10 no-gutters">

@@ -40,10 +40,7 @@ export default function Home(props){
                  <Token.ListSidebar />
                 </div>
                 <div className="col-8">
-                  <Route path={`${match.url}/assets/txs/:token`} exact render={(props)=>{
-                    const token = props.match.params && props.match.params.token
-                    return <Transaction.ListStand filters={{token}}  />
-                  }} />
+                  <Transaction.ListStand />
                 </div>
               </div>
             }
