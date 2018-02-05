@@ -45,6 +45,7 @@ function ListBlock({LIST,actions}) {
     scroll:{x:1000},
     onChange:tableChange,
     bordered:true,
+    rowKey:record=>record.id,
   }
   return (
     <div className="">

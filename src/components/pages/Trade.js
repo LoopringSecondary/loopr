@@ -206,12 +206,12 @@ export default function Home(props){
          <Tabs defaultActiveKey="open" animated={false} tabBarStyle={{marginBottom:'0px'}}>
            <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Open Orders</div>} key="open">
              <div className="pt15">
-               <Order.List />
+               <Order.List filters={{pair:'LRC/ETH',status:'all',side:'sell'}} />
              </div>
            </Tabs.TabPane>
            <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Recent Trades</div>} key="trade">
              <div className="pt15">
-               <Trade.List />
+               <Trade.List filters={{pair:'LRC/ETH',side:'all'}} />
              </div>
            </Tabs.TabPane>
          </Tabs>

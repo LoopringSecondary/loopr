@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import moment from 'moment';
-import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Select, } from 'antd';
+import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Select,Spin } from 'antd';
 import schema from '../../../modules/transactions/schema';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import iconTransfer from '../../../assets/images/icon-tx-type-transfer.png'
@@ -14,9 +14,11 @@ function ListBlock({LIST,actions}) {
   const {
       items=[],
       loading,
-      page={}
+      page={},
+      filters,
   } = LIST
-
+  // const token = Object.keys(selected).find(key=>selected[key])
+  // console.log('token',token)
   const TxItem = ({item,index})=>{
     return (
       <div className="row align-items-center no-gutters flex-nowrap zb-b-b p20" key={index}>
@@ -78,17 +80,26 @@ function ListBlock({LIST,actions}) {
     <div className="">
       <div className="row zb-b-b p15 no-gutters align-items-center">
         <div className="col">
-          <div className="fs20 color-grey-900">Transactions</div>
+          <div className="fs20 color-grey-900">{filters.token || 'All'} Transactions</div>
         </div>
         <div className="col-auto" style={{height:'32px'}}>
             <ListFiltersFormSimple actions={actions} LIST={LIST} />
         </div>
       </div>
-      {
-        items.map((item,index)=>
-          <TxItem item={item} key={index} index={index}/>
-        )
-      }
+      <div style={{}}>
+        {
+          loading &&
+          <div className="p50 text-center">
+            <Spin />
+          </div>
+        }
+        {
+          items.map((item,index)=>
+            <TxItem item={item} key={index} index={index}/>
+          )
+        }
+      </div>
+      
     </div>
   )
 }

@@ -11,12 +11,8 @@ let formatedActionCreators = {
 let ListAsyncContainer = ListAsync.createContainer(ListAsync.ByStore,MODULES,formatedActionCreators);
 
 function Container(props){
-	let {params={},location={},filters={},sort={},page={}} = props
-	let containerProps = {
-		filters,page,sort // preset list query
-	}
   return (
-   	<ListAsyncContainer {...containerProps}  >
+   	<ListAsyncContainer {...props}  >
    	  {props.children}
    	</ListAsyncContainer>
    )
