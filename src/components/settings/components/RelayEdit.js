@@ -1,10 +1,9 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Card} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
-import {url} from '../../../common/utils/regx'
 
 const RelayEditForm = ({
-    form, settings, modal, modals
+    form, settings, modal
   }) => {
   const {relay} = settings
   const relayConfig = relay.nodes.find(item=>item.id === modal.relayId) || {}
@@ -15,13 +14,13 @@ const RelayEditForm = ({
     form.validateFields((err,values) => {
       if(!err){
         settings.editRelay({id: modal.relayId, name: values.name, url: values.url})
-        modals.hideModal({id:'settings/relay/edit'})
+        modal.hideModal({id:'settings/relay/edit'})
       }
     })
   }
-  function handleDelete(relayId, _this) {
-    settings.deleteRelay({id: relayId})
-    modals.hideModal({id:'settings/relay/edit'})
+  function handleDelete(e) {
+    settings.deleteRelay({id: relayConfig.id})
+    modal.hideModal({id:'settings/relay/edit'})
   }
   function handleReset() {
     form.resetFields()
@@ -34,15 +33,6 @@ const RelayEditForm = ({
     const findByName = relay.nodes.find(item=>item.name === value)
     if(findByName && modal.relayId != findByName.id) return false;
     return true
-  }
-  function validateUrl(value) {
-    if(!value) return false;
-    var re = new RegExp(url);
-    if (re.test(value)){
-      return true
-    } else {
-      return false
-    }
   }
   return (
     <Card title="Edit Relay">
@@ -62,18 +52,14 @@ const RelayEditForm = ({
         <Form.Item label="Relay URL" colon={false}>
           {form.getFieldDecorator('url', {
             initialValue:relayConfig.value,
-            rules:[
-              {required: true, message: 'Please input valid url',
-                validator: (rule, value, cb) => validateUrl(value) ? cb() : cb(true)
-              }
-            ]
+            rules:[{required: true, type: "url", message : "Not a valid url"}]
           })(
             <Input size="large" />
           )}
         </Form.Item>
         <Form.Item className="mb0">
           <Button onClick={handleSubmit} type="primary" className="d-block w-100 mb15" size="large">Save</Button>
-          <Button onClick={handleDelete.bind(this, relayConfig.id)} type="danger" className="d-block w-100 bg-red-600 border-0 color-white" size="large">Delete</Button>
+          <Button onClick={handleDelete} type="danger" className="d-block w-100 bg-red-600 border-0 color-white" size="large">Delete</Button>
         </Form.Item>
       </Form>
     </Card>

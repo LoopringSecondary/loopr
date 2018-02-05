@@ -7,20 +7,22 @@ const TradingSettingForm = ({
     settings,form
   }) => {
   const {trading} = settings
-  function handleChange(type, value) {
-    console.log(type+" changed to:"+value);
+  function handleChange(type, e) {
     if ("contractVersion" === type){
-      const addresses = configs.contracts.filter(item => item.version === value)
+      const addresses = configs.contracts.filter(item => item.version === e)
       if(addresses.length > 0) {
-        settings.tradingChange({...trading, contract:{version:value, address:addresses[0].address}})
+        settings.tradingChange({contract:{version:e, address:addresses[0].address}})
       } else {
         console.error("error")
       }
+    } else if ('gasPrice' === type) {
+      if (validateGasPrice(e)) {
+        settings.tradingChange({[type]:e})
+      }
     } else {
-      if (('lrcFee' === type && validateLrcFee(value))
-        || ('marginSplit' === type && validateMarginSplit(value))
-        || 'gasPrice' === type && validateGasPrice(value)){
-        settings.tradingChange({...trading, [type]:value})
+      if (('lrcFee' === type && validateLrcFee(e.target.value))
+        || ('marginSplit' === type && validateMarginSplit(e.target.value))){
+        settings.tradingChange({[type]:e.target.value})
       }
     }
   }
@@ -84,7 +86,7 @@ const TradingSettingForm = ({
         </Form.Item>
         <Form.Item {...formItemLayout} label="LRC Fee" colon={false}>
           {form.getFieldDecorator('lrcFee', {
-            initialValue:'2',
+            initialValue:trading.lrcFee,
             rules:[
               {required: true, message: 'Input valid integer value (0~50)',
                 validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)
@@ -96,7 +98,7 @@ const TradingSettingForm = ({
         </Form.Item>
         <Form.Item {...formItemLayout} label="Margin Split" colon={false}>
           {form.getFieldDecorator('marginSplit', {
-            initialValue:'50',
+            initialValue:trading.marginSplit,
             rules:[
               {required: true, message: 'Input valid integer value (0~100)',
                 validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)

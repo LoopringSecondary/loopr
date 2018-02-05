@@ -1,10 +1,9 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Card} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
-import {url} from '../../../common/utils/regx'
 
 const AddRelayForm = ({
-  form, settings, modal, modals
+  form, settings, modal
   }) => {
   const {relay} = settings
   function handleChange(type, value) {
@@ -14,7 +13,7 @@ const AddRelayForm = ({
     form.validateFields((err,values) => {
       if(!err){
         settings.addRelay({name: values.name, url: values.url})
-        modals.hideModal({id:'settings/relay/add'})
+        modal.hideModal({id:'settings/relay/add'})
       }
     });
   }
@@ -27,15 +26,6 @@ const AddRelayForm = ({
   function validateRelayName(value) {
     if(!value) return false;
     return !relay.nodes.find(item=>item.name === value)
-  }
-  function validateUrl(value) {
-    if(!value) return false;
-    var re = new RegExp(url);
-    if (re.test(value)){
-      return true
-    } else {
-      return false
-    }
   }
   return (
     <Card title="Add Relay">
@@ -55,11 +45,7 @@ const AddRelayForm = ({
         <Form.Item label="Relay URL" colon={false}>
           {form.getFieldDecorator('url', {
             initialValue:'',
-            rules:[
-              {required: true, message: 'Please input valid url',
-                validator: (rule, value, cb) => validateUrl(value) ? cb() : cb(true)
-              }
-            ]
+            rules:[{required: true, type: "url", message : "Not a valid url"}]
           })(
             <Input size="large" />
           )}

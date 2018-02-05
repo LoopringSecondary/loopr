@@ -41,32 +41,43 @@ export default {
         version: selectedContract.version,
         address: selectedContract.address
       },
-      lrcFee: 0.001,
-      marginSplit: 50,
-      gasPrice: 30
+      lrcFee: configs.defaultLrcFeePermillage,
+      marginSplit: configs.defaultMarginSplitPercentage,
+      gasPrice: configs.defaultGasPrice
     },
     relay: {
-      selected: selectedRelay.id,
+      selected: selectedRelay.value,
       nodes: concatRelays
     }
   },
   reducers: {
     preferenceChange(state, { payload }) {
+    console.log(payload)
       return {
         ...state,
-        preference:payload
+        preference: {
+          ...state.preference,
+          ...payload
+        }
       };
     },
     tradingChange(state, { payload }) {
+    console.log(payload)
       return {
         ...state,
-        trading:payload
+        trading: {
+          ...state.trading,
+          ...payload
+        }
       };
     },
     relayChange(state,{payload}){
       return {
         ...state,
-        relay:payload
+        relay: {
+          ...state.relay,
+          selected: payload.selected
+        }
       }
     },
     languageChange(state,{payload}){
@@ -91,19 +102,21 @@ export default {
       }
     },
     addRelay(state,{payload}){
-      concatRelays.push({value: payload.url, name : payload.name, custom: true})
+      const newNodes = [...state.relay.nodes];
+      newNodes.push({value: payload.url, name : payload.name, custom: true})
       return {
         ...state,
         relay:{
           ...state.relay,
-          nodes: [ ...concatRelays ]
+          nodes: [ ...newNodes ]
         }
       }
     },
     editRelay(state,{payload}){
-      const index = concatRelays.findIndex(item => item.id === payload.id)
-      concatRelays[index] = {
-        ...concatRelays[index],
+      const newNodes = [...state.relay.nodes];
+      const index = newNodes.findIndex(item => item.id === payload.id)
+      newNodes[index] = {
+        ...newNodes[index],
         value : payload.url,
         name : payload.name,
       }
@@ -111,18 +124,20 @@ export default {
         ...state,
         relay:{
           ...state.relay,
-          nodes: [ ...concatRelays ]
+          nodes: [ ...newNodes ]
         }
       }
     },
     deleteRelay(state,{payload}){
-      const relays = concatRelays.filter(item => item.id != payload.id)
-      setRelayIds(relays)
+      const toDelete = state.relay.nodes.find(item => item.id === payload.id)
+      const newNodes = state.relay.nodes.filter(item => item.id != payload.id)
+      setRelayIds(newNodes)
+      const selected = state.relay.selected === toDelete.value ? newNodes[0].value : state.relay.selected
       return {
         ...state,
         relay:{
-          ...state.relay,
-          nodes: [ ...relays ]
+          selected: selected,
+          nodes: [ ...newNodes ]
         }
       }
     },

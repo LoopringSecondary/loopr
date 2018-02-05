@@ -8,7 +8,7 @@ const Perference = ({
   const {preference} = settings
   function handleChange(type, value) {
     console.log(type+" changed to:"+value);
-    settings.preferenceChange({...preference, [type]: value})
+    settings.preferenceChange({[type]: value})
   }
   function handleSubmit() {
     form.validateFields((err,values) => {
