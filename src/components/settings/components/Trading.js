@@ -9,9 +9,9 @@ const TradingSettingForm = ({
   const {trading} = settings
   function handleChange(type, e) {
     if ("contractVersion" === type){
-      const addresses = configs.contracts.filter(item => item.version === e)
-      if(addresses.length > 0) {
-        settings.tradingChange({contract:{version:e, address:addresses[0].address}})
+      const address = configs.contracts.find(item => item.version === e)
+      if(address) {
+        settings.tradingChange({contract:{version:e, address:address.address}})
       } else {
         console.error("error")
       }
