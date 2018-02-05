@@ -7,10 +7,8 @@ import containers from './common/containers'
 import redux from './common/redux'
 import uiFormatter from './common/utils/uiFormatter'
 import routeActions from './common/utils/routeActions'
-import Loopring from 'Loopring'
 window.CONTAINERS = containers
 window.REDUX = redux
-window.Loopring = Loopring
 window.uiFormatter = uiFormatter
 window.routeActions = routeActions
 

@@ -3,6 +3,8 @@ import { Button,Icon } from 'antd'
 import { connect } from 'dva'
 import { Route } from 'dva/router'
 import Layout from '../../layout/Layout'
+import Market from '../market/components'
+import TickersContainer from '../../modules/tickers/ListContainer'
 
 function Home(props){
   const { children,dispatch } = props
@@ -14,23 +16,6 @@ function Home(props){
         visible:true,
       }
     })
-  }
-  const MarkItem = (props)=>{
-    return (
-      <div className="p15 text-left" style={{background:'#0077FF'}}>
-        <div className="fs16">
-          <span className="color-white mr5">LRC/ETH</span>
-          <span className="" style={{color:'#00E831'}}>
-            <Icon type="arrow-up" />10.5%
-          </span>
-        </div>
-        <div className="fs18">
-          <span className="color-white mr5">0.003</span>
-          <span className="color-white" style={{opacity:'0.6'}}>ETH</span>
-        </div>
-
-      </div>
-    )
   }
 
   return (
@@ -44,15 +29,12 @@ function Home(props){
            <Button onClick={showModal.bind(this,'wallet/generate')} className="m15" style={{width:'255px'}} type="" size="large">Generate Wallet</Button>  
          </div>
        </div>
-       <div className="position-absolute row no-gutters mb0 w-100" style={{bottom:'0px'}}>
-         {
-          Array(6).fill(1).map((item,index)=>
-            <div className="col" key={index}>
-              <MarkItem key={index} item={item} />
-            </div>
-          )
-         }
+       <div className="position-absolute w-100" style={{bottom:'0px'}}>
+        <TickersContainer>
+         <Market.TickerCarousel />
+        </TickersContainer>
        </div>
+       
       </div>
     </Layout>
   )

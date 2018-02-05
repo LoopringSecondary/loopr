@@ -18,8 +18,7 @@ export default (
 				<Route path="/trade" exact component={Pages.Trade} />
 		    <Route path="/portfolio" exact component={Pages.Portfolio}/>
 			</Switch>
-			{ordersRoutes}
-			{ringsRoutes}
+			<Pages.Unload />
 			<TokenModals />
 			<WalletModals />
 			<SettingsModals />
