@@ -12,7 +12,7 @@ export default {
       size:10,
       current:0,
     },
-    filters:{},
+    filters:{token:'ETH'},
     layer:{},
     defaultState:{},
     originQuery:{},
