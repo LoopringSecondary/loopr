@@ -62,7 +62,7 @@ export function decrypt(keystoreJsonV3, password) {
   }
 }
 
-export function fromMnemonic(mnemonic,password,dpath) {
+export function fromMnemonic(mnemonic,dpath,password) {
   const privateKey = mnemonictoPrivatekey(mnemonic,password, dpath||path);
   const publicKey = privateToPublic(privateKey);
   const address = privateToAddress(privateKey);

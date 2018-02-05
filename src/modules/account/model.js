@@ -15,7 +15,6 @@ export default {
         ...state,
         ...payload,
         isUnlocked:true,
-        // TODO
       };
     },
     deleteAccount(state, { payload }) {

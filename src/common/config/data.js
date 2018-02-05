@@ -11,3 +11,8 @@ for(var p in timezones){
   timezoneArray.push({timezone: p, principal:timezones[p]})
 }
 export {timezoneArray}
+
+export const dpaths = require('./dpath.json');
+const wallets = dpaths.wallets;
+export {wallets}
+
