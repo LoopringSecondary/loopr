@@ -2,13 +2,14 @@ import React from 'react';
 import {Link} from 'dva/router';
 import {Alert, Button, Form, Icon, Input, message, Select} from 'antd';
 import {wallets} from "../../../common/config/data";
-
+import {isValidateMnemonic} from "Loopring/common/mnemonic"
 
 class UnlockByMnemonic extends React.Component {
 
   state = {
     dpath: null,
     mnemonic: null,
+    isMnemonicValid: false,
     password:null
   };
   handleWalletChange = (e)=>{
@@ -21,7 +22,7 @@ class UnlockByMnemonic extends React.Component {
   };
 
   handleMnemonicChange = (e)=>{
-    this.setState({mnemonic:e.target.value})
+    this.setState({mnemonic:e.target.value,isMnemonicValid:isValidateMnemonic(e.target.value)})
   };
 
   unlock= () => {
@@ -54,7 +55,10 @@ class UnlockByMnemonic extends React.Component {
           <Form.Item className="mb15" label="Select Your Wallet Type">
             {form.getFieldDecorator('wallet', {
               initialValue: '',
-              rules: []
+              rules: [{
+                required:true,
+                message:"Please select a kind of wallet"
+              }]
             })(
               <Select
                 showSearch
@@ -71,7 +75,11 @@ class UnlockByMnemonic extends React.Component {
           <Form.Item className="mb15" label="Paste Your Mnemonic Here">
             {form.getFieldDecorator('mnemonic', {
               initialValue:'',
-              rules: []
+              rules: [{
+                required:true,
+                message:"Please input valid phrase",
+                validator:(rule, value, cb) => isValidateMnemonic(value) ? cb() : cb(true)
+              }]
             })(
               <Input.TextArea size="large" autosize={{minRows: 3, maxRows: 6}} onChange={this.handleMnemonicChange}/>
             )}
@@ -85,7 +93,7 @@ class UnlockByMnemonic extends React.Component {
             )}
           </Form.Item>
         </Form>
-        <Button type="primary" className="d-block w-100" size="large" disabled={!this.state.dpath || !this.state.mnemonic} onClick={this.unlock}>UnLock</Button>
+        <Button type="primary" className="d-block w-100" size="large" disabled={!this.state.dpath || !this.state.mnemonic || !this.state.isMnemonicValid} onClick={this.unlock}>UnLock</Button>
       </div>
     )
   }
