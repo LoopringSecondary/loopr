@@ -17,15 +17,6 @@ export default {
     defaultState:{},
     originQuery:{},
   },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(location => {
-        if (location.pathname === `/${MODULES}/list`) {
-          dispatch({type: 'fetch'});
-        }
-      });
-    },
-  },
   effects: {
     *pageChange({payload},{call, select,put}){
       yield put({type:'pageChangeStart',payload});
@@ -48,7 +39,7 @@ export default {
       yield put({type:'fetch'});
     },
     *fetch({ payload={} }, { call, select, put }) {
-      yield put({ type: 'fetchStart',payload}); // model的state中传入各种参数的一个机会接口
+      yield put({ type: 'fetchStart',payload}); 
       const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
       let new_payload = {page,filters,sort,originQuery};
       if(defaultState.filters){

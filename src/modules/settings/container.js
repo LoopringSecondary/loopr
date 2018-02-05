@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import model from './model'
 const namespace =  model.namespace
 let keys = Object.keys(model.reducers)
-keys = keys.map(key=>key.replace(/settings\//,'')) // TO DO
+keys = keys.map(key=>key.replace(`${namespace}/`,''))
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
 
 const SettingsContainer = (props)=>{

@@ -6,14 +6,23 @@ let FiltersForm = ({
   form,
   }) => {
   function handleSubmit() {
+    form.validateFields((err,values) => {
+      console.log('values',values)
+      if(!err){
+        // TODO
+        actions.filtersChange({
+          filters:values
+        })
+      }
+    })
+  }
+  function handleChange() {
+    setTimeout(handleSubmit, 0) 
   }
   function handleCancle() {
   }
-  function handleReset() {
-  }
   return (
       <div>
-        
         <Form layout="inline">
           <Form.Item label="Token">
             <Select
@@ -22,7 +31,7 @@ let FiltersForm = ({
                 style={{ width: 200 }}
                 placeholder="Select"
                 optionFilterProp="children"
-                onChange={()=>{}}
+                onChange={handleChange}
                 onFocus={()=>{}}
                 onBlur={()=>{}}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
@@ -38,7 +47,7 @@ let FiltersForm = ({
                 placeholder="Select"
                 allowClear
                 optionFilterProp="children"
-                onChange={()=>{}}
+                onChange={handleChange}
                 onFocus={()=>{}}
                 onBlur={()=>{}}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
