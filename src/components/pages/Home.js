@@ -4,6 +4,7 @@ import { connect } from 'dva'
 import { Route } from 'dva/router'
 import Layout from '../../layout/Layout'
 import Market from '../market/components'
+import TickersContainer from '../../modules/tickers/ListContainer'
 
 function Home(props){
   const { children,dispatch } = props
@@ -16,7 +17,6 @@ function Home(props){
       }
     })
   }
-  
 
   return (
     <Layout {...props}>
@@ -29,7 +29,12 @@ function Home(props){
            <Button onClick={showModal.bind(this,'wallet/generate')} className="m15" style={{width:'255px'}} type="" size="large">Generate Wallet</Button>  
          </div>
        </div>
-       <Market.TickerCarousel />
+       <div className="position-absolute w-100" style={{bottom:'0px'}}>
+        <TickersContainer>
+         <Market.TickerCarousel />
+        </TickersContainer>
+       </div>
+       
       </div>
     </Layout>
   )

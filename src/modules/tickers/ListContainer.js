@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { bindActionCreators } from 'redux';
-import model from './model'
+import model from './ListModel'
 const namespace =  model.namespace
-let keys = Object.keys(model.reducers)
+let keys = [...Object.keys(model.effects)]
 keys = keys.map(key=>key.replace(`${namespace}/`,''))
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
 
@@ -21,7 +21,7 @@ class ListContainer extends React.PureComponent {
     this.actions.fetch({filters,page,sort,originQuery,defaultState});
   }
   render() {
-    const { children,LIST,...rest} = props
+    const { children,LIST,...rest} = this.props
     const childProps = {
       ...rest,
       [namespace]:{

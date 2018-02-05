@@ -1,6 +1,7 @@
 import * as apis from './apis'
+const MODULES = 'tickers'
 export default {
-  namespace: 'tickers',
+  namespace: MODULES,
   state: {
     items: [],
     loading: false,

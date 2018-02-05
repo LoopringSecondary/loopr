@@ -21,7 +21,7 @@ const TickerItem = (props)=>{
 }
 const TickerCarousel = (props)=>{
   return (
-    <div className="position-absolute row no-gutters mb0 w-100" style={{bottom:'0px'}}>
+    <div className="row no-gutters mb0 w-100">
       {
        Array(6).fill(1).map((item,index)=>
          <div className="col" key={index}>
