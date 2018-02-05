@@ -8,7 +8,7 @@ keys = keys.map(key=>key.replace(`${namespace}/`,''))
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
 
 const SettingsContainer = (props)=>{
-  const { children,dispatch,settings,...rest} = props
+  const { children,dispatch,settings,...rest } = props
   const actions = bindActionCreators(actionCreators,dispatch)
   const childProps = {
     ...rest,
