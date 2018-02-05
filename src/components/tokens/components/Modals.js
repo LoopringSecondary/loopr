@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Modal,Divider} from 'antd';
 import Transfer from './Transfer'
 import TransferPreview from './TransferPreview'
 import TransferResult from './TransferResult'
@@ -9,8 +8,7 @@ import AddToken from './AddToken'
 import EditToken from './EditToken'
 import ModalContainer from '../../../modules/modals/container'
 
-function Modals({ modal={},children}){
-  const getModalProps = type => {}
+function Modals(props){
   return (
     <div>
       <ModalContainer id='token/transfer'>

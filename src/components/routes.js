@@ -5,12 +5,9 @@ import ordersRoutes from './orders/routes';
 import ringsRoutes from './rings/routes';
 import wallet from './wallet/components';
 import SettingsModals from './settings/pages/Modals';
-import TradeConfirm from './orders/components/TradeConfirm';
 import TokenModals from './tokens/components/Modals';
-import TradeSteps from './orders/components/TradeSteps';
-import Wallet from './wallet/components'
-import ModalContainer from '../modules/modals/container'
-import AccountContainer from '../modules/account/container'
+import WalletModals from './wallet/components/Modals';
+import OrderModals from './orders/components/Modals';
 
 export default (
 	<div>
@@ -21,30 +18,12 @@ export default (
 				<Route path="/trade" exact component={Pages.Trade} />
 		    <Route path="/portfolio" exact component={Pages.Portfolio}/>
 			</Switch>
+			{ordersRoutes}
+			{ringsRoutes}
 			<TokenModals />
+			<WalletModals />
 			<SettingsModals />
-			<ModalContainer id="trade/confirm">
-			  	<TradeConfirm />
-			</ModalContainer>
-			<ModalContainer id="trade/steps">
-			  	<TradeSteps />
-			</ModalContainer>
-			<ModalContainer id="wallet/unlock" >
-				<AccountContainer>
-			  	<Wallet.UnlockWallet />
-			  </AccountContainer>
-			</ModalContainer>
-			<ModalContainer id="wallet/generate" >
-				<AccountContainer>
-					<Wallet.GenerateWallet />
-				</AccountContainer>
-			</ModalContainer>
-			<ModalContainer id="wallet/backup" >
-				<AccountContainer>
-			  	<Wallet.BackupWallet />
-			  </AccountContainer>
-			</ModalContainer>
-
+			<OrderModals />
 	</div>
 
 )

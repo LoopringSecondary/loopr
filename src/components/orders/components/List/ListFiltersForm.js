@@ -3,8 +3,10 @@ import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
 
 let FiltersForm = ({
   form,
+  LIST,
   actions,
   }) => {
+  const {filters} = LIST
   function handleSubmit() {
     form.validateFields((err,values) => {
       console.log('values',values)
@@ -17,7 +19,7 @@ let FiltersForm = ({
     })
   }
   function handleChange() {
-    setTimeout(handleSubmit, 0) // fix bug for form state unsync
+    setTimeout(handleSubmit, 0) 
   }
   function handleCancle() {
 
@@ -33,7 +35,7 @@ let FiltersForm = ({
         <Form layout="inline">
           <Form.Item label="Market" >
             {form.getFieldDecorator('pair', {
-              initialValue:'all',
+              initialValue: filters.pair || 'all',
               rules:[]
             })(
               <Select
@@ -54,7 +56,7 @@ let FiltersForm = ({
           </Form.Item>
           <Form.Item label="Status" >
             {form.getFieldDecorator('status', {
-              initialValue:'all',
+              initialValue:filters.status || 'all',
               rules:[]
             })(
               <Select
@@ -77,7 +79,7 @@ let FiltersForm = ({
           </Form.Item>
           <Form.Item label="Side" >
             {form.getFieldDecorator('side', {
-              initialValue:'all',
+              initialValue:filters.side || 'all',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>
@@ -86,7 +88,6 @@ let FiltersForm = ({
                 <Radio.Button value="buy">Buy</Radio.Button>
               </Radio.Group>
             )}
-            
           </Form.Item>
           <Form.Item>
             <Button onClick={handleReset} type="default">Reset</Button>

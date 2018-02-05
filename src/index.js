@@ -32,6 +32,8 @@ let models  = [
   require('./modules/rings/models/list').default,
   require('./modules/trades/models/list').default,
   require('./modules/orders/models/list').default,
+  require('./modules/tokens/models/model').default,
+  require('./modules/transactions/models/list').default,
   require('./modules/settings/model').default,
   require('./modules/account/model').default
 ]

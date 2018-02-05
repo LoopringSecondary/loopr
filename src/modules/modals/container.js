@@ -3,13 +3,21 @@ import {connect} from 'dva';
 import {Modal} from 'antd';
 
 @connect(
-	({modals})=>({modals})
+	({modals})=>({modals:modals})
 )
 export default class ModalContainer extends React.Component {
+  shouldComponentUpdate(nextProps, nextState){
+    const { id } = this.props
+    if(nextProps.modals[id] == this.props.modals[id]){
+      return false
+    }else{
+      return true
+    }
+  }
   render() {
   	const {dispatch,modals,id,...rest} = this.props
   	let thisModal = modals[id] || {}
-    // console.log('modal container re-render',id)
+    // console.log('modal container render',id)
   	const hideModal = (payload)=>{
       dispatch({
         type:'modals/modalChange',
@@ -74,7 +82,15 @@ export default class ModalContainer extends React.Component {
         showLoading:showLoading.bind(this),
         hideLoading:hideLoading.bind(this),
         modalChange:modalChange.bind(this),
-      }
+      },
+      modal:{
+        ...thisModal,
+        showModal:showModal.bind(this),
+        hideModal:hideModal.bind(this),
+        showLoading:showLoading.bind(this),
+        hideLoading:hideLoading.bind(this),
+        modalChange:modalChange.bind(this),
+      },
   	}
     return (
   		<Modal {...modalProps}>
