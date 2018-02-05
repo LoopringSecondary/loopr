@@ -1,20 +1,18 @@
 import React from 'react';
-import {connect} from 'dva';
-import {Link} from 'dva/router';
 import {Button, Form, Radio, Input, Tabs, Upload, Icon, message, Alert} from 'antd';
 import {isKeystorePassRequired} from 'Loopring/common/keystore';
-import {decrypt} from 'Loopring/ethereum/account';
- class UnlockByKeyStore extends React.Component{
+
+class UnlockByKeyStore extends React.Component {
 
   state = {
-    fileList:[],
-    password:'',
-    isPasswordRequired:false,
-    keyStore:''
+    fileList: [],
+    password: '',
+    isPasswordRequired: false,
+    keyStore: ''
   };
 
   handleRemove = (file) => {
-    this.setState(({ fileList }) => {
+    this.setState(({fileList}) => {
       const index = fileList.indexOf(file);
       const newFileList = fileList.slice();
       newFileList.splice(index, 1);
@@ -23,44 +21,46 @@ import {decrypt} from 'Loopring/ethereum/account';
       };
     });
   };
-   beforeUpload = (file) =>{
-     console.log("before upload");
-     const fileReader = new FileReader();
-     fileReader.onload = () => {
-       const keyStore = fileReader.result;
-       const isPasswordRequired = isKeystorePassRequired(keyStore);
-       this.setState({keyStore,isPasswordRequired})
-     };
-     fileReader.readAsText(file,"utf-8");
-     this.setState({fileList:[file]});
-     return false;
-   };
-   unlock = () =>{
-     try{
-       const {keyStore,password} = this.state;
-       const wallet = decrypt(keyStore,password);
-       const account = this.props.account;
-       account.setAccount({...wallet,password,mnemonic:null});
-       this.setState({fileList:[],
-         password:'',
-         isPasswordRequired:false,
-         keyStore:''});
-       this.props.modal.hideModal({id:'wallet/unlock'});
-       window.routeActions.gotoPath('portfolio');
-     }catch (e){
-       message.error(e.message)
-     }
-   };
-   setPassword = (e) => {
-     this.setState({password:e.target.value})
-   };
+  beforeUpload = (file) => {
+    console.log("before upload");
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      const keyStore = fileReader.result;
+      const isPasswordRequired = isKeystorePassRequired(keyStore);
+      this.setState({keyStore, isPasswordRequired})
+    };
+    fileReader.readAsText(file, "utf-8");
+    this.setState({fileList: [file]});
+    return false;
+  };
+  unlock = () => {
+    try {
+      const {keyStore, password} = this.state;
+      const {account,modal} = this.props;
+      account.setKeystore({keyStore, password});
+      this.setState({
+        fileList: [],
+        password: '',
+        isPasswordRequired: false,
+        keyStore: ''
+      });
+      modal.hideModal({id: 'wallet/unlock'});
+      window.routeActions.gotoPath('portfolio');
+    } catch (e) {
+      message.error(e.message)
+    }
+  };
+  setPassword = (e) => {
+    this.setState({password: e.target.value})
+  };
+
   render() {
     const form = this.props.form;
-    const {isPasswordRequired,fileList,password,keyStore} = this.state;
+    const {isPasswordRequired, fileList, password, keyStore} = this.state;
     const uploadProps = {
       action: '',
       onRemove: this.handleRemove,
-      beforeUpload:this.beforeUpload,
+      beforeUpload: this.beforeUpload,
       fileList
     };
     return (
@@ -94,15 +94,12 @@ import {decrypt} from 'Loopring/ethereum/account';
             )}
           </Form.Item>}
         </Form>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.unlock} disabled={keyStore===''||(isPasswordRequired && password ==="")}>UnLock</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.unlock}
+                disabled={keyStore === '' || (isPasswordRequired && password === "")}>UnLock</Button>
       </div>
     )
   }
 }
-
-
-
-
 
 
 export default Form.create()(UnlockByKeyStore)

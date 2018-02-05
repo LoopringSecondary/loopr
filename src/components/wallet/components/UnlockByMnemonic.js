@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'dva/router';
 import {Alert, Button, Form, Icon, Input, message, Select} from 'antd';
 import {wallets} from "../../../common/config/data";
-import {fromMnemonic} from "Loopring/ethereum/account"
 
 
 class UnlockByMnemonic extends React.Component {
@@ -27,10 +26,8 @@ class UnlockByMnemonic extends React.Component {
 
   unlock= () => {
     try{
-      const {mnemonic, password, dpath} = this.state;
       const {modal, account} = this.props;
-      const wallet = fromMnemonic(mnemonic,password,dpath);
-      account.setAccount({...wallet});
+      account.setMnemonic({...this.state});
       this.setState({
         dpath: null,
         mnemonic: null,

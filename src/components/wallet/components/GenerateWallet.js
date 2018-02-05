@@ -51,7 +51,7 @@ export default class GenerateWallet extends React.Component {
     modal.showLoading({id: 'wallet/generate'});
     setTimeout(() => {
       const wallet = create(this.state.value);
-      account.setAccount({...wallet, password: this.state.value});
+      account.setWallet({...wallet, password: this.state.value});
       modal.hideLoading({id: 'wallet/generate'});
       modal.hideModal({id: 'wallet/generate'});
       modal.showModal({id: 'wallet/backup'});
