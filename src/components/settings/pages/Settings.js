@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import Settings from '../components'
 import SettingsContainer from '../../../modules/settings/container'
 
-const SettingPage = ({modals}) => {
+const SettingPage = ({modal}) => {
 
   return (
       <div className="bg-white" style={{borderRadius:'10px'}}>
@@ -13,7 +13,6 @@ const SettingPage = ({modals}) => {
               <SettingsContainer>
                 <Settings.Preference />
               </SettingsContainer>
-              
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trading</div>} key="trading">
               <SettingsContainer>
@@ -22,7 +21,7 @@ const SettingPage = ({modals}) => {
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Relay</div>} key="relay">
               <SettingsContainer>
-                <Settings.Relay modals={modals}  />
+                <Settings.Relay modal={modal} />
               </SettingsContainer>
             </Tabs.TabPane>
           </Tabs>
