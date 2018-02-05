@@ -8,7 +8,7 @@ import Market from '../market/components'
 
 export default function Home(props){
   const { children,match } = props
-  const pair = match.params.pair || 'LRC/WETH'
+  const pair = match.params.pair || 'LRC-WETH'
   return (
    <Layout {...props}>
     <Market.TickerItem pair={pair} />

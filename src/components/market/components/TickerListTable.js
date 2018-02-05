@@ -57,7 +57,7 @@ const TickerTable = ({tickers,market})=>{
 const TickerTabs = ({tickers})=>{
   const tab = (text)=> <div className="fs14">{text}</div>
   return (
-    <Tabs defaultActiveKey="Favorites" animated={false} >
+    <Tabs defaultActiveKey="WETH" animated={false} >
       <Tabs.TabPane tab={tab("Favorites")} key="Favorites">
         <div className="pl10 pr10">
           <TickerTable tickers={tickers} market="favorites" />

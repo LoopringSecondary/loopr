@@ -7,6 +7,8 @@ import TickersContainer from '../../../modules/tickers/ListContainer'
 
 
 const LooprTicker = ({pair})=>{
+  const tokenL = pair.split('-')[0]
+  const tokenR = pair.split('-')[1]
 	const TickerHeader = ()=>(
 		<Popover
 		  title={null}
@@ -58,12 +60,14 @@ const LooprTicker = ({pair})=>{
            <NumberCaption title="24H High" content="0.00089000" />
          </div>
          <div className="col-sm-6 col-lg-2">
-          <NumberCaption title="24H Volume" content="4,382.34 ETH" />
+          <NumberCaption title="24H Volume" content={`4,382.34 ${tokenR}`} />
          </div>
       </div>
   )
 }
-const ExchangeTicker = (props)=>{
+const ExchangeTicker = ({pair})=>{
+    const tokenL = pair.split('-')[0]
+    const tokenR = pair.split('-')[1]
 		const ExchangeItem = (props)=>{
       return (
         <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 mt15 mb15 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
@@ -76,7 +80,7 @@ const ExchangeTicker = (props)=>{
             <div className="fs12 color-grey-400 ">24H Change</div>
           </div>
           <div className="col-auto">
-            <div className="fs16 color-grey-900">12,127.62 ETH</div>
+            <div className="fs16 color-grey-900">12,127.62 {tokenR}</div>
             <div className="fs12 color-grey-400">24H Volume</div>
           </div>
         </div>
