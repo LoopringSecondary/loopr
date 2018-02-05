@@ -39,14 +39,20 @@ import {decrypt} from 'Loopring/ethereum/account';
      const {keyStore,password} = this.state;
      const wallet = decrypt(keyStore,password);
      const account = this.props.account;
-     account.setAccount({...wallet,password,mnemonic:null})
+     account.setAccount({...wallet,password,mnemonic:null});
+     this.setState({fileList:[],
+       password:'',
+       isPasswordRequired:false,
+       keyStore:''});
+     this.props.modals.hideModal({id:'wallet/unlock'});
+     window.routeActions.gotoPath('portfolio');
    };
    setPassword = (e) => {
      this.setState({password:e.target.value})
    };
   render() {
     const form = this.props.form;
-    const {isPasswordRequired,fileList,password} = this.state;
+    const {isPasswordRequired,fileList,password,keyStore} = this.state;
     const uploadProps = {
       action: '',
       onRemove: this.handleRemove,
@@ -84,7 +90,7 @@ import {decrypt} from 'Loopring/ethereum/account';
             )}
           </Form.Item>}
         </Form>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.unlock} disabled={isPasswordRequired && password ===""}>UnLock</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.unlock} disabled={keyStore===''||(isPasswordRequired && password ==="")}>UnLock</Button>
       </div>
     )
   }

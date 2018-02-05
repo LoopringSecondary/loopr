@@ -1,5 +1,5 @@
 import validator from '../common/validator'
-import {toHex, toBuffer,formatKey,formatAddress} from '../common/formatter'
+import {toBuffer,formatKey,formatAddress,addHexPrefix} from '../common/formatter'
 import {decryptKeystoreToPkey, pkeyToKeystore} from '../common/keystore'
 import {privateToAddress, privateToPublic, publicToAddress} from 'ethereumjs-util'
 import {mnemonictoPrivatekey} from "../common/mnemonic";
@@ -80,8 +80,8 @@ export function fromPrivateKey(privateKey) {
   } catch (e) {
     throw new Error('Invalid private key')
   }
-  const publicKey = privateToPublic(toBuffer(privateKey));
-  const address = privateToAddress(toBuffer(privateKey));
+  const publicKey = privateToPublic(toBuffer(addHexPrefix(privateKey)));
+  const address = privateToAddress(toBuffer(addHexPrefix(privateKey)));
   return {
     privateKey:formatKey(privateKey),
     publicKey:formatKey(publicKey),
