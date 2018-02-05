@@ -3,16 +3,17 @@ import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,C
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
 const AddRelayForm = ({
-    form
+  form, settings, modal
   }) => {
+  const {relay} = settings
   function handleChange(type, value) {
     console.log(type+":"+value);
   }
   function handleSubmit() {
     form.validateFields((err,values) => {
-      console.log('values',values);
       if(!err){
-        // TODO
+        settings.addRelay({name: values.name, url: values.url})
+        modal.hideModal({id:'settings/relay/add'})
       }
     });
   }
@@ -22,21 +23,29 @@ const AddRelayForm = ({
   function resetForm(){
     form.resetFields()
   }
+  function validateRelayName(value) {
+    if(!value) return false;
+    return !relay.nodes.find(item=>item.name === value)
+  }
   return (
     <Card title="Add Relay">
       <Form layout="horizontal" className="">
         <Form.Item label="Relay Name" colon={false}>
           {form.getFieldDecorator('name', {
             initialValue:'',
-            rules:[]
+            rules:[
+              {required: true, message: 'Please input valid and distinct relay name',
+                validator: (rule, value, cb) => validateRelayName(value) ? cb() : cb(true)
+              }
+            ]
           })(
             <Input size="large"/>
           )}
         </Form.Item>
         <Form.Item label="Relay URL" colon={false}>
-          {form.getFieldDecorator('marginSplit', {
+          {form.getFieldDecorator('url', {
             initialValue:'',
-            rules:[]
+            rules:[{required: true, type: "url", message : "Not a valid url"}]
           })(
             <Input size="large" />
           )}
