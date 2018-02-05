@@ -6,7 +6,7 @@ import TickerListTable from './TickerListTable'
 import TickersContainer from '../../../modules/tickers/ListContainer'
 
 
-const LooprTicker = (props)=>{
+const LooprTicker = ({pair})=>{
 	const TickerHeader = ()=>(
 		<Popover
 		  title={null}
@@ -25,7 +25,7 @@ const LooprTicker = (props)=>{
 		      <Icon className="fs16 color-yellow-600" type="star" />
 		    </div>
 		    <div className="col">
-		      <div className="fs18 color-white">LRC/ETH</div>
+		      <div className="fs18 color-white">{pair}</div>
 		      <div className="fs12 color-white opacity-70">Select Market Pair <Icon hidden className="" type="down" /></div>  
 		    </div>
 		    <div className="col-auto">
@@ -97,16 +97,16 @@ const ExchangeTicker = (props)=>{
 		)
 }
 
-function Ticker() {
+function Ticker({pair}) {
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
   		  <div className="container">
-  		    <LooprTicker />
+  		    <LooprTicker pair={pair} />
   		  </div>
   		</div>
   		<div className="container">
-  			<ExchangeTicker />
+  			<ExchangeTicker pair={pair} />
   		</div>
   	</div>
     

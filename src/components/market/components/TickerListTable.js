@@ -7,6 +7,10 @@ const TickerTable = ({tickers,market})=>{
   const items = tickers.items.filter(item=>{
     return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
   })
+  const gotoTrade = (pair,e)=>{
+    e.preventDefault()
+    window.routeActions.gotoPath(`/trade/${pair}`)
+  }
   return (
     <div className="mb15" style={{height:'400px',overflow:'auto'}}>
       <table className="ticker-list-table">
@@ -29,7 +33,7 @@ const TickerTable = ({tickers,market})=>{
                   !item.isFavored &&
                   <td className="fs12 border-0 color-grey-300"><Icon type="star" /></td>
                 }
-                <td className="fs12 border-0 "><a href="">{item.market}</a></td>
+                <td className="fs12 border-0 "><a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a></td>
                 <td className="fs12 border-0 color-green-600">{item.last}</td>
                 <td className="fs12 border-0 color-green-600">{item.change}</td>
                 <td className="fs12 border-0 ">{Number(item.vol).toFixed(4)} {market}</td>
@@ -51,11 +55,10 @@ const TickerTable = ({tickers,market})=>{
 }
 
 const TickerTabs = ({tickers})=>{
-
   const tab = (text)=> <div className="fs14">{text}</div>
   return (
     <Tabs defaultActiveKey="Favorites" animated={false} >
-      <Tabs.TabPane tab={tab('Favorites')} key="Favorites">
+      <Tabs.TabPane tab={tab("Favorites")} key="Favorites">
         <div className="pl10 pr10">
           <TickerTable tickers={tickers} market="favorites" />
         </div>
