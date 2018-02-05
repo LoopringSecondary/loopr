@@ -45,7 +45,6 @@ class UnlockByMnemonic extends React.Component {
   };
   render() {
     const {form} = this.props;
-    const {mnemonic, password, dpath} = this.state;
     return (
       <div className="">
         <Alert
@@ -75,8 +74,7 @@ class UnlockByMnemonic extends React.Component {
           </Form.Item>
           <Form.Item className="mb15" label="Paste Your Mnemonic Here">
             {form.getFieldDecorator('mnemonic', {
-              initialValue:mnemonic
-              ,
+              initialValue:'',
               rules: []
             })(
               <Input.TextArea size="large" autosize={{minRows: 3, maxRows: 6}} onChange={this.handleMnemonicChange}/>
@@ -84,7 +82,7 @@ class UnlockByMnemonic extends React.Component {
           </Form.Item>
           <Form.Item className="mb25" label="Password(optional)">
             {form.getFieldDecorator('password', {
-              initialValue: password,
+              initialValue: '',
               rules: []
             })(
               <Input size="large" type="password" onChange={this.handlePasswordChange}/>
