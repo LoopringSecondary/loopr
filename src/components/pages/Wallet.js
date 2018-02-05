@@ -61,6 +61,7 @@ export default function Home(props){
               <Redirect path={`${match.url}/`} to={`${match.url}/assets`} />
             </Switch>
       </div>
+      <div className="mb50"></div>
     </Layout>
     
   )
