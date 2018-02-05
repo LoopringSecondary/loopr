@@ -36,16 +36,20 @@ import {decrypt} from 'Loopring/ethereum/account';
      return false;
    };
    unlock = () =>{
-     const {keyStore,password} = this.state;
-     const wallet = decrypt(keyStore,password);
-     const account = this.props.account;
-     account.setAccount({...wallet,password,mnemonic:null});
-     this.setState({fileList:[],
-       password:'',
-       isPasswordRequired:false,
-       keyStore:''});
-     this.props.modals.hideModal({id:'wallet/unlock'});
-     window.routeActions.gotoPath('portfolio');
+     try{
+       const {keyStore,password} = this.state;
+       const wallet = decrypt(keyStore,password);
+       const account = this.props.account;
+       account.setAccount({...wallet,password,mnemonic:null});
+       this.setState({fileList:[],
+         password:'',
+         isPasswordRequired:false,
+         keyStore:''});
+       this.props.modals.hideModal({id:'wallet/unlock'});
+       window.routeActions.gotoPath('portfolio');
+     }catch (e){
+       message.error(e.message)
+     }
    };
    setPassword = (e) => {
      this.setState({password:e.target.value})

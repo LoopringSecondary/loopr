@@ -27,17 +27,21 @@ class UnlockByMnemonic extends React.Component {
   };
 
   unlock= () => {
-    const {mnemonic, password, dpath} = this.state;
-    const {modals, account} = this.props;
-    const wallet = fromMnemonic(mnemonic,password,dpath);
-    account.setAccount({...wallet});
-    this.setState({
-      dpath: null,
-      mnemonic: null,
-      password:null
-    });
-    modals.hideModal({id: 'wallet/unlock'});
-    window.routeActions.gotoPath('portfolio');
+    try{
+      const {mnemonic, password, dpath} = this.state;
+      const {modals, account} = this.props;
+      const wallet = fromMnemonic(mnemonic,password,dpath);
+      account.setAccount({...wallet});
+      this.setState({
+        dpath: null,
+        mnemonic: null,
+        password:null
+      });
+      modals.hideModal({id: 'wallet/unlock'});
+      window.routeActions.gotoPath('portfolio');
+    }catch (e){
+      message.error(e.message)
+    }
   };
   render() {
     const {form} = this.props;
