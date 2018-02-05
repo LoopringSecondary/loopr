@@ -39,6 +39,7 @@ const schema = [
       name:'orderHash',
       formatter:(item)=>item.originalOrder.hash,
     },
+
     {
       title:'Status',
       name:'status',
