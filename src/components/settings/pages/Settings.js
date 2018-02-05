@@ -13,7 +13,6 @@ const SettingPage = ({modals}) => {
               <SettingsContainer>
                 <Settings.Preference />
               </SettingsContainer>
-              
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trading</div>} key="trading">
               <SettingsContainer>

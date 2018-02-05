@@ -57,6 +57,7 @@ export default class ModalContainer extends React.Component {
 
   	const modalProps = {
   		visible:thisModal.visible,
+      destroyOnClose:true,
   		title:null,
   		footer:null,
   		closable:true,

@@ -9,15 +9,15 @@ const RealySettingForm = ({
     settings,form,modals
   }) => {
   const {relay} = settings
-  const gotoEdit = (relayValue, e)=>{
+  const relayConfig = relay.nodes.find(item=>item.id === relay.selected) || {}
+  const gotoEdit = (relayId, e)=>{
     //e.preventDefault();
-    modals.showModal({id:'settings/relay/edit', relay:relayValue})
+    modals.showModal({id:'settings/relay/edit', relayId:relayId})
   }
   const gotoAdd = ()=>{
     modals.showModal({id:'settings/relay/add'})
   }
   function handleChange(e) {
-    console.log(e.target.value);
     settings.relayChange({...relay, selected:e.target.value})
   }
   function handleSubmit() {
@@ -50,7 +50,7 @@ const RealySettingForm = ({
       <Form layout="horizontal" className="p15">
         <Form.Item label="Choose Relay" colon={false}>
           {form.getFieldDecorator('relay', {
-            initialValue:relay.selected,
+            initialValue:relayConfig.value,
             rules:[]
           })(
             <Radio.Group className="" onChange={handleChange}>
@@ -60,14 +60,14 @@ const RealySettingForm = ({
                     <div className="ml10">
                       <div className="row align-items-center no-gutters">
                         <div className="col-7 mr10">
-                          <Input size="large" value={item.label}  disabled/>
+                          <Input size="large" value={item.name}  disabled/>
                         </div>
                         <div className="col mr10">
                           <Input size="large" value={item.value} disabled/>
                         </div>
                         <div className="col-auto">
                           { item.custom &&
-                            <a href="javascript:void(0)" onClick={gotoEdit.bind(this, item.value)} className="">Edit</a>
+                            <a href="javascript:void(0)" onClick={gotoEdit.bind(this, item.id)} className="">Edit</a>
                           }
                         </div>
                       </div>

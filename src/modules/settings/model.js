@@ -3,12 +3,30 @@ const selectedContract = configs.contracts[configs.contracts.length-1]
 //TODO read(may update) selected contract from localStorage
 const relays = configs.relays
 //TODO mock custom relay
-relays.push({
-   "value": "https://relay.my.io",
-   "label": "My Relay",
-   "custom": true
+const localRelay = [
+  {
+    "value": "https://relay.my.1.io",
+    "name": "My Relay1",
+    "custom": true
+  },
+  {
+    "value": "https://relay.my.2.io",
+    "name": "My Relay2",
+    "custom": true
+  }
+]
+let concatRelays = new Array();
+[...relays, ...localRelay].forEach((item, i) => {
+  item.id = i;
+  concatRelays.push(item)
 })
-const selectedRelay = relays[0]
+const selectedRelay = concatRelays[0]
+
+const setRelayIds = (relays) => {
+  relays.forEach((item, i) => {
+    item.id = i;
+  })
+}
 
 export default {
   namespace: 'settings',
@@ -28,8 +46,8 @@ export default {
       gasPrice: 30
     },
     relay: {
-      selected: selectedRelay.value,
-      nodes: relays
+      selected: selectedRelay.id,
+      nodes: concatRelays
     }
   },
   reducers: {
@@ -73,24 +91,39 @@ export default {
       }
     },
     addRelay(state,{payload}){
-      // TODO
+      concatRelays.push({value: payload.url, name : payload.name, custom: true})
       return {
-        ...state
-        // TODO
+        ...state,
+        relay:{
+          ...state.relay,
+          nodes: [ ...concatRelays ]
+        }
       }
     },
     editRelay(state,{payload}){
-      // TODO
+      const index = concatRelays.findIndex(item => item.id === payload.id)
+      concatRelays[index] = {
+        ...concatRelays[index],
+        value : payload.url,
+        name : payload.name,
+      }
       return {
-        ...state
-        // TODO
+        ...state,
+        relay:{
+          ...state.relay,
+          nodes: [ ...concatRelays ]
+        }
       }
     },
     deleteRelay(state,{payload}){
-      // TODO
+      const relays = concatRelays.filter(item => item.id != payload.id)
+      setRelayIds(relays)
       return {
-        ...state
-        // TODO
+        ...state,
+        relay:{
+          ...state.relay,
+          nodes: [ ...relays ]
+        }
       }
     },
   },

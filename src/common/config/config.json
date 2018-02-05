@@ -862,11 +862,11 @@
     "relays": [
         {
             "value": "https://relay1.loopring.io",
-            "label": "Default Loopring Relay"
+            "name": "Default Loopring Relay"
         },
         {
             "value": "https://relay2.loopring.io",
-            "label": "Backup Loopring Relay"
+            "name": "Backup Loopring Relay"
         }
     ],
     "markets": [

@@ -86,7 +86,7 @@ const TradingSettingForm = ({
           {form.getFieldDecorator('lrcFee', {
             initialValue:'2',
             rules:[
-              {required: true, message: 'Input valid integer value (0~50).',
+              {required: true, message: 'Input valid integer value (0~50)',
                 validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)
               }
             ]
@@ -98,7 +98,7 @@ const TradingSettingForm = ({
           {form.getFieldDecorator('marginSplit', {
             initialValue:'50',
             rules:[
-              {required: true, message: 'Input valid integer value (0~100).',
+              {required: true, message: 'Input valid integer value (0~100)',
                 validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)
               }
             ]
