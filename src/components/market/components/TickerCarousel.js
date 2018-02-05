@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Icon,Carousel } from 'antd';
-
 const TickerItem = ({item})=>{
   return (
-    <div className="p15 text-left" style={{background:'#0077FF',height:'87px'}}>
+    <div className="p15 text-left ticker-item-carousel">
       <div className="fs16">
         <span className="color-white mr10">{item.market}</span>
         <span className="" style={{color:'#00E831'}}>
@@ -27,7 +26,7 @@ const TickerCarousel = ({tickers})=>{
     infinite:true,
   }
   return (
-    <div style={{background:'#0077FF',height:'87px'}}>
+    <div className="ticker-list-carousel">
       <Carousel  {...carouselProps}>
           {
            tickers.items.filter(item=>item.change && item.last).map((item,index)=>
@@ -36,12 +35,9 @@ const TickerCarousel = ({tickers})=>{
              </div>
            )
           }
-        </Carousel>
+      </Carousel>
     </div>
-    
-    
   )
 }
-
 
 export default TickerCarousel;

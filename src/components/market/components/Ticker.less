@@ -1,0 +1,47 @@
+:global{
+  .ticker-list-carousel{
+    background:#0077FF;
+    height:87px;
+  }
+  .ticker-item-carousel{
+    height:87px;
+    &:hover{
+      background: rgba(0,0,0,0.1)
+    }
+  }
+  .ticker-list-table{
+    border:1px solid #f0f0f0;
+    width:100%;
+    &>tbody{
+      height:400px !important;
+      overflow: hidden;
+    }
+    &>tbody>tr>th{
+      background: #f6f6f6 !important;
+      padding:5px;
+    }
+    &>tbody>tr{
+
+      &:nth-child(2n+1){
+        &>td{
+          background: #f9f9f9 ;
+        }
+      }
+      &:nth-child(2n){
+        &>td{
+          background: #fff ;
+        }
+      }
+      &:hover{
+        &>td{
+          background: #e6f7ff !important;  
+        }
+      }
+
+    }
+    &>tbody>tr>td{
+      padding:7px 10px;
+    }
+
+  }
+}

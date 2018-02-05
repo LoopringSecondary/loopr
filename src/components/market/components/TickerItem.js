@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Icon,Popover } from 'antd';
 import TickerListTable from './TickerListTable'
+import TickersContainer from '../../../modules/tickers/ListContainer'
 
 
 const LooprTicker = (props)=>{
@@ -13,7 +14,9 @@ const LooprTicker = (props)=>{
 		  arrowPointAtCenter={false}
 		  content={
 		    <div className="" style={{minWidth:'420px'}}>
-		      <TickerListTable />
+          <TickersContainer>
+		        <TickerListTable /> 
+          </TickersContainer>
 		    </div>
 		  }
 		>
