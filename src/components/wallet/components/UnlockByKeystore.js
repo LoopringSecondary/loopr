@@ -45,7 +45,7 @@ import {decrypt} from 'Loopring/ethereum/account';
          password:'',
          isPasswordRequired:false,
          keyStore:''});
-       this.props.modals.hideModal({id:'wallet/unlock'});
+       this.props.modal.hideModal({id:'wallet/unlock'});
        window.routeActions.gotoPath('portfolio');
      }catch (e){
        message.error(e.message)

@@ -1,7 +1,6 @@
 import React from 'react';
-import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Button, Form, Radio, Input, Tabs, Upload, Icon, message, Select, Alert} from 'antd';
+import {Alert, Button, Form, Icon, Input, message, Select} from 'antd';
 import {wallets} from "../../../common/config/data";
 import {fromMnemonic} from "Loopring/ethereum/account"
 
@@ -29,7 +28,7 @@ class UnlockByMnemonic extends React.Component {
   unlock= () => {
     try{
       const {mnemonic, password, dpath} = this.state;
-      const {modals, account} = this.props;
+      const {modal, account} = this.props;
       const wallet = fromMnemonic(mnemonic,password,dpath);
       account.setAccount({...wallet});
       this.setState({
@@ -37,7 +36,7 @@ class UnlockByMnemonic extends React.Component {
         mnemonic: null,
         password:null
       });
-      modals.hideModal({id: 'wallet/unlock'});
+      modal.hideModal({id: 'wallet/unlock'});
       window.routeActions.gotoPath('portfolio');
     }catch (e){
       message.error(e.message)

@@ -7,7 +7,6 @@ import {addHexPrefix, clearPrefix, toBuffer} from "Loopring/common/formatter"
 function BackupKeystore({account}) {
 
   const download = () =>{
-    //TODO 通过state 获取account
     const password = account['password'];
     console.log(password);
     const wallet = account['privateKey'];

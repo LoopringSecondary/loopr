@@ -1,7 +1,6 @@
 import React from 'react';
-import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Button, Form, Radio, Input, Tabs, Upload, Icon, message, Alert} from 'antd';
+import {Alert, Button, Form, Icon, Input, message} from 'antd';
 import {fromPrivateKey} from 'Loopring/ethereum/account'
 
 
@@ -16,14 +15,14 @@ class UnlockByPrivateKey extends React.Component {
   };
 
   render() {
-    const {form, modals, account} = this.props;
+    const {form, modal, account} = this.props;
     const {privateKey} = this.state;
     function handleSubmit() {
       try {
         const wallet = fromPrivateKey(privateKey);
         this.setState({privateKey: null});
         account.setAccount({...wallet, mnemonic: null});
-        modals.hideModal({id: 'wallet/unlock'});
+        modal.hideModal({id: 'wallet/unlock'});
         window.routeActions.gotoPath('portfolio');
       } catch (e) {
         message.error(e.message)

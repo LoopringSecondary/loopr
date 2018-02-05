@@ -7,10 +7,10 @@ import UnlockByKeystore from './UnlockByKeystore'
 import UnlockByMnemonic from './UnlockByMnemonic'
 import UnlockByPrivateKey from './UnlockByPrivateKey'
 
-function UnlockWallet({form,modals,account}) {
+function UnlockWallet({form,modal,account}) {
   const gotoGenerate = ()=>{
-    modals.hideModal({id:'wallet/unlock'})
-    modals.showModal({id:'wallet/generate'})
+    modal.hideModal({id:'wallet/unlock'})
+    modal.showModal({id:'wallet/generate'})
   }
   const footer = (
     <div className="fs14 mt20 pt20 color-grey-900 zb-b-t text-center">
@@ -25,16 +25,16 @@ function UnlockWallet({form,modals,account}) {
         <div title="UnLock Wallet">
           <Tabs defaultActiveKey="metamask" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">MetaMask</div>} key="metamask">
-              <UnlockByMetaMask modals={modals} account={account}/>
+              <UnlockByMetaMask modal={modal} account={account}/>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
-             <UnlockByKeystore modals={modals} account={account} />
+             <UnlockByKeystore modal={modal} account={account} />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Mnemonic</div>} key="mnemonic">
-              <UnlockByMnemonic modals={modals} account={account}/>
+              <UnlockByMnemonic modal={modal} account={account}/>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Private Key</div>} key="privatekey">
-             <UnlockByPrivateKey modals={modals} account={account}/>
+             <UnlockByPrivateKey modal={modal} account={account}/>
             </Tabs.TabPane>
           </Tabs>
           {footer}
