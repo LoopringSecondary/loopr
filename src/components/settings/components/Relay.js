@@ -11,7 +11,7 @@ const RealySettingForm = ({
   const {relay} = settings
   const relayConfig = relay.nodes.find(item=>item.id === relay.selected) || {}
   const gotoEdit = (relayId, e)=>{
-    //e.preventDefault();
+    e.preventDefault();
     modals.showModal({id:'settings/relay/edit', relayId:relayId})
   }
   const gotoAdd = ()=>{
