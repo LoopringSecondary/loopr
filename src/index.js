@@ -33,6 +33,7 @@ let models  = [
   require('./modules/tokens/models/model').default,
   require('./modules/transactions/models/list').default,
   require('./modules/settings/model').default,
+  require('./modules/tickers/ListModel').default,
 ]
 models.map(model=>{
   app.model(model)
