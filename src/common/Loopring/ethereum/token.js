@@ -2,6 +2,8 @@ import {generateAbiData} from './abi';
 import validator from './validator';
 import Transaction from './transaction';
 import request from '../common/request';
+import {rawDecode} from 'ethereumjs-abi'
+import {toBuffer} from "../common/formatter";
 
 export default class Token {
 
@@ -10,7 +12,7 @@ export default class Token {
     this.address = input.address;
     this.symbol = input.symbol || "";
     this.name = input.name || "";
-    this.digits = input.digits || 18;
+    this.digits = input.digits;
     this.unit = input.unit || "";
     if (input.website) {
       this.website = input.website
@@ -21,11 +23,11 @@ export default class Token {
   }
 
   async transfer(privateKey, to, amount, gasPrice, gasLimit, nonce, chainId) {
-    validator.validate({value:amount,type:"ETH_DATA"});
+    validator.validate({value: amount, type: "ETH_DATA"});
     const tx = {};
     tx.to = this.address;
     tx.value = "0x0";
-    tx.data = generateAbiData({method: "transfer", address:to, amount});
+    tx.data = generateAbiData({method: "transfer", address: to, amount});
 
     if (gasPrice) {
       tx.gasPrice = gasPrice
@@ -43,8 +45,8 @@ export default class Token {
     return transaction.send(privateKey)
   }
 
-  async approve(spender, amount,privateKey, gasPrice, gasLimit, nonce, chainId) {
-    validator.validate({value:amount,type:"ETH_DATA"});
+  async approve(spender, amount, privateKey, gasPrice, gasLimit, nonce, chainId) {
+    validator.validate({value: amount, type: "ETH_DATA"});
     const tx = {};
     tx.to = this.address;
     tx.value = "0x0";
@@ -66,11 +68,10 @@ export default class Token {
 
   }
 
-  async balanceOf(owner,tag) {
+  async balanceOf(owner, tag) {
     validator.validate({value: owner, type: "ADDRESS"});
-    const tx =  this.address;
-    tx.data = generateAbiData({method: "balanceOf", address:owner});
-
+    const tx = {to: this.address};
+    tx.data = generateAbiData({method: "balanceOf", address: owner});
     tag = tag || "pending";
     if (tag) {
       try {
@@ -89,10 +90,11 @@ export default class Token {
     })
   }
 
-  async getAllowance(owner,spender,tag){
+  async getAllowance(owner, spender, tag) {
     validator.validate({value: owner, type: "ADDRESS"});
     validator.validate({value: spender, type: "ADDRESS"});
-    const tx =  this.address;
+    const tx = {};
+    tx.to = this.address;
     tx.data = generateAbiData({method: "allowance", owner, spender});
     tag = tag || "pending";
     if (tag) {
@@ -102,7 +104,7 @@ export default class Token {
         throw new Error('Invalid tag, must be one of latest, pending,earliest')
       }
     }
-    const params = [this.address, tag];
+    const params = [tx, tag];
     const body = {};
     body.method = 'eth_call';
     body.params = params;
@@ -112,4 +114,52 @@ export default class Token {
     })
   }
 
+  async getName() {
+    const response = await this.getConfig('name');
+    const results = rawDecode(['string'], toBuffer(response.result));
+    return results.length > 0 ? results[0] : '';
+  }
+
+  async getSymbol() {
+    const response = await this.getConfig('symbol');
+    const results = rawDecode(['string'], toBuffer(response.result));
+    return results.length > 0 ? results[0] : '';
+  }
+
+  async getDecimals() {
+    const response = await this.getConfig('decimals');
+    const results = rawDecode(['uint'], toBuffer(response.result));
+    return results.length > 0 ? results[0].toNumber() : -1;
+  }
+
+  async getConfig(type) {
+    const tx = {to: this.address};
+    if (type === "decimals" || type === "symbol" || type === 'name') {
+      tx.data = generateAbiData({method: type});
+      const params = [tx, 'latest'];
+      const body = {};
+      body.method = 'eth_call';
+      body.params = params;
+      return request({
+        method: 'post',
+        body,
+      });
+    } else {
+      throw new Error('Unsupported kind of config: ' + type);
+    }
+  }
+
+  async complete() {
+    if (!this.symbol) {
+      this.symbol = await this.getSymbol();
+    }
+
+    if (!this.digits) {
+      this.digits = await this.getDecimals();
+    }
+
+    if (!this.name) {
+      this.name = await this.getName();
+    }
+  }
 }
