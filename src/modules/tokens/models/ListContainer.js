@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { bindActionCreators } from 'redux';
-import model from './model'
+import model from './ListModel'
 const namespace =  model.namespace
 let keys = Object.keys(model.reducers)
 keys = keys.map(key=>key.replace(`${namespace}/`,''))

@@ -3,9 +3,12 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Icon,Popover } from 'antd';
 import TickerListTable from './TickerListTable'
+import TickersContainer from '../../../modules/tickers/ListContainer'
 
 
-const LooprTicker = (props)=>{
+const LooprTicker = ({pair})=>{
+  const tokenL = pair.split('-')[0]
+  const tokenR = pair.split('-')[1]
 	const TickerHeader = ()=>(
 		<Popover
 		  title={null}
@@ -13,7 +16,9 @@ const LooprTicker = (props)=>{
 		  arrowPointAtCenter={false}
 		  content={
 		    <div className="" style={{minWidth:'420px'}}>
-		      <TickerListTable />
+          <TickersContainer>
+		        <TickerListTable /> 
+          </TickersContainer>
 		    </div>
 		  }
 		>
@@ -22,7 +27,7 @@ const LooprTicker = (props)=>{
 		      <Icon className="fs16 color-yellow-600" type="star" />
 		    </div>
 		    <div className="col">
-		      <div className="fs18 color-white">LRC/ETH</div>
+		      <div className="fs18 color-white">{pair}</div>
 		      <div className="fs12 color-white opacity-70">Select Market Pair <Icon hidden className="" type="down" /></div>  
 		    </div>
 		    <div className="col-auto">
@@ -55,12 +60,14 @@ const LooprTicker = (props)=>{
            <NumberCaption title="24H High" content="0.00089000" />
          </div>
          <div className="col-sm-6 col-lg-2">
-          <NumberCaption title="24H Volume" content="4,382.34 ETH" />
+          <NumberCaption title="24H Volume" content={`4,382.34 ${tokenR}`} />
          </div>
       </div>
   )
 }
-const ExchangeTicker = (props)=>{
+const ExchangeTicker = ({pair})=>{
+    const tokenL = pair.split('-')[0]
+    const tokenR = pair.split('-')[1]
 		const ExchangeItem = (props)=>{
       return (
         <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 mt15 mb15 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
@@ -73,7 +80,7 @@ const ExchangeTicker = (props)=>{
             <div className="fs12 color-grey-400 ">24H Change</div>
           </div>
           <div className="col-auto">
-            <div className="fs16 color-grey-900">12,127.62 ETH</div>
+            <div className="fs16 color-grey-900">12,127.62 {tokenR}</div>
             <div className="fs12 color-grey-400">24H Volume</div>
           </div>
         </div>
@@ -94,16 +101,16 @@ const ExchangeTicker = (props)=>{
 		)
 }
 
-function Ticker() {
+function Ticker({pair}) {
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
   		  <div className="container">
-  		    <LooprTicker />
+  		    <LooprTicker pair={pair} />
   		  </div>
   		</div>
   		<div className="container">
-  			<ExchangeTicker />
+  			<ExchangeTicker pair={pair} />
   		</div>
   	</div>
     

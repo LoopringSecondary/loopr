@@ -1,20 +1,13 @@
-import {getOrders} from 'Loopring/relay/market'
+import {getTicker} from 'Loopring/relay/market'
 
 
 export async function fetchList(payload){
     let {page,filters,sort} = payload
-    let filter = {}
-    if(filters){
-      filter.ringHash = filters.ringHash
-    }
-    if(page){
-      filter.pageIndex = page.current
-      filter.pageSize = page.size
-    }
-    filter.contractVersion = 'v1.0'
-    return getOrders(filter).then(res=>{
+    let filter = {} 
+    filter = 'v1.0'
+    return getTicker(filter).then(res=>{
       return {
-        items:res.result.data,
+        items:res.result, // why not res.result.data
         page:{
           current:res.result.pageIndex,
           size:res.result.pageSize,

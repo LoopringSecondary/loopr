@@ -15,7 +15,8 @@ export default (
 				<Route path="/" exact component={Pages.Home} />
 				<Route path="/home" exact component={Pages.Home} />
 				<Route path="/wallet"  component={Pages.Wallet} />
-				<Route path="/trade" exact component={Pages.Trade} />
+				<Route path="/trade/"  exact component={Pages.Trade} />
+				<Route path="/trade/:pair"  exact component={Pages.Trade} />
 		    <Route path="/portfolio" exact component={Pages.Portfolio}/>
 			</Switch>
 			<Pages.Unload />

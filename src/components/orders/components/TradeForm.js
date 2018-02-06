@@ -5,11 +5,12 @@ import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,C
 let TradeForm = ({
   form,
   side='sell',
-  pair='LRC/ETH',
+  pair='LRC-WETH',
   dispatch,
   }) => {
-
-  const token = pair.split('/')[0]
+  const tokenL = pair.split('-')[0]
+  const tokenR = pair.split('-')[1]
+  
   
   const showTradeModal = ()=>{
     dispatch({
@@ -50,7 +51,7 @@ let TradeForm = ({
       <div>
         <Form layout="horizontal">
           <Form.Item >
-            <div className="fs18 color-grey-900 text-capitalize">{side} LRC</div>
+            <div className="fs18 color-grey-900 text-capitalize">{side} {tokenL}</div>
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout}>
             {form.getFieldDecorator('amount', {
