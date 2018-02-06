@@ -81,7 +81,6 @@ function generateWithdrawData (amount){
 function generateDeposit() {
   const method = methodID('deposit', ['']).toString('hex');
   return '0x' + method ;
-
 }
 
 function generateTransferData (address, amount) {
@@ -108,6 +107,21 @@ function generateAllowanceData(owner, spender) {
   const method = methodID('allowance', ['address', 'address']).toString('hex');
   const data = rawEncode(['address', 'address'], [owner, spender]).toString('hex');
   return '0x' + method + data;
+}
+
+function generateSymbol() {
+  const method = methodID('symbol', ['']).toString('hex');
+  return '0x' + method ;
+}
+
+function generateDecimals() {
+  const method = methodID('decimals', ['']).toString('hex');
+  return '0x' + method ;
+}
+
+function generateName() {
+  const method = methodID('name', ['']).toString('hex');
+  return '0x' + method ;
 }
 
 export function sign(message, privateKey){
@@ -157,6 +171,17 @@ export function generateAbiData({method,timestamp,address,amount,order,owner,spe
   }
   if (method === 'allowance') {
     return generateAllowanceData(owner, spender);
+  }
+  if (method==='symbol'){
+    return generateSymbol();
+  }
+
+  if(method === 'name'){
+    return generateName();
+  }
+
+  if(method === 'decimals'){
+    return generateDecimals();
   }
 }
 
