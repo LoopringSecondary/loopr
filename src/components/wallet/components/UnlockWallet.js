@@ -7,17 +7,17 @@ import UnlockByKeystore from './UnlockByKeystore'
 import UnlockByMnemonic from './UnlockByMnemonic'
 import UnlockByPrivateKey from './UnlockByPrivateKey'
 
-function UnlockWallet({form,modals}) {
+function UnlockWallet({form,modal,account}) {
   const gotoGenerate = ()=>{
-    modals.hideModal({id:'wallet/unlock'})
-    modals.showModal({id:'wallet/generate'})
+    modal.hideModal({id:'wallet/unlock'})
+    modal.showModal({id:'wallet/generate'})
   }
   const footer = (
     <div className="fs14 mt20 pt20 color-grey-900 zb-b-t text-center">
-      Don't have a Wallet? Let's 
+      Don't have a Wallet? Let's
       <a className="color-blue-600 ml5" onClick={gotoGenerate}>
       generate one !
-      </a> 
+      </a>
     </div>
   )
   return (
@@ -25,16 +25,16 @@ function UnlockWallet({form,modals}) {
         <div title="UnLock Wallet">
           <Tabs defaultActiveKey="metamask" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">MetaMask</div>} key="metamask">
-              <UnlockByMetaMask modals={modals} />
+              <UnlockByMetaMask modal={modal} account={account}/>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
-             <UnlockByKeystore modals={modals} />
+             <UnlockByKeystore modal={modal} account={account} />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Mnemonic</div>} key="mnemonic">
-              <UnlockByMnemonic modals={modals} />
+              <UnlockByMnemonic modal={modal} account={account}/>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Private Key</div>} key="privatekey">
-             <UnlockByPrivateKey modals={modals} />
+             <UnlockByPrivateKey modal={modal} account={account}/>
             </Tabs.TabPane>
           </Tabs>
           {footer}
@@ -51,7 +51,7 @@ function UnlockWallet({form,modals}) {
                     MetaMask <Button type="primary" className="bg-green-600 border-none ml10" size="small" icon="like">Recommended</Button>
                   </Radio>
                   <Radio className="d-flex align-items-center mb15 w-100" value={'keystore'}>
-                     Keystore / JSON File  
+                     Keystore / JSON File
                   </Radio>
                   <Radio className="d-flex align-items-center mb15 w-100" value={'mnemonic'}>
                     Mnemonic
@@ -63,7 +63,7 @@ function UnlockWallet({form,modals}) {
               )}
             </Form.Item>
             {footer}
-          </Form> 
+          </Form>
         </div>
     </Card>
   )
