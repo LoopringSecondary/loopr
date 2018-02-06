@@ -12,7 +12,7 @@ export default class Token {
     this.address = input.address;
     this.symbol = input.symbol || "";
     this.name = input.name || "";
-    this.digits = input.digits || 18;
+    this.digits = input.digits;
     this.unit = input.unit || "";
     if (input.website) {
       this.website = input.website
@@ -115,65 +115,50 @@ export default class Token {
   }
 
   async getName() {
-    const tx = {};
-    tx.to = this.address;
-    tx.data = generateAbiData({method: "name"});
-    const params = [tx, 'latest'];
-    const body = {};
-    body.method = 'eth_call';
-    body.params = params;
-    const response = await request({
-      method: 'post',
-      body,
-    });
-    const results = rawDecode(['string'],toBuffer(response.result));
-    return  results.length >0 ? results[0] : '';
+    const response = await this.getConfig('name');
+    const results = rawDecode(['string'], toBuffer(response.result));
+    return results.length > 0 ? results[0] : '';
   }
 
   async getSymbol() {
-    const tx = {};
-    tx.to = this.address;
-    tx.data = generateAbiData({method: "symbol"});
-    const params = [tx, 'latest'];
-    const body = {};
-    body.method = 'eth_call';
-    body.params = params;
-    const response = await request({
-      method: 'post',
-      body,
-    });
-    const results = rawDecode(['string'],toBuffer(response.result));
-    return  results.length >0 ? results[0] : '';
+    const response = await this.getConfig('symbol');
+    const results = rawDecode(['string'], toBuffer(response.result));
+    return results.length > 0 ? results[0] : '';
   }
 
   async getDecimals() {
-    const tx = {};
-    tx.to = this.address;
-    tx.data = generateAbiData({method: "decimals"});
-    const params = [tx, 'latest'];
-    const body = {};
-    body.method = 'eth_call';
-    body.params = params;
-    const response = await request({
-      method: 'post',
-      body,
-    });
-    const results = rawDecode(['uint'],toBuffer(response.result));
-    return  results.length >0 ? results[0].toNumber() : -1;
+    const response = await this.getConfig('decimals');
+    const results = rawDecode(['uint'], toBuffer(response.result));
+    return results.length > 0 ? results[0].toNumber() : -1;
   }
 
+  async getConfig(type) {
+    const tx = {to: this.address};
+    if (type === "decimals" || type === "symbol" || type === 'name') {
+      tx.data = generateAbiData({method: type});
+      const params = [tx, 'latest'];
+      const body = {};
+      body.method = 'eth_call';
+      body.params = params;
+      return request({
+        method: 'post',
+        body,
+      });
+    } else {
+      throw new Error('Unsupported kind of config: ' + type);
+    }
+  }
 
-  async complete(){
-
-    if(!this.symbol){
+  async complete() {
+    if (!this.symbol) {
       this.symbol = await this.getSymbol();
     }
 
-    if(!this.digits){
+    if (!this.digits) {
       this.digits = await this.getDecimals();
     }
 
-    if(!this.name){
+    if (!this.name) {
       this.name = await this.getName();
     }
   }
