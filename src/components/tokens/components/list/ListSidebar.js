@@ -147,7 +147,7 @@ function ListSidebar({LIST,actions,dispatch}) {
           <Button onClick={gotoAdd.bind(this)} className="color-grey-600" icon="plus" shape="circle"></Button>
         </Tooltip>
       </div>
-      
+
       <div className="col-auto" hidden>
         <Tooltip title="">
           <Popover
@@ -202,11 +202,11 @@ function ListSidebar({LIST,actions,dispatch}) {
         <div className={`row align-items-center no-gutters p10`} >
           <div className="col-auto pr10">
             {
-              item.isFavored && 
+              item.isFavored &&
               <Icon type="star" className="color-yellow-700" onClick={toggleFavored.bind(this,item)} />
             }
             {
-              !item.isFavored && 
+              !item.isFavored &&
               <Icon type="star" className="color-grey-300" onClick={toggleFavored.bind(this,item)} />
             }
           </div>
@@ -271,7 +271,7 @@ function ListSidebar({LIST,actions,dispatch}) {
             </Popover>
           </div>
         </div>
-        
+
       </div>
     )
   }
@@ -287,7 +287,7 @@ function ListSidebar({LIST,actions,dispatch}) {
     }
     if(key==='ifHideSmallBalance'){
       if(value){
-        results = results.filter(token=>Number(token['balance']) > 0) 
+        results = results.filter(token=>Number(token['balance']) > 0)
       }
     }
     if(key==='keywords'){
@@ -297,7 +297,7 @@ function ListSidebar({LIST,actions,dispatch}) {
       })
     }
   })
-  
+
   return (
     <div className="">
       {TokenListAcionsBar}
@@ -306,7 +306,7 @@ function ListSidebar({LIST,actions,dispatch}) {
           results.map((item,index)=><TokenItem key={index} index={index} item={item} />)
         }
       </div>
-      
+
     </div>
   )
 }

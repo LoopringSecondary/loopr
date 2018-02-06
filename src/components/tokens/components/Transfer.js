@@ -5,14 +5,15 @@ import validator from '../../../common/Loopring/common/validator'
 class Transfer extends React.Component {
   state = {
     gas: 200000000,
-    advanced: false
+    advanced: false,
+    value: 0
   }
 
   render() {
-    const {form, modal, tokens} = this.props
+    const {form, modal} = this.props
+    //{symbol: "BNB", balance: "0.00", allowance: "0", logo: "", title: "Binance"}
+    const selectedToken = modal.item || {}
     //const selectedToken = tokens.items.find(item => item.symbol === tokens.selected)
-
-    console.log(tokens)
     function handleSubmit() {
       form.validateFields((err, values) => {
         console.log('values', values);
@@ -50,7 +51,13 @@ class Transfer extends React.Component {
       this.setState({gas:v})
     }
 
+    function selectMax(e) {
+      e.preventDefault();
+      this.setState({value: selectedToken.balance})
+    }
+
     async function validateEthAddress(value) {
+      console.log(validator.validate({value: value, type: 'ADDRESS'}))
       try {
         await validator.validate({value: value, type: 'ADDRESS'})
         return true;
@@ -68,7 +75,7 @@ class Transfer extends React.Component {
       return (value / 100000000000) + " ether";
     }
     return (
-      <Card title="Send LRC">
+      <Card title={"Send "+selectedToken.symbol}>
         <Form layout="horizontal">
           <Form.Item label="Recipient" {...formItemLayout} colon={false}>
             {this.props.form.getFieldDecorator('to', {
@@ -82,18 +89,29 @@ class Transfer extends React.Component {
               <Input placeholder="" size="large"/>
             )}
           </Form.Item>
-          <Form.Item label="Amount" {...formItemLayout} colon={false}>
+          <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
+            <div className="row">
+              <div className="col-auto">≈USD 123</div>
+              <div className="col"></div>
+              <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>Send Max</a></div>
+            </div>
+          }>
             {this.props.form.getFieldDecorator('amount', {
               initialValue: 0,
-              rules: []
+              rules: [
+                {required: true, message: 'Invalid Ethereum address',
+                  validator: (rule, value, cb) => validateEthAddress(value) ? cb() : cb(true)
+                }
+              ]
             })(
-              <Input className="d-block w-100" placeholder="" size="large"/>
+              <InputNumber className="d-block w-100" placeholder="" size="large" min={1} max={10} value={this.state.value}/>
             )}
           </Form.Item>
+
           {!this.state.advanced &&
             <div>
               <div style={{height:"253px"}}>
-                <Form.Item className="mb0" label={"Gas: "+formatGas(this.state.gas)} colon={false}>
+                <Form.Item className="mb0" label={"Transaction Fee: "+formatGas(this.state.gas)} colon={false}>
                   {this.props.form.getFieldDecorator('gasFee', {
                     initialValue: this.state.gas,
                     rules: []
