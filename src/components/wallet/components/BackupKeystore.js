@@ -15,12 +15,8 @@ class BackupKeystore extends React.Component {
     const password = account['password'];
     const privateKey = account['privateKey'];
     const file = download(privateKey, password);
-    this.setState({fileName: file.fileName, blob: file.blob})
+    this.setState({...file})
   }
-
-  test = () => {
-    console.log(this.state)
-  };
 
   render() {
     const {fileName, blob} = this.state;
@@ -41,7 +37,6 @@ class BackupKeystore extends React.Component {
         </div>
         <a href={blob}
            download={fileName}
-           onClick={this.test}
            className="ant-btn ant-btn-primary ant-btn-lg d-flex justify-content-center w-100 mt25 align-items-center">I
           Understand, Download Wallet File</a>
       </div>
