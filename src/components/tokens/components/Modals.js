@@ -7,12 +7,15 @@ import Convert from './Convert'
 import AddToken from './AddToken'
 import EditToken from './EditToken'
 import ModalContainer from '../../../modules/modals/container'
+import EthTxContainer from '../../../modules/tokens/models/EthTxContainer'
 
 function Modals(props){
   return (
     <div>
       <ModalContainer id='token/transfer'>
-        <Transfer />
+        <EthTxContainer id="transfer">
+          <Transfer />
+        </EthTxContainer>
       </ModalContainer>
       <ModalContainer id='token/transfer/preview'>
         <TransferPreview />
@@ -24,7 +27,9 @@ function Modals(props){
         <Receive />
       </ModalContainer>
       <ModalContainer id='token/convert'>
-        <Convert />
+        <EthTxContainer id="convert">
+          <Convert />
+        </EthTxContainer>
       </ModalContainer>
       <ModalContainer id='token/add'>
         <AddToken />
