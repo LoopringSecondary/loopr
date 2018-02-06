@@ -55,7 +55,6 @@ function generateCancelOrderData(signedOrder, amount){
 
 function generateCutOffData(timestamp) {
   validator.validate({value:timestamp,type:'TIMESTAMP'});
-
   const method = methodID('setCutoff', ['uint']).toString('hex');
   const data = rawEncode(['uint'], [timestamp]).toString('hex');
   return '0x' + method + data;
@@ -64,7 +63,6 @@ function generateCutOffData(timestamp) {
 function generateApproveData(address, amount) {
   validator.validate({value:address,type:'ADDRESS'});
   validator.validate({value:amount,type:'QUANTITY'});
-
   const method = methodID('approve', ['address', 'uint']).toString('hex');
   const data = rawEncode(['address', 'uint'], [address, amount]).toString('hex');
   return '0x' + method + data;
@@ -72,7 +70,6 @@ function generateApproveData(address, amount) {
 
 function generateWithdrawData (amount){
   validator.validate({value:amount,type:'QUANTITY'});
-
   const method = methodID('withdraw', ['uint']).toString('hex');
   const data = rawEncode(['uint'], [amount]).toString('hex');
   return '0x' + method + data;
@@ -86,7 +83,6 @@ function generateDeposit() {
 function generateTransferData (address, amount) {
   validator.validate({value:address,type:'ADDRESS'});
   validator.validate({value:amount,type:'QUANTITY'});
-
   const method = methodID('transfer', ['address', 'uint']).toString('hex');
   const data = rawEncode(['address', 'uint'], [address, amount]).toString('hex');
   return '0x' + method + data;
@@ -125,7 +121,6 @@ function generateName() {
 }
 
 export function sign(message, privateKey){
-
   const hash = sha3(message);
   const sig =ecsign(hash, toBuffer(privateKey));
   const v = Number(sig.v.toString());
