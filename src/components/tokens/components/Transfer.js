@@ -1,127 +1,186 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Card} from 'antd';
+import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Collapse,Card} from 'antd';
+import validator from '../../../common/Loopring/common/validator'
 
-let Transfer = ({
-  form,
-  modals,
-  }) => {
-  function handleSubmit() {
-    form.validateFields((err,values) => {
-      console.log('values',values);
-      if(!err){
-        // TODO
-        modals.hideModal({id:'token/transfer'})
-        modals.showModal({id:'token/transfer/preview'})
+class Transfer extends React.Component {
+  state = {
+    gas: 200000000,
+    advanced: false
+  }
+
+  render() {
+    const {form, modal, tokens} = this.props
+    //const selectedToken = tokens.items.find(item => item.symbol === tokens.selected)
+
+    console.log(tokens)
+    function handleSubmit() {
+      form.validateFields((err, values) => {
+        console.log('values', values);
+        if (!err) {
+          // TODO
+          modal.hideModal({id: 'token/transfer'})
+          modal.showModal({id: 'token/transfer/preview'})
+        }
+      });
+    }
+
+    function handleCancle() {
+      modal.hideModal({id: 'transfer'})
+    }
+
+    function handleReset() {
+      form.resetFields()
+    }
+
+    function resetForm() {
+      // if(modal.state && modal['transfer']){
+      //   const values = form.getFieldsValue()
+      //   const transfer = modal.state['transfer'].data
+      //   if(transfer.token && values['token'] != transfer['token'] ){
+      //     form.resetFields()
+      //   }
+      // }
+    }
+
+    function setAdvance(v) {
+      this.setState({advanced:v})
+    }
+
+    function setGas(v) {
+      this.setState({gas:v})
+    }
+
+    async function validateEthAddress(value) {
+      try {
+        await validator.validate({value: value, type: 'ADDRESS'})
+        return true;
+      } catch (e) {
+        return false;
       }
-    });
-  }
-  function handleCancle() {
-    modals.hideModal({id:'transfer'})
-  }
-  function handleReset() {
-    form.resetFields()
-  }
-  function resetForm(){
-    // if(modal.state && modal['transfer']){
-    //   const values = form.getFieldsValue()
-    //   const transfer = modal.state['transfer'].data
-    //   if(transfer.token && values['token'] != transfer['token'] ){
-    //     form.resetFields()
-    //   }
-    // }
-  }
-  resetForm()
-  const formImemLayout = {
-    labelCol: { span: 7 },
-    wrapperCol: { span: 17 },
-  }
-  return (
+    }
+
+    resetForm()
+    const formItemLayout = {
+      labelCol: {span: 7},
+      wrapperCol: {span: 17},
+    }
+    const formatGas = (value) => {
+      return (value / 100000000000) + " ether";
+    }
+    return (
       <Card title="Send LRC">
         <Form layout="horizontal">
-          <Form.Item label="Recipient" {...formImemLayout}>
-            {form.getFieldDecorator('to', {
-              initialValue:'',
-              rules:[]
+          <Form.Item label="Recipient" {...formItemLayout} colon={false}>
+            {this.props.form.getFieldDecorator('to', {
+              initialValue: '',
+              rules: [
+                {required: true, message: 'Invalid Ethereum address',
+                  validator: (rule, value, cb) => validateEthAddress(value) ? cb() : cb(true)
+                }
+              ]
             })(
-              <Input placeholder="" size="large" />
+              <Input placeholder="" size="large"/>
             )}
           </Form.Item>
-          <Form.Item label="Amount" {...formImemLayout}>
-            {form.getFieldDecorator('amount', {
-              initialValue:0,
-              rules:[]
+          <Form.Item label="Amount" {...formItemLayout} colon={false}>
+            {this.props.form.getFieldDecorator('amount', {
+              initialValue: 0,
+              rules: []
             })(
-              <Input className="d-block w-100" placeholder="" size="large" />
+              <Input className="d-block w-100" placeholder="" size="large"/>
             )}
           </Form.Item>
-          <Collapse accordion bordered={false} defaultActiveKey={['advanced']}>
-            <Collapse.Panel className="" style={{border:'none',margin:'0px -15px',padding:'0px -15px'}} 
-              header={<div>Transaction Fee</div>} 
-              key="advanced"
-              showArrow={false}
-            >
-              <Form.Item className="mb0" label={null && "Transaction Fee"}>
-                {form.getFieldDecorator('transactionFee', {
-                  initialValue:8400,
-                  rules:[]
+          {!this.state.advanced &&
+            <div>
+              <div style={{height:"253px"}}>
+                <Form.Item className="mb0" label={"Gas: "+formatGas(this.state.gas)} colon={false}>
+                  {this.props.form.getFieldDecorator('gasFee', {
+                    initialValue: this.state.gas,
+                    rules: []
+                  })(
+                    <Slider min={20000000} max={300000000} step={1}
+                            marks={{
+                              20000000: 'slow',
+                              300000000: 'fast'
+                            }}
+                            tipFormatter={formatGas}
+                            onChange={setGas.bind(this)}
+                    />
+                  )}
+                </Form.Item>
+              </div>
+              <div className="row">
+                <div className="col"></div>
+                <div className="col-auto">
+                  <Form.Item className="mb0 text-right d-flex align-items-center" label="Advance" colon={false}>
+                    {this.props.form.getFieldDecorator('advance', {
+                      initialValue: 8400,
+                      rules: []
+                    })(
+                      <Switch onChange={setAdvance.bind(this)}/>
+                    )}
+                  </Form.Item>
+                </div>
+              </div>
+            </div>
+          }
+          {this.state.advanced &&
+            <div>
+              <Form.Item label="Data" {...formItemLayout} colon={false}>
+                {this.props.form.getFieldDecorator('data', {
+                  initialValue: 0,
+                  rules: []
                 })(
-                  <Slider min={2100} max={21000} step={2100} 
-                    marks={{
-                      2100: 'slow',
-                      8400: '8400',
-                      21000: 'fast'
-                    }} 
+                  <Input className="d-block w-100" placeholder="" size="large"/>
+                )}
+              </Form.Item>
+              <Form.Item label="Gas Limit" {...formItemLayout} colon={false}>
+                {this.props.form.getFieldDecorator('gasLimit', {
+                  initialValue: 0,
+                  rules: []
+                })(
+                  <Input className="d-block w-100" placeholder="" size="large"/>
+                )}
+              </Form.Item>
+              <Form.Item label="GasPrice" colon={false}>
+                {this.props.form.getFieldDecorator('gasPrice', {
+                  initialValue: 8400,
+                  rules: []
+                })(
+                  <Slider min={2100} max={21000} step={2100}
+                          marks={{
+                            2100: 'slow',
+                            8400: '8400',
+                            21000: 'fast'
+                          }}
                   />
                 )}
               </Form.Item>
-            </Collapse.Panel>
-            <Collapse.Panel className="" 
-              style={{border:'none',margin:'0px -15px',padding:'0px -15px'}} 
-              header={<div>Advanced</div>} 
-              key="2"
-            >
-              <Form.Item label="Data" {...formImemLayout}>
-                {form.getFieldDecorator('data', {
-                  initialValue:0,
-                  rules:[]
-                })(
-                  <Input className="d-block w-100" placeholder="" size="large" />
-                )}
-              </Form.Item>
-              <Form.Item label="Gas Limit" {...formImemLayout}>
-                {form.getFieldDecorator('gasLimit', {
-                  initialValue:0,
-                  rules:[]
-                })(
-                  <Input className="d-block w-100" placeholder="" size="large" />
-                )}
-              </Form.Item>
-              <Form.Item label="GasPrice">
-                {form.getFieldDecorator('gasPrice', {
-                  initialValue:8400,
-                  rules:[]
-                })(
-                  <Slider min={2100} max={21000} step={2100} 
-                    marks={{
-                      2100: 'slow',
-                      8400: '8400',
-                      21000: 'fast'
-                    }} 
-                  />
-                )}
-              </Form.Item>
-            </Collapse.Panel>
-          </Collapse>
-          
-          <Form.Item >
+              <div className="row">
+                <div className="col"></div>
+                <div className="col-auto">
+                  <Form.Item className="mb0 text-right d-flex align-items-center" label="Advance" colon={false}>
+                    {this.props.form.getFieldDecorator('advance', {
+                      initialValue: 8400,
+                      rules: []
+                    })(
+                      <Switch defaultChecked onChange={setAdvance.bind(this)}/>
+                    )}
+                  </Form.Item>
+                </div>
+              </div>
+            </div>
+          }
+          <Form.Item>
             <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Continue</Button>
           </Form.Item>
         </Form>
       </Card>
-  );
+    );
+  }
 };
 
 
 export default Form.create()(Transfer);
 
- 
+

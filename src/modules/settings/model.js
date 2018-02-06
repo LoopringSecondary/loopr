@@ -52,7 +52,6 @@ export default {
   },
   reducers: {
     preferenceChange(state, { payload }) {
-    console.log(payload)
       return {
         ...state,
         preference: {
@@ -62,7 +61,6 @@ export default {
       };
     },
     tradingChange(state, { payload }) {
-    console.log(payload)
       return {
         ...state,
         trading: {
