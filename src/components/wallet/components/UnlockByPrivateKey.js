@@ -15,7 +15,12 @@ class UnlockByPrivateKey extends React.Component {
   };
 
   isValidPrivateKey = (key) => {
-   return key.length === 64
+    try {
+      validator.validate({value: key, type: 'PRIVATE_KEY'});
+      return true;
+    } catch (e) {
+      return false;
+    }
   };
 
   render() {
