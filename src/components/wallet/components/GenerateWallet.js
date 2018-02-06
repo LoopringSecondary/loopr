@@ -1,10 +1,6 @@
 import React from 'react';
-import {connect} from 'dva';
-import {Link} from 'dva/router';
-import {Button, Form, Radio, Input, Tabs, Card, Badge, Icon, Modal, Progress} from 'antd';
-import UnlockByMetaMask from './UnlockByMetaMask'
-import UnlockByKeystore from './UnlockByKeystore'
-import {create} from "Loopring/ethereum/account"
+import {Button, Card, Input, Progress} from 'antd';
+
 
 export default class GenerateWallet extends React.Component {
   constructor(props) {
@@ -50,8 +46,7 @@ export default class GenerateWallet extends React.Component {
     const {modal, account} = this.props;
     modal.showLoading({id: 'wallet/generate'});
     setTimeout(() => {
-      const wallet = create(this.state.value);
-      account.setWallet({...wallet, password: this.state.value});
+      account.createWallet({password:this.state.value});
       modal.hideLoading({id: 'wallet/generate'});
       modal.hideModal({id: 'wallet/generate'});
       modal.showModal({id: 'wallet/backup'});

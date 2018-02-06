@@ -58,9 +58,6 @@ export function decryptKeystoreToPkey(keystore, password){
 }
 
 export function pkeyToKeystore(privateKey, password){
-
-  console.log(privateKey.toString('hex'));
-
   const salt = randomBytes(32);
   const iv = randomBytes(16);
   const kdfparams = {
