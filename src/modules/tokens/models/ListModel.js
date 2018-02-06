@@ -2,9 +2,8 @@ import namespace from '../namespace'
 import * as apis from '../apis'
 import { tokens } from '../../../common/config/data';
 
-const {MODULES} = namespace
 export default {
-  namespace: MODULES,
+  namespace: 'tokens',
   state: {
     items: [...tokens],
     selected:{ETH:true},
