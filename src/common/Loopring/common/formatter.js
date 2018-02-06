@@ -14,7 +14,7 @@ export function toBuffer(buffer) {
 // Number | BigNumber |  BN  | Buffer | String
 export function toHex(mixed) {
 
-  if (mixed instanceof Number || mixed instanceof Big || mixed instanceof BN) {
+  if (typeof mixed === 'number' || mixed instanceof Big || mixed instanceof BN) {
     return "0x" + mixed.toString(16)
   }
 
@@ -22,20 +22,16 @@ export function toHex(mixed) {
     return "0x" + mixed.toString('hex')
   }
 
-  if (mixed instanceof String) {
-
+  if (typeof mixed === 'string') {
     const regex = new RegExp(/^0x[0-9a-fA-F]*$/);
-
     return regex.test(mixed) ? mixed : "0x" + toBuffer(String).toString('hex')
 
   }
-
   throw new Error('Unsupported type')
-
 }
 
 export function toNumber(mixed) {
-  if (mixed instanceof Number) {
+  if (typeof mixed === 'number') {
     return mixed
   }
 
@@ -43,7 +39,7 @@ export function toNumber(mixed) {
     mixed.toNumber()
   }
 
-  if (mixed instanceof String) {
+  if (typeof mixed === 'string') {
     return Number(mixed)
   }
 
@@ -52,12 +48,12 @@ export function toNumber(mixed) {
 
 export function toBig(mixed) {
 
-  if (mixed instanceof Number) {
+  if (typeof mixed === 'number') {
 
     return new Big(mixed.toString())
   }
 
-  if (mixed instanceof String) {
+  if (typeof mixed === 'string') {
 
     return new Big(mixed)
   }
@@ -76,7 +72,7 @@ export function formatKey(mixed) {
     return mixed.toString('hex')
   }
 
-  if (mixed instanceof String) {
+  if (typeof mixed === 'string') {
     return mixed.startsWith("0x") ? mixed : mixed
   }
   throw new Error('Unsupported type')
@@ -87,7 +83,7 @@ export function formatAddress(mixed) {
     return '0x' + mixed.toString('hex')
   }
 
-  if (mixed instanceof String) {
+  if (typeof mixed === 'string') {
     return mixed.startsWith("0x") ? mixed : "0x" + mixed
   }
   throw new Error('Unsupported type')
@@ -96,8 +92,8 @@ export function formatAddress(mixed) {
 
 export function addHexPrefix(input) {
 
-  if(input instanceof String){
 
+  if(typeof input === 'string'){
    return input.startsWith('0x') ? input : "0x" + input;
   }
 
@@ -107,8 +103,7 @@ export function addHexPrefix(input) {
 export function clearPrefix(input) {
 
 
-  if(input instanceof String){
-
+  if(typeof input === 'string'){
     return input.startsWith('0x') ? input.slice(2) : input;
   }
 

@@ -45,7 +45,7 @@ let basicSchemas = {
   PRIVATE_KEY: {
     type: 'string',
     required: true,
-    length: 64,
+    len: 64,
   },
   ABI_METHOD: {
     type: 'enum',

@@ -25,8 +25,8 @@ export default (
 			<SettingsModals />
 			<OrderModals />
 	</div>
-	
+
 )
 
 
- 
+
