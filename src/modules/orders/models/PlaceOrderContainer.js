@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { bindActionCreators } from 'redux';
-import model from './EthTxModel'
+import model from './PlaceOrderModel'
 const namespace =  model.namespace
 let keys = Object.keys(model.reducers)
 keys = keys.map(key=>key.replace(`${namespace}/`,''))
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
 
 @connect(
-  ({ethTxs})=>({ethTxs})
+  ({placeOrder})=>({placeOrder})
 )
 export default class Container extends React.Component {
   shouldComponentUpdate(nextProps, nextState){
     const { id } = this.props
-    if(nextProps.ethTxs[id] == this.props.ethTxs[id]){
+    if(nextProps[namespace][id] == this.props[namespace][id]){
       return false
     }else{
       return true
     }
   }
   render() {
-    const { children,dispatch,ethTxs,...rest} = props
-    let data = ethTxs[id] || {}
+    const { children,dispatch,placeOrder,id,...rest} = this.props
+    let data = placeOrder[id] || {}
     const actions = bindActionCreators(actionCreators,dispatch)
     const childProps = {
       ...rest,
-      ethTx:{
+      placeOrder:{
         ...data,
         ...actions,
       }

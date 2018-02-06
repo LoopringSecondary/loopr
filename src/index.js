@@ -30,6 +30,7 @@ let models  = [
   require('./modules/rings/models/list').default,
   require('./modules/trades/models/list').default,
   require('./modules/orders/models/list').default,
+  require('./modules/orders/models/PlaceOrderModel').default,
   require('./modules/tokens/models/ListModel').default,
   require('./modules/tokens/models/EthTxModel').default,
   require('./modules/transactions/models/list').default,
