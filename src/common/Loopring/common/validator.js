@@ -13,7 +13,6 @@ let handleErrors = (errors, fields)=>{
 };
 
 let validate = (payload)=>{
-  debugger;
   let {type,value,onError,onSuccess}= payload;
   let source = {};
   let schema = {};
@@ -29,10 +28,8 @@ let validate = (payload)=>{
   }
 
   // TODO: if schema empty
-  let validator = new Schema(schema)
+  let validator = new Schema(schema);
   validator.validate(source,(errors, fields) => {
-
-    console.log(errors)
     if(errors){
       console.log('validate start source',source)
       console.log('validate start schema',schema)
