@@ -1,6 +1,5 @@
-import namespace from '../namespace'
-import * as apis from '../apis'
-const {MODULES} = namespace
+import * as apis from './apis'
+const MODULES = 'tickers'
 export default {
   namespace: MODULES,
   state: {
@@ -12,19 +11,9 @@ export default {
       size:10,
       current:0,
     },
-    filters:{token:'ETH'},
-    layer:{},
+    filters:{},
     defaultState:{},
     originQuery:{},
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(location => {
-        if (location.pathname === `/${MODULES}/list`) {
-          dispatch({type: 'fetch'});
-        }
-      });
-    },
   },
   effects: {
     *pageChange({payload},{call, select,put}){
@@ -48,7 +37,7 @@ export default {
       yield put({type:'fetch'});
     },
     *fetch({ payload={} }, { call, select, put }) {
-      yield put({ type: 'fetchStart',payload}); 
+      yield put({ type: 'fetchStart',payload}); // model的state中传入各种参数的一个机会接口
       const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
       let new_payload = {page,filters,sort,originQuery};
       if(defaultState.filters){
