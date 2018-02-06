@@ -24,7 +24,6 @@ export default {
     updateItem(state,{payload}){
       const { items } = state
       const { item } = payload
-      console.log('item',item);
       items.forEach((token,index)=>{
        if(token.symbol===item.symbol){
          items[index] = {
