@@ -11,16 +11,8 @@ const actionCreators = window.REDUX.getActionCreators(namespace,keys);
   ({ethTxs})=>({ethTxs})
 )
 export default class Container extends React.Component {
-  shouldComponentUpdate(nextProps, nextState){
-    const { id } = this.props
-    if(nextProps.ethTxs[id] == this.props.ethTxs[id]){
-      return false
-    }else{
-      return true
-    }
-  }
   render() {
-    const { children,dispatch,ethTxs,...rest} = props
+    const { children,dispatch,ethTxs,id,...rest} = this.props
     let data = ethTxs[id] || {}
     const actions = bindActionCreators(actionCreators,dispatch)
     const childProps = {

@@ -11,14 +11,6 @@ const actionCreators = window.REDUX.getActionCreators(namespace,keys);
   ({placeOrder})=>({placeOrder})
 )
 export default class Container extends React.Component {
-  shouldComponentUpdate(nextProps, nextState){
-    const { id } = this.props
-    if(nextProps[namespace][id] == this.props[namespace][id]){
-      return false
-    }else{
-      return true
-    }
-  }
   render() {
     const { children,dispatch,placeOrder,id,...rest} = this.props
     let data = placeOrder[id] || {}
