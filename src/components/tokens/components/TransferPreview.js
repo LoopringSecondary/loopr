@@ -1,20 +1,37 @@
 import React from 'react';
 import { Avatar,Icon,Button,Card } from 'antd';
+import {BigNumber} from 'bignumber.js'
+import Transaction from '../../../common/Loopring/ethereum/transaction'
 
 let Preview = ({
-  modals,
+  form, modal,
   }) => {
-
-  const handelSubmit = ()=>{
-    modals.hideModal({id:'token/transfer/preview'})
-    modals.showModal({id:'token/transfer/result'})
+  const {rawTx,extraData} = modal
+  //TODO mock
+  const privateKey = "93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
+  const handelSubmit = async ()=>{
+    let tx = new Transaction(rawTx)
+    tx.setNonce(extraData.from)
+    modal.showLoading({id:'token/transfer/preview'})
+    let result = {...rawTx, extraData}
+    try {
+      await tx.send(privateKey).then(res=>{
+        if(res.error) {
+          result = {...result, error:res.error.message}
+        }
+        modal.hideModal({id:'token/transfer/preview'})
+        modal.showModal({id:'token/transfer/result', result})
+      })
+    } catch (e) {
+      result = {...result, error:e.message}
+      modal.hideModal({id:'token/transfer/preview'})
+      modal.showModal({id:'token/transfer/result', result})
+    }
   }
 
   const handelCancel = ()=>{
-    modals.hideModal({id:'token/transfer/preview'})
+    modal.hideModal({id:'token/transfer/preview'})
   }
-
-
 
   const MetaItem = (props)=>{
     const {label,value} = props
@@ -50,9 +67,9 @@ let Preview = ({
           <div className="col">
             <div className="text-center">
               <Avatar size="" className="bg-white border-grey-900" src="https://loopring.io/images/favicon.ico"></Avatar>
-              <div className="fs12 color-grey-500">LRC</div>
+              <div className="fs12 color-grey-500">{extraData.tokenSymbol}</div>
               {ArrowDivider}
-              <div className="fs14 color-grey-900">-2000LRC($4000)</div>
+              <div className="fs14 color-grey-900">{extraData.amount+" "+extraData.tokenSymbol+" (≈ $"+extraData.worth+")"}</div>
             </div>
           </div>
           <div className="col-auto">
@@ -61,17 +78,20 @@ let Preview = ({
             </div>
           </div>
         </div>
-        <MetaItem label="From" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
-        <MetaItem label="To" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
-        <MetaItem label="GasLimit" value="2100" />
-        <MetaItem label="GasPrice" value="21 Gwei" />
-        <MetaItem label="Transaction Fee" value="0.00012 ETH ( USD 2.2 )" />
+        <MetaItem label="From" value={extraData.from} />
+        <MetaItem label="To" value={rawTx.to} />
+        <MetaItem label="Gas" value={
+          <div className="mr15">
+            <div className="row justify-content-end">{new BigNumber(rawTx.gasPrice.toString()).times(rawTx.gasLimit).times('1e-18') + " ETH"}</div>
+            <div className="row justify-content-end fs10 color-dark-text-disabled">{"≈ Gas("+Number(rawTx.gasLimit).toString(10)+") * Gas Price("+Number(rawTx.gasPrice)/(1e9).toString(10)+" gwei)"}</div>
+          </div>
+        }/>
         <div className="row pt40">
           <div className="col pl0">
             <Button onClick={handelCancel} className="d-block w-100" type="" size="large">No, Cancel It</Button>
           </div>
           <div className="col pr0">
-            <Button onClick={handelSubmit} className="d-block w-100" type="primary" size="large">Yes, Send Now</Button>
+            <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">Yes, Send Now</Button>
           </div>
         </div>
       </Card>
@@ -81,4 +101,4 @@ let Preview = ({
 
 export default Preview;
 
- 
+

@@ -58,8 +58,9 @@ export default class Transaction {
       await this.complete(address);
     }
     const ethTx = new EthTransaction(this.raw);
-    const signed = ethTx.sign(privateKey).serialize();
-    this.signed = signed;
+    ethTx.sign(privateKey);
+    const signed = ethTx.serialize();
+    this.signed = toHex(signed);
     return toHex(signed)
   }
 
