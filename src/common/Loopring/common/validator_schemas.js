@@ -36,7 +36,7 @@ let basicSchemas = {
   ETH_DATA: {
     type: 'string',
     required: true,
-    pattern: /^0x[0-9a-fA-F]{1，64}$/g,
+    pattern: /^0x[0-9a-fA-F]{1,64}$/g,
   },
   QUANTITY: {
     type: 'string',

@@ -8,12 +8,12 @@ let Preview = ({
   }) => {
   const {rawTx,extraData} = modal
   //TODO mock
-  const privateKey = "test"
+  const privateKey = "93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
   const handelSubmit = ()=>{
     console.log(rawTx)
-    0xde0b6b3a7640000
     let tx = new Transaction(rawTx)
-    tx.setNonce(extraData.address)
+    console.log("1:"+extraData.from)
+    tx.setNonce(extraData.from)
     console.log(tx)
     modal.showLoading({id:'token/transfer/preview'})
     tx.send(privateKey).then(res=>{

@@ -3,10 +3,11 @@ import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkb
 import validator from '../../../common/Loopring/common/validator'
 import {BigNumber} from 'bignumber.js'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
+import {configs} from '../../../common/config/data'
 
 class Transfer extends React.Component {
   state = {
-    address: "0x11111",
+    address: "0x4919776519F2B290E0E98AA8d9f5751b5321876C",
     estimateGasPrice: 30,
     selectedGasPrice: 0,
     selectedGasLimit: 21000,
@@ -51,8 +52,7 @@ class Transfer extends React.Component {
             let amount = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
             rawTx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
-
-          //rawTx.chainId = 1
+          rawTx.chainId = configs.chainId | 1
           const extraData = {from:this.state.address}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', rawTx, extraData})
