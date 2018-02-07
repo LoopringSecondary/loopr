@@ -59,7 +59,7 @@ export default class Transaction {
     }
     const ethTx = new EthTransaction(this.raw);
     const signed = ethTx.sign(privateKey).serialize();
-    this.signed = signed;
+    this.signed = toHex(signed);
     return toHex(signed)
   }
 
