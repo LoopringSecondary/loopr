@@ -1,26 +1,52 @@
 import React from 'react';
 import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Collapse,Card} from 'antd';
 import validator from '../../../common/Loopring/common/validator'
+import {BigNumber} from 'bignumber.js'
+import Transaction from '../../../common/Loopring/ethereum/transaction'
 
 class Transfer extends React.Component {
   state = {
-    gas: 200000000,
+    address: "0x11111",
+    estimateGasPrice: 30,
+    selectedGasPrice: 0,
+    selectedGasLimit: 21000,
+    selectedGas: 0,
+    gasValueInSlider:0,
     advanced: false,
-    value: 0
+    value: 0,
+    estimateValue: 0,
+    exchangeRate : 6.3
+  }
+
+  componentDidMount() {
+    const gas = Number(this.state.estimateGasPrice.toString()) * 21000 / 1e9
+    this.setState({selectedGas: gas.toFixed(8), gasValueInSlider: Number(gas.toFixed(8)) * 1e9})
   }
 
   render() {
     const {form, modal} = this.props
-    //{symbol: "BNB", balance: "0.00", allowance: "0", logo: "", title: "Binance"}
-    const selectedToken = modal.item || {}
-    //const selectedToken = tokens.items.find(item => item.symbol === tokens.selected)
+    let selectedToken = modal.item || {}
+    //TODO mock data
+    selectedToken = {...selectedToken, balance: 100.00, allowance: "0"}
     function handleSubmit() {
       form.validateFields((err, values) => {
-        console.log('values', values);
         if (!err) {
-          // TODO
+          const rawTx = {};
+          rawTx.to = values.to;
+          rawTx.value = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
+          rawTx.data = values.data || '0x'
+          if(this.state.advanced) {
+            rawTx.gasPrice = '0x' + (Number(this.state.selectedGasPrice) * 1e9).toString(16)
+            rawTx.gasLimit = '0x' + Number(this.state.selectedGasLimit).toString(16);
+          } else {
+            const gasPrice = (new BigNumber(this.state.selectedGas)).div(21000).times(1e9).toFixed(2)
+            rawTx.gasPrice = '0x' + (gasPrice * 1e9).toString(16)
+            rawTx.gasLimit = '0x' + Number(21000).toString(16);
+          }
+          //rawTx.chainId = 1
+          const extraData = {from:this.state.address}
           modal.hideModal({id: 'token/transfer'})
-          modal.showModal({id: 'token/transfer/preview'})
+          modal.showModal({id: 'token/transfer/preview', rawTx, extraData})
         }
       });
     }
@@ -44,26 +70,63 @@ class Transfer extends React.Component {
     }
 
     function setAdvance(v) {
-      this.setState({advanced:v})
+      setTimeout(()=>{
+        this.setState({advanced:v})
+      },0)
     }
 
     function setGas(v) {
-      this.setState({gas:v})
+      setTimeout(()=>{
+        const gas = BigNumber(v.toString()).div(Number(1e9))
+        this.setState({gasValueInSlider:v, selectedGas:gas.toString(10)})
+      },0)
     }
 
     function selectMax(e) {
       e.preventDefault();
-      this.setState({value: selectedToken.balance})
+      this.setState({value: selectedToken.balance, estimateValue: selectedToken.balance * this.state.exchangeRate})
+      form.setFieldsValue({"amount": selectedToken.balance})
     }
 
-    async function validateEthAddress(value) {
-      console.log(validator.validate({value: value, type: 'ADDRESS'}))
+    function validateEthAddress(value) {
       try {
-        await validator.validate({value: value, type: 'ADDRESS'})
+        validator.validate({value: value, type: 'ADDRESS'})
         return true;
       } catch (e) {
         return false;
       }
+    }
+
+    function validateAmount(value) {
+      return value && value <= selectedToken.balance
+    }
+
+    function amountFocus() {
+      const amount = form.getFieldValue("amount")
+      if(amount === 0 || amount === '0') {
+        form.setFieldsValue({"amount": ''})
+      }
+    }
+
+    function amountChange(e) {
+      if(e.target.value) {
+        const v = Number(e.target.value)
+        this.setState({value: v, estimateValue: v * this.state.exchangeRate})
+      }
+    }
+
+    function gasLimitChange(e) {
+      if(e.target.value){
+        const gasLimit = Number(e.target.value)
+        //const gas = new BigNumber(this.state.estimateGasPrice.toString()).times(gasLimit).times('1e-9').toFixed(8)
+        this.setState({selectedGasLimit: gasLimit})
+      }
+    }
+
+    function gasPriceChange(e) {
+      const gasPrice = Number(e)
+      //const gas = new BigNumber(gasPrice.toString()).times(this.state.gasLimit).times('1e-9').toFixed(8)
+      this.setState({selectedGasPrice: gasPrice})
     }
 
     resetForm()
@@ -72,13 +135,13 @@ class Transfer extends React.Component {
       wrapperCol: {span: 17},
     }
     const formatGas = (value) => {
-      return (value / 100000000000) + " ether";
+      return (value / 1e9) + " ether";
     }
     return (
       <Card title={"Send "+selectedToken.symbol}>
         <Form layout="horizontal">
           <Form.Item label="Recipient" {...formItemLayout} colon={false}>
-            {this.props.form.getFieldDecorator('to', {
+            {form.getFieldDecorator('to', {
               initialValue: '',
               rules: [
                 {required: true, message: 'Invalid Ethereum address',
@@ -91,35 +154,41 @@ class Transfer extends React.Component {
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
             <div className="row">
-              <div className="col-auto">≈USD 123</div>
+              <div className="col-auto">{"≈USD "+this.state.estimateValue}</div>
               <div className="col"></div>
               <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>Send Max</a></div>
             </div>
           }>
-            {this.props.form.getFieldDecorator('amount', {
+            {form.getFieldDecorator('amount', {
               initialValue: 0,
               rules: [
-                {required: true, message: 'Invalid Ethereum address',
-                  validator: (rule, value, cb) => validateEthAddress(value) ? cb() : cb(true)
+                {required: true, message: 'Please input valid amount', transform:(value)=>Number(value),
+                  validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
                 }
               ]
             })(
-              <InputNumber className="d-block w-100" placeholder="" size="large" min={1} max={10} value={this.state.value}/>
+              <Input className="d-block w-100" placeholder="" size="large" suffix={selectedToken.symbol}
+                           onChange={amountChange.bind(this)} onFocus={() => {
+                const amount = form.getFieldValue("amount")
+                if(amount === 0) {
+                  form.setFieldsValue({"amount": ''})
+                }
+              }}/>
             )}
           </Form.Item>
 
           {!this.state.advanced &&
             <div>
               <div style={{height:"253px"}}>
-                <Form.Item className="mb0" label={"Transaction Fee: "+formatGas(this.state.gas)} colon={false}>
-                  {this.props.form.getFieldDecorator('gasFee', {
-                    initialValue: this.state.gas,
+                <Form.Item className="mb0" label={"Transaction Fee: "+formatGas(this.state.gasValueInSlider)} colon={false}>
+                  {form.getFieldDecorator('transactionFee', {
+                    initialValue: this.state.gasValueInSlider,
                     rules: []
                   })(
-                    <Slider min={20000000} max={300000000} step={1}
+                    <Slider min={200000} max={3000000} step={10}
                             marks={{
-                              20000000: 'slow',
-                              300000000: 'fast'
+                              200000: 'slow',
+                              3000000: 'fast'
                             }}
                             tipFormatter={formatGas}
                             onChange={setGas.bind(this)}
@@ -131,12 +200,7 @@ class Transfer extends React.Component {
                 <div className="col"></div>
                 <div className="col-auto">
                   <Form.Item className="mb0 text-right d-flex align-items-center" label="Advance" colon={false}>
-                    {this.props.form.getFieldDecorator('advance', {
-                      initialValue: 8400,
-                      rules: []
-                    })(
-                      <Switch onChange={setAdvance.bind(this)}/>
-                    )}
+                    <Switch onChange={setAdvance.bind(this)}/>
                   </Form.Item>
                 </div>
               </div>
@@ -145,32 +209,35 @@ class Transfer extends React.Component {
           {this.state.advanced &&
             <div>
               <Form.Item label="Data" {...formItemLayout} colon={false}>
-                {this.props.form.getFieldDecorator('data', {
-                  initialValue: 0,
+                {form.getFieldDecorator('data', {
+                  initialValue: '',
                   rules: []
                 })(
                   <Input className="d-block w-100" placeholder="" size="large"/>
                 )}
               </Form.Item>
               <Form.Item label="Gas Limit" {...formItemLayout} colon={false}>
-                {this.props.form.getFieldDecorator('gasLimit', {
-                  initialValue: 0,
-                  rules: []
+                {form.getFieldDecorator('gasLimit', {
+                  initialValue: this.state.selectedGasLimit,
+                  rules: [{
+                    required: true, type : 'integer', message:"Please input integer value",
+                    transform:(value)=>Number(value)
+                  }],
                 })(
-                  <Input className="d-block w-100" placeholder="" size="large"/>
+                  <Input className="d-block w-100" placeholder="" size="large" onChange={gasLimitChange.bind(this)}/>
                 )}
               </Form.Item>
               <Form.Item label="GasPrice" colon={false}>
-                {this.props.form.getFieldDecorator('gasPrice', {
-                  initialValue: 8400,
+                {form.getFieldDecorator('gasPrice', {
+                  initialValue: 30,
                   rules: []
                 })(
-                  <Slider min={2100} max={21000} step={2100}
+                  <Slider min={1} max={99} step={1}
                           marks={{
-                            2100: 'slow',
-                            8400: '8400',
-                            21000: 'fast'
+                            1: 'slow',
+                            99: 'fast'
                           }}
+                          onChange={gasPriceChange.bind(this)}
                   />
                 )}
               </Form.Item>
@@ -178,19 +245,14 @@ class Transfer extends React.Component {
                 <div className="col"></div>
                 <div className="col-auto">
                   <Form.Item className="mb0 text-right d-flex align-items-center" label="Advance" colon={false}>
-                    {this.props.form.getFieldDecorator('advance', {
-                      initialValue: 8400,
-                      rules: []
-                    })(
-                      <Switch defaultChecked onChange={setAdvance.bind(this)}/>
-                    )}
+                    <Switch defaultChecked onChange={setAdvance.bind(this)}/>
                   </Form.Item>
                 </div>
               </div>
             </div>
           }
           <Form.Item>
-            <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Continue</Button>
+            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">Continue</Button>
           </Form.Item>
         </Form>
       </Card>

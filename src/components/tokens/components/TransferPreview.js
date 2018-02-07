@@ -1,20 +1,34 @@
 import React from 'react';
 import { Avatar,Icon,Button,Card } from 'antd';
+import {BigNumber} from 'bignumber.js'
+import Transaction from '../../../common/Loopring/ethereum/transaction'
 
 let Preview = ({
-  modals,
+  form, modal,
   }) => {
-
+  const {rawTx,extraData} = modal
+  //TODO mock
+  const privateKey = "test"
   const handelSubmit = ()=>{
-    modals.hideModal({id:'token/transfer/preview'})
-    modals.showModal({id:'token/transfer/result'})
+    let tx = new Transaction(rawTx)
+    tx.setNonce(extraData.address)
+    console.log(tx)
+    modal.showLoading({id:'token/transfer/preview'})
+    tx.send(privateKey).then(res=>{
+      console.log(res)
+      if(!res.error) {
+        modal.hideModal({id:'token/transfer/preview'})
+        modal.showModal({id:'token/transfer/result'})
+      } else {
+        modal.hideModal({id:'token/transfer/preview'})
+        modal.showModal({id:'token/transfer/result'})
+      }
+    })
   }
 
   const handelCancel = ()=>{
-    modals.hideModal({id:'token/transfer/preview'})
+    modal.hideModal({id:'token/transfer/preview'})
   }
-
-
 
   const MetaItem = (props)=>{
     const {label,value} = props
@@ -62,16 +76,19 @@ let Preview = ({
           </div>
         </div>
         <MetaItem label="From" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
-        <MetaItem label="To" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
-        <MetaItem label="GasLimit" value="2100" />
-        <MetaItem label="GasPrice" value="21 Gwei" />
-        <MetaItem label="Transaction Fee" value="0.00012 ETH ( USD 2.2 )" />
+        <MetaItem label="To" value={rawTx.to} />
+        <MetaItem label="Gas" value={
+          <div className="mr15">
+            <div className="row justify-content-end">{new BigNumber(rawTx.gasPrice.toString()).times(rawTx.gasLimit).times('1e-18') + " ETH"}</div>
+            <div className="row justify-content-end fs10 color-dark-text-disabled">{"≈ Gas("+Number(rawTx.gasLimit).toString(10)+") * Gas Price("+Number(rawTx.gasPrice)/(1e9).toString(10)+" gwei)"}</div>
+          </div>
+        }/>
         <div className="row pt40">
           <div className="col pl0">
             <Button onClick={handelCancel} className="d-block w-100" type="" size="large">No, Cancel It</Button>
           </div>
           <div className="col pr0">
-            <Button onClick={handelSubmit} className="d-block w-100" type="primary" size="large">Yes, Send Now</Button>
+            <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">Yes, Send Now</Button>
           </div>
         </div>
       </Card>
@@ -81,4 +98,4 @@ let Preview = ({
 
 export default Preview;
 
- 
+
