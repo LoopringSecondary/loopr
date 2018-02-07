@@ -23,7 +23,7 @@
     ],
     "tokens": [
         {
-            "token": "ETH",
+            "symbol": "ETH",
             "name": "Ether",
             "digits": 18,
             "address": "",
@@ -35,7 +35,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "WETH",
+            "symbol": "WETH",
             "name": "Ether Token",
             "digits": 18,
             "address": "0x2956356cD2a2bf3202F771F50D3D14A367b48070",
@@ -47,7 +47,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "LRC",
+            "symbol": "LRC",
             "name": "Loopring",
             "digits": 18,
             "address": "0xEF68e7C694F40c8202821eDF525dE3782458639f",
@@ -59,7 +59,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "EOS",
+            "symbol": "EOS",
             "name": "EOS",
             "digits": 18,
             "address": "0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0",
@@ -71,7 +71,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "OMG",
+            "symbol": "OMG",
             "name": "OmiseGO",
             "digits": 18,
             "address": "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07",
@@ -83,7 +83,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "REP",
+            "symbol": "REP",
             "name": "Augur",
             "digits": 18,
             "address": "0xe94327d07fc17907b4db788e5adf2ed424addff6",
@@ -95,7 +95,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "PAY",
+            "symbol": "PAY",
             "name": "TenX",
             "digits": 18,
             "address": "0xB97048628DB6B661D4C2aA833e95Dbe1A905B280",
@@ -107,7 +107,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "GNT",
+            "symbol": "GNT",
             "name": "Golem",
             "digits": 18,
             "address": "0xa74476443119A942dE498590Fe1f2454d7D4aC0d",
@@ -119,7 +119,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "BAT",
+            "symbol": "BAT",
             "name": "BAT",
             "digits": 18,
             "address": "0x0d8775f648430679a709e98d2b0cb6250d2887ef",
@@ -131,7 +131,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "KNC",
+            "symbol": "KNC",
             "name": "Kyber",
             "digits": 18,
             "address": "0xdd974d5c2e2928dea5f71b9825b8b646686bd200",
@@ -143,7 +143,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "SNT",
+            "symbol": "SNT",
             "name": "Status",
             "digits": 18,
             "address": "0x744d70fdbe2ba4cf95131626614a1763df805b9e",
@@ -155,7 +155,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "ICN",
+            "symbol": "ICN",
             "name": "Iconomi",
             "digits": 18,
             "address": "0x888666CA69E0f178DED6D75b5726Cee99A87D698",
@@ -167,7 +167,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "ZRX",
+            "symbol": "ZRX",
             "name": "0x",
             "digits": 18,
             "address": "0xe41d2489571d322189246dafa5ebde1f4699f498",
@@ -179,7 +179,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "BNT",
+            "symbol": "BNT",
             "name": "Bancor",
             "digits": 18,
             "address": "0x1f573d6fb3f13d689ff844b4ce37794d79a7ff1c",
@@ -191,7 +191,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "GNO",
+            "symbol": "GNO",
             "name": "Gnosis",
             "digits": 18,
             "address": "0x6810e776880C02933D47DB1b9fc05908e5386b96",
@@ -203,7 +203,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "ANT",
+            "symbol": "ANT",
             "name": "Aragon",
             "digits": 18,
             "address": "0x960b236A07cf122663c4303350609A66A7B288C0",
@@ -215,7 +215,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "WINGS",
+            "symbol": "WINGS",
             "name": "WINGS",
             "digits": 18,
             "address": "0x667088b212ce3d06a1b553a7221E1fD19000d9aF",
@@ -227,7 +227,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "MLN",
+            "symbol": "MLN",
             "name": "Melon",
             "digits": 18,
             "address": "0xBEB9eF514a379B997e0798FDcC901Ee474B6D9A1",
@@ -239,7 +239,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "SAN",
+            "symbol": "SAN",
             "name": "Santiment",
             "digits": 18,
             "address": "0x7C5A0CE9267ED19B22F8cae653F198e3E8daf098",
@@ -251,7 +251,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "MANA",
+            "symbol": "MANA",
             "name": "Decentraland",
             "digits": 18,
             "address": "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942",
@@ -263,7 +263,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "1ST",
+            "symbol": "1ST",
             "name": "FirstBlood",
             "digits": 18,
             "address": "0xAf30D2a7E90d7DC361c8C4585e9BB7D2F6f15bc7",
@@ -275,7 +275,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "CFI",
+            "symbol": "CFI",
             "name": "Cofoundit",
             "digits": 18,
             "address": "0x12fef5e57bf45873cd9b62e9dbd7bfb99e32d73e",
@@ -287,7 +287,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "DNT",
+            "symbol": "DNT",
             "name": "district0x",
             "digits": 18,
             "address": "0x0abdace70d3790235af448c88547603b945604ea",
@@ -299,7 +299,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "NMR",
+            "symbol": "NMR",
             "name": "Numeraire",
             "digits": 18,
             "address": "0x1776e1f26f98b1a5df9cd347953a26dd3cb46671",
@@ -311,7 +311,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "SWT",
+            "symbol": "SWT",
             "name": "Swarm City",
             "digits": 18,
             "address": "0xb9e7f8568e08d5659f5d29c4997173d84cdf2607",
@@ -323,7 +323,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "NET",
+            "symbol": "NET",
             "name": "Nimiq",
             "digits": 18,
             "address": "0xcfb98637bcae43C13323EAa1731cED2B716962fD",
@@ -335,7 +335,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "LUN",
+            "symbol": "LUN",
             "name": "Lunyr",
             "digits": 18,
             "address": "0xfa05A73FfE78ef8f1a739473e462c54bae6567D9",
@@ -347,7 +347,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "PLU",
+            "symbol": "PLU",
             "name": "Pluton",
             "digits": 18,
             "address": "0xD8912C10681D8B21Fd3742244f44658dBA12264E",
@@ -359,7 +359,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "KIN",
+            "symbol": "KIN",
             "name": "Kin",
             "digits": 18,
             "address": "0x818fc6c2ec5986bc6e2cbf00939d90556ab12ce5",
@@ -371,7 +371,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "LINK",
+            "symbol": "LINK",
             "name": "ChainLink",
             "digits": 18,
             "address": "0x514910771af9ca656af840dff83e8264ecf986ca",
@@ -383,7 +383,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "PPP",
+            "symbol": "PPP",
             "name": "PayPie",
             "digits": 18,
             "address": "0xc42209aCcC14029c1012fB5680D95fBd6036E2a0",
@@ -395,7 +395,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "RDN",
+            "symbol": "RDN",
             "name": "Raiden",
             "digits": 18,
             "address": "0x255aa6df07540cb5d3d297f0d0d4d84cb52bc8e6",
@@ -407,7 +407,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "AE",
+            "symbol": "AE",
             "name": "Aeternity",
             "digits": 18,
             "address": "0x5ca9a71b1d01849c0a95490cc00559717fcf0d1d",
@@ -419,7 +419,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "BNB",
+            "symbol": "BNB",
             "name": "Binance",
             "digits": 18,
             "address": "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
@@ -431,7 +431,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "REQ",
+            "symbol": "REQ",
             "name": "Request",
             "digits": 18,
             "address": "0x8f8221afbb33998d8584a2b05749ba73c37a938a",
@@ -443,7 +443,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "IND",
+            "symbol": "IND",
             "name": "Indorse",
             "digits": 18,
             "address": "0xf8e386eda857484f5a12e4b5daa9984e06e73705",
@@ -455,7 +455,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "WTC",
+            "symbol": "WTC",
             "name": "Walton",
             "digits": 18,
             "address": "0xb7cb1c96db6b22b0d3d9536e0108d062bd488f74",
@@ -467,7 +467,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "CAT",
+            "symbol": "CAT",
             "name": "BlockCAT",
             "digits": 18,
             "address": "0x56ba2Ee7890461f463F7be02aAC3099f6d5811A8",
@@ -479,7 +479,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "REX",
+            "symbol": "REX",
             "name": "REX",
             "digits": 18,
             "address": "0xf05a9382A4C3F29E2784502754293D88b835109C",
@@ -491,7 +491,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "RCN",
+            "symbol": "RCN",
             "name": "Ripio",
             "digits": 18,
             "address": "0xf970b8e36e23f7fc3fd752eea86f8be8d83375a6",
@@ -503,7 +503,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "QSP",
+            "symbol": "QSP",
             "name": "Quantstamp",
             "digits": 18,
             "address": "0x99ea4db9ee77acd40b119bd1dc4e33e1c070b80d",
@@ -515,7 +515,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "ROL",
+            "symbol": "ROL",
             "name": "DICE",
             "digits": 16,
             "address": "0x2e071D2966Aa7D8dECB1005885bA1977D6038A65",
@@ -527,7 +527,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "RLC",
+            "symbol": "RLC",
             "name": "iExec",
             "digits": 9,
             "address": "0x607F4C5BB672230e8672085532f7e901544a7375",
@@ -539,7 +539,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "CVC",
+            "symbol": "CVC",
             "name": "Civic",
             "digits": 8,
             "address": "0x41e5560054824ea6b0732e656e3ad64e20e94e45",
@@ -551,7 +551,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "MTL",
+            "symbol": "MTL",
             "name": "MetalPay",
             "digits": 8,
             "address": "0xF433089366899D83a9f26A773D59ec7eCF30355e",
@@ -563,7 +563,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "ETHOS",
+            "symbol": "ETHOS",
             "name": "Ethos",
             "digits": 8,
             "address": "0x5af2be193a6abca9c8817001f45744777db30756",
@@ -575,7 +575,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "FUN",
+            "symbol": "FUN",
             "name": "FunFair",
             "digits": 8,
             "address": "0x419D0d8BdD9aF5e606Ae2232ed285Aff190E711b",
@@ -587,7 +587,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "STORJ",
+            "symbol": "STORJ",
             "name": "Storj",
             "digits": 8,
             "address": "0xB64ef51C888972c908CFacf59B47C1AfBC0Ab8aC",
@@ -599,7 +599,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "MCO",
+            "symbol": "MCO",
             "name": "Monaco",
             "digits": 8,
             "address": "0xB63B606Ac810a52cCa15e44bB630fd42D8d1d83d",
@@ -611,7 +611,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "TKN",
+            "symbol": "TKN",
             "name": "Monolith",
             "digits": 8,
             "address": "0xaaaf91d9b90df800df4f55c205fd6989c977e73a",
@@ -623,7 +623,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "XAUR",
+            "symbol": "XAUR",
             "name": "Xaurum",
             "digits": 8,
             "address": "0x4DF812F6064def1e5e029f1ca858777CC98D2D81",
@@ -635,7 +635,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "HMQ",
+            "symbol": "HMQ",
             "name": "Humaniq",
             "digits": 8,
             "address": "0xcbcc0f036ed4788f63fc0fee32873d6a7487b908",
@@ -647,7 +647,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "BTM",
+            "symbol": "BTM",
             "name": "Bytom",
             "digits": 8,
             "address": "0xcB97e65F07DA24D46BcDD078EBebd7C6E6E3d750",
@@ -659,7 +659,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "MGO",
+            "symbol": "MGO",
             "name": "MobileGo",
             "digits": 8,
             "address": "0x40395044Ac3c0C57051906dA938B54BD6557F212",
@@ -671,7 +671,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "ATM",
+            "symbol": "ATM",
             "name": "Attention",
             "digits": 8,
             "address": "0x9B11EFcAAA1890f6eE52C6bB7CF8153aC5d74139",
@@ -683,7 +683,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "SALT",
+            "symbol": "SALT",
             "name": "Salt",
             "digits": 8,
             "address": "0x4156D3342D5c385a87D264F90653733592000581",
@@ -695,7 +695,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "PPT",
+            "symbol": "PPT",
             "name": "Populous",
             "digits": 8,
             "address": "0xd4fa1460f537bb9085d22c7bccb5dd450ef28e3a",
@@ -707,7 +707,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "ENG",
+            "symbol": "ENG",
             "name": "Enigma",
             "digits": 8,
             "address": "0xf0ee6b27b759c9893ce4f094b49ad28fd15a23e4",
@@ -719,7 +719,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "TAAS",
+            "symbol": "TAAS",
             "name": "Taas",
             "digits": 6,
             "address": "0xE7775A6e9Bcf904eb39DA2b68c5efb4F9360e08C",
@@ -731,7 +731,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "TRST",
+            "symbol": "TRST",
             "name": "Trustcoin",
             "digits": 6,
             "address": "0xcb94be6f13a1182e4a4b6140cb7bf2025d28e41b",
@@ -743,7 +743,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "TRX",
+            "symbol": "TRX",
             "name": "Tron",
             "digits": 6,
             "address": "0xf230b790e05390fc8295f4d3f60332c93bed42e2",
@@ -755,7 +755,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "POWR",
+            "symbol": "POWR",
             "name": "PowerLedger",
             "digits": 6,
             "address": "0x595832f8fc6bf59c85c527fec3740a1b7a361269",
@@ -767,7 +767,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "AST",
+            "symbol": "AST",
             "name": "AirSwap",
             "digits": 4,
             "address": "0x27054b13b1B798B345b591a4d22e6562d47eA75a",
@@ -779,7 +779,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "GUP",
+            "symbol": "GUP",
             "name": "Guppy",
             "digits": 3,
             "address": "0xf7b098298f7c69fc14610bf71d5e02c60792894c",
@@ -791,7 +791,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "DRP",
+            "symbol": "DRP",
             "name": "DCORP",
             "digits": 2,
             "address": "0x621d78f2ef2fd937bfca696cabaf9a779f59b3ed",
@@ -803,7 +803,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "DRP",
+            "symbol": "DRP",
             "name": "DCORP",
             "digits": 2,
             "address": "0x621d78f2ef2fd937bfca696cabaf9a779f59b3ed",
@@ -815,7 +815,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "SNGLS",
+            "symbol": "SNGLS",
             "name": "SingularDTV",
             "digits": 0,
             "address": "0xaeC2E87E0A235266D9C5ADc9DEb4b2E29b54D009",
@@ -827,7 +827,7 @@
             "minTradeValue": 0.001
         },
         {
-            "token": "EDG",
+            "symbol": "EDG",
             "name": "Edgeless",
             "digits": 0,
             "address": "0x08711D3B02C8758F2FB3ab4e80228418a7F8e39c",
