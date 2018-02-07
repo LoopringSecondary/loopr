@@ -60,6 +60,16 @@ let basicSchemas = {
   TIMESTAMP: {
     type: 'string',
   },
+  PROJECT_ID: {
+    type: 'number',
+    required: true,
+    min: 1
+  },
+  LOOPRING_TOKEN:{
+    type:'enum',
+    required:true,
+    enum:['LRC','LRN','LRQ']
+  },
   PRIVATE_KEY_BUFFER: {
     validator: (rule, value, cb) => {
       if (value instanceof Buffer && value.length === 32) {

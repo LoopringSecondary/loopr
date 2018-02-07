@@ -12,7 +12,7 @@ export function privateKeytoAddress(privateKey) {
   try {
     if (typeof privateKey === 'string') {
       validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
-      privateKey = toBuffer(privateKey)
+      privateKey = toBuffer(addHexPrefix(privateKey))
     } else {
       validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
     }
@@ -33,7 +33,12 @@ export function publicKeytoAddress(publicKey) {
 
 export function privateKeytoPublic(privateKey) {
   try {
-    validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+    if (typeof privateKey === 'string') {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      privateKey = toBuffer(addHexPrefix(privateKey))
+    } else {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
   } catch (e) {
     throw new Error('Invalid private key')
   }
@@ -54,6 +59,16 @@ export function create(password) {
 }
 
 export function encrypt(privateKey, password) {
+  try {
+    if (typeof privateKey === 'string') {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      privateKey = toBuffer(addHexPrefix(privateKey))
+    } else {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
+  } catch (e) {
+    throw new Error('Invalid private key')
+  }
   return pkeyToKeystore(privateKey, password) // keystoreJsonV3
 }
 
@@ -82,12 +97,17 @@ export function fromMnemonic(mnemonic, dpath, password) {
 
 export function fromPrivateKey(privateKey) {
   try {
-    validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+    if (typeof privateKey === 'string') {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      privateKey = toBuffer(addHexPrefix(privateKey))
+    } else {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
   } catch (e) {
     throw new Error('Invalid private key')
   }
-  const publicKey = privateToPublic(toBuffer(addHexPrefix(privateKey)));
-  const address = privateToAddress(toBuffer(addHexPrefix(privateKey)));
+  const publicKey = privateToPublic(privateKey);
+  const address = privateToAddress(privateKey);
   return {
     privateKey: formatKey(privateKey),
     publicKey: formatKey(publicKey),

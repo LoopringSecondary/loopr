@@ -1,9 +1,9 @@
 import EthTransaction from 'ethereumjs-tx'
 import validator from './validator'
-import {toHex, toBuffer} from '../common/formatter'
+import {toHex, toBuffer,addHexPrefix} from '../common/formatter'
 import {estimateGas, getGasPrice, getTransactionCount} from './utils';
 import request from '../common/request'
-
+import {privateKeytoAddress} from "./account";
 
 export default class Transaction {
   constructor(rawTx) {
@@ -22,9 +22,7 @@ export default class Transaction {
   }
 
   async setGasPrice() {
-    if (!this.raw.gasPrice) {
-      this.raw.gasPrice = await getGasPrice().result
-    }
+    this.raw.gasPrice = this.raw.gasPrice || await getGasPrice().result
   }
 
   setChainId() {
@@ -33,30 +31,31 @@ export default class Transaction {
 
   async setNonce(address, tag) {
     tag = tag || 'pending';
-    this.raw.nonce = await getTransactionCount(address, tag).result;
+    this.raw.nonce = this.raw.nonce || await getTransactionCount(address, tag).result;
   }
 
   async hash() {
-    try {
-      validator.validate({value: this.raw, type: "TX"});
-    } catch (e) {
-      await this.complete();
-    }
+    validator.validate({value: this.raw, type: "TX"});
     return new EthTransaction(this.raw).hash()
   }
 
   async sign(privateKey) {
-
     try {
+      if (typeof privateKey === 'string') {
         validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+        privateKey = toBuffer(addHexPrefix(privateKey))
+      } else {
+        validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+      }
     } catch (e) {
       throw new Error('Invalid private key')
     }
-    privateKey = toBuffer(privateKey);
+
     try {
       validator.validate({value: this.raw, type: "TX"});
     } catch (e) {
-      await this.complete();
+      const address = privateKeytoAddress(privateKey);
+      await this.complete(address);
     }
     const ethTx = new EthTransaction(this.raw);
     const signed = ethTx.sign(privateKey).serialize();
@@ -77,11 +76,11 @@ export default class Transaction {
     })
   }
 
-  async complete() {
+  async complete(address) {
     await this.setChainId();
     await this.setGasLimit();
     await this.setGasPrice();
-    await this.setNonce();
+    await this.setNonce(address);
   }
 }
 
