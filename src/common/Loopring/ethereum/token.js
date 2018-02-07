@@ -133,8 +133,9 @@ export default class Token {
   }
 
   async getConfig(type) {
-    const tx = {to: this.address};
+    const tx = {};
     if (type === "decimals" || type === "symbol" || type === 'name') {
+      tx.to = this.address;
       tx.data = generateAbiData({method: type});
       const params = [tx, 'latest'];
       const body = {};
