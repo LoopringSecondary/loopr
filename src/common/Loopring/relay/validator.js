@@ -31,11 +31,14 @@ let validate = (payload)=>{
     source[type] = value
   }
   if(schemas['relay'][type]){
-    // validate multiple fields
-    schema = schemas['relay'][type]
-    source = value
+    // validate multiple fileds , schema & source must has multiple fields
+    schema[type] = {
+      type:'object',
+      required:true,
+      fields:schemas['relay'][type]
+    }
+    source[type] = value
   }
-
   // TODO: if schema empty
   let validator = new Schema(schema)
   validator.validate(source,(errors, fields) => {
