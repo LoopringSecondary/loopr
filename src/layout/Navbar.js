@@ -80,12 +80,10 @@ function Navbar(props){
               <Menu.Item key="wallet">
                 <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
               </Menu.Item>
-              <Menu.Item key="setting">
-                <a onClick={showModal.bind(this,'settings')}><FormattedMessage id='navbar.setting' /></a>
-              </Menu.Item>
             </Menu>
           </div>
           <div className="col-auto">
+            <span className="fs14 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}><FormattedMessage id='navbar.setting' /></span>
             <Select defaultValue="en" onChange={localeChange} className="navbar-language mr5">
               <Select.Option value="en">English</Select.Option>
               <Select.Option value="zh">中文</Select.Option>
