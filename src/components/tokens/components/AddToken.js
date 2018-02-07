@@ -13,21 +13,10 @@ class AddCustomToken extends React.Component {
     const {form} = this.props;
     const {token} = this.state;
 
-    function handleChange(type, value) {
-      console.log(type + ":" + value);
-    }
-
     function handleSubmit() {
-      form.validateFields((err, values) => {
-        console.log('values', values);
-        if (!err) {
 
-        }
-      });
-    }
-
-    function handleReset() {
-      form.resetFields()
+      //TODO
+      resetForm();
     }
 
     function resetForm() {
@@ -38,20 +27,52 @@ class AddCustomToken extends React.Component {
       <Card title="Add Custom Token" className="">
         <Form layout="horizontal" className="">
           <Form.Item label="Token Contract Address" colon={false}>
-            {form.getFieldDecorator('marginSplit', {
+            {form.getFieldDecorator('address', {
               initialValue: '',
-              rules: [{required: true,message:"Please input valid address",
-                validator:(rule, value, cb) => this.isValidAddress(value) ? cb() : cb(true)}]
+              rules: [{
+                required: true, message: "Please input valid address",
+                validator: (rule, value, cb) => this.isValidAddress(value) ? cb() : cb(true)
+              }]
             })(
               <Input size="large" onChange={this.handleChange}/>
             )}
           </Form.Item>
+          {token.name &&
+          <Form.Item label="Token Name" colon={false}>
+            {form.getFieldDecorator('name', {
+              initialValue: '',
+              rules: []
+            })(
+              <Input size="large" value={token.name} disabled/>
+            )}
+          </Form.Item>
+          }
+          {token.symbol &&
+          <Form.Item label="Token Symbol" colon={false}>
+            {form.getFieldDecorator('symbol', {
+              initialValue: '',
+              rules: []
+            })(
+              <Input size="large" value={token.symbol} disabled/>
+            )}
+          </Form.Item>
+          }
+          {token.digits &&
+          <Form.Item label="Token Digits" colon={false}>
+            {form.getFieldDecorator('digits', {
+              initialValue: '',
+              rules: []
+            })(
+              <Input size="large" value={token.digits} disabled/>
+            )}
+          </Form.Item>
+          }
           <Form.Item className="">
             <div className="row">
               <div className="col">
                 <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large"
                         disabled={!(token && token.name && token.digits && token.symbol)}>
-                  Save
+                  Confirm && Save
                 </Button>
               </div>
             </div>
@@ -61,7 +82,7 @@ class AddCustomToken extends React.Component {
     );
   };
 
-  isValidAddress = (add) =>{
+  isValidAddress = (add) => {
     try {
       validator.validate({value: add, type: 'ADDRESS'});
       return true;
@@ -70,9 +91,9 @@ class AddCustomToken extends React.Component {
     }
   };
 
-   handleChange = async (e) => {
+  handleChange = async (e) => {
     const address = e.target.value;
-    if(this.isValidAddress(address)){
+    if (this.isValidAddress(address)) {
       const token = new Token({address});
       await token.complete();
       this.setState({token})
