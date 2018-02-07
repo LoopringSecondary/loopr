@@ -31,8 +31,12 @@ let validate = (payload)=>{
     source[type] = value
   }
   if(schemas['transaction'][type]){
-    // validate one field , schema & source must just has one field
-    schema[type] = schemas['transaction'][type];
+    // validate multiple fileds , schema & source must has multiple fields
+    schema[type] = {
+      type:'object',
+      required:true,
+      fields:schemas['transaction'][type]
+    }
     source[type] = value
   }
 
