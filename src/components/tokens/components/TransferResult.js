@@ -9,14 +9,14 @@ let Preview = ({
   return (
       <Card title="Result">
         <div className="p25 text-center">
-          {!result.error &&
+          {result.error &&
             <div>
               <div className="fs14 color-grey-900">
                 {"Your hava failed sent "+result.extraData.amount+" "+result.extraData.tokenSymbol+" cause: "+result.error}
               </div>
             </div>
           }
-          {result.error &&
+          {!result.error &&
             <div>
               <Icon className="fs60" type="check-circle"></Icon>
               <div className="fs20 color-grey-900">

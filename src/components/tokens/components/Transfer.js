@@ -15,7 +15,7 @@ class Transfer extends React.Component {
     gasValueInSlider:0,
     advanced: false,
     value: 0,
-    estimateValue: 0,
+    estimateWorth: 0,
     exchangeRate : 6.3
   }
 
@@ -29,7 +29,7 @@ class Transfer extends React.Component {
     let selectedToken = modal.item || {}
     console.log(selectedToken)
     //TODO mock data
-    selectedToken = {...selectedToken, balance: 100.00, allowance: "0"}
+    selectedToken = {...selectedToken, balance: 100.00, allowance: 0}
     function handleSubmit() {
       form.validateFields((err, values) => {
         if (!err) {
@@ -96,7 +96,7 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      this.setState({value: selectedToken.balance, estimateValue: selectedToken.balance * this.state.exchangeRate})
+      this.setState({value: selectedToken.balance, estimateWorth: selectedToken.balance * this.state.exchangeRate})
       form.setFieldsValue({"amount": selectedToken.balance})
     }
 
@@ -123,7 +123,7 @@ class Transfer extends React.Component {
     function amountChange(e) {
       if(e.target.value) {
         const v = Number(e.target.value)
-        this.setState({value: v, estimateValue: v * this.state.exchangeRate})
+        this.setState({value: v, estimateWorth: v * this.state.exchangeRate})
       }
     }
 
@@ -166,7 +166,7 @@ class Transfer extends React.Component {
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
             <div className="row">
-              <div className="col-auto">{"≈USD "+this.state.estimateValue}</div>
+              <div className="col-auto">{"≈USD "+this.state.estimateWorth}</div>
               <div className="col"></div>
               <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>Send Max</a></div>
             </div>
