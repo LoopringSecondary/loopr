@@ -1,22 +1,29 @@
 import React from 'react';
-import {Button, Card, Form, Input} from 'antd';
+import {Button, Card, Form, Input,message} from 'antd';
 import Token from 'Loopring/ethereum/token'
 import validator from 'Loopring/ethereum/validator';
 
 
 class AddCustomToken extends React.Component {
   state = {
-    token: null
+    address:null,
+    name:null,
+    symbol:null,
+    digits:null
   };
 
   render() {
     const {form} = this.props;
-    const {token} = this.state;
+    const { address, name, symbol, digits} = this.state;
 
     function handleSubmit() {
-
       //TODO
       resetForm();
+      this.setState({
+        address:null,
+        name:null,
+        symbol:null,
+        digits:null})
     }
 
     function resetForm() {
@@ -37,33 +44,33 @@ class AddCustomToken extends React.Component {
               <Input size="large" onChange={this.handleChange}/>
             )}
           </Form.Item>
-          {token.name &&
+          {name &&
           <Form.Item label="Token Name" colon={false}>
             {form.getFieldDecorator('name', {
               initialValue: '',
               rules: []
             })(
-              <Input size="large" value={token.name} disabled/>
+              <Input size="large"  disabled/>
             )}
           </Form.Item>
           }
-          {token.symbol &&
+          {symbol &&
           <Form.Item label="Token Symbol" colon={false}>
             {form.getFieldDecorator('symbol', {
               initialValue: '',
               rules: []
             })(
-              <Input size="large" value={token.symbol} disabled/>
+              <Input size="large" disabled/>
             )}
           </Form.Item>
           }
-          {token.digits &&
+          {digits &&
           <Form.Item label="Token Digits" colon={false}>
             {form.getFieldDecorator('digits', {
               initialValue: '',
               rules: []
             })(
-              <Input size="large" value={token.digits} disabled/>
+              <Input size="large"  disabled/>
             )}
           </Form.Item>
           }
@@ -71,7 +78,7 @@ class AddCustomToken extends React.Component {
             <div className="row">
               <div className="col">
                 <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large"
-                        disabled={!(token && token.name && token.digits && token.symbol)}>
+                        disabled={!(address && name && digits && symbol)}>
                   Confirm && Save
                 </Button>
               </div>
@@ -92,11 +99,18 @@ class AddCustomToken extends React.Component {
   };
 
   handleChange = async (e) => {
+    const {form} = this.props;
     const address = e.target.value;
     if (this.isValidAddress(address)) {
+      this.setState({address});
       const token = new Token({address});
       await token.complete();
-      this.setState({token})
+      if(!token.symbol || token.digits===-1){
+        message.error('Failed to get token config, maybe the contract address you provided is not a ERC20 token contract address');
+        return;
+      }
+      this.setState({name:token.name,symbol:token.symbol,digits:token.digits})
+      form.setFieldsValue({name:token.name,symbol:token.symbol,digits:token.digits})
     }
   }
 
