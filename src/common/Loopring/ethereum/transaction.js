@@ -1,9 +1,9 @@
 import EthTransaction from 'ethereumjs-tx'
 import validator from './validator'
-import {toHex, toBuffer} from '../common/formatter'
+import {toHex, toBuffer,addHexPrefix} from '../common/formatter'
 import {estimateGas, getGasPrice, getTransactionCount} from './utils';
 import request from '../common/request'
-
+import {privateKeytoAddress} from "./account";
 
 export default class Transaction {
   constructor(rawTx) {
@@ -35,26 +35,27 @@ export default class Transaction {
   }
 
   async hash() {
-    try {
-      validator.validate({value: this.raw, type: "TX"});
-    } catch (e) {
-      await this.complete();
-    }
+    validator.validate({value: this.raw, type: "TX"});
     return new EthTransaction(this.raw).hash()
   }
 
   async sign(privateKey) {
-
     try {
-      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      if (typeof privateKey === 'string') {
+        validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+        privateKey = toBuffer(addHexPrefix(privateKey))
+      } else {
+        validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+      }
     } catch (e) {
       throw new Error('Invalid private key')
     }
-    privateKey = toBuffer(privateKey);
+
     try {
       validator.validate({value: this.raw, type: "TX"});
     } catch (e) {
-      await this.complete();
+      const address = privateKeytoAddress(privateKey);
+      await this.complete(address);
     }
     const ethTx = new EthTransaction(this.raw);
     const signed = ethTx.sign(privateKey).serialize();
@@ -75,11 +76,11 @@ export default class Transaction {
     })
   }
 
-  async complete() {
+  async complete(address) {
     await this.setChainId();
     await this.setGasLimit();
     await this.setGasPrice();
-    await this.setNonce();
+    await this.setNonce(address);
   }
 }
 
