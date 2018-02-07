@@ -2,8 +2,10 @@ import React from 'react';
 import { Avatar,Icon,Button,Card } from 'antd';
 
 let Preview = ({
-  modals,
+  modal,
   }) => {
+  const {result} = modal
+  console.log(result)
   return (
       <Card title="Result">
         <div className="p25 text-center">
@@ -12,9 +14,14 @@ let Preview = ({
             Send Completed
           </div>
           <div className="fs14 color-grey-900">
-            You have successfully sent 1000 LRC (USD 5880)
+            {result.error &&
+              "Your hava failed sent "+result.extraData.amount+" "+result.extraData.tokenSymbol+" cause: "+result.error
+            }
+            {!result.error &&
+              "You have successfully sent "+result.extraData.amount+" "+result.extraData.tokenSymbol+" (USD "+result.extraData.cost+")"
+            }
           </div>
-        </div> 
+        </div>
         <div className="row pt40">
           <div className="col pr0">
             <Button className="d-block w-100" type="primary" size="large">Send Again</Button>
@@ -27,4 +34,4 @@ let Preview = ({
 
 export default Preview;
 
- 
+
