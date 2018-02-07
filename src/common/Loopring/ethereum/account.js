@@ -1,20 +1,25 @@
 import validator from '../common/validator'
-import {toHex, toBuffer,formatKey,formatAddress} from '../common/formatter'
+import {addHexPrefix, formatAddress, formatKey, toBuffer} from '../common/formatter'
 import {decryptKeystoreToPkey, pkeyToKeystore} from '../common/keystore'
-import {randomBytes} from 'crypto'
 import {privateToAddress, privateToPublic, publicToAddress} from 'ethereumjs-util'
 import {mnemonictoPrivatekey} from "../common/mnemonic";
 import {generateMnemonic} from "bip39"
+import {makeBlob, getFileName} from "../common/Blob";
 
 const path = "m/44'/60'/0'/0/0";
 
 export function privateKeytoAddress(privateKey) {
   try {
-    validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+    if (typeof privateKey === 'string') {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      privateKey = toBuffer(privateKey)
+    } else {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
   } catch (e) {
     throw new Error('Invalid private key')
   }
-  return formatKey(privateToAddress(toBuffer(privateKey)))
+  return formatAddress(privateToAddress(privateKey))
 }
 
 export function publicKeytoAddress(publicKey) {
@@ -37,14 +42,14 @@ export function privateKeytoPublic(privateKey) {
 
 export function create(password) {
   const mnemonic = generateMnemonic();
-  const privateKey = mnemonictoPrivatekey(mnemonic,password,path);
+  const privateKey = mnemonictoPrivatekey(mnemonic, password, path);
   const publicKey = privateToPublic(privateKey);
   const address = privateToAddress(privateKey);
   return {
     mnemonic,
-    privateKey,
-    publicKey,
-    address,
+    privateKey: formatKey(privateKey),
+    publicKey: formatKey(publicKey),
+    address: formatAddress(address),
   }
 }
 
@@ -57,22 +62,46 @@ export function decrypt(keystoreJsonV3, password) {
   const publicKey = privateToPublic(privateKey);
   const address = publicToAddress(publicKey);
   return {
-    privateKey: toHex(privateKey),
-    publicKey,
-    address,
+    privateKey: formatKey(privateKey),
+    publicKey: formatKey(publicKey),
+    address: formatAddress(address),
   }
 }
 
-
-export function fromMnemonic(mnemonic,password,dpath) {
-  const privateKey = mnemonictoPrivatekey(mnemonic,password, dpath||path);
+export function fromMnemonic(mnemonic, dpath, password) {
+  const privateKey = mnemonictoPrivatekey(mnemonic, password, dpath || path);
   const publicKey = privateToPublic(privateKey);
   const address = privateToAddress(privateKey);
   return {
     mnemonic,
-    privateKey,
-    publicKey,
-    address,
+    privateKey: formatKey(privateKey),
+    publicKey: formatKey(publicKey),
+    address: formatAddress(address),
   }
 }
+
+export function fromPrivateKey(privateKey) {
+  try {
+    validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+  } catch (e) {
+    throw new Error('Invalid private key')
+  }
+  const publicKey = privateToPublic(toBuffer(addHexPrefix(privateKey)));
+  const address = privateToAddress(toBuffer(addHexPrefix(privateKey)));
+  return {
+    privateKey: formatKey(privateKey),
+    publicKey: formatKey(publicKey),
+    address: formatAddress(address),
+  }
+}
+
+export function download(privateKey, password, mime) {
+  if (typeof privateKey === 'string') privateKey = toBuffer(addHexPrefix(privateKey));
+  const address = privateKeytoAddress(privateKey);
+  const fileName = getFileName(address);
+  const content = encrypt(privateKey, password);
+  const blob = makeBlob(content, mime || 'text/json;charset=UTF-8');
+  return {fileName, blob}
+}
+
 

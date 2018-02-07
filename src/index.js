@@ -36,6 +36,7 @@ let models  = [
   require('./modules/tokens/models/EthTxModel').default,
   require('./modules/transactions/models/list').default,
   require('./modules/settings/model').default,
+  require('./modules/account/model').default,
   require('./modules/tickers/ListModel').default,
 ]
 models.map(model=>{
