@@ -67,9 +67,9 @@ let Preview = ({
           <div className="col">
             <div className="text-center">
               <Avatar size="" className="bg-white border-grey-900" src="https://loopring.io/images/favicon.ico"></Avatar>
-              <div className="fs12 color-grey-500">LRC</div>
+              <div className="fs12 color-grey-500">{extraData.tokenSymbol}</div>
               {ArrowDivider}
-              <div className="fs14 color-grey-900">-2000LRC($4000)</div>
+              <div className="fs14 color-grey-900">{extraData.amount+" "+extraData.tokenSymbol+" (≈ $"+extraData.worth+")"}</div>
             </div>
           </div>
           <div className="col-auto">
@@ -78,7 +78,7 @@ let Preview = ({
             </div>
           </div>
         </div>
-        <MetaItem label="From" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
+        <MetaItem label="From" value={extraData.from} />
         <MetaItem label="To" value={rawTx.to} />
         <MetaItem label="Gas" value={
           <div className="mr15">

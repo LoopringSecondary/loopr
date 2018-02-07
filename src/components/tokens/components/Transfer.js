@@ -27,6 +27,7 @@ class Transfer extends React.Component {
   render() {
     const {form, modal} = this.props
     let selectedToken = modal.item || {}
+    console.log(selectedToken)
     //TODO mock data
     selectedToken = {...selectedToken, balance: 100.00, allowance: "0"}
     function handleSubmit() {
@@ -48,12 +49,14 @@ class Transfer extends React.Component {
             rawTx.value = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
             rawTx.data = values.data || '0x'
           } else {
+            //TODO rawTx.to modify to token address, read from selectedToken or config?
+            rawTx.to = values.to;
             rawTx.value = "0x0";
             let amount = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
             rawTx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
           rawTx.chainId = configs.chainId | 1
-          const extraData = {from:this.state.address, tokenSymbol:selectedToken.symbol, amount:values.amount, cost:(this.state.exchangeRate * values.amount)}
+          const extraData = {from:this.state.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:(this.state.exchangeRate * values.amount)}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', rawTx, extraData})
         }
