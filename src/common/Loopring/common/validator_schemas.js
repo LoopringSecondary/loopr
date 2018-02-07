@@ -36,7 +36,7 @@ let basicSchemas = {
   ETH_DATA: {
     type: 'string',
     required: true,
-    pattern: /^0x[0-9a-fA-F]{1，64}$/g,
+    pattern: /^0x[0-9a-fA-F]{1,64}$/g,
   },
   QUANTITY: {
     type: 'string',
@@ -59,6 +59,16 @@ let basicSchemas = {
   },
   TIMESTAMP: {
     type: 'string',
+  },
+  PROJECT_ID: {
+    type: 'number',
+    required: true,
+    min: 1
+  },
+  LOOPRING_TOKEN:{
+    type:'enum',
+    required:true,
+    enum:['LRC','LRN','LRQ']
   },
   PRIVATE_KEY_BUFFER: {
     validator: (rule, value, cb) => {

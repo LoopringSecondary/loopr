@@ -120,6 +120,28 @@ function generateName() {
   return '0x' + method ;
 }
 
+function generateBind(projectId,address) {
+  validator.validate({value:projectId,type:'PROJECT_ID'});
+ // validator.validate({value:address,type:'ADDRESS'});
+  const method = methodID('bind', ['uint8', 'string']).toString('hex');
+  const data = rawEncode(['uint8', 'string'], [projectId, address]).toString('hex');
+  return '0x' + method + data;
+}
+
+function generateUnbind(projectId) {
+  validator.validate({value:projectId,type:'PROJECT_ID'});
+  const method = methodID('unbind', ['uint8']).toString('hex');
+  const data = rawEncode(['uint8'], [projectId]).toString('hex');
+  return '0x' + method + data;
+}
+function generateGetBindingAddress(owner,projectId) {
+  validator.validate({value:projectId,type:'PROJECT_ID'});
+  validator.validate({value:owner,type:'ADDRESS'});
+  const method = methodID('getBindingAddress', ['address','uint8']).toString('hex');
+  const data = rawEncode(['address','uint8'], [owner, projectId]).toString('hex');
+  return '0x' + method + data;
+}
+
 export function sign(message, privateKey){
   const hash = sha3(message);
   const sig =ecsign(hash, toBuffer(privateKey));
@@ -141,8 +163,8 @@ export function isValidSig(message, sig, address){
   return addHexPrefix(recoveredAddress) === address.toLowerCase();
 }
 
-export function generateAbiData({method,timestamp,address,amount,order,owner,spender}){
-  validator.validate({value:method,type:'ABI_METHOD'})
+export function generateAbiData({method,timestamp,address,amount,order,owner,spender,projectId}){
+  validator.validate({value:method,type:'ABI_METHOD'});
   if (method === 'cancelOrder') {
     return generateCancelOrderData(order);
   }
@@ -177,6 +199,18 @@ export function generateAbiData({method,timestamp,address,amount,order,owner,spe
 
   if(method === 'decimals'){
     return generateDecimals();
+  }
+
+  if(method === 'bind'){
+    return generateBind(projectId,address)
+  }
+
+  if(method === 'unbind'){
+    return generateUnbind(projectId);
+  }
+
+  if(method === 'getBindingAddress'){
+    return generateGetBindingAddress(owner,projectId)
   }
 }
 
