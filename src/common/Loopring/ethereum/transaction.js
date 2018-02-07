@@ -22,9 +22,7 @@ export default class Transaction {
   }
 
   async setGasPrice() {
-    if (!this.raw.gasPrice) {
-      this.raw.gasPrice = await getGasPrice().result
-    }
+    this.raw.gasPrice = this.raw.gasPrice || await getGasPrice().result
   }
 
   setChainId() {
@@ -33,7 +31,7 @@ export default class Transaction {
 
   async setNonce(address, tag) {
     tag = tag || 'pending';
-    this.raw.nonce = await getTransactionCount(address, tag).result;
+    this.raw.nonce = this.raw.nonce || await getTransactionCount(address, tag).result;
   }
 
   async hash() {
@@ -48,7 +46,7 @@ export default class Transaction {
   async sign(privateKey) {
 
     try {
-        validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
     } catch (e) {
       throw new Error('Invalid private key')
     }
