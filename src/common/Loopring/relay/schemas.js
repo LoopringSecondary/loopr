@@ -17,6 +17,27 @@ let schemas = {
     tokenB: {
       ...basicSchemas.ADDRESS
     },
+    authAddr: {
+      ...basicSchemas.ADDRESS
+    },
+    validSince: {
+      ...basicSchemas.ETH_DATA
+    },
+    validUntil: {
+      ...basicSchemas.ETH_DATA
+    },
+    amountS: {
+      ...basicSchemas.ETH_DATA
+    },
+    amountB: {
+      ...basicSchemas.ETH_DATA
+    },
+    lrcFee: {
+      ...basicSchemas.ETH_DATA
+    },
+    walletId: {
+      ...basicSchemas.ETH_DATA
+    },
     buyNoMoreThanAmountB: {
       type: 'boolean',
       required: true
@@ -28,7 +49,7 @@ let schemas = {
       maximum: 100
     }
   },
-  ORDER:{
+  ORDER: {
     protocol: {
       ...basicSchemas.ADDRESS
     },
@@ -40,6 +61,27 @@ let schemas = {
     },
     tokenB: {
       ...basicSchemas.ADDRESS
+    },
+    authAddr: {
+      ...basicSchemas.ADDRESS
+    },
+    validSince: {
+      ...basicSchemas.ETH_DATA
+    },
+    validUntil: {
+      ...basicSchemas.ETH_DATA
+    },
+    amountS: {
+      ...basicSchemas.ETH_DATA
+    },
+    amountB: {
+      ...basicSchemas.ETH_DATA
+    },
+    lrcFee: {
+      ...basicSchemas.ETH_DATA
+    },
+    walletId: {
+      ...basicSchemas.ETH_DATA
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -53,17 +95,17 @@ let schemas = {
     },
     r: {
       type: 'integer',
-      required:true,
+      required: true,
       minimum: 0
     },
     s: {
       'type': 'string',
-      required:true,
+      required: true,
       pattern: /^0x[0-9a-fA-F]{64}$/g
     },
     v: {
       'type': 'string',
-      required:true,
+      required: true,
       pattern: /^0x[0-9a-fA-F]{64}$/g
     }
   }
