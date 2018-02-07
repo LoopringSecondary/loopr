@@ -10,6 +10,8 @@ let Preview = ({
   //TODO mock
   const privateKey = "test"
   const handelSubmit = ()=>{
+    console.log(rawTx)
+    0xde0b6b3a7640000
     let tx = new Transaction(rawTx)
     tx.setNonce(extraData.address)
     console.log(tx)

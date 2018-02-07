@@ -2,7 +2,7 @@ import React from 'react';
 import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Collapse,Card} from 'antd';
 import validator from '../../../common/Loopring/common/validator'
 import {BigNumber} from 'bignumber.js'
-import Transaction from '../../../common/Loopring/ethereum/transaction'
+import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 
 class Transfer extends React.Component {
   state = {
@@ -32,17 +32,26 @@ class Transfer extends React.Component {
       form.validateFields((err, values) => {
         if (!err) {
           const rawTx = {};
-          rawTx.to = values.to;
-          rawTx.value = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
-          rawTx.data = values.data || '0x'
           if(this.state.advanced) {
             rawTx.gasPrice = '0x' + (Number(this.state.selectedGasPrice) * 1e9).toString(16)
             rawTx.gasLimit = '0x' + Number(this.state.selectedGasLimit).toString(16);
           } else {
             const gasPrice = (new BigNumber(this.state.selectedGas)).div(21000).times(1e9).toFixed(2)
+            console.log(gasPrice+"="+this.state.selectedGas+"/21000*1e9.toFixed(2)")
             rawTx.gasPrice = '0x' + (gasPrice * 1e9).toString(16)
             rawTx.gasLimit = '0x' + Number(21000).toString(16);
           }
+          if(selectedToken.symbol === "ETH") {
+            rawTx.to = values.to;
+            rawTx.value = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
+            console.log("amount:"+rawTx.value+"=>"+new BigNumber(rawTx.value).toString(10))
+            rawTx.data = values.data || '0x'
+          } else {
+            rawTx.value = "0x0";
+            let amount = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
+            rawTx.data = generateAbiData({method: "transfer", address:values.to, amount});
+          }
+
           //rawTx.chainId = 1
           const extraData = {from:this.state.address}
           modal.hideModal({id: 'token/transfer'})
