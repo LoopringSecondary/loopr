@@ -38,7 +38,7 @@ class Transfer extends React.Component {
             rawTx.gasPrice = '0x' + (Number(this.state.selectedGasPrice) * 1e9).toString(16)
             rawTx.gasLimit = '0x' + Number(this.state.selectedGasLimit).toString(16);
           } else {
-            const gasPrice = (new BigNumber(this.state.selectedGas)).div(21000).times(1e9).toFixed(2)
+            const gasPrice = (new BigNumber(this.state.selectedGas.toString())).div(21000).times(1e9).toFixed(2)
             //TODO test:in some case gasPrice calculated to a wrong value
             console.log(gasPrice+"="+this.state.selectedGas+"/21000*1e9.toFixed(2)")
             rawTx.gasPrice = '0x' + (gasPrice * 1e9).toString(16)
@@ -46,13 +46,14 @@ class Transfer extends React.Component {
           }
           if(selectedToken.symbol === "ETH") {
             rawTx.to = values.to;
-            rawTx.value = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
+            rawTx.value = '0x' + (new BigNumber(values.amount.toString()).times(1e18)).toString(16)
             rawTx.data = values.data || '0x'
           } else {
             //TODO rawTx.to modify to token address, read from selectedToken or config?
             rawTx.to = values.to;
             rawTx.value = "0x0";
-            let amount = '0x' + (new BigNumber(values.amount).times(1e18)).toString(16)
+            //TODO degist
+            let amount = '0x' + (new BigNumber(values.amount.toString()).times(1e18)).toString(16)
             rawTx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
           rawTx.chainId = configs.chainId | 1
