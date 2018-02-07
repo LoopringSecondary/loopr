@@ -49,11 +49,10 @@ class Transfer extends React.Component {
             rawTx.value = '0x' + (new BigNumber(values.amount.toString()).times(1e18)).toString(16)
             rawTx.data = values.data || '0x'
           } else {
-            //TODO rawTx.to modify to token address, read from selectedToken or config?
-            rawTx.to = values.to;
+            const tokenConfig = window.CONFIG.getTokenBySymbol(selectedToken.symbol)
+            rawTx.to = tokenConfig.address;
             rawTx.value = "0x0";
-            //TODO degist
-            let amount = '0x' + (new BigNumber(values.amount.toString()).times(1e18)).toString(16)
+            let amount = '0x' + (new BigNumber(values.amount.toString()).times("1e"+tokenConfig.digits)).toString(16)
             rawTx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
           rawTx.chainId = configs.chainId | 1

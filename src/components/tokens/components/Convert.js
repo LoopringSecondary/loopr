@@ -12,7 +12,6 @@ class Convert extends React.Component {
   state = {
     address: "0x4919776519F2B290E0E98AA8d9f5751b5321876C",
     privateKey:"93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e",
-    fromToken: 'ETH',
     amount: 0,
     selectedGasPrice: 30,
     selectedGasLimit: 21000,
@@ -20,30 +19,42 @@ class Convert extends React.Component {
     exchangeRate : 6.3,
     selectMaxWarn: false,
     inputMaxWarn: false,
-    estimateWorth: 0
+    estimateWorth: 0,
+    errorMsg: ''
   }
+
   render() {
     const {form, modal} = this.props
     let selectedToken = modal.item || {}
     //TODO mock data
     selectedToken = {...selectedToken, balance: 1.2, allowance: 0}
+
     function handleSubmit() {
-      form.validateFields(async (err, values) => {
-        console.log('values', values);
+      const _this = this
+      form.validateFields((err, values) => {
         if (!err) {
-          const amount = '0x' + (new BigNumber(values.amount.toString()).times(1e18)).toString(16)
-          const token = new WETH({address:this.state.address}) //todo
+          const wethConfig = window.CONFIG.getTokenBySymbol('WETH')
+          const formatedAmount = '0x' + (new BigNumber(values.amount.toString()).times(1e18)).toString(16)
+          const api = new WETH({address:wethConfig.address})
           const gasPrice = '0x' + (Number(this.state.selectedGasPrice) * 1e9).toString(16)
           const gasLimit = '0x' + Number(this.state.selectedGasLimit).toString(16);
           const chainId = configs.chainId | 1
           getTransactionCount(this.state.address).then((nonce)=>{
-            console.log(nonce)
-            return token.deposit(amount, this.state.privateKey, gasPrice, gasLimit, nonce, chainId)
-          }).then(res=>{
-             // TODO
-            console.log(res)
+            if(nonce.result){
+              if(selectedToken.symbol === "ETH") {
+                return api.deposit(formatedAmount, this.state.privateKey, gasPrice, gasLimit, nonce.result, chainId)
+              } else {
+                return api.withDraw(formatedAmount, this.state.privateKey, gasPrice, gasLimit, nonce.result, chainId)
+              }
+            } else {
+              throw new Error('Failed to call ethereum, please try later')
+            }
+          }).then(deposit=>{
+            // TODO
+            console.log("deposit:"+deposit)
           }).catch(error=>{
-            return error
+            console.error(error)
+            this.setState({errorMsg: error.message})
           })
         }
       });
@@ -53,7 +64,7 @@ class Convert extends React.Component {
       e.preventDefault();
       let wrapAmount = Number(selectedToken.balance)
       let selectMaxWarn = false
-      if(this.state.fromToken === "ETH") {
+      if(selectedToken.symbol === "ETH") {
         wrapAmount = Math.max(selectedToken.balance - 0.1, 0)
         selectMaxWarn = true
       }
@@ -69,7 +80,7 @@ class Convert extends React.Component {
       if(e.target.value) {
         const v = Number(e.target.value)
         let inputMaxWarn = false;
-        if(this.state.fromToken === "ETH" && v >= selectedToken.balance) {
+        if(selectedToken.symbol === "ETH" && v >= selectedToken.balance) {
           inputMaxWarn = true
         }
         this.setState({amount: v, estimateWorth: v * this.state.exchangeRate, selectMaxWarn: false, inputMaxWarn: inputMaxWarn})
@@ -84,13 +95,13 @@ class Convert extends React.Component {
       <Card title="Convert">
         <div className="row justify-content-center align-items-center mb15">
           <div className="col text-center">
-            <img className="rounded-circle" src={ethLogo} style={{height: '60px'}}/>
+            <img className="rounded-circle" src={selectedToken.symbol === "ETH" ? ethLogo : wethLogo} style={{height: '60px'}}/>
           </div>
           <div className="col-auto">
             <img src={wrapArrow} alt="" style={{height: '14px'}}/>
           </div>
           <div className="col text-center">
-            <img className="rounded-circle" src={wethLogo} style={{height: '60px'}}/>
+            <img className="rounded-circle" src={selectedToken.symbol === "ETH" ? wethLogo : ethLogo} style={{height: '60px'}}/>
           </div>
         </div>
         <Form layout="horizontal">
@@ -109,7 +120,7 @@ class Convert extends React.Component {
                 }
               ]
             })(
-              <Input placeholder="" size="large" addonAfter={this.state.fromToken} onChange={amountChange.bind(this)}/>
+              <Input placeholder="" size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}/>
             )}
           </Form.Item>
 
@@ -124,8 +135,16 @@ class Convert extends React.Component {
                 You do not or will not have sufficient ETH as gas for sending transactions.
               </div>
             }
-            <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Yes,Wrap Now!</Button>
+            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">Yes,Wrap Now!</Button>
+            {this.state.errorMsg &&
+              <div className="fs12 color-red-500 text-center mb5">
+                {this.state.errorMsg}
+              </div>
+            }
           </Form.Item>
+
+
+
         </Form>
       </Card>
     );

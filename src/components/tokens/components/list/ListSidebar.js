@@ -179,20 +179,26 @@ function ListSidebar({LIST,actions,dispatch}) {
         <div className="col-12 p5">
           <Button onClick={gotoReceive.bind(this,token)} className="" type="primary" icon="qrcode">Receive</Button>
         </div>
-        <div className="col-12 p5">
-          <Button onClick={gotoEdit.bind(this,token)} className="" type="primary" icon="edit">Edit</Button>
-        </div>
         {
-          token.symbol === 'ETH' &&
+          token.custom &&
+          <div className="col-12 p5">
+            <Button onClick={gotoEdit.bind(this,token)} className="" type="primary" icon="edit">Edit</Button>
+          </div>
+        }
+        {
+          (token.symbol === 'ETH' || token.symbol === 'WETH') &&
           <div className="col-12 p5">
             <Button onClick={gotoConvert.bind(this,token)} className="" type="primary" icon="retweet">Wrap</Button>
           </div>
         }
-        <div className="col-12 p5">
-          <Button onClick={gotoTrade.bind(this,token)} className="" type="primary">
-            <i className="fa fa-line-chart mr5"></i>Trade
-          </Button>
-        </div>
+        {
+          (token.symbol != 'ETH' && token.symbol != 'WETH') &&
+          <div className="col-12 p5">
+            <Button onClick={gotoTrade.bind(this,token)} className="" type="primary">
+              <i className="fa fa-line-chart mr5"></i>Trade
+            </Button>
+          </div>
+        }
       </div>
     </div>
   )
