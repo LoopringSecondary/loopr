@@ -41,9 +41,9 @@ class Convert extends React.Component {
           getTransactionCount(this.state.address).then((nonce)=>{
             if(nonce.result){
               if(selectedToken.symbol === "ETH") {
-                return api.deposit(formatedAmount, this.state.privateKey, gasPrice, gasLimit, nonce.result, chainId)
+                return api.deposit({amount:formatedAmount, privateKey:this.state.privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
               } else {
-                return api.withDraw(formatedAmount, this.state.privateKey, gasPrice, gasLimit, nonce.result, chainId)
+                return api.withDraw({amount:formatedAmount, privateKey:this.state.privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
               }
             } else {
               throw new Error('Failed to call ethereum API, please try later')

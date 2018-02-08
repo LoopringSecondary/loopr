@@ -105,7 +105,7 @@ function ListSidebar({LIST, actions, dispatch}) {
       if(nonce.result){
         if(fm.toNumber(token.allowance) > 0){
           latestNonce = fm.toHex(fm.toNumber(nonce.result)+1)
-          return api.approve(configs.delegateAddress, "0x0", privateKey, gasPrice, gasLimit, nonce.result, chainId)
+          return api.approve({spender:configs.delegateAddress, amount:"0x0", privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
         } else {
           latestNonce = nonce.result
           return {result:true}
@@ -114,7 +114,7 @@ function ListSidebar({LIST, actions, dispatch}) {
     }).then(disable => {
       console.log(disable)
       if(disable.result){
-        return api.approve(configs.delegateAddress, setAllowance, privateKey, gasPrice, gasLimit, latestNonce, chainId)
+        return api.approve({spender:configs.delegateAddress, amount:setAllowance, privateKey, gasPrice, gasLimit, nonce:latestNonce, chainId})
       } else {
         throw new Error('Failed to call ethereum API, please try later')
       }
