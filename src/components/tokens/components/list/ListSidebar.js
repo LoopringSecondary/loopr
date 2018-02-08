@@ -72,7 +72,7 @@ function ListSidebar({LIST, actions, dispatch}) {
     console.log(checked)
     const gasPrice = fm.toHex(fm.toNumber(selectedGasPrice) * 1e9)
     const gasLimit = fm.toHex(fm.toNumber(selectedGasLimit))
-    const chainId = configs.chainId | 1
+    const chainId = configs.chainId || 1
     if(checked) {
       enableToken(token,gasPrice,gasLimit,chainId)
     } else {

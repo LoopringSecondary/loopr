@@ -37,7 +37,7 @@ class Convert extends React.Component {
           const api = new WETH({address:wethConfig.address})
           const gasPrice = fm.toHex(fm.toNumber(this.state.selectedGasPrice) * 1e9)
           const gasLimit = fm.toHex(fm.toNumber(this.state.selectedGasLimit))
-          const chainId = configs.chainId | 1
+          const chainId = configs.chainId || 1
           getTransactionCount(this.state.address).then((nonce)=>{
             if(nonce.result){
               if(selectedToken.symbol === "ETH") {

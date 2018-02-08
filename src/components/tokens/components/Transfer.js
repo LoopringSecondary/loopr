@@ -54,7 +54,7 @@ class Transfer extends React.Component {
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
             rawTx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
-          rawTx.chainId = configs.chainId | 1
+          rawTx.chainId = configs.chainId || 1
           const worth = (fm.toNumber(this.state.exchangeRate) * values.amount).toFixed(4)
           const extraData = {from:this.state.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:worth}
           modal.hideModal({id: 'token/transfer'})
