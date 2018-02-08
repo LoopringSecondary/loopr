@@ -53,7 +53,7 @@ export async function getCutoff(address, contractVersion) {
 
 export async function cancelOrder(order, privateKey,protocolAddress, gasPrice, gasLimit, nonce, chainId) {
 
-  validator.validate({value:order,type:"Order"});
+  validator.validate({value:order,type:"ORDER"});
   const tx = {};
   tx.to = protocolAddress;
   tx.value = "0x0";

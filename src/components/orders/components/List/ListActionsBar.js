@@ -1,15 +1,21 @@
 import React from 'react';
+import {connect} from 'dva'
 import ListFiltersForm from './ListFiltersForm'
 import {Button,Modal} from 'antd'
+import {cancelOrdersByTokenPairs,cancelAllOrders} from 'Loopring/relay/order';
 
-export default function ListActionsBar({actions={},LIST={},className}){
+
+
+ function ListActionsBar(props){
+
+ const {actions={},LIST={},className} = props;
+ const {filters={}} = LIST
   const cancelAllOrders = ()=>{
     Modal.confirm({
         title: 'Do you Want to cancel all orders?',
         content: 'Some descriptions',
         onOk:()=>{
-          // TODO
-          // actions.cancelAll()
+
         },
         onCancel:()=>{},
         okText:'Yes',
@@ -33,3 +39,11 @@ export default function ListActionsBar({actions={},LIST={},className}){
   )
 }
 
+function mapStateToProps(state) {
+  return {
+    privateKey: state.account.privateKey,
+    gasPrice: state.settings.trading.gasPrice
+  };
+}
+
+export default connect(mapStateToProps)(ListActionsBar)

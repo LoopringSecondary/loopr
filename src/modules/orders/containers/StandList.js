@@ -1,8 +1,8 @@
 import React from 'react';
 import actionCreators from '../actionCreators'
 import namespace from '../namespace'
-const { ListAsync } = window.CONTAINERS
-const { MODULES } = namespace
+const { ListAsync } = window.CONTAINERS;
+const { MODULES } = namespace;
 
 let formatedActionCreators = {
 	...actionCreators.list,
