@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar,Icon,Button,Card } from 'antd';
-import {BigNumber} from 'bignumber.js'
+import * as fm from '../../../common/Loopring/common/formatter'
 import Transaction from '../../../common/Loopring/ethereum/transaction'
 
 let Preview = ({
@@ -69,7 +69,7 @@ let Preview = ({
               <Avatar size="" className="bg-white border-grey-900" src="https://loopring.io/images/favicon.ico"></Avatar>
               <div className="fs12 color-grey-500">{extraData.tokenSymbol}</div>
               {ArrowDivider}
-              <div className="fs14 color-grey-900">{extraData.amount+" "+extraData.tokenSymbol+" (≈ $"+extraData.worth+")"}</div>
+              <div className="fs14 color-grey-900">{`${extraData.amount} ${extraData.tokenSymbol} (≈ $${extraData.worth})`}</div>
             </div>
           </div>
           <div className="col-auto">
@@ -82,8 +82,8 @@ let Preview = ({
         <MetaItem label="To" value={rawTx.to} />
         <MetaItem label="Gas" value={
           <div className="mr15">
-            <div className="row justify-content-end">{new BigNumber(rawTx.gasPrice.toString()).times(rawTx.gasLimit).times('1e-18') + " ETH"}</div>
-            <div className="row justify-content-end fs10 color-dark-text-disabled">{"≈ Gas("+Number(rawTx.gasLimit).toString(10)+") * Gas Price("+Number(rawTx.gasPrice)/(1e9).toString(10)+" gwei)"}</div>
+            <div className="row justify-content-end">{`${fm.toBig(rawTx.gasPrice.toString()).times(rawTx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
+            <div className="row justify-content-end fs10 color-dark-text-disabled">{`≈ Gas(${fm.toNumber(rawTx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(rawTx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
           </div>
         }/>
         <div className="row pt40">

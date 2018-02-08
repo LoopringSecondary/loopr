@@ -8,7 +8,7 @@ import {configs} from '../../../../common/config/data'
 import './ListSidebar.less'
 import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
-import {BigNumber} from 'bignumber.js'
+import * as fm from '../../../../common/Loopring/common/formatter'
 
 function ListSidebar({LIST,actions,dispatch}) {
   const {
@@ -70,8 +70,8 @@ function ListSidebar({LIST,actions,dispatch}) {
     // there is no event in arguments
     console.log(token)
     console.log(checked)
-    const gasPrice = '0x' + (Number(selectedGasPrice) * 1e9).toString(16)
-    const gasLimit = '0x' + Number(selectedGasLimit).toString(16);
+    const gasPrice = fm.toHex(fm.toNumber(selectedGasPrice) * 1e9)
+    const gasLimit = fm.toHex(fm.toNumber(selectedGasLimit))
     const chainId = configs.chainId | 1
     if(checked) {
       enableToken(token,gasPrice,gasLimit,chainId)
@@ -90,7 +90,7 @@ function ListSidebar({LIST,actions,dispatch}) {
   }
   const enableToken = (token,gasPrice,gasLimit,chainId) => {
     const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol)
-    const setAllowance = '0x'+(new BigNumber('9223372036854775806').times('1e'+tokenConfig.digits).toString(16));
+    const setAllowance = fm.toHex(fm.toBig('9223372036854775806').times('1e'+tokenConfig.digits))
     const api = new Token({address:tokenConfig.address})
     let latestNonce = ''
     actions.updateItem({item:{
@@ -103,8 +103,8 @@ function ListSidebar({LIST,actions,dispatch}) {
       //TODO mock data
       token.allowance = 1
       if(nonce.result){
-        if(Number(token.allowance) > 0){
-          latestNonce = "0x"+(Number(nonce.result)+1).toString(16)
+        if(fm.toNumber(token.allowance) > 0){
+          latestNonce = fm.toHex(fm.toNumber(nonce.result)+1)
           return api.approve(configs.delegateAddress, "0x0", privateKey, gasPrice, gasLimit, nonce.result, chainId)
         } else {
           latestNonce = nonce.result
@@ -148,7 +148,7 @@ function ListSidebar({LIST,actions,dispatch}) {
       loading:true,
       checked:false
     }})
-    if(Number(token.allowance) > 0){
+    if(fm.toNumber(token.allowance) > 0){
       getTransactionCount(address).then(nonce=>{
         if(nonce.result){
           return api.approve(configs.delegateAddress, "0x0", privateKey, gasPrice, gasLimit, nonce.result, chainId)
@@ -321,7 +321,7 @@ function ListSidebar({LIST,actions,dispatch}) {
   )
   const TokenItem = ({item,index})=>{
     //TODO mock datas, should calculate with configuration
-    if(Number(item.allowance) >= 10) {
+    if(fm.toNumber(item.allowance) >= 10) {
       item.checked = true
     }
     return (
@@ -403,7 +403,7 @@ function ListSidebar({LIST,actions,dispatch}) {
     }
     if(key==='ifHideSmallBalance'){
       if(value){
-        results = results.filter(token=>Number(token['balance']) > 0)
+        results = results.filter(token=>fm.toNumber(token['balance']) > 0)
       }
     }
     if(key==='keywords'){

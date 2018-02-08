@@ -12,7 +12,7 @@ let Preview = ({
           {result.error &&
             <div>
               <div className="fs14 color-grey-900">
-                {"Your hava failed sent "+result.extraData.amount+" "+result.extraData.tokenSymbol+" cause: "+result.error}
+                {`Your hava failed sent ${result.extraData.amount} ${result.extraData.tokenSymbol} cause: ${result.error}`}
               </div>
             </div>
           }
@@ -23,7 +23,7 @@ let Preview = ({
                 Send Completed
               </div>
               <div className="fs14 color-grey-900">
-                {"You have successfully sent "+result.extraData.amount+" "+result.extraData.tokenSymbol+" (≈USD "+result.extraData.worth+")"}
+                {`You have successfully sent ${result.extraData.amount} ${result.extraData.tokenSymbol} (≈USD ${result.extraData.worth})`}
               </div>
               <div>
                 <a href="https://etherscan.io/tx/" target="_blank">View Transaction In Etherscan</a>

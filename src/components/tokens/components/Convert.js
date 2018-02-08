@@ -6,7 +6,7 @@ import wrapArrow from '../../../assets/images/wrap-arrow.png';
 import WETH from '../../../common/Loopring/ethereum/weth'
 import {configs} from '../../../common/config/data'
 import {getTransactionCount} from '../../../common/Loopring/ethereum/utils'
-import {BigNumber} from 'bignumber.js'
+import * as fm from '../../../common/Loopring/common/formatter'
 
 class Convert extends React.Component {
   state = {
@@ -33,10 +33,10 @@ class Convert extends React.Component {
       form.validateFields((err, values) => {
         if (!err) {
           const wethConfig = window.CONFIG.getTokenBySymbol('WETH')
-          const formatedAmount = '0x' + (new BigNumber(values.amount.toString()).times(1e18)).toString(16)
+          const formatedAmount = fm.toHex(fm.toBig(values.amount).times(1e18))
           const api = new WETH({address:wethConfig.address})
-          const gasPrice = '0x' + (Number(this.state.selectedGasPrice) * 1e9).toString(16)
-          const gasLimit = '0x' + Number(this.state.selectedGasLimit).toString(16);
+          const gasPrice = fm.toHex(fm.toNumber(this.state.selectedGasPrice) * 1e9)
+          const gasLimit = fm.toHex(fm.toNumber(this.state.selectedGasLimit))
           const chainId = configs.chainId | 1
           getTransactionCount(this.state.address).then((nonce)=>{
             if(nonce.result){
@@ -61,7 +61,7 @@ class Convert extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      let wrapAmount = Number(selectedToken.balance)
+      let wrapAmount = fm.toNumber(selectedToken.balance)
       let selectMaxWarn = false
       if(selectedToken.symbol === "ETH") {
         wrapAmount = Math.max(selectedToken.balance - 0.1, 0)
@@ -77,7 +77,7 @@ class Convert extends React.Component {
 
     function amountChange(e) {
       if(e.target.value) {
-        const v = Number(e.target.value)
+        const v = fm.toNumber(e.target.value)
         let inputMaxWarn = false;
         if(selectedToken.symbol === "ETH" && v >= selectedToken.balance) {
           inputMaxWarn = true
@@ -114,7 +114,7 @@ class Convert extends React.Component {
             {form.getFieldDecorator('amount', {
               initialValue: '',
               rules: [
-                {required: true, message: 'Please input valid amount', transform:(value)=>Number(value),
+                {required: true, message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
                 }
               ]
