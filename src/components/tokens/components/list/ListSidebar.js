@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Checkbox } from 'antd';
+import { Table,Badge,Button,List,Modal,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Checkbox } from 'antd';
 import schema from '../../../../modules/tokens/schema';
 import { tokens } from '../../../../common/config/data';
+import {configs} from '../../../../common/config/data'
 import './ListSidebar.less'
+import Token from '../../../../common/Loopring/ethereum/token'
+import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
+import {BigNumber} from 'bignumber.js'
 
 function ListSidebar({LIST,actions,dispatch}) {
   const {
@@ -14,6 +18,11 @@ function ListSidebar({LIST,actions,dispatch}) {
       filters={},
       page={}
   } = LIST
+  //TODO load from store
+  const selectedGasPrice = 30
+  const selectedGasLimit = 21000
+  const address = "0x4919776519F2B290E0E98AA8d9f5751b5321876C"
+  const privateKey ="93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
   const showModal = (payload)=>{
     dispatch({
       type:'modals/modalChange',
@@ -57,11 +66,119 @@ function ListSidebar({LIST,actions,dispatch}) {
       id:'token/add',
     })
   }
-  const toggleApprove = (checked)=>{
+  const toggleApprove = (token, checked)=>{
     // there is no event in arguments
-    setTimeout(()=>{
-      // TODO
-    }, 3000)
+    console.log(token)
+    console.log(checked)
+    const gasPrice = '0x' + (Number(selectedGasPrice) * 1e9).toString(16)
+    const gasLimit = '0x' + Number(selectedGasLimit).toString(16);
+    const chainId = configs.chainId | 1
+    if(checked) {
+      enableToken(token,gasPrice,gasLimit,chainId)
+    } else {
+      Modal.confirm({
+        title: 'Attention',
+        content: 'You are disabling '+token.symbol,
+        onOk:()=>{
+          disableToken(token,gasPrice,gasLimit,chainId)
+        },
+        onCancel:()=>{},
+        okText:'Yes, Disable it',
+        cancelText:'No',
+      })
+    }
+  }
+  const enableToken = (token,gasPrice,gasLimit,chainId) => {
+    const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol)
+    const setAllowance = '0x'+(new BigNumber('9223372036854775806').times('1e'+tokenConfig.digits).toString(16));
+    const api = new Token({address:tokenConfig.address})
+    let latestNonce = ''
+    actions.updateItem({item:{
+      symbol:token.symbol,
+      loading:true,
+      checked:true
+    }})
+    getTransactionCount(address).then(nonce=>{
+      console.log(nonce)
+      //TODO mock data
+      token.allowance = 1
+      if(nonce.result){
+        if(Number(token.allowance) > 0){
+          latestNonce = "0x"+(Number(nonce.result)+1).toString(16)
+          return api.approve(configs.delegateAddress, "0x0", privateKey, gasPrice, gasLimit, nonce.result, chainId)
+        } else {
+          latestNonce = nonce.result
+          return {result:true}
+        }
+      }
+    }).then(disable => {
+      console.log(disable)
+      if(disable.result){
+        return api.approve(configs.delegateAddress, setAllowance, privateKey, gasPrice, gasLimit, latestNonce, chainId)
+      } else {
+        throw new Error('Failed to call ethereum API, please try later')
+      }
+    }).then(enable=>{
+      console.log(enable)
+      if(enable.reslut){
+        actions.updateItem({item:{
+          symbol:token.symbol,
+          loading:false,
+          checked:true
+        }})
+      } else {
+        throw new Error('Failed to call ethereum API, please try later')
+      }
+    }).catch(e=>{
+      console.error(e)
+      actions.updateItem({item:{
+        symbol:token.symbol,
+        loading:false,
+        checked:false
+      }})
+    })
+  }
+  const disableToken = (token,gasPrice,gasLimit,chainId) => {
+    const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol)
+    const api = new Token({address:tokenConfig.address})
+    //TODO mock data
+    token.allowance = 1
+    actions.updateItem({item:{
+      symbol:token.symbol,
+      loading:true,
+      checked:false
+    }})
+    if(Number(token.allowance) > 0){
+      getTransactionCount(address).then(nonce=>{
+        if(nonce.result){
+          return api.approve(configs.delegateAddress, "0x0", privateKey, gasPrice, gasLimit, nonce.result, chainId)
+        } else {
+          throw new Error('Failed to call ethereum API, please try later')
+        }
+      }).then(disable => {
+        if(!disable.result){
+          throw new Error('Failed to call ethereum API, please try later')
+        }
+        actions.updateItem({item:{
+          symbol:token.symbol,
+          loading:false,
+          checked:false
+        }})
+      }).catch(e=>{
+        console.error(e)
+        actions.updateItem({item:{
+          symbol:token.symbol,
+          loading:false,
+          checked:true
+        }})
+      })
+    } else {
+      actions.updateItem({item:{
+        symbol:token.symbol,
+        loading:false,
+        checked:false
+      }})
+    }
   }
   const toggleMyFavorite = ()=>{
     actions.filtersChange({filters:{
@@ -203,6 +320,10 @@ function ListSidebar({LIST,actions,dispatch}) {
     </div>
   )
   const TokenItem = ({item,index})=>{
+    //TODO mock datas, should calculate with configuration
+    if(Number(item.allowance) >= 10) {
+      item.checked = true
+    }
     return (
       <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this,item)} className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
         <div className={`row align-items-center no-gutters p10`} >
@@ -232,22 +353,11 @@ function ListSidebar({LIST,actions,dispatch}) {
           {
             item.symbol != 'ETH' &&
             <div className="col-auto mr5">
-                {
-                  item.allowance > item.balance &&
-                  <Tooltip title={`Disable ${item.symbol}`} >
-                    <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
-                      <Switch onChange={toggleApprove.bind(this,item)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
-                    </div>
-                  </Tooltip>
-                }
-                {
-                  item.allowance <= item.balance &&
-                  <Tooltip title={`Enable ${item.symbol}`} >
-                    <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
-                      <Switch onChange={toggleApprove.bind(this,item)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={index<=4} loading={index == 4 || index == 5} />
-                    </div>
-                  </Tooltip>
-                }
+              <Tooltip title={item.checked ? `Disable` : `Enable`} >
+                <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
+                  <Switch onChange={toggleApprove.bind(this,item)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={item.checked} loading={item.loading} />
+                </div>
+              </Tooltip>
             </div>
           }
           <div className="col-auto pr5">

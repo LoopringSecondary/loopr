@@ -15,7 +15,6 @@ class Convert extends React.Component {
     amount: 0,
     selectedGasPrice: 30,
     selectedGasLimit: 21000,
-    selectedGas: 0,
     exchangeRate : 6.3,
     selectMaxWarn: false,
     inputMaxWarn: false,
@@ -47,7 +46,7 @@ class Convert extends React.Component {
                 return api.withDraw(formatedAmount, this.state.privateKey, gasPrice, gasLimit, nonce.result, chainId)
               }
             } else {
-              throw new Error('Failed to call ethereum, please try later')
+              throw new Error('Failed to call ethereum API, please try later')
             }
           }).then(deposit=>{
             // TODO
