@@ -9,7 +9,7 @@ class Transfer extends React.Component {
   state = {
     address: "0x4919776519F2B290E0E98AA8d9f5751b5321876C",
     estimateGasPrice: 30,
-    selectedGasPrice: 0,
+    selectedGasPrice: Number(configs.defaultGasPrice),
     selectedGasLimit: 21000,
     selectedGas: 0,
     gasValueInSlider:0,
@@ -27,7 +27,6 @@ class Transfer extends React.Component {
   render() {
     const {form, modal} = this.props
     let selectedToken = modal.item || {}
-    console.log(selectedToken)
     //TODO mock data
     selectedToken = {...selectedToken, balance: 100.00, allowance: 0}
     function handleSubmit() {
@@ -241,7 +240,7 @@ class Transfer extends React.Component {
               </Form.Item>
               <Form.Item label="GasPrice" colon={false}>
                 {form.getFieldDecorator('gasPrice', {
-                  initialValue: 30,
+                  initialValue: Number(configs.defaultGasPrice),
                   rules: []
                 })(
                   <Slider min={1} max={99} step={1}
