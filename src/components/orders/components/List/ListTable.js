@@ -25,7 +25,7 @@ function ListBlock(props) {
         originalOrder.owner = originalOrder.address;
         originalOrder.r = toNumber(originalOrder.r);
         //TODO 等待新结构的order，不再出现错误。
-        cancelOrder(item.originalOrder, privateKey,toHex(gasPrice*1e9));
+        cancelOrder({order:item.originalOrder, privateKey,gasPrice:toHex(gasPrice*1e9)});
       },
       onCancel: () => {
       },

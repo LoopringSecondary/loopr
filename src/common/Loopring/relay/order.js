@@ -75,11 +75,11 @@ export async function cancelOrder({order, privateKey,protocolAddress, gasPrice, 
   return transaction.send(privateKey)
 }
 
-export async function cancelOrdersByTokenPairs({privateKey,timestamp,tokenPairs,protocolAddress,gasPrice, gasLimit, nonce, chainId}) {
+export async function cancelOrdersByTokenPair({privateKey,timestamp,tokenA,tokenB,protocolAddress,gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
   tx.to = protocolAddress;
   tx.value = "0x0";
-  tx.data = generateAbiData({method: "cancelOrdersByTokenPairs", timestamp,tokenPairs});
+  tx.data = generateAbiData({method: "cancelOrdersByTokenPairs", timestamp,tokenA,tokenB});
 
   if (gasPrice) {
     tx.gasPrice = gasPrice

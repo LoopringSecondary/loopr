@@ -11,6 +11,7 @@ function getToken(value='',type='symbol'){
   }
 }
 
+
 export default {
 	getToken
 }

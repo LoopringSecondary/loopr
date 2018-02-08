@@ -55,10 +55,12 @@ function generateCancelOrderData(signedOrder, amount) {
 }
 
 // TODO  根据最新的方法生成extra data
-function generateCancelOrdersByTokenPairs(timestamp, tokenPairs) {
+function generateCancelOrdersByTokenPair(timestamp, tokenA, tokenB) {
   validator.validate({value: timestamp, type: 'TIMESTAMP'});
-  const method = methodID('cancelAllOrdersByTradingPair', ['uint']).toString('hex');
-  const data = rawEncode(['uint'], [timestamp, tokenPairs]).toString('hex');
+  validator.validate({value: tokenA, type: 'ADDRESS'});
+  validator.validate({value: tokenB, type: 'ADDRESS'});
+  const method = methodID('cancelAllOrdersByTradingPair', ['address', 'address', 'uint']).toString('hex');
+  const data = rawEncode(['address', 'address', 'uint'], [tokenA, tokenB, timestamp]).toString('hex');
   return '0x' + method + data;
 }
 
@@ -173,13 +175,13 @@ export function isValidSig(message, sig, address) {
   return addHexPrefix(recoveredAddress) === address.toLowerCase();
 }
 
-export function generateAbiData({method, timestamp, address, amount, order, owner, spender, projectId, tokenPairs}) {
+export function generateAbiData({method, timestamp, address, amount, order, owner, spender, projectId, tokenA, tokenB}) {
   validator.validate({value: method, type: 'ABI_METHOD'});
   if (method === 'cancelOrder') {
     return generateCancelOrderData(order);
   }
   if (method === 'cancelOrdersByTokenPairs') {
-    return generateCancelOrdersByTokenPairs(timestamp, tokenPairs)
+    return generateCancelOrdersByTokenPair(timestamp, tokenA, tokenB)
   }
   if (method === 'cancelAllOrders') {
     return generateCancelAllOrders(timestamp);
