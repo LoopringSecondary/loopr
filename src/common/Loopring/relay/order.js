@@ -51,7 +51,7 @@ export async function getCutoff(address, contractVersion) {
   })
 }
 
-export async function cancelOrder(order, privateKey,protocolAddress, gasPrice, gasLimit, nonce, chainId) {
+export async function cancelOrder({order, privateKey,protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
 
   validator.validate({value:order,type:"ORDER"});
   const tx = {};
@@ -75,7 +75,7 @@ export async function cancelOrder(order, privateKey,protocolAddress, gasPrice, g
   return transaction.send(privateKey)
 }
 
-export async function cancelOrdersByTokenPairs(privateKey,timestamp,tokenPairs,protocolAddress,gasPrice, gasLimit, nonce, chainId) {
+export async function cancelOrdersByTokenPairs({privateKey,timestamp,tokenPairs,protocolAddress,gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
   tx.to = protocolAddress;
   tx.value = "0x0";
@@ -97,7 +97,7 @@ export async function cancelOrdersByTokenPairs(privateKey,timestamp,tokenPairs,p
   return transaction.send(privateKey)
 }
 
-export async function cancelAllOrders(privateKey,protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId) {
+export async function cancelAllOrders({privateKey,protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
   tx.to = protocolAddress;
   tx.value = "0x0";
