@@ -37,6 +37,7 @@ class Transfer extends React.Component {
             rawTx.gasPrice = '0x' + (Number(this.state.selectedGasPrice) * 1e9).toString(16)
             rawTx.gasLimit = '0x' + Number(this.state.selectedGasLimit).toString(16);
           } else {
+            //TODO modify 21000
             const gasPrice = (new BigNumber(this.state.selectedGas.toString())).div(21000).times(1e9).toFixed(2)
             //TODO test:in some case gasPrice calculated to a wrong value
             console.log(gasPrice+"="+this.state.selectedGas+"/21000*1e9.toFixed(2)")
