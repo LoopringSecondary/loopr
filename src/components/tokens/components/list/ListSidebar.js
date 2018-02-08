@@ -1,22 +1,22 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Link } from 'dva/router';
-import { Table,Badge,Button,List,Modal,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Checkbox } from 'antd';
+import {connect} from 'dva';
+import {Link} from 'dva/router';
+import {Table, Badge, Button, List, Modal, Avatar, Icon, Switch, Tooltip, Input, Menu, Popover, Checkbox, message} from 'antd';
 import schema from '../../../../modules/tokens/schema';
-import { tokens } from '../../../../common/config/data';
+import {tokens} from '../../../../common/config/data';
 import {configs} from '../../../../common/config/data'
 import './ListSidebar.less'
 import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
 
-function ListSidebar({LIST,actions,dispatch}) {
+function ListSidebar({LIST, actions, dispatch}) {
   const {
-      items=[],
-      selected={},
-      loading,
-      filters={},
-      page={}
+    items = [],
+    selected = {},
+    loading,
+    filters = {},
+    page = {}
   } = LIST
   //TODO load from store
   const selectedGasPrice = 30
@@ -25,45 +25,45 @@ function ListSidebar({LIST,actions,dispatch}) {
   const privateKey ="93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
   const showModal = (payload)=>{
     dispatch({
-      type:'modals/modalChange',
-      payload:{
+      type: 'modals/modalChange',
+      payload: {
         ...payload,
-        visible:true,
+        visible: true,
       }
     })
   }
-  const gotoTransfer = (item,e)=>{
+  const gotoTransfer = (item, e) => {
     e.stopPropagation()
     showModal({
-      id:'token/transfer',
+      id: 'token/transfer',
       item,
     })
   }
-  const gotoReceive = (item,e)=>{
+  const gotoReceive = (item, e) => {
     e.stopPropagation()
     showModal({
-      id:'token/receive',
+      id: 'token/receive',
       item,
     })
   }
-  const gotoConvert = (item)=>{
+  const gotoConvert = (item) => {
     showModal({
-      id:'token/convert',
+      id: 'token/convert',
       item,
     })
   }
-  const gotoTrade = (item)=>{
+  const gotoTrade = (item) => {
     window.routeActions.gotoPath('/trade')
   }
-  const gotoEdit = (item)=>{
+  const gotoEdit = (item) => {
     showModal({
-      id:'token/edit',
+      id: 'token/edit',
       item,
     })
   }
-  const gotoAdd = ()=>{
+  const gotoAdd = () => {
     showModal({
-      id:'token/add',
+      id: 'token/add',
     })
   }
   const toggleApprove = (token, checked)=>{
@@ -181,46 +181,56 @@ function ListSidebar({LIST,actions,dispatch}) {
     }
   }
   const toggleMyFavorite = ()=>{
-    actions.filtersChange({filters:{
-      ...filters,
-      ifOnlyShowMyFavorite: !filters.ifOnlyShowMyFavorite
-    }})
+    actions.filtersChange({
+      filters: {
+        ...filters,
+        ifOnlyShowMyFavorite: !filters.ifOnlyShowMyFavorite
+      }
+    })
   }
-  const toggleSmallBalance = ()=>{
-    actions.filtersChange({filters:{
-      ...filters,
-      ifHideSmallBalance: !filters.ifHideSmallBalance
-    }})
+  const toggleSmallBalance = () => {
+    actions.filtersChange({
+      filters: {
+        ...filters,
+        ifHideSmallBalance: !filters.ifHideSmallBalance
+      }
+    })
   }
-  const searchToken = (e)=>{
-    actions.filtersChange({filters:{
-      ...filters,
-      keywords: e.target.value
-    }})
+  const searchToken = (e) => {
+    actions.filtersChange({
+      filters: {
+        ...filters,
+        keywords: e.target.value
+      }
+    })
   }
-  const toggleFavored = (item,e)=>{
+  const toggleFavored = (item, e) => {
     e.stopPropagation()
-    actions.updateItem({item:{
-      symbol:item.symbol,
-      isFavored:!item.isFavored,
-    }})
+    actions.updateItem({
+      item: {
+        symbol: item.symbol,
+        isFavored: !item.isFavored,
+      }
+    })
   }
-  const toggleSelected = (item)=>{
+  const toggleSelected = (item) => {
     let new_selected = {}
-    for(let key in selected){
-      new_selected[key]=false
+    for (let key in selected) {
+      new_selected[key] = false
     }
-    actions.selectedChange({selected:{
-      ...new_selected,
-      [item.symbol]:true,
-    }})
+    actions.selectedChange({
+      selected: {
+        ...new_selected,
+        [item.symbol]: true,
+      }
+    })
     updateTransations(item.symbol)
   }
-  const updateTransations = (token)=>{
+  const updateTransations = (token) => {
     dispatch({
-      type:'transactions/filtersChange',
-      payload:{
-        filters:{token}
+      type: 'transactions/filtersChange',
+      payload: {
+        filters: {token}
       }
     })
   }
@@ -238,11 +248,13 @@ function ListSidebar({LIST,actions,dispatch}) {
         <Tooltip title="Only Show My Favorites">
           {
             filters.ifOnlyShowMyFavorite &&
-            <Button onClick={toggleMyFavorite.bind(this)} className="color-white border-blue-600 bg-blue-600" icon="star-o" shape="circle"></Button>
+            <Button onClick={toggleMyFavorite.bind(this)} className="color-white border-blue-600 bg-blue-600"
+                    icon="star-o" shape="circle"></Button>
           }
           {
             !filters.ifOnlyShowMyFavorite &&
-            <Button onClick={toggleMyFavorite.bind(this)} className="color-grey-600" icon="star-o" shape="circle"></Button>
+            <Button onClick={toggleMyFavorite.bind(this)} className="color-grey-600" icon="star-o"
+                    shape="circle"></Button>
           }
 
         </Tooltip>
@@ -251,11 +263,13 @@ function ListSidebar({LIST,actions,dispatch}) {
         <Tooltip title="Hide 0 Balances">
           {
             filters.ifHideSmallBalance &&
-            <Button onClick={toggleSmallBalance.bind(this)} className="color-white border-blue-600 bg-blue-600" icon="eye-o" shape="circle"></Button>
+            <Button onClick={toggleSmallBalance.bind(this)} className="color-white border-blue-600 bg-blue-600"
+                    icon="eye-o" shape="circle"></Button>
           }
           {
             !filters.ifHideSmallBalance &&
-            <Button onClick={toggleSmallBalance.bind(this)} className="color-grey-600" icon="eye-o" shape="circle"></Button>
+            <Button onClick={toggleSmallBalance.bind(this)} className="color-grey-600" icon="eye-o"
+                    shape="circle"></Button>
           }
         </Tooltip>
       </div>
@@ -287,14 +301,15 @@ function ListSidebar({LIST,actions,dispatch}) {
       </div>
     </div>
   )
-  const TokenItemActions = (token)=>(
-    <div style={{width:'120px'}}>
+  const TokenItemActions = (token) => (
+    <div style={{width: '120px'}}>
       <div className="row no-gutters">
         <div className="col-12 p5">
-          <Button onClick={gotoTransfer.bind(this,token)} className="" type="primary" icon="pay-circle-o">Transfer</Button>
+          <Button onClick={gotoTransfer.bind(this, token)} className="" type="primary"
+                  icon="pay-circle-o">Transfer</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={gotoReceive.bind(this,token)} className="" type="primary" icon="qrcode">Receive</Button>
+          <Button onClick={gotoReceive.bind(this, token)} className="" type="primary" icon="qrcode">Receive</Button>
         </div>
         {
           token.custom &&
@@ -305,7 +320,7 @@ function ListSidebar({LIST,actions,dispatch}) {
         {
           (token.symbol === 'ETH' || token.symbol === 'WETH') &&
           <div className="col-12 p5">
-            <Button onClick={gotoConvert.bind(this,token)} className="" type="primary" icon="retweet">Wrap</Button>
+            <Button onClick={gotoConvert.bind(this, token)} className="" type="primary" icon="retweet">Wrap</Button>
           </div>
         }
         {
@@ -325,25 +340,27 @@ function ListSidebar({LIST,actions,dispatch}) {
       item.checked = true
     }
     return (
-      <div style={{borderBottom:'1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this,item)} className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
-        <div className={`row align-items-center no-gutters p10`} >
+      <div style={{borderBottom: '1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this, item)}
+           className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
+        <div className={`row align-items-center no-gutters p10`}>
           <div className="col-auto pr10">
             {
               item.isFavored &&
-              <Icon type="star" className="color-yellow-700" onClick={toggleFavored.bind(this,item)} />
+              <Icon type="star" className="color-yellow-700" onClick={toggleFavored.bind(this, item)}/>
             }
             {
               !item.isFavored &&
-              <Icon type="star" className="color-grey-300" onClick={toggleFavored.bind(this,item)} />
+              <Icon type="star" className="color-grey-300" onClick={toggleFavored.bind(this, item)}/>
             }
           </div>
           <div className="col-auto pr10">
-            <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5" />
+            <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5"/>
           </div>
           <div className="col pr10">
             <div className="">
               <span className="fs18 color-grey-900">{item.symbol}</span>
-              <span className="fs12 ml5 color-grey-400 align-middle text-truncate text-nowrap d-inline-block" style={{width:'55px'}}>{item.title}</span>
+              <span className="fs12 ml5 color-grey-400 align-middle text-truncate text-nowrap d-inline-block"
+                    style={{width: '55px'}}>{item.title}</span>
             </div>
             <div className="">
               <span className="fs14 color-grey-900">{item.balance}</span>
@@ -361,20 +378,25 @@ function ListSidebar({LIST,actions,dispatch}) {
             </div>
           }
           <div className="col-auto pr5">
-            <Tooltip title="Send/Transfer" >
-              <Button onClick={gotoTransfer.bind(this,item)} shape="circle" className="bg-none color-grey-500 border-grey-400">
-                <Icon type="retweet" />
+            <Tooltip title="Send/Transfer">
+              <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
+                      className="bg-none color-grey-500 border-grey-400">
+                <Icon type="retweet"/>
               </Button>
             </Tooltip>
           </div>
           <div className="col-auto pr5">
-            <Tooltip title="Receive" >
-              <Button onClick={gotoReceive.bind(this,item)} shape="circle" className="bg-none color-grey-500 border-grey-400">
-                <Icon type="qrcode" />
+            <Tooltip title="Receive">
+              <Button onClick={gotoReceive.bind(this, item)} shape="circle"
+                      className="bg-none color-grey-500 border-grey-400">
+                <Icon type="qrcode"/>
               </Button>
             </Tooltip>
           </div>
-          <div className="col-auto" onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
+          <div className="col-auto" onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault()
+          }}>
             <Popover
               title="Actions"
               placement="right"
@@ -382,23 +404,22 @@ function ListSidebar({LIST,actions,dispatch}) {
               content={TokenItemActions(item)}
             >
               <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
-                <Icon type="ellipsis" />
+                <Icon type="ellipsis"/>
               </Button>
             </Popover>
           </div>
         </div>
-
       </div>
     )
   }
 
   let results = [...items]
   let keys = Object.keys(filters)
-  keys.map(key=>{
+  keys.map(key => {
     const value = filters[key]
-    if(key==='ifOnlyShowMyFavorite'){
-      if(value){
-        results = results.filter(token=> !!token.isFavored == !!value)
+    if (key === 'ifOnlyShowMyFavorite') {
+      if (value) {
+        results = results.filter(token => !!token.isFavored == !!value)
       }
     }
     if(key==='ifHideSmallBalance'){
@@ -406,8 +427,8 @@ function ListSidebar({LIST,actions,dispatch}) {
         results = results.filter(token=>fm.toNumber(token['balance']) > 0)
       }
     }
-    if(key==='keywords'){
-      results = results.filter(token=>{
+    if (key === 'keywords') {
+      results = results.filter(token => {
         let text = (token.symbol + token.title).toLowerCase()
         return text.indexOf(value.toLowerCase()) > -1
       })
@@ -419,7 +440,7 @@ function ListSidebar({LIST,actions,dispatch}) {
       {TokenListAcionsBar}
       <div className="token-list-sidebar">
         {
-          results.map((item,index)=><TokenItem key={index} index={index} item={item} />)
+          results.map((item, index) => <TokenItem key={index} index={index} item={item}/>)
         }
       </div>
 
