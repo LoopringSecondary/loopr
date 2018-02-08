@@ -50,7 +50,7 @@ let basicSchemas = {
   ABI_METHOD: {
     type: 'enum',
     required: true,
-    enum: ['cancelOrder', 'setCutoff', 'approve', 'deposit', 'withdraw', 'transfer', 'balanceOf', 'allowance','symbol','name','decimals','bind','unbind','getBindingAddress'],
+    enum: ['cancelOrder', 'cancelAllOrders', 'cancelOrdersByTokenPairs','approve', 'deposit', 'withdraw', 'transfer', 'balanceOf', 'allowance','symbol','name','decimals','bind','unbind','getBindingAddress'],
   },
   RPC_TAG: {
     type: 'enum',

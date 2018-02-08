@@ -46,6 +46,7 @@ function getCustomTokens(){
   return tokens.filter(token=>token.custom)
 }
 
+
 export default {
   getTokenBySymbol,
   getTokenByAddress

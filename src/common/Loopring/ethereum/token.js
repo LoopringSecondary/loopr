@@ -22,7 +22,7 @@ export default class Token {
     this.minTradeValue = input.minTradeValue || 0.0001
   }
 
-  async transfer(privateKey, to, amount, gasPrice, gasLimit, nonce, chainId) {
+  async transfer({privateKey, to, amount, gasPrice, gasLimit, nonce, chainId}) {
     validator.validate({value: amount, type: "ETH_DATA"});
     const tx = {};
     tx.to = this.address;
@@ -45,7 +45,7 @@ export default class Token {
     return transaction.send(privateKey)
   }
 
-  async approve(spender, amount, privateKey, gasPrice, gasLimit, nonce, chainId) {
+  async approve({spender, amount, privateKey, gasPrice, gasLimit, nonce, chainId}) {
     validator.validate({value: amount, type: "ETH_DATA"});
     const tx = {};
     tx.to = this.address;
