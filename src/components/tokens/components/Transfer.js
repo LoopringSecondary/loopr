@@ -10,7 +10,7 @@ class Transfer extends React.Component {
     address: "0x4919776519F2B290E0E98AA8d9f5751b5321876C",
     estimateGasPrice: 30,
     selectedGasPrice: fm.toNumber(configs.defaultGasPrice),
-    selectedGasLimit: 21000,
+    selectedGasLimit: fm.toNumber(configs.defaultGasLimit),
     selectedGas: 0,
     gasValueInSlider:0,
     advanced: false,
@@ -20,14 +20,14 @@ class Transfer extends React.Component {
   }
 
   componentDidMount() {
-    //TODO modify 21000
-    const gas = fm.toBig(this.state.estimateGasPrice).times(21000).div(1e9)
+    const gas = fm.toBig(this.state.estimateGasPrice).times(fm.toNumber(configs.defaultGasLimit)).div(1e9)
     this.setState({selectedGas: fm.toNumber(gas.toFixed(8)), gasValueInSlider:fm.toNumber(gas.toFixed(8)) * 1e9})
   }
 
   render() {
     const {form, modal} = this.props
     let selectedToken = modal.item || {}
+    const defaultGasLimit = fm.toNumber(configs.defaultGasLimit)
     //TODO mock data
     selectedToken = {...selectedToken, balance: 100.00, allowance: 0}
     function handleSubmit() {
@@ -38,10 +38,9 @@ class Transfer extends React.Component {
             rawTx.gasPrice = fm.toHex(fm.toBig(this.state.selectedGasPrice).times(1e9))
             rawTx.gasLimit = fm.toHex(this.state.selectedGasLimit)
           } else {
-            //TODO modify 21000
-            const gasPrice = fm.toBig(this.state.selectedGas).div(21000).times(1e9).toFixed(2)
+            const gasPrice = fm.toBig(this.state.selectedGas).div(defaultGasLimit).times(1e9).toFixed(2)
             rawTx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
-            rawTx.gasLimit = fm.toHex(fm.toNumber(21000))
+            rawTx.gasLimit = fm.toHex(fm.toNumber(defaultGasLimit))
           }
           if(selectedToken.symbol === "ETH") {
             rawTx.to = values.to;
