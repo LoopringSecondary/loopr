@@ -17,12 +17,12 @@ export default class Transaction {
       if (this.raw.data) {
         tx.data = this.raw.data
       }
-      this.raw.gasLimit = await estimateGas(tx).result
+      this.raw.gasLimit = (await estimateGas(tx)).result
     }
   }
 
   async setGasPrice() {
-    this.raw.gasPrice = this.raw.gasPrice || await getGasPrice().result
+    this.raw.gasPrice = this.raw.gasPrice || (await getGasPrice()).result
   }
 
   setChainId() {
@@ -31,10 +31,10 @@ export default class Transaction {
 
   async setNonce(address, tag) {
     tag = tag || 'pending';
-    this.raw.nonce = this.raw.nonce || await getTransactionCount(address, tag).result;
+    this.raw.nonce = this.raw.nonce || (await getTransactionCount(address, tag)).result;
   }
 
-  async hash() {
+   hash() {
     validator.validate({value: this.raw, type: "TX"});
     return new EthTransaction(this.raw).hash()
   }
@@ -58,7 +58,8 @@ export default class Transaction {
       await this.complete(address);
     }
     const ethTx = new EthTransaction(this.raw);
-    const signed = ethTx.sign(privateKey).serialize();
+    ethTx.sign(privateKey);
+    const signed = ethTx.serialize();
     this.signed = toHex(signed);
     return toHex(signed)
   }

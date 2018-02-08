@@ -51,11 +51,11 @@ export async function getCutoff(address, contractVersion) {
   })
 }
 
-export async function cancelOrder(order, privateKey, gasPrice, gasLimit, nonce, chainId) {
+export async function cancelOrder({order, privateKey,protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
 
-  // validator.validate({value:order,type:"Order"});
+  validator.validate({value:order,type:"ORDER"});
   const tx = {};
-  tx.to = this.address;
+  tx.to = protocolAddress;
   tx.value = "0x0";
   tx.data = generateAbiData({method: "cancelOrder", order});
 
@@ -75,11 +75,33 @@ export async function cancelOrder(order, privateKey, gasPrice, gasLimit, nonce, 
   return transaction.send(privateKey)
 }
 
-export async function cancelAllOrders(privateKey, timestamp, gasPrice, gasLimit, nonce, chainId) {
+export async function cancelOrdersByTokenPair({privateKey,timestamp,tokenA,tokenB,protocolAddress,gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
-  tx.to = this.address;
+  tx.to = protocolAddress;
   tx.value = "0x0";
-  tx.data = generateAbiData({method: "setCutoff", timestamp});
+  tx.data = generateAbiData({method: "cancelOrdersByTokenPairs", timestamp,tokenA,tokenB});
+
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  const transaction = new Transaction(tx);
+  return transaction.send(privateKey)
+}
+
+export async function cancelAllOrders({privateKey,protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId}) {
+  const tx = {};
+  tx.to = protocolAddress;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "cancelAllOrders", timestamp});
 
   if (gasPrice) {
     tx.gasPrice = gasPrice
@@ -117,6 +139,7 @@ export async function sign(order, privateKey) {
     'address',
     'address',
     'address',
+    'address',
     'uint',
     'uint',
     'uint',
@@ -131,13 +154,15 @@ export async function sign(order, privateKey) {
     order.owner,
     order.tokenS,
     order.tokenB,
+    order.authAddr,
     toBN(order.amountS),
     toBN(order.amountB),
-    toBN(order.timestamp),
-    toBN(order.ttl),
+    toBN(order.validSince),
+    toBN(order.validUntil),
     toBN(order.lrcFee),
-    this.order.buyNoMoreThanAmountB,
-    this.order.marginSplitPercentage
+    order.buyNoMoreThanAmountB,
+    toBN(order.walletId),
+    order.marginSplitPercentage
   ];
   const hash = solSHA3(orderTypes, orderData);
   const finalHash = hashPersonalMessage(hash);
