@@ -50,7 +50,7 @@ export default class Token {
     const tx = {};
     tx.to = this.address;
     tx.value = "0x0";
-    tx.data = generateAbiData({method: "approve", spender, amount});
+    tx.data = generateAbiData({method: "approve", address:this.address, spender, amount});
     if (gasPrice) {
       tx.gasPrice = gasPrice
     }

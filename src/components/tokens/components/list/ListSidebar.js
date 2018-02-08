@@ -1,10 +1,14 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Table, Badge, Button, List, Avatar, Icon, Switch, Tooltip, Input, Menu, Popover, Checkbox, message} from 'antd';
+import {Table, Badge, Button, List, Modal, Avatar, Icon, Switch, Tooltip, Input, Menu, Popover, Checkbox, message} from 'antd';
 import schema from '../../../../modules/tokens/schema';
 import {tokens} from '../../../../common/config/data';
+import {configs} from '../../../../common/config/data'
 import './ListSidebar.less'
+import Token from '../../../../common/Loopring/ethereum/token'
+import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
+import * as fm from '../../../../common/Loopring/common/formatter'
 
 function ListSidebar({LIST, actions, dispatch}) {
   const {
@@ -14,7 +18,12 @@ function ListSidebar({LIST, actions, dispatch}) {
     filters = {},
     page = {}
   } = LIST
-  const showModal = (payload) => {
+  //TODO load from store
+  const selectedGasPrice = 30
+  const selectedGasLimit = 21000
+  const address = "0x4919776519F2B290E0E98AA8d9f5751b5321876C"
+  const privateKey ="93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
+  const showModal = (payload)=>{
     dispatch({
       type: 'modals/modalChange',
       payload: {
@@ -57,11 +66,121 @@ function ListSidebar({LIST, actions, dispatch}) {
       id: 'token/add',
     })
   }
-  const toggleApprove = (item) => {
-
-
-  };
-  const toggleMyFavorite = () => {
+  const toggleApprove = (token, checked)=>{
+    // there is no event in arguments
+    console.log(token)
+    console.log(checked)
+    const gasPrice = fm.toHex(fm.toNumber(selectedGasPrice) * 1e9)
+    const gasLimit = fm.toHex(fm.toNumber(selectedGasLimit))
+    const chainId = configs.chainId || 1
+    if(checked) {
+      enableToken(token,gasPrice,gasLimit,chainId)
+    } else {
+      Modal.confirm({
+        title: 'Attention',
+        content: 'You are disabling '+token.symbol,
+        onOk:()=>{
+          disableToken(token,gasPrice,gasLimit,chainId)
+        },
+        onCancel:()=>{},
+        okText:'Yes, Disable it',
+        cancelText:'No',
+      })
+    }
+  }
+  const enableToken = (token,gasPrice,gasLimit,chainId) => {
+    const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol)
+    const setAllowance = fm.toHex(fm.toBig('9223372036854775806').times('1e'+tokenConfig.digits))
+    const api = new Token({address:tokenConfig.address})
+    let latestNonce = ''
+    actions.updateItem({item:{
+      symbol:token.symbol,
+      loading:true,
+      checked:true
+    }})
+    getTransactionCount(address).then(nonce=>{
+      console.log(nonce)
+      //TODO mock data
+      token.allowance = 1
+      if(nonce.result){
+        if(fm.toNumber(token.allowance) > 0){
+          latestNonce = fm.toHex(fm.toNumber(nonce.result)+1)
+          return api.approve({spender:configs.delegateAddress, amount:"0x0", privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
+        } else {
+          latestNonce = nonce.result
+          return {result:true}
+        }
+      }
+    }).then(disable => {
+      console.log(disable)
+      if(disable.result){
+        return api.approve({spender:configs.delegateAddress, amount:setAllowance, privateKey, gasPrice, gasLimit, nonce:latestNonce, chainId})
+      } else {
+        throw new Error('Failed to call ethereum API, please try later')
+      }
+    }).then(enable=>{
+      console.log(enable)
+      if(enable.reslut){
+        actions.updateItem({item:{
+          symbol:token.symbol,
+          loading:false,
+          checked:true
+        }})
+      } else {
+        throw new Error('Failed to call ethereum API, please try later')
+      }
+    }).catch(e=>{
+      console.error(e)
+      actions.updateItem({item:{
+        symbol:token.symbol,
+        loading:false,
+        checked:false
+      }})
+    })
+  }
+  const disableToken = (token,gasPrice,gasLimit,chainId) => {
+    const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol)
+    const api = new Token({address:tokenConfig.address})
+    //TODO mock data
+    token.allowance = 1
+    actions.updateItem({item:{
+      symbol:token.symbol,
+      loading:true,
+      checked:false
+    }})
+    if(fm.toNumber(token.allowance) > 0){
+      getTransactionCount(address).then(nonce=>{
+        if(nonce.result){
+          return api.approve(configs.delegateAddress, "0x0", privateKey, gasPrice, gasLimit, nonce.result, chainId)
+        } else {
+          throw new Error('Failed to call ethereum API, please try later')
+        }
+      }).then(disable => {
+        if(!disable.result){
+          throw new Error('Failed to call ethereum API, please try later')
+        }
+        actions.updateItem({item:{
+          symbol:token.symbol,
+          loading:false,
+          checked:false
+        }})
+      }).catch(e=>{
+        console.error(e)
+        actions.updateItem({item:{
+          symbol:token.symbol,
+          loading:false,
+          checked:true
+        }})
+      })
+    } else {
+      actions.updateItem({item:{
+        symbol:token.symbol,
+        loading:false,
+        checked:false
+      }})
+    }
+  }
+  const toggleMyFavorite = ()=>{
     actions.filtersChange({
       filters: {
         ...filters,
@@ -192,24 +311,34 @@ function ListSidebar({LIST, actions, dispatch}) {
         <div className="col-12 p5">
           <Button onClick={gotoReceive.bind(this, token)} className="" type="primary" icon="qrcode">Receive</Button>
         </div>
-        <div className="col-12 p5">
-          <Button onClick={gotoEdit.bind(this, token)} className="" type="primary" icon="edit">Edit</Button>
-        </div>
         {
-          token.symbol === 'ETH' &&
+          token.custom &&
+          <div className="col-12 p5">
+            <Button onClick={gotoEdit.bind(this,token)} className="" type="primary" icon="edit">Edit</Button>
+          </div>
+        }
+        {
+          (token.symbol === 'ETH' || token.symbol === 'WETH') &&
           <div className="col-12 p5">
             <Button onClick={gotoConvert.bind(this, token)} className="" type="primary" icon="retweet">Wrap</Button>
           </div>
         }
-        <div className="col-12 p5">
-          <Button onClick={gotoTrade.bind(this, token)} className="" type="primary">
-            <i className="fa fa-line-chart mr5"></i>Trade
-          </Button>
-        </div>
+        {
+          (token.symbol != 'ETH' && token.symbol != 'WETH') &&
+          <div className="col-12 p5">
+            <Button onClick={gotoTrade.bind(this,token)} className="" type="primary">
+              <i className="fa fa-line-chart mr5"></i>Trade
+            </Button>
+          </div>
+        }
       </div>
     </div>
   )
-  const TokenItem = ({item, index}) => {
+  const TokenItem = ({item,index})=>{
+    //TODO mock datas, should calculate with configuration
+    if(fm.toNumber(item.allowance) >= 10) {
+      item.checked = true
+    }
     return (
       <div style={{borderBottom: '1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this, item)}
            className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
@@ -241,30 +370,11 @@ function ListSidebar({LIST, actions, dispatch}) {
           {
             item.symbol != 'ETH' &&
             <div className="col-auto mr5">
-              {
-                item.allowance > item.balance &&
-                <Tooltip title={`Disable ${item.symbol}`}>
-                  <div onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault()
-                  }}>
-                    <Switch onChange={toggleApprove.bind(this, item)} size="small" checkedChildren=""
-                            unCheckedChildren="" defaultChecked={index <= 4} loading={index == 4 || index == 5}/>
-                  </div>
-                </Tooltip>
-              }
-              {
-                item.allowance <= item.balance &&
-                <Tooltip title={`Enable ${item.symbol}`}>
-                  <div onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault()
-                  }}>
-                    <Switch onChange={toggleApprove.bind(this, item)} size="small" checkedChildren=""
-                            unCheckedChildren="" defaultChecked={index <= 4} loading={index == 4 || index == 5}/>
-                  </div>
-                </Tooltip>
-              }
+              <Tooltip title={item.checked ? `Disable` : `Enable`} >
+                <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
+                  <Switch onChange={toggleApprove.bind(this,item)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={item.checked} loading={item.loading} />
+                </div>
+              </Tooltip>
             </div>
           }
           <div className="col-auto pr5">
@@ -299,7 +409,6 @@ function ListSidebar({LIST, actions, dispatch}) {
             </Popover>
           </div>
         </div>
-
       </div>
     )
   }
@@ -313,9 +422,9 @@ function ListSidebar({LIST, actions, dispatch}) {
         results = results.filter(token => !!token.isFavored == !!value)
       }
     }
-    if (key === 'ifHideSmallBalance') {
-      if (value) {
-        results = results.filter(token => Number(token['balance']) > 0)
+    if(key==='ifHideSmallBalance'){
+      if(value){
+        results = results.filter(token=>fm.toNumber(token['balance']) > 0)
       }
     }
     if (key === 'keywords') {
