@@ -141,9 +141,6 @@ class Convert extends React.Component {
               </div>
             }
           </Form.Item>
-
-
-
         </Form>
       </Card>
     );
