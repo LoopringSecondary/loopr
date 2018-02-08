@@ -5,7 +5,6 @@ let Preview = ({
   modal,
   }) => {
   const {result} = modal
-  console.log(result)
   return (
       <Card title="Result">
         <div className="p25 text-center">
@@ -26,7 +25,7 @@ let Preview = ({
                 {`You have successfully sent ${result.extraData.amount} ${result.extraData.tokenSymbol} (≈USD ${result.extraData.worth})`}
               </div>
               <div>
-                <a href="https://etherscan.io/tx/" target="_blank">View Transaction In Etherscan</a>
+                <a href={`https://etherscan.io/tx/${result.extraData.txHash}`} target="_blank">View Transaction In Etherscan</a>
               </div>
             </div>
           }
