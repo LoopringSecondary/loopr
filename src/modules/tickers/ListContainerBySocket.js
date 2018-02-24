@@ -7,14 +7,14 @@ let keys = [...Object.keys(model.effects)]
 keys = keys.map(key=>key.replace(`${namespace}/`,''))
 const actionCreators = window.REDUX.getActionCreators(namespace,keys);
 
-class ListContainer extends React.PureComponent {
+class ListContainerBySocket extends React.PureComponent {
   constructor(props) {
-    super(props); 
+    super(props);
     const { dispatch } = props
     this.actions = bindActionCreators(actionCreators,dispatch)
   }
   componentDidMount() {
-    this.init();
+    this.init()
   }
   init(){
     const { filters,page,sort,originQuery,defaultState } = this.props;
@@ -40,5 +40,5 @@ class ListContainer extends React.PureComponent {
     );
   }
 }
-export default connect(({[namespace]:LIST})=>({LIST}))(ListContainer)
+export default connect(({[namespace]:LIST})=>({LIST}))(ListContainerBySocket)
 
