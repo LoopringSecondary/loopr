@@ -13,7 +13,8 @@ let TradeForm = ({
   const tokenR = pair.split('-')[1].toUpperCase()
   //TODO mock data
   const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 100.00, allowance: 0}
-  const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 100.00, allowance: 0}
+  const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 321.00, allowance: 0}
+  const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
 
   const showTradeModal = ()=>{
     dispatch({
@@ -55,16 +56,36 @@ let TradeForm = ({
   function validatePirce(value) {
     return value >0
   }
+  function validateLrcFee(value) {
+    return value && value > 0 && value <= 50
+  }
+  function validateMarginSplit(value) {
+    return value >= 0 && value <= 100
+  }
   function inputChange(type, e) {
     let price = 0, amount = 0
     if(type === 'price') {
-      price = e.target.value
+      price = e.target.value.toString()
+      const priceArr = price.split(".")
+      if(priceArr[1] && priceArr[1].length > marketConfig.pricePrecision) {
+        price = Number(priceArr[0]+"."+priceArr[1].substring(0, marketConfig.pricePrecision))
+        e.target.value = price
+      }
       amount = form.getFieldValue("amount")
-    } else {
+    } else if(type === 'amount') {
+      amount = e.target.value.toString()
+      const amountPrecision = tokenLBalance.precision - marketConfig.pricePrecision
+      if(amountPrecision >0){
+        const amountArr = amount.split(".")
+        if(amountArr[1] && amountArr[1].length > amountPrecision) {
+          amount = Number(amountArr[0]+"."+amountArr[1].substring(0, amountPrecision))
+        }
+      } else {
+        amount = Math.floor(amount)
+      }
+      e.target.value = amount
       price = form.getFieldValue("price")
-      amount = e.target.value
     }
-    console.log("price:"+price+" amount:"+amount)
     form.setFieldsValue({"total": price*amount})
   }
   const formItemLayout = {
@@ -90,7 +111,15 @@ let TradeForm = ({
       <div>
         <Form layout="horizontal">
           <Form.Item >
-            <div className="fs18 color-grey-900 text-capitalize">{side} {tokenL}</div>
+            <div className="row">
+              <div className="col fs18 color-grey-900 text-capitalize">{side} {tokenL}</div>
+              <div className="col-auto">
+                {
+                  side === 'buy' ? `${tokenR} Balance: ${tokenRBalance.balance}` : `${tokenL} Balance: ${tokenLBalance.balance}`
+                }
+              </div>
+            </div>
+
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout} colon={false}>
             {form.getFieldDecorator('amount', {
@@ -152,8 +181,8 @@ let TradeForm = ({
                 <div className="col-12">
                   <Form.Item className="mb5" label="Time to live">
                     {form.getFieldDecorator('timeToLive', {
-                      initialValue:0,
-                      rules:[]
+                      rules:[{type:'integer', message:"Please input integer value",
+                        transform:(value)=>fm.toNumber(value)}]
                     })(
                       <Input className="d-block w-100" placeholder="" size="large" addonAfter={timeToLiveSelectAfter}/>
                     )}
@@ -162,8 +191,8 @@ let TradeForm = ({
                 <div className="col">
                   <Form.Item className="mb5" label="Lrc Fee">
                     {form.getFieldDecorator('lrcFee', {
-                      initialValue:0,
-                      rules:[]
+                      rules:[{type : 'integer', message:"Please input valid integer value(1~50)",
+                        transform:(value)=>fm.toNumber(value), validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)}]
                     })(
                       <Input className="d-block w-100" placeholder="" size="large" suffix='‰'/>
                     )}
@@ -172,8 +201,8 @@ let TradeForm = ({
                 <div className="col">
                   <Form.Item className="mb5" label="MarginSplit">
                     {form.getFieldDecorator('marginSplit', {
-                      initialValue:0,
-                      rules:[]
+                      rules:[{type : 'integer', message:"Please input valid integer value(0~100)",
+                        transform:(value)=>fm.toNumber(value), validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)}]
                     })(
                       <Input className="d-block w-100" placeholder="" size="large"  suffix='％'/>
                     )}
