@@ -2,8 +2,9 @@ import React from 'react';
 import {Modal, Collapse, Button, Input, Card} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
-import {sign} from 'Loopring/relay/order'
-import {toHex} from 'Loopring/common/formatter'
+import {sign} from 'Loopring/relay/order';
+import {toHex} from 'Loopring/common/formatter';
+
 const TradeConfirm = ({
                         modals,
                         dispatch,
@@ -14,8 +15,9 @@ const TradeConfirm = ({
   let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
   const token = pair.split('-')[0];
   const token2 = pair.split('-')[1];
-  marginSplit = marginSplit === null ? tradingConfig.marginSplit : marginSplit;
+  marginSplit = marginSplit !== null ? marginSplit : tradingConfig.marginSplit;
   lrcFee = lrcFee || tradingConfig.lrcFee;
+  timeToLive = timeToLive !== null ? timeToLive : 1000; //TODO 从settings 获取
   const start =  Math.ceil(new Date().getTime() / 1000);
   const since = window.uiFormatter.getFormatTime(start);
   const till = window.uiFormatter.getFormatTime(start + Number(timeToLive));
@@ -34,8 +36,8 @@ const TradeConfirm = ({
   order.marginSplitPercentage = Number(marginSplit);
   order.buyNoMoreThanAmountB = side.toLowerCase() ==="buy";
   order.walletId = 1;
-  const authAcount = create('');
-  order.authAddr = authAcount.address;
+  const authAccount = create('');
+  order.authAddr = authAccount.address;
   const signedOrder =  sign(order,account.privateKey);
 
   const handelSubmit = () => {
