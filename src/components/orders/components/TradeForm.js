@@ -16,7 +16,10 @@ let TradeForm = ({
   const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 321.00, allowance: 0}
   const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
 
-  const showTradeModal = ()=>{
+  const integerReg = new RegExp("^[0-9]*$")
+  const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+
+  const showTradeModal = (tradeInfo)=>{
     dispatch({
       type:'modals/modalChange',
       payload:{
@@ -24,19 +27,40 @@ let TradeForm = ({
         visible:true,
         side,
         pair,
+        ...tradeInfo
       }
     })
   }
   function handleSubmit() {
     form.validateFields((err,values) => {
-      console.log('values',values);
-
-      //suffix
-      let timeToLive = form.getFieldValue('timeToLive').suffix
-      console.log(timeToLive)
+      const tradeInfo = {}
+      tradeInfo.amount = Number(values.amount)
+      tradeInfo.price = Number(values.price)
+      tradeInfo.total = tradeInfo.amount * tradeInfo.price
+      if(values.timeToLive) {
+        let timeToLive = Number(values.timeToLive)
+        if(values.timeToLiveUnit === 'second') {
+          timeToLive = timeToLive
+        } else if(values.timeToLiveUnit === 'minute') {
+          timeToLive = timeToLive * 60
+        } else if(values.timeToLiveUnit === 'hour') {
+          timeToLive = timeToLive * 3600
+        } else if(values.timeToLiveUnit === 'day') {
+          timeToLive = timeToLive * 86400
+        } else {
+          console.error("invalid timeToLiveUnit:", values.timeToLiveUnit)
+          return
+        }
+        tradeInfo.timeToLive = timeToLive
+      }
+      if(values.lrcFee) {
+        tradeInfo.lrcFee = Number(values.lrcFee) / 1000
+      }
+      if(values.marginSplit) {
+        tradeInfo.marginSplit = Number(values.marginSplit) / 100
+      }
       if(!err){
-        // TODO
-        showTradeModal()
+        showTradeModal({...tradeInfo})
       }
     });
   }
@@ -46,12 +70,14 @@ let TradeForm = ({
     form.resetFields()
   }
   function validateAmount(value) {
-    const price = form.getFieldValue("price")
+    const amount = Number(value)
+    const price = Number(form.getFieldValue("price"))
+    if(amount <= 0) return false
     if(side === 'sell') {
-      return value && value <= tokenLBalance.balance
+      return amount <= tokenLBalance.balance
     } else {
       if(price > 0) {
-        return value && (price * value) <= tokenRBalance.balance
+        return (price * amount) <= tokenRBalance.balance
       } else {
         //TODO how to verify amount when price is not typed
         return true
@@ -59,7 +85,7 @@ let TradeForm = ({
     }
   }
   function validatePirce(value) {
-    return value >0
+    return Number(value) >0
   }
   function validateLrcFee(value) {
     if(value) {
@@ -77,29 +103,48 @@ let TradeForm = ({
       return true
     }
   }
+  function validateOptionInteger(value) {
+    if(value) {
+      return integerReg.test(value)
+    } else {
+      return true
+    }
+  }
   function inputChange(type, e) {
     let price = 0, amount = 0
     if(type === 'price') {
       price = e.target.value.toString()
+      if(!amountReg.test(price)) return false
       const priceArr = price.split(".")
       if(priceArr[1] && priceArr[1].length > marketConfig.pricePrecision) {
-        price = Number(priceArr[0]+"."+priceArr[1].substring(0, marketConfig.pricePrecision))
+        try {
+          price = Number(priceArr[0]+"."+priceArr[1].substring(0, marketConfig.pricePrecision))
+        } catch (e) {
+          console.error(e)
+          price = 0
+        }
         e.target.value = price
       }
-      amount = form.getFieldValue("amount")
+      amount = Number(form.getFieldValue("amount"))
     } else if(type === 'amount') {
       amount = e.target.value.toString()
+      if(!amountReg.test(amount)) return false
       const amountPrecision = tokenLBalance.precision - marketConfig.pricePrecision
       if(amountPrecision >0){
         const amountArr = amount.split(".")
         if(amountArr[1] && amountArr[1].length > amountPrecision) {
-          amount = Number(amountArr[0]+"."+amountArr[1].substring(0, amountPrecision))
+          try {
+            amount = Number(amountArr[0]+"."+amountArr[1].substring(0, amountPrecision))
+          } catch (e) {
+            console.error(e)
+            amount = 0
+          }
         }
       } else {
         amount = Math.floor(amount)
       }
       e.target.value = amount
-      price = form.getFieldValue("price")
+      price = Number(form.getFieldValue("price"))
     }
     form.setFieldsValue({"total": price*amount})
   }
@@ -114,14 +159,18 @@ let TradeForm = ({
     },
   };
   const Option = Select.Option;
-  const timeToLiveSelectAfter = (
-    <Select defaultValue="second" style={{ width: 90 }}>
-      <Option value="second">Second</Option>
-      <Option value="minute">Minute</Option>
-      <Option value="hour">Hour</Option>
-      <Option value="day">Day</Option>
-    </Select>
-  );
+  const timeToLiveSelectAfter = form.getFieldDecorator('timeToLiveUnit', {
+      initialValue:"second",
+      rules:[]
+    })(
+      <Select style={{ width: 90 }}>
+        <Option value="second">Second</Option>
+        <Option value="minute">Minute</Option>
+        <Option value="hour">Hour</Option>
+        <Option value="day">Day</Option>
+      </Select>
+    )
+
   return (
       <div>
         <Form layout="horizontal">
@@ -140,13 +189,13 @@ let TradeForm = ({
             {form.getFieldDecorator('amount', {
               initialValue:0,
               rules:[{
-                message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
+                message: 'Please input valid amount',
                 validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
               }]
             })(
               <Input placeholder="" size="large" suffix={tokenL} onChange={inputChange.bind(this, 'amount')}
                      onFocus={() => {
-                const amount = form.getFieldValue("amount")
+                const amount = Number(form.getFieldValue("amount"))
                 if(amount === 0) {
                   form.setFieldsValue({"amount": ''})
                 }
@@ -163,7 +212,7 @@ let TradeForm = ({
             {form.getFieldDecorator('price', {
               initialValue:0,
               rules:[{
-                message: 'Please input valid price', transform:(value)=>fm.toNumber(value),
+                message: 'Please input valid price',
                 validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
               }]
             })(
@@ -196,7 +245,10 @@ let TradeForm = ({
                 <div className="col-12">
                   <Form.Item className="mb5" label="Time to live">
                     {form.getFieldDecorator('timeToLive', {
-                      rules:[{type:'integer', message:"Please input integer value", transform:(value)=>fm.toNumber(value)}]
+                      rules:[{
+                        message:"Please input integer value",
+                        validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
+                      }]
                     })(
                       <Input className="d-block w-100" placeholder="" size="large" addonAfter={timeToLiveSelectAfter}/>
                     )}
@@ -205,8 +257,10 @@ let TradeForm = ({
                 <div className="col">
                   <Form.Item className="mb5" label="Lrc Fee">
                     {form.getFieldDecorator('lrcFee', {
-                      rules:[{type : 'integer', message:"Please input valid integer value(1~50)",
-                        validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)}]
+                      rules:[{
+                        message:"Please input valid integer value(1~50)",
+                        validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)
+                      }]
                     })(
                       <Input className="d-block w-100" placeholder="" size="large" suffix='‰'/>
                     )}
@@ -215,8 +269,10 @@ let TradeForm = ({
                 <div className="col">
                   <Form.Item className="mb5" label="MarginSplit">
                     {form.getFieldDecorator('marginSplit', {
-                      rules:[{type : 'integer', message:"Please input valid integer value(0~100)",
-                        validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)}]
+                      rules:[{
+                        message:"Please input valid integer value(0~100)",
+                        validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)
+                      }]
                     })(
                       <Input className="d-block w-100" placeholder="" size="large"  suffix='％'/>
                     )}

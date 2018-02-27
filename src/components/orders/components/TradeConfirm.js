@@ -9,7 +9,7 @@ const TradeConfirm = ({
                         modals,
                         dispatch,
                         tradingConfig,
-                        account,
+                        account
                       }) => {
   const modal = modals['trade/confirm'] || {};
   let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
