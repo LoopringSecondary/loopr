@@ -1,4 +1,4 @@
-import React from 'React'
+import React from 'react'
 import io from 'socket.io-client'
 
 class SocketProvider extends React.Component {
@@ -7,7 +7,7 @@ class SocketProvider extends React.Component {
   }
   constructor(props, context) {
     super(props, context)
-    this.socket = io(props.url))
+    this.socket = io(props.url)
   }
   render() {
     return React.Children.only(this.props.children)
