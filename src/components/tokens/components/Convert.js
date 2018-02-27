@@ -114,7 +114,7 @@ class Convert extends React.Component {
             {form.getFieldDecorator('amount', {
               initialValue: '',
               rules: [
-                {required: true, message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
+                {message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
                 }
               ]
