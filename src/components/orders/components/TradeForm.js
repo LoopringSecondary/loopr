@@ -36,6 +36,7 @@ let TradeForm = ({
       const tradeInfo = {}
       tradeInfo.amount = Number(values.amount)
       tradeInfo.price = Number(values.price)
+      tradeInfo.total = tradeInfo.amount * tradeInfo.price
       if(values.timeToLive) {
         let timeToLive = Number(values.timeToLive)
         if(values.timeToLiveUnit === 'second') {
@@ -59,9 +60,7 @@ let TradeForm = ({
         tradeInfo.marginSplit = Number(values.marginSplit) / 100
       }
       if(!err){
-        // TODO
-        console.log(tradeInfo)
-        showTradeModal({tradeInfo})
+        showTradeModal({...tradeInfo})
       }
     });
   }

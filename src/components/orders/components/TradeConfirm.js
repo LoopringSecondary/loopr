@@ -11,7 +11,7 @@ const TradeConfirm = ({
                         account
                       }) => {
   const modal = modals['trade/confirm'] || {};
-  let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee, tradeInfo} = modal;
+  let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
   const token = pair.split('-')[0];
   const token2 = pair.split('-')[1];
   marginSplit = marginSplit === null ? tradingConfig.marginSplit : marginSplit;
