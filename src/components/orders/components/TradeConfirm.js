@@ -1,22 +1,30 @@
 import React from 'react';
 import { Modal,Collapse,Button,Input,Card} from 'antd';
+import {connect} from 'dva';
 
 const TradeConfirm = ({
   modals,
   dispatch,
+  tradingConfig,
   }) => {
-  const modal = modals['trade/confirm'] || {}
-  const { side, pair} = modal
-  const token = pair.split('/')[0]
+  const modal = modals['trade/confirm'] || {};
+  let {side, pair,amount,price,total,time,marginSplit,lrcFee} = modal;
+  const token = pair.split('-')[0];
+  const token2 = pair.split('-')[1];
+  marginSplit = marginSplit === null ? tradingConfig.marginSplit:marginSplit;
+  lrcFee = lrcFee || tradingConfig.lrcFee;
+  const start = new Date().getTime()/1000;
+  const since = window.uiFormatter.getFormatTime(start);
+  const till = window.uiFormatter.getFormatTime(start + Number(time));
 
   const handelSubmit = ()=>{
     // TODO
-    modals.hideModal({id:'trade/confirm'})
+    modals.hideModal({id:'trade/confirm'});
     modals.showModal({id:'trade/steps'})
-  }
+  };
 
   const MetaItem = (props)=>{
-    const {label,value}=props
+    const {label,value}=props;
     return (
       <div className="row zb-b-b pt10 pb10 no-gutters">
         <div className="col">
@@ -32,18 +40,18 @@ const TradeConfirm = ({
   return (
       <Card title={title}>
         <div className="caption zb-b-b text-center p25 pt0">
-          <div className="fs16 color-grey-500 mb5">You are buying</div>
-          <div className="fs28 color-grey-900">5,260.88 LRC</div>
-          <div className="fs14 color-grey-500 mt5">0.0013108 x 5,260.88 = 10.35 ETH </div>
+          <div className="fs16 color-grey-500 mb5">You are {side==='sell'? 'selling':'buying'}</div>
+          <div className="fs28 color-grey-900">{amount} {token}</div>
+          <div className="fs14 color-grey-500 mt5">{price} x {amount} = {total} {token2} </div>
         </div>
-        <MetaItem label="LRC Fee" value="2100" />
-        <MetaItem label="Margin Split" value="50%" />
-        <MetaItem label="Valid Since " value="xx" />
-        <MetaItem label="Valid Until " value="xx" />
+        <MetaItem label="LRC Fee" value={`${lrcFee} ‰`} />
+        <MetaItem label="Margin Split" value= {`${marginSplit} %`} />
+        <MetaItem label="Valid Since " value={since} />
+        <MetaItem label="Valid Until " value={till} />
         <Collapse bordered={false} defaultActiveKey={[]}>
-          <Collapse.Panel className="" 
-            style={{border:'none',margin:'0px -15px',padding:'0px -15px'}} 
-            header={<div style={{}}>Sign</div>} 
+          <Collapse.Panel className=""
+            style={{border:'none',margin:'0px -15px',padding:'0px -15px'}}
+            header={<div style={{}}>Sign</div>}
             key="1"
           >
             <div className="row">
@@ -71,6 +79,13 @@ const TradeConfirm = ({
   );
 };
 
-export default TradeConfirm
 
- 
+function mapStateToProps(state) {
+  return {
+   tradingConfig:state.settings.trading
+  };
+}
+
+export default connect(mapStateToProps)(TradeConfirm)
+
+
