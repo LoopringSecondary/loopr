@@ -84,6 +84,18 @@ const TradingSettingForm = ({
             </Select>
           )}
         </Form.Item>
+        <Form.Item {...formItemLayout} label="Margin Split" colon={false}>
+          {form.getFieldDecorator('marginSplit', {
+            initialValue:trading.marginSplit,
+            rules:[
+              {required: true, message: 'Input valid integer value (0~100)',
+                validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)
+              }
+            ]
+          })(
+            <Input size="large" addonAfter="％" onChange={handleChange.bind(this, "marginSplit")}/>
+          )}
+        </Form.Item>
         <Form.Item {...formItemLayout} label="LRC Fee" colon={false}>
           {form.getFieldDecorator('lrcFee', {
             initialValue:trading.lrcFee,
