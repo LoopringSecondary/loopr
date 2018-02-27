@@ -54,10 +54,10 @@ let TradeForm = ({
         tradeInfo.timeToLive = timeToLive
       }
       if(values.lrcFee) {
-        tradeInfo.lrcFee = Number(values.lrcFee) / 1000
+        tradeInfo.lrcFee = Number(values.lrcFee)
       }
       if(values.marginSplit) {
-        tradeInfo.marginSplit = Number(values.marginSplit) / 100
+        tradeInfo.marginSplit = Number(values.marginSplit)
       }
       if(!err){
         showTradeModal({...tradeInfo})
