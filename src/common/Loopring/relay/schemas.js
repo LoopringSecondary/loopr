@@ -36,7 +36,8 @@ let schemas = {
       ...basicSchemas.ETH_DATA
     },
     walletId: {
-      ...basicSchemas.ETH_DATA
+      type: 'integer',
+      required: true,
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',

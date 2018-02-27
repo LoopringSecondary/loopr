@@ -1,7 +1,9 @@
 import React from 'react';
 import {Modal, Collapse, Button, Input, Card} from 'antd';
 import {connect} from 'dva';
-
+import {create} from 'Loopring/ethereum/account';
+import {sign} from 'Loopring/relay/order'
+import {toHex} from 'Loopring/common/formatter'
 const TradeConfirm = ({
                         modals,
                         dispatch,
@@ -9,16 +11,32 @@ const TradeConfirm = ({
                         account,
                       }) => {
   const modal = modals['trade/confirm'] || {};
-  let {side, pair, amount, price, total, time, marginSplit, lrcFee} = modal;
+  let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
   const token = pair.split('-')[0];
   const token2 = pair.split('-')[1];
   marginSplit = marginSplit === null ? tradingConfig.marginSplit : marginSplit;
   lrcFee = lrcFee || tradingConfig.lrcFee;
-  const start = new Date().getTime() / 1000;
+  const start =  Math.ceil(new Date().getTime() / 1000);
   const since = window.uiFormatter.getFormatTime(start);
-  const till = window.uiFormatter.getFormatTime(start + Number(time));
+  const till = window.uiFormatter.getFormatTime(start + Number(timeToLive));
   const order = {};
+  order.protocol= tradingConfig.contract.address;
   order.owner = account.address;
+  const tokenB = side.toLowerCase() ==="buy" ? window.CONFIG.getTokenBySymbol(token):window.CONFIG.getTokenBySymbol(token2);
+  const tokenS = side.toLowerCase() ==="sell" ? window.CONFIG.getTokenBySymbol(token):window.CONFIG.getTokenBySymbol(token2);
+  order.tokenB = tokenB.address;
+  order.tokenS = tokenS.address;
+  order.amountB = toHex((side.toLowerCase() ==="buy" ? amount : total) * Number('1e'+tokenB.digits));
+  order.amountS = toHex((side.toLowerCase() ==="sell" ? amount : total)* Number('1e'+tokenS.digits));
+  order.lrcFee = toHex(lrcFee * amount*1e18);//TODO 根据价格比例计算。
+  order.validSince = toHex(start);
+  order.validUntil = toHex(start + Number(timeToLive));
+  order.marginSplitPercentage = Number(marginSplit);
+  order.buyNoMoreThanAmountB = side.toLowerCase() ==="buy";
+  order.walletId = 1;
+  const authAcount = create('');
+  order.authAddr = authAcount.address;
+  const signedOrder =  sign(order,account.privateKey);
 
   const handelSubmit = () => {
     // TODO
@@ -47,7 +65,7 @@ const TradeConfirm = ({
         <div className="fs28 color-grey-900">{amount} {token}</div>
         <div className="fs14 color-grey-500 mt5">{price} x {amount} = {total} {token2} </div>
       </div>
-      <MetaItem label="LRC Fee" value={`${lrcFee} ‰`}/>
+      <MetaItem label="LRC Fee" value={`${lrcFee} LRC`}/>
       <MetaItem label="Margin Split" value={`${marginSplit} %`}/>
       <MetaItem label="Valid Since " value={since}/>
       <MetaItem label="Valid Until " value={till}/>
@@ -66,7 +84,7 @@ const TradeConfirm = ({
             <div className="col">
               <div className="fs12 color-grey-500">Signed Order</div>
               <Input.TextArea disabled rows="4" className="d-block w-100 bg-grey-100 border-0" placeholder=""
-                              size="large"/>
+                              size="large" value={JSON.stringify(signedOrder)}/>
             </div>
           </div>
         </Collapse.Panel>

@@ -4,7 +4,7 @@ import code from "../common/code"
 import {generateAbiData, solSHA3} from '../ethereum/abi'
 import validator from './validator'
 import Transaction from '../ethereum/transaction'
-import {toBN, toNumber, toHex} from "../common/formatter";
+import {toBN, toNumber, toHex, toBuffer, addHexPrefix} from "../common/formatter";
 import {hashPersonalMessage, ecsign} from "ethereumjs-util"
 
 let headers = {
@@ -131,7 +131,7 @@ export async function placeOrder(order) {
   })
 }
 
-export async function sign(order, privateKey) {
+export function sign(order, privateKey) {
   validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
   validator.validate({value: order, type: 'RAW_Order'});
   const orderTypes = [
@@ -146,6 +146,7 @@ export async function sign(order, privateKey) {
     'uint',
     'uint',
     'bool',
+    'uint',
     'uint8'
   ];
 
@@ -164,6 +165,17 @@ export async function sign(order, privateKey) {
     toBN(order.walletId),
     order.marginSplitPercentage
   ];
+
+  try {
+    if (typeof privateKey === 'string') {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      privateKey = toBuffer(addHexPrefix(privateKey))
+    } else {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
+  } catch (e) {
+    throw new Error('Invalid private key')
+  }
   const hash = solSHA3(orderTypes, orderData);
   const finalHash = hashPersonalMessage(hash);
   const signature = ecsign(finalHash, privateKey);
