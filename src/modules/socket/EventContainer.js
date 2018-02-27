@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 class SocketEventContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -44,4 +45,7 @@ class SocketEventContainer extends React.Component {
 
   }
 }
+SocketEventContainer.contextTypes = {
+  socket: PropTypes.object.isRequired
+};
 export default SocketEventContainer
