@@ -15,8 +15,9 @@ const TradeConfirm = ({
   let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
   const token = pair.split('-')[0];
   const token2 = pair.split('-')[1];
-  marginSplit = marginSplit === null ? tradingConfig.marginSplit : marginSplit;
+  marginSplit = marginSplit !== null ? marginSplit : tradingConfig.marginSplit;
   lrcFee = lrcFee || tradingConfig.lrcFee;
+  timeToLive = timeToLive !== null ? timeToLive : 1000; //TODO 从settings 获取
   const start =  Math.ceil(new Date().getTime() / 1000);
   const since = window.uiFormatter.getFormatTime(start);
   const till = window.uiFormatter.getFormatTime(start + Number(timeToLive));
@@ -38,9 +39,6 @@ const TradeConfirm = ({
   const authAccount = create('');
   order.authAddr = authAccount.address;
   const signedOrder =  sign(order,account.privateKey);
-
-
-
 
   const handelSubmit = () => {
     // TODO
