@@ -15,9 +15,9 @@ const TradeConfirm = ({
   let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
   const token = pair.split('-')[0];
   const token2 = pair.split('-')[1];
-  marginSplit = marginSplit !== null ? marginSplit : tradingConfig.marginSplit;
+  marginSplit = marginSplit === undefined ?  tradingConfig.marginSplit:marginSplit;
   lrcFee = lrcFee || tradingConfig.lrcFee;
-  timeToLive = timeToLive !== null ? timeToLive : 1000; //TODO 从settings 获取
+  timeToLive = timeToLive === undefined ?  window.uiFormatter.getSeconds(tradingConfig.timeToLive,tradingConfig.timeToLiveUnit):timeToLive;
   const start =  Math.ceil(new Date().getTime() / 1000);
   const since = window.uiFormatter.getFormatTime(start);
   const till = window.uiFormatter.getFormatTime(start + Number(timeToLive));
