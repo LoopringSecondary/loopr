@@ -60,7 +60,7 @@ let TradeForm = ({
         tradeInfo.marginSplit = Number(values.marginSplit)
       }
       if(!err){
-        showTradeModal({...tradeInfo})
+        showTradeModal(tradeInfo)
       }
     });
   }
