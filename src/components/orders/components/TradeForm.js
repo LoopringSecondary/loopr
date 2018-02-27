@@ -19,7 +19,7 @@ let TradeForm = ({
   const integerReg = new RegExp("^[0-9]*$")
   const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
 
-  const showTradeModal = ()=>{
+  const showTradeModal = (tradeInfo)=>{
     dispatch({
       type:'modals/modalChange',
       payload:{
@@ -27,6 +27,7 @@ let TradeForm = ({
         visible:true,
         side,
         pair,
+        ...tradeInfo
       }
     })
   }
