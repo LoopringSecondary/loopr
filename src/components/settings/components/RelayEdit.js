@@ -41,7 +41,7 @@ const RelayEditForm = ({
           {form.getFieldDecorator('name', {
             initialValue:relayConfig.name,
             rules:[
-              {required: true, message: 'Please input valid and distinct relay name',
+              {message: 'Please input valid and distinct relay name',
                 validator: (rule, value, cb) => validateRelayName(value) ? cb() : cb(true)
               }
             ]
@@ -52,7 +52,7 @@ const RelayEditForm = ({
         <Form.Item label="Relay URL" colon={false}>
           {form.getFieldDecorator('url', {
             initialValue:relayConfig.value,
-            rules:[{required: true, type: "url", message : "Not a valid url"}]
+            rules:[{type: "url", message : "Not a valid url"}]
           })(
             <Input size="large" />
           )}
