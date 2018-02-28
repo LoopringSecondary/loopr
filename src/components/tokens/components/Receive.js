@@ -6,6 +6,11 @@ const Search = Input.Search;
 
 let Receive = (props) => {
 
+
+  const modals = props.modals;
+  const modal = modals['token/receive'];
+  const {address} = modal;
+
   function copyToClipboard(value) {
     copy(value) ? message.success('Copy Successfully') :  message.error("Copy Failed")
   }
@@ -13,12 +18,12 @@ let Receive = (props) => {
     <Card title="My Ethereum Address">
       <div style={{textAlign:'center'}}>
         <div style={{padding:"30px 20px"}}>
-        <QRCode value="0xe0cC17fe6B36Fd310cb1f98048f6c42b43Cfde45" size={240}/>
+        <QRCode value={address} size={240}/>
         </div>
-        <Search enterButton="Copy" value="0xe0cC17fe6B36Fd310cb1f98048f6c42b43Cfde45" disabled onSearch={copyToClipboard}/>
+        <Search enterButton="Copy" value={address} disabled onSearch={copyToClipboard}/>
       </div>
     </Card>
-   
+
   );
 };
 

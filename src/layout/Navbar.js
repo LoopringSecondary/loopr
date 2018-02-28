@@ -5,6 +5,9 @@ import {Menu,Select,Popover,Button,Icon} from 'antd';
 import {Link} from 'dva/router';
 import logo from '../assets/images/logo-blue@2x.png'
 function Navbar(props){
+
+  const account = props.account;
+
   const localeChange = (value)=>{
     props.dispatch({
       type:'locales/localeChange',
@@ -13,11 +16,12 @@ function Navbar(props){
       }
     })
   }
-  const showModal = (id)=>{
+  const showModal = (id,address)=>{
     props.dispatch({
       type:'modals/modalChange',
       payload:{
         id,
+        address,
         visible:true
       }
     })
@@ -28,16 +32,15 @@ function Navbar(props){
         <div className="row align-items-center">
           <div className="col">
             <div className="fs16 color-grey-900">Wallet Address</div>
-            <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>0xd02323de710729f065a4defbda0c6148c6bac649</div>
+            <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
           </div>
           <div className="col-auto">
             <Button className="fs12" type="primary" size="small">Copy</Button>
           </div>
-
         </div>
       </div>
       <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-        <a onClick={showModal.bind(this,'token/receive')}>
+        <a onClick={showModal.bind(this,'token/receive',account.address)}>
           <Icon type="qrcode" className="mr5" />QR Code
         </a>
       </div>
@@ -95,9 +98,9 @@ function Navbar(props){
 
         </div>
       </div>
-      
+
     </div>
   )
 }
 
-export default connect(({locales})=>({locales}))(Navbar)
+export default connect(({locales,account})=>({locales,account}))(Navbar)
