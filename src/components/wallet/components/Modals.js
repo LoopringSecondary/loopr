@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import UnlockWallet from './UnlockWallet'
 import GenerateWallet from './GenerateWallet'
 import BackupWallet from './BackupWallet'
+import ExportKeystore from './ExportKeystore'
 import ModalContainer from '../../../modules/modals/container'
 import AccountContainer from '../../../modules/account/container'
 
@@ -19,9 +20,12 @@ function Modals(props){
 				</AccountContainer>
 			</ModalContainer>
 			<ModalContainer id="wallet/backup" >
-				<AccountContainer>
-			  	<BackupWallet />
-			  </AccountContainer>
+        <AccountContainer>
+          <BackupWallet />
+        </AccountContainer>
+      </ModalContainer>
+      <ModalContainer id="wallet/export/keystore" >
+			  <ExportKeystore />
 			</ModalContainer>
     </div>
   );
