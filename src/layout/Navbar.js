@@ -1,9 +1,11 @@
 import React from 'react';
 import {connect} from 'dva';
 import {FormattedMessage,injectIntl} from 'react-intl';
-import {Menu,Select,Popover,Button,Icon} from 'antd';
+import {Menu,Select,Popover,Button,Icon,message} from 'antd';
 import {Link} from 'dva/router';
 import logo from '../assets/images/logo-blue@2x.png'
+import copy from 'copy-to-clipboard';
+
 function Navbar(props){
 
   const account = props.account;
@@ -26,6 +28,16 @@ function Navbar(props){
       }
     })
   }
+
+  function copyToClipboard() {
+
+    if(account.isUnlocked ){
+      copy(account.address) ? message.success('Copy Successfully') :  message.error("Copy Failed")
+    }else{
+      message.warning('Please unlock you wallet first')
+    }
+  }
+
   const accountMenus = (
     <div className="fs18">
       <div className="zb-b-b fs14 p10 pl15 pr15">
@@ -35,7 +47,7 @@ function Navbar(props){
             <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
           </div>
           <div className="col-auto">
-            <Button className="fs12" type="primary" size="small">Copy</Button>
+            <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>Copy</Button>
           </div>
         </div>
       </div>
