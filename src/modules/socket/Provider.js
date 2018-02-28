@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import io from 'socket.io-client'
 
-
-
 class SocketProvider extends React.Component {
   getChildContext() {
     return { socket: this.socket }
@@ -41,6 +39,4 @@ class SocketProvider extends React.Component {
 SocketProvider.childContextTypes = {
   socket: PropTypes.object
 }
-
-
 export default SocketProvider
