@@ -20,6 +20,9 @@ let schemas = {
     authAddr: {
       ...basicSchemas.ADDRESS
     },
+    authKey:{
+      ...basicSchemas.PRIVATE_KEY
+    },
     validSince: {
       ...basicSchemas.ETH_DATA
     },
@@ -65,6 +68,9 @@ let schemas = {
     },
     authAddr: {
       ...basicSchemas.ADDRESS
+    },
+    authKey:{
+      ...basicSchemas.PRIVATE_KEY
     },
     validSince: {
       ...basicSchemas.ETH_DATA
