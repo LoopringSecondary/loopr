@@ -43,7 +43,7 @@ const TradeConfirm = ({
   order.authAddr = authAccount.address;
   order.authKey = authAccount.privateKey;
   const signedOrder = sign(order, account.privateKey);
-  
+
   const handelSubmit = async () => {
     // TODO
     modals.hideModal({id: 'trade/confirm'});
@@ -56,13 +56,14 @@ const TradeConfirm = ({
     const allowanceLrc = 10;
     const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
     const delegateAddress = configs.delegateAddress;
-    let nonce = toNumber(await getTransactionCount(account.address)).result;
+    let nonce = toNumber((await getTransactionCount(account.address)).result);
+
     if (toBig(tokenS.allowance).greaterThan(allowanceS * Number('1e' + tokenS.digits))) {
       const SToken = new Token({address: tokenS.address});
       if (allowanceS > 0) {
-        await SToken.approve({spender: delegateAddress, amount: '0x0', gasPrice, nonce:toHex(nonce)});
+        await SToken.approve({privateKey:account.privateKey,spender: delegateAddress, amount: '0x0', gasPrice, nonce:toHex(nonce)});
         nonce = nonce + 1;
-        await SToken.approve(({spender: delegateAddress, amount: toHex(toBig('9223372036854775806')), gasPrice, nonce:toHex(nonce)}));
+        await SToken.approve(({privateKey:account.privateKey,spender: delegateAddress, amount: toHex(toBig('9223372036854775806')), gasPrice, nonce:toHex(nonce)}));
         nonce = nonce + 1;
       }
     }
@@ -70,9 +71,9 @@ const TradeConfirm = ({
     if(tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(allowanceLrc * Number('1e' + LRC.digits))){
       const LRCToken = new Token({address: LRC.address});
       if (allowanceS > 0) {
-        await LRCToken.approve({spender: delegateAddress, amount: '0x0', gasPrice, nonce:toHex(nonce)});
+        await LRCToken.approve({privateKey:account.privateKey,spender: delegateAddress, amount: '0x0', gasPrice, nonce:toHex(nonce)});
         nonce = nonce + 1;
-        await LRCToken.approve(({spender: delegateAddress, amount: toHex(toBig('9223372036854775806')), gasPrice, nonce:toHex(nonce)}));
+        await LRCToken.approve(({privateKey:account.privateKey,spender: delegateAddress, amount: toHex(toBig('9223372036854775806')), gasPrice, nonce:toHex(nonce)}));
       }
     }
     modals.showModal({id: 'trade/steps'})
