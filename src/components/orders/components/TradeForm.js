@@ -91,7 +91,7 @@ class TradeForm extends React.Component {
         return amount <= tokenLBalance.balance
       } else {
         if (price > 0) {
-          return (price * amount) <= tokenRBalance.balance
+          return accMul(price, amount) <= tokenRBalance.balance
         } else {
           return true
         }

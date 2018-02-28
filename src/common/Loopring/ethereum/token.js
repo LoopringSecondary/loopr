@@ -22,7 +22,7 @@ export default class Token {
     this.minTradeValue = input.minTradeValue || 0.0001
   }
 
-  async transfer({privateKey, to, amount, gasPrice, gasLimit, nonce, chainId}) {
+  generateTransferTx({to, amount, gasPrice, gasLimit, nonce, chainId}){
     validator.validate({value: amount, type: "ETH_DATA"});
     const tx = {};
     tx.to = this.address;
@@ -41,11 +41,10 @@ export default class Token {
     if (chainId) {
       tx.chainId = chainId
     }
-    const transaction = new Transaction(tx);
-    return transaction.send(privateKey)
+    return new Transaction(tx);
   }
 
-  async approve({spender, amount, privateKey, gasPrice, gasLimit, nonce, chainId}) {
+  generateApproveTx({spender, amount, gasPrice, gasLimit, nonce, chainId}){
     validator.validate({value: amount, type: "ETH_DATA"});
     const tx = {};
     tx.to = this.address;
@@ -63,9 +62,17 @@ export default class Token {
     if (chainId) {
       tx.chainId = chainId
     }
-    const transaction = new Transaction(tx);
-    return transaction.send(privateKey)
+   return new Transaction(tx);
+  }
 
+  async transfer({privateKey, to, amount, gasPrice, gasLimit, nonce, chainId}) {
+    const transaction = this.generateTransferTx({to, amount, gasPrice, gasLimit, nonce, chainId});
+    return transaction.send(privateKey)
+  }
+
+  async approve({spender, amount, privateKey, gasPrice, gasLimit, nonce, chainId}) {
+    const transaction = this.generateApproveTx({spender, amount, gasPrice, gasLimit, nonce, chainId});
+    return transaction.send(privateKey)
   }
 
   async balanceOf(owner, tag) {
