@@ -27,7 +27,6 @@ const app = dva();
 // app.model(require('./models/example').default);
 
 let models  = [
-	require('./modules/global/model').default,
   require('./modules/modals/model').default,
   require('./modules/locales/model').default,
   require('./modules/rings/models/list').default,
