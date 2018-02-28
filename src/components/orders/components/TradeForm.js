@@ -93,7 +93,6 @@ class TradeForm extends React.Component {
         if (price > 0) {
           return (price * amount) <= tokenRBalance.balance
         } else {
-          //TODO how to verify amount when price is not typed
           return true
         }
       }
