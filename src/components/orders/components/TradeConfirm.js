@@ -3,7 +3,7 @@ import {Modal, Collapse, Button, Input, Card} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {sign} from 'Loopring/relay/order';
-import {toHex, toBig} from 'Loopring/common/formatter';
+import {toHex, toBig,toNumber} from 'Loopring/common/formatter';
 import Token from 'Loopring/ethereum/token';
 import {getTransactionCount} from 'Loopring/ethereum/utils';
 import {configs} from "../../../common/config/data";
@@ -43,8 +43,7 @@ const TradeConfirm = ({
   order.authAddr = authAccount.address;
   order.authKey = authAccount.privateKey;
   const signedOrder = sign(order, account.privateKey);
-
-
+  
   const handelSubmit = async () => {
     // TODO
     modals.hideModal({id: 'trade/confirm'});
@@ -57,14 +56,13 @@ const TradeConfirm = ({
     const allowanceLrc = 10;
     const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
     const delegateAddress = configs.delegateAddress;
-    let nonce = await getTransactionCount(account.address);
-
+    let nonce = toNumber(await getTransactionCount(account.address)).result;
     if (toBig(tokenS.allowance).greaterThan(allowanceS * Number('1e' + tokenS.digits))) {
       const SToken = new Token({address: tokenS.address});
       if (allowanceS > 0) {
-        await SToken.approve({spender: delegateAddress, amount: '0x0', gasPrice, nonce});
+        await SToken.approve({spender: delegateAddress, amount: '0x0', gasPrice, nonce:toHex(nonce)});
         nonce = nonce + 1;
-        await SToken.approve(({spender: delegateAddress, amount: toHex(toBig('9223372036854775806')), gasPrice, nonce}));
+        await SToken.approve(({spender: delegateAddress, amount: toHex(toBig('9223372036854775806')), gasPrice, nonce:toHex(nonce)}));
         nonce = nonce + 1;
       }
     }
@@ -72,12 +70,10 @@ const TradeConfirm = ({
     if(tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(allowanceLrc * Number('1e' + LRC.digits))){
       const LRCToken = new Token({address: LRC.address});
       if (allowanceS > 0) {
-        await LRCToken.approve({spender: delegateAddress, amount: '0x0', gasPrice, nonce});
+        await LRCToken.approve({spender: delegateAddress, amount: '0x0', gasPrice, nonce:toHex(nonce)});
         nonce = nonce + 1;
-        await LRCToken.approve(({spender: delegateAddress, amount: toHex(toBig('9223372036854775806')), gasPrice, nonce}));
-        nonce = nonce + 1;
+        await LRCToken.approve(({spender: delegateAddress, amount: toHex(toBig('9223372036854775806')), gasPrice, nonce:toHex(nonce)}));
       }
-
     }
     modals.showModal({id: 'trade/steps'})
   };
