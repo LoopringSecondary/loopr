@@ -41,6 +41,8 @@ export default {
         version: selectedContract.version,
         address: selectedContract.address
       },
+      timeToLive: configs.defaultExpireTime,
+      timeToLiveUnit: configs.defaultExpireTimeUnit,
       lrcFee: configs.defaultLrcFeePermillage,
       marginSplit: configs.defaultMarginSplitPercentage,
       gasPrice: configs.defaultGasPrice

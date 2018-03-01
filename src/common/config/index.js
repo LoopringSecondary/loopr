@@ -1,5 +1,6 @@
 const config = require('./config.json');
 let tokens = config.tokens || []
+const markets = config.markets
 
 // mock some tokens's data read from localstorage
 const localTokens = [
@@ -46,8 +47,27 @@ function getCustomTokens(){
   return tokens.filter(token=>token.custom)
 }
 
+function getMarketByPair(pair) {
+  if (pair) {
+    const pairArr = pair.split('-')
+    if(pairArr && pairArr.length === 2) {
+      return getMarketBySymbol(pairArr[0], pairArr[1])
+    }
+  }
+}
+
+function getMarketBySymbol(tokenx, tokeny) {
+  if (tokenx && tokeny) {
+    return markets.find(market=> {
+        return (market.tokenx === tokenx && market.tokeny === tokeny) || (market.tokenx === tokeny && market.tokeny === tokenx)
+      }
+    )
+  }
+}
 
 export default {
   getTokenBySymbol,
-  getTokenByAddress
+  getTokenByAddress,
+  getMarketBySymbol,
+  getMarketByPair
 }

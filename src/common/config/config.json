@@ -6,7 +6,7 @@
     "defaultMarginSplitPercentage":50,
     "defaultGasLimit":25200,
     "defaultExpireTime":30,
-    "defaultExpireTimeUnit":"Day",
+    "defaultExpireTimeUnit":"day",
     "delegateAddress":"0x450D10A0C61f2b007384128B626F28b757A75e49",
     "chainId":1,
     "bindContractAddress":"0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",

@@ -7,6 +7,7 @@ const TradingSettingForm = ({
     settings,form
   }) => {
   const {trading} = settings
+  const integerReg = new RegExp("^[0-9]*$")
   function handleChange(type, e) {
     if ("contractVersion" === type){
       const address = configs.contracts.find(item => item.version === e)
@@ -15,6 +16,12 @@ const TradingSettingForm = ({
       } else {
         console.error("error")
       }
+    } else if('timeToLive' === type){
+      if(validateInteger(e.target.value)) {
+        settings.tradingChange({[type]:e.target.value})
+      }
+    } else if('timeToLiveUnit' === type) {
+      settings.tradingChange({[type]:e})
     } else if ('gasPrice' === type) {
       if (validateGasPrice(e)) {
         settings.tradingChange({[type]:e})
@@ -36,6 +43,9 @@ const TradingSettingForm = ({
   }
   function validateGasPrice(value) {
     return value >=0 && value < 100;
+  }
+  function validateInteger(value) {
+    return integerReg.test(value)
   }
   function handleSubmit() {
     form.validateFields((err,values) => {
@@ -62,6 +72,19 @@ const TradingSettingForm = ({
     },
   };
 
+  const Option = Select.Option;
+  const timeToLiveSelectAfter = form.getFieldDecorator('timeToLiveUnit', {
+    initialValue:trading.timeToLiveUnit,
+    rules:[]
+  })(
+    <Select style={{ width: 90 }} onChange={handleChange.bind(this, "timeToLiveUnit")}>
+      <Option value="second">Second</Option>
+      <Option value="minute">Minute</Option>
+      <Option value="hour">Hour</Option>
+      <Option value="day">Day</Option>
+    </Select>
+  )
+
   const contractVersionExtra = <div className="fs10 mt5"><a target="_blank" href={"https://etherscan.io/address/"+trading.contract.address}>{trading.contract.address}</a></div>
 
   return (
@@ -84,11 +107,24 @@ const TradingSettingForm = ({
             </Select>
           )}
         </Form.Item>
+        <Form.Item {...formItemLayout} label="Time to live" colon={false}>
+          {form.getFieldDecorator('timeToLive', {
+            initialValue:trading.timeToLive,
+            rules:[
+              {
+                message:"Please input integer value",
+                validator: (rule, value, cb) => validateInteger(value) ? cb() : cb(true)
+              }
+            ]
+          })(
+            <Input size="large" addonAfter={timeToLiveSelectAfter} onChange={handleChange.bind(this, "timeToLive")}/>
+          )}
+        </Form.Item>
         <Form.Item {...formItemLayout} label="LRC Fee" colon={false}>
           {form.getFieldDecorator('lrcFee', {
             initialValue:trading.lrcFee,
             rules:[
-              {required: true, message: 'Input valid integer value (0~50)',
+              {message: 'Input valid integer value (0~50)',
                 validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)
               }
             ]
@@ -100,7 +136,7 @@ const TradingSettingForm = ({
           {form.getFieldDecorator('marginSplit', {
             initialValue:trading.marginSplit,
             rules:[
-              {required: true, message: 'Input valid integer value (0~100)',
+              {message: 'Input valid integer value (0~100)',
                 validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)
               }
             ]
