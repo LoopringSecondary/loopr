@@ -6,24 +6,25 @@ class PricesSocketContainer extends React.Component {
     super(props, context)
     this.state = {
       prices:[],
-      currenry:'CNY',
+      symbol:'CNY',
+      icon:'￥',
     }
   }
   componentDidMount() {
-    const { symbol,currency } = this.props
+    const { symbol } = this.props
     const { socket } = this.context
     if (!socket) {
       console.log('socket connection has not been established')
       return false
     }
     const data = {
-      currency:currency || "CNY", // CNY / USD
+      symbol:symbol || "CNY",
     }
     socket.emit('marketcap_req',data)
     socket.on('marketcap_res', (res)=>{
       this.setState({
         prices:res.tokens,
-        currency:res.currency,
+        symbol:res.currency,
       })
     })
   }
@@ -37,12 +38,15 @@ class PricesSocketContainer extends React.Component {
     // socket.off(event)
   }
   render() {
+
     const childProps = {
+      ...this.props,
       ...this.state
     }
-    // if(Children){
-    //   return <Children {...childProps}/>
-    // }
+    const {render} = this.props
+    if(render){
+      return render.call(this,childProps)
+    }
     return (
       <div>
          {

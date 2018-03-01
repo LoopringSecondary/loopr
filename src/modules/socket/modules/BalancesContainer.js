@@ -23,6 +23,7 @@ class BalancesSocketContainer extends React.Component {
       this.setState({
         balances:res.tokens
       })
+      window.STORAGE.balances.setBalances(res.tokens)
     })
 
   }
@@ -37,12 +38,13 @@ class BalancesSocketContainer extends React.Component {
   }
   render() {
     const childProps = {
-     balances:this.state.res
+     ...this.props,
+     balances:this.state.balances
     }
     return (
       <div>
         {
-          React.Children.map(children, child => {
+          React.Children.map(this.props.children, child => {
               return React.cloneElement(child, {...childProps})
           })
         }

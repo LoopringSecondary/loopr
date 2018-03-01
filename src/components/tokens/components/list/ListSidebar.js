@@ -9,6 +9,7 @@ import './ListSidebar.less'
 import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
+import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
 
 function ListSidebar({LIST, actions, dispatch}) {
   const {
@@ -364,7 +365,10 @@ function ListSidebar({LIST, actions, dispatch}) {
             </div>
             <div className="">
               <span className="fs14 color-grey-900">{item.balance}</span>
-              <span className="fs12 ml5 color-grey-400">$ {item.balance}</span>
+              <PricesContainer render={({prices,symbol,icon})=>{
+                  return <span className="fs12 ml5 color-grey-400">{icon} {item.balance}</span>
+              }}
+              />
             </div>
           </div>
           {
