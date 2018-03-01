@@ -29,7 +29,6 @@ class ListContainer extends React.PureComponent {
         ...this.actions,
       }
     }
-    console.log('childProps',childProps)
     return (
        <div>
           {

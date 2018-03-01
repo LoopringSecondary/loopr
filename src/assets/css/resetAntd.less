@@ -23,7 +23,9 @@
     .ant-input-lg{
     	height:44px !important;
     }
-
+    .ant-popover-title{
+      min-width:auto !important;
+    }
 
     .ant-input-group-addon{
     	background: #f3f3f3 !important;
@@ -44,7 +46,7 @@
     .ant-form-item-control{
     	line-height: 100% !important;
     }
-    
+
     .ant-input-lg{
     	// height:48px !important;
     }
@@ -93,39 +95,11 @@
 			// 	border-right:1px solid #eee !important;
 			// }
    }
-
-	 .ant-tabs-top{
-	 	.ant-tabs-ink-bar{
-	 		// height:2px !important
-	 	}
-	 }
-	 .ant-tabs{
-	 	.ant-tabs-nav .ant-tabs-tab{
-	 		margin-right:0px !important;
-	 	}
-	 	&.rs{
-	 		.ant-tabs-bar{
-	 			margin-bottom:0px;
-	 		}
-	 		.ant-tabs-nav .ant-tabs-tab{
-	 			margin-right:0px !important;
-	 			padding:0px !important;
-	 		}
-	 	}
-	 	&.nobar{
-	 		.ant-tabs-bar{
-	 			border-bottom:none !important;
-	 		}
-	 		.ant-tabs-ink-bar{
-	 			display: none !important;
-	 		}
-	 	}
-	 }
 	 .ant-popover{
 	 		.ant-popover-inner-content{
 	 			padding:0px !important;
 	 		}
-	 	
+
 	 }
 	 .ant-select.navbar-language,.ant-select-focused.navbar-language{
 	 		.ant-select-selection{
@@ -142,7 +116,7 @@
 	 		.ant-modal-body{
 	 			padding:0px !important
 	 		}
-			
+
 	 	}
 	 }
 	 .ant-slider{
@@ -158,41 +132,106 @@
 	 }
 
 	 .ant-badge.ant-badge-not-a-wrapper.ant-badge-status{
-	 		.ant-badge-status-dot{
-	 			width:8px !important;
-	 			height:8px !important;
-	 		}
-	 		.ant-badge-status-dot{
-	 			width:8px !important;
-	 			height:8px !important;
+      .ant-badge-status-dot{
+        width:8px !important;
+        height:8px !important;
+      }
+      .ant-badge-status-dot{
+        width:8px !important;
+        height:8px !important;
 
-	 		}
-			.ant-badge-status-warning{
-				& + .ant-badge-status-text{
-					color:#faad14 !important;
-				}
-			}
-			.ant-badge-status-success{
-				& + .ant-badge-status-text{
-					color:#52c41a !important;
-				}
-			}
-			.ant-badge-status-error{
-				& + .ant-badge-status-text{
-					color:#f5222d !important;
-				}
-			}
-			.ant-badge-status-processing{
-				& + .ant-badge-status-text{
-					color:#1890ff !important;
-				}
-			}
+      }
+      .ant-badge-status-warning{
+        & + .ant-badge-status-text{
+          color:#faad14 !important;
+        }
+      }
+      .ant-badge-status-success{
+        & + .ant-badge-status-text{
+          color:#52c41a !important;
+        }
+      }
+      .ant-badge-status-error{
+        & + .ant-badge-status-text{
+          color:#f5222d !important;
+        }
+      }
+      .ant-badge-status-processing{
+        & + .ant-badge-status-text{
+          color:#1890ff !important;
+        }
+      }
 
-			.ant-badge-status-default{
-				& + .ant-badge-status-text{
-					color:#ccc !important;
-				}
-			}
+      .ant-badge-status-default{
+        & + .ant-badge-status-text{
+          color:#ccc !important;
+        }
+      }
+   }
+    .ant-alert{
+      &.ant-alert-error{
+        .ant-alert-message{color:#f5222d !important}
+        .ant-alert-description{color:#f5222d !important}
+      }
+    }
+   .ant-tabs-top{
+    .ant-tabs-ink-bar{
+      // height:2px !important
+    }
+   }
+   .ant-tabs{
+    .ant-tabs-nav .ant-tabs-tab{
+      margin-right:0px !important;
+    }
+    &.rs{
+      .ant-tabs-bar{
+        margin-bottom:0px;
+      }
+      .ant-tabs-nav .ant-tabs-tab{
+        margin-right:0px !important;
+        padding:0px !important;
+      }
+    }
+   }
 
-	 }
+   .ant-tabs.layout-nobar{
+    .ant-tabs-bar{
+      border-bottom:none !important;
+    }
+    .ant-tabs-ink-bar{
+      display: none !important;
+    }
+   }
+   .ant-tabs.layout-center{
+    text-align: center !important;
+   }
+   .ant-tabs.layout-col{
+      .ant-tabs-nav{
+       width:100% !important;
+       display: flex !important;
+       text-align: center !important;
+       &>.ant-tabs-tab{
+         -ms-flex-preferred-size:0;
+         flex-basis: 0;
+         -webkit-box-flex: 1;
+         -ms-flex-positive: 1;
+         flex-grow: 1;
+         max-width: 100%;
+       }
+      }
+   }
+   .ant-tabs.layout-col-auto{
+      .ant-tabs-nav{
+       width:100% !important;
+       display: flex !important;
+       text-align: center !important;
+       &>.ant-tabs-tab{
+         -webkit-box-flex: 0;
+         -ms-flex: 0 0 auto;
+         flex: 0 0 auto;
+         width: auto;
+         max-width: none;
+       }
+      }
+   }
 }

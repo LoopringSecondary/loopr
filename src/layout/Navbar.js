@@ -57,6 +57,11 @@ function Navbar(props){
         </a>
       </div>
       <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+        <a onClick={showModal.bind(this,'wallet/export/keystore')}>
+          <Icon type="export" className="mr5" />Export Keystore
+        </a>
+      </div>
+      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
         <Icon type="question-circle-o" className="mr5" />Help
       </div>
       <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">

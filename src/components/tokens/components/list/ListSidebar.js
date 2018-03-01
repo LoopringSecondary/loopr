@@ -302,31 +302,31 @@ function ListSidebar({LIST, actions, dispatch}) {
     </div>
   )
   const TokenItemActions = (token) => (
-    <div style={{width: '120px'}}>
-      <div className="row no-gutters">
+    <div style={{width:'150px'}}>
+      <div className="row no-gutters p5" >
         <div className="col-12 p5">
-          <Button onClick={gotoTransfer.bind(this, token)} className="" type="primary"
+          <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100" type="primary"
                   icon="pay-circle-o">Transfer</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={gotoReceive.bind(this, token)} className="" type="primary" icon="qrcode">Receive</Button>
+          <Button onClick={gotoReceive.bind(this, token)} className="d-block w-100" type="primary" icon="qrcode">Receive</Button>
         </div>
         {
           token.custom &&
           <div className="col-12 p5">
-            <Button onClick={gotoEdit.bind(this,token)} className="" type="primary" icon="edit">Edit</Button>
+            <Button onClick={gotoEdit.bind(this,token)} className="d-block w-100" type="primary" icon="edit">Edit</Button>
           </div>
         }
         {
           (token.symbol === 'ETH' || token.symbol === 'WETH') &&
           <div className="col-12 p5">
-            <Button onClick={gotoConvert.bind(this, token)} className="" type="primary" icon="retweet">Wrap</Button>
+            <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100" type="primary" icon="retweet">Convert</Button>
           </div>
         }
         {
           (token.symbol != 'ETH' && token.symbol != 'WETH') &&
           <div className="col-12 p5">
-            <Button onClick={gotoTrade.bind(this,token)} className="" type="primary">
+            <Button onClick={gotoTrade.bind(this,token)} className="d-block w-100" type="primary">
               <i className="fa fa-line-chart mr5"></i>Trade
             </Button>
           </div>
@@ -368,7 +368,7 @@ function ListSidebar({LIST, actions, dispatch}) {
             </div>
           </div>
           {
-            item.symbol != 'ETH' &&
+            false && item.symbol != 'ETH' &&
             <div className="col-auto mr5">
               <Tooltip title={item.checked ? `Disable` : `Enable`} >
                 <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
@@ -385,20 +385,12 @@ function ListSidebar({LIST, actions, dispatch}) {
               </Button>
             </Tooltip>
           </div>
-          <div className="col-auto pr5">
-            <Tooltip title="Receive">
-              <Button onClick={gotoReceive.bind(this, item)} shape="circle"
-                      className="bg-none color-grey-500 border-grey-400">
-                <Icon type="qrcode"/>
-              </Button>
-            </Tooltip>
-          </div>
           <div className="col-auto" onClick={(e) => {
             e.stopPropagation();
             e.preventDefault()
           }}>
             <Popover
-              title="Actions"
+              title={<div className="pt5 pb5 fs18">{item.symbol}</div>}
               placement="right"
               arrowPointAtCenter
               content={TokenItemActions(item)}
