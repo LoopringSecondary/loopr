@@ -366,8 +366,8 @@ function ListSidebar({LIST, actions, dispatch}) {
             <div className="">
               <span className="fs14 color-grey-900">{item.balance}</span>
               <PricesContainer render={({prices,currency})=>{
-                  const price = prices.find(price=>price.token === item.symbol) || 0
-                  const total = (item.balance * price).toFixed(2)
+                  const price = prices.find(price=>price.token === item.symbol) || {price:0}
+                  const total = (item.balance * price.price).toFixed(2)
                   return <span className="fs12 ml5 color-grey-400">{currency.icon} {total}</span>
               }} />
             </div>

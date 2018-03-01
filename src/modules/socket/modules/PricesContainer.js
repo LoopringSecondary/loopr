@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-
+import pricesData from './prices.json'
+console.log('pricesData',pricesData)
 class PricesSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -42,10 +43,10 @@ class PricesSocketContainer extends React.Component {
     // socket.off(event)
   }
   render() {
-
     const childProps = {
       ...this.props,
-      ...this.state
+      ...this.state,
+      prices:pricesData, // Mock
     }
     const {render} = this.props
     if(render){

@@ -1,5 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import balancesData from './balances.json'
 class BalancesSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -39,7 +40,8 @@ class BalancesSocketContainer extends React.Component {
   render() {
     const childProps = {
      ...this.props,
-     balances:this.state.balances
+     balances:this.state.balances,
+     balances:balancesData,
     }
     const {render} = this.props
     if(render){
