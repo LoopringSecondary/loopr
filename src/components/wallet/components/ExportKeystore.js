@@ -26,11 +26,14 @@ class ExportKeystore extends React.Component {
 
   getKeystore(){
     const {password} = this.state;
-    if(password){
+    const {account} = this.props;
+    if(password && (!account.password || account.password === password) ){
       const file = download('17a907936c30f70cf71a78c8cbacc945e5440264675b4d865cb886d415916b8e',password);
       this.setState({
         ...file
       });
+    }else{
+      message.error('Wrong password')
     }
   }
    copyToClipboard() {
@@ -84,7 +87,7 @@ class ExportKeystore extends React.Component {
             size="large"
             onChange={this.handlePasswordChange.bind(this)}
           />
-          <Button disabled={!password || (account.password && account.password !== password)} size="large" className="d-block w-100 mt25" type="primary" onClick={this.getKeystore.bind(this)}>
+          <Button disabled={!password} size="large" className="d-block w-100 mt25" type="primary" onClick={this.getKeystore.bind(this)}>
             Get Keystore
           </Button>
           </div>}
