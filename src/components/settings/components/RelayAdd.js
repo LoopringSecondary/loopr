@@ -34,7 +34,7 @@ const AddRelayForm = ({
           {form.getFieldDecorator('name', {
             initialValue:'',
             rules:[
-              {required: true, message: 'Please input valid and distinct relay name',
+              {message: 'Please input valid and distinct relay name',
                 validator: (rule, value, cb) => validateRelayName(value) ? cb() : cb(true)
               }
             ]
@@ -45,7 +45,7 @@ const AddRelayForm = ({
         <Form.Item label="Relay URL" colon={false}>
           {form.getFieldDecorator('url', {
             initialValue:'',
-            rules:[{required: true, type: "url", message : "Not a valid url"}]
+            rules:[{type: "url", message : "Not a valid url"}]
           })(
             <Input size="large" />
           )}

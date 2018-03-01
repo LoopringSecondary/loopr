@@ -15,13 +15,12 @@ function ListActionsBar(props) {
       title: 'Do you Want to cancel all orders?',
       content: 'Some descriptions',
       onOk: () => {
-        const seconds = toHex(new Date().getTime() / 1e3);
+        const seconds = toHex(Math.ceil(new Date().getTime() / 1e3));
         const params = {
           privateKey,
           gasPrice: toHex(gasPrice * 1e9),
           timestamp: seconds,
-          protocolAddress: contractAddress,
-          gasLimit: toHex(84000)
+          protocolAddress: contractAddress
         };
         tokenPair ? cancelOrdersByTokenPairs({...params, tokenPairs: [tokenPair]}) : cancelAllOrders({...params});
       },

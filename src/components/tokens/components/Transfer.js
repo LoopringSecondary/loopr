@@ -154,7 +154,7 @@ class Transfer extends React.Component {
             {form.getFieldDecorator('to', {
               initialValue: '',
               rules: [
-                {required: true, message: 'Invalid Ethereum address',
+                {message: 'Invalid Ethereum address',
                   validator: (rule, value, cb) => validateEthAddress(value) ? cb() : cb(true)
                 }
               ]
@@ -172,17 +172,23 @@ class Transfer extends React.Component {
             {form.getFieldDecorator('amount', {
               initialValue: 0,
               rules: [
-                {required: true, message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
+                {message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
                 }
               ]
             })(
               <Input className="d-block w-100" placeholder="" size="large" suffix={selectedToken.symbol}
-                           onChange={amountChange.bind(this)} onFocus={() => {
+                     onChange={amountChange.bind(this)} onFocus={() => {
                 const amount = form.getFieldValue("amount")
-                if(amount === 0) {
+                if (amount === 0) {
                   form.setFieldsValue({"amount": ''})
                 }
+              }}
+                     onBlur={() => {
+                 const amount = form.getFieldValue("amount")
+                 if(amount === '') {
+                   form.setFieldsValue({"amount": 0})
+                 }
               }}/>
             )}
           </Form.Item>
@@ -230,7 +236,7 @@ class Transfer extends React.Component {
                 {form.getFieldDecorator('gasLimit', {
                   initialValue: this.state.selectedGasLimit,
                   rules: [{
-                    required: true, type : 'integer', message:"Please input integer value",
+                    type : 'integer', message:"Please input integer value",
                     transform:(value)=>fm.toNumber(value)
                   }],
                 })(

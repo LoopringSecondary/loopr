@@ -1,4 +1,6 @@
 import moment from 'moment';
+import {toNumber} from "Loopring/common/formatter";
+
 
 // example
 // {
@@ -6,7 +8,7 @@ import moment from 'moment';
 //   cancelledAmountS: "0x0"
 //   dealtAmountB: "0x0"
 //   dealtAmountS: "0x0"
-//   originalOrder: 
+//   originalOrder:
 //     address: "0x1661D680C4C19b7Bcc7aA7c4330a4a6c3200244a"
 //     amountB: "0x2b5e3af16b1880000"
 //     amountS: "0xe6ed27d6668000"
@@ -57,7 +59,10 @@ const schema = [
     {
       title:'Amount',
       name:'amount',
-      formatter:(item)=>item.originalOrder.amountS,
+      formatter:(item)=> {
+        const token = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS)
+        return (toNumber(item.originalOrder.amountS)/Number('1e'+token.digits)).toFixed(token.precision)
+      }
     },
     {
       title:'Price',
@@ -67,14 +72,19 @@ const schema = [
     {
       title:'Size',
       name:'size',
-      formatter:(item)=>item.originalOrder.amountB,
+      formatter:(item)=>{
+        const token = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB)
+       return (toNumber(item.originalOrder.amountB)/Number('1e'+token.digits)).toFixed(token.precision)
+      },
     },
-    {
-      title:'LrcFee',
-      name:'lrcFee',
-      formatter:(item)=>item.originalOrder.lrcFee,
+  {
+    title: 'LrcFee',
+    name: 'lrcFee',
+    formatter: (item) => {
+      const token = window.CONFIG.getTokenBySymbol('LRC')
+      return (toNumber(item.originalOrder.amountB) / Number('1e' + token.digits)).toFixed(token.precision)
     },
-    
+  },
     {
       title:'Time',
       name:'timestamp',

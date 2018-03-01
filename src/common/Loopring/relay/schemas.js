@@ -20,6 +20,9 @@ let schemas = {
     authAddr: {
       ...basicSchemas.ADDRESS
     },
+    authKey:{
+      ...basicSchemas.PRIVATE_KEY
+    },
     validSince: {
       ...basicSchemas.ETH_DATA
     },
@@ -36,7 +39,8 @@ let schemas = {
       ...basicSchemas.ETH_DATA
     },
     walletId: {
-      ...basicSchemas.ETH_DATA
+      type: 'integer',
+      required: true,
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -65,6 +69,9 @@ let schemas = {
     authAddr: {
       ...basicSchemas.ADDRESS
     },
+    authKey:{
+      ...basicSchemas.PRIVATE_KEY
+    },
     validSince: {
       ...basicSchemas.ETH_DATA
     },
@@ -81,7 +88,8 @@ let schemas = {
       ...basicSchemas.ETH_DATA
     },
     walletId: {
-      ...basicSchemas.ETH_DATA
+      type: 'integer',
+      required: true,
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
