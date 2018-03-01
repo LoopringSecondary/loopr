@@ -14,7 +14,6 @@ class ExportKeystore extends React.Component {
     blob:null
   };
 
-
   componentWillMount() {
   }
 
@@ -85,9 +84,7 @@ class ExportKeystore extends React.Component {
     )
     return (
       <Card title="Export Keystore">
-
-        <div className="pt15">
-          {!content && <div>
+          {!content && <div className="pt15">
           <Input
             type='password'
             placeholder= {accont.password ? "Enter Wallet password":"Enter a password to protect your wallet"}
@@ -124,8 +121,6 @@ class ExportKeystore extends React.Component {
              <QRCode value={JSON.stringify(content)} size={240}/>
             </Tabs.TabPane>
           </Tabs>}
-        </div>
-
       </Card>
     )
   }
