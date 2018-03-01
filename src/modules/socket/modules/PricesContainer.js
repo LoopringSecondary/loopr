@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
-class PriceContainer extends React.Component {
+class PricesSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -28,7 +28,6 @@ class PriceContainer extends React.Component {
     })
   }
   componentWillUnmount() {
-    const { event } = this.props
     const { socket } = this.context
     if (!socket) {
       console.log('socket connection has not been established')
@@ -55,7 +54,7 @@ class PriceContainer extends React.Component {
     )
   }
 }
-PriceContainer.contextTypes = {
+PricesSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default PriceContainer
+export default PricesSocketContainer

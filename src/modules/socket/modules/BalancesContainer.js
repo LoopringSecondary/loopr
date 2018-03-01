@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-class SocketEventContainer extends React.Component {
+class BalancesSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -8,7 +8,6 @@ class SocketEventContainer extends React.Component {
     }
   }
   componentDidMount() {
-    const { event } = this.props
     const { socket } = this.context
     if (!socket) {
       console.log('socket connection has not been established')
@@ -28,7 +27,6 @@ class SocketEventContainer extends React.Component {
 
   }
   componentWillUnmount() {
-    const { event } = this.props
     const { socket } = this.context
     if (!socket) {
       console.log('socket connection has not been established')
@@ -39,7 +37,7 @@ class SocketEventContainer extends React.Component {
   }
   render() {
     const childProps = {
-     res:this.state.res
+     balances:this.state.res
     }
     return (
       <div>
@@ -53,7 +51,7 @@ class SocketEventContainer extends React.Component {
 
   }
 }
-SocketEventContainer.contextTypes = {
+BalancesSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default SocketEventContainer
+export default BalancesSocketContainer
