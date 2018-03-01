@@ -41,6 +41,10 @@ class BalancesSocketContainer extends React.Component {
      ...this.props,
      balances:this.state.balances
     }
+    const {render} = this.props
+    if(render){
+      return render.call(this,childProps)
+    }
     return (
       <div>
         {
