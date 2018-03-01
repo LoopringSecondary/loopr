@@ -9,9 +9,17 @@ const getBalances = (balances)=>{
     return null
   }
 }
+const getBalanceBySymbol = (symbol)=>{
+  // TODO
+}
+const getBalanceByAddress = (address)=>{
+  // TODO
+}
 
 export default {
   setBalances,
+  getBalanceBySymbol,
   getBalances,
+  getBalanceBySymbol,
 }
 
