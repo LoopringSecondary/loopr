@@ -4,7 +4,7 @@ import icon from '../../../assets/images/icon-backup-wallet.png'
 import {download} from "Loopring/ethereum/account"
 import copy from 'copy-to-clipboard';
 import QRCode from 'qrcode.react';
-
+import {connect} from 'dva';
 
 class ExportKeystore extends React.Component {
   state = {
@@ -43,14 +43,7 @@ class ExportKeystore extends React.Component {
   }
 
   render() {
-    const accont = {
-      address: '0xc68d7e247fda7f285d8c4a118bb03c718610765a',
-      privateKey: '17a907936c30f70cf71a78c8cbacc945e5440264675b4d865cb886d415916b8e',
-      mnemonic: 'govern album economy eternal skin shop song friend vapor danger identify finger',
-      publicKey: '1c0e3d503b907de92c514d17f1dd9bb2e9dd440e5648f53a760b76ad886322413b15d32b996ca807600bb8f92ed94d5f526a7c108e357625d7c787126de63ae8',
-      password: '',
-      isUnlocked: true
-    };
+    const {account} = this.props;
     const {password,content,fileName,blob} = this.state;
 
     const tip = (
@@ -87,11 +80,11 @@ class ExportKeystore extends React.Component {
           {!content && <div className="pt15">
           <Input
             type='password'
-            placeholder= {accont.password ? "Enter Wallet password":"Enter a password to protect your wallet"}
+            placeholder= {account.password ? "Enter Wallet password":"Enter a password to protect your wallet"}
             size="large"
             onChange={this.handlePasswordChange.bind(this)}
           />
-          <Button disabled={!password || (accont.password && accont.password !== password)} size="large" className="d-block w-100 mt25" type="primary" onClick={this.getKeystore.bind(this)}>
+          <Button disabled={!password || (account.password && account.password !== password)} size="large" className="d-block w-100 mt25" type="primary" onClick={this.getKeystore.bind(this)}>
             Get Keystore
           </Button>
           </div>}
@@ -125,6 +118,10 @@ class ExportKeystore extends React.Component {
     )
   }
 }
+function mapStateToProps(state) {
+  return {
+    account: state.account
+  };
+}
 
-
-export default Form.create()(ExportKeystore)
+export default Form.create()(connect(mapStateToProps)(ExportKeystore))

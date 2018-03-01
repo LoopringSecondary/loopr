@@ -29,6 +29,13 @@ function Navbar(props){
     })
   }
 
+  const quit = ()=>{
+    props.dispatch({
+      type:'account/deleteAccount',
+      payload:{}
+    })
+  };
+
   function copyToClipboard() {
 
     if(account.isUnlocked ){
@@ -40,39 +47,68 @@ function Navbar(props){
 
   const accountMenus = (
     <div className="fs18">
-      <div className="zb-b-b fs14 p10 pl15 pr15">
-        <div className="row align-items-center">
-          <div className="col">
-            <div className="fs16 color-grey-900">Wallet Address</div>
-            <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
+      {
+        account.isUnlocked &&
+        <div>
+          <div className="zb-b-b fs14 p10 pl15 pr15">
+            <div className="row align-items-center">
+              <div className="col">
+                <div className="fs16 color-grey-900">Wallet Address</div>
+                <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
+              </div>
+              <div className="col-auto">
+                <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>Copy</Button>
+              </div>
+            </div>
           </div>
-          <div className="col-auto">
-            <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>Copy</Button>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <a onClick={showModal.bind(this,'token/receive',account.address)}>
+              <Icon type="qrcode" className="mr5" />QR Code
+            </a>
+          </div>
+          {account.walletType === 'key' &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <a onClick={showModal.bind(this,'wallet/export/keystore')}>
+              <Icon type="export" className="mr5" />Export Keystore
+            </a>
+          </div>}
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <Icon type="question-circle-o" className="mr5" />Help
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            Switch Wallet
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            Tools
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <a onClick={quit}><Icon type="poweroff" className="mr5" />Quit
+            </a>
           </div>
         </div>
-      </div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-        <a onClick={showModal.bind(this,'token/receive',account.address)}>
-          <Icon type="qrcode" className="mr5" />QR Code
-        </a>
-      </div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-        <a onClick={showModal.bind(this,'wallet/export/keystore')}>
-          <Icon type="export" className="mr5" />Export Keystore
-        </a>
-      </div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-        <Icon type="question-circle-o" className="mr5" />Help
-      </div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-        Switch Wallet
-      </div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-        Tools
-      </div>
-      <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-        <Icon type="poweroff" className="mr5" />Quit
-      </div>
+      }
+      {!account.isUnlocked &&
+        <div>
+          <div className="zb-b-b fs14 p10 pl15 pr15">
+            <div className="row align-items-center">
+              <div className="col-auto">
+                <a  onClick={showModal.bind(this,'wallet/unlock')}>Unlock Wallet</a>
+              </div>
+            </div>
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <a onClick={showModal.bind(this,'wallet/generate')}>Generate Wallet</a>
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <Icon type="question-circle-o" className="mr5" />Help
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            Switch Wallet
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            Tools
+          </div>
+        </div>
+      }
     </div>
   )
 
