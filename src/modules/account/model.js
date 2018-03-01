@@ -9,6 +9,7 @@ export default {
     publicKey: null,
     password: null,
     isUnlocked: false,
+    walletType:null, //key, metaMask, trezor, ledgerHQ
   },
   reducers: {
     setAccount(state, {payload}) {
@@ -23,6 +24,12 @@ export default {
       return {
         ...state,
         isUnlocked: false,
+        walletType:null,
+        address: null,
+        privateKey: null,
+        mnemonic: null,
+        publicKey: null,
+        password: null,
       };
     },
   },
@@ -32,21 +39,21 @@ export default {
     * setKeystore({payload}, {put}) {
       const {keyStore, password} = payload;
       const wallet = decrypt(keyStore, password);
-      yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password}})
+      yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password,walletType:'key'}})
     },
     * setMnemonic({payload}, {put}) {
       const {mnemonic, dpath, password} = payload;
       const wallet = fromMnemonic(mnemonic, dpath, password);
-      yield put({type: 'setWallet', payload: {...wallet, password}})
+      yield put({type: 'setWallet', payload: {...wallet, password,walletType:'key'}})
     },
     * setPrivateKey({payload}, {put}) {
       const {privateKey} = payload;
       const wallet = fromPrivateKey(privateKey);
-      yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password: null}})
+      yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password: null,walletType:'key'}})
     },
     * createWallet({payload}, {put}) {
       const wallet = create(payload.password);
-      yield put({type: 'setWallet', payload: {...wallet,password:payload.password}})
+      yield put({type: 'setWallet', payload: {...wallet,password:payload.password,walletType:'key'}})
     },
 
     * setWallet({payload}, {put,call}) {
