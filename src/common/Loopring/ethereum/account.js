@@ -121,7 +121,7 @@ export function download(privateKey, password, mime) {
   const fileName = getFileName(address);
   const content = encrypt(privateKey, password);
   const blob = makeBlob(content, mime || 'text/json;charset=UTF-8');
-  return {fileName, blob}
+  return {fileName, blob, content}
 }
 
 
