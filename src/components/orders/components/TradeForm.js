@@ -44,33 +44,33 @@ class TradeForm extends React.Component {
 
     function handleSubmit() {
       form.validateFields((err, values) => {
-        const tradeInfo = {}
-        tradeInfo.amount = Number(values.amount)
-        tradeInfo.price = Number(values.price)
-        tradeInfo.total = tradeInfo.amount * tradeInfo.price
-        if (values.timeToLive) {
-          let timeToLive = Number(values.timeToLive)
-          if (values.timeToLiveUnit === 'second') {
-            timeToLive = timeToLive
-          } else if (values.timeToLiveUnit === 'minute') {
-            timeToLive = timeToLive * 60
-          } else if (values.timeToLiveUnit === 'hour') {
-            timeToLive = timeToLive * 3600
-          } else if (values.timeToLiveUnit === 'day') {
-            timeToLive = timeToLive * 86400
-          } else {
-            console.error("invalid timeToLiveUnit:", values.timeToLiveUnit)
-            return
-          }
-          tradeInfo.timeToLive = timeToLive
-        }
-        if (values.lrcFee) {
-          tradeInfo.lrcFee = Number(values.lrcFee)
-        }
-        if (values.marginSplit) {
-          tradeInfo.marginSplit = Number(values.marginSplit)
-        }
         if (!err) {
+          const tradeInfo = {}
+          tradeInfo.amount = Number(values.amount)
+          tradeInfo.price = Number(values.price)
+          tradeInfo.total = tradeInfo.amount * tradeInfo.price
+          if (values.timeToLive) {
+            let timeToLive = Number(values.timeToLive)
+            if (values.timeToLiveUnit === 'second') {
+              timeToLive = timeToLive
+            } else if (values.timeToLiveUnit === 'minute') {
+              timeToLive = timeToLive * 60
+            } else if (values.timeToLiveUnit === 'hour') {
+              timeToLive = timeToLive * 3600
+            } else if (values.timeToLiveUnit === 'day') {
+              timeToLive = timeToLive * 86400
+            } else {
+              console.error("invalid timeToLiveUnit:", values.timeToLiveUnit)
+              return
+            }
+            tradeInfo.timeToLive = timeToLive
+          }
+          if (values.lrcFee) {
+            tradeInfo.lrcFee = Number(values.lrcFee)
+          }
+          if (values.marginSplit) {
+            tradeInfo.marginSplit = Number(values.marginSplit)
+          }
           showTradeModal(tradeInfo)
         }
       });
@@ -99,6 +99,7 @@ class TradeForm extends React.Component {
     }
 
     function validatePirce(value) {
+      const result = form.validateFields(["amount"], {force:true})
       return Number(value) > 0
     }
 
@@ -322,14 +323,14 @@ class TradeForm extends React.Component {
           <Form.Item>
             {
               side == 'buy' &&
-              <Button onClick={handleSubmit} type="" className="d-block w-100 bg-green-500 border-none color-white"
+              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
                       size="large">
                 Place Order
               </Button>
             }
             {
               side == 'sell' &&
-              <Button onClick={handleSubmit} type="" className="d-block w-100 bg-red-500 border-none color-white"
+              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
                       size="large">
                 Place Order
               </Button>
