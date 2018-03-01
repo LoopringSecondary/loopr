@@ -3,9 +3,9 @@ import wallet from './wallet'
 import settings from './settings'
 import tokens from './tokens'
 
-export {
-  ...balances,
-  ...wallet,
-  ...settings,
-  ...tokens,
+export default {
+  balances,
+  wallet,
+  settings,
+  tokens,
 }

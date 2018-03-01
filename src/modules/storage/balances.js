@@ -18,8 +18,8 @@ const getBalanceByAddress = (address)=>{
 
 export default {
   setBalances,
-  getBalanceBySymbol,
   getBalances,
   getBalanceBySymbol,
+  getBalanceByAddress,
 }
 
