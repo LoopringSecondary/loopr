@@ -74,9 +74,9 @@ function Navbar(props){
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Icon type="question-circle-o" className="mr5" />Help
           </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+          {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
-          </div>
+          </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Tools
           </div>
@@ -101,12 +101,10 @@ function Navbar(props){
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Icon type="question-circle-o" className="mr5" />Help
           </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+          {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
-          </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            Tools
-          </div>
+          </div>}
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">Tools</div>
         </div>
       }
     </div>
