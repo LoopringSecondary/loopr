@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-class TickersSocketContainer extends React.Component {
+class TransactionsSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tickers:[]
+      transactions:[]
     }
   }
   componentDidMount() {
@@ -15,9 +15,9 @@ class TickersSocketContainer extends React.Component {
     }
     const currency = window.STORAGE.settings.getCurrency() || 'CNY' // TODO
     const data = {currency}
-    socket.on('tickers_res', (res)=>{
+    socket.on('transactions_res', (res)=>{
       this.setState({
-        tickers:res.result,
+        transactions:res.result,
       })
     })
   }
@@ -27,7 +27,7 @@ class TickersSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('tickers_end')
+    // socket.emit('transactions_end')
     // socket.off(event)
   }
   render() {
@@ -50,7 +50,7 @@ class TickersSocketContainer extends React.Component {
     )
   }
 }
-TickersSocketContainer.contextTypes = {
+TransactionsSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default TickersSocketContainer
+export default TransactionsSocketContainer
