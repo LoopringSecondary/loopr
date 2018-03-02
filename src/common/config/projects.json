@@ -1,4 +1,14 @@
-{
-  "LRN":1,
-  "LRQ":2
-}
+[
+  {
+    "name": "NEO",
+    "projectId": 1,
+    "lrx": "LRN"
+  },
+  {
+    "name": "QUTM",
+    "projectId": 2,
+    "lrx": "LRQ"
+  }
+]
+
+
