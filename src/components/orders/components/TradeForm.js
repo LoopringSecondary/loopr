@@ -243,8 +243,13 @@ class TradeForm extends React.Component {
             )}
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
-            <div className="row">
-              <div className="col fs10">{`Max Amount ${this.state.availableAmount}`}</div>
+            <div>
+              <div className="row">
+                <div className="col fs10">{`Max Amount ${this.state.availableAmount}`}</div>
+              </div>
+              <div className="row">
+                <div className="col fs10"><Slider min={0} max={20} onChange={this.onChange} /></div>
+              </div>
             </div>
           }>
             {form.getFieldDecorator('amount', {
