@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Icon,Carousel } from 'antd';
 const TickerItem = ({item})=>{
+  console.log('ticker item',item)
   return (
     <div className="p15 text-left ticker-item-carousel">
       <div className="fs16">
@@ -20,10 +21,11 @@ const TickerItem = ({item})=>{
 }
 const TickerCarousel = ({tickers})=>{
   const carouselProps = {
-    slidesToShow:'6',
     autoplay:true,
     dots:false,
     infinite:true,
+    autoplaySpeed: 1000,
+    slidesToShow:6,
   }
   return (
     <div className="ticker-list-carousel">

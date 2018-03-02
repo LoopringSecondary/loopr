@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import pricesData from './prices.json'
-console.log('pricesData',pricesData)
 class PricesSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
