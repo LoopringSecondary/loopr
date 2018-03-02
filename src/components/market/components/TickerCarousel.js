@@ -20,10 +20,11 @@ const TickerItem = ({item})=>{
 }
 const TickerCarousel = ({tickers})=>{
   const carouselProps = {
-    slidesToShow:'6',
     autoplay:true,
     dots:false,
     infinite:true,
+    autoplaySpeed: 1000,
+    slidesToShow:6,
   }
   return (
     <div className="ticker-list-carousel">

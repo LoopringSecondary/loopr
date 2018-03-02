@@ -1,16 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import pricesData from './prices.json'
-class PricesSocketContainer extends React.Component {
+class TickersSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      prices:[],
-      currency:{
-        symbol:'CNY',
-        icon:'￥',
-      }
-
+      tickers:[]
     }
   }
   componentDidMount() {
@@ -21,14 +15,9 @@ class PricesSocketContainer extends React.Component {
     }
     const currency = window.STORAGE.settings.getCurrency() || 'CNY' // TODO
     const data = {currency}
-    socket.emit('marketcap_req',data)
-    socket.on('marketcap_res', (res)=>{
+    socket.on('tickers_res', (res)=>{
       this.setState({
-        prices:res.tokens,
-        currency:{
-          name:res.currency,
-          icon:res.currency === 'CNY' ? '￥':'$',
-        }
+        tickers:res.result,
       })
     })
   }
@@ -38,14 +27,13 @@ class PricesSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('marketcap_end')
+    // socket.emit('tickers_end')
     // socket.off(event)
   }
   render() {
     const childProps = {
       ...this.props,
       ...this.state,
-      prices:pricesData, // Mock
     }
     const {render} = this.props
     if(render){
@@ -62,7 +50,7 @@ class PricesSocketContainer extends React.Component {
     )
   }
 }
-PricesSocketContainer.contextTypes = {
+TickersSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default PricesSocketContainer
+export default TickersSocketContainer
