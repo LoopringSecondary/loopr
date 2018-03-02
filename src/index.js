@@ -9,11 +9,13 @@ import redux from './common/redux'
 import uiFormatter from './common/utils/uiFormatter'
 import routeActions from './common/utils/routeActions'
 import CONFIG from './common/config'
+import STORAGE from './modules/storage'
 window.CONTAINERS = containers
 window.REDUX = redux
 window.uiFormatter = uiFormatter
 window.routeActions = routeActions
 window.CONFIG = CONFIG
+window.STORAGE = STORAGE
 
 moment.locale('zh-cn');
 
