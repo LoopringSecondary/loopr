@@ -5,7 +5,7 @@
 ### Introduction
 
 Loopr2 is a new version of Loopring Wallet & DEX  which is in development .
-If you need the production version, please go to [Loor](https://github.com/Loopring/loopr)
+If you need the production version, please go to [Loopr](https://github.com/Loopring/loopr).
 
 #### Features
 
