@@ -1,10 +1,11 @@
 import React from 'react';
 import {connect} from 'dva';
 import {FormattedMessage,injectIntl} from 'react-intl';
-import {Menu,Select,Popover,Button,Icon,message} from 'antd';
+import {Menu,Select,Popover,Button,Icon,message,Alert} from 'antd';
 import {Link} from 'dva/router';
 import logo from '../assets/images/logo-blue@2x.png'
 import copy from 'copy-to-clipboard';
+import TopNotification from './TopNotification';
 
 function Navbar(props){
 
@@ -112,6 +113,11 @@ function Navbar(props){
 
   return (
     <div className="">
+      {
+        false &&
+        <TopNotification />
+      }
+
       <div className="container">
         <div className="row align-items-stretch justify-content-between ml0">
           <div className="col-auto pl0 pr0">
