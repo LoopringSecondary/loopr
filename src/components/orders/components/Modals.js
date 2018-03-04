@@ -12,6 +12,10 @@ function Modals(props){
      <ModalContainer id="trade/place-order-success">
          <PlaceOrderSuccess />
      </ModalContainer>
+     <ModalContainer id="trade/place-order-error">
+         <PlaceOrderSuccess />
+     </ModalContainer>
+
     </div>
   );
 }
