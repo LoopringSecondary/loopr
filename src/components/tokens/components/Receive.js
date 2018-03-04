@@ -8,11 +8,11 @@ let Receive = (props) => {
   const modal = props.modal
   const address = window.STORAGE.wallet.getAddress()
   if(!address){
-    Modal.error({
-      title:'wallet address is null',
-      onOk:()=>{},
-    })
-    return null
+    return (
+      <Card title="Address is Null">
+        Plase Confirm your wallet is unlock.
+      </Card>
+    )
   }
   function copyToClipboard(value) {
     copy(value) ? message.success('Copy Successfully') :  message.error("Copy Failed")

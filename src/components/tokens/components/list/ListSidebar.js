@@ -338,9 +338,20 @@ function ListSidebar({LIST, actions, dispatch}) {
   const NotEnoughTip = ({token})=>{
     return (
       <div className="p15">
-        <div className="">
-          <Icon className="color-red-500 mr10" type="close-circle-o" />订单无法正常撮合成交
-          <a onClick={gotoReceive.bind(this,token)} className="ml15 color-blue-500">转入{token.symbol} <Icon type="right" /></a>
+        <div className="text-center">
+          <Icon className="color-red-500 mr10 fs30" type="exclamation-circle" />
+          <div className="fs16 mt10 mb10">
+            Balance is not enough for orders
+          </div>
+          <div>
+            <Button onClick={gotoReceive.bind(this,token)} className="m5 color-blue-500">Receive</Button>
+            <Button onClick={gotoTrade.bind(this,token)} className="m5 color-blue-500">Buy</Button>
+            {
+              token.symbol === 'WETH' &&
+              <Button onClick={gotoConvert.bind(this,token)} className="m5 color-blue-500">Convert</Button>
+            }
+          </div>
+
         </div>
       </div>
     )
@@ -397,7 +408,7 @@ function ListSidebar({LIST, actions, dispatch}) {
             index<2 &&
             <div className="col-auto pr5">
               <Popover
-                title={<div className="pt5 pb5 fs18">{item.symbol} balance is not enough</div>}
+                title={<div className="pt5 pb5 fs18">{item.symbol}</div>}
                 placement="bottom"
                 arrowPointAtCenter
                 content={<NotEnoughTip token={item} />}
