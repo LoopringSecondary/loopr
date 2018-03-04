@@ -335,6 +335,16 @@ function ListSidebar({LIST, actions, dispatch}) {
       </div>
     </div>
   )
+  const NotEnoughTip = ({token})=>{
+    return (
+      <div className="p15">
+        <div className="">
+          <Icon className="color-red-500 mr10" type="close-circle-o" />订单无法正常撮合成交
+          <a onClick={gotoReceive.bind(this,token)} className="ml15 color-blue-500">转入{token.symbol} <Icon type="right" /></a>
+        </div>
+      </div>
+    )
+  }
   const TokenItem = ({item,index})=>{
     //TODO mock datas, should calculate with configuration
     if(fm.toNumber(item.allowance) >= 10) {
@@ -365,6 +375,7 @@ function ListSidebar({LIST, actions, dispatch}) {
             </div>
             <div className="">
               <span className="fs14 color-grey-900">{item.balance}</span>
+
               <PricesContainer render={({prices,currency})=>{
                   const price = prices.find(price=>price.token === item.symbol) || {price:0}
                   const total = (item.balance * price.price).toFixed(2)
@@ -382,6 +393,20 @@ function ListSidebar({LIST, actions, dispatch}) {
               </Tooltip>
             </div>
           }
+          {
+            index<2 &&
+            <div className="col-auto pr5">
+              <Popover
+                title={<div className="pt5 pb5 fs18">{item.symbol} balance is not enough</div>}
+                placement="bottom"
+                arrowPointAtCenter
+                content={<NotEnoughTip token={item} />}
+              >
+                <Icon type="exclamation-circle" className="color-red-500" />
+              </Popover>
+            </div>
+          }
+
           <div className="col-auto pr5">
             <Tooltip title="Send/Transfer">
               <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
@@ -390,6 +415,7 @@ function ListSidebar({LIST, actions, dispatch}) {
               </Button>
             </Tooltip>
           </div>
+
           <div className="col-auto" onClick={(e) => {
             e.stopPropagation();
             e.preventDefault()
