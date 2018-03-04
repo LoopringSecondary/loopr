@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import TradeConfirm from './TradeConfirm'
-import TradeSteps from './TradeSteps'
+import PlaceOrderSuccess from './PlaceOrderSuccess'
 import ModalContainer from '../../../modules/modals/container'
 
 function Modals(props){
@@ -9,8 +9,8 @@ function Modals(props){
      <ModalContainer id="trade/confirm">
          <TradeConfirm />
      </ModalContainer>
-     <ModalContainer id="trade/steps">
-         <TradeSteps />
+     <ModalContainer id="trade/place-order-success">
+         <PlaceOrderSuccess />
      </ModalContainer>
     </div>
   );

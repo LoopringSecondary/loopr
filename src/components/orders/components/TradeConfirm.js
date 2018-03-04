@@ -105,7 +105,7 @@ const TradeConfirm = ({
 
     await placeOrder(signedOrder);
 
-    modals.showModal({id: 'trade/steps'})
+    modals.showModal({id: 'trade/place-order-success'})
   };
 
   const MetaItem = (props) => {
