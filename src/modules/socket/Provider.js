@@ -6,7 +6,7 @@ class SocketProvider extends React.Component {
   getChildContext() {
     return { socket: this.socket }
   }
-  async connect(url){
+  connect(url){
     const socket = io(url)
     return new Promise((resolve)=>{
       socket.on('connect',()=>{
