@@ -200,10 +200,6 @@ class TradeForm extends React.Component {
       this.setState({timeToLivePopularSetting: !this.state.timeToLivePopularSetting})
     }
 
-    function timeToLiveRadioChange(e) {
-      console.log(e.target.value)
-    }
-
     function amountSliderChange(e) {
       if(this.state.availableAmount > 0) {
         const amount = this.state.availableAmount * Number(e) / 100
@@ -343,7 +339,7 @@ class TradeForm extends React.Component {
                     </div>
                   }>
                     {form.getFieldDecorator('timeToLivePopularSetting')(
-                      <RadioGroup onChange={timeToLiveRadioChange.bind(this)}>
+                      <RadioGroup>
                         <RadioButton value="1hour">1 Hour</RadioButton>
                         <RadioButton value="1day">1 Day</RadioButton>
                         <RadioButton value="1week">1 Week</RadioButton>
