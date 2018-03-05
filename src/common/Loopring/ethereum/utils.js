@@ -1,6 +1,7 @@
 import validator from '../common/validator'
 import request from '../common/request'
-
+import {generateAbiData} from './abi';
+import Transaction from './transaction';
 
 export async function getTransactionCount(address, tag) {
   try {
@@ -50,7 +51,7 @@ export async function estimateGas(tx) {
   })
 }
 
-export async function getAccountBalance(address,tag) {
+export async function getAccountBalance(address, tag) {
   try {
     validator.validate({value: address, type: "ADDRESS"})
   } catch (e) {
@@ -74,3 +75,25 @@ export async function getAccountBalance(address,tag) {
   })
 }
 
+export async function bindAddress({projectId, address, to, privateKey, gasPrice, gasLimit, nonce, chainId}) {
+
+  validator.validate({value: to, type: 'ADDRESS'});
+  const tx = {};
+  tx.to = to;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "bind", address: address, projectId});
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  const transaction = new Transaction(tx)
+  transaction.send(privateKey)
+}
