@@ -7,7 +7,6 @@ import {configs} from '../../../common/config/data'
 
 class TradeForm extends React.Component {
   state = {
-    address: "0x4919776519F2B290E0E98AA8d9f5751b5321876C",
     exchangeRate: 812, //TODO eth-usd
     estimatePriceWorth: 0,
     availableAmount: 0,
