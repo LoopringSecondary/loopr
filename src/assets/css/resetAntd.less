@@ -1,4 +1,8 @@
 :global{
+    .ant-layout-header{
+      padding:0px !important;
+      height:auto !important;
+    }
 		.ant-btn-primary{
 			// background: #0077FF !important;
 		}
@@ -39,7 +43,24 @@
     	text-align: left !important;
     	// line-height: 100% !important;
     	// display: inline-block !important;
+      // width:100% !important;
+      // &>label{
+      //   width:100% !important;
+      //   display:block !important;
+      // }
     }
+    .ant-form-item.ttl{
+        .ant-form-item-label{
+          width:100% !important;
+          &>label{
+            width:100% !important;
+            &:after{
+              display:none !important;
+            }
+          }
+        }
+    }
+
     .ant-form-item{
     	vertical-align:middle !important;
     }

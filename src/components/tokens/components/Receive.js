@@ -5,12 +5,15 @@ import copy from 'copy-to-clipboard';
 const Search = Input.Search;
 
 let Receive = (props) => {
-
-
-  const modals = props.modals;
-  const modal = modals['token/receive'];
-  const {address} = modal;
-
+  const modal = props.modal
+  const address = window.STORAGE.wallet.getAddress()
+  if(!address){
+    return (
+      <Card title="Address is Null">
+        Plase Confirm your wallet is unlock.
+      </Card>
+    )
+  }
   function copyToClipboard(value) {
     copy(value) ? message.success('Copy Successfully') :  message.error("Copy Failed")
   }
