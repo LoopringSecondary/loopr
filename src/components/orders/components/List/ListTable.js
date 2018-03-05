@@ -146,7 +146,7 @@ ListBlock.propTypes = {};
 
 function mapStateToProps(state) {
   return {
-    privateKey: state.account,
+    account: state.account,
     gasPrice: state.settings.trading.gasPrice
   };
 }
