@@ -24,9 +24,14 @@ export function privateKeytoAddress(privateKey) {
 
 export function publicKeytoAddress(publicKey) {
   try {
-    validator.validate({value: publicKey, type: 'PRIVATE_KEY'});
+    if (typeof publicKey === 'string') {
+      validator.validate({value: publicKey, type: 'PRIVATE_KEY'});
+      publicKey = toBuffer(addHexPrefix(publicKey))
+    } else {
+      validator.validate({value: publicKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
   } catch (e) {
-    throw new Error('Invalid private key')
+    throw new Error('Invalid public key')
   }
   return formatAddress(publicKeytoAddress(toBuffer(publicKey)))
 }

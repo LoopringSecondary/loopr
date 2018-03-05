@@ -1,9 +1,10 @@
 import EthTransaction from 'ethereumjs-tx'
 import validator from './validator'
-import {toHex, toBuffer,addHexPrefix} from '../common/formatter'
+import {toHex, toBuffer, addHexPrefix} from '../common/formatter'
 import {estimateGas, getGasPrice, getTransactionCount} from './utils';
 import request from '../common/request'
 import {privateKeytoAddress} from "./account";
+import {trezorSign} from './trezor'
 
 export default class Transaction {
   constructor(rawTx) {
@@ -34,23 +35,12 @@ export default class Transaction {
     this.raw.nonce = this.raw.nonce || (await getTransactionCount(address, tag)).result;
   }
 
-   hash() {
+  hash() {
     validator.validate({value: this.raw, type: "TX"});
     return new EthTransaction(this.raw).hash()
   }
 
-  async sign(privateKey) {
-    try {
-      if (typeof privateKey === 'string') {
-        validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
-        privateKey = toBuffer(addHexPrefix(privateKey))
-      } else {
-        validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
-      }
-    } catch (e) {
-      throw new Error('Invalid private key')
-    }
-
+  async sign({privateKey, walletType,path}) {
     try {
       validator.validate({value: this.raw, type: "TX"});
     } catch (e) {
@@ -58,15 +48,38 @@ export default class Transaction {
       await this.complete(address);
     }
     const ethTx = new EthTransaction(this.raw);
-    ethTx.sign(privateKey);
-    const signed = ethTx.serialize();
-    this.signed = toHex(signed);
-    return toHex(signed)
+
+    let signed;
+    if (privateKey) {
+      try {
+        if (typeof privateKey === 'string') {
+          validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+          privateKey = toBuffer(addHexPrefix(privateKey))
+        } else {
+          validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+        }
+      } catch (e) {
+        throw new Error('Invalid private key')
+      }
+
+      ethTx.sign(privateKey);
+      signed = toHex(ethTx.serialize());
+    } else {
+      switch (walletType) {
+        case 'trezor':
+          signed  = await trezorSign({path});
+          break;
+        default:
+          throw new Error('UnSupported Type of Wallet')
+      }
+    }
+    this.signed = signed;
+    return signed
   }
 
-  async send(privateKey) {
+  async send({privateKey, walletType,path}) {
     if (!this.signed) {
-      await this.sign(privateKey)
+      await this.sign({privateKey, walletType,path})
     }
     let body = {};
     body.method = 'eth_sendRawTransaction';
