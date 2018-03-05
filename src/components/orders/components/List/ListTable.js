@@ -9,7 +9,7 @@ import {toHex,toNumber} from "Loopring/common/formatter";
 const uiFormatter = window.uiFormatter;
 
 function ListBlock(props) {
-  const {LIST, actions, className, style,privateKey,gasPrice} = props;
+  const {LIST, actions, className, style,account,gasPrice} = props;
   const {
     items = [],
     loading,
@@ -25,7 +25,7 @@ function ListBlock(props) {
         originalOrder.owner = originalOrder.address;
         originalOrder.r = toNumber(originalOrder.r);
         //TODO 等待新结构的order，不再出现错误。
-        cancelOrder({order:item.originalOrder, privateKey,gasPrice:toHex(gasPrice*1e9)});
+        cancelOrder({order:item.originalOrder,  privateKey:account.privateKey,gasPrice:toHex(gasPrice*1e9), walletType:account.walletType});
       },
       onCancel: () => {
       },
@@ -146,7 +146,7 @@ ListBlock.propTypes = {};
 
 function mapStateToProps(state) {
   return {
-    privateKey: state.account.privateKey,
+    privateKey: state.account,
     gasPrice: state.settings.trading.gasPrice
   };
 }

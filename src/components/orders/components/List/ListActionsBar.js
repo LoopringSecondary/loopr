@@ -7,7 +7,7 @@ import {toHex} from 'Loopring/common/formatter'
 
 function ListActionsBar(props) {
 
-  const {actions = {}, LIST = {}, className, privateKey, gasPrice, contractAddress} = props;
+  const {actions = {}, LIST = {}, className, account, gasPrice, contractAddress} = props;
   const {filters = {}} = LIST
   const tokenPair = filters.pair;
   const cancelAll = () => {
@@ -17,10 +17,11 @@ function ListActionsBar(props) {
       onOk: () => {
         const seconds = toHex(Math.ceil(new Date().getTime() / 1e3));
         const params = {
-          privateKey,
+          privateKey:account.privateKey,
           gasPrice: toHex(gasPrice * 1e9),
           timestamp: seconds,
-          protocolAddress: contractAddress
+          protocolAddress: contractAddress,
+          walletType:account.walletType
         };
         tokenPair ? cancelOrdersByTokenPairs({...params, tokenPairs: [tokenPair]}) : cancelAllOrders({...params});
       },
@@ -49,7 +50,7 @@ function ListActionsBar(props) {
 
 function mapStateToProps(state) {
   return {
-    privateKey: state.account.privateKey,
+    privateKey: state.account,
     gasPrice: state.settings.trading.gasPrice,
     contractAddress: state.settings.trading.contract.address
   };
