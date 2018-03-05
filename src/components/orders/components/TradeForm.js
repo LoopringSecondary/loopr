@@ -10,22 +10,29 @@ class TradeForm extends React.Component {
     address: "0x4919776519F2B290E0E98AA8d9f5751b5321876C",
     exchangeRate: 812, //TODO eth-usd
     estimatePriceWorth: 0,
-    availableAmount: 0
+    availableAmount: 0,
+    timeToLivePopularSetting: true
   }
 
   componentDidMount() {
-
+    const {side, pair} = this.props
+    if (side === 'sell') {
+      const tokenL = pair.split('-')[0].toUpperCase()
+      const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 100.00, allowance: 0}
+      this.setState({availableAmount: tokenLBalance.balance})
+    }
   }
 
   render() {
-    const {form, side = 'sell', pair = 'LRC-WETH', dispatch} = this.props
+    const RadioButton = Radio.Button;
+    const RadioGroup = Radio.Group;
+    const {form, dispatch, side = 'sell', pair = 'LRC-WETH'} = this.props
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
     //TODO mock data
     const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 100.00, allowance: 0}
     const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenR), balance: 321.00, allowance: 0}
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
-
     const integerReg = new RegExp("^[0-9]*$")
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
 
@@ -150,9 +157,11 @@ class TradeForm extends React.Component {
           const precision = Math.max(0,tokenRBalance.precision - marketConfig.pricePrecision)
           const availableAmount = Math.floor(tokenRBalance.balance / Number(price) * ("1e"+precision)) / ("1e"+precision)
           this.setState({availableAmount: availableAmount})
+          if(availableAmount <= 0) form.setFieldsValue({"amountSlider":0})
         } else {
           const availableAmount = Math.floor(tokenLBalance.balance * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
           this.setState({availableAmount: availableAmount})
+          if(availableAmount <= 0) form.setFieldsValue({"amountSlider":0})
         }
       } else if (type === 'amount') {
         amount = e.target.value.toString()
@@ -178,6 +187,27 @@ class TradeForm extends React.Component {
       form.setFieldsValue({"total": total})
     }
 
+    function timeToLiveChange(e) {
+      e.preventDefault();
+      this.setState({timeToLivePopularSetting: !this.state.timeToLivePopularSetting})
+    }
+
+    function timeToLiveRadioChange(e) {
+      console.log(e.target.value)
+    }
+
+    function amountSliderChange(e) {
+      console.log(this.state.availableAmount, e)
+      if(this.state.availableAmount > 0) {
+        const amount = this.state.availableAmount * Number(e) / 100
+        form.setFieldsValue({"amount": amount})
+      }
+    }
+
+    function caculateMaxAmount(){
+
+    }
+
     const formItemLayout = {
       labelCol: {
         xs: {span: 24},
@@ -200,6 +230,21 @@ class TradeForm extends React.Component {
         <Option value="day">Day</Option>
       </Select>
     )
+
+    const marks = {
+      0: '0',
+      25: '25％',
+      50: '50％',
+      75: '75％',
+      100: '100％'
+    };
+
+    const amountSlider = form.getFieldDecorator('amountSlider', {
+        initialValue: 0,
+        rules: []
+      })(
+        <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={this.state.availableAmount <= 0}/>
+      )
 
     return (
       <div>
@@ -244,12 +289,8 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
             <div>
-              <div className="row">
-                <div className="col fs10">{`Max Amount ${this.state.availableAmount}`}</div>
-              </div>
-              <div className="row">
-                <div className="col fs10"><Slider min={0} max={20} onChange={this.onChange} /></div>
-              </div>
+              <div className="fs10">{`Max Amount ${this.state.availableAmount}`}</div>
+              <div className="fs10">{amountSlider}</div>
             </div>
           }>
             {form.getFieldDecorator('amount', {
@@ -287,7 +328,31 @@ class TradeForm extends React.Component {
                             header={<div style={{}}>Advanced</div>} key="1">
               <div className="row">
                 <div className="col-12">
-                  <Form.Item className="mb5" label="Time to live">
+                  {this.state.timeToLivePopularSetting &&
+                  <Form.Item colon={false} label={
+                    <div className="row">
+                      <div className="col-auto">Time to live</div>
+                      <div className="col"></div>
+                      <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? "More" : "Popular option" }</a></div>
+                    </div>
+                  }>
+                    {form.getFieldDecorator('timeToLivePopularSetting')(
+                      <RadioGroup onChange={timeToLiveRadioChange.bind(this)}>
+                        <RadioButton value="1hour">1 Hour</RadioButton>
+                        <RadioButton value="1day">1 Day</RadioButton>
+                        <RadioButton value="1week">1 Week</RadioButton>
+                        <RadioButton value="1month">1 Month</RadioButton>
+                      </RadioGroup>
+                    )}
+                  </Form.Item>}
+                  {!this.state.timeToLivePopularSetting &&
+                  <Form.Item className="mb5" colon={false} label={
+                    <div className="row">
+                      <div className="col-auto">Time to live</div>
+                      <div className="col"></div>
+                      <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? "More" : "Popular option"}</a></div>
+                    </div>
+                  }>
                     {form.getFieldDecorator('timeToLive', {
                       rules: [{
                         message: "Please input integer value",
@@ -296,10 +361,10 @@ class TradeForm extends React.Component {
                     })(
                       <Input className="d-block w-100" placeholder="" size="large" addonAfter={timeToLiveSelectAfter}/>
                     )}
-                  </Form.Item>
+                  </Form.Item>}
                 </div>
                 <div className="col">
-                  <Form.Item className="mb5" label="Lrc Fee">
+                  <Form.Item className="mb5" colon={false} label="Lrc Fee">
                     {form.getFieldDecorator('lrcFee', {
                       rules: [{
                         message: "Please input valid integer value(1~50)",
@@ -311,7 +376,7 @@ class TradeForm extends React.Component {
                   </Form.Item>
                 </div>
                 <div className="col">
-                  <Form.Item className="mb5" label="MarginSplit">
+                  <Form.Item className="mb5" colon={false} label="MarginSplit">
                     {form.getFieldDecorator('marginSplit', {
                       rules: [{
                         message: "Please input valid integer value(0~100)",
