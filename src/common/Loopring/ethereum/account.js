@@ -46,7 +46,7 @@ export function privateKeytoPublic(privateKey) {
 }
 
 export function create(password) {
-  const mnemonic = generateMnemonic();
+  const mnemonic = generateMnemonic(256);
   const privateKey = mnemonictoPrivatekey(mnemonic, password, path);
   const publicKey = privateToPublic(privateKey);
   const address = privateToAddress(privateKey);

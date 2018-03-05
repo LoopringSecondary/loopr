@@ -10,28 +10,33 @@ function parseJSON(res) {
   return res.json();
 }
 
-window.LOOPRING_PROVIDER_HOST = 'https://relay1.loopring.io/rpc'
+window.LOOPRING_PROVIDER_HOST = 'https://loopring.io/rpc/v2';
+window.ETH_HOST = 'http://13.112.62.24/eth';
 
 let checkHost = () => {
   if (!window.LOOPRING_PROVIDER_HOST) {
     throw new Error('host is required. Do not forget: new Loopring(host)')
   }
-}
+  if(!window.ETH_HOST){
+    throw new Error('host is required. Do not forget: new ETH(host)')
+  }
+};
 
 let headers = {
   'Content-Type': 'application/json'
-}
+};
 
 function request(options) {
   checkHost();
-  let url = window.LOOPRING_PROVIDER_HOST;
   let method;
-  if (options.body) {
+    if (options.body) {
     method = options.body.method;
     options.headers = options.headers || headers;
     options.body.id = id();
     options.body = JSON.stringify(options.body)
   }
+  const url =  method.startsWith('eth')? window.ETH_HOST : window.LOOPRING_PROVIDER_HOST;
+    console.log(url);
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)

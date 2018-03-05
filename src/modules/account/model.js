@@ -1,4 +1,5 @@
 import {decrypt, fromMnemonic, fromPrivateKey, create} from 'Loopring/ethereum/account';
+import {register} from "Loopring/relay/account";
 
 export default {
   namespace: 'account',
@@ -32,6 +33,10 @@ export default {
         password: null,
       };
     },
+
+    register(state,payload){
+      register(payload.address)
+    }
   },
 
 
@@ -58,7 +63,7 @@ export default {
 
     * setWallet({payload}, {put,call}) {
       yield put({type: 'setAccount', payload})
-      // yield call({type:'register',payload:{address:payload.address}})
+    //  yield call({type:'register',payload:{address:payload.address}})
     }
   }
 };
