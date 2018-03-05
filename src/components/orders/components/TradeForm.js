@@ -56,22 +56,32 @@ class TradeForm extends React.Component {
           tradeInfo.amount = Number(values.amount)
           tradeInfo.price = Number(values.price)
           tradeInfo.total = tradeInfo.amount * tradeInfo.price
-          if (values.timeToLive) {
+          if(this.state.timeToLivePopularSetting && values.timeToLivePopularSetting) {
+            let timeToLive = 0
+            switch(values.timeToLivePopularSetting){
+              case '1hour': timeToLive = 3600; break;
+              case '1day': timeToLive = 24 * 86400; break;
+              case '1week': timeToLive = 7 * 24 * 86400; break;
+              case '1month': timeToLive = 30 * 24 * 86400; break;
+              default :
+                console.error("invalid timeToLivePopularSetting:", values.timeToLivePopularSetting)
+                return
+            }
+            tradeInfo.timeToLive = timeToLive
+          } else if (values.timeToLiveUnit && values.timeToLive) {
             let timeToLive = Number(values.timeToLive)
-            if (values.timeToLiveUnit === 'second') {
-              timeToLive = timeToLive
-            } else if (values.timeToLiveUnit === 'minute') {
-              timeToLive = timeToLive * 60
-            } else if (values.timeToLiveUnit === 'hour') {
-              timeToLive = timeToLive * 3600
-            } else if (values.timeToLiveUnit === 'day') {
-              timeToLive = timeToLive * 86400
-            } else {
-              console.error("invalid timeToLiveUnit:", values.timeToLiveUnit)
-              return
+            switch(values.timeToLiveUnit) {
+              case 'second': break;
+              case 'minute': timeToLive = timeToLive * 60; break;
+              case 'hour': timeToLive = timeToLive * 3600; break;
+              case 'day': timeToLive = timeToLive * 86400; break;
+              default :
+                console.error("invalid timeToLiveUnit:", values.timeToLiveUnit)
+                return
             }
             tradeInfo.timeToLive = timeToLive
           }
+          console.log(tradeInfo)
           if (values.lrcFee) {
             tradeInfo.lrcFee = Number(values.lrcFee)
           }
@@ -157,11 +167,10 @@ class TradeForm extends React.Component {
           const precision = Math.max(0,tokenRBalance.precision - marketConfig.pricePrecision)
           const availableAmount = Math.floor(tokenRBalance.balance / Number(price) * ("1e"+precision)) / ("1e"+precision)
           this.setState({availableAmount: availableAmount})
-          if(availableAmount <= 0) form.setFieldsValue({"amountSlider":0})
+          form.setFieldsValue({"amountSlider":0})
         } else {
           const availableAmount = Math.floor(tokenLBalance.balance * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
           this.setState({availableAmount: availableAmount})
-          if(availableAmount <= 0) form.setFieldsValue({"amountSlider":0})
         }
       } else if (type === 'amount') {
         amount = e.target.value.toString()
@@ -197,15 +206,13 @@ class TradeForm extends React.Component {
     }
 
     function amountSliderChange(e) {
-      console.log(this.state.availableAmount, e)
       if(this.state.availableAmount > 0) {
         const amount = this.state.availableAmount * Number(e) / 100
         form.setFieldsValue({"amount": amount})
+        const price = Number(form.getFieldValue("price"))
+        const total = accMul(price, amount)
+        form.setFieldsValue({"total": total})
       }
-    }
-
-    function caculateMaxAmount(){
-
     }
 
     const formItemLayout = {
