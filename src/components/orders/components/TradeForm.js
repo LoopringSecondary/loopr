@@ -81,7 +81,6 @@ class TradeForm extends React.Component {
             }
             tradeInfo.timeToLive = timeToLive
           }
-          console.log(tradeInfo)
           if (values.lrcFee) {
             tradeInfo.lrcFee = Number(values.lrcFee)
           }
