@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd'
+import { Layout, Menu, Breadcrumb,Alert} from 'antd'
 import GlobalFooter from './Footer'
 import Navbar from './Navbar'
 const { Header, Content, Footer } = Layout

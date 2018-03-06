@@ -9,7 +9,8 @@ import './ListSidebar.less'
 import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
-import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
+import PriceContainer from '../../../../modules/socket/modules/PriceContainer'
+import BalanceContainer from '../../../../modules/socket/modules/BalanceContainer';
 
 function ListSidebar({LIST, actions, dispatch}) {
   const {
@@ -335,6 +336,27 @@ function ListSidebar({LIST, actions, dispatch}) {
       </div>
     </div>
   )
+  const NotEnoughTip = ({token})=>{
+    return (
+      <div className="p15">
+        <div className="text-center">
+          <Icon className="color-red-500 mr10 fs30" type="exclamation-circle" />
+          <div className="fs16 mt10 mb10">
+            Balance is not enough for orders
+          </div>
+          <div>
+            <Button onClick={gotoReceive.bind(this,token)} className="m5 color-blue-500">Receive</Button>
+            <Button onClick={gotoTrade.bind(this,token)} className="m5 color-blue-500">Buy</Button>
+            {
+              token.symbol === 'WETH' &&
+              <Button onClick={gotoConvert.bind(this,token)} className="m5 color-blue-500">Convert</Button>
+            }
+          </div>
+
+        </div>
+      </div>
+    )
+  }
   const TokenItem = ({item,index})=>{
     //TODO mock datas, should calculate with configuration
     if(fm.toNumber(item.allowance) >= 10) {
@@ -365,10 +387,9 @@ function ListSidebar({LIST, actions, dispatch}) {
             </div>
             <div className="">
               <span className="fs14 color-grey-900">{item.balance}</span>
-              <PricesContainer render={({prices,currency})=>{
-                  const price = prices.find(price=>price.token === item.symbol) || {price:0}
-                  const total = (item.balance * price.price).toFixed(2)
-                  return <span className="fs12 ml5 color-grey-400">{currency.icon} {total}</span>
+              <PriceContainer symbol={item.symbol} render={({ price=0 })=>{
+                  const total = (item.balance * price).toFixed(2)
+                  return <span className="fs12 ml5 color-grey-400">{total}</span>
               }} />
             </div>
           </div>
@@ -382,6 +403,20 @@ function ListSidebar({LIST, actions, dispatch}) {
               </Tooltip>
             </div>
           }
+          {
+            index<2 &&
+            <div className="col-auto pr5">
+              <Popover
+                title={<div className="pt5 pb5 fs18">{item.symbol}</div>}
+                placement="bottom"
+                arrowPointAtCenter
+                content={<NotEnoughTip token={item} />}
+              >
+                <Icon type="exclamation-circle" className="color-red-500" />
+              </Popover>
+            </div>
+          }
+
           <div className="col-auto pr5">
             <Tooltip title="Send/Transfer">
               <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
@@ -390,6 +425,7 @@ function ListSidebar({LIST, actions, dispatch}) {
               </Button>
             </Tooltip>
           </div>
+
           <div className="col-auto" onClick={(e) => {
             e.stopPropagation();
             e.preventDefault()
