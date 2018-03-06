@@ -1,4 +1,4 @@
-import {decrypt, fromMnemonic, fromPrivateKey, create,publicKeytoAddress} from 'Loopring/ethereum/account';
+import {decrypt, fromMnemonic, fromPrivateKey, create} from 'Loopring/ethereum/account';
 import {register} from "Loopring/relay/account";
 
 export default {
