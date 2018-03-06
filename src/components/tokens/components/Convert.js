@@ -21,7 +21,7 @@ class Convert extends React.Component {
   }
 
   render() {
-    const {form, modal,account} = this.props
+    const {form, modal, account} = this.props
     let selectedToken = modal.item || {}
     //TODO mock data
     selectedToken = {...selectedToken, balance: 1.2, allowance: 0}
