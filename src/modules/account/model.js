@@ -66,6 +66,7 @@ export default {
     },
 
     * setWallet({payload}, {put,call}) {
+      window.STORAGE.wallet.setWallet({address:payload.address});
       yield put({type: 'setAccount', payload})
     //  yield call({type:'register',payload:{address:payload.address}})
     }
