@@ -36,4 +36,4 @@ class CurrencyContainer extends React.Component {
   }
 }
 
-export default connect(({settings}=>({currency:settings.preference.currency}))=>)(CurrencyContainer)
+export default connect(({settings})=>({currency:settings.preference.currency}))(CurrencyContainer)

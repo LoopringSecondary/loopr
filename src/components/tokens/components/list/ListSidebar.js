@@ -11,6 +11,8 @@ import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
 import PriceContainer from '../../../../modules/socket/modules/PriceContainer'
 import BalanceContainer from '../../../../modules/socket/modules/BalanceContainer';
+import TokensSocketContainer from '../../../../modules/socket/modules/TokensSocketContainer';
+import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 
 function ListSidebar({LIST, actions, dispatch}) {
   const {
@@ -387,9 +389,12 @@ function ListSidebar({LIST, actions, dispatch}) {
             </div>
             <div className="">
               <span className="fs14 color-grey-900">{item.balance}</span>
+              <CurrencyContainer render={({ currency })=>{
+                  return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
+              }} />
               <PriceContainer symbol={item.symbol} render={({ price=0 })=>{
                   const total = (item.balance * price).toFixed(2)
-                  return <span className="fs12 ml5 color-grey-400">{total}</span>
+                  return <span className="fs12 color-grey-400">{total}</span>
               }} />
             </div>
           </div>

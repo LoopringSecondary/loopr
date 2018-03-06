@@ -9,15 +9,16 @@ class TokensSocketContainer extends React.Component {
       tokens:[]
     }
   }
-  getTokens(res){
-    const balances = res.tokens
-    return balances
-  }
+
   componentDidMount() {
     const { socket } = this.context
     if (!socket) {
       console.log('socket connection has not been established')
       return false
+    }
+    const getTokens = (res)=>{
+      const balances = res.tokens
+      return balances
     }
     socket.on('balance_res', (res)=>{
       console.log('balance_res',res)
