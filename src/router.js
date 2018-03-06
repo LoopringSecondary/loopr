@@ -5,14 +5,11 @@ import Locales from './modules/locales/container'
 import Socket from './modules/socket/ProviderContainer'
 function RouterConfig({ history }) {
   return (
-        <Socket>
-          <Locales>
-            <Router history={history}>
-              {pageRoutes}
-            </Router>
-          </Locales>
-        </Socket>
-
+    <Locales>
+      <Router history={history}>
+        {pageRoutes}
+      </Router>
+    </Locales>
   )
 }
 export default RouterConfig;

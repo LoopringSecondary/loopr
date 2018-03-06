@@ -6,7 +6,17 @@ class PriceSocketContainer extends React.Component {
     super(props, context)
     this.state = {
       price:0,
+      prices:[],
     }
+  }
+  getPrice(tokens){
+    const { symbol } = this.props
+    let price = 0
+    if(symbol){
+      const token = tokens.find(token=>token.token === symbol)
+      price = token && token.price
+    }
+    return price
   }
   componentDidMount() {
     const { socket } = this.context
@@ -14,15 +24,11 @@ class PriceSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    const { symbol } = this.props
-    if(!symbol){
-      throw new Error('symbol props is required')
-    }
     socket.on('marketcap_res', (res)=>{
-      const token = res.tokens.find(token=>token.token === symbol)
-      const price = token && token.price
+      const price = this.getPrice(res.tokens)
       this.setState({
-        price:price
+        price,
+        prices:res.tokens,
       })
     })
   }
@@ -36,13 +42,11 @@ class PriceSocketContainer extends React.Component {
     // socket.off(event)
   }
   render() {
-    const symbol = this.props.symbol
-    const token = pricesData.find(token=>token.token === symbol) // For Mock Price data
-    const price = token && token .price // For Mock Price data
     const childProps = {
       ...this.props,
       ...this.state,
-      price, // For Mock Price data
+      price:this.getPrice(pricesData), // For Mock Price data
+      prices:pricesData,// For Mock Price data
     }
     const {render} = this.props
     if(render){
