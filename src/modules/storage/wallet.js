@@ -9,9 +9,17 @@ const getWallet = (wallet)=>{
     return null
   }
 }
+const getAddress = ()=>{
+  if(localStorage.wallet){
+    const wallet = JSON.parse(localStorage.wallet)
+    return wallet && wallet.address
+  }else{
+    return null
+  }
+}
 
 const isUnlocked = ()=>{
-  return localStorage.wallet && JSON.parse(localStorage.wallet) && JSON.parse(localStorage.wallet).address
+  return !!getAddress()
 }
 const isInWhiteList = (address)=>{
 
@@ -20,6 +28,7 @@ const isInWhiteList = (address)=>{
 export default {
   setWallet,
   getWallet,
+  getAddress,
   isUnlocked,
   isInWhiteList,
 }

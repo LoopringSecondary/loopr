@@ -330,7 +330,7 @@ class TradeForm extends React.Component {
               <div className="row">
                 <div className="col-12">
                   {this.state.timeToLivePopularSetting &&
-                  <Form.Item colon={false} label={
+                  <Form.Item className="ttl" colon={false} label={
                     <div className="row">
                       <div className="col-auto">Time to live</div>
                       <div className="col"></div>
@@ -347,7 +347,7 @@ class TradeForm extends React.Component {
                     )}
                   </Form.Item>}
                   {!this.state.timeToLivePopularSetting &&
-                  <Form.Item className="mb5" colon={false} label={
+                  <Form.Item className="mb5 ttl" colon={false} label={
                     <div className="row">
                       <div className="col-auto">Time to live</div>
                       <div className="col"></div>

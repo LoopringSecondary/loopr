@@ -17,9 +17,9 @@ export default (
 				<Route path="/trade/"  exact component={Pages.Trade} />
 				<Route path="/trade/:pair"  exact component={Pages.Trade} />
         <Route path="/portfolio" exact component={Pages.Portfolio}/>
-		    <Route path="/airdrop/" exact component={Pages.Portfolio}/>
+		    {airdropRoutes}
 			</Switch>
-      {airdropRoutes}
+
 			<Pages.Unload />
 			<TokenModals />
 			<WalletModals />
