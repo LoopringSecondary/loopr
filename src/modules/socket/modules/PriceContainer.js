@@ -20,7 +20,7 @@ class PriceSocketContainer extends React.Component {
     }
     socket.on('marketcap_res', (res)=>{
       const token = res.tokens.find(token=>token.token === symbol)
-      const price = token && token .price
+      const price = token && token.price
       this.setState({
         price:price
       })
