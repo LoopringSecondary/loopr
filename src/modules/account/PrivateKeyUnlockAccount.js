@@ -11,13 +11,18 @@ export default class PrivateKeyUnlockAccount extends Account {
     this.privateKey = input.privateKey
   }
 
-  sign(rawTx){
+  getAddress() {
+    super.getAddress()
+  }
+
+  signTx(rawTx){
     console.log("private key sign")
     return this.signWithPrivateKey(rawTx, this.privateKey)
   }
 
   async sendTransaction(rawTx) {
     let tx = new Transaction(rawTx)
-    return await tx.send(this.privateKey)
+    const signed = await this.sign(rawTx)
+    return await tx.sendSignedTx(signed)
   }
 }

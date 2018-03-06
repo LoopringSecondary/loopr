@@ -77,6 +77,16 @@ export default class Transaction {
     })
   }
 
+  async sendSignedTx(signedTx) {
+    let body = {};
+    body.method = 'eth_sendRawTransaction';
+    body.params = [signedTx];
+    return request({
+      method: 'post',
+      body,
+    })
+  }
+
   async complete(address) {
     await this.setChainId();
     await this.setGasLimit();

@@ -36,7 +36,6 @@ class UnlockByPrivateKey extends React.Component {
 
         const privateKey = this.state.privateKey
         const address = privateKeytoAddress(privateKey)
-        console.log(privateKey, address)
         window.WALLET = new PrivateKeyUnlockAccount({privateKey: privateKey, address: address})
 
         modal.hideModal({id: 'wallet/unlock'});
