@@ -32,6 +32,7 @@ class BackupMnemonic extends React.Component {
         </div>
         <Input.TextArea
           value={account['mnemonic']}
+          autosize={{minRows: 3, maxRows: 6}}
           size="large"
         />
         <Button className="d-block w-100 mt25" size="large" type="primary" onClick={backup}>I Understand, Copy Mnemonic</Button>

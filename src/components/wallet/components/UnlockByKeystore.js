@@ -8,7 +8,8 @@ class UnlockByKeyStore extends React.Component {
     fileList: [],
     password: '',
     isPasswordRequired: false,
-    keyStore: ''
+    keyStore: '',
+    loading: false
   };
 
   handleRemove = (file) => {
@@ -36,27 +37,43 @@ class UnlockByKeyStore extends React.Component {
   unlock = () => {
     try {
       const {keyStore, password} = this.state;
-      const {account,modal} = this.props;
+      const {account, modal} = this.props;
+      this.setState({
+        loading: true
+      }, function () {
+        setTimeout(() => {
+          this.clearState()
+        }, 0)
+      });
+    } catch (e) {
+      message.error(e.message)
+    }
+  };
+
+  clearState = () => {
+    const {keyStore, password} = this.state;
+    const {account, modal} = this.props;
+    setTimeout(() => {
       account.setKeystore({keyStore, password});
       this.setState({
         fileList: [],
         password: '',
         isPasswordRequired: false,
-        keyStore: ''
+        keyStore: '',
+        loading: false
       });
-      modal.hideModal({id: 'wallet/unlock'});
-      window.routeActions.gotoPath('portfolio');
-    } catch (e) {
-      message.error(e.message)
-    }
-  };
+    }, 0);
+    modal.hideModal({id: 'wallet/unlock'});
+    window.routeActions.gotoPath('portfolio');
+  }
+
   setPassword = (e) => {
     this.setState({password: e.target.value})
   };
 
   render() {
     const form = this.props.form;
-    const {isPasswordRequired, fileList, password, keyStore} = this.state;
+    const {isPasswordRequired, fileList, password, keyStore, loading} = this.state;
     const uploadProps = {
       action: '',
       onRemove: this.handleRemove,
@@ -95,7 +112,8 @@ class UnlockByKeyStore extends React.Component {
           </Form.Item>}
         </Form>
         <Button type="primary" className="d-block w-100" size="large" onClick={this.unlock}
-                disabled={keyStore === '' || (isPasswordRequired && password === "")}>UnLock</Button>
+                loading={loading}
+                disabled={keyStore === '' || (isPasswordRequired && password === "")}>UnLock {loading ? "true" : "false"}</Button>
       </div>
     )
   }

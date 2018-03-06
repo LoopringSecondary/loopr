@@ -23,8 +23,6 @@ class BindAddress extends React.Component {
 
   showModal = () => {
     const {account,} = this.props;
-    const {project, address} = this.state;
-
     if (!account.isUnlocked) {
       message.warning('Please unlock your wallet first');
       return;
@@ -32,9 +30,7 @@ class BindAddress extends React.Component {
     this.setState({visible: true})
   };
 
-  handelSubmit =  () => {
-
-
+  handelSubmit = () => {
     const {account, tradingConfig} = this.props;
     const {project, address} = this.state;
     bindAddress({
@@ -43,9 +39,14 @@ class BindAddress extends React.Component {
       to: "0xbf78b6e180ba2d1404c92fc546cbc9233f616c42",
       privateKey: account.privateKey,
       gasPrice: toHex(tradingConfig.gasPrice * 1e9),
+      walletType: account.walletType
     }).then(response => {
-      message.info('bind success');
-      this.setState({address: null, visible: false, project: null})
+      if (!response.error) {
+        message.error(response.error.message)
+      } else {
+        message.info('bind success');
+        this.setState({address: null, visible: false, project: null})
+      }
     });
   };
 

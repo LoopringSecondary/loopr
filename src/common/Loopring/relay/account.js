@@ -38,3 +38,15 @@ export async function getTransactionCount(add,tag){
     body,
   })
 }
+
+export async function register(owner) {
+
+  let body = {}
+  body.method = 'loopring_unlockWallet'
+  body.params = {owner}
+  return request({
+    method:'post',
+    headers,
+    body,
+  })
+}
