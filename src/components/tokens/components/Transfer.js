@@ -7,7 +7,6 @@ import * as fm from '../../../common/Loopring/common/formatter'
 
 class Transfer extends React.Component {
   state = {
-    address: "0x4919776519F2B290E0E98AA8d9f5751b5321876C",
     estimateGasPrice: 30,
     selectedGasPrice: fm.toNumber(configs.defaultGasPrice),
     selectedGasLimit: fm.toNumber(configs.defaultGasLimit),
@@ -25,7 +24,7 @@ class Transfer extends React.Component {
   }
 
   render() {
-    const {form, modal} = this.props
+    const {form, modal, account} = this.props
     let selectedToken = modal.item || {}
     const defaultGasLimit = fm.toNumber(configs.defaultGasLimit)
     //TODO mock data
@@ -55,7 +54,7 @@ class Transfer extends React.Component {
           }
           rawTx.chainId = configs.chainId || 1
           const worth = (fm.toNumber(this.state.exchangeRate) * values.amount).toFixed(4)
-          const extraData = {from:this.state.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:worth}
+          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:worth}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', rawTx, extraData})
         }

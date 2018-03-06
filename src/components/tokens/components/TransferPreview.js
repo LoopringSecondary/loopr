@@ -4,11 +4,10 @@ import * as fm from '../../../common/Loopring/common/formatter'
 import Transaction from '../../../common/Loopring/ethereum/transaction'
 
 let Preview = ({
-  form, modal,
+  form, modal, account
   }) => {
   const {rawTx,extraData} = modal
-  //TODO mock
-  const privateKey = "93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
+  const privateKey = account.privateKey
   const handelSubmit = ()=>{
     modal.showLoading({id:'token/transfer/preview'})
     let result = {...rawTx, extraData}
