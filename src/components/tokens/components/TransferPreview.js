@@ -10,11 +10,9 @@ let Preview = ({
   //TODO mock
   const privateKey = "93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
   const handelSubmit = ()=>{
-    let tx = new Transaction(rawTx)
-    tx.setNonce(extraData.from)
     modal.showLoading({id:'token/transfer/preview'})
     let result = {...rawTx, extraData}
-    tx.send(privateKey).then(res=>{
+    window.WALLET.sendTransaction(rawTx).then(res=>{
       if(res.error) {
         result = {...result, error:res.error.message}
       }
@@ -25,6 +23,22 @@ let Preview = ({
       modal.hideModal({id:'token/transfer/preview'})
       modal.showModal({id:'token/transfer/result', result})
     })
+
+    // let tx = new Transaction(rawTx)
+    // tx.setNonce(extraData.from)
+    // modal.showLoading({id:'token/transfer/preview'})
+    // let result = {...rawTx, extraData}
+    // tx.send(privateKey).then(res=>{
+    //   if(res.error) {
+    //     result = {...result, error:res.error.message}
+    //   }
+    //   modal.hideModal({id:'token/transfer/preview'})
+    //   modal.showModal({id:'token/transfer/result', result})
+    // }).catch(e=>{
+    //   result = {...result, error:e.message}
+    //   modal.hideModal({id:'token/transfer/preview'})
+    //   modal.showModal({id:'token/transfer/result', result})
+    // })
   }
 
   const handelCancel = ()=>{
