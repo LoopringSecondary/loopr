@@ -24,9 +24,14 @@ export function privateKeytoAddress(privateKey) {
 
 export function publicKeytoAddress(publicKey) {
   try {
-    validator.validate({value: publicKey, type: 'PRIVATE_KEY'});
+    if (typeof publicKey === 'string') {
+      validator.validate({value: publicKey, type: 'PRIVATE_KEY'});
+      publicKey = toBuffer(addHexPrefix(publicKey))
+    } else {
+      validator.validate({value: publicKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
   } catch (e) {
-    throw new Error('Invalid private key')
+    throw new Error('Invalid public key')
   }
   return formatAddress(publicKeytoAddress(toBuffer(publicKey)))
 }
@@ -46,7 +51,7 @@ export function privateKeytoPublic(privateKey) {
 }
 
 export function create(password) {
-  const mnemonic = generateMnemonic();
+  const mnemonic = generateMnemonic(256);
   const privateKey = mnemonictoPrivatekey(mnemonic, password, path);
   const publicKey = privateToPublic(privateKey);
   const address = privateToAddress(privateKey);

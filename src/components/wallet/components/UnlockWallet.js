@@ -6,6 +6,8 @@ import UnlockByMetaMask from './UnlockByMetaMask'
 import UnlockByKeystore from './UnlockByKeystore'
 import UnlockByMnemonic from './UnlockByMnemonic'
 import UnlockByPrivateKey from './UnlockByPrivateKey'
+import UnlockByTrezor from './UnlockByTrezor'
+
 
 function UnlockWallet({form,modal,account}) {
   const gotoGenerate = ()=>{
@@ -26,6 +28,9 @@ function UnlockWallet({form,modal,account}) {
           <Tabs defaultActiveKey="metamask" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">MetaMask</div>} key="metamask">
               <UnlockByMetaMask modal={modal} account={account}/>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Trezor</div>} key="trezor">
+              <UnlockByTrezor modal={modal} account={account}/>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
              <UnlockByKeystore modal={modal} account={account} />

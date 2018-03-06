@@ -10,8 +10,6 @@ import * as fm from '../../../common/Loopring/common/formatter'
 
 class Convert extends React.Component {
   state = {
-    address: "0x4919776519F2B290E0E98AA8d9f5751b5321876C",
-    privateKey:"93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e",
     amount: 0,
     selectedGasPrice: 30,
     selectedGasLimit: 21000,
@@ -23,7 +21,7 @@ class Convert extends React.Component {
   }
 
   render() {
-    const {form, modal} = this.props
+    const {form, modal, account} = this.props
     let selectedToken = modal.item || {}
     //TODO mock data
     selectedToken = {...selectedToken, balance: 1.2, allowance: 0}
@@ -38,12 +36,12 @@ class Convert extends React.Component {
           const gasPrice = fm.toHex(fm.toNumber(this.state.selectedGasPrice) * 1e9)
           const gasLimit = fm.toHex(fm.toNumber(this.state.selectedGasLimit))
           const chainId = configs.chainId || 1
-          getTransactionCount(this.state.address).then((nonce)=>{
+          getTransactionCount(account.address).then((nonce)=>{
             if(nonce.result){
               if(selectedToken.symbol === "ETH") {
-                return api.deposit({amount:formatedAmount, privateKey:this.state.privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
+                return api.deposit({amount:formatedAmount, privateKey:account.privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
               } else {
-                return api.withDraw({amount:formatedAmount, privateKey:this.state.privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
+                return api.withDraw({amount:formatedAmount, privateKey:account.privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
               }
             } else {
               throw new Error('Failed to call ethereum API, please try later')

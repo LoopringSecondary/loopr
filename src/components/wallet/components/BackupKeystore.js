@@ -24,12 +24,11 @@ class BackupKeystore extends React.Component {
       <div>
         <div className="text-center">
           <img src={icon} className="mt25 mb25" style={{width: '100px'}}/>
-          <div className="fs20 color-grey-900 mb5">Dont Lose It!</div>
+          <div className="fs20 color-grey-900 mb5">Don't Lose It!</div>
           <div className="fs14 color-grey-600 mb15">It cannot be recovered if you lose it.</div>
           <div className="fs20 color-grey-900 mb5">Do not share it!!</div>
           <div className="fs14 color-grey-600 mb15">Your funds will be stolen if you use this file on a
-            malicious/phishing
-            site.
+            malicious/phishing site.
           </div>
           <div className="fs20 color-grey-900 mb5">Make a backup!!!</div>
           <div className="fs14 color-grey-600 mb15">Secure it like the millions of dollars it may one day be worth.
