@@ -59,7 +59,6 @@ const TradeConfirm = ({
     const delegateAddress = configs.delegateAddress;
     let nonce = toNumber((await getTransactionCount(account.address)).result);
 
-
     if (toBig(tokenS.allowance).greaterThan(allowanceS * Number('1e' + tokenS.digits))) {
       const SToken = new Token({address: tokenS.address});
       if (allowanceS > 0) {
@@ -68,7 +67,8 @@ const TradeConfirm = ({
           spender: delegateAddress,
           amount: '0x0',
           gasPrice,
-          nonce: toHex(nonce)
+          nonce: toHex(nonce),
+          walletType:account.walletType
         });
         nonce = nonce + 1;
         await SToken.approve(({
@@ -76,7 +76,8 @@ const TradeConfirm = ({
           spender: delegateAddress,
           amount: toHex(toBig('9223372036854775806')),
           gasPrice,
-          nonce: toHex(nonce)
+          nonce: toHex(nonce),
+          walletType:account.walletType
         }));
         nonce = nonce + 1;
       }
@@ -90,7 +91,8 @@ const TradeConfirm = ({
           spender: delegateAddress,
           amount: '0x0',
           gasPrice,
-          nonce: toHex(nonce)
+          nonce: toHex(nonce),
+          walletType:account.walletType
         });
         nonce = nonce + 1;
         await LRCToken.approve(({
@@ -98,7 +100,8 @@ const TradeConfirm = ({
           spender: delegateAddress,
           amount: toHex(toBig('9223372036854775806')),
           gasPrice,
-          nonce: toHex(nonce)
+          nonce: toHex(nonce),
+          walletType:account.walletType
         }));
       }
     }

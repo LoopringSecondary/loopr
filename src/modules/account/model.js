@@ -1,4 +1,5 @@
 import {decrypt, fromMnemonic, fromPrivateKey, create} from 'Loopring/ethereum/account';
+import {register} from "Loopring/relay/account";
 
 export default {
   namespace: 'account',
@@ -32,6 +33,10 @@ export default {
         password: null,
       };
     },
+
+    register(state,payload){
+      register(payload.address)
+    }
   },
 
 
@@ -56,9 +61,14 @@ export default {
       yield put({type: 'setWallet', payload: {...wallet,password:payload.password,walletType:'key'}})
     },
 
+    * connectToTrezor({payload},{put}){
+      yield put({type: 'setWallet', payload: {...payload,walletType:'trezor'}})
+    },
+
     * setWallet({payload}, {put,call}) {
+      window.STORAGE.wallet.setWallet({address:payload.address});
       yield put({type: 'setAccount', payload})
-      // yield call({type:'register',payload:{address:payload.address}})
+    //  yield call({type:'register',payload:{address:payload.address}})
     }
   }
 };

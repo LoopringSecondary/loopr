@@ -75,7 +75,7 @@ export async function getAccountBalance(address, tag) {
   })
 }
 
-export async function bindAddress({projectId, address, to, privateKey, gasPrice, gasLimit, nonce, chainId}) {
+export async function bindAddress({projectId, address, to, privateKey, gasPrice, gasLimit, nonce, chainId,walletType,path}) {
 
   validator.validate({value: to, type: 'ADDRESS'});
   const tx = {};
@@ -94,6 +94,6 @@ export async function bindAddress({projectId, address, to, privateKey, gasPrice,
   if (chainId) {
     tx.chainId = chainId
   }
-  const transaction = new Transaction(tx)
-  transaction.send(privateKey)
+  const transaction = new Transaction(tx);
+  transaction.send({privateKey,walletType,path})
 }

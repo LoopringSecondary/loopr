@@ -65,14 +65,14 @@ export default class Token {
    return new Transaction(tx);
   }
 
-  async transfer({privateKey, to, amount, gasPrice, gasLimit, nonce, chainId}) {
+  async transfer({privateKey, to, amount, gasPrice, gasLimit, nonce, chainId,walletType,path}) {
     const transaction = this.generateTransferTx({to, amount, gasPrice, gasLimit, nonce, chainId});
-    return transaction.send(privateKey)
+    return transaction.send({privateKey,walletType,path})
   }
 
-  async approve({spender, amount, privateKey, gasPrice, gasLimit, nonce, chainId}) {
+  async approve({spender, amount, privateKey, gasPrice, gasLimit, nonce, chainId,walletType,path}) {
     const transaction = this.generateApproveTx({spender, amount, gasPrice, gasLimit, nonce, chainId});
-    return transaction.send(privateKey)
+    return transaction.send({privateKey,walletType,path})
   }
 
   async balanceOf(owner, tag) {

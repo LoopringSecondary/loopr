@@ -19,12 +19,11 @@ function Navbar(props){
       }
     })
   }
-  const showModal = (id,address)=>{
+  const showModal = (id)=>{
     props.dispatch({
       type:'modals/modalChange',
       payload:{
         id,
-        address,
         visible:true
       }
     })
@@ -63,7 +62,7 @@ function Navbar(props){
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,'token/receive',account.address)}>
+            <a onClick={showModal.bind(this,'token/receive')}>
               <Icon type="qrcode" className="mr5" />QR Code
             </a>
           </div>

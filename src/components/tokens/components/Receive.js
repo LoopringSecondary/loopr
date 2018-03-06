@@ -5,12 +5,11 @@ import copy from 'copy-to-clipboard';
 const Search = Input.Search;
 
 let Receive = (props) => {
-  const modal = props.modal
-  const address = window.STORAGE.wallet.getAddress()
+  const address = window.STORAGE.wallet.getAddress();
   if(!address){
     return (
       <Card title="Address is Null">
-        Plase Confirm your wallet is unlock.
+        Please Confirm your wallet is unlock.
       </Card>
     )
   }

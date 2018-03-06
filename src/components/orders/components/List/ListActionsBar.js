@@ -7,7 +7,7 @@ import {toHex} from 'Loopring/common/formatter'
 
 function ListActionsBar(props) {
 
-  const {actions = {}, LIST = {}, className, privateKey, gasPrice, contractAddress} = props;
+  const {actions = {}, LIST = {}, className, account, gasPrice, contractAddress} = props;
   const {filters = {}} = LIST
   const tokenPair = filters.pair;
   const cancelAll = () => {
@@ -17,13 +17,20 @@ function ListActionsBar(props) {
       onOk: () => {
         const seconds = toHex(Math.ceil(new Date().getTime() / 1e3));
         const params = {
-          privateKey,
+          privateKey: account.privateKey,
           gasPrice: toHex(gasPrice * 1e9),
           timestamp: seconds,
-          protocolAddress: contractAddress
+          protocolAddress: contractAddress,
+          walletType: account.walletType
         };
-        tokenPair ? cancelOrdersByTokenPairs({...params, tokenPairs: [tokenPair]}) : cancelAllOrders({...params});
-      },
+        if (tokenPair) {
+        const  tokenA  = tokenPair.split('-')[0];
+        const  tokenB = tokenPair.split('-')[1];
+
+        cancelOrdersByTokenPairs({...params, tokenA:window.CONFIG.getTokenBySymbol(tokenA).address,tokenB:window.CONFIG.getTokenBySymbol(tokenB).address})
+        } else{
+        cancelAllOrders({...params})
+      }},
       onCancel: () => {
       },
       okText: 'Yes',
@@ -49,7 +56,7 @@ function ListActionsBar(props) {
 
 function mapStateToProps(state) {
   return {
-    privateKey: state.account.privateKey,
+    account: state.account,
     gasPrice: state.settings.trading.gasPrice,
     contractAddress: state.settings.trading.contract.address
   };
