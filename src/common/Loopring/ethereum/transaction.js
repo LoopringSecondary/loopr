@@ -5,6 +5,8 @@ import {estimateGas, getGasPrice, getTransactionCount} from './utils';
 import request from '../common/request'
 import {privateKeytoAddress} from "./account";
 import {trezorSign} from './trezor'
+import {configs} from "../../config/data";
+
 
 export default class Transaction {
   constructor(rawTx) {
@@ -27,7 +29,7 @@ export default class Transaction {
   }
 
   setChainId() {
-    this.raw.chainId = this.raw.chainId || 1
+    this.raw.chainId = this.raw.chainId || configs['chainId'] || 1
   }
 
   async setNonce(address, tag) {

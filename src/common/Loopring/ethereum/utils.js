@@ -40,11 +40,9 @@ export async function getGasPrice() {
 }
 
 export async function estimateGas(tx) {
-  const params = [JSON.stringify(tx)];
   const body = {};
   body.method = 'eth_estimateGas';
-  body.params = params;
-
+  body.params = [tx];
   return request({
     method: 'post',
     body,
