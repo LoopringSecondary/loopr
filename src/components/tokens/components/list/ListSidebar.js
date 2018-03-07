@@ -399,8 +399,7 @@ function ListSidebar({LIST, actions, dispatch,socketTokens}) {
                   return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
               }} />
               <PricesContainer symbol={item.symbol} render={({ price=0 })=>{
-                  const total = (item.balance * price).toFixed(2)
-                  return <span className="fs12 color-grey-400">{total}</span>
+                  return <span className="fs12 color-grey-400">{window.uiFormatter.getTokenValue({...item,price})}</span>
               }} />
             </div>
           </div>

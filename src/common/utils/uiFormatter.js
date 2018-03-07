@@ -33,8 +33,20 @@ export function getTokenAmount(symbol,amount){
   const token = window.CONFIG.getTokenBySymbol(symbol) || {}
   return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
 }
-export function getTokenValue(amount){
+export function getTokenBalance(token){
+  if(!token.digits || !token.precision){
+    const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol) || {}
+    token = {...tokenConfig,...token}
+  }
+  return (toNumber(token.balance) / Number('1e' + token.digits)).toFixed(token.precision)
+}
 
+export function getTokenValue(token){
+  if(!token.price){
+    console.error('token.price is required')
+  }
+  const balance = getTokenBalance(token)
+  return (balance * token.price).toFixed(2)
 }
 
 export default {
@@ -42,4 +54,5 @@ export default {
   getFormatTime,
   getSeconds,
   getTokenAmount,
+  getTokenValue,
 }
