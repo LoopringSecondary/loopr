@@ -18,7 +18,8 @@ class SocketProvider extends React.Component {
   constructor(props, context) {
     super(props, context)
     const options = {
-      path:'/'
+      // path:'/'
+      // reconenction:false,
     }
     this.socket = io(props.url,options)
     this.socket.on('connect', (data) => {

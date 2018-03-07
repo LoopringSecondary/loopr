@@ -10,17 +10,27 @@ import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
 import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
-import TokensContainer from '../../../../modules/socket/modules/TokensContainer';
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
+import TokensContainer from '../../../../modules/socket/modules/TokensContainer';
 
-function ListSidebar({LIST, actions, dispatch}) {
-  const {
+function ListSidebar({LIST, actions, dispatch,socketTokens}) {
+  let {
     items = [],
     selected = {},
     loading,
     filters = {},
     page = {}
   } = LIST
+  items.forEach(item=>{
+    const token =  socketTokens.find(token=>token.symbol === item.symbol)
+    if(token){
+      item.balance = Number(token.balance)
+      item.allowance = Number(token.allowance)
+    }else{
+      item.balance = 0
+      item.allowance = 0
+    }
+  })
   //TODO load from store
   const selectedGasPrice = 30
   const selectedGasLimit = 21000
@@ -359,10 +369,6 @@ function ListSidebar({LIST, actions, dispatch}) {
     )
   }
   const TokenItem = ({item,index})=>{
-    //TODO mock datas, should calculate with configuration
-    if(fm.toNumber(item.allowance) >= 10) {
-      item.checked = true
-    }
     return (
       <div style={{borderBottom: '1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this, item)}
            className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
@@ -398,16 +404,6 @@ function ListSidebar({LIST, actions, dispatch}) {
             </div>
           </div>
           {
-            false && item.symbol != 'ETH' &&
-            <div className="col-auto mr5">
-              <Tooltip title={item.checked ? `Disable` : `Enable`} >
-                <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
-                  <Switch onChange={toggleApprove.bind(this,item)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={item.checked} loading={item.loading} />
-                </div>
-              </Tooltip>
-            </div>
-          }
-          {
             index<2 &&
             <div className="col-auto pr5">
               <Popover
@@ -420,7 +416,6 @@ function ListSidebar({LIST, actions, dispatch}) {
               </Popover>
             </div>
           }
-
           <div className="col-auto pr5">
             <Tooltip title="Send/Transfer">
               <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
@@ -477,7 +472,9 @@ function ListSidebar({LIST, actions, dispatch}) {
       {TokenListAcionsBar}
       <div className="token-list-sidebar">
         {
-          results.map((item, index) => <TokenItem key={index} index={index} item={item}/>)
+          results.map((item, index) => (
+              <TokenItem key={index} index={index} item={item}/>
+          ))
         }
       </div>
 

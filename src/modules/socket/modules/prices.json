@@ -1,263 +1,267 @@
 [
   {
     "price": 132.6628968,
-    "token": "NMR"
+    "symbol": "NMR"
+  },
+  {
+    "price": 5400.523333,
+    "symbol": "ETH"
   },
   {
     "price": 1.8935973025,
-    "token": "REQ"
+    "symbol": "REQ"
   },
   {
     "price": 124.053443475,
-    "token": "PPT"
+    "symbol": "PPT"
   },
   {
     "price": 23.553072465,
-    "token": "NET"
+    "symbol": "NET"
   },
   {
     "price": 80.49073955,
-    "token": "PLU"
+    "symbol": "PLU"
   },
   {
     "price": 17.8622511125,
-    "token": "RDN"
+    "symbol": "RDN"
   },
   {
     "price": 5.6078943465,
-    "token": "STORJ"
+    "symbol": "STORJ"
   },
   {
     "price": 2.5785957005,
-    "token": "GNT"
+    "symbol": "GNT"
   },
   {
     "price": 14.5569776875,
-    "token": "SAN"
+    "symbol": "SAN"
   },
   {
     "price": 122.33256845,
-    "token": "OMG"
+    "symbol": "OMG"
   },
   {
     "price": 5.950304677,
-    "token": "ZRX"
+    "symbol": "ZRX"
   },
   {
     "price": 0.0019249933,
-    "token": "KIN"
+    "symbol": "KIN"
   },
   {
     "price": 15.9531018225,
-    "token": "ENG"
+    "symbol": "ENG"
   },
   {
     "price": 2.253755942,
-    "token": "CVC"
+    "symbol": "CVC"
   },
   {
     "price": 0.4972865437,
-    "token": "DNT"
+    "symbol": "DNT"
   },
   {
     "price": 0.5749353955,
-    "token": "CFI"
+    "symbol": "CFI"
   },
   {
     "price": 1.632082698,
-    "token": "QSP"
+    "symbol": "QSP"
   },
   {
     "price": 13.123973125,
-    "token": "SWT"
+    "symbol": "SWT"
   },
   {
     "price": 2.1994001588,
-    "token": "BTM"
+    "symbol": "BTM"
   },
   {
     "price": 1.4894424078,
-    "token": "HMQ"
+    "symbol": "HMQ"
   },
   {
     "price": 139.88028855,
-    "token": "LUN"
+    "symbol": "LUN"
   },
   {
     "price": 3.4196027503,
-    "token": "LRC"
+    "symbol": "LRC"
   },
   {
     "price": 9.77578891,
-    "token": "TKN"
+    "symbol": "TKN"
   },
   {
     "price": 67.17062095,
-    "token": "BNB"
+    "symbol": "BNB"
   },
   {
     "price": 6.3862808425,
-    "token": "PPP"
+    "symbol": "PPP"
   },
   {
     "price": 23.5287605825,
-    "token": "ANT"
+    "symbol": "ANT"
   },
   {
     "price": 0.0006792219,
-    "token": "BAT"
+    "symbol": "BAT"
   },
   {
     "price": 0.0505340569,
-    "token": "ATM"
+    "symbol": "ATM"
   },
   {
     "price": 26.0943941775,
-    "token": "ETHOS"
+    "symbol": "ETHOS"
   },
   {
     "price": 0.8451203918,
-    "token": "RCN"
+    "symbol": "RCN"
   },
   {
     "price": 31.08086919,
-    "token": "MTL"
+    "symbol": "MTL"
   },
   {
     "price": 172.36240926,
-    "token": "WTC"
+    "symbol": "WTC"
   },
   {
     "price": 0.74192502,
-    "token": "SNGLS"
+    "symbol": "SNGLS"
   },
   {
     "price": 2.8618830875,
-    "token": "AST"
+    "symbol": "AST"
   },
   {
     "price": 4.782826497,
-    "token": "WINGS"
+    "symbol": "WINGS"
   },
   {
     "price": 0.2838244067,
-    "token": "TRX"
+    "symbol": "TRX"
   },
   {
     "price": 53.8725290425,
-    "token": "EOS"
+    "symbol": "EOS"
   },
   {
     "price": 0.993829131,
-    "token": "SNT"
+    "symbol": "SNT"
   },
   {
     "price": 11.1255109925,
-    "token": "PAY"
+    "symbol": "PAY"
   },
   {
     "price": 1.8988722827,
-    "token": "1ST"
+    "symbol": "1ST"
   },
   {
     "price": 3.61542449,
-    "token": "MGO"
+    "symbol": "MGO"
   },
   {
     "price": 40.9662837425,
-    "token": "TAAS"
+    "symbol": "TAAS"
   },
   {
     "price": 0.6986777993,
-    "token": "XAUR"
+    "symbol": "XAUR"
   },
   {
     "price": 0.3364269414,
-    "token": "FUN"
+    "symbol": "FUN"
   },
   {
     "price": 9.1247001925,
-    "token": "CAT"
+    "symbol": "CAT"
   },
   {
     "price": 25.8328034,
-    "token": "SALT"
+    "symbol": "SALT"
   },
   {
     "price": 8.9583891425,
-    "token": "RLC"
+    "symbol": "RLC"
   },
   {
     "price": 0.6557543138,
-    "token": "MANA"
+    "symbol": "MANA"
   },
   {
     "price": 286.36858485,
-    "token": "REP"
+    "symbol": "REP"
   },
   {
     "price": 716.53402,
-    "token": "MLN"
+    "symbol": "MLN"
   },
   {
     "price": 31.8098448,
-    "token": "BNT"
+    "symbol": "BNT"
   },
   {
     "price": 14.9108012725,
-    "token": "AE"
+    "symbol": "AE"
   },
   {
     "price": 3.605598173,
-    "token": "POWR"
+    "symbol": "POWR"
   },
   {
     "price": 3.3274207248,
-    "token": "REX"
+    "symbol": "REX"
   },
   {
     "price": 51.5690575225,
-    "token": "MCO"
+    "symbol": "MCO"
   },
   {
     "price": 4.1868362495,
-    "token": "LINK"
+    "symbol": "LINK"
   },
   {
     "price": 862.19583925,
-    "token": "GNO"
+    "symbol": "GNO"
   },
   {
     "price": 5.6430354905,
-    "token": "EDG"
+    "symbol": "EDG"
   },
   {
     "price": 2.070458313,
-    "token": "GUP"
+    "symbol": "GUP"
   },
   {
     "price": 10.2712307975,
-    "token": "DRP"
+    "symbol": "DRP"
   },
   {
     "price": 5526.376541,
-    "token": "WETH"
+    "symbol": "WETH"
   },
   {
     "price": 11.8289686475,
-    "token": "KNC"
+    "symbol": "KNC"
   },
   {
     "price": 0.5362674416,
-    "token": "IND"
+    "symbol": "IND"
   },
   {
     "price": 1.9633908138,
-    "token": "TRST"
+    "symbol": "TRST"
   },
   {
     "price": 8.977368915,
-    "token": "ICN"
+    "symbol": "ICN"
   }
 
 ]

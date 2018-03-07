@@ -14,7 +14,7 @@ class TokensSocketContainer extends React.Component {
     const { symbol } = this.props
     let socketToken = {}
     if(symbol){
-      socketToken = tokens.find(token=>token.token === symbol)
+      socketToken = tokens.find(token=>token.symbol === symbol)
     }
     return socketToken
   }

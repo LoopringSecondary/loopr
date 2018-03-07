@@ -13,7 +13,7 @@ class PriceSocketContainer extends React.Component {
     const { symbol } = this.props
     let price = 0
     if(symbol){
-      const token = tokens.find(token=>token.token === symbol)
+      const token = tokens.find(token=>token.symbol === symbol)
       price = token && token.price
     }
     return price
