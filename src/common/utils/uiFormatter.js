@@ -1,4 +1,5 @@
 import moment from 'moment'
+import {toNumber} from "Loopring/common/formatter";
 
 export function getShortAddress(address) {
   if (typeof address == 'string') {
@@ -28,9 +29,17 @@ export function getSeconds(value, unit) {
       return value;
   }
 }
+export function getTokenAmount(symbol,amount){
+  const token = window.CONFIG.getTokenBySymbol(symbol) || {}
+  return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
+}
+export function getTokenValue(amount){
+
+}
 
 export default {
   getShortAddress,
   getFormatTime,
-  getSeconds
+  getSeconds,
+  getTokenAmount,
 }

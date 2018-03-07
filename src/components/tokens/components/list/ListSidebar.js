@@ -12,6 +12,7 @@ import * as fm from '../../../../common/Loopring/common/formatter'
 import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import TokensContainer from '../../../../modules/socket/modules/TokensContainer';
+import {toNumber} from "Loopring/common/formatter";
 
 function ListSidebar({LIST, actions, dispatch,socketTokens}) {
   let {
@@ -393,7 +394,7 @@ function ListSidebar({LIST, actions, dispatch,socketTokens}) {
                     style={{width: '55px'}}>{item.title}</span>
             </div>
             <div className="">
-              <span className="fs14 color-grey-900">{item.balance}</span>
+              <span className="fs14 color-grey-900">{window.uiFormatter.getTokenAmount(item.symbol,item.balance)}</span>
               <CurrencyContainer render={({ currency })=>{
                   return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
               }} />
