@@ -1,6 +1,7 @@
 import Account from "./Account";
 import {getAddress,sign} from "../../common/Loopring/ethereum/trezor";
 import Transaction from "../../common/Loopring/ethereum/transaction";
+import EthTransaction from 'ethereumjs-tx'
 import {signatureRecover} from '../../common/Loopring/ethereum/utils'
 
 export default class TrezorUnlockAccount extends Account {
@@ -39,10 +40,12 @@ export default class TrezorUnlockAccount extends Account {
             console.log('Signature V (recovery parameter):', response.v); // number
             console.log('Signature R component:', response.r); // bytes
             console.log('Signature S component:', response.s); // bytes
+            const newTx = new EthTransaction({...rawTx, ...response})
+            resolve({result:newTx.serialize()})
           } else {
             console.error('Error:', response.error); // error message
+            resolve({error:response.error})
           }
-          resolve(response)
         });
     })
   }
@@ -50,6 +53,10 @@ export default class TrezorUnlockAccount extends Account {
   async sendTransaction(rawTx) {
     let tx = new Transaction(rawTx)
     const signed = await this.signTx(rawTx)
-    return await tx.sendSignedTx(signatureRecover(...signed))
+    if(signed.result){
+      return await tx.sendSignedTx(signatureRecover(...signed))
+    } else {
+      throw new Error(signed.error)
+    }
   }
 }
