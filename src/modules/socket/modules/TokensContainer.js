@@ -6,28 +6,32 @@ class TokensSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tokens:[]
+      socketTokens:[],
+      socketToken:{},
     }
   }
-
+  getTokenBySymbol(tokens){
+    const { symbol } = this.props
+    let socketToken = {}
+    if(symbol){
+      socketToken = tokens.find(token=>token.token === symbol)
+    }
+    return socketToken
+  }
   componentDidMount() {
     const { socket } = this.context
     if (!socket) {
       console.log('socket connection has not been established')
       return false
     }
-    const getTokens = (res)=>{
-      const balances = res.tokens
-      return balances
-    }
     socket.on('balance_res', (res)=>{
       console.log('balance_res',res)
-      const tokens = getTokens(res)
+      const socketToken = this.getTokenBySymbol(res.tokens)
       this.setState({
-        tokens
+        socketTokens:res.tokens,
+        socketToken,
       })
     })
-
   }
   componentWillUnmount() {
     const { socket } = this.context
@@ -39,14 +43,11 @@ class TokensSocketContainer extends React.Component {
     // socket.off(event)
   }
   render() {
-    const getTokenBySymbol = (symbol)=>{
-      return this.state.tokens.find(token=>token.symbol === symbol) || {}
-    }
     const childProps = {
      ...this.props,
      ...this.state,
-     tokens:balancesData, // for mock data
-     getTokenBySymbol,
+     socketTokens:balancesData, // for mock data
+     socketToken:this.getTokenBySymbol(balancesData) // for mock data
     }
     const {render} = this.props
     if(render){
