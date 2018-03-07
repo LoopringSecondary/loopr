@@ -46,10 +46,15 @@ export default class GenerateWallet extends React.Component {
     const {modal, account} = this.props;
     modal.showLoading({id: 'wallet/generate'});
     account.createWallet({password: this.state.value});
+
     modal.hideLoading({id: 'wallet/generate'});
     modal.hideModal({id: 'wallet/generate'});
     modal.showModal({id: 'wallet/backup'});
-    this.setState({value: null});
+    this.setState({
+      visible: false,
+      strength: '',
+      disabled: true,
+      value: '' });
   }
 
   gotoUnlock() {

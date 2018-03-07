@@ -53,6 +53,7 @@ class BackupPrivatekey extends React.Component {
           value={account['privateKey']}
           size="large"
           addonAfter={visibleIcon}
+          readOnly
         />
         <Button className="d-block w-100 mt25" size="large" type="primary" onClick={backup}>I Understand, Copy Private
           Key</Button>

@@ -1,5 +1,7 @@
 import {decrypt, fromMnemonic, fromPrivateKey, create} from 'Loopring/ethereum/account';
 import {register} from "Loopring/relay/account";
+import {getTransactionCount} from "Loopring/ethereum/utils";
+import {toNumber} from "Loopring/common/formatter";
 
 export default {
   namespace: 'account',
@@ -10,6 +12,7 @@ export default {
     publicKey: null,
     password: null,
     isUnlocked: false,
+    nonce:null,
     walletType:null, //key, metaMask, trezor, ledgerHQ
   },
   reducers: {
@@ -24,18 +27,26 @@ export default {
     deleteAccount(state, {payload}) {
       return {
         ...state,
-        isUnlocked: false,
-        walletType:null,
         address: null,
         privateKey: null,
         mnemonic: null,
         publicKey: null,
         password: null,
+        isUnlocked: false,
+        nonce:null,
+        walletType:null, //key, metaMask, trezor, ledgerHQ
       };
     },
 
     register(state,payload){
       register(payload.address)
+    },
+
+    setNonce(state,{payload}){
+      return {
+        ...state,
+        ...payload
+      };
     }
   },
 
@@ -66,9 +77,20 @@ export default {
     },
 
     * setWallet({payload}, {put,call}) {
-      window.STORAGE.wallet.setWallet({address:payload.address});
-      yield put({type: 'setAccount', payload})
+      yield put({type: 'setAccount',payload:{...payload}});
+      let nonce = toNumber((yield call(getTransactionCount,payload.address,'latest')).result); // fix bug:
+      yield window.STORAGE.transactions.updateTx();
+      const txs = window.STORAGE.transactions.getTxs();
+      nonce = nonce + txs.length;
+      window.STORAGE.wallet.setWallet({nonce,address:payload.address});
+      yield put({type:'setNonce',payload:{nonce}});
     //  yield call({type:'register',payload:{address:payload.address}})
+    },
+
+    * updateNonce({payload},{put}){
+      yield put({type:'setNonce', payload});
+      window.STORAGE.wallet.setWallet(payload);
     }
+
   }
 };
