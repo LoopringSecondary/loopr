@@ -370,6 +370,7 @@ function ListSidebar({LIST, actions, dispatch,socketTokens}) {
     )
   }
   const TokenItem = ({item,index})=>{
+    const balance = window.uiFormatter.getTokenAmount(item.symbol,item.balance)
     return (
       <div style={{borderBottom: '1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this, item)}
            className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
@@ -394,12 +395,12 @@ function ListSidebar({LIST, actions, dispatch,socketTokens}) {
                     style={{width: '55px'}}>{item.title}</span>
             </div>
             <div className="">
-              <span className="fs14 color-grey-900">{window.uiFormatter.getTokenAmount(item.symbol,item.balance)}</span>
+              <span className="fs14 color-grey-900">{balance}</span>
               <CurrencyContainer render={({ currency })=>{
                   return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
               }} />
               <PricesContainer symbol={item.symbol} render={({ price=0 })=>{
-                  return <span className="fs12 color-grey-400">{window.uiFormatter.getTokenValue({...item,price})}</span>
+                  return <span className="fs12 color-grey-400">{window.uiFormatter.getTokenValue(item.symbol,item.balance,price)}</span>
               }} />
             </div>
           </div>

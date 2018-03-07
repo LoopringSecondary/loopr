@@ -29,24 +29,23 @@ export function getSeconds(value, unit) {
       return value;
   }
 }
-export function getTokenAmount(symbol,amount){
-  const token = window.CONFIG.getTokenBySymbol(symbol) || {}
-  return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
-}
-export function getTokenBalance(token){
-  if(!token.digits || !token.precision){
-    const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol) || {}
-    token = {...tokenConfig,...token}
-  }
-  return (toNumber(token.balance) / Number('1e' + token.digits)).toFixed(token.precision)
-}
 
-export function getTokenValue(token){
-  if(!token.price){
-    console.error('token.price is required')
+export function getTokenAmount(symbol,amount){
+  if(symbol && typeof symbol === 'string'){
+    console.error('symbol is required')
   }
-  const balance = getTokenBalance(token)
-  return (balance * token.price).toFixed(2)
+  if(amount && typeof amount === 'number'){
+    console.error('amount is required')
+  }
+  const tokenConfig = window.CONFIG.getTokenBySymbol(symbol) || {}
+  return (toNumber(amount) / Number('1e' + tokenConfig.digits)).toFixed(tokenConfig.precision)
+}
+export function getTokenValue(symbol,amount,price){
+  if(price && typeof price === 'number'){
+    console.error('price is required & must be number')
+  }
+  const formattedAmount = getTokenAmount(symbol,amount)
+  return (formattedAmount * price ).toFixed(2)
 }
 
 export default {
