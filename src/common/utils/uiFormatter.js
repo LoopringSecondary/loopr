@@ -1,5 +1,6 @@
 import moment from 'moment'
 import {toNumber} from "Loopring/common/formatter";
+import Token from './token'
 
 export function getShortAddress(address) {
   if (typeof address == 'string') {
@@ -30,28 +31,10 @@ export function getSeconds(value, unit) {
   }
 }
 
-export function getTokenAmount(symbol,amount){
-  if(symbol && typeof symbol === 'string'){
-    console.error('symbol is required')
-  }
-  if(amount && typeof amount === 'number'){
-    console.error('amount is required')
-  }
-  const tokenConfig = window.CONFIG.getTokenBySymbol(symbol) || {}
-  return (toNumber(amount) / Number('1e' + tokenConfig.digits)).toFixed(tokenConfig.precision)
-}
-export function getTokenValue(symbol,amount,price){
-  if(price && typeof price === 'number'){
-    console.error('price is required & must be number')
-  }
-  const formattedAmount = getTokenAmount(symbol,amount)
-  return (formattedAmount * price ).toFixed(2)
-}
 
 export default {
   getShortAddress,
   getFormatTime,
   getSeconds,
-  getTokenAmount,
-  getTokenValue,
+  Token,
 }
