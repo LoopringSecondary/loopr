@@ -7,7 +7,6 @@ let Preview = ({
   form, modal, account
   }) => {
   const {rawTx,extraData} = modal
-  const privateKey = account.privateKey
   const handelSubmit = ()=>{
     modal.showLoading({id:'token/transfer/preview'})
     let result = {...rawTx, extraData}
@@ -23,6 +22,7 @@ let Preview = ({
       modal.showModal({id:'token/transfer/result', result})
     })
 
+    // const privateKey = account.privateKey
     // let tx = new Transaction(rawTx)
     // tx.setNonce(extraData.from)
     // modal.showLoading({id:'token/transfer/preview'})

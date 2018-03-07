@@ -97,3 +97,9 @@ export async function bindAddress({projectId, address, to, privateKey, gasPrice,
   const transaction = new Transaction(tx);
   transaction.send({privateKey,walletType,path})
 }
+
+export function signatureRecover(r, s, v) {
+  console.log(r, s, v)
+  console.log("0x"+r.toString()+s.toString()+v)
+  return "0x"+r.toString()+s.toString()+v
+}

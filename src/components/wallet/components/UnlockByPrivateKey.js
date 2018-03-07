@@ -2,8 +2,6 @@ import React from 'react';
 import {Link} from 'dva/router';
 import {Alert, Button, Form, Icon, Input, message} from 'antd';
 import validator from 'Loopring/common/validator';
-import PrivateKeyUnlockAccount from "../../../modules/account/PrivateKeyUnlockAccount";
-import {privateKeytoAddress} from "../../../common/Loopring/ethereum/account"
 
 class UnlockByPrivateKey extends React.Component {
 
@@ -33,11 +31,6 @@ class UnlockByPrivateKey extends React.Component {
       try {
         account.setPrivateKey({...this.state});
         this.setState({privateKey: null});
-
-        const privateKey = this.state.privateKey
-        const address = privateKeytoAddress(privateKey)
-        window.WALLET = new PrivateKeyUnlockAccount({privateKey: privateKey, address: address})
-
         modal.hideModal({id: 'wallet/unlock'});
         window.routeActions.gotoPath('portfolio');
       } catch (e) {

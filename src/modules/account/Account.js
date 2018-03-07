@@ -7,6 +7,14 @@ export default class Account {
     this.address = input.address
   }
 
+  setUnlockType(unlockType) {
+    this.unlockType = unlockType
+  }
+
+  setAddress(address) {
+    this.address = address
+  }
+
   getAddress() {
     return this.address
   }
