@@ -24,11 +24,6 @@ class SocketProvider extends React.Component {
     this.socket.on('connect', (data) => {
       console.log('socket connected success!')
     })
-    options = {
-      "contractVersion" : "v1.0",
-      "market":"RDN-WETH",
-    }
-    this.socket.emit('tickers_req',JSON.stringify(options))
 
     options = {
       "contractVersion" : "v1.0",

@@ -17,7 +17,7 @@ const LooprTicker = ({pair})=>{
 		  content={
 		    <div className="" style={{minWidth:'420px'}}>
           <TickersContainer>
-		        <TickerListTable /> 
+		        <TickerListTable />
           </TickersContainer>
 		    </div>
 		  }
@@ -28,7 +28,7 @@ const LooprTicker = ({pair})=>{
 		    </div>
 		    <div className="col">
 		      <div className="fs18 color-white">{pair}</div>
-		      <div className="fs12 color-white opacity-70">Select Market Pair <Icon hidden className="" type="down" /></div>  
+		      <div className="fs12 color-white opacity-70">Select Market Pair <Icon hidden className="" type="down" /></div>
 		    </div>
 		    <div className="col-auto">
 		      <Icon type="caret-down" className="color-white" />
@@ -65,11 +65,10 @@ const LooprTicker = ({pair})=>{
       </div>
   )
 }
-const ExchangeTicker = ({pair})=>{
+const ExchangeItem = ({pair})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
-		const ExchangeItem = (props)=>{
-      return (
+    return (
         <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 mt15 mb15 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
           <div className="col-auto">
             <div className="fs16 color-grey-900">0.00107934</div>
@@ -85,23 +84,10 @@ const ExchangeTicker = ({pair})=>{
           </div>
         </div>
       )
-    }
-		return (
-			<div className="row ml0 mr0">
-			   <div className="col-sm-6 col-lg-4 pl0">
-			     <ExchangeItem />
-			   </div>
-			   <div className="col-sm-6 col-lg-4">
-			     <ExchangeItem />
-			   </div>
-			   <div className="col-sm-6 col-lg-4 pr0">
-			     <ExchangeItem />
-			   </div>
-			</div>
-		)
+
 }
 
-function Ticker({pair}) {
+function Ticker({pair,socketTicker}) {
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
@@ -110,10 +96,20 @@ function Ticker({pair}) {
   		  </div>
   		</div>
   		<div className="container">
-  			<ExchangeTicker pair={pair} />
+        <div className="row ml0 mr0">
+           <div className="col-sm-6 col-lg-4 pl0">
+             <ExchangeItem />
+           </div>
+           <div className="col-sm-6 col-lg-4">
+             <ExchangeItem />
+           </div>
+           <div className="col-sm-6 col-lg-4 pr0">
+             <ExchangeItem />
+           </div>
+        </div>
   		</div>
   	</div>
-    
+
   );
 }
 
