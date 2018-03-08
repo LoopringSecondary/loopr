@@ -6,8 +6,8 @@ import wrapArrow from '../../../assets/images/wrap-arrow.png';
 import WETH from '../../../common/Loopring/ethereum/weth'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
 import {configs} from '../../../common/config/data'
-import Transaction from "../../../common/Loopring/ethereum/transaction";
 import * as fm from '../../../common/Loopring/common/formatter'
+import * as math from '../../../common/Loopring/common/math'
 
 class Convert extends React.Component {
   state = {
@@ -79,7 +79,7 @@ class Convert extends React.Component {
       let wrapAmount = fm.toNumber(selectedToken.balance)
       let selectMaxWarn = false
       if(selectedToken.symbol === "ETH") {
-        wrapAmount = Math.max(selectedToken.balance - 0.1, 0)
+        wrapAmount = Math.max(math.accSub(selectedToken.balance, 0.1), 0)
         selectMaxWarn = true
       }
       this.setState({amount: wrapAmount, estimateWorth: wrapAmount * this.state.exchangeRate, selectMaxWarn:selectMaxWarn, inputMaxWarn:false})
