@@ -49,7 +49,6 @@ export default {
     * setKeystore({payload}, {put}) {
       const {keyStore, password} = payload;
       const wallet = decrypt(keyStore, password);
-      console.log(wallet)
       window.WALLET = new PrivateKeyUnlockAccount({privateKey: wallet.privateKey, address: wallet.address})
       window.WALLET_UNLOCK_TYPE = 'KeyStore'
       yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password,walletType:'key'}})
@@ -80,7 +79,6 @@ export default {
     },
 
     * connectToTrezor({payload},{put}){
-      console.log(payload)
       window.WALLET = new TrezorUnlockAccount({address: payload.address, path: payload.path})
       window.WALLET_UNLOCK_TYPE = 'Trezor'
       yield put({type: 'setWallet', payload: {...payload,walletType:'trezor'}})
