@@ -26,6 +26,7 @@ class PriceSocketContainer extends React.Component {
     }
     const _this = this
     socket.on('marketcap_res', (res)=>{
+      console.log('marketcap_res')
       res = JSON.parse(res)
       const price = _this.getPrice(res.tokens)
       this.setState({

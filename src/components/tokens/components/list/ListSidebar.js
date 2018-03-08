@@ -11,7 +11,6 @@ import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
 import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
-import TokensContainer from '../../../../modules/socket/modules/TokensContainer';
 import {toNumber} from "Loopring/common/formatter";
 
 function ListSidebar({LIST, actions, dispatch,socketTokens}) {

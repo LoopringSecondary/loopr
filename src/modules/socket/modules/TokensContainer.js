@@ -25,7 +25,8 @@ class TokensSocketContainer extends React.Component {
       return false
     }
     socket.on('balance_res', (res)=>{
-      console.log('balance_res',res)
+      console.log('balance_res')
+      res = JSON.parse(res)
       const socketToken = this.getTokenBySymbol(res.tokens)
       this.setState({
         socketTokens:res.tokens,

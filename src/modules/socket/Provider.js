@@ -39,7 +39,7 @@ class SocketProvider extends React.Component {
     options = {
       "currency" : "CNY"
     }
-    this.socket.emit('marketcap_req',JSON.stringify(options))
+    // this.socket.emit('marketcap_req',JSON.stringify(options))
 
     this.socket.on('disconnect', (data) => {
       console.log('socket disconnect')

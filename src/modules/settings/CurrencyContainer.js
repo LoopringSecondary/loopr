@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 class CurrencyContainer extends React.Component {
   render() {
+    console.log('currenry render')
     let currency = {}
     if(this.props.currency === 'USD'){
         currency = {
