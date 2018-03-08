@@ -7,6 +7,7 @@ import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import PlaceOrderContainer from '../../modules/orders/models/PlaceOrderContainer'
 import TickerSocketContainer from '../../modules/socket/modules/TickerContainer'
+import TickersSocketContainer from '../../modules/socket/modules/TickersContainer'
 
 export default function Home(props){
   const { children,match } = props
@@ -21,12 +22,16 @@ export default function Home(props){
           <div className="row justify-content-around">
             <div className="col-sm-6 pl40 pr40 zb-b-r">
               <PlaceOrderContainer id="buy">
-                <Order.TradeForm side="buy" pair={pair} />
+                <TickersSocketContainer>
+                  <Order.TradeForm side="buy" pair={pair} />
+                </TickersSocketContainer>
               </PlaceOrderContainer>
             </div>
             <div className="col-sm-6 pl40 pr40">
               <PlaceOrderContainer id="sell">
-                <Order.TradeForm side="sell" pair={pair} />
+                <TickersSocketContainer>
+                  <Order.TradeForm side="sell" pair={pair} />
+                </TickersSocketContainer>
               </PlaceOrderContainer>
             </div>
           </div>
