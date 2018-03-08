@@ -16,6 +16,7 @@ window.uiFormatter = uiFormatter
 window.routeActions = routeActions
 window.CONFIG = CONFIG
 window.STORAGE = STORAGE
+window.WALLET = null
 
 moment.locale('zh-cn');
 

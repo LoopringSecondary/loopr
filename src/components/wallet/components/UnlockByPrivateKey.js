@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'dva/router';
 import {Alert, Button, Form, Icon, Input, message} from 'antd';
 import validator from 'Loopring/common/validator';
+
 class UnlockByPrivateKey extends React.Component {
 
   state = {
