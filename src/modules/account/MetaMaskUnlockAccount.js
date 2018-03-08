@@ -22,10 +22,6 @@ export default class MetaMaskUnlockAccount extends Account {
     else return null
   }
 
-  async signTx(tx){
-    throw new Error("The current unlock type: MetaMask not support `signTx`")
-  }
-
   async signMessage(message){
     const signMethod = () => {
       return new Promise((resolve)=>{
