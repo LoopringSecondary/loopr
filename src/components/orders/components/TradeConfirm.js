@@ -7,6 +7,7 @@ import {toHex, toBig, toNumber} from 'Loopring/common/formatter';
 import Token from 'Loopring/ethereum/token';
 import {configs} from "../../../common/config/data";
 import {placeOrder} from 'Loopring/relay/order';
+import each from 'async/each';
 
 const TradeConfirm = ({
                         modals,
@@ -38,10 +39,10 @@ const TradeConfirm = ({
   order.validUntil = toHex(start + Number(timeToLive));
   order.marginSplitPercentage = Number(marginSplit);
   order.buyNoMoreThanAmountB = side.toLowerCase() === "buy";
-  order.walletId = 1;
+  order.walletId = toHex(1);
   const authAccount = create('');
   order.authAddr = authAccount.address;
-  order.authKey = authAccount.privateKey;
+  order.authPrivateKey = authAccount.privateKey;
   const signedOrder = sign(order, account.privateKey);
 
   const handelSubmit = async () => {
@@ -57,68 +58,56 @@ const TradeConfirm = ({
     const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
     const delegateAddress = configs.delegateAddress;
     let nonce = await window.STORAGE.wallet.getNonce(account.address);
-
+    const txs = [];
     if (toBig(tokenS.allowance).greaterThan(allowanceS * Number('1e' + tokenS.digits))) {
       const SToken = new Token({address: tokenS.address});
       if (allowanceS > 0) {
-        let res = await SToken.approve({
-          privateKey: account.privateKey,
+        txs.push(SToken.generateApproveTx({
           spender: delegateAddress,
           amount: '0x0',
           gasPrice,
           nonce: toHex(nonce),
-          walletType: account.walletType
-        });
-        if (!res.error) {
-          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
-        }
-        nonce = nonce + 1;
-        res = await SToken.approve(({
-          privateKey: account.privateKey,
-          spender: delegateAddress,
-          amount: toHex(toBig('9223372036854775806')),
-          gasPrice,
-          nonce: toHex(nonce),
-          walletType: account.walletType
         }));
         nonce = nonce + 1;
-        if (!res.error) {
-          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
-        }
       }
+      txs.push(SToken.generateApproveTx(({
+        spender: delegateAddress,
+        amount: toHex(toBig('9223372036854775806')),
+        gasPrice,
+        nonce: toHex(nonce),
+      })));
+      nonce = nonce + 1;
     }
-
     if (tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(allowanceLrc * Number('1e' + LRC.digits))) {
       const LRCToken = new Token({address: LRC.address});
-      if (allowanceS > 0) {
-        let res = await LRCToken.approve({
-          privateKey: account.privateKey,
+      if (allowanceLrc > 0) {
+        txs.push(LRCToken.generateApproveTx({
           spender: delegateAddress,
           amount: '0x0',
           gasPrice,
           nonce: toHex(nonce),
-          walletType: account.walletType
-        });
-        if (!res.error) {
-          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
-        }
-        nonce = nonce + 1;
-        res = await LRCToken.approve(({
-          privateKey: account.privateKey,
-          spender: delegateAddress,
-          amount: toHex(toBig('9223372036854775806')),
-          gasPrice,
-          nonce: toHex(nonce),
-          walletType: account.walletType
         }));
-        if (!res.error) {
-          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
-        }
+        nonce = nonce + 1;
       }
+      txs.push(LRCToken.generateApproveTx(({
+        spender: delegateAddress,
+        amount: toHex(toBig('9223372036854775806')),
+        gasPrice,
+        nonce: toHex(nonce),
+      })));
     }
-
-    await placeOrder(signedOrder);
-
+    console.log(txs.length);
+    each(txs, (tx) => {
+      window.WALLET.sendTransaction(tx).then((res) => {
+        console.log('Hash:', res.result);
+        window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+      }).catch((e) => {
+        console.log(e.message)
+      });
+    }, (error) => {
+      console.log(error.message)
+    });
+     await placeOrder(signedOrder);
     modals.showModal({id: 'trade/place-order-success'})
   };
 
