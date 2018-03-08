@@ -21,7 +21,7 @@ export default class TrezorUnlockAccount extends Account {
       const tx = [clearPrefix(rawTx.nonce), clearPrefix(rawTx.gasPrice), clearPrefix(rawTx.gasLimit), clearPrefix(rawTx.to),
         clearPrefix(rawTx.value) === '' ? null : clearPrefix(rawTx.value), clearPrefix(rawTx.data)].map(item=>{
         if(item && item.length % 2 === 1) {
-          return "0"+item
+          return "0" + item
         }
         return item
       })
@@ -30,7 +30,6 @@ export default class TrezorUnlockAccount extends Account {
         ...tx,
         rawTx.chainId,
         function (response) {
-          console.log(response)
           if (response.success) {
             const newTx = new EthTransaction({...rawTx, v:response.v, s:toBuffer(addHexPrefix(response.s)), r:toBuffer(addHexPrefix(response.r))})
             resolve({result:newTx.serialize()})
@@ -44,10 +43,10 @@ export default class TrezorUnlockAccount extends Account {
 
   async sendTransaction(rawTx) {
     let tx = new Transaction(rawTx)
-    await tx.complete(super.getAddress())
+    await tx.complete()
     const signed = await this.signTx(rawTx)
     if(signed.result){
-      return await tx.sendSignedTx(toHex(signed.result))
+      return await tx.sendRawTx(toHex(signed.result))
     } else {
       throw new Error(signed.error)
     }

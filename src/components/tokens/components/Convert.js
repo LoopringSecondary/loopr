@@ -36,7 +36,6 @@ class Convert extends React.Component {
               return withdraw(values.amount, nonce)
             }
           }).then(res=>{
-            console.log(res)
             if (res.error) {
               _this.setState({errorMsg: res.error.message})
             } else {
@@ -62,7 +61,7 @@ class Convert extends React.Component {
       tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
       tx.nonce = fm.toHex(nonce)
       let newTx = new Transaction(tx)
-      newTx.complete(account.address)
+      newTx.complete()
       return window.WALLET.sendTransaction(newTx.raw)
     }
 
@@ -75,7 +74,7 @@ class Convert extends React.Component {
       tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
       tx.nonce = fm.toHex(nonce)
       let newTx = new Transaction(tx)
-      newTx.complete(account.address)
+      newTx.complete()
       return window.WALLET.sendTransaction(newTx.raw)
     }
 

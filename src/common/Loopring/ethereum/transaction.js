@@ -90,7 +90,7 @@ export default class Transaction {
     })
   }
 
-  async sendSignedTx(signedTx) {
+  async sendRawTx(signedTx) {
     let body = {};
     body.method = 'eth_sendRawTransaction';
     body.params = [signedTx];

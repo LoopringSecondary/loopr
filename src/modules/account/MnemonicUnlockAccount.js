@@ -26,10 +26,10 @@ export default class MnemonicUnlockAccount extends Account {
   async sendTransaction(rawTx) {
     rawTx.from = this.address
     let tx = new Transaction(rawTx)
-    await tx.complete(this.address)
+    await tx.complete()
     const ethTx = new EthTransaction(tx.raw);
     ethTx.sign(toBuffer(addHexPrefix(this.privateKey)));
     const signed = toHex(ethTx.serialize());
-    return await tx.sendSignedTx(signed)
+    return await tx.sendRawTx(signed)
   }
 }

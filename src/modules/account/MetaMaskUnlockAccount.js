@@ -48,7 +48,7 @@ export default class MetaMaskUnlockAccount extends Account {
 
   async sendTransaction(rawTx) {
     let tx = new Transaction(rawTx)
-    await tx.complete(this.address)
+    await tx.complete()
     /**
      * Could not use `web3.eth.sign()` to get signed data，then `sendRawTransaction(signed)` due to the reason below, so use `sendTransaction` supported by Metamask directly
      * In addition to this, you can sign arbitrary data blobs using web3.eth.sign(fromAddress, data, callback), although it has protections to sign it differently than a transaction, so users aren't tricked into signing transactions using this method.
