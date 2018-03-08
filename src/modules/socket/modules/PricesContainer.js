@@ -42,7 +42,8 @@ class PriceSocketContainer extends React.Component {
       return false
     }
     // socket.emit('marketcap_end')
-    // socket.off(event)
+    console.log('price unmount')
+    socket.off('marketcap_res')
   }
   render() {
     const childProps = {

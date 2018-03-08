@@ -40,8 +40,9 @@ class TokensSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
+    console.log('balance unmount')
     // socket.emit('balance_end')
-    // socket.off(event)
+    socket.off('balance_res')
   }
   render() {
     const childProps = {
