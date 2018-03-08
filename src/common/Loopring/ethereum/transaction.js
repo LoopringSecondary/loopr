@@ -5,6 +5,7 @@ import {estimateGas, getGasPrice, getTransactionCount} from './utils';
 import request from '../common/request'
 import {privateKeytoAddress} from "./account";
 import {trezorSign} from './trezor'
+import {configs} from "../../config/data";
 
 export default class Transaction {
   constructor(rawTx) {
@@ -27,7 +28,7 @@ export default class Transaction {
   }
 
   setChainId() {
-    this.raw.chainId = this.raw.chainId || 1
+    this.raw.chainId = this.raw.chainId || configs['chainId'] || 1
   }
 
   async setNonce(address, tag) {
@@ -44,8 +45,7 @@ export default class Transaction {
     try {
       validator.validate({value: this.raw, type: "TX"});
     } catch (e) {
-      const address = privateKeytoAddress(privateKey);
-      await this.complete(address);
+      await this.complete();
     }
     const ethTx = new EthTransaction(this.raw);
 
@@ -100,11 +100,10 @@ export default class Transaction {
     })
   }
 
-  async complete(address) {
+  async complete() {
     await this.setChainId();
     await this.setGasLimit();
     await this.setGasPrice();
-    await this.setNonce(address);
   }
 }
 

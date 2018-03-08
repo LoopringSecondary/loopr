@@ -51,9 +51,9 @@ export async function getCutoff(address, contractVersion) {
   })
 }
 
-export async function cancelOrder({order, privateKey,protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
+export  function cancelOrder({order, privateKey, protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
 
-  validator.validate({value:order,type:"ORDER"});
+  validator.validate({value: order, type: "ORDER"});
   const tx = {};
   tx.to = protocolAddress;
   tx.value = "0x0";
@@ -75,11 +75,11 @@ export async function cancelOrder({order, privateKey,protocolAddress, gasPrice, 
   return transaction.send(privateKey)
 }
 
-export async function cancelOrdersByTokenPair({privateKey,timestamp,tokenA,tokenB,protocolAddress,gasPrice, gasLimit, nonce, chainId}) {
+export function cancelOrdersByTokenPair({privateKey, timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
   const tx = {};
   tx.to = protocolAddress;
   tx.value = "0x0";
-  tx.data = generateAbiData({method: "cancelOrdersByTokenPairs", timestamp,tokenA,tokenB});
+  tx.data = generateAbiData({method: "cancelOrdersByTokenPairs", timestamp, tokenA, tokenB});
 
   if (gasPrice) {
     tx.gasPrice = gasPrice
@@ -94,10 +94,10 @@ export async function cancelOrdersByTokenPair({privateKey,timestamp,tokenA,token
     tx.chainId = chainId
   }
   const transaction = new Transaction(tx);
-  return transaction.send(privateKey)
+  return transaction.send({privateKey, walletType, path})
 }
 
-export async function cancelAllOrders({privateKey,protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId}) {
+export function cancelAllOrders({privateKey, protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
   const tx = {};
   tx.to = protocolAddress;
   tx.value = "0x0";
@@ -116,7 +116,7 @@ export async function cancelAllOrders({privateKey,protocolAddress, timestamp, ga
     tx.chainId = chainId
   }
   const transaction = new Transaction(tx);
-  return transaction.send(privateKey)
+  return transaction.send({privateKey, walletType, path})
 }
 
 export async function placeOrder(order) {

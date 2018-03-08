@@ -5,6 +5,7 @@ import MnemonicUnlockAccount from './MnemonicUnlockAccount'
 import TrezorUnlockAccount from './TrezorUnlockAccount'
 import {register} from "Loopring/relay/account";
 
+
 export default {
   namespace: 'account',
   state: {
@@ -28,13 +29,13 @@ export default {
     deleteAccount(state, {payload}) {
       return {
         ...state,
-        isUnlocked: false,
-        walletType:null,
         address: null,
         privateKey: null,
         mnemonic: null,
         publicKey: null,
         password: null,
+        isUnlocked: false,
+        walletType:null, //key, metaMask, trezor, ledgerHQ
       };
     },
 
@@ -86,8 +87,8 @@ export default {
     },
 
     * setWallet({payload}, {put,call}) {
+      yield put({type: 'setAccount',payload:{...payload}});
       window.STORAGE.wallet.setWallet({address:payload.address});
-      yield put({type: 'setAccount', payload})
     //  yield call({type:'register',payload:{address:payload.address}})
     }
   }
