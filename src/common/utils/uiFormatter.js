@@ -1,6 +1,7 @@
 import moment from 'moment'
 import {toNumber} from "Loopring/common/formatter";
-import Token from './token'
+import TokenFormatter from './tokenFormatter'
+import {getPrice} from './tokenFormatter'
 
 export function getShortAddress(address) {
   if (typeof address == 'string') {
@@ -31,10 +32,10 @@ export function getSeconds(value, unit) {
   }
 }
 
-
 export default {
   getShortAddress,
   getFormatTime,
   getSeconds,
-  Token,
+  TokenFormatter,
+  getPrice,
 }

@@ -370,8 +370,8 @@ function ListSidebar({LIST, actions, dispatch,socketTokens}) {
     )
   }
   const TokenItem = ({item,index})=>{
-    const Token = window.uiFormatter.Token
-    let theToken = new Token(item)
+    const TokenFormatter = window.uiFormatter.TokenFormatter
+    let theToken = new TokenFormatter(item)
     return (
       <div style={{borderBottom: '1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this, item)}
            className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>

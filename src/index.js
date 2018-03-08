@@ -1,6 +1,5 @@
 import dva from 'dva';
 // import './index.css';
-import './socket.js'
 import './assets/css/index.less'
 import moment from 'moment';
 import 'moment/locale/zh-cn';

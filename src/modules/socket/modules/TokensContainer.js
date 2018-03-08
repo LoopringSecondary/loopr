@@ -46,8 +46,8 @@ class TokensSocketContainer extends React.Component {
     const childProps = {
      ...this.props,
      ...this.state,
-     socketTokens:balancesData, // for mock data
-     socketToken:this.getTokenBySymbol(balancesData) // for mock data
+     // socketTokens:balancesData, // for mock data
+     // socketToken:this.getTokenBySymbol(balancesData) // for mock data
     }
     const {render} = this.props
     if(render){

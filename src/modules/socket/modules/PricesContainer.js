@@ -24,8 +24,10 @@ class PriceSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
+    const _this = this
     socket.on('marketcap_res', (res)=>{
-      const price = this.getPrice(res.tokens)
+      res = JSON.parse(res)
+      const price = _this.getPrice(res.tokens)
       this.setState({
         price,
         prices:res.tokens,
@@ -45,8 +47,8 @@ class PriceSocketContainer extends React.Component {
     const childProps = {
       ...this.props,
       ...this.state,
-      price:this.getPrice(pricesData), // For Mock Price data
-      prices:pricesData,// For Mock Price data
+      // price:this.getPrice(pricesData), // For Mock Price data
+      // prices:pricesData,// For Mock Price data
     }
     const {render} = this.props
     if(render){
