@@ -3,6 +3,7 @@ import {getAddress,sign} from "../../common/Loopring/ethereum/trezor";
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import EthTransaction from 'ethereumjs-tx'
 import {signatureRecover} from '../../common/Loopring/ethereum/utils'
+import {clearPrefix, toBuffer,toHex,addHexPrefix} from '../../common/Loopring/common/formatter'
 
 export default class TrezorUnlockAccount extends Account {
 
@@ -17,30 +18,21 @@ export default class TrezorUnlockAccount extends Account {
 
   async signTx(rawTx){
     return new Promise((resolve) => {
-      // window.TrezorConnect.ethereumSignMessage(this.path, rawTx, function (result) {
-      //   if (result.success) {
-      //     resolve(result.signature)
-      //   } else {
-      //     console.error('Error:', result.error); // error message
-      //     resolve({error:{message:result.error}})
-      //   }
-      // });
-
+      const tx = [clearPrefix(rawTx.nonce), clearPrefix(rawTx.gasPrice), clearPrefix(rawTx.gasLimit), clearPrefix(rawTx.to),
+        clearPrefix(rawTx.value) === '' ? null : clearPrefix(rawTx.value), clearPrefix(rawTx.data)].map(item=>{
+        if(item && item.length % 2 === 1) {
+          return "0"+item
+        }
+        return item
+      })
       window.TrezorConnect.ethereumSignTx(
-        rawTx.from,
-        rawTx.nonce,
-        rawTx.gasPrice,
-        rawTx.gasLimit,
-        rawTx.to,
-        rawTx.value,
-        rawTx.data,
+        this.path,
+        ...tx,
         rawTx.chainId,
         function (response) {
+          console.log(response)
           if (response.success) {
-            console.log('Signature V (recovery parameter):', response.v); // number
-            console.log('Signature R component:', response.r); // bytes
-            console.log('Signature S component:', response.s); // bytes
-            const newTx = new EthTransaction({...rawTx, ...response})
+            const newTx = new EthTransaction({...rawTx, v:response.v, s:toBuffer(addHexPrefix(response.s)), r:toBuffer(addHexPrefix(response.r))})
             resolve({result:newTx.serialize()})
           } else {
             console.error('Error:', response.error); // error message
@@ -52,9 +44,10 @@ export default class TrezorUnlockAccount extends Account {
 
   async sendTransaction(rawTx) {
     let tx = new Transaction(rawTx)
+    await tx.complete(super.getAddress())
     const signed = await this.signTx(rawTx)
     if(signed.result){
-      return await tx.sendSignedTx(signatureRecover(...signed))
+      return await tx.sendSignedTx(toHex(signed.result))
     } else {
       throw new Error(signed.error)
     }

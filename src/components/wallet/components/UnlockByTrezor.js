@@ -10,7 +10,7 @@ class UnlockByTrezor extends React.Component {
   connectTrezor = async () => {
     const {account, modal} = this.props;
     const path = "m/44'/60'/0'/0/0";
-    const address = await getAddress(path);
+    let address = "0x" + await getAddress(path);
     account.connectToTrezor({address, path});
 
     modal.hideModal({id: 'wallet/unlock'});
