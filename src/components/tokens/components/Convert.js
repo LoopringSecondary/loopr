@@ -4,15 +4,14 @@ import ethLogo from '../../../assets/images/eth.png';
 import wethLogo from '../../../assets/images/weth.png';
 import wrapArrow from '../../../assets/images/wrap-arrow.png';
 import WETH from '../../../common/Loopring/ethereum/weth'
+import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
 import {configs} from '../../../common/config/data'
-import {getTransactionCount} from '../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../common/Loopring/common/formatter'
+import * as math from '../../../common/Loopring/common/math'
 
 class Convert extends React.Component {
   state = {
     amount: 0,
-    selectedGasPrice: 30,
-    selectedGasLimit: 21000,
     exchangeRate : 6.3,
     selectMaxWarn: false,
     inputMaxWarn: false,
@@ -21,7 +20,7 @@ class Convert extends React.Component {
   }
 
   render() {
-    const {form, modal, account} = this.props
+    const {form, modal, account, settings} = this.props
     let selectedToken = modal.item || {}
     //TODO mock data
     selectedToken = {...selectedToken, balance: 1.2, allowance: 0}
@@ -30,31 +29,49 @@ class Convert extends React.Component {
       const _this = this
       form.validateFields((err, values) => {
         if (!err) {
-          const wethConfig = window.CONFIG.getTokenBySymbol('WETH')
-          const formatedAmount = fm.toHex(fm.toBig(values.amount).times(1e18))
-          const api = new WETH({address:wethConfig.address})
-          const gasPrice = fm.toHex(fm.toNumber(this.state.selectedGasPrice) * 1e9)
-          const gasLimit = fm.toHex(fm.toNumber(this.state.selectedGasLimit))
-          const chainId = configs.chainId || 1
-          getTransactionCount(account.address).then((nonce)=>{
-            if(nonce.result){
-              if(selectedToken.symbol === "ETH") {
-                return api.deposit({amount:formatedAmount, privateKey:account.privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
-              } else {
-                return api.withDraw({amount:formatedAmount, privateKey:account.privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
-              }
+          window.STORAGE.wallet.getNonce(account.address).then(nonce => {
+            if(selectedToken.symbol === "ETH") {
+              return deposit(values.amount, nonce)
             } else {
-              throw new Error('Failed to call ethereum API, please try later')
+              return withdraw(values.amount, nonce)
             }
-          }).then(deposit=>{
-            // TODO
-            console.log("deposit:"+deposit)
+          }).then(res=>{
+            if (res.error) {
+              _this.setState({errorMsg: res.error.message})
+            } else {
+              window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+              modal.hideModal({id:'token/convert'})
+              const result = {extraData:{txHash:res.result}}
+              modal.showModal({id:'token/transfer/result', result})
+            }
           }).catch(error=>{
             console.error(error)
-            this.setState({errorMsg: error.message})
+            _this.setState({errorMsg: error.message})
           })
         }
       });
+    }
+
+    function deposit(amount, nonce) {
+      const wethConfig = window.CONFIG.getTokenBySymbol('WETH')
+      const tx = {};
+      tx.to = wethConfig.address;
+      tx.value = fm.toHex(fm.toBig(amount).times(1e18));
+      tx.data = generateAbiData({method: "deposit"});
+      tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
+      tx.nonce = fm.toHex(nonce)
+      return window.WALLET.sendTransaction(tx)
+    }
+
+    function withdraw(amount, nonce) {
+      const wethConfig = window.CONFIG.getTokenBySymbol('WETH')
+      const tx = {};
+      tx.to = wethConfig.address;
+      tx.value = fm.toHex(fm.toBig(amount).times(1e18));
+      tx.data = generateAbiData({method: "withdraw", amount:tx.value});
+      tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
+      tx.nonce = fm.toHex(nonce)
+      return window.WALLET.sendTransaction(tx)
     }
 
     function selectMax(e) {
@@ -62,7 +79,7 @@ class Convert extends React.Component {
       let wrapAmount = fm.toNumber(selectedToken.balance)
       let selectMaxWarn = false
       if(selectedToken.symbol === "ETH") {
-        wrapAmount = Math.max(selectedToken.balance - 0.1, 0)
+        wrapAmount = Math.max(math.accSub(selectedToken.balance, 0.1), 0)
         selectMaxWarn = true
       }
       this.setState({amount: wrapAmount, estimateWorth: wrapAmount * this.state.exchangeRate, selectMaxWarn:selectMaxWarn, inputMaxWarn:false})
