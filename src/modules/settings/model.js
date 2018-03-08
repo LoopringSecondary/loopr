@@ -130,7 +130,7 @@ export default {
     },
     deleteRelay(state,{payload}){
       const toDelete = state.relay.nodes.find(item => item.id === payload.id)
-      const newNodes = state.relay.nodes.filter(item => item.id != payload.id)
+      const newNodes = state.relay.nodes.filter(item => item.id !== payload.id)
       setRelayIds(newNodes)
       const selected = state.relay.selected === toDelete.value ? newNodes[0].value : state.relay.selected
       return {
