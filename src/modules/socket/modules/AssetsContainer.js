@@ -2,21 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import balancesData from './balances.json'
 
-class TokensSocketContainer extends React.Component {
+class AssetsSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      socketTokens:[],
-      socketToken:{},
+      assets:[],
+      asset:{},
     }
   }
   getTokenBySymbol(tokens){
     const { symbol } = this.props
-    let socketToken = {}
+    let asset = {}
     if(symbol){
-      socketToken = tokens.find(token=>token.symbol === symbol)
+      asset = tokens.find(token=>token.symbol === symbol)
     }
-    return socketToken
+    return asset
   }
   componentDidMount() {
     const { socket } = this.context
@@ -27,10 +27,10 @@ class TokensSocketContainer extends React.Component {
     socket.on('balance_res', (res)=>{
       console.log('balance_res')
       res = JSON.parse(res)
-      const socketToken = this.getTokenBySymbol(res.tokens)
+      const asset = this.getTokenBySymbol(res.tokens)
       this.setState({
-        socketTokens:res.tokens,
-        socketToken,
+        assets:res.tokens,
+        asset,
       })
     })
   }
@@ -48,8 +48,8 @@ class TokensSocketContainer extends React.Component {
     const childProps = {
      ...this.props,
      ...this.state,
-     // socketTokens:balancesData, // for mock data
-     // socketToken:this.getTokenBySymbol(balancesData) // for mock data
+     // assets:balancesData, // for mock data
+     // asset:this.getTokenBySymbol(balancesData) // for mock data
     }
     const {render} = this.props
     if(render){
@@ -67,7 +67,7 @@ class TokensSocketContainer extends React.Component {
 
   }
 }
-TokensSocketContainer.contextTypes = {
+AssetsSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default TokensSocketContainer
+export default AssetsSocketContainer

@@ -70,7 +70,7 @@ const ExchangeItem = ({pair='',ticker={}})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     return (
-        <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
+        <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <div className="col-auto">
             <div className="fs16 color-grey-900">{ticker.last}</div>
             <div className="fs14 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>{ticker.exchange}</div>
@@ -89,7 +89,7 @@ const ExchangeItem = ({pair='',ticker={}})=>{
 }
 
 function Ticker({pair,socketTicker}) {
-  console.log('ticker re-render',pair,socketTicker)
+  console.log('ticker re-render')
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>

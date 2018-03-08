@@ -13,7 +13,7 @@ import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
 
-function ListSidebar({LIST, actions, dispatch,socketTokens}) {
+function ListSidebar({LIST, actions, dispatch,assets}) {
   let {
     items = [],
     selected = {},
@@ -22,10 +22,10 @@ function ListSidebar({LIST, actions, dispatch,socketTokens}) {
     page = {}
   } = LIST
   items.forEach(item=>{
-    const token =  socketTokens.find(token=>token.symbol === item.symbol)
-    if(token){
-      item.balance = Number(token.balance)
-      item.allowance = Number(token.allowance)
+    const asset =  assets.find(asset=>asset.symbol === item.symbol)
+    if(asset){
+      item.balance = Number(asset.balance)
+      item.allowance = Number(asset.allowance)
     }else{
       item.balance = 0
       item.allowance = 0
