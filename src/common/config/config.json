@@ -8,7 +8,7 @@
     "defaultExpireTime":30,
     "defaultExpireTimeUnit":"day",
     "delegateAddress":"0x450D10A0C61f2b007384128B626F28b757A75e49",
-    "chainId":1,
+    "chainId":7107171,
     "bindContractAddress":"0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
     "qtumBindDeadline":1522512000,
     "neoBindDeadline":1522512000,

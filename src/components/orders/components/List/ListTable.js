@@ -4,12 +4,12 @@ import {Link} from 'dva/router';
 import {Table, Badge, Button, Modal, Icon, Popover, Steps} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {cancelOrder} from 'Loopring/relay/order'
-import {toHex,toNumber} from "Loopring/common/formatter";
+import {toHex, toNumber} from "Loopring/common/formatter";
 
 const uiFormatter = window.uiFormatter;
 
 function ListBlock(props) {
-  const {LIST, actions, className, style,account,gasPrice} = props;
+  const {LIST, actions, className, style, account, gasPrice} = props;
   const {
     items = [],
     loading,
@@ -19,13 +19,24 @@ function ListBlock(props) {
     Modal.confirm({
       title: 'Do you Want to cancel this order ?',
       content: 'Some descriptions',
-      onOk: () => {
+      onOk: async () => {
+        const nonce = await window.STORAGE.wallet.getNonce(account.address);
         const originalOrder = item.originalOrder;
         originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
         originalOrder.owner = originalOrder.address;
         originalOrder.r = toNumber(originalOrder.r);
         //TODO 等待新结构的order，不再出现错误。
-        cancelOrder({order:item.originalOrder,  privateKey:account.privateKey,gasPrice:toHex(gasPrice*1e9), walletType:account.walletType});
+        const res = await cancelOrder({
+          order: item.originalOrder,
+          nonce: toHex(nonce),
+          privateKey: account.privateKey,
+          gasPrice: toHex(gasPrice * 1e9),
+          walletType: account.walletType
+        });
+
+        if (!res.error) {
+          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+        }
       },
       onCancel: () => {
       },

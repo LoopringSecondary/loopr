@@ -36,7 +36,7 @@ function request(options) {
     options.body = JSON.stringify(options.body)
   }
   const url =  method.startsWith('eth')? window.ETH_HOST : window.LOOPRING_PROVIDER_HOST;
-    console.log(url);
+
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
