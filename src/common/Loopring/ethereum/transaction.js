@@ -7,7 +7,6 @@ import {privateKeytoAddress} from "./account";
 import {trezorSign} from './trezor'
 import {configs} from "../../config/data";
 
-
 export default class Transaction {
   constructor(rawTx) {
     validator.validate({value: rawTx, type: 'BASIC_TX'});
@@ -46,8 +45,7 @@ export default class Transaction {
     try {
       validator.validate({value: this.raw, type: "TX"});
     } catch (e) {
-      const address = privateKeytoAddress(privateKey);
-      await this.complete(address);
+      await this.complete();
     }
     const ethTx = new EthTransaction(this.raw);
 
@@ -92,11 +90,20 @@ export default class Transaction {
     })
   }
 
-  async complete(address) {
+  async sendRawTx(signedTx) {
+    let body = {};
+    body.method = 'eth_sendRawTransaction';
+    body.params = [signedTx];
+    return request({
+      method: 'post',
+      body,
+    })
+  }
+
+  async complete() {
     await this.setChainId();
     await this.setGasLimit();
     await this.setGasPrice();
-    await this.setNonce(address);
   }
 }
 

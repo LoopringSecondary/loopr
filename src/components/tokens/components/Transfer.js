@@ -32,31 +32,30 @@ class Transfer extends React.Component {
     function handleSubmit() {
       form.validateFields((err, values) => {
         if (!err) {
-          const rawTx = {};
+          const tx = {};
           if(this.state.advanced) {
-            rawTx.gasPrice = fm.toHex(fm.toBig(this.state.selectedGasPrice).times(1e9))
-            rawTx.gasLimit = fm.toHex(this.state.selectedGasLimit)
+            tx.gasPrice = fm.toHex(fm.toBig(this.state.selectedGasPrice).times(1e9))
+            tx.gasLimit = fm.toHex(this.state.selectedGasLimit)
           } else {
             const gasPrice = fm.toBig(this.state.selectedGas).div(defaultGasLimit).times(1e9).toFixed(2)
-            rawTx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
-            rawTx.gasLimit = fm.toHex(fm.toNumber(defaultGasLimit))
+            tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
+            tx.gasLimit = fm.toHex(fm.toNumber(defaultGasLimit))
           }
           if(selectedToken.symbol === "ETH") {
-            rawTx.to = values.to;
-            rawTx.value = fm.toHex(fm.toBig(values.amount).times(1e18))
-            rawTx.data = values.data || '0x'
+            tx.to = values.to;
+            tx.value = fm.toHex(fm.toBig(values.amount).times(1e18))
+            tx.data = values.data || '0x'
           } else {
             const tokenConfig = window.CONFIG.getTokenBySymbol(selectedToken.symbol)
-            rawTx.to = tokenConfig.address;
-            rawTx.value = "0x0";
+            tx.to = tokenConfig.address;
+            tx.value = "0x0";
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
-            rawTx.data = generateAbiData({method: "transfer", address:values.to, amount});
+            tx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
-          rawTx.chainId = configs.chainId || 1
           const worth = (fm.toNumber(this.state.exchangeRate) * values.amount).toFixed(4)
           const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:worth}
           modal.hideModal({id: 'token/transfer'})
-          modal.showModal({id: 'token/transfer/preview', rawTx, extraData})
+          modal.showModal({id: 'token/transfer/preview', tx, extraData})
         }
       });
     }

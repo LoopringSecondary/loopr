@@ -1,22 +1,24 @@
 import React from 'react';
 import { Avatar,Icon,Button,Card } from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
-import Transaction from '../../../common/Loopring/ethereum/transaction'
 
 let Preview = ({
-  form, modal, account
+  modal, account
   }) => {
-  const {rawTx,extraData} = modal
-  const privateKey = account.privateKey
+  const {tx,extraData} = modal
   const handelSubmit = ()=>{
-    let tx = new Transaction(rawTx)
-    tx.setNonce(extraData.from)
     modal.showLoading({id:'token/transfer/preview'})
-    let result = {...rawTx, extraData}
-    tx.send(privateKey).then(res=>{
+    let result = {...tx, extraData}
+    window.STORAGE.wallet.getNonce(account.address).then(nonce => {
+      tx.nonce = fm.toHex(nonce)
+      return window.WALLET.sendTransaction(tx)
+    }).then(res=>{
       if(res.error) {
         result = {...result, error:res.error.message}
+      } else {
+        window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
       }
+      extraData.txHash = res.result
       modal.hideModal({id:'token/transfer/preview'})
       modal.showModal({id:'token/transfer/result', result})
     }).catch(e=>{
@@ -76,11 +78,11 @@ let Preview = ({
           </div>
         </div>
         <MetaItem label="From" value={extraData.from} />
-        <MetaItem label="To" value={rawTx.to} />
+        <MetaItem label="To" value={tx.to} />
         <MetaItem label="Gas" value={
           <div className="mr15">
-            <div className="row justify-content-end">{`${fm.toBig(rawTx.gasPrice.toString()).times(rawTx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
-            <div className="row justify-content-end fs10 color-dark-text-disabled">{`≈ Gas(${fm.toNumber(rawTx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(rawTx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
+            <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
+            <div className="row justify-content-end fs10 color-dark-text-disabled">{`≈ Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
           </div>
         }/>
         <div className="row pt40">

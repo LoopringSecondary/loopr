@@ -9,6 +9,7 @@ import EditToken from './EditToken'
 import ModalContainer from '../../../modules/modals/container'
 import EthTxContainer from '../../../modules/tokens/models/EthTxContainer'
 import AccountContainer from '../../../modules/account/container'
+import SettingsContainer from '../../../modules/settings/container'
 
 function Modals(props){
   return (
@@ -16,13 +17,17 @@ function Modals(props){
       <ModalContainer id='token/transfer'>
         <EthTxContainer id="transfer">
           <AccountContainer>
-            <Transfer />
+            <SettingsContainer>
+              <Transfer />
+            </SettingsContainer>
           </AccountContainer>
         </EthTxContainer>
       </ModalContainer>
       <ModalContainer id='token/transfer/preview'>
         <AccountContainer>
-          <TransferPreview />
+          <SettingsContainer>
+            <TransferPreview />
+          </SettingsContainer>
         </AccountContainer>
       </ModalContainer>
       <ModalContainer id='token/transfer/result'>
@@ -34,7 +39,9 @@ function Modals(props){
       <ModalContainer id='token/convert'>
         <EthTxContainer id="convert">
           <AccountContainer>
-            <Convert />
+            <SettingsContainer>
+              <Convert />
+            </SettingsContainer>
           </AccountContainer>
         </EthTxContainer>
       </ModalContainer>
