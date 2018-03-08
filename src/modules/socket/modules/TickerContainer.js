@@ -7,6 +7,18 @@ class TickerSocketContainer extends React.Component {
       socketTicker:{}
     }
   }
+  shouldComponentUpdate(nextProps){
+    console.log('this.nextProps',nextProps)
+    if(nextProps.pair !== this.props.pair){
+      const { socket } = this.context
+      const options = {
+        "contractVersion" : "v1.0",
+        "market":nextProps.pair,
+      }
+      socket.emit('tickers_req',JSON.stringify(options))
+    }
+    return true
+  }
   componentDidMount() {
     const { socket } = this.context
     const { pair } = this.props

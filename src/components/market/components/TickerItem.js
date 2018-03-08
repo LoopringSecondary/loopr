@@ -7,7 +7,6 @@ import TickersContainer from '../../../modules/tickers/ListContainer'
 
 
 const LooprTicker = ({pair='',ticker={}})=>{
-  console.log('loopr ticker',ticker)
   const tokenL = pair.split('-')[0]
   const tokenR = pair.split('-')[1]
 	const TickerHeader = ()=>(
@@ -71,18 +70,18 @@ const ExchangeItem = ({pair='',ticker={}})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     return (
-        <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 mt15 mb15 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
+        <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
           <div className="col-auto">
             <div className="fs16 color-grey-900">{ticker.last}</div>
-            <div className="fs12 color-grey-400 text-truncate" style={{maxWidth:'120px'}}>{ticker.exchange}</div>
+            <div className="fs14 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>{ticker.exchange}</div>
           </div>
           <div className="col-auto">
             <div className="fs16" style={{color:'#1DB427'}}>{ticker.change}</div>
-            <div className="fs12 color-grey-400 ">24H Change</div>
+            <div className="fs14 color-grey-400 ">24H Change</div>
           </div>
           <div className="col-auto">
             <div className="fs16 color-grey-900">{ticker.vol} {tokenR}</div>
-            <div className="fs12 color-grey-400">24H Volume</div>
+            <div className="fs14 color-grey-400">24H Volume</div>
           </div>
         </div>
       )
@@ -90,16 +89,16 @@ const ExchangeItem = ({pair='',ticker={}})=>{
 }
 
 function Ticker({pair,socketTicker}) {
-  console.log('socketTicker',socketTicker)
+  console.log('ticker re-render',pair,socketTicker)
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
   		  <div className="container">
-  		    <LooprTicker pair={pair} ticker={socketTicker.loopring} />
+  		    <LooprTicker pair={pair} ticker={socketTicker.loopr} />
   		  </div>
   		</div>
   		<div className="container">
-        <div className="row ml0 mr0">
+        <div className="row ml0 mr0 mt15 mb15">
            {
             socketTicker.binance &&
             <div className="col pl0">
@@ -108,7 +107,7 @@ function Ticker({pair,socketTicker}) {
            }
            {
             socketTicker.okex &&
-            <div className="col">
+            <div className="col pr0">
               <ExchangeItem pair={pair} ticker={socketTicker.okex} />
             </div>
            }
