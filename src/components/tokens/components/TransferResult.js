@@ -5,7 +5,6 @@ let Preview = ({
   modal,
   }) => {
   const {result} = modal
-  console.log(result)
   return (
       <Card title="Result">
         <div className="p25 text-center">
