@@ -22,12 +22,14 @@ export default class MetaMaskUnlockAccount extends Account {
     else return null
   }
 
-  async signTx(rawTx){
-    const ethTx = new EthTransaction(rawTx);
-    const hash = ethTx.hash(false)
+  async signTx(tx){
+    throw new Error("The current unlock type: MetaMask not support `signTx`")
+  }
+
+  async signMessage(message){
     const signMethod = () => {
       return new Promise((resolve)=>{
-        this.web3.eth.sign(this.account, fm.toHex(hash), function(err, result){
+        this.web3.eth.sign(this.account, this.web3.sha3(message), function(err, result){
           if(!err){
             resolve(result)
           } else {
@@ -46,16 +48,16 @@ export default class MetaMaskUnlockAccount extends Account {
     }
   }
 
-  async sendTransaction(rawTx) {
-    let tx = new Transaction(rawTx)
-    await tx.complete()
+  async sendTransaction(tx) {
+    let newTx = new Transaction(tx)
+    await newTx.complete()
     /**
      * Could not use `web3.eth.sign()` to get signedTx and use `sendRawTransaction(signed)` to send due to the reason below, so use `sendTransaction` supported by Metamask directly
      * In addition to this, you can sign arbitrary data blobs using web3.eth.sign(fromAddress, data, callback), although it has protections to sign it differently than a transaction, so users aren't tricked into signing transactions using this method.
      */
     const sendMethod = () => {
       return new Promise((resolve)=>{
-        this.web3.eth.sendTransaction(tx.raw, function(err, transactionHash) {
+        this.web3.eth.sendTransaction(newTx.raw, function(err, transactionHash) {
           if (!err){
             console.log(transactionHash);
             resolve({transactionHash:transactionHash})

@@ -16,17 +16,17 @@ export default class PrivateKeyUnlockAccount extends Account {
     super.getAddress()
   }
 
-  signTx(rawTx){
-    return this.signWithPrivateKey(rawTx, this.privateKey)
+  signMessage(message){
+    console.log("private key sign")
+    return this.signWithPrivateKey(message, this.privateKey)
   }
 
-  async sendTransaction(rawTx) {
-    rawTx.from = this.address
-    let tx = new Transaction(rawTx)
-    await tx.complete()
-    const ethTx = new EthTransaction(tx.raw);
+  async sendTransaction(tx) {
+    let newTx = new Transaction(tx)
+    await newTx.complete()
+    const ethTx = new EthTransaction(newTx.raw);
     ethTx.sign(toBuffer(addHexPrefix(this.privateKey)));
     const signed = toHex(ethTx.serialize());
-    return await tx.sendRawTx(signed)
+    return await newTx.sendRawTx(signed)
   }
 }

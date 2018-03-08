@@ -16,6 +16,11 @@ export default class TrezorUnlockAccount extends Account {
     return super.getAddress()
   }
 
+  signMessage(message){
+    console.log("Trezor sign")
+    //TODO
+  }
+
   async signTx(rawTx){
     return new Promise((resolve) => {
       const tx = [clearPrefix(rawTx.nonce), clearPrefix(rawTx.gasPrice), clearPrefix(rawTx.gasLimit), clearPrefix(rawTx.to),
@@ -41,12 +46,12 @@ export default class TrezorUnlockAccount extends Account {
     })
   }
 
-  async sendTransaction(rawTx) {
-    let tx = new Transaction(rawTx)
-    await tx.complete()
-    const signed = await this.signTx(rawTx)
+  async sendTransaction(tx) {
+    let newTx = new Transaction(tx)
+    await newTx.complete()
+    const signed = await this.signTx(newTx.raw)
     if(signed.result){
-      return await tx.sendRawTx(toHex(signed.result))
+      return await newTx.sendRawTx(toHex(signed.result))
     } else {
       throw new Error(signed.error)
     }
