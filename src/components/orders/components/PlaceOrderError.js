@@ -2,8 +2,10 @@ import React from 'react';
 import { Modal,Collapse,Button,Input,Steps,Popover,Alert,Card,Icon} from 'antd';
 import iconSuccess from '../../../assets/images/icon-success.png'
 
-const PlaceOrderSuccess = ({
+const PlaceOrderError = ({
+    modal
   }) => {
+  const {errors} = modal
   const MetaItem = (props)=>{
     const {label,value}=props
     return (
@@ -39,21 +41,24 @@ const PlaceOrderSuccess = ({
         <div className="fs12 color-grey-500 mb10">
           You should do things followed: (<a href="">Why</a>)
         </div>
-        <div className="">
-          <Icon className="color-red-500 mr10" type="close-circle-o" />ETH blance is not enough
-          <a onClick="" className="ml15 color-blue-500">Receive <Icon type="right" /></a>
-          <a onClick="" className="ml15 color-blue-500">Buy <Icon type="right" /></a>
-        </div>
-        <div className="">
-          <Icon className="color-red-500 mr10" type="close-circle-o" />LRC blance is not enough
-          <a onClick="" className="ml15 color-blue-500">Receive <Icon type="right" /></a>
-          <a onClick="" className="ml15 color-blue-500">Buy <Icon type="right" /></a>
-        </div>
+        {errors &&
+          errors.map((item, index) => {
+            if(item.type === 'BalanceNotEnough'){
+              return (
+                <div className="" key={index}>
+                  <Icon className="color-red-500 mr10" type="close-circle-o" />{`${item.value.symbol.toUpperCase()} blance is not enough, required ${item.value.required}`}
+                  <a onClick="" className="ml15 color-blue-500">Receive <Icon type="right" /></a>
+                  <a onClick="" className="ml15 color-blue-500">Buy <Icon type="right" /></a>
+                </div>
+              )
+            }
+          })
+        }
       </div>
     </Card>
   )
 }
 
-export default PlaceOrderSuccess
+export default PlaceOrderError
 
 

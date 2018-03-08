@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import TradeConfirm from './TradeConfirm'
 import PlaceOrderSuccess from './PlaceOrderSuccess'
+import PlaceOrderError from './PlaceOrderError'
 import ModalContainer from '../../../modules/modals/container'
 
 function Modals(props){
@@ -13,7 +14,7 @@ function Modals(props){
          <PlaceOrderSuccess />
      </ModalContainer>
      <ModalContainer id="trade/place-order-error">
-         <PlaceOrderSuccess />
+         <PlaceOrderError />
      </ModalContainer>
 
     </div>

@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'dva';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
+import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
-import {accMul, accDiv} from '../../../common/Loopring/common/math'
+import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
 
 class TradeForm extends React.Component {
@@ -34,6 +34,24 @@ class TradeForm extends React.Component {
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
     const integerReg = new RegExp("^[0-9]*$")
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+
+    const showModal = (payload)=>{
+      dispatch({
+        type: 'modals/modalChange',
+        payload: {
+          ...payload,
+          visible: true,
+        }
+      })
+    }
+
+    const gotoError = (errors, e) => {
+      if(e) e.stopPropagation()
+      showModal({
+        id: 'trade/place-order-error',
+        errors,
+      })
+    }
 
     const showTradeModal = (tradeInfo) => {
       dispatch({
@@ -80,15 +98,88 @@ class TradeForm extends React.Component {
             }
             tradeInfo.timeToLive = timeToLive
           }
-          if (values.lrcFee) {
-            tradeInfo.lrcFee = Number(values.lrcFee)
-          }
           if (values.marginSplit) {
             tradeInfo.marginSplit = Number(values.marginSplit)
           }
-          showTradeModal(tradeInfo)
+          // TODO milliLrcfee
+          const totalWorth = calculateWorthInLegalCurrency(tokenR, tradeInfo.total)
+          let milliLrcFee = 0
+          if (values.lrcFee) {
+            milliLrcFee = Number(values.lrcFee)
+            tradeInfo.milliLrcFee = milliLrcFee
+          } else {
+            milliLrcFee = Number(configs.defaultLrcFeePermillage)
+          }
+          let userSetLrcFeeInEth = calculateLrcFeeInEth(totalWorth, milliLrcFee)
+          const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
+          //TODO mock
+          userSetLrcFeeInEth = 0.0000001
+          if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
+            tradeInfo.lrcFee = calculateLrcFeeInLrc(userSetLrcFeeInEth)
+            showTradeModal(tradeInfo)
+          } else {
+            tradeInfo.lrcFee = calculateLrcFeeInLrc(minimumLrcfeeInEth)
+            const content = 'According to your setting, lrcFee is '+calculateLrcFeeByEth(userSetLrcFeeInEth)+'LRC, we increase it to a minimum value:'+tradeInfo.lrcFee+"LRC, will you continue place order?"
+            showConfirm(content, tradeInfo)
+          }
         }
       });
+    }
+
+    function showConfirm(content, tradeInfo) {
+      Modal.confirm({
+        title: 'Warning',
+        content: content,
+        onOk: toConfirm.bind(this, tradeInfo),
+        onCancel() {},
+      });
+    }
+
+    function toConfirm(tradeInfo) {
+      //TODO mock
+      const userOwnedLrc = 0.10000001
+      if(userOwnedLrc < tradeInfo.lrcFee){
+        const errors = new Array()
+        errors.push({
+          type:"BalanceNotEnough",
+          value:{
+            symbol:'lrc',
+            balance:userOwnedLrc,
+            required:accSub(tradeInfo.lrcFee, userOwnedLrc),
+          }})
+        gotoError(errors)
+      } else {
+        showTradeModal(tradeInfo)
+      }
+    }
+
+    function calculateWorthInLegalCurrency(symbol, amount) {
+      //TODO mock worth
+      return amount * 812
+    }
+
+    function calculateLrcFeeInEth(totalWorth, milliLrcFee) {
+      //TODO tokenR -> weth
+      const price = 0.00078
+      return accMul(accDiv(accMul(totalWorth, milliLrcFee), 1000), price)
+    }
+
+    function calculateLrcFeeInLrc(totalWethWorth) {
+      //TODO lrc -> weth
+      const price = 0.00078
+      return accDiv(Math.floor(accMul(accDiv(totalWethWorth, price), 100)), 100)
+    }
+
+    function calculateLrcFeeWithLrc(totalWorthWithLegalCurrency) {
+      //TODO lrc -> legal currency
+      const price = 23.4
+      return accDiv(totalWorthWithLegalCurrency, price)
+    }
+
+    function calculateLrcFeeByEth(ethAmount) {
+      //TODO lrc -> weth
+      const price = 0.00078
+      return accDiv(Math.floor(accMul(accDiv(ethAmount, price), 100)), 100)
     }
 
     function handleCancle() {
@@ -99,18 +190,19 @@ class TradeForm extends React.Component {
     }
 
     function validateAmount(value) {
-      const amount = Number(value)
-      const price = Number(form.getFieldValue("price"))
-      if (amount <= 0) return false
-      if (side === 'sell') {
-        return amount <= tokenLBalance.balance
-      } else {
-        if (price > 0) {
-          return accMul(price, amount) <= tokenRBalance.balance
-        } else {
-          return true
-        }
-      }
+      // const amount = Number(value)
+      // const price = Number(form.getFieldValue("price"))
+      // if (amount <= 0) return false
+      // if (side === 'sell') {
+      //   return amount <= tokenLBalance.balance
+      // } else {
+      //   if (price > 0) {
+      //     return accMul(price, amount) <= tokenRBalance.balance
+      //   } else {
+      //     return true
+      //   }
+      // }
+      return value > 0
     }
 
     function validatePirce(value) {
@@ -290,7 +382,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
             <div>
-              <div className="fs10">{`Max Amount ${this.state.availableAmount}`}</div>
+              <div className="fs10">{`Available Amount ${this.state.availableAmount}`}</div>
               <div className="fs10">{amountSlider}</div>
             </div>
           }>
