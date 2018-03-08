@@ -60,9 +60,7 @@ class Convert extends React.Component {
       tx.data = generateAbiData({method: "deposit"});
       tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
       tx.nonce = fm.toHex(nonce)
-      let newTx = new Transaction(tx)
-      newTx.complete()
-      return window.WALLET.sendTransaction(newTx.raw)
+      return window.WALLET.sendTransaction(tx)
     }
 
     function withdraw(amount, nonce) {
@@ -73,9 +71,7 @@ class Convert extends React.Component {
       tx.data = generateAbiData({method: "withdraw", amount:tx.value});
       tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
       tx.nonce = fm.toHex(nonce)
-      let newTx = new Transaction(tx)
-      newTx.complete()
-      return window.WALLET.sendTransaction(newTx.raw)
+      return window.WALLET.sendTransaction(tx)
     }
 
     function selectMax(e) {
