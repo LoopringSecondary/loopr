@@ -40,11 +40,9 @@ export async function getGasPrice() {
 }
 
 export async function estimateGas(tx) {
-  const params = [JSON.stringify(tx)];
   const body = {};
   body.method = 'eth_estimateGas';
-  body.params = params;
-
+  body.params = [tx];
   return request({
     method: 'post',
     body,
@@ -75,6 +73,25 @@ export async function getAccountBalance(address, tag) {
   })
 }
 
+export async function getTransactionByhash(hash) {
+
+  try {
+    validator.validate({value: hash, type: "ETH_DATA"})
+  } catch (e) {
+    throw new Error('Invalid Transaction Hash')
+  }
+  const params = [hash];
+  const body = {};
+  body.method = 'eth_getTransactionByHash';
+  body.params = params;
+  return request({
+    method: 'post',
+    body,
+  })
+
+}
+
+
 export async function bindAddress({projectId, address, to, privateKey, gasPrice, gasLimit, nonce, chainId,walletType,path}) {
 
   validator.validate({value: to, type: 'ADDRESS'});
@@ -97,3 +114,4 @@ export async function bindAddress({projectId, address, to, privateKey, gasPrice,
   const transaction = new Transaction(tx);
   transaction.send({privateKey,walletType,path})
 }
+

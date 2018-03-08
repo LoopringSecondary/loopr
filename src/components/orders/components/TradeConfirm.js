@@ -5,7 +5,6 @@ import {create} from 'Loopring/ethereum/account';
 import {sign} from 'Loopring/relay/order';
 import {toHex, toBig, toNumber} from 'Loopring/common/formatter';
 import Token from 'Loopring/ethereum/token';
-import {getTransactionCount} from 'Loopring/ethereum/utils';
 import {configs} from "../../../common/config/data";
 import {placeOrder} from 'Loopring/relay/order';
 
@@ -57,52 +56,64 @@ const TradeConfirm = ({
     const allowanceLrc = 10;
     const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
     const delegateAddress = configs.delegateAddress;
-    let nonce = toNumber((await getTransactionCount(account.address)).result);
+    let nonce = await window.STORAGE.wallet.getNonce(account.address);
 
     if (toBig(tokenS.allowance).greaterThan(allowanceS * Number('1e' + tokenS.digits))) {
       const SToken = new Token({address: tokenS.address});
       if (allowanceS > 0) {
-        await SToken.approve({
+        let res = await SToken.approve({
           privateKey: account.privateKey,
           spender: delegateAddress,
           amount: '0x0',
           gasPrice,
           nonce: toHex(nonce),
-          walletType:account.walletType
+          walletType: account.walletType
         });
+        if (!res.error) {
+          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+        }
         nonce = nonce + 1;
-        await SToken.approve(({
+        res = await SToken.approve(({
           privateKey: account.privateKey,
           spender: delegateAddress,
           amount: toHex(toBig('9223372036854775806')),
           gasPrice,
           nonce: toHex(nonce),
-          walletType:account.walletType
+          walletType: account.walletType
         }));
         nonce = nonce + 1;
+        if (!res.error) {
+          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+        }
       }
     }
 
     if (tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(allowanceLrc * Number('1e' + LRC.digits))) {
       const LRCToken = new Token({address: LRC.address});
       if (allowanceS > 0) {
-        await LRCToken.approve({
+        let res = await LRCToken.approve({
           privateKey: account.privateKey,
           spender: delegateAddress,
           amount: '0x0',
           gasPrice,
           nonce: toHex(nonce),
-          walletType:account.walletType
+          walletType: account.walletType
         });
+        if (!res.error) {
+          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+        }
         nonce = nonce + 1;
-        await LRCToken.approve(({
+        res = await LRCToken.approve(({
           privateKey: account.privateKey,
           spender: delegateAddress,
           amount: toHex(toBig('9223372036854775806')),
           gasPrice,
           nonce: toHex(nonce),
-          walletType:account.walletType
+          walletType: account.walletType
         }));
+        if (!res.error) {
+          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+        }
       }
     }
 

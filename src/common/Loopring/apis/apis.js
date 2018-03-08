@@ -14,7 +14,7 @@ let headers = {
 export async function getTransactionCount(add,tag){
   // validator.validate({value:add,type:'ADDRESS'})
   // validator.validate({value:tag,type:'RPC_TAG'})
-  
+
   let body = {}
   body.method = 'eth_getTransactionCount'
   body.params = [add,tag]
@@ -56,7 +56,7 @@ export async function submitOrder(order_json_stringify){
 }
 
 export async function cancelLoopringOrder(rawTX, privateKey){
-{
+
     // 不需要 单独的接口，用的是tx的接口，待定
     // const tx = await this.generateTx(rawTX, privateKey)
     // return this.sendSignedTx(tx.signedTx)
