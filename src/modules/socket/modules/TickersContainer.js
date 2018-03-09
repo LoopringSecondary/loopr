@@ -13,9 +13,9 @@ class TickersSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    const currency = window.STORAGE.settings.getCurrency() || 'CNY' // TODO
-    const data = {currency}
-    socket.on('tickers_res', (res)=>{
+    socket.emit('loopringTickers_req','')
+    socket.on('loopringTickers_res', (res)=>{
+      console.log('loopringTickers_res')
       this.setState({
         tickers:res.result,
       })

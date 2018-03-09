@@ -1,17 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import pricesData from './prices.json'
-class PricesSocketContainer extends React.Component {
+class PriceSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
+      price:0,
       prices:[],
-      currency:{
-        symbol:'CNY',
-        icon:'￥',
-      }
-
     }
+  }
+  getPrice(tokens){
+    const { symbol } = this.props
+    let price = 0
+    if(symbol){
+      const token = tokens.find(token=>token.symbol === symbol)
+      price = token && token.price
+    }
+    return price
   }
   componentDidMount() {
     const { socket } = this.context
@@ -19,16 +24,14 @@ class PricesSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    const currency = window.STORAGE.settings.getCurrency() || 'CNY' // TODO
-    const data = {currency}
-    socket.emit('marketcap_req',data)
+    const _this = this
     socket.on('marketcap_res', (res)=>{
+      console.log('marketcap_res')
+      res = JSON.parse(res)
+      const price = _this.getPrice(res.tokens)
       this.setState({
+        price,
         prices:res.tokens,
-        currency:{
-          name:res.currency,
-          icon:res.currency === 'CNY' ? '￥':'$',
-        }
       })
     })
   }
@@ -39,13 +42,15 @@ class PricesSocketContainer extends React.Component {
       return false
     }
     // socket.emit('marketcap_end')
-    // socket.off(event)
+    console.log('price unmount')
+    socket.off('marketcap_res')
   }
   render() {
     const childProps = {
       ...this.props,
       ...this.state,
-      prices:pricesData, // Mock
+      // price:this.getPrice(pricesData), // For Mock Price data
+      // prices:pricesData,// For Mock Price data
     }
     const {render} = this.props
     if(render){
@@ -62,7 +67,7 @@ class PricesSocketContainer extends React.Component {
     )
   }
 }
-PricesSocketContainer.contextTypes = {
+PriceSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default PricesSocketContainer
+export default PriceSocketContainer
