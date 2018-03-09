@@ -12,7 +12,7 @@ export default class MetaMaskUnlockAccount extends Account {
       this.account = this.web3.eth.accounts[0]
       console.log(this.account)
       this.web3.version.getNetwork((err, netId) => {
-        if(netId !== '1') throw new Error("Sorry, we currently only support MetaMask mainnet")
+        if(netId !== '1') throw new Error("Sorry, we currently only support MetaMask using Ethereum mainnet")
       })
     }
   }
