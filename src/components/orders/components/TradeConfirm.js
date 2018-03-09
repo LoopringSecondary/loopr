@@ -1,13 +1,13 @@
 import React from 'react';
-import {Modal, Collapse, Button, Input, Card} from 'antd';
+import {Button, Card, Collapse, Input} from 'antd';
 import {connect} from 'dva';
-import {create} from 'Loopring/ethereum/account';
-import {sign} from 'Loopring/relay/order';
-import {toHex, toBig, toNumber} from 'Loopring/common/formatter';
+import {create, privateKeytoAddress} from 'Loopring/ethereum/account';
+import {placeOrder, sign} from 'Loopring/relay/order';
+import {toBig, toHex, toNumber} from 'Loopring/common/formatter';
 import Token from 'Loopring/ethereum/token';
 import {configs} from "../../../common/config/data";
-import {placeOrder} from 'Loopring/relay/order';
-import each from 'async/each';
+import eachLimit from 'async/eachLimit';
+
 
 const TradeConfirm = ({
                         modals,
@@ -20,7 +20,6 @@ const TradeConfirm = ({
   const token = pair.split('-')[0];
   const token2 = pair.split('-')[1];
   marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
-  lrcFee = lrcFee || tradingConfig.lrcFee;
   timeToLive = timeToLive === undefined ? window.uiFormatter.getSeconds(tradingConfig.timeToLive, tradingConfig.timeToLiveUnit) : timeToLive;
   const start = Math.ceil(new Date().getTime() / 1000);
   const since = window.uiFormatter.getFormatTime(start);
@@ -34,7 +33,7 @@ const TradeConfirm = ({
   order.tokenS = tokenS.address;
   order.amountB = toHex((side.toLowerCase() === "buy" ? amount : total) * Number('1e' + tokenB.digits));
   order.amountS = toHex((side.toLowerCase() === "sell" ? amount : total) * Number('1e' + tokenS.digits));
-  order.lrcFee = toHex(lrcFee * amount * 1e18);//TODO 根据价格比例计算。
+  order.lrcFee = toHex(lrcFee * 1e18);
   order.validSince = toHex(start);
   order.validUntil = toHex(start + Number(timeToLive));
   order.marginSplitPercentage = Number(marginSplit);
@@ -46,10 +45,8 @@ const TradeConfirm = ({
   const signedOrder = sign(order, account.privateKey);
 
   const handelSubmit = async () => {
-    // TODO
     modals.hideModal({id: 'trade/confirm'});
     //TODO Enable 设置allowance 数量进行模拟，后期根据真实数据进行修改
-
     const allowanceToken1 = 50;
     const allowanceToken2 = 100;
     const allowanceS = side === 'buy' ? allowanceToken2 : allowanceToken1;
@@ -96,18 +93,18 @@ const TradeConfirm = ({
         nonce: toHex(nonce),
       })));
     }
-    console.log(txs.length);
-    each(txs, (tx) => {
-      window.WALLET.sendTransaction(tx).then((res) => {
-        console.log('Hash:', res.result);
+    await placeOrder(signedOrder);
+    eachLimit(txs, 1, async function (tx, callback) {
+      const res = await window.WALLET.sendTransaction(tx);
+      if (res.error) {
+        callback(res.error.message)
+      } else {
         window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
-      }).catch((e) => {
-        console.log(e.message)
-      });
-    }, (error) => {
+        callback()
+      }
+    }, function (error) {
       console.log(error.message)
     });
-     await placeOrder(signedOrder);
     modals.showModal({id: 'trade/place-order-success'})
   };
 

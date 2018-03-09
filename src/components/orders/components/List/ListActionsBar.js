@@ -29,8 +29,8 @@ function ListActionsBar(props) {
           const tokenB = tokenPair.split('/')[1];
           tx = generateCancelOrdersByTokenPairTx({
             ...params,
-            tokenA: window.CONFIG.getTokenBySymbol(tokenA).address,
-            tokenB: window.CONFIG.getTokenBySymbol(tokenB).address
+            tokenA: window.CONFIG.getTokenBySymbol(tokenA === 'ETH' ? 'WETH':tokenA).address,
+            tokenB: window.CONFIG.getTokenBySymbol(tokenB=== 'ETH' ? 'WETH':tokenB).address
           })
         } else {
           tx = generateCancelAllOrdresTx(params)

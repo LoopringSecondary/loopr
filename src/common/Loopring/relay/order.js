@@ -139,7 +139,7 @@ export function cancelAllOrders({privateKey, protocolAddress, timestamp, gasPric
 
 export async function placeOrder(order) {
 
-  validator.validate({value: order, type: "Order"})
+  validator.validate({value: order, type: "Order"});
   let body = {};
   body.method = 'loopring_submitOrder';
   body.params = [order];

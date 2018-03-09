@@ -4,7 +4,7 @@ import {Link} from 'dva/router';
 import {Table, Badge, Button, Modal, Icon, Popover, Steps} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
-import {toHex, toNumber} from "Loopring/common/formatter";
+import {toHex, toNumber,clearPrefix} from "Loopring/common/formatter";
 
 const uiFormatter = window.uiFormatter;
 
@@ -24,10 +24,13 @@ function ListBlock(props) {
         const originalOrder = item.originalOrder;
         originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
         originalOrder.owner = originalOrder.address;
-        originalOrder.r = toNumber(originalOrder.r);
-        //TODO 等待新结构的order，不再出现错误。
+        originalOrder.v = toNumber(originalOrder.v);
+        originalOrder.tokenB  = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
+        originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
+        originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
+        console.log(JSON.stringify(originalOrder));
         const tx = generateCancelOrderTx({
-          order: item.originalOrder,
+          order: originalOrder,
           nonce: toHex(nonce),
           gasPrice: toHex(gasPrice * 1e9),
           protocolAddress: contractAddress,
