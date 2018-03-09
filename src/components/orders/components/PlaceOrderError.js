@@ -47,8 +47,8 @@ const PlaceOrderError = ({
               return (
                 <div className="" key={index}>
                   <Icon className="color-red-500 mr10" type="close-circle-o" />{`${item.value.symbol.toUpperCase()} blance is not enough, required ${item.value.required}`}
-                  <a onClick="" className="ml15 color-blue-500">Receive <Icon type="right" /></a>
-                  <a onClick="" className="ml15 color-blue-500">Buy <Icon type="right" /></a>
+                  <a className="ml15 color-blue-500">Receive <Icon type="right" /></a>
+                  <a className="ml15 color-blue-500">Buy <Icon type="right" /></a>
                 </div>
               )
             }

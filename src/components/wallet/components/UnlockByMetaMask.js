@@ -1,20 +1,45 @@
 import React from 'react';
-import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Button,Form,Radio,Input,Tabs,Badge,Icon,Alert } from 'antd';
-import MetaMaskUnlockAccount from "../../../modules/account/MetaMaskUnlockAccount";
-import * as fm from '../../../common/Loopring/common/formatter'
+import { Modal, Button,Icon,Alert } from 'antd';
 
 let UnlockByMetaMask = ({
      modal, account
   }) => {
   function connectToMetamask() {
     if (window.web3 && window.web3.eth.accounts[0]) {
+      let selectedAccount = window.web3.eth.accounts[0]
       account.setMetamask({web3:window.web3});
       modal.hideModal({id: 'wallet/unlock'});
       window.routeActions.gotoPath('portfolio');
+
+      var accountInterval = setInterval(function() {
+        if (!window.web3 || !window.web3.eth.accounts[0]) {
+          console.log("MetaMask account locked:", selectedAccount)
+          account.deleteAccount({})
+          Modal.warning({
+            title: 'Warning',
+            content: 'You have logout from MetaMask',
+          });
+          clearInterval(accountInterval)
+          return
+        }
+        if (window.web3 && window.web3.eth.accounts[0] !== selectedAccount) {
+          selectedAccount = window.web3.eth.accounts[0];
+          if(selectedAccount) {
+            console.log("MetaMask account changed to:", selectedAccount)
+            account.setWallet({address: selectedAccount})
+          }
+        }
+      }, 100);
     } else {
-      console.log('no metamask')
+      let content = 'Your may need to install MetaMask extension to your browser first'
+      if(!window.web3.eth.accounts[0]) { // locked
+        content = 'Failed to connect with MetaMask, please unlock and use'
+      }
+      Modal.error({
+        title: 'Error',
+        content: content,
+      });
     }
   }
 
