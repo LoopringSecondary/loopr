@@ -6,7 +6,7 @@ import SocketProvider from './Provider';
 const SocketProviderContainer = (props)=>{
   const { settings } = props
   const host = settings.relay.selected || 'https://relay1.loopring.io'
-  const url = `http://10.137.110.117:8087`
+  const url = `http://13.112.62.24`
   return (
       <SocketProvider url={url}>
         {props.children}

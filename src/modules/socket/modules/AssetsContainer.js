@@ -24,6 +24,11 @@ class AssetsSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
+    const options = {
+      "contractVersion" : "v1.0",
+      "owner":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
+    }
+    socket.emit('balance_req',JSON.stringify(options))
     socket.on('balance_res', (res)=>{
       console.log('balance_res')
       res = JSON.parse(res)

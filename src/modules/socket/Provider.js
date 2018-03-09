@@ -25,11 +25,11 @@ class SocketProvider extends React.Component {
       console.log('socket connected success!')
     })
 
-    options = {
-      "contractVersion" : "v1.0",
-      "owner":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
-    }
-    this.socket.emit('balance_req',JSON.stringify(options))
+    // options = {
+    //   "contractVersion" : "v1.0",
+    //   "owner":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
+    // }
+    // this.socket.emit('balance_req',JSON.stringify(options))
 
     options = {
       "currency" : "CNY"

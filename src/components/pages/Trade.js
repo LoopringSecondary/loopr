@@ -8,6 +8,8 @@ import Market from '../market/components'
 import PlaceOrderContainer from '../../modules/orders/models/PlaceOrderContainer'
 import TickerSocketContainer from '../../modules/socket/modules/TickerContainer'
 import TickersSocketContainer from '../../modules/socket/modules/TickersContainer'
+import PricesContainer from '../../modules/socket/modules/PricesContainer'
+import Sockets from '../../modules/socket/containers'
 
 export default function Home(props){
   const { children,match } = props
@@ -21,17 +23,13 @@ export default function Home(props){
         <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
           <div className="row justify-content-around">
             <div className="col-sm-6 pl40 pr40 zb-b-r">
-              <PlaceOrderContainer id="buy">
-                <TickersSocketContainer>
-                  <Order.TradeForm side="buy" pair={pair} />
-                </TickersSocketContainer>
-              </PlaceOrderContainer>
+                  <PlaceOrderContainer id="buy">
+                    <Order.TradeForm side="buy" pair={pair} />
+                  </PlaceOrderContainer>
             </div>
             <div className="col-sm-6 pl40 pr40">
               <PlaceOrderContainer id="sell">
-                <TickersSocketContainer>
-                  <Order.TradeForm side="sell" pair={pair} />
-                </TickersSocketContainer>
+                <Order.TradeForm side="buy" pair={pair} />
               </PlaceOrderContainer>
             </div>
           </div>
