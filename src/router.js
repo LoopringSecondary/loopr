@@ -12,7 +12,6 @@ function RouterConfig({ history }) {
             </Router>
           </Locales>
         </Socket>
-
   )
 }
 export default RouterConfig;

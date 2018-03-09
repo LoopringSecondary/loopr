@@ -72,7 +72,7 @@ function ListBlock(props) {
           TODODO
         </div>
       </div>
-      if (index % 5 == 0) return (
+      if (index % 5 === 0) return (
         <Popover content={content} title="You Need To Do">
           <div className="color-red-500">
             <Icon className="mr5" type="exclamation-circle"/>
@@ -80,10 +80,10 @@ function ListBlock(props) {
           </div>
         </Popover>
       )
-      if (index % 5 == 1) return <Badge status="processing" text="Opened"/>
-      if (index % 5 == 2) return <Badge status="success" text="Completed"/>
-      if (index % 5 == 3) return <Badge status="default" text="Cancelled"/>
-      if (index % 5 == 4) return <Badge status="default" text="Expired"/>
+      if (index % 5 === 1) return <Badge status="processing" text="Opened"/>
+      if (index % 5 === 2) return <Badge status="success" text="Completed"/>
+      if (index % 5 === 3) return <Badge status="default" text="Cancelled"/>
+      if (index % 5 === 4) return <Badge status="default" text="Expired"/>
     },
     side: (value, item, index) => {
       if (index < 3) {
@@ -94,7 +94,7 @@ function ListBlock(props) {
       }
     },
     action: (value, item, index) => {
-      if (index % 5 == 0 || index % 5 == 1) {
+      if (index % 5 === 0 || index % 5 === 1) {
         return <Button onClick={cancel.bind(this, value, item)} size="small" className="color-blue-600 border-blue-600">Cancel</Button>
       } else {
         return null

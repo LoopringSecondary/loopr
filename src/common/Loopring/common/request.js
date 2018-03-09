@@ -11,9 +11,8 @@ function parseJSON(res) {
 }
 
 window.LOOPRING_PROVIDER_HOST = "http://13.112.62.24/rpc/v2";
-  //'https://relay1.loopring.io/rpc/v2';
+//'https://relay1.loopring.io/rpc/v2';
 window.ETH_HOST = 'http://13.112.62.24/eth';
-
 let checkHost = () => {
   if (!window.LOOPRING_PROVIDER_HOST) {
     throw new Error('host is required. Do not forget: new Loopring(host)')
@@ -43,6 +42,9 @@ function request(options) {
     .then(parseJSON)
     .then(res => {
       console.log(`${method} response:`, res);
+      if (res.error) {
+        throw new Error('res error: ' + res.error.message)
+      }
       return res
     })
 }

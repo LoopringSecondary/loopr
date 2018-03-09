@@ -1,0 +1,32 @@
+[
+  {
+    "amount": 4346459,
+    "buy": "",
+    "change": "-3.31%",
+    "close": 0.00055331,
+    "exchange": "binance",
+    "high": 0.00072011,
+    "interval": "",
+    "last": 0.000535,
+    "low": 0.00048514,
+    "market": "LRC-ETH",
+    "open": 0.00055331,
+    "sell": "",
+    "vol": 2557.16906704
+  },
+  {
+    "amount": 0,
+    "buy": "0",
+    "change": "",
+    "close": 0,
+    "exchange": "",
+    "high": 0,
+    "interval": "",
+    "last": 0,
+    "low": 0,
+    "market": "RDN-WETH",
+    "open": 0,
+    "sell": "0",
+    "vol": 0
+  }
+]
