@@ -1,28 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import pricesData from './prices.json'
-class PriceSocketContainer extends React.Component {
+class TickerSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      price:0,
+      socketTicker:{}
     }
+  }
+  shouldComponentUpdate(nextProps){
+    if(nextProps.pair !== this.props.pair){
+      const { socket } = this.context
+      const options = {
+        "contractVersion" : "v1.0",
+        "market":nextProps.pair,
+      }
+      socket.emit('tickers_req',JSON.stringify(options))
+    }
+    return true
   }
   componentDidMount() {
     const { socket } = this.context
+    const { pair } = this.props
     if (!socket) {
       console.log('socket connection has not been established')
       return false
     }
-    const { symbol } = this.props
-    if(!symbol){
-      throw new Error('symbol props is required')
+    const options = {
+      "contractVersion" : "v1.0",
+      "market":pair,
     }
-    socket.on('marketcap_res', (res)=>{
-      const token = res.tokens.find(token=>token.token === symbol)
-      const price = token && token .price
+    socket.emit('tickers_req',JSON.stringify(options))
+    socket.on('tickers_res', (res)=>{
+      console.log('ticker_res')
+      res = JSON.parse(res)
       this.setState({
-        price:price
+        socketTicker:res
       })
     })
   }
@@ -32,17 +44,14 @@ class PriceSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('marketcap_end')
-    // socket.off(event)
+    // socket.emit('tickers_end')
+    console.log('ticker_res unmount')
+    socket.off('tickers_res')
   }
   render() {
-    const symbol = this.props.symbol
-    const token = pricesData.find(token=>token.token === symbol) // For Mock Price data
-    const price = token && token .price // For Mock Price data
     const childProps = {
       ...this.props,
       ...this.state,
-      price, // For Mock Price data
     }
     const {render} = this.props
     if(render){
@@ -59,7 +68,7 @@ class PriceSocketContainer extends React.Component {
     )
   }
 }
-PriceSocketContainer.contextTypes = {
+TickerSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default PriceSocketContainer
+export default TickerSocketContainer

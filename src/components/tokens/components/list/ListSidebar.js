@@ -9,17 +9,28 @@ import './ListSidebar.less'
 import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
-import PriceContainer from '../../../../modules/socket/modules/PriceContainer'
-import BalanceContainer from '../../../../modules/socket/modules/BalanceContainer';
+import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
+import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
+import {toNumber} from "Loopring/common/formatter";
 
-function ListSidebar({LIST, actions, dispatch}) {
-  const {
+function ListSidebar({LIST, actions, dispatch,assets}) {
+  let {
     items = [],
     selected = {},
     loading,
     filters = {},
     page = {}
   } = LIST
+  items.forEach(item=>{
+    const asset =  assets.find(asset=>asset.symbol === item.symbol)
+    if(asset){
+      item.balance = Number(asset.balance)
+      item.allowance = Number(asset.allowance)
+    }else{
+      item.balance = 0
+      item.allowance = 0
+    }
+  })
   //TODO load from store
   const selectedGasPrice = 30
   const selectedGasLimit = 21000
@@ -358,10 +369,8 @@ function ListSidebar({LIST, actions, dispatch}) {
     )
   }
   const TokenItem = ({item,index})=>{
-    //TODO mock datas, should calculate with configuration
-    if(fm.toNumber(item.allowance) >= 10) {
-      item.checked = true
-    }
+    const TokenFormatter = window.uiFormatter.TokenFormatter
+    let theToken = new TokenFormatter(item)
     return (
       <div style={{borderBottom: '1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this, item)}
            className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
@@ -386,23 +395,15 @@ function ListSidebar({LIST, actions, dispatch}) {
                     style={{width: '55px'}}>{item.title}</span>
             </div>
             <div className="">
-              <span className="fs14 color-grey-900">{item.balance}</span>
-              <PriceContainer symbol={item.symbol} render={({ price=0 })=>{
-                  const total = (item.balance * price).toFixed(2)
-                  return <span className="fs12 ml5 color-grey-400">{total}</span>
+              <span className="fs14 color-grey-900">{theToken.getBalance()}</span>
+              <CurrencyContainer render={({ currency })=>{
+                  return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
+              }} />
+              <PricesContainer symbol={item.symbol} render={({ price=0 })=>{
+                  return <span className="fs12 color-grey-400">{theToken.getBalanceValue(price)}</span>
               }} />
             </div>
           </div>
-          {
-            false && item.symbol != 'ETH' &&
-            <div className="col-auto mr5">
-              <Tooltip title={item.checked ? `Disable` : `Enable`} >
-                <div onClick={(e)=>{e.stopPropagation();e.preventDefault()}}>
-                  <Switch onChange={toggleApprove.bind(this,item)} size="small" checkedChildren="" unCheckedChildren="" defaultChecked={item.checked} loading={item.loading} />
-                </div>
-              </Tooltip>
-            </div>
-          }
           {
             index<2 &&
             <div className="col-auto pr5">
@@ -416,7 +417,6 @@ function ListSidebar({LIST, actions, dispatch}) {
               </Popover>
             </div>
           }
-
           <div className="col-auto pr5">
             <Tooltip title="Send/Transfer">
               <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
@@ -473,7 +473,9 @@ function ListSidebar({LIST, actions, dispatch}) {
       {TokenListAcionsBar}
       <div className="token-list-sidebar">
         {
-          results.map((item, index) => <TokenItem key={index} index={index} item={item}/>)
+          results.map((item, index) => (
+              <TokenItem key={index} index={index} item={item}/>
+          ))
         }
       </div>
 

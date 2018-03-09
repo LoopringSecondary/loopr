@@ -8,7 +8,7 @@ import {Modal} from 'antd';
 export default class ModalContainer extends React.Component {
   shouldComponentUpdate(nextProps, nextState){
     const { id } = this.props
-    if(nextProps.modals[id] == this.props.modals[id]){
+    if(nextProps.modals[id] === this.props.modals[id]){
       return false
     }else{
       return true

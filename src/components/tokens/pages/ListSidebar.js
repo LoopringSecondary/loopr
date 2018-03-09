@@ -4,12 +4,15 @@ import Components from '../components';
 import Common from '../../common';
 import Containers from '../../../modules/tokens/containers';
 import ListContainer from '../../../modules/tokens/models/ListContainer';
+import AssetsContainer from '../../../modules/socket/modules/AssetsContainer';
 
 function Page(props){
   return (
     <div className="">
       <ListContainer {...props}>
-        <Components.ListSidebar />
+        <AssetsContainer>
+          <Components.ListSidebar />
+        </AssetsContainer>
       </ListContainer>
     </div>
   )
