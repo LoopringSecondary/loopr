@@ -31,8 +31,9 @@ class TickersSocketContainer extends React.Component {
     // socket.off(event)
   }
   render() {
+    const {children,...rest} = this.props
     const childProps = {
-      ...this.props,
+      ...rest,
       ...this.state,
     }
     const {render} = this.props

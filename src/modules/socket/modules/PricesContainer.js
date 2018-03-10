@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import pricesData from './prices.json'
+import pricesData from '../mocks/prices.json'
 class PriceSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -46,11 +46,12 @@ class PriceSocketContainer extends React.Component {
     socket.off('marketcap_res')
   }
   render() {
+    const {children,...rest} = this.props
     const childProps = {
-      ...this.props,
+      ...rest,
       ...this.state,
-      // price:this.getPrice(pricesData), // For Mock Price data
-      // prices:pricesData,// For Mock Price data
+      // prices:pricesAata, // for mock data
+      // price:this.getTokenBySymbol(pricesAata) // for mock data
     }
     const {render} = this.props
     if(render){

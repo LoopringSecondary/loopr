@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import balancesData from './balances.json'
+import assetsAata from '../mocks/assets.json'
 
 class AssetsSocketContainer extends React.Component {
   constructor(props, context) {
@@ -50,11 +50,12 @@ class AssetsSocketContainer extends React.Component {
     socket.off('balance_res')
   }
   render() {
+    const {children,...rest} = this.props
     const childProps = {
-     ...this.props,
-     ...this.state,
-     // assets:balancesData, // for mock data
-     // asset:this.getTokenBySymbol(balancesData) // for mock data
+      ...rest,
+      ...this.state,
+      // assets:assetsAata, // for mock data
+      // asset:this.getTokenBySymbol(assetsAata) // for mock data
     }
     const {render} = this.props
     if(render){
