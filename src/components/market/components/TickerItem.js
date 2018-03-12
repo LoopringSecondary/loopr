@@ -61,7 +61,7 @@ const LooprTicker = ({pair='',ticker={}})=>{
            <NumberCaption title="24H High" content={ticker.high || 0} />
          </div>
          <div className="col-sm-6 col-lg-2">
-          <NumberCaption title="24H Volume" content={<div>{`${ticker.vol || 0}`} <span className="fs10">{tokenR}</span></div>} />
+          <NumberCaption title={<div>24H Volume <span className="fs10">/ {tokenR}</span></div>} content={<div>{`${ticker.vol || 0}`} </div>} />
          </div>
       </div>
   )
@@ -80,8 +80,8 @@ const ExchangeItem = ({pair='',ticker={}})=>{
             <div className="fs14 color-grey-400 ">24H Change</div>
           </div>
           <div className="col-auto">
-            <div className="fs16 color-grey-900">{ticker.vol} {tokenR}</div>
-            <div className="fs14 color-grey-400">24H Volume</div>
+            <div className="fs16 color-grey-900">{ticker.vol || (ticker.amount*ticker.last).toFixed(5)}</div>
+            <div className="fs14 color-grey-400">24H Volume<span className="fs10"> / {tokenR}</span></div>
           </div>
         </div>
       )
@@ -89,7 +89,6 @@ const ExchangeItem = ({pair='',ticker={}})=>{
 }
 
 function Ticker({pair,tickersByPair}) {
-  console.log('ticker re-render')
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>

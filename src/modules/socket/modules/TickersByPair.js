@@ -14,6 +14,7 @@ class TickerSocketContainer extends React.Component {
         "contractVersion" : "v1.0",
         "market":nextProps.pair,
       }
+      console.log('will update options',options)
       socket.emit('tickers_req',JSON.stringify(options))
     }
     return true
@@ -29,6 +30,7 @@ class TickerSocketContainer extends React.Component {
       "contractVersion" : "v1.0",
       "market":pair,
     }
+    console.log('did mount options',options)
     socket.emit('tickers_req',JSON.stringify(options))
     socket.on('tickers_res', (res)=>{
       console.log('ticker_res')
