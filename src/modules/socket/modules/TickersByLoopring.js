@@ -28,7 +28,7 @@ class TickersSocketContainer extends React.Component {
       return false
     }
     // socket.emit('tickers_end')
-    // socket.off(event)
+    socket.off('loopringTickers_res')
   }
   render() {
     const {children,...rest} = this.props

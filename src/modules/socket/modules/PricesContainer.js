@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import pricesData from '../mocks/prices.json'
 
@@ -18,10 +18,8 @@ class PricesContainer extends React.Component {
         "currency":nextProps.currency,
       }
       socket.emit('marketcap_req',JSON.stringify(options))
-      return true
-    }else{
-      return false
     }
+    return true // to make sure the parent container's render
   }
   getPrice(tokens){
     const { symbol } = this.props
