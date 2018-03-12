@@ -57,7 +57,6 @@ class PricesContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('marketcap_end')
     console.log('price unmount')
     socket.off('marketcap_res')
   }

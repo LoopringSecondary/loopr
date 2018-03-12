@@ -46,8 +46,6 @@ class TickerSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('tickers_end')
-    console.log('ticker_res unmount')
     socket.off('tickers_res')
   }
   render() {

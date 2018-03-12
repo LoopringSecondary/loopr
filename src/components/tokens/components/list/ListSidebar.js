@@ -402,9 +402,9 @@ function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
             </div>
             <div className="">
               <span className="fs14 color-grey-900">{theToken.getBalance()}</span>
-              <CurrencyContainer render={({ currency })=>{
-                  return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
-              }} />
+              <span className="fs12 ml5 color-grey-400">
+                <CurrencyContainer />
+              </span>
               <span className="fs12 color-grey-400">{theToken.getBalanceValue(item.price)}</span>
             </div>
           </div>

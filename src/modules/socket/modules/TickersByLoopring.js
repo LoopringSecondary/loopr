@@ -27,7 +27,6 @@ class TickersSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('tickers_end')
     socket.off('loopringTickers_res')
   }
   render() {

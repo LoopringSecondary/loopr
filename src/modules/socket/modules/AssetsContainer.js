@@ -57,8 +57,7 @@ class AssetsContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    console.log('balance unmount')
-    // socket.emit('balance_end')
+    console.log('AssetsContainer unmount')
     socket.off('balance_res')
   }
   render() {

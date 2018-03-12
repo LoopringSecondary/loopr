@@ -27,7 +27,6 @@ class TrendsSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('trends_end')
     // socket.off(event)
   }
   render() {
