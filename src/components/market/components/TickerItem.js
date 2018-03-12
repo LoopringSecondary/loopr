@@ -4,11 +4,13 @@ import { Link } from 'dva/router';
 import { Icon,Popover } from 'antd';
 import TickerListTable from './TickerListTable'
 import TickersContainer from '../../../modules/tickers/ListContainer'
+import Currency from '../../../modules/settings/CurrencyContainer'
 
-
-const LooprTicker = ({pair='',ticker={}})=>{
+const LooprTicker = ({pair='',ticker={},prices=[]})=>{
   const tokenL = pair.split('-')[0]
   const tokenR = pair.split('-')[1]
+  const tokenRPrice = prices.find(price=>price.symbol.toLowerCase() === tokenR.toLowerCase()) || {}
+
 	const TickerHeader = ()=>(
 		<Popover
 		  title={null}
@@ -42,7 +44,6 @@ const LooprTicker = ({pair='',ticker={}})=>{
       <div className="fs12 color-white opacity-70">{title}</div>
     </div>
   )
-
   return (
     	<div className="row align-items-center ml0 mr0 justify-content-between">
          <div className="col-auto">
@@ -72,7 +73,9 @@ const ExchangeItem = ({pair='',ticker={}})=>{
     return (
         <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <div className="col-auto">
-            <div className="fs16 color-grey-900">{ticker.last}</div>
+            <div className="fs16 color-grey-900">
+              {ticker.last}
+              </div>
             <div className="fs14 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>{ticker.exchange}</div>
           </div>
           <div className="col-auto">
@@ -88,12 +91,12 @@ const ExchangeItem = ({pair='',ticker={}})=>{
 
 }
 
-function Ticker({pair,tickersByPair}) {
+function Ticker({pair,tickersByPair,prices}) {
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
   		  <div className="container">
-  		    <LooprTicker pair={pair} ticker={tickersByPair.loopr} />
+  		    <LooprTicker pair={pair} ticker={tickersByPair.loopr} prices={prices} />
   		  </div>
   		</div>
   		<div className="container">
