@@ -9,7 +9,7 @@ import './ListSidebar.less'
 import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
-import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
+import Sockets from '../../../../modules/socket/containers'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
 
@@ -399,7 +399,7 @@ function ListSidebar({LIST, actions, dispatch,assets}) {
               <CurrencyContainer render={({ currency })=>{
                   return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
               }} />
-              <PricesContainer symbol={item.symbol} render={({ price=0 })=>{
+              <Sockets.Prices symbol={item.symbol} render={({ price=0 })=>{
                   return <span className="fs12 color-grey-400">{theToken.getBalanceValue(price)}</span>
               }} />
             </div>

@@ -4,7 +4,7 @@ class TickerSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      socketTicker:{}
+      tickersByPair:{}
     }
   }
   shouldComponentUpdate(nextProps){
@@ -34,7 +34,7 @@ class TickerSocketContainer extends React.Component {
       console.log('ticker_res')
       res = JSON.parse(res)
       this.setState({
-        socketTicker:res
+        tickersByPair:res
       })
     })
   }

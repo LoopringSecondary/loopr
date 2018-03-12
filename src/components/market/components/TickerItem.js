@@ -49,19 +49,19 @@ const LooprTicker = ({pair='',ticker={}})=>{
            <TickerHeader />
          </div>
          <div className="col-auto">
-           <NumberCaption title="Latest Price" content={<div>{ticker.last} ￥20.00</div>} />
+           <NumberCaption title="Latest Price" content={<div>{ticker.last || 0}</div>} />
          </div>
          <div className="col-auto">
           <NumberCaption title="24H Change" content={<span style={{fontcolor:'#00E831'}}>{ticker.change || 0}</span>} />
          </div>
          <div className="col-auto">
-          <NumberCaption title="24H Low" content={ticker.low} />
+          <NumberCaption title="24H Low" content={ticker.low || 0} />
          </div>
          <div className="col-auto">
-           <NumberCaption title="24H High" content={ticker.high} />
+           <NumberCaption title="24H High" content={ticker.high || 0} />
          </div>
          <div className="col-sm-6 col-lg-2">
-          <NumberCaption title="24H Volume" content={`${ticker.vol} ${tokenR}`} />
+          <NumberCaption title="24H Volume" content={<div>{`${ticker.vol || 0}`} <span className="fs10">{tokenR}</span></div>} />
          </div>
       </div>
   )
@@ -88,33 +88,33 @@ const ExchangeItem = ({pair='',ticker={}})=>{
 
 }
 
-function Ticker({pair,socketTicker}) {
+function Ticker({pair,tickersByPair}) {
   console.log('ticker re-render')
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
   		  <div className="container">
-  		    <LooprTicker pair={pair} ticker={socketTicker.loopr} />
+  		    <LooprTicker pair={pair} ticker={tickersByPair.loopr} />
   		  </div>
   		</div>
   		<div className="container">
         <div className="row ml0 mr0 mt15 mb15">
            {
-            socketTicker.binance &&
+            tickersByPair.binance &&
             <div className="col pl0">
-              <ExchangeItem pair={pair} ticker={socketTicker.binance} />
+              <ExchangeItem pair={pair} ticker={tickersByPair.binance} />
             </div>
            }
            {
-            socketTicker.okex &&
+            tickersByPair.okex &&
             <div className="col pr0">
-              <ExchangeItem pair={pair} ticker={socketTicker.okex} />
+              <ExchangeItem pair={pair} ticker={tickersByPair.okex} />
             </div>
            }
            {
-            socketTicker.huobi &&
+            tickersByPair.huobi &&
             <div className="col pr0">
-              <ExchangeItem pair={pair} ticker={socketTicker.huobi} />
+              <ExchangeItem pair={pair} ticker={tickersByPair.huobi} />
             </div>
            }
 

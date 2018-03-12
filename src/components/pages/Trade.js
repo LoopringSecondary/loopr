@@ -26,7 +26,7 @@ export default function Home(props){
             </div>
             <div className="col-sm-6 pl40 pr40">
               <PlaceOrderContainer id="sell">
-                <Order.TradeForm side="buy" pair={pair} />
+                <Order.TradeForm side="sell" pair={pair} />
               </PlaceOrderContainer>
             </div>
           </div>

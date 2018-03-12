@@ -4,7 +4,7 @@ class TickersSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tickers:[]
+      tickersByLoopring:[]
     }
   }
   componentDidMount() {
@@ -17,7 +17,7 @@ class TickersSocketContainer extends React.Component {
     socket.on('loopringTickers_res', (res)=>{
       console.log('loopringTickers_res')
       this.setState({
-        tickers:res.result,
+        tickersByLoopring:res.result,
       })
     })
   }
