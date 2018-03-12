@@ -8,6 +8,7 @@
   "theme": "./theme.js",
   "dependencies": {
     "antd": "^3.2.2",
+    "async": "^2.6.0",
     "async-validator": "^1.8.2",
     "babel-plugin-import": "^1.6.3",
     "bignumber.js": "^5.0.0",

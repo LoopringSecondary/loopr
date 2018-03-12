@@ -1,11 +1,12 @@
 import {getTransactionByhash} from "Loopring/ethereum/utils";
 import validator from 'Loopring/ethereum/validator';
+import filter from 'async/filter';
 
 const addTx = (tx) => {
   const txs = localStorage.txs ? JSON.parse(localStorage.txs) : [];
   try {
     validator.validate({value: tx.hash, type: "ETH_DATA"});
-    validator.validate({value: tx.owner,type:"ADDRESS"});
+    validator.validate({value: tx.owner, type: "ADDRESS"});
     txs.push(tx);
     localStorage.txs = JSON.stringify(txs);
   } catch (e) {
@@ -14,14 +15,13 @@ const addTx = (tx) => {
 };
 
 const updateTx = async () => {
-  const txs = localStorage.txs ? JSON.parse(localStorage.txs) : [];
-  if (txs.length !== 0) {
-    await txs.filter(async ({hash}) => {
-      const result = await getTransactionByhash(hash);
-      return !!result.result && !result.blockNumber
-    });
-  }
-  localStorage.txs = JSON.stringify(txs);
+  let txs = localStorage.txs ? JSON.parse(localStorage.txs) : [];
+  filter(txs, async function (tx, callback) {
+    const res = await getTransactionByhash(tx.hash);
+    callback(null, !!res.result && !res.result.blockNumber) // callback 必须调动，使用callback 返回true or false
+  }, function (err, results) {
+    localStorage.txs = JSON.stringify(results);
+  });
 };
 
 const getTxs = (owner) => {

@@ -8,9 +8,7 @@ export function solSHA3(types, data) {
 }
 
 function generateCancelOrderData(signedOrder, amount) {
-  // TODO signedOrder schema
-  // amountS，amountB 是否在orderSchema中
-  let {
+  const {
     owner, tokenS, tokenB, authAddr,
     amountS, amountB, validSince, validUntil, lrcFee,
     buyNoMoreThanAmountB, walletId,
@@ -21,40 +19,15 @@ function generateCancelOrderData(signedOrder, amount) {
   } = signedOrder;
   const addresses = [owner, tokenS, tokenB, authAddr];
   amount = amount || (buyNoMoreThanAmountB ? amountB : amountS);
-  const orderValues = [toBN(amountS), toBN(amountB), toBN(validSince), toBN(validUntil), toBN(lrcFee), toBN(walletId), toBN(amount)];
-  const data = rawEncode([
-    'address[4]',
-    'uint[7]',
-    'bool',
-    'uint8',
-    'uint8',
-    'bytes32',
-    'bytes32'
-  ], [
-    addresses,
-    orderValues,
-    buyNoMoreThanAmountB,
-    marginSplitPercentage,
-    v,
-    r,
-    s
-  ]).toString('hex');
+  const orderValues = [amountS, amountB, validSince, validUntil, lrcFee, walletId, amount];
+  const method = methodID('cancelOrder', ['address[4]', 'uint[7]', 'bool', 'uint8', 'uint8', 'bytes32', 'bytes32']).toString('hex');
 
-  const method = methodID(
-    'cancelOrder', [
-      'address[4]',
-      'uint[7]',
-      'bool',
-      'uint8',
-      'uint8',
-      'bytes32',
-      'bytes32'
-    ]).toString('hex');
+  const data = rawEncode(['address[4]', 'uint[7]', 'bool', 'uint8', 'uint8', 'bytes32', 'bytes32'], [
+    addresses, orderValues, buyNoMoreThanAmountB, marginSplitPercentage, v, r, s]).toString('hex');
 
   return '0x' + method + data;
 }
 
-// TODO  根据最新的方法生成extra data
 function generateCancelOrdersByTokenPair(timestamp, tokenA, tokenB) {
   validator.validate({value: timestamp, type: 'TIMESTAMP'});
   validator.validate({value: tokenA, type: 'ADDRESS'});
