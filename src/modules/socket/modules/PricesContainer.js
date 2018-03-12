@@ -37,6 +37,10 @@ class PricesContainer extends React.Component {
       return false
     }
     const _this = this
+    const options = {
+      "currency":this.props.currency,
+    }
+    socket.emit('marketcap_req',JSON.stringify(options))
     socket.on('marketcap_res', (res)=>{
       console.log('marketcap_res')
       res = JSON.parse(res)

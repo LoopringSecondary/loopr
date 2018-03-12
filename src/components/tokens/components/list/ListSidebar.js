@@ -9,11 +9,10 @@ import './ListSidebar.less'
 import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
-import Sockets from '../../../../modules/socket/containers'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
 
-function ListSidebar({LIST, actions, dispatch,assets}) {
+function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
   let {
     items = [],
     selected = {},
@@ -30,7 +29,14 @@ function ListSidebar({LIST, actions, dispatch,assets}) {
       item.balance = 0
       item.allowance = 0
     }
+    const price =  prices.find(price=>price.symbol === item.symbol)
+    if(price){
+      item.price = Number(price.price)
+    }else{
+      item.price = 0
+    }
   })
+
   //TODO load from store
   const selectedGasPrice = 30
   const selectedGasLimit = 21000
@@ -399,9 +405,7 @@ function ListSidebar({LIST, actions, dispatch,assets}) {
               <CurrencyContainer render={({ currency })=>{
                   return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
               }} />
-              <Sockets.Prices symbol={item.symbol} render={({ price=0 })=>{
-                  return <span className="fs12 color-grey-400">{theToken.getBalanceValue(price)}</span>
-              }} />
+              <span className="fs12 color-grey-400">{theToken.getBalanceValue(item.price)}</span>
             </div>
           </div>
           {
