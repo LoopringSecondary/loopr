@@ -4,6 +4,8 @@ import ListFiltersForm from './ListFiltersForm'
 import {Button, Modal} from 'antd'
 import {generateCancelAllOrdresTx, generateCancelOrdersByTokenPairTx} from 'Loopring/relay/order';
 import {toHex} from 'Loopring/common/formatter'
+import {configs} from "../../../../common/config/data";
+import config from "../../../../common/config";
 
 function ListActionsBar(props) {
 
@@ -29,18 +31,22 @@ function ListActionsBar(props) {
           const tokenB = tokenPair.split('/')[1];
           tx = generateCancelOrdersByTokenPairTx({
             ...params,
-            tokenA: window.CONFIG.getTokenBySymbol(tokenA === 'ETH' ? 'WETH':tokenA).address,
-            tokenB: window.CONFIG.getTokenBySymbol(tokenB=== 'ETH' ? 'WETH':tokenB).address
+            gasLimit: config.getGasLimitByType('cancelOrderByTokenPair') ? config.getGasLimitByType('cancelOrderByTokenPair').gasLimit : configs['defaultGasLimit'],
+            tokenA: window.CONFIG.getTokenBySymbol(tokenA === 'ETH' ? 'WETH' : tokenA).address,
+            tokenB: window.CONFIG.getTokenBySymbol(tokenB === 'ETH' ? 'WETH' : tokenB).address
           })
         } else {
-          tx = generateCancelAllOrdresTx(params)
+          tx = generateCancelAllOrdresTx({
+            ...params,
+            gasLimit: config.getGasLimitByType('cancelAllOrder') ? config.getGasLimitByType('cancelAllOrder').gasLimit : configs['defaultGasLimit'],
+          })
         }
 
         window.WALLET.sendTransaction(tx).then((res) => {
           if (!res.error) {
             window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
-          }else{
-           //TODO 跳转到错误页。
+          } else {
+            //TODO 跳转到错误页。
           }
         });
 

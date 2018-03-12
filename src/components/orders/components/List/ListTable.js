@@ -5,6 +5,8 @@ import {Table, Badge, Button, Modal, Icon, Popover, Steps} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
 import {toHex, toNumber,clearPrefix} from "Loopring/common/formatter";
+import {configs} from "../../../../common/config/data";
+import config from "../../../../common/config";
 
 const uiFormatter = window.uiFormatter;
 
@@ -33,6 +35,7 @@ function ListBlock(props) {
           order: originalOrder,
           nonce: toHex(nonce),
           gasPrice: toHex(gasPrice * 1e9),
+          gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder') .gasLimit : configs['defaultGasLimit'],
           protocolAddress: contractAddress,
         });
         window.WALLET.sendTransaction(tx).then((res) => {

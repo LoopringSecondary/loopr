@@ -6,6 +6,7 @@ import {placeOrder, sign} from 'Loopring/relay/order';
 import {toBig, toHex, toNumber} from 'Loopring/common/formatter';
 import Token from 'Loopring/ethereum/token';
 import {configs} from "../../../common/config/data";
+import config from "../../../common/config";
 import eachLimit from 'async/eachLimit';
 
 
@@ -56,6 +57,7 @@ const TradeConfirm = ({
     const delegateAddress = configs.delegateAddress;
     let nonce = await window.STORAGE.wallet.getNonce(account.address);
     const txs = [];
+    const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve') .gasLimit : configs['defaultGasLimit'];
     if (toBig(tokenS.allowance).greaterThan(allowanceS * Number('1e' + tokenS.digits))) {
       const SToken = new Token({address: tokenS.address});
       if (allowanceS > 0) {
@@ -63,6 +65,7 @@ const TradeConfirm = ({
           spender: delegateAddress,
           amount: '0x0',
           gasPrice,
+          gasLimit,
           nonce: toHex(nonce),
         }));
         nonce = nonce + 1;
@@ -71,6 +74,7 @@ const TradeConfirm = ({
         spender: delegateAddress,
         amount: toHex(toBig('9223372036854775806')),
         gasPrice,
+        gasLimit,
         nonce: toHex(nonce),
       })));
       nonce = nonce + 1;
@@ -82,6 +86,7 @@ const TradeConfirm = ({
           spender: delegateAddress,
           amount: '0x0',
           gasPrice,
+          gasLimit,
           nonce: toHex(nonce),
         }));
         nonce = nonce + 1;
@@ -90,6 +95,7 @@ const TradeConfirm = ({
         spender: delegateAddress,
         amount: toHex(toBig('9223372036854775806')),
         gasPrice,
+        gasLimit,
         nonce: toHex(nonce),
       })));
     }

@@ -42,9 +42,6 @@ function request(options) {
     .then(parseJSON)
     .then(res => {
       console.log(`${method} response:`, res);
-      if (res.error) {
-        throw new Error('res error: ' + res.error.message)
-      }
       return res
     })
 }
