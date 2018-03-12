@@ -74,7 +74,6 @@ export default class Transaction {
     if (!this.signed) {
       await this.sign({privateKey, walletType,path})
     }
-    console.log(JSON.stringify(this.raw));
     let body = {};
     body.method = 'eth_sendRawTransaction';
     body.params = [this.signed];
