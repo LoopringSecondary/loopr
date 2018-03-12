@@ -1,12 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux'
 import pricesData from '../mocks/prices.json'
-class PriceSocketContainer extends React.Component {
+
+class PricesContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
       price:0,
       prices:[],
+    }
+  }
+  shouldComponentUpdate(nextProps){
+    if(nextProps.currency !== this.props.currency){
+      const { socket } = this.context
+      const options = {
+        "currency":nextProps.currency,
+      }
+      socket.emit('marketcap_req',JSON.stringify(options))
+      return true
+    }else{
+      return false
     }
   }
   getPrice(tokens){
@@ -68,7 +82,7 @@ class PriceSocketContainer extends React.Component {
     )
   }
 }
-PriceSocketContainer.contextTypes = {
+PricesContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default PriceSocketContainer
+export default connect(({settings})=>({currency:settings.preference.currency}))(PricesContainer)
