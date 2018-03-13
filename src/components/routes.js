@@ -8,26 +8,42 @@ import TokenModals from './tokens/components/Modals';
 import WalletModals from './wallet/components/Modals';
 import OrderModals from './orders/components/Modals';
 
-export default (
-	<div>
-			<Switch>
-				<Route path="/" exact component={Pages.Home} />
-				<Route path="/home" exact component={Pages.Home} />
-				<Route path="/wallet"  component={Pages.Wallet} />
-				<Route path="/trade/"  exact component={Pages.Trade} />
-				<Route path="/trade/:pair"  exact component={Pages.Trade} />
-        <Route path="/portfolio" exact component={Pages.Portfolio}/>
-		    {airdropRoutes}
-			</Switch>
+const UnLogged = ()=>{
+  return (
+    <Switch>
+      <Route path="/login" exact component={Pages.Home} />
+      <Route path="/trade/"  exact component={Pages.Trade} />
+      <Route path="/trade/:pair"  exact component={Pages.Trade} />
+    </Switch>
+  )
+}
+const Logged = ()=>{
+  return (
+    <Switch>
+      <Route path={`/home`} exact component={Pages.Home} />
+      <Route path={`/wallet`} exact component={Pages.Wallet} />
+      <Route path={`/portfolio`} exact component={Pages.Portfolio}/>
+      {airdropRoutes}
+    </Switch>
+  )
+}
 
-			<Pages.Unload />
-			<TokenModals />
-			<WalletModals />
-			<SettingsModals />
-			<OrderModals />
-	</div>
+export default (
+  <div>
+      <Switch>
+        <Route path="/" render={Logged} />
+        <Route path="/" render={UnLogged} />
+      </Switch>
+      <Pages.Unload />
+      <TokenModals />
+      <WalletModals />
+      <SettingsModals />
+      <OrderModals />
+  </div>
 
 )
+
+
 
 
 
