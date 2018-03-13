@@ -39,9 +39,6 @@ export default {
       };
     },
 
-    register(state,payload){
-      register(payload.address)
-    }
   },
 
 
@@ -88,7 +85,8 @@ export default {
     * setWallet({payload}, {put,call}) {
       yield put({type: 'setAccount',payload:{...payload}});
       window.STORAGE.wallet.setWallet({address:payload.address});
-    //  yield call({type:'register',payload:{address:payload.address}})
-    }
+      yield call(register,payload.address);
+    },
+
   }
 };
