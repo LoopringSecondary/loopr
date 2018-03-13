@@ -22,18 +22,8 @@ export function privateKeytoAddress(privateKey) {
   return formatAddress(privateToAddress(privateKey))
 }
 
-export function publicKeytoAddress(publicKey) {
-  try {
-    if (typeof publicKey === 'string') {
-      validator.validate({value: publicKey, type: 'PRIVATE_KEY'});
-      publicKey = toBuffer(addHexPrefix(publicKey))
-    } else {
-      validator.validate({value: publicKey, type: 'PRIVATE_KEY_BUFFER'});
-    }
-  } catch (e) {
-    throw new Error('Invalid public key')
-  }
-  return formatAddress(publicKeytoAddress(toBuffer(publicKey)))
+export function publicKeytoAddress(publicKey,sanitize) {
+  return formatAddress(publicToAddress(publicKey,sanitize))
 }
 
 export function privateKeytoPublic(privateKey) {
@@ -47,7 +37,7 @@ export function privateKeytoPublic(privateKey) {
   } catch (e) {
     throw new Error('Invalid private key')
   }
-  return formatKey(privateToPublic(toBuffer(privateKey)))
+  return formatKey(privateToPublic(privateKey))
 }
 
 export function create(password) {

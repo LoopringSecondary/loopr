@@ -79,9 +79,10 @@ export default {
     },
 
     * connectToTrezor({payload},{put}){
-      window.WALLET = new TrezorUnlockAccount({address: payload.address, path: payload.path})
-      window.WALLET_UNLOCK_TYPE = 'Trezor'
-      yield put({type: 'setWallet', payload: {...payload,walletType:'trezor'}})
+      const {index} = payload;
+      window.WALLET.setIndex(index);
+      const address = window.WALLET.getAddress();
+      yield put({type: 'setWallet', payload: {address,walletType:'trezor'}})
     },
 
     * setWallet({payload}, {put,call}) {
