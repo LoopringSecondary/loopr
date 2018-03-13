@@ -131,12 +131,14 @@ function Navbar(props){
               mode="horizontal"
               style={{ lineHeight: '64px' }}
             >
-              <Menu.Item key="home" ><Link to="/home"><FormattedMessage id='navbar.home' /></Link></Menu.Item>
-              <Menu.Item key="portfolio" ><Link to="/portfolio"><FormattedMessage id='navbar.portfolio'/></Link></Menu.Item>
-              <Menu.Item key="trade">
+              <Menu.Item key="/home" ><Link to="/home"><FormattedMessage id='navbar.home' /></Link></Menu.Item>
+              <Menu.Item key="/trade">
                 <Link to="/trade"><FormattedMessage id='navbar.trade' /></Link>
               </Menu.Item>
-              <Menu.Item key="wallet">
+              <Menu.Item key="/wallet/portfolio" >
+                <Link to="/wallet/portfolio"><FormattedMessage id='navbar.portfolio'/></Link>
+              </Menu.Item>
+              <Menu.Item key="/wallet">
                 <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
               </Menu.Item>
             </Menu>
