@@ -26,6 +26,14 @@ class UnlockByLedger extends React.Component {
       }).then()
       //account.connectToLedger({dpath: dPath})
       //account.connectToTrezor({address, path});
+
+
+      // Transport.create().then(transport => {
+      //   const eth = new Eth(transport)
+      //   eth.getAddress("44'/60'/0'/0").then(o => {
+      //     console.log("11111111:", o.address)
+      //   })
+      // })
     }
   }
 

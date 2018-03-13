@@ -1,6 +1,8 @@
 import React from 'react';
 import { Avatar,Icon,Button,Card,Modal } from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
+import LedgerUnlockAccount from "../../../modules/account/LedgerUnlockAccount";
+import TrezorUnlockAccount from "../../../modules/account/TrezorUnlockAccount";
 
 let Preview = ({
   modal, account
@@ -9,18 +11,16 @@ let Preview = ({
   const handelSubmit = ()=>{
     modal.showLoading({id:'token/transfer/preview'})
     let result = {...tx, extraData}
-    //TODO
-    // tx.nonce = fm.toHex(0)
-    // if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
-    //   Modal.info({
-    //     title: 'To Confirm',
-    //     content: "Please confirm transaction on your Ledger device",
-    //   });
-    // }
-    // return window.WALLET.sendTransaction(tx)
-
+    // To test Ledger
+    // tx.chainId = 1
     window.STORAGE.wallet.getNonce(account.address).then(nonce => {
       tx.nonce = fm.toHex(nonce)
+      if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
+        Modal.info({
+          title: 'To Confirm',
+          content: "Please confirm transaction on your Ledger device",
+        });
+      }
       return window.WALLET.sendTransaction(tx)
     }).then(res=>{
       if(res.error) {
