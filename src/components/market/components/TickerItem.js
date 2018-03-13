@@ -6,10 +6,16 @@ import TickerListTable from './TickerListTable'
 import TickersContainer from '../../../modules/tickers/ListContainer'
 import Currency from '../../../modules/settings/CurrencyContainer'
 
-const LooprTicker = ({pair='',ticker={},prices=[]})=>{
+const LooprTicker = ({pair='',ticker={},price=0})=>{
   const tokenL = pair.split('-')[0]
   const tokenR = pair.split('-')[1]
-  const tokenRPrice = prices.find(price=>price.symbol.toLowerCase() === tokenR.toLowerCase()) || {}
+  const priceValue = (
+    <span className="fs10">
+      ≈
+      <Currency />
+      {(price*ticker.last).toFixed(3)}
+    </span>
+  )
 
 	const TickerHeader = ()=>(
 		<Popover
@@ -40,7 +46,7 @@ const LooprTicker = ({pair='',ticker={},prices=[]})=>{
 	)
   const NumberCaption = ({title,content})=>(
     <div className="pt15 pb15">
-      <div className="fs18 color-white">{content}</div>
+      <div className="fs20 color-white">{content}</div>
       <div className="fs12 color-white opacity-70">{title}</div>
     </div>
   )
@@ -50,7 +56,7 @@ const LooprTicker = ({pair='',ticker={},prices=[]})=>{
            <TickerHeader />
          </div>
          <div className="col-auto">
-           <NumberCaption title="Latest Price" content={<div>{ticker.last || 0}</div>} />
+           <NumberCaption title="Latest Price" content={<div>{ticker.last || 0} {priceValue}</div>} />
          </div>
          <div className="col-auto">
           <NumberCaption title="24H Change" content={<span style={{fontcolor:'#00E831'}}>{ticker.change || 0}</span>} />
@@ -67,14 +73,21 @@ const LooprTicker = ({pair='',ticker={},prices=[]})=>{
       </div>
   )
 }
-const ExchangeItem = ({pair='',ticker={}})=>{
+const ExchangeItem = ({pair='',ticker={},price=0})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
+    const priceValue = (
+      <span className="fs10">
+        ≈
+        <Currency />
+        {(price*ticker.last).toFixed(3)}
+      </span>
+    )
     return (
         <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <div className="col-auto">
             <div className="fs16 color-grey-900">
-              {ticker.last}
+              {ticker.last} {priceValue}
               </div>
             <div className="fs14 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>{ticker.exchange}</div>
           </div>
@@ -92,11 +105,14 @@ const ExchangeItem = ({pair='',ticker={}})=>{
 }
 
 function Ticker({pair,tickersByPair,prices}) {
+  const tokenL = pair.split('-')[0]
+  const tokenR = pair.split('-')[1]
+  const token = prices.find(price=>price.symbol.toLowerCase() === tokenR.toLowerCase()) || {}
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
   		  <div className="container">
-  		    <LooprTicker pair={pair} ticker={tickersByPair.loopr} prices={prices} />
+  		    <LooprTicker pair={pair} ticker={tickersByPair.loopr} price={token.price} />
   		  </div>
   		</div>
   		<div className="container">
@@ -104,19 +120,19 @@ function Ticker({pair,tickersByPair,prices}) {
            {
             tickersByPair.binance &&
             <div className="col pl0">
-              <ExchangeItem pair={pair} ticker={tickersByPair.binance} />
+              <ExchangeItem pair={pair} ticker={tickersByPair.binance} price={token.price} />
             </div>
            }
            {
             tickersByPair.okex &&
             <div className="col pr0">
-              <ExchangeItem pair={pair} ticker={tickersByPair.okex} />
+              <ExchangeItem pair={pair} ticker={tickersByPair.okex} price={token.price} />
             </div>
            }
            {
             tickersByPair.huobi &&
             <div className="col pr0">
-              <ExchangeItem pair={pair} ticker={tickersByPair.huobi} />
+              <ExchangeItem pair={pair} ticker={tickersByPair.huobi} price={token.price} />
             </div>
            }
 

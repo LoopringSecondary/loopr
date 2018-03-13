@@ -14,9 +14,9 @@ export default function Home(props){
   return (
     <Layout {...props}>
       <Sockets.TickersByPair pair={pair}>
-        <Sockets.prices>
+        <Sockets.Prices>
           <Market.TickerItem pair={pair} />
-        </Sockets.prices>
+        </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
         <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
