@@ -32,7 +32,7 @@ const getNonce = async (address) => {
     const txs = transactions.getTxs(address);
     return nonce + txs.length
   }catch(e){
-    throw  new Error('Invalid address')
+    throw  new Error(e.message)
   }
 };
 

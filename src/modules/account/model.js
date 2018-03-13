@@ -54,10 +54,10 @@ export default {
       yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password,walletType:'key'}})
     },
     * setMnemonic({payload}, {put}) {
-      const {mnemonic, dpath, password} = payload;
-      const wallet = fromMnemonic(mnemonic, dpath, password);
-      window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:dpath, password:password, privateKey: wallet.privateKey, address: wallet.address})
-      window.WALLET_UNLOCK_TYPE = 'Mnemonic'
+      const {mnemonic, dpath, password,index} = payload;
+      const wallet = fromMnemonic(mnemonic, dpath.concat(`/${index}`), password);
+      window.WALLET.setIndex(index);
+      window.WALLET.setPrivateKey(wallet.privateKey);
       yield put({type: 'setWallet', payload: {...wallet, password,walletType:'key'}})
     },
     * setPrivateKey({payload}, {put}) {
