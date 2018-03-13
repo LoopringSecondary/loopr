@@ -52,7 +52,7 @@ const TradeConfirm = ({
 
     placeOrder(signedOrder).then(async (res) =>  {
       if (res.error) {
-        modals.showModal({id: 'trade/place-order-error'});
+        modals.showModal({id: 'trade/place-order-error',errorMessage:res.error.message});
       } else {
         const asset1 = assets.find(asset => asset.symbol.toLowerCase() === token.toLowerCase());
         const asset2 = assets.find(asset => asset.symbol.toLowerCase() === token2.toLowerCase());
