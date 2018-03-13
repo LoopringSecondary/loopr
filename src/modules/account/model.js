@@ -3,6 +3,7 @@ import PrivateKeyUnlockAccount from "./PrivateKeyUnlockAccount";
 import MetaMaskUnlockAccount from './MetaMaskUnlockAccount'
 import MnemonicUnlockAccount from './MnemonicUnlockAccount'
 import TrezorUnlockAccount from './TrezorUnlockAccount'
+import LedgerUnlockAccount from './LedgerUnlockAccount'
 import {register} from "Loopring/relay/account";
 
 
@@ -77,11 +78,15 @@ export default {
       const wallet = create(payload.password);
       yield put({type: 'setWallet', payload: {...wallet,password:payload.password,walletType:'key'}})
     },
-
     * connectToTrezor({payload},{put}){
       window.WALLET = new TrezorUnlockAccount({address: payload.address, path: payload.path})
       window.WALLET_UNLOCK_TYPE = 'Trezor'
       yield put({type: 'setWallet', payload: {...payload,walletType:'trezor'}})
+    },
+    * connectToLedger({payload},{put}){
+      window.WALLET = new LedgerUnlockAccount({address: payload.address, dpath:payload.dpath, ledger:payload.ledger })
+      window.WALLET_UNLOCK_TYPE = 'Ledger'
+      yield put({type: 'setWallet', payload: {...payload,walletType:'ledger'}})
     },
 
     * setWallet({payload}, {put,call}) {
