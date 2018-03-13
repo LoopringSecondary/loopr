@@ -6,9 +6,6 @@ import Order from '../orders/containers'
 import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import PlaceOrderContainer from '../../modules/orders/models/PlaceOrderContainer'
-import TickerSocketContainer from '../../modules/socket/modules/TickerContainer'
-import TickersSocketContainer from '../../modules/socket/modules/TickersContainer'
-import PricesContainer from '../../modules/socket/modules/PricesContainer'
 import Sockets from '../../modules/socket/containers'
 
 export default function Home(props){
@@ -16,9 +13,11 @@ export default function Home(props){
   const pair = match.params.pair || 'LRC-WETH'
   return (
     <Layout {...props}>
-      <TickerSocketContainer pair={pair}>
-        <Market.TickerItem pair={pair} />
-      </TickerSocketContainer>
+      <Sockets.TickersByPair pair={pair}>
+        <Sockets.Prices>
+          <Market.TickerItem pair={pair} />
+        </Sockets.Prices>
+      </Sockets.TickersByPair>
       <div className="container">
         <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
           <div className="row justify-content-around">
@@ -29,7 +28,7 @@ export default function Home(props){
             </div>
             <div className="col-sm-6 pl40 pr40">
               <PlaceOrderContainer id="sell">
-                <Order.TradeForm side="buy" pair={pair} />
+                <Order.TradeForm side="sell" pair={pair} />
               </PlaceOrderContainer>
             </div>
           </div>

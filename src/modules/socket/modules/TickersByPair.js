@@ -1,23 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-class TickersSocketContainer extends React.Component {
+class TickerSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tickers:[]
+      tickersByPair:{}
     }
+  }
+  shouldComponentUpdate(nextProps){
+    if(nextProps.pair !== this.props.pair){
+      const { socket } = this.context
+      const options = {
+        "contractVersion" : "v1.0",
+        "market":nextProps.pair,
+      }
+      console.log('will update options',options)
+      socket.emit('tickers_req',JSON.stringify(options))
+    }
+    return true
   }
   componentDidMount() {
     const { socket } = this.context
+    const { pair } = this.props
     if (!socket) {
       console.log('socket connection has not been established')
       return false
     }
-    socket.emit('loopringTickers_req','')
-    socket.on('loopringTickers_res', (res)=>{
-      console.log('loopringTickers_res')
+    const options = {
+      "contractVersion" : "v1.0",
+      "market":pair,
+    }
+    console.log('did mount options',options)
+    socket.emit('tickers_req',JSON.stringify(options))
+    socket.on('tickers_res', (res)=>{
+      console.log('ticker_res')
+      res = JSON.parse(res)
       this.setState({
-        tickers:res.result,
+        tickersByPair:res
       })
     })
   }
@@ -27,12 +46,12 @@ class TickersSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('tickers_end')
-    // socket.off(event)
+    socket.off('tickers_res')
   }
   render() {
+    const {children,...rest} = this.props
     const childProps = {
-      ...this.props,
+      ...rest,
       ...this.state,
     }
     const {render} = this.props
@@ -50,7 +69,7 @@ class TickersSocketContainer extends React.Component {
     )
   }
 }
-TickersSocketContainer.contextTypes = {
+TickerSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default TickersSocketContainer
+export default TickerSocketContainer

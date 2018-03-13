@@ -1,8 +1,16 @@
 import React from 'react'
 import {connect} from 'react-redux'
 class CurrencyContainer extends React.Component {
+  shouldComponentUpdate(nextProps){
+    console.log('CurrencyContainer shouldComponentUpdate')
+    if(nextProps.currency !== this.props.currency){
+      return true
+    }else{
+      return false
+    }
+  }
   render() {
-    console.log('currenry render')
+    console.log('CurrenryContainer render')
     let currency = {}
     if(this.props.currency === 'USD'){
         currency = {
@@ -10,30 +18,15 @@ class CurrencyContainer extends React.Component {
           icon:'$',
           title:'Dollar',
         }
+        return '$'
     }else{
       currency = {
         symbol:'CNY',
         icon:'￥',
         title:'Yuan',
       }
+      return '￥'
     }
-    const childProps = {
-      ...this.props,
-      currency,
-    }
-    const {render} = this.props
-    if(render){
-      return render.call(this,childProps)
-    }
-    return (
-      <div>
-         {
-           React.Children.map(this.props.children, child => {
-               return React.cloneElement(child, {...childProps})
-           })
-         }
-      </div>
-    )
   }
 }
 

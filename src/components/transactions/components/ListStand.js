@@ -8,6 +8,7 @@ import ListFiltersFormSimple from './ListFiltersFormSimple'
 import iconTransfer from '../../../assets/images/icon-tx-type-transfer.png'
 import iconReceive from '../../../assets/images/icon-tx-type-receive.png'
 import iconTrade from '../../../assets/images/icon-tx-type-trade.png'
+import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 const uiFormatter = window.uiFormatter
 
 function ListBlock({LIST,actions}) {
@@ -40,14 +41,14 @@ function ListBlock({LIST,actions}) {
         <div className="col pr10">
           <div className="">
             <div className="fs20 color-grey-900 mb5">
-            {index%8 == 0 && 'Send LRC'}  
-            {index%8 == 1 && 'Received LRC'}  
-            {index%8 == 2 && 'Approve LRC'}  
-            {index%8 == 3 && 'Sell LRC'}  
-            {index%8 == 4 && 'Buy LRC'}  
-            {index%8 == 5 && 'Convert ETH To WETH'}  
-            {index%8 == 6 && 'Convert WETH To ETH'} 
-            {index%8 == 7 && 'Cancle Orders'} 
+            {index%8 == 0 && 'Send LRC'}
+            {index%8 == 1 && 'Received LRC'}
+            {index%8 == 2 && 'Approve LRC'}
+            {index%8 == 3 && 'Sell LRC'}
+            {index%8 == 4 && 'Buy LRC'}
+            {index%8 == 5 && 'Convert ETH To WETH'}
+            {index%8 == 6 && 'Convert WETH To ETH'}
+            {index%8 == 7 && 'Cancle Orders'}
             </div>
             <div className="fs14 color-grey-400 text-nowrap text-truncate">
               To: {uiFormatter.getShortAddress('0xeae8bd296df8e90e63b14021640652045ee84d5b')}
@@ -59,16 +60,16 @@ function ListBlock({LIST,actions}) {
         </div>
         <div className="col"></div>
         <div className="col-auto mr5">
-          { index%2 == 0 && 
+          { index%2 == 0 &&
             <div className="text-right">
               <div className="fs20 color-green-500 mb10">+ 3456.78 LRC</div>
-              <div className="fs16 color-green-500">+ $ 34567.8</div>
+              <div className="fs16 color-green-500">+ <CurrencyContainer /> 34567.8</div>
             </div>
           }
-          { index%2 == 1 && 
+          { index%2 == 1 &&
             <div className="text-right">
               <div className="fs20 color-red-500 mb10">- 3456.78 LRC</div>
-              <div className="fs16 color-red-500">- $ 34567.8</div>
+              <div className="fs16 color-red-500">- <CurrencyContainer /> 34567.8</div>
             </div>
           }
         </div>
@@ -99,7 +100,7 @@ function ListBlock({LIST,actions}) {
           )
         }
       </div>
-      
+
     </div>
   )
 }

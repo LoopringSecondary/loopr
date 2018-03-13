@@ -1,40 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-class TickerSocketContainer extends React.Component {
+class TickersSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      socketTicker:{}
+      tickersByLoopring:[]
     }
-  }
-  shouldComponentUpdate(nextProps){
-    if(nextProps.pair !== this.props.pair){
-      const { socket } = this.context
-      const options = {
-        "contractVersion" : "v1.0",
-        "market":nextProps.pair,
-      }
-      socket.emit('tickers_req',JSON.stringify(options))
-    }
-    return true
   }
   componentDidMount() {
     const { socket } = this.context
-    const { pair } = this.props
     if (!socket) {
       console.log('socket connection has not been established')
       return false
     }
-    const options = {
-      "contractVersion" : "v1.0",
-      "market":pair,
-    }
-    socket.emit('tickers_req',JSON.stringify(options))
-    socket.on('tickers_res', (res)=>{
-      console.log('ticker_res')
-      res = JSON.parse(res)
+    socket.emit('loopringTickers_req','')
+    socket.on('loopringTickers_res', (res)=>{
+      console.log('loopringTickers_res')
       this.setState({
-        socketTicker:res
+        tickersByLoopring:res.result,
       })
     })
   }
@@ -44,13 +27,12 @@ class TickerSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('tickers_end')
-    console.log('ticker_res unmount')
-    socket.off('tickers_res')
+    socket.off('loopringTickers_res')
   }
   render() {
+    const {children,...rest} = this.props
     const childProps = {
-      ...this.props,
+      ...rest,
       ...this.state,
     }
     const {render} = this.props
@@ -68,7 +50,7 @@ class TickerSocketContainer extends React.Component {
     )
   }
 }
-TickerSocketContainer.contextTypes = {
+TickersSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default TickerSocketContainer
+export default TickersSocketContainer
