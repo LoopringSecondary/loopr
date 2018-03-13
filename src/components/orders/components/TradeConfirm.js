@@ -3,7 +3,7 @@ import {Button, Card, Collapse, Input} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
-import {toBig, toHex,toNumber} from 'Loopring/common/formatter';
+import {toBig, toHex, toNumber} from 'Loopring/common/formatter';
 import Token from 'Loopring/ethereum/token';
 import {configs} from "../../../common/config/data";
 import config from "../../../common/config";
@@ -15,7 +15,7 @@ const TradeConfirm = ({
                         dispatch,
                         tradingConfig,
                         account,
-                        assets=[],
+                        assets = [],
                       }) => {
   const modal = modals['trade/confirm'] || {};
   let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
@@ -49,77 +49,81 @@ const TradeConfirm = ({
 
   const handelSubmit = async () => {
     modals.hideModal({id: 'trade/confirm'});
-    await placeOrder(signedOrder);
-    const asset1 = assets.find(asset => asset.symbol.toLowerCase() === token.toLowerCase());
-    const asset2 = assets.find(asset => asset.symbol.toLowerCase() === token2.toLowerCase());
 
-    const assetLrc = assets.find(asset => asset.symbol.toLowerCase() === 'lrc');
-      const allowanceToken1 = asset1 ? asset1.allowance : 0;
-      const allowanceToken2 = asset2 ? asset2.allowance : 0;
-    console.log(allowanceToken1);
-    console.log(allowanceToken2);
-      const allowanceS = side === 'buy' ? allowanceToken2 : allowanceToken1;
-      const LRC = window.CONFIG.getTokenBySymbol('LRC');
-     const allowanceLrc = assetLrc ? assetLrc.allowance : 0;
-      const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
-      const delegateAddress = configs.delegateAddress;
-      let nonce = await window.STORAGE.wallet.getNonce(account.address);
-      const txs = [];
-      const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
-      if (toBig(tokenS.allowance).greaterThan(allowanceS)) {
-        const SToken = new Token({address: tokenS.address});
-        if (toNumber(allowanceS) > 0) {
-          txs.push(SToken.generateApproveTx({
+    placeOrder(signedOrder).then(async (res) =>  {
+      if (res.error) {
+        modals.showModal({id: 'trade/place-order-error'});
+      } else {
+        const asset1 = assets.find(asset => asset.symbol.toLowerCase() === token.toLowerCase());
+        const asset2 = assets.find(asset => asset.symbol.toLowerCase() === token2.toLowerCase());
+
+        const assetLrc = assets.find(asset => asset.symbol.toLowerCase() === 'lrc');
+        const allowanceToken1 = asset1 ? asset1.allowance : 0;
+        const allowanceToken2 = asset2 ? asset2.allowance : 0;
+        const allowanceS = side === 'buy' ? allowanceToken2 : allowanceToken1;
+        const LRC = window.CONFIG.getTokenBySymbol('LRC');
+        const allowanceLrc = assetLrc ? assetLrc.allowance : 0;
+        const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
+        const delegateAddress = configs.delegateAddress;
+        let nonce = await window.STORAGE.wallet.getNonce(account.address);
+        const txs = [];
+        const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
+        if (toBig(tokenS.allowance).greaterThan(allowanceS)) {
+          const SToken = new Token({address: tokenS.address});
+          if (toNumber(allowanceS) > 0) {
+            txs.push(SToken.generateApproveTx({
+              spender: delegateAddress,
+              amount: '0x0',
+              gasPrice,
+              gasLimit,
+              nonce: toHex(nonce),
+            }));
+            nonce = nonce + 1;
+          }
+          txs.push(SToken.generateApproveTx(({
             spender: delegateAddress,
-            amount: '0x0',
+            amount: toHex(toBig('9223372036854775806')),
             gasPrice,
             gasLimit,
             nonce: toHex(nonce),
-          }));
+          })));
           nonce = nonce + 1;
         }
-        txs.push(SToken.generateApproveTx(({
-          spender: delegateAddress,
-          amount: toHex(toBig('9223372036854775806')),
-          gasPrice,
-          gasLimit,
-          nonce: toHex(nonce),
-        })));
-        nonce = nonce + 1;
-      }
-      if (tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(allowanceLrc)) {
-        const LRCToken = new Token({address: LRC.address});
-        if (toNumber(allowanceLrc) > 0) {
-          txs.push(LRCToken.generateApproveTx({
+        if (tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(allowanceLrc)) {
+          const LRCToken = new Token({address: LRC.address});
+          if (toNumber(allowanceLrc) > 0) {
+            txs.push(LRCToken.generateApproveTx({
+              spender: delegateAddress,
+              amount: '0x0',
+              gasPrice,
+              gasLimit,
+              nonce: toHex(nonce),
+            }));
+            nonce = nonce + 1;
+          }
+          txs.push(LRCToken.generateApproveTx(({
             spender: delegateAddress,
-            amount: '0x0',
+            amount: toHex(toBig('9223372036854775806')),
             gasPrice,
             gasLimit,
             nonce: toHex(nonce),
-          }));
-          nonce = nonce + 1;
+          })));
         }
-        txs.push(LRCToken.generateApproveTx(({
-          spender: delegateAddress,
-          amount: toHex(toBig('9223372036854775806')),
-          gasPrice,
-          gasLimit,
-          nonce: toHex(nonce),
-        })));
-      }
 
-      eachLimit(txs, 1, async function (tx, callback) {
-        const res = await window.WALLET.sendTransaction(tx);
-        if (res.error) {
-          callback(res.error.message)
-        } else {
-          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
-          callback()
-        }
-      }, function (error) {
-        console.log(error.message)
-      });
-    modals.showModal({id: 'trade/place-order-success'})
+        eachLimit(txs, 1, async function (tx, callback) {
+          const res = await window.WALLET.sendTransaction(tx);
+          if (res.error) {
+            callback(res.error.message)
+          } else {
+            window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+            callback()
+          }
+        }, function (error) {
+          console.log(error.message)
+        });
+        modals.showModal({id: 'trade/place-order-success'});
+      }
+    });
   };
 
   const MetaItem = (props) => {
