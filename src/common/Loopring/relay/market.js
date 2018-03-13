@@ -62,7 +62,7 @@ export async function getDepth(filter) {
 
 export async function getTicker(filter) {
   try {
-    await validator.validate({value: filter[0], type: 'STRING'});// contractVersion
+    await validator.validate({value: filter.contractVersion, type: 'STRING'});// contractVersion
   } catch (e) {
     console.error(e)
     return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
