@@ -1,6 +1,7 @@
 const config = require('./config.json');
 let tokens = config.tokens || []
 const markets = config.markets
+const txs = config.txs;
 const data= require('./data')
 const projects =  data.projects;
 
@@ -82,6 +83,14 @@ function getMarketBySymbol(tokenx, tokeny) {
   }
 }
 
+function getGasLimitByType(type) {
+  if(type){
+    return txs.find(tx => type === tx.type)
+  }
+
+}
+
+
 export default {
   getTokenBySymbol,
   getTokenByAddress,
@@ -89,5 +98,6 @@ export default {
   getMarketByPair,
   getProjectByName,
   getProjectById,
-  getProjectByLrx
+  getProjectByLrx,
+  getGasLimitByType
 }

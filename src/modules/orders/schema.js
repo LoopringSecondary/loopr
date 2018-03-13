@@ -60,7 +60,8 @@ const schema = [
       title:'Amount',
       name:'amount',
       formatter:(item)=> {
-        const token = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS)
+        let token = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS)
+        token = token || {digits:18, precision:6} ;
         return (toNumber(item.originalOrder.amountS)/Number('1e'+token.digits)).toFixed(token.precision)
       }
     },
@@ -73,7 +74,8 @@ const schema = [
       title:'Size',
       name:'size',
       formatter:(item)=>{
-        const token = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB)
+        let token = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB);
+        token = token || {digits:18, precision:6} ;
        return (toNumber(item.originalOrder.amountB)/Number('1e'+token.digits)).toFixed(token.precision)
       },
     },
@@ -81,7 +83,8 @@ const schema = [
     title: 'LrcFee',
     name: 'lrcFee',
     formatter: (item) => {
-      const token = window.CONFIG.getTokenBySymbol('LRC')
+      let token = window.CONFIG.getTokenBySymbol('LRC');
+      token = token || {digits:18, precision:6} ;
       return (toNumber(item.originalOrder.amountB) / Number('1e' + token.digits)).toFixed(token.precision)
     },
   },

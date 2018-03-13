@@ -51,7 +51,7 @@ export async function getCutoff(address, contractVersion) {
   })
 }
 
-export  function cancelOrder({order, privateKey, protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
+export function generateCancelOrderTx({order, protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
 
   validator.validate({value: order, type: "ORDER"});
   const tx = {};
@@ -71,33 +71,11 @@ export  function cancelOrder({order, privateKey, protocolAddress, gasPrice, gasL
   if (chainId) {
     tx.chainId = chainId
   }
-  const transaction = new Transaction(tx);
-  return transaction.send(privateKey)
+
+  return tx
 }
 
-export function cancelOrdersByTokenPair({privateKey, timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
-  const tx = {};
-  tx.to = protocolAddress;
-  tx.value = "0x0";
-  tx.data = generateAbiData({method: "cancelOrdersByTokenPairs", timestamp, tokenA, tokenB});
-
-  if (gasPrice) {
-    tx.gasPrice = gasPrice
-  }
-  if (gasLimit) {
-    tx.gasLimit = gasLimit
-  }
-  if (nonce) {
-    tx.nonce = nonce
-  }
-  if (chainId) {
-    tx.chainId = chainId
-  }
-  const transaction = new Transaction(tx);
-  return transaction.send({privateKey, walletType, path})
-}
-
-export function cancelAllOrders({privateKey, protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
+export function generateCancelAllOrdresTx({protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
   tx.to = protocolAddress;
   tx.value = "0x0";
@@ -115,13 +93,53 @@ export function cancelAllOrders({privateKey, protocolAddress, timestamp, gasPric
   if (chainId) {
     tx.chainId = chainId
   }
+
+  return tx
+}
+
+export function generateCancelOrdersByTokenPairTx({timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
+  const tx = {};
+  tx.to = protocolAddress;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "cancelOrdersByTokenPairs", timestamp, tokenA, tokenB});
+
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+
+  return tx
+}
+
+export function cancelOrder({order, privateKey, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, dapth}) {
+  const tx = generateCancelOrderTx({order, privateKey, protocolAddress, gasPrice, gasLimit, nonce, chainId})
+  const transaction = new Transaction(tx);
+  return transaction.send({privateKey, walletType, dapth})
+}
+
+export function cancelOrdersByTokenPair({privateKey, timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
+ const tx = generateCancelOrdersByTokenPairTx({timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId})
+  const transaction = new Transaction(tx);
+  return transaction.send({privateKey, walletType, path})
+}
+
+export function cancelAllOrders({privateKey, protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
+ const tx = generateCancelAllOrdresTx({protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId});
   const transaction = new Transaction(tx);
   return transaction.send({privateKey, walletType, path})
 }
 
 export async function placeOrder(order) {
 
-  validator.validate({value: order, type: "Order"})
+  validator.validate({value: order, type: "Order"});
   let body = {};
   body.method = 'loopring_submitOrder';
   body.params = [order];

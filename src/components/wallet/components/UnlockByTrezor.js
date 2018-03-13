@@ -1,9 +1,7 @@
 import React from 'react';
-import {Button, Form} from 'antd';
+import {Button, Form,Alert,Icon} from 'antd';
 import {getAddress,sign} from "Loopring/ethereum/trezor";
 import TrezorUnlockAccount from "../../../modules/account/TrezorUnlockAccount";
-
-const {Item} = Form.Item;
 
 class UnlockByTrezor extends React.Component {
 
@@ -18,8 +16,14 @@ class UnlockByTrezor extends React.Component {
 
   render() {
     return (
-      <div>
-        <Button type="primary" onClick={this.connectTrezor}> Connect</Button>
+      <div className="text-left">
+        <Alert
+          message={<div className="color-green-600"><Icon type="like" /> Recommended</div>}
+          description={<div className="color-green-600">This is a recommended way to access your wallet.</div>}
+          type="success"
+          showIcon={false}
+        />
+        <Button type="primary" className="d-block w-100 mt50" size="large" onClick={this.connectTrezor}> Connect</Button>
       </div>
     )
   }
