@@ -33,7 +33,7 @@ export function publicKeytoAddress(publicKey) {
   } catch (e) {
     throw new Error('Invalid public key')
   }
-  return formatAddress(publicKeytoAddress(toBuffer(publicKey)))
+  return formatAddress(publicToAddress(publicKey))
 }
 
 export function privateKeytoPublic(privateKey) {
