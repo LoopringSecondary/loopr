@@ -7,7 +7,7 @@ let dPath = "m/44'/60'/0'"
 
 class UnlockByLedger extends React.Component {
 
-  connect = async () => {
+  connect = () => {
     if (window.location.protocol !== 'https:') {
       Modal.error({
         title: 'Error',
@@ -21,13 +21,39 @@ class UnlockByLedger extends React.Component {
         window.WALLET = new LedgerUnlockAccount({ ledger:ledgerConnection })
         window.WALLET_UNLOCK_TYPE = 'Ledger'
         //modal.hideModal({id: 'wallet/unlock'});
-      })
+
+        this.getAddressByIndex(0)
+      }).then()
       //account.connectToLedger({dpath: dPath})
       //account.connectToTrezor({address, path});
     }
   }
 
+  getAddressByIndexAsync = async (index) => {
+    const {account} = this.props;
+    await window.WALLET.getPathAddress(dPath, 0)
+  }
+
   getAddressByIndex = (index) => {
+    const {account} = this.props;
+    window.WALLET.getPathAddress(dPath, 0).then(res=>{
+      console.log("address result:", res)
+      if(res.error){
+        let content = ''
+        switch(res.error){
+          case 'Invalid status 6801': content = "Your Ledger seems to be locked"; break;
+
+        }
+        Modal.error({
+          title: 'Error',
+          content: content,
+        });
+        return
+      }
+    })
+  }
+
+  selectedAddressByIndex = (index) => {
     const {account} = this.props;
     window.WALLET.getPathAddress(dPath, 0).then(res=>{
       console.log("address result:", res)
@@ -62,7 +88,7 @@ class UnlockByLedger extends React.Component {
         />
         <div className="color-grey-500 fs12 mb10 mt15"></div>
         <Button type="primary" className="d-block w-100" size="large" onClick={this.connect}> Connect to Ledger</Button>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.getAddressByIndex}> Address</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.selectedAddressByIndex}> Address</Button>
         <Button type="primary" className="d-block w-100" size="large" onClick={this.selectPath}> selectPath</Button>
       </div>
     )

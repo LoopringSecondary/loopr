@@ -50,7 +50,7 @@ const TickerTable = ({tickers,market})=>{
         </tbody>
       </table>
     </div>
-    
+
   )
 }
 
@@ -66,16 +66,6 @@ const TickerTabs = ({tickers})=>{
       <Tabs.TabPane tab={tab('WETH')} key="WETH">
         <div className="pl10 pr10">
           <TickerTable tickers={tickers} market="WETH"  />
-        </div>
-      </Tabs.TabPane>
-      <Tabs.TabPane tab={tab('LRC')} key="LRC">
-        <div className="pl10 pr10">
-          <TickerTable tickers={tickers} market="LRC"  />
-        </div>
-      </Tabs.TabPane>
-      <Tabs.TabPane tab={tab('BTC')} key="BTC">
-        <div className="pl10 pr10">
-          <TickerTable tickers={tickers} market="BTC" />
         </div>
       </Tabs.TabPane>
     </Tabs>

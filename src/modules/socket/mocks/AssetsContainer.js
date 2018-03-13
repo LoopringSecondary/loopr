@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import assets from './balances.json'
+import assets from './assets.json'
 class AssetsContainer extends React.Component {
   render() {
     const {children,...rest} = this.props

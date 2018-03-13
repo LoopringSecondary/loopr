@@ -3,13 +3,15 @@ import {connect} from 'dva';
 import {Link} from 'dva/router';
 import {Table, Badge, Button, Modal, Icon, Popover, Steps} from 'antd';
 import schema from '../../../../modules/orders/schema';
-import {cancelOrder} from 'Loopring/relay/order'
-import {toHex, toNumber} from "Loopring/common/formatter";
+import {generateCancelOrderTx} from 'Loopring/relay/order'
+import {toHex, toNumber,clearPrefix} from "Loopring/common/formatter";
+import {configs} from "../../../../common/config/data";
+import config from "../../../../common/config";
 
 const uiFormatter = window.uiFormatter;
 
 function ListBlock(props) {
-  const {LIST, actions, className, style, account, gasPrice} = props;
+  const {LIST, actions, className, style, account, gasPrice,contractAddress} = props;
   const {
     items = [],
     loading,
@@ -24,19 +26,26 @@ function ListBlock(props) {
         const originalOrder = item.originalOrder;
         originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
         originalOrder.owner = originalOrder.address;
-        originalOrder.r = toNumber(originalOrder.r);
-        //TODO 等待新结构的order，不再出现错误。
-        const res = await cancelOrder({
-          order: item.originalOrder,
+        originalOrder.v = toNumber(originalOrder.v);
+        originalOrder.tokenB  = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
+        originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
+        originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
+        console.log(JSON.stringify(originalOrder));
+        const tx = generateCancelOrderTx({
+          order: originalOrder,
           nonce: toHex(nonce),
-          privateKey: account.privateKey,
           gasPrice: toHex(gasPrice * 1e9),
-          walletType: account.walletType
+          gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder') .gasLimit : configs['defaultGasLimit'],
+          protocolAddress: contractAddress,
         });
-
-        if (!res.error) {
-          window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
-        }
+        window.WALLET.sendTransaction(tx).then((res) => {
+          if (!res.error) {
+            window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
+            //TODO 跳转到 发送成功的Modal
+          }else{
+            // TODO 跳转到发送失败的Modal
+          }
+        })
       },
       onCancel: () => {
       },
@@ -158,7 +167,8 @@ ListBlock.propTypes = {};
 function mapStateToProps(state) {
   return {
     account: state.account,
-    gasPrice: state.settings.trading.gasPrice
+    gasPrice: state.settings.trading.gasPrice,
+    contractAddress: state.settings.trading.contract.address
   };
 }
 

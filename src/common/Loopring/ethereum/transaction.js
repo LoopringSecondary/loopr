@@ -1,9 +1,8 @@
 import EthTransaction from 'ethereumjs-tx'
 import validator from './validator'
-import {toHex, toBuffer, addHexPrefix} from '../common/formatter'
-import {estimateGas, getGasPrice, getTransactionCount} from './utils';
+import {addHexPrefix, toBuffer, toHex} from '../common/formatter'
+import {getGasPrice, getTransactionCount} from './utils';
 import request from '../common/request'
-import {privateKeytoAddress} from "./account";
 import {trezorSign} from './trezor'
 import {configs} from "../../config/data";
 
@@ -13,14 +12,8 @@ export default class Transaction {
     this.raw = rawTx;
   }
 
-  async setGasLimit() {
-    if (!this.raw.gasLimit) {
-      const tx = {to: this.raw.to};
-      if (this.raw.data) {
-        tx.data = this.raw.data
-      }
-      this.raw.gasLimit = (await estimateGas(tx)).result
-    }
+   setGasLimit() {
+      this.raw.gasLimit = this.raw.gasLimit || configs['defaultGasLimit']
   }
 
   async setGasPrice() {
@@ -101,8 +94,8 @@ export default class Transaction {
   }
 
   async complete() {
-    await this.setChainId();
-    await this.setGasLimit();
+     this.setChainId();
+     this.setGasLimit();
     await this.setGasPrice();
   }
 }

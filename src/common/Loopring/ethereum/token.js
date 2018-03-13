@@ -41,7 +41,7 @@ export default class Token {
     if (chainId) {
       tx.chainId = chainId
     }
-    return new Transaction(tx);
+    return tx;
   }
 
   generateApproveTx({spender, amount, gasPrice, gasLimit, nonce, chainId}){
@@ -62,16 +62,18 @@ export default class Token {
     if (chainId) {
       tx.chainId = chainId
     }
-   return new Transaction(tx);
+   return tx;
   }
 
   async transfer({privateKey, to, amount, gasPrice, gasLimit, nonce, chainId,walletType,path}) {
-    const transaction = this.generateTransferTx({to, amount, gasPrice, gasLimit, nonce, chainId});
+    const tx = this.generateTransferTx({to, amount, gasPrice, gasLimit, nonce, chainId});
+    const transaction = new Transaction(tx);
     return transaction.send({privateKey,walletType,path})
   }
 
   async approve({spender, amount, privateKey, gasPrice, gasLimit, nonce, chainId,walletType,path}) {
-    const transaction = this.generateApproveTx({spender, amount, gasPrice, gasLimit, nonce, chainId});
+    const tx = this.generateApproveTx({spender, amount, gasPrice, gasLimit, nonce, chainId});
+    const transaction = new Transaction(tx);
     return transaction.send({privateKey,walletType,path})
   }
 

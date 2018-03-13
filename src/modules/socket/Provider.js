@@ -24,18 +24,6 @@ class SocketProvider extends React.Component {
     this.socket.on('connect', (data) => {
       console.log('socket connected success!')
     })
-
-    // options = {
-    //   "contractVersion" : "v1.0",
-    //   "owner":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
-    // }
-    // this.socket.emit('balance_req',JSON.stringify(options))
-
-    options = {
-      "currency" : "CNY"
-    }
-    this.socket.emit('marketcap_req',JSON.stringify(options))
-
     this.socket.on('disconnect', (data) => {
       console.log('socket disconnect')
     });
