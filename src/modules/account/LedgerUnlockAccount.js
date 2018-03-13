@@ -42,11 +42,13 @@ export default class LedgerUnlockAccount extends Account {
   }
 
   signTx(tx){
-    console.log(22222222)
-    const ethTx = new EthTransaction(tx)
+    let t = new EthTransaction(tx)
+    t.v = Buffer.from([t._chainId]);
+    t.r = toBuffer(0);
+    t.s = toBuffer(0);
     return new Promise((resolve, reject) => {
       this.ledger
-        .signTransaction_async(this.dpath+"/"+this.index, ethTx.serialize().toString('hex'))
+        .signTransaction_async(this.dpath+"/"+this.index, t.serialize().toString('hex'))
         .then(result => {
           const txToSerialize = {
             ...tx,
@@ -65,11 +67,11 @@ export default class LedgerUnlockAccount extends Account {
   }
 
   async sendTransaction(tx) {
-    console.log(11111111)
     let newTx = new Transaction(tx)
     await newTx.complete()
     const signed = await this.signTx(newTx.raw)
     if(signed.result){
+      console.log("signed:", toHex(signed.result))
       return await newTx.sendRawTx(toHex(signed.result))
     } else {
       throw new Error(signed.error)
