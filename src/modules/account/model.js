@@ -65,12 +65,6 @@ export default {
       window.WALLET_UNLOCK_TYPE = 'PrivateKey'
       yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password: null,walletType:'key'}})
     },
-    * setMetamask({payload}, {put}) {
-      const {web3} = payload
-      window.WALLET = new MetaMaskUnlockAccount({web3: web3, address: web3.eth.accounts[0]})
-      window.WALLET_UNLOCK_TYPE = 'Metamask'
-      yield put({type: 'setWallet', payload: {privateKey: null, address:web3.eth.accounts[0] , mnemonic: null, password: null,walletType:'metaMask'}})
-    },
     * createWallet({payload}, {put}) {
       const wallet = create(payload.password);
       yield put({type: 'setWallet', payload: {...wallet,password:payload.password,walletType:'key'}})
@@ -81,12 +75,6 @@ export default {
       const address = window.WALLET.getAddress();
       yield put({type: 'setWallet', payload: {address,walletType:'trezor'}})
     },
-    * connectToLedger({payload},{put}){
-      window.WALLET = new LedgerUnlockAccount({address: payload.address, dpath:payload.dpath, ledger:payload.ledger })
-      window.WALLET_UNLOCK_TYPE = 'Ledger'
-      yield put({type: 'setWallet', payload: {...payload,walletType:'ledger'}})
-    },
-
     * setWallet({payload}, {put,call}) {
       yield put({type: 'setAccount',payload:{...payload}});
       window.STORAGE.wallet.setWallet({address:payload.address});

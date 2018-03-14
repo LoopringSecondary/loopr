@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'dva/router';
 import { Modal, Button,Icon,Alert } from 'antd';
+import MetaMaskUnlockAccount from '../../../modules/account/MetaMaskUnlockAccount'
+
+const walletType = "Metamask"
 
 let UnlockByMetaMask = ({
      modal, account
@@ -16,7 +19,9 @@ let UnlockByMetaMask = ({
          return
        }
        let selectedAccount = window.web3.eth.accounts[0]
-       account.setMetamask({web3:window.web3});
+       window.WALLET = new MetaMaskUnlockAccount({web3: window.web3, address: selectedAccount})
+       window.WALLET_UNLOCK_TYPE = walletType
+       account.setWallet({address:selectedAccount, walletType:walletType})
        modal.hideModal({id: 'wallet/unlock'});
        window.routeActions.gotoPath('portfolio');
 

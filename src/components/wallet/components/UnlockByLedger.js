@@ -3,7 +3,8 @@ import {Button, Form, Modal, Icon, Alert} from 'antd';
 import ledger from 'ledgerco';
 import LedgerUnlockAccount from '../../../modules/account/LedgerUnlockAccount'
 
-let dpath = "m/44'/60'/0'"
+const dpath = "m/44'/60'/0'"
+const walletType = "Ledger"
 
 class UnlockByLedger extends React.Component {
 
@@ -20,7 +21,7 @@ class UnlockByLedger extends React.Component {
         .then(comm => {
           const ledgerConnection = new ledger.eth(comm)
           window.WALLET = new LedgerUnlockAccount({ ledger:ledgerConnection })
-          window.WALLET_UNLOCK_TYPE = 'Ledger'
+          window.WALLET_UNLOCK_TYPE = walletType
           this.isConnected()
             .then(connected=>{
               if(connected){
@@ -42,7 +43,7 @@ class UnlockByLedger extends React.Component {
     window.WALLET.setIndex({dpath, index, address})
       .then(result=>{
         if(result.address) {
-          account.setWallet({address:result.address})
+          account.setWallet({address:result.address, walletType:walletType})
         }
       })
   };
@@ -100,10 +101,6 @@ class UnlockByLedger extends React.Component {
       }
       account.setWallet({address:res.address})
     })
-  }
-
-  selectPath = () => {
-    window.WALLET.selected({dpath:dpath, index:0})
   }
 
   render() {
