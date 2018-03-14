@@ -52,8 +52,33 @@ class AssetsContainer extends React.Component {
     console.log('AssetsContainer unmount')
     socket.off('balance_res')
   }
-  getTokenBySymbol(symbol){
-    return this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
+  getTokenBySymbol(symbol,ifFormat){
+    let assetToken = this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
+    if(ifFormat){
+      if(assetToken){
+        const balance =  Number(assetToken.balance)
+        const allowance =  Number(assetToken.allowance)
+        // fix bug: balance == string
+        if(balance && typeof balance === 'number'){
+          assetToken.balance = balance
+        }else{
+           assetToken.balance = 0
+        }
+        if(allowance && typeof allowance === 'number'){
+          assetToken.allowance = allowance
+        }else{
+           assetToken.allowance = 0
+        }
+        return assetToken
+      }else{
+        return {
+          balance:0,
+          allowance:0,
+        }
+      }
+    }else{
+      return assetToken
+    }
   }
   render() {
     const {children,...rest} = this.props

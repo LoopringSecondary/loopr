@@ -60,8 +60,26 @@ class PricesContainer extends React.Component {
     console.log('price unmount')
     socket.off('marketcap_res')
   }
-  getTokenBySymbol(symbol){
-    return this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
+  getTokenBySymbol(symbol,ifFormat){
+    let priceToken = this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
+    if(ifFormat){
+      if(priceToken){
+        const price =  Number(priceToken.price)
+        // fix bug: price == string
+        if(price && typeof price === 'number'){
+          priceToken.price = price
+        }else{
+           priceToken.price = 0
+        }
+        return priceToken
+      }else{
+        return {
+          price:0,
+        }
+      }
+    }else{
+      return priceToken
+    }
   }
   render() {
     const {children,...rest} = this.props
