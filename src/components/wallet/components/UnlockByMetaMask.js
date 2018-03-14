@@ -78,11 +78,13 @@ let UnlockByMetaMask = ({
         showIcon={false}
       />
       <div className="color-grey-500 fs12 mb10 mt15">
-        Download MetaMask For Chrome
+        <a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">Get MetaMask chrome extension (for Chrome Firefox Opera)</a>
       </div>
-      <div className="color-grey-500 fs12 mb10">
-        Download MetaMask For Other Browser
-      </div>
+      {false &&
+        <div className="color-grey-500 fs12 mb10">
+          Download MetaMask For Other Browser
+        </div>
+      }
       <Button type="primary" className="d-block w-100" size="large" onClick={connectToMetamask}>Connect To MetaMask</Button>
     </div>
   )
