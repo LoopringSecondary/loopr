@@ -66,7 +66,7 @@ function Navbar(props){
               <Icon type="qrcode" className="mr5" />QR Code
             </a>
           </div>
-          {account.walletType === 'key' &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+          {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/export/keystore')}>
               <Icon type="export" className="mr5" />Export Keystore
             </a>

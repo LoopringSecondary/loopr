@@ -188,7 +188,6 @@ const TradeConfirm = ({
 function mapStateToProps(state) {
   return {
     tradingConfig: state.settings.trading,
-    account: state.account
   };
 }
 

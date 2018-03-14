@@ -1,21 +1,16 @@
-import {decrypt, fromMnemonic, fromPrivateKey, create} from 'Loopring/ethereum/account';
+import {create, decrypt, fromMnemonic, fromPrivateKey} from 'Loopring/ethereum/account';
 import PrivateKeyUnlockAccount from "./PrivateKeyUnlockAccount";
 import MetaMaskUnlockAccount from './MetaMaskUnlockAccount'
 import MnemonicUnlockAccount from './MnemonicUnlockAccount'
-import TrezorUnlockAccount from './TrezorUnlockAccount'
 import {register} from "Loopring/relay/account";
-
+import {message} from 'antd'
 
 export default {
   namespace: 'account',
   state: {
     address: null,
-    privateKey: null,
-    mnemonic: null,
-    publicKey: null,
-    password: null,
     isUnlocked: false,
-    walletType:null, //key, metaMask, trezor, ledgerHQ
+    walletType:null, //PrivateKey,KeyStore,Mnemonic, Metamask, Trezor, LedgerHQ
   },
   reducers: {
     setAccount(state, {payload}) {
@@ -30,12 +25,8 @@ export default {
       return {
         ...state,
         address: null,
-        privateKey: null,
-        mnemonic: null,
-        publicKey: null,
-        password: null,
         isUnlocked: false,
-        walletType:null, //key, metaMask, trezor, ledgerHQ
+        walletType:null, //PrivateKey,KeyStore,Mnemonic, Metamask, Trezor, LedgerHQ
       };
     },
 
@@ -44,46 +35,53 @@ export default {
 
   effects: {
     * setKeystore({payload}, {put}) {
-      const {keyStore, password} = payload;
-      const wallet = decrypt(keyStore, password);
-      window.WALLET = new PrivateKeyUnlockAccount({privateKey: wallet.privateKey, address: wallet.address})
-      window.WALLET_UNLOCK_TYPE = 'KeyStore'
-      yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password,walletType:'key'}})
+      console.log('arguments',arguments);
+      const {keyStore, password,cb} = payload;
+      try{
+        const wallet = decrypt(keyStore, password);
+        window.WALLET = new PrivateKeyUnlockAccount({privateKey: wallet.privateKey, address: wallet.address,password});
+        window.WALLET_UNLOCK_TYPE = 'KeyStore';
+        yield put({type: 'setWallet', payload: {address:wallet.address,walletType:'KeyStore'}})
+        cb();
+      }catch(e){
+       cb(e)
+      }
     },
     * setMnemonic({payload}, {put}) {
-      const {mnemonic, dpath, password,index} = payload;
-      const wallet = fromMnemonic(mnemonic, dpath.concat(`/${index}`), password);
+      const {index} = payload;
       window.WALLET.setIndex(index);
-      window.WALLET.setPrivateKey(wallet.privateKey);
-      yield put({type: 'setWallet', payload: {...wallet, password,walletType:'key'}})
+      const address = window.WALLET.getAddress();
+      yield put({type: 'setWallet', payload: {address,walletType:'Mnemonic'}})
     },
     * setPrivateKey({payload}, {put}) {
       const {privateKey} = payload;
       const wallet = fromPrivateKey(privateKey);
       window.WALLET = new PrivateKeyUnlockAccount({privateKey: privateKey, address: wallet.address})
-      window.WALLET_UNLOCK_TYPE = 'PrivateKey'
-      yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password: null,walletType:'key'}})
+      window.WALLET_UNLOCK_TYPE = 'PrivateKey';
+      yield put({type: 'setWallet', payload: {address:wallet.address,walletType:'PrivateKey'}})
     },
     * setMetamask({payload}, {put}) {
-      const {web3} = payload
+      const {web3} = payload;
       window.WALLET = new MetaMaskUnlockAccount({web3: web3, address: web3.eth.accounts[0]})
-      window.WALLET_UNLOCK_TYPE = 'Metamask'
-      yield put({type: 'setWallet', payload: {privateKey: null, address:web3.eth.accounts[0] , mnemonic: null, password: null,walletType:'metaMask'}})
+      window.WALLET_UNLOCK_TYPE = 'MetaMask';
+      yield put({type: 'setWallet', payload: {address:web3.eth.accounts[0],walletType:'MetaMask'}})
     },
     * createWallet({payload}, {put}) {
       const wallet = create(payload.password);
-      yield put({type: 'setWallet', payload: {...wallet,password:payload.password,walletType:'key'}})
+      window.WALLET = new MnemonicUnlockAccount({...wallet,password:payload.password});
+      window.WALLET_UNLOCK_TYPE = 'Mnemonic';
+      yield put({type: 'setWallet', payload: {...wallet,password:payload.password,walletType:'Mnemonic'}})
     },
 
     * connectToTrezor({payload},{put}){
       const {index} = payload;
       window.WALLET.setIndex(index);
       const address = window.WALLET.getAddress();
-      yield put({type: 'setWallet', payload: {address,walletType:'trezor'}})
+      yield put({type: 'setWallet', payload: {address,walletType:'Trezor'}})
     },
 
     * setWallet({payload}, {put,call}) {
-      yield put({type: 'setAccount',payload:{...payload}});
+      yield put({type: 'setAccount',payload});
       window.STORAGE.wallet.setWallet({address:payload.address});
       yield call(register,payload.address);
     },

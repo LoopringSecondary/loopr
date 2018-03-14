@@ -3,7 +3,7 @@ function getActionCreators(module,keys = []) {
   let actionCreators = {};
   keys.forEach(key=>{
 
-    function actionCreator(payload,custom){
+    function actionCreator(payload,){
         let action = {}
         if(module){
           action = {
@@ -21,10 +21,10 @@ function getActionCreators(module,keys = []) {
     }
 
     actionCreators[key]= actionCreator;
-      
+
   })
   return  actionCreators;
-  
+
 }
 
 export default getActionCreators;

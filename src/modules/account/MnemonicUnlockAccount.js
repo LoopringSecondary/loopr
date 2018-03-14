@@ -1,5 +1,5 @@
 import Account from "./Account";
-import {fromMnemonic} from '../../common/Loopring/ethereum/account';
+import {fromMnemonic, download, privateKeytoAddress} from '../../common/Loopring/ethereum/account';
 import EthTransaction from 'ethereumjs-tx'
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import {toHex, toBuffer, addHexPrefix} from '../../common/Loopring/common/formatter'
@@ -7,32 +7,35 @@ import {toHex, toBuffer, addHexPrefix} from '../../common/Loopring/common/format
 export default class MnemonicUnlockAccount extends Account {
 
   constructor(input) {
-    super({unlockType: 'mnemonic'});
+    super({unlockType: 'mnemonic', address: input.address, password: input.password});
     this.mnemonic = input.mnemonic;
     this.dpath = input.dpath;
-    this.password = input.password
+    this.index = input.index;
+    this.privateKey = input.privateKey;
   }
 
-  getAddress() {
-    return this.address
+  setIndex(index) {
+    this.index = index;
+    if(this.mnemonic && this.dpath){
+      const account = fromMnemonic(this.mnemonic, this.dpath.concat(`/${index}`), this.password);
+      this.setPrivateKey(account.privateKey);
+    }
   }
 
-  setIndex(index){
-    this.index = index
-  }
-  setPrivateKey(privateKey){
+  setPrivateKey(privateKey) {
     this.privateKey = privateKey;
+    this.address = privateKeytoAddress(privateKey)
   }
 
-  getAddresses(pageSize,pageNum){
-    const addresses=[];
-    for(let i =0;i< pageSize;i++){
-      addresses.push(fromMnemonic(this.mnemonic,this.dpath.concat(`/${pageSize * pageNum + i}`),this.password).address)
+  getAddresses(pageSize, pageNum) {
+    const addresses = [];
+    for (let i = 0; i < pageSize; i++) {
+      addresses.push(fromMnemonic(this.mnemonic, this.dpath.concat(`/${pageSize * pageNum + i}`), this.password).address)
     }
     return addresses;
   }
-  signMessage(message){
-    console.log("private key sign")
+
+  signMessage(message) {
     return this.signWithPrivateKey(message, this.privateKey)
   }
 
@@ -43,5 +46,10 @@ export default class MnemonicUnlockAccount extends Account {
     ethTx.sign(toBuffer(addHexPrefix(this.privateKey)));
     const signed = toHex(ethTx.serialize());
     return await newTx.sendRawTx(signed)
+  }
+
+  download(mime) {
+    const privateKey = toBuffer(addHexPrefix(this.privateKey));
+    return download(privateKey, this.password, mime)
   }
 }

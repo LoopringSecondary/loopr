@@ -3,7 +3,9 @@ import Transaction from "../../common/Loopring/ethereum/transaction";
 export default class Account {
 
   constructor(input) {
-    this.unlockType = input.unlockType
+    this.unlockType = input.unlockType;
+    this.address = input.address;
+    this.password =input.password;
   }
 
   setUnlockType(unlockType) {
@@ -12,6 +14,10 @@ export default class Account {
 
   setAddress(address) {
     this.address = address
+  }
+
+  getPassword(){
+    return this.password
   }
 
   getAddress() {
