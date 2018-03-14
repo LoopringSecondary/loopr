@@ -60,7 +60,7 @@ class AssetsContainer extends React.Component {
     socket.off('balance_res')
   }
   getTokenBySymbol(symbol){
-    return this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {}
+    return this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {balance:0, allowance:0}
   }
   render() {
     const {children,...rest} = this.props

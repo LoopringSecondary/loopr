@@ -27,7 +27,11 @@ export default function Home(props){
                 <PlaceOrderContainer id="buy">
                   <Sockets.Prices>
                     <Sockets.Assets>
-                      <Order.TradeForm side="buy" pair={pair} />
+                      <Sockets.TickersByLoopring>
+                        <Sockets.TickersByPair>
+                          <Order.TradeForm side="buy" pair={pair} />
+                        </Sockets.TickersByPair>
+                      </Sockets.TickersByLoopring>
                     </Sockets.Assets>
                   </Sockets.Prices>
                 </PlaceOrderContainer>
@@ -38,7 +42,11 @@ export default function Home(props){
                 <PlaceOrderContainer id="sell">
                   <Sockets.Prices>
                     <Sockets.Assets>
-                      <Order.TradeForm side="sell" pair={pair} />
+                      <Sockets.TickersByLoopring>
+                        <Sockets.TickersByPair>
+                          <Order.TradeForm side="sell" pair={pair} />
+                        </Sockets.TickersByPair>
+                      </Sockets.TickersByLoopring>
                     </Sockets.Assets>
                   </Sockets.Prices>
                 </PlaceOrderContainer>

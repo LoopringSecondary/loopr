@@ -7,52 +7,32 @@ import {configs} from '../../../common/config/data'
 
 class TradeForm extends React.Component {
   state = {
-    exchangeRate: 812, //TODO eth-usd
     estimatePriceWorth: 0,
     availableAmount: 0,
     timeToLivePopularSetting: true
   }
 
   componentDidMount() {
-    const {side, pair, assets} = this.props
+    const {side, pair, assets, prices} = this.props
     if (side === 'sell') {
       const tokenL = pair.split('-')[0].toUpperCase()
-      const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...this.getBalance(assets, tokenL)}
+      const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
       this.setState({availableAmount: tokenLBalance.balance})
     }
-  }
-
-  getBalance = (assets, symbol) => {
-    const item = {balance:0, allowance:0}
-    const asset =  assets.find(asset=>asset.symbol === symbol)
-    if(asset){
-      item.balance = Number(asset.balance)
-      item.allowance = Number(asset.allowance)
-    }
-    return item
   }
 
   render() {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
-    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets=[],prices=[]} = this.props
+    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair} = this.props
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
-    const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...getBalance(tokenL)}
-    const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenR), ...getBalance(tokenR)}
+    const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
+    const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
+    const tokenRPrice = prices.getTokenBySymbol(tokenR)
     const integerReg = new RegExp("^[0-9]*$")
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
-
-    function getBalance(symbol) {
-      const item = {balance:0, allowance:0}
-      const asset =  assets.find(asset=>asset.symbol === symbol)
-      if(asset){
-        item.balance = Number(asset.balance)
-        item.allowance = Number(asset.allowance)
-      }
-      return item
-    }
 
     const showModal = (payload)=>{
       dispatch({
@@ -120,7 +100,6 @@ class TradeForm extends React.Component {
           if (values.marginSplit) {
             tradeInfo.marginSplit = Number(values.marginSplit)
           }
-          // TODO milliLrcfee
           const totalWorth = calculateWorthInLegalCurrency(tokenR, tradeInfo.total)
           let milliLrcFee = 0
           if (values.lrcFee) {
@@ -173,8 +152,8 @@ class TradeForm extends React.Component {
     }
 
     function calculateWorthInLegalCurrency(symbol, amount) {
-      //TODO mock worth
-      return amount * 812
+      const price = prices.getTokenBySymbol(symbol)
+      return amount * price.price
     }
 
     function calculateLrcFeeInEth(totalWorth, milliLrcFee) {
@@ -270,7 +249,7 @@ class TradeForm extends React.Component {
           }
           e.target.value = price
         }
-        this.setState({estimatePriceWorth: accMul(price, this.state.exchangeRate).toFixed(2)})
+        this.setState({estimatePriceWorth: accMul(price, tokenRPrice.price).toFixed(2)})
         amount = Number(form.getFieldValue("amount"))
         if(side === 'buy'){
           const precision = Math.max(0,tokenRBalance.precision - marketConfig.pricePrecision)
