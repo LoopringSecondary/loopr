@@ -14,26 +14,45 @@ class TradeForm extends React.Component {
   }
 
   componentDidMount() {
-    const {side, pair} = this.props
+    const {side, pair, assets} = this.props
     if (side === 'sell') {
       const tokenL = pair.split('-')[0].toUpperCase()
-      const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 100.00, allowance: 0}
+      const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...this.getBalance(assets, tokenL)}
       this.setState({availableAmount: tokenLBalance.balance})
     }
+  }
+
+  getBalance = (assets, symbol) => {
+    const item = {balance:0, allowance:0}
+    const asset =  assets.find(asset=>asset.symbol === symbol)
+    if(asset){
+      item.balance = Number(asset.balance)
+      item.allowance = Number(asset.allowance)
+    }
+    return item
   }
 
   render() {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
-    const {form, dispatch, side = 'sell', pair = 'LRC-WETH'} = this.props
+    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets=[],prices=[]} = this.props
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
-    //TODO mock data
-    const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 100.00, allowance: 0}
-    const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenR), balance: 321.00, allowance: 0}
+    const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...getBalance(tokenL)}
+    const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenR), ...getBalance(tokenR)}
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
     const integerReg = new RegExp("^[0-9]*$")
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+
+    function getBalance(symbol) {
+      const item = {balance:0, allowance:0}
+      const asset =  assets.find(asset=>asset.symbol === symbol)
+      if(asset){
+        item.balance = Number(asset.balance)
+        item.allowance = Number(asset.allowance)
+      }
+      return item
+    }
 
     const showModal = (payload)=>{
       dispatch({

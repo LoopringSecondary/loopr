@@ -79,7 +79,6 @@ export default {
       yield put({type: 'setWallet', payload: {address,walletType:'trezor'}})
     },
     * setWallet({payload}, {put,call}) {
-      debugger
       yield put({type: 'setAccount',payload:{...payload}});
       window.STORAGE.wallet.setWallet({address:payload.address});
       yield call(register,payload.address);

@@ -25,14 +25,22 @@ export default function Home(props){
             <div className="col-sm-6 pl40 pr40 zb-b-r">
               <SettingsContainer>
                 <PlaceOrderContainer id="buy">
-                  <Order.TradeForm side="buy" pair={pair} />
+                  <Sockets.Prices>
+                    <Sockets.Assets>
+                      <Order.TradeForm side="buy" pair={pair} />
+                    </Sockets.Assets>
+                  </Sockets.Prices>
                 </PlaceOrderContainer>
               </SettingsContainer>
             </div>
             <div className="col-sm-6 pl40 pr40">
               <SettingsContainer>
                 <PlaceOrderContainer id="sell">
-                  <Order.TradeForm side="sell" pair={pair} />
+                  <Sockets.Prices>
+                    <Sockets.Assets>
+                      <Order.TradeForm side="sell" pair={pair} />
+                    </Sockets.Assets>
+                  </Sockets.Prices>
                 </PlaceOrderContainer>
               </SettingsContainer>
             </div>
