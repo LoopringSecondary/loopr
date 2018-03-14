@@ -7,7 +7,7 @@ import UnlockByKeystore from './UnlockByKeystore'
 import UnlockByMnemonic from './UnlockByMnemonic'
 import UnlockByPrivateKey from './UnlockByPrivateKey'
 import UnlockByTrezor from './UnlockByTrezor'
-
+import UnlockByLedger from './UnlockByLedger'
 
 function UnlockWallet({form,modal,account}) {
   const gotoGenerate = ()=>{
@@ -31,6 +31,9 @@ function UnlockWallet({form,modal,account}) {
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Trezor</div>} key="trezor">
               <UnlockByTrezor modal={modal} account={account}/>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Ledger</div>} key="ledger">
+              <UnlockByLedger modal={modal} account={account}/>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
              <UnlockByKeystore modal={modal} account={account} />

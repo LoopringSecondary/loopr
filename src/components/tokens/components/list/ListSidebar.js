@@ -9,11 +9,10 @@ import './ListSidebar.less'
 import Token from '../../../../common/Loopring/ethereum/token'
 import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
-import PricesContainer from '../../../../modules/socket/modules/PricesContainer'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
 
-function ListSidebar({LIST, actions, dispatch,assets}) {
+function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
   let {
     items = [],
     selected = {},
@@ -30,7 +29,14 @@ function ListSidebar({LIST, actions, dispatch,assets}) {
       item.balance = 0
       item.allowance = 0
     }
+    const price =  prices.find(price=>price.symbol === item.symbol)
+    if(price){
+      item.price = Number(price.price)
+    }else{
+      item.price = 0
+    }
   })
+
   //TODO load from store
   const selectedGasPrice = 30
   const selectedGasLimit = 21000
@@ -396,16 +402,14 @@ function ListSidebar({LIST, actions, dispatch,assets}) {
             </div>
             <div className="">
               <span className="fs14 color-grey-900">{theToken.getBalance()}</span>
-              <CurrencyContainer render={({ currency })=>{
-                  return <span className="fs12 ml5 color-grey-400">{currency.icon}</span>
-              }} />
-              <PricesContainer symbol={item.symbol} render={({ price=0 })=>{
-                  return <span className="fs12 color-grey-400">{theToken.getBalanceValue(price)}</span>
-              }} />
+              <span className="fs12 ml5 color-grey-400">
+                <CurrencyContainer />
+              </span>
+              <span className="fs12 color-grey-400">{theToken.getBalanceValue(item.price)}</span>
             </div>
           </div>
           {
-            index<2 &&
+            index>0 && index<3 &&
             <div className="col-auto pr5">
               <Popover
                 title={<div className="pt5 pb5 fs18">{item.symbol}</div>}

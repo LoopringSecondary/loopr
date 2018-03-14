@@ -18,7 +18,6 @@ export default class TrezorUnlockAccount extends Account {
     this.chainCode = input.chainCode
   }
 
-
   getAddresses(pageSize, pageNum) {
     const addresses = [];
     const hdk = new HDKey();
@@ -33,20 +32,12 @@ export default class TrezorUnlockAccount extends Account {
 
   setIndex(index) {
     this.index = index
-  }
-
-  getAddress() {
     const hdk = new HDKey();
     hdk.publicKey = new Buffer(this.publicKey, 'hex');
     hdk.chainCode = new Buffer(this.chainCode, 'hex');
     const dkey = hdk.derive(`m/${this.index}`);
-    return publicKeytoAddress(dkey.publicKey,true)
-  }
-
-
-  signMessage(message) {
-    console.log("Trezor sign")
-    //TODO
+    const address = publicKeytoAddress(dkey.publicKey,true)
+    super.setAddress(address)
   }
 
   async signTx(rawTx) {

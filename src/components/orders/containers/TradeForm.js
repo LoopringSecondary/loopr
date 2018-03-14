@@ -4,15 +4,15 @@ import Sockets from '../../../modules/socket/containers'
 function TradeFormContainer(props){
   const {side,pair} = props
   return (
-    <Sockets.Prices>
-      <Sockets.TickersByLoopring>
-        <Sockets.TickersByPair>
-          <Sockets.Assets>
-            <Components.TradeForm side={side} pair={pair} />
-          </Sockets.Assets>
+      <Sockets.TickersByLoopring pair={pair}>
+        <Sockets.TickersByPair pair={pair}>
+          <Sockets.Prices>
+            <Sockets.Assets>
+              <Components.TradeForm side={side} pair={pair} />
+            </Sockets.Assets>
+          </Sockets.Prices>
         </Sockets.TickersByPair>
       </Sockets.TickersByLoopring>
-    </Sockets.Prices>
   )
 }
 

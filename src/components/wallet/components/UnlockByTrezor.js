@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Button, Form, Icon} from 'antd';
+import {Button, Form, Icon, Alert} from 'antd';
 import TrezorUnlockAccount from "../../../modules/account/TrezorUnlockAccount";
 
 class UnlockByTrezor extends React.Component {
@@ -32,7 +32,8 @@ class UnlockByTrezor extends React.Component {
           type="success"
           showIcon={false}
         />
-        <Button type="primary" className="d-block w-100 mt50" size="large" onClick={this.connectTrezor}> Connect</Button>
+        <div className="color-grey-500 fs12 mb10 mt15"></div>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.connectTrezor}> Connect to TREZOR</Button>
       </div>
     )
   }

@@ -1,14 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import balancesData from './balances.json'
+import {connect} from 'react-redux'
+import assetsAata from '../mocks/assets.json'
 
-class AssetsSocketContainer extends React.Component {
+class AssetsContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
       assets:[],
       asset:{},
     }
+  }
+  shouldComponentUpdate(nextProps){
+    if(nextProps.address !== this.props.address){
+      const { socket } = this.context
+      const options = {
+        "contractVersion" : "v1.0",
+        "owner":nextProps.address,
+      }
+      socket.emit('balance_req',JSON.stringify(options))
+    }
+    return true // to make sure the parent container's render
   }
   getTokenBySymbol(tokens){
     const { symbol } = this.props
@@ -26,7 +38,7 @@ class AssetsSocketContainer extends React.Component {
     }
     const options = {
       "contractVersion" : "v1.0",
-      "owner":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
+      "owner":this.props.address,
     }
     socket.emit('balance_req',JSON.stringify(options))
     socket.on('balance_res', (res)=>{
@@ -45,16 +57,16 @@ class AssetsSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    console.log('balance unmount')
-    // socket.emit('balance_end')
+    console.log('AssetsContainer unmount')
     socket.off('balance_res')
   }
   render() {
+    const {children,...rest} = this.props
     const childProps = {
-     ...this.props,
-     ...this.state,
-     // assets:balancesData, // for mock data
-     // asset:this.getTokenBySymbol(balancesData) // for mock data
+      ...rest,
+      ...this.state,
+      // assets:assetsAata, // for mock data
+      // asset:this.getTokenBySymbol(assetsAata) // for mock data
     }
     const {render} = this.props
     if(render){
@@ -72,7 +84,7 @@ class AssetsSocketContainer extends React.Component {
 
   }
 }
-AssetsSocketContainer.contextTypes = {
+AssetsContainer.contextTypes = {
   socket: PropTypes.object.isRequired
-};
-export default AssetsSocketContainer
+}
+export default connect(({account})=>({address:account.address}))(AssetsContainer)

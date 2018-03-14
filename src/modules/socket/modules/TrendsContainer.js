@@ -27,12 +27,12 @@ class TrendsSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    // socket.emit('trends_end')
     // socket.off(event)
   }
   render() {
+    const {children,...rest} = this.props
     const childProps = {
-      ...this.props,
+      ...rest,
       ...this.state,
     }
     const {render} = this.props
