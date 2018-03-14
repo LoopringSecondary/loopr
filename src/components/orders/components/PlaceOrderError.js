@@ -6,19 +6,7 @@ const PlaceOrderError = ({
     modal
   }) => {
   const {errors} = modal
-  const MetaItem = (props)=>{
-    const {label,value}=props
-    return (
-      <div className="row zb-b-b pt10 pb10 no-gutters">
-        <div className="col">
-          <div className="fs14 color-grey-500">{label}</div>
-        </div>
-        <div className="col-auto">
-          <div className="fs14 color-grey-900">{value}</div>
-        </div>
-      </div>
-    )
-  }
+
   const gotoReceive = ()=>{
 
   }

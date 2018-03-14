@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, Form, Icon, Alert} from 'antd';
-import {getAddress,sign} from "Loopring/ethereum/trezor";
 import TrezorUnlockAccount from "../../../modules/account/TrezorUnlockAccount";
 
 class UnlockByTrezor extends React.Component {
