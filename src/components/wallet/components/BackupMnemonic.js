@@ -31,7 +31,7 @@ class BackupMnemonic extends React.Component {
           <div className="fs14 color-grey-600 mb15">Secure it like the millions of dollars it may one day be worth.</div>
         </div>
         <Input.TextArea
-          value={account['mnemonic']}
+          value={window.WALLET.getMnemonic()}
           autosize={{minRows: 3, maxRows: 6}}
           size="large"
         />

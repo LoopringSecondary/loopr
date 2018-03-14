@@ -18,9 +18,9 @@ const TradeConfirm = ({
                         assets = [],
                       }) => {
   const modal = modals['trade/confirm'] || {};
-  let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
-  const token = pair.split('-')[0];
-  const token2 = pair.split('-')[1];
+  let {side, market, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
+  const token = market.split('-')[0];
+  const token2 = market.split('-')[1];
   marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
   timeToLive = timeToLive === undefined ? window.uiFormatter.getSeconds(tradingConfig.timeToLive, tradingConfig.timeToLiveUnit) : timeToLive;
   const start = Math.ceil(new Date().getTime() / 1000);
@@ -52,7 +52,7 @@ const TradeConfirm = ({
 
     placeOrder(signedOrder).then(async (res) =>  {
       if (res.error) {
-        modals.showModal({id: 'trade/place-order-error',errorMessage:res.error.message});
+        modals.showModal({id: 'trade/place-order-error',errors:[{type:'unknown',message:res.error.message}]});
       } else {
         const asset1 = assets.find(asset => asset.symbol.toLowerCase() === token.toLowerCase());
         const asset2 = assets.find(asset => asset.symbol.toLowerCase() === token2.toLowerCase());
@@ -188,7 +188,6 @@ const TradeConfirm = ({
 function mapStateToProps(state) {
   return {
     tradingConfig: state.settings.trading,
-    account: state.account
   };
 }
 

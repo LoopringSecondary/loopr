@@ -11,7 +11,7 @@ function ListActionsBar(props) {
 
   const {actions = {}, LIST = {}, className, account, gasPrice, contractAddress} = props;
   const {filters = {}} = LIST
-  const tokenPair = filters.pair;
+  const tokenPair = filters.market;
   const cancelAll = () => {
     Modal.confirm({
       title: 'Do you Want to cancel all orders?',
@@ -27,8 +27,8 @@ function ListActionsBar(props) {
         };
         let tx;
         if (tokenPair) {
-          const tokenA = tokenPair.split('/')[0];
-          const tokenB = tokenPair.split('/')[1];
+          const tokenA = tokenPair.split('-')[0];
+          const tokenB = tokenPair.split('-')[1];
           tx = generateCancelOrdersByTokenPairTx({
             ...params,
             gasLimit: config.getGasLimitByType('cancelOrderByTokenPair') ? config.getGasLimitByType('cancelOrderByTokenPair').gasLimit : configs['defaultGasLimit'],
