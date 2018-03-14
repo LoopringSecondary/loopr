@@ -3,7 +3,7 @@ import {Button, Form, Modal, Icon, Alert} from 'antd';
 import ledger from 'ledgerco';
 import LedgerUnlockAccount from '../../../modules/account/LedgerUnlockAccount'
 
-let dPath = "m/44'/60'/0'"
+let dpath = "m/44'/60'/0'"
 
 class UnlockByLedger extends React.Component {
 
@@ -25,40 +25,49 @@ class UnlockByLedger extends React.Component {
             .then(connected=>{
               if(connected){
                 modal.hideModal({id: 'wallet/unlock'});
-                // open address selection
+                modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
               } else {
                 Modal.error({
                   title: 'Error',
-                  content: "Failed to connect with your Ledger device, you could try as followed. 1、Make sure your Ledger device has connected with your computer and unlocked. 2、Set this to 'yes': settings->Browser support 3、Enter into Ethereum app",
+                  content: "Failed to connect with your Ledger device, you could follow these advices and have a try later. 1、Make sure your Ledger device has connected with your computer and unlocked. 2、Set this to 'yes': Settings->Browser support 3、Enter into Ethereum app",
                 });
               }
             })
         })
-      //account.connectToLedger({dpath: dPath})
-      //account.connectToTrezor({address, path});
     }
   }
 
+  setWallet = (index, address) => {
+    const {account} = this.props;
+    window.WALLET.setIndex({dpath, index, address})
+      .then(result=>{
+        if(result.address) {
+          account.setWallet({address:result.address})
+        }
+      })
+  };
+
   isConnected = () => {
-    return new Promise((resolve, reject) => {
-      window.WALLET.getPathAddress(dPath, 0)
-        .then(result=>{
-          if(result.error){
-            resolve(false)
-          } else {
-            resolve(true)
-          }
-        })
-        .catch(err=>{
-          console.error(err)
-          resolve(false)
-        })
-    })
+    if(window.WALLET && window.WALLET_UNLOCK_TYPE === 'Ledger') {
+      return new Promise((resolve, reject) => {
+        window.WALLET.getPublicKey(dpath)
+          .then(result=>{
+            if(result.error){
+              resolve(false)
+            } else {
+              window.WALLET.setPublicKey(result)
+              resolve(true)
+            }
+          })
+      })
+    } else {
+      return new Promise((resolve, reject) => {resolve(false)})
+    }
   }
 
   getAddressByIndex = (index) => {
     const {account} = this.props;
-    window.WALLET.getPathAddress(dPath, 0).then(res=>{
+    window.WALLET.getPathAddress(dpath, 0).then(res=>{
       if(res.error){
         let content = ''
         switch(res.error){
@@ -76,7 +85,7 @@ class UnlockByLedger extends React.Component {
 
   selectedAddressByIndex = (index) => {
     const {account} = this.props;
-    window.WALLET.getPathAddress(dPath, 0).then(res=>{
+    window.WALLET.getPathAddress(dpath, 0).then(res=>{
       if(res.error){
         let content = ''
         switch(res.error){
@@ -94,7 +103,7 @@ class UnlockByLedger extends React.Component {
   }
 
   selectPath = () => {
-    window.WALLET.selected({dpath:dPath, index:0})
+    window.WALLET.selected({dpath:dpath, index:0})
   }
 
   render() {
@@ -108,8 +117,6 @@ class UnlockByLedger extends React.Component {
         />
         <div className="color-grey-500 fs12 mb10 mt15"></div>
         <Button type="primary" className="d-block w-100" size="large" onClick={this.connect}> Connect to Ledger</Button>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.selectedAddressByIndex}> Address</Button>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.selectPath}> selectPath</Button>
       </div>
     )
   }

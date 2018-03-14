@@ -7,6 +7,9 @@ import {signatureRecover} from '../../common/Loopring/ethereum/utils'
 import {clearPrefix,toHex} from '../../common/Loopring/common/formatter'
 import trimStart from 'lodash/trimStart';
 
+import HDKey from 'hdkey';
+import {publicKeytoAddress} from "Loopring/ethereum/account";
+
 export default class LedgerUnlockAccount extends Account {
 
   constructor(input) {
@@ -14,26 +17,26 @@ export default class LedgerUnlockAccount extends Account {
     this.ledger = input.ledger
   }
 
-  selected(input){
-    this.dpath = input.dpath
-    this.index = input.index
-    super.setAddress(input.address)
+  getAddresses(pageSize, pageNum) {
+    const addresses = [];
+    const hdk = new HDKey();
+    hdk.publicKey = new Buffer(this.publicKey, 'hex');
+    hdk.chainCode = new Buffer(this.chainCode, 'hex');
+    for (let i = 0; i < pageSize; i++) {
+      const dkey = hdk.derive(`m/${i + pageSize * pageNum}`);
+      addresses.push(publicKeytoAddress(dkey.publicKey,true));
+    }
+    return addresses;
   }
 
-  getAddress() {
-    return super.getAddress()
-  }
-
-  signMessage(message){
-    console.log("Ledger sign")
-    //TODO
+  async getIndexAddress(index) {
+    await this.ledger.getAddress_async(this.dpath + "/" + index, false, true)
   }
 
   getPathAddress(dpath, index) {
     return new Promise((resolve, reject) => {
       this.ledger.getAddress_async(dpath + "/" + index, false, true)
         .then(res => {
-          console.log(dpath + "/" + index)
           resolve(res)
         })
         .catch(err => {
@@ -41,6 +44,52 @@ export default class LedgerUnlockAccount extends Account {
           resolve({error:err})
         });
     })
+  }
+
+  getPublicKey(dpath) {
+    return new Promise((resolve, reject) => {
+      this.ledger.getAddress_async(dpath, false, true)
+        .then(res => {
+          resolve(res)
+        })
+        .catch(err => {
+          console.error("error:", err)
+          resolve({error:err})
+        });
+    })
+  }
+
+  setPublicKey(input) {
+    this.publicKey = input.publicKey
+    this.chainCode = input.chainCode
+  }
+
+  setIndex(input) {
+    this.dpath = input.dpath
+    this.index = input.index
+    if(this.dpath && this.index >-1) {
+      return new Promise((resolve, reject) => {
+        this.ledger.getAddress_async(this.dpath + "/" + this.index, false, true)
+          .then(res => {
+            if(input.address) {
+              if(res.address === input.address) {
+                this.address = input.address
+                resolve(res)
+              } else {
+                resolve({error:"Mismatch index and address"})
+              }
+            } else {
+              resolve(res)
+            }
+          })
+          .catch(err => {
+            console.error("error:", err)
+            resolve({error:err})
+          });
+      })
+    } else {
+      throw new Error("dpath and index has not selected")
+    }
   }
 
   hexEncodeQuantity(value) {
@@ -72,6 +121,11 @@ export default class LedgerUnlockAccount extends Account {
       chainId
     };
   };
+
+  signMessage(message){
+    console.log("Ledger sign")
+    //TODO
+  }
 
   signRawTransaction(t) {
     t.v = Buffer.from([t._chainId]);
