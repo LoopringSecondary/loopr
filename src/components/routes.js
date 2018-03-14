@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch,Redirect} from 'dva/router';
 import Pages from './pages';
 import Wallet from './wallet/components';
-import airdropRoutes from './airdrop/routes';
 import SettingsModals from './settings/pages/Modals';
 import TokenModals from './tokens/components/Modals';
 import WalletModals from './wallet/components/Modals';
