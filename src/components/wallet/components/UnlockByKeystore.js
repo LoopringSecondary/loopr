@@ -64,7 +64,7 @@ class UnlockByKeyStore extends React.Component {
       });
     }, 0);
     modal.hideModal({id: 'wallet/unlock'});
-    window.routeActions.gotoPath('portfolio');
+    window.routeActions.gotoPath('wallet/portfolio');
   }
 
   setPassword = (e) => {
