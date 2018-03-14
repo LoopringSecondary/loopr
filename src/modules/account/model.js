@@ -3,7 +3,6 @@ import PrivateKeyUnlockAccount from "./PrivateKeyUnlockAccount";
 import MetaMaskUnlockAccount from './MetaMaskUnlockAccount'
 import MnemonicUnlockAccount from './MnemonicUnlockAccount'
 import {register} from "Loopring/relay/account";
-import {message} from 'antd'
 
 export default {
   namespace: 'account',
