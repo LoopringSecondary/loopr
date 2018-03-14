@@ -27,17 +27,19 @@ class TickerSocketContainer extends React.Component {
       return false
     }
     const options = {
-      "contractVersion" : "v1.0",
+      "contractVersion" : "v1.2",
       "market":pair,
     }
-    console.log('did mount options',options)
     socket.emit('tickers_req',JSON.stringify(options))
     socket.on('tickers_res', (res)=>{
       console.log('ticker_res')
       res = JSON.parse(res)
-      this.setState({
-        tickersByPair:res
-      })
+      if(typeof res === 'object'){
+        this.setState({
+          tickersByPair:res
+        })
+      }
+
     })
   }
   componentWillUnmount() {

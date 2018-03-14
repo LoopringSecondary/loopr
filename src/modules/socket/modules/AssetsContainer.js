@@ -29,16 +29,20 @@ class AssetsContainer extends React.Component {
     }
     if(this.props.address){ // fix bug: trade page not unclock wallet
       const options = {
-        "contractVersion" : "v1.0",
+        "contractVersion" : "v1.2",
         "owner":this.props.address,
       }
       socket.emit('balance_req',JSON.stringify(options))
       socket.on('balance_res', (res)=>{
         console.log('balance_res')
         res = JSON.parse(res)
-        this.setState({
-          assets:res.tokens,
-        })
+        if(res.tokens){
+
+          this.setState({
+            assets:res.tokens,
+          })
+        }
+
       })
     }
 
