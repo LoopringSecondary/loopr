@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, Route, Switch } from 'dva/router';
-import pageRoutes from './components/routes';
+import routes from './components/routes';
 import Locales from './modules/locales/container'
 import Socket from './modules/socket/ProviderContainer'
 function RouterConfig({ history }) {
@@ -8,7 +8,7 @@ function RouterConfig({ history }) {
         <Socket>
           <Locales>
             <Router history={history}>
-              {pageRoutes}
+              {routes}
             </Router>
           </Locales>
         </Socket>

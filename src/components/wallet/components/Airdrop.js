@@ -4,8 +4,9 @@ import {bindAddress} from "Loopring/ethereum/utils";
 import {connect} from 'dva';
 import {projects} from "../../../common/config/data";
 import {toHex} from "Loopring/common/formatter";
+import Layout from '../../../layout/Layout'
 
-class BindAddress extends React.Component {
+class Airdrop extends React.Component {
 
   state = {
     address: null,
@@ -67,46 +68,51 @@ class BindAddress extends React.Component {
       for {project.name.toUpperCase()} )</Select.Option>)
     const {project, address} = this.state;
     return (
-      <Card title='Bind Address For Airdrop'>
-        <Form>
-          <Form.Item label="Bind Type">
-            <Select
-              showSearch
-              size="large"
-              placeholder="Select Token To Bind"
-              onChange={this.projectChange}
-              value={project && project.projectId}
+      <Layout {...this.props}>
+        <div className="container mt50 mb50">
+          <Card title='Bind Address For Airdrop'>
+            <Form>
+              <Form.Item label="Bind Type">
+                <Select
+                  showSearch
+                  size="large"
+                  placeholder="Select Token To Bind"
+                  onChange={this.projectChange}
+                  value={project && project.projectId}
+                >
+                  {options}
+                </Select>
+              </Form.Item>
+              <Form.Item label="Address">
+                <Input.TextArea
+                  size="large"
+                  autoSize={true}
+                  placeholder="Paste corresponding address here"
+                  onChange={this.addressChange}
+                  value={address}
+                />
+              </Form.Item>
+            </Form>
+            <div className="mb25"></div>
+            <Button onClick={this.showModal}
+                    className="w-100 d-block mt15" type="primary" size="large" disabled={!project || !address}>
+              Bind Address
+            </Button>
+            <Modal
+              title={`Bind ${ project && project.name.toUpperCase()} Address`}
+              visible={this.state.visible}
+              onOk={this.handelSubmit}
+              onCancel={this.hideModal}
+              okText="确认"
+              cancelText="取消"
             >
-              {options}
-            </Select>
-          </Form.Item>
-          <Form.Item label="Address">
-            <Input.TextArea
-              size="large"
-              autoSize={true}
-              placeholder="Paste corresponding address here"
-              onChange={this.addressChange}
-              value={address}
-            />
-          </Form.Item>
-        </Form>
-        <div className="mb25"></div>
-        <Button onClick={this.showModal}
-                className="w-100 d-block mt15" type="primary" size="large" disabled={!project || !address}>
-          Bind Address
-        </Button>
-        <Modal
-          title={`Bind ${ project && project.name.toUpperCase()} Address`}
-          visible={this.state.visible}
-          onOk={this.handelSubmit}
-          onCancel={this.hideModal}
-          okText="确认"
-          cancelText="取消"
-        >
-          <p>token: {project && project.lrx.toUpperCase()}</p>
-          <p>address:{address}</p>
-        </Modal>
-      </Card>
+              <p>token: {project && project.lrx.toUpperCase()}</p>
+              <p>address:{address}</p>
+            </Modal>
+          </Card>
+        </div>
+      </Layout>
+
     );
   }
 }
@@ -118,5 +124,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(BindAddress)
+export default connect(mapStateToProps)(Airdrop)
 
