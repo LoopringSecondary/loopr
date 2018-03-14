@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar,Icon,Button,Card } from 'antd';
+import { Avatar,Icon,Button,Card,Modal } from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
 
 let Preview = ({
@@ -9,8 +9,16 @@ let Preview = ({
   const handelSubmit = ()=>{
     modal.showLoading({id:'token/transfer/preview'})
     let result = {...tx, extraData}
+    // To test Ledger
+    // tx.chainId = 1
     window.STORAGE.wallet.getNonce(account.address).then(nonce => {
       tx.nonce = fm.toHex(nonce)
+      if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
+        Modal.info({
+          title: 'To Confirm',
+          content: "Please confirm transaction on your Ledger device",
+        });
+      }
       return window.WALLET.sendTransaction(tx)
     }).then(res=>{
       if(res.error) {
@@ -22,6 +30,7 @@ let Preview = ({
       modal.hideModal({id:'token/transfer/preview'})
       modal.showModal({id:'token/transfer/result', result})
     }).catch(e=>{
+      console.error(e)
       result = {...result, error:e.message}
       modal.hideModal({id:'token/transfer/preview'})
       modal.showModal({id:'token/transfer/result', result})

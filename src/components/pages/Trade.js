@@ -7,6 +7,7 @@ import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import PlaceOrderContainer from '../../modules/orders/models/PlaceOrderContainer'
 import Sockets from '../../modules/socket/containers'
+import SettingsContainer from '../../modules/settings/container'
 
 export default function Home(props){
   const { children,match } = props
@@ -22,14 +23,18 @@ export default function Home(props){
         <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
           <div className="row justify-content-around">
             <div className="col-sm-6 pl40 pr40 zb-b-r">
-                  <PlaceOrderContainer id="buy">
-                    <Order.TradeForm side="buy" pair={pair} />
-                  </PlaceOrderContainer>
+              <SettingsContainer>
+                <PlaceOrderContainer id="buy">
+                  <Order.TradeForm side="buy" pair={pair} />
+                </PlaceOrderContainer>
+              </SettingsContainer>
             </div>
             <div className="col-sm-6 pl40 pr40">
-              <PlaceOrderContainer id="sell">
-                <Order.TradeForm side="sell" pair={pair} />
-              </PlaceOrderContainer>
+              <SettingsContainer>
+                <PlaceOrderContainer id="sell">
+                  <Order.TradeForm side="sell" pair={pair} />
+                </PlaceOrderContainer>
+              </SettingsContainer>
             </div>
           </div>
         </Card>
