@@ -18,6 +18,13 @@ function Navbar(props){
         locale:value
       }
     })
+    props.dispatch({
+      type:'settings/preferenceChange',
+      payload:{
+        language: value,
+      }
+    })
+
   }
   const showModal = (id)=>{
     props.dispatch({
@@ -66,6 +73,11 @@ function Navbar(props){
               <Icon type="qrcode" className="mr5" />QR Code
             </a>
           </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <Link to="/wallet/airdrop" className="color-grey-900">
+              <Icon type="gift" className="mr5" />Airdrop
+            </Link>
+          </div>
           {account.walletType === 'key' &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/export/keystore')}>
               <Icon type="export" className="mr5" />Export Keystore
@@ -78,7 +90,7 @@ function Navbar(props){
             Switch Wallet
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            Tools
+            <Icon type="tool" className="mr5" />Tools
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={quit}><Icon type="poweroff" className="mr5" />Quit
@@ -91,12 +103,16 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col-auto">
-                <a  onClick={showModal.bind(this,'wallet/unlock')}>Unlock Wallet</a>
+                <a  onClick={showModal.bind(this,'wallet/unlock')} className="color-grey-900">
+                <Icon type="unlock" className="mr5" />Unlock Wallet
+                </a>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,'wallet/generate')}>Generate Wallet</a>
+            <a onClick={showModal.bind(this,'wallet/generate')} className="color-grey-900">
+              <Icon type="plus" className="mr5" />Generate Wallet
+            </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Icon type="question-circle-o" className="mr5" />Help
@@ -104,7 +120,9 @@ function Navbar(props){
           {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
           </div>}
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">Tools</div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <Icon type="tool" className="mr5" />Tools
+          </div>
         </div>
       }
     </div>
