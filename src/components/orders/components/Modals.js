@@ -19,7 +19,6 @@ function Modals(props){
      <ModalContainer id="trade/place-order-error">
          <PlaceOrderError />
      </ModalContainer>
-
     </div>
   );
 }

@@ -4,8 +4,9 @@ import {Alert, Button, Form, Icon, Input, message, Select,Modal,Radio} from 'ant
 import {wallets} from "../../../common/config/data";
 import {isValidateMnemonic} from "Loopring/common/mnemonic"
 import {fromMnemonic} from 'Loopring/ethereum/account';
-const RadioGroup = Radio.Group;
+import MnemonicUnlockAccount from '../../../modules/account/MnemonicUnlockAccount'
 
+const RadioGroup = Radio.Group;
 class UnlockByMnemonic extends React.Component {
 
   state = {
@@ -13,9 +14,6 @@ class UnlockByMnemonic extends React.Component {
     mnemonic: null,
     isMnemonicValid: false,
     password:null,
-    index:0,
-    visible:false,
-    target:0
   };
   handleWalletChange = (e)=>{
     const dpath= wallets[e].dpath;
@@ -31,54 +29,24 @@ class UnlockByMnemonic extends React.Component {
   };
 
   showAddresses = () => {
-    this.setState({visible:true})
+    const {mnemonic,dpath,password} = this.state;
+    window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:dpath, password:password});
+    window.WALLET_UNLOCK_TYPE = 'Mnemonic';
+    this.props.modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
   };
-
-  hideModal = () => {
-    this.setState({visible: false})
-  };
-
-  onChange = (e) => {
+  setWallet = (index) => {
+    const {account} = this.props;
+    account.setMnemonic({...this.state,index});
     this.setState({
-      target: e.target.value,
+      dpath: null,
+      mnemonic: null,
+      isMnemonicValid: false,
+      password:null,
     });
   };
-  nextPage = ()=>{
-    const {index} = this.state;
-    this.setState({index:index+5,target:index+5})
-  };
-  previousPage = () =>{
-    const {index} = this.state;
-    this.setState({index:index-5,target:index-5})
-  };
 
-  unlock= () => {
-    try{
-      const {modal, account} = this.props;
-      const {dpath,mnemonic,password,target} = this.state;
-      account.setMnemonic({mnemonic,password,dpath:`${dpath}/${target}`});
-      this.setState({
-        dpath: null,
-        mnemonic: null,
-        isMnemonicValid: false,
-        password:null,
-        index:0,
-        visible:false,
-        target:0
-      });
-      modal.hideModal({id: 'wallet/unlock'});
-      window.routeActions.gotoPath('portfolio');
-    }catch (e){
-      message.error(e.message)
-    }
-  };
   render() {
     const {form} = this.props;
-    const {dpath,mnemonic,password,index,isMnemonicValid,target} = this.state;
-    const radios = [];
-    for(let i=index;i<index+5;i++){
-      radios.push(<Radio value={i} key={i} className="mb10 fs16" >{isMnemonicValid && fromMnemonic(mnemonic,`${dpath}/${i}`,password).address}</Radio>)
-    }
     return (
       <div className="">
         <Alert
@@ -131,28 +99,9 @@ class UnlockByMnemonic extends React.Component {
           </Form.Item>
         </Form>
         <Button type="primary" className="d-block w-100" size="large" disabled={!this.state.dpath || !this.state.mnemonic || !this.state.isMnemonicValid} onClick={this.showAddresses}>UnLock</Button>
-        <Modal
-          title='Choose your wallet address'
-          visible={this.state.visible}
-          onOk={this.unlock}
-          onCancel={this.hideModal}
-          okText="确认"
-          cancelText="取消"
-        >
-          <RadioGroup onChange={this.onChange} value={target}>
-            {radios}
-          </RadioGroup>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            {index >0 && <a onClick={this.previousPage}>前一页
-            </a>}
-            <a onClick={this.nextPage}>下一页
-            </a>
-          </div>
-        </Modal>
       </div>
     )
   }
-
 
 }
 
