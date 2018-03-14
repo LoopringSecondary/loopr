@@ -59,7 +59,7 @@ let UnlockByMetaMask = ({
      })
     } else {
       let content = 'Your may need to install MetaMask extension to your browser first'
-      if(!window.web3.eth.accounts[0]) { // locked
+      if(window.web3 && !window.web3.eth.accounts[0]) { // locked
         content = 'Failed to connect with MetaMask, please unlock and use'
       }
       Modal.error({
