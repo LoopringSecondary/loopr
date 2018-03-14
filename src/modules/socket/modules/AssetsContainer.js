@@ -37,7 +37,6 @@ class AssetsContainer extends React.Component {
         console.log('balance_res')
         res = JSON.parse(res)
         if(res.tokens){
-
           this.setState({
             assets:res.tokens,
           })
@@ -89,7 +88,7 @@ class AssetsContainer extends React.Component {
     const childProps = {
       ...rest,
       assets:{
-        data:this.state.assets,
+        items:this.state.assets,
         getTokenBySymbol:this.getTokenBySymbol.bind(this)
       }
     }

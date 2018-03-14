@@ -46,7 +46,6 @@ const TickerTable = ({tickers,market})=>{
               <td colSpan="10" className="fs12 border-0 text-center"> No Data</td>
             </tr>
           }
-
         </tbody>
       </table>
     </div>

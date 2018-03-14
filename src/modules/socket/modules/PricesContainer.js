@@ -86,7 +86,7 @@ class PricesContainer extends React.Component {
     const childProps = {
       ...rest,
       prices:{
-        data:this.state.prices,
+        items:this.state.prices,
         getTokenBySymbol:this.getTokenBySymbol.bind(this)
       }
     }

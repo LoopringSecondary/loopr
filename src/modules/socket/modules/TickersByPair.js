@@ -50,16 +50,12 @@ class TickerSocketContainer extends React.Component {
     }
     socket.off('tickers_res')
   }
-  getTokenBySymbol(symbol){
-    return this.state.tickersByPair.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
-  }
   render() {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
       tickersByPair:{
-        data:this.state.tickersByPair,
-        getTokenBySymbol:this.getTokenBySymbol.bind(this)
+        ...this.state.tickersByPair,
       }
     }
     const {render} = this.props
