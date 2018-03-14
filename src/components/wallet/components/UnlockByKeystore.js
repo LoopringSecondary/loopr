@@ -49,7 +49,7 @@ class UnlockByKeyStore extends React.Component {
             })
           }else{
             modal.hideModal({id: 'wallet/unlock'});
-            window.routeActions.gotoPath('portfolio');
+            window.routeActions.gotoPath('wallet/portfolio');
             this.setState({
               fileList: [],
               password: '',
