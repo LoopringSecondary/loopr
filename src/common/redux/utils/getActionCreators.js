@@ -3,7 +3,7 @@ function getActionCreators(module,keys = []) {
   let actionCreators = {};
   keys.forEach(key=>{
 
-    function actionCreator(payload,){
+    function actionCreator(payload,custom){
         let action = {}
         if(module){
           action = {
