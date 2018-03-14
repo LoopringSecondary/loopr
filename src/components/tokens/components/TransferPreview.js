@@ -1,8 +1,6 @@
 import React from 'react';
 import { Avatar,Icon,Button,Card,Modal } from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
-import LedgerUnlockAccount from "../../../modules/account/LedgerUnlockAccount";
-import TrezorUnlockAccount from "../../../modules/account/TrezorUnlockAccount";
 
 let Preview = ({
   modal, account

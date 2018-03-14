@@ -16,36 +16,49 @@ class UnlockByLedger extends React.Component {
       return
     } else {
       const {account, modal} = this.props;
-      ledger.comm_u2f.create_async().then(comm => {
-        const ledgerConnection = new ledger.eth(comm)
-        window.WALLET = new LedgerUnlockAccount({ ledger:ledgerConnection })
-        window.WALLET_UNLOCK_TYPE = 'Ledger'
-        //modal.hideModal({id: 'wallet/unlock'});
-
-        this.getAddressByIndex(0)
-      }).then()
+      ledger.comm_u2f.create_async()
+        .then(comm => {
+          const ledgerConnection = new ledger.eth(comm)
+          window.WALLET = new LedgerUnlockAccount({ ledger:ledgerConnection })
+          window.WALLET_UNLOCK_TYPE = 'Ledger'
+          this.isConnected()
+            .then(connected=>{
+              if(connected){
+                modal.hideModal({id: 'wallet/unlock'});
+                // open address selection
+              } else {
+                Modal.error({
+                  title: 'Error',
+                  content: "Failed to connect with your Ledger device, you could try as followed. 1、Make sure your Ledger device has connected with your computer and unlocked. 2、Set this to 'yes': settings->Browser support 3、Enter into Ethereum app",
+                });
+              }
+            })
+        })
       //account.connectToLedger({dpath: dPath})
       //account.connectToTrezor({address, path});
-
-
-      // Transport.create().then(transport => {
-      //   const eth = new Eth(transport)
-      //   eth.getAddress("44'/60'/0'/0").then(o => {
-      //     console.log("11111111:", o.address)
-      //   })
-      // })
     }
   }
 
-  getAddressByIndexAsync = async (index) => {
-    const {account} = this.props;
-    await window.WALLET.getPathAddress(dPath, 0)
+  isConnected = () => {
+    return new Promise((resolve, reject) => {
+      window.WALLET.getPathAddress(dPath, 0)
+        .then(result=>{
+          if(result.error){
+            resolve(false)
+          } else {
+            resolve(true)
+          }
+        })
+        .catch(err=>{
+          console.error(err)
+          resolve(false)
+        })
+    })
   }
 
   getAddressByIndex = (index) => {
     const {account} = this.props;
     window.WALLET.getPathAddress(dPath, 0).then(res=>{
-      console.log("address result:", res)
       if(res.error){
         let content = ''
         switch(res.error){
@@ -64,7 +77,6 @@ class UnlockByLedger extends React.Component {
   selectedAddressByIndex = (index) => {
     const {account} = this.props;
     window.WALLET.getPathAddress(dPath, 0).then(res=>{
-      console.log("address result:", res)
       if(res.error){
         let content = ''
         switch(res.error){
