@@ -4,12 +4,12 @@ import validator from '../../../common/Loopring/common/validator'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
+import config from '../../../common/config'
 
 class Transfer extends React.Component {
   state = {
-    estimateGasPrice: 30,
-    selectedGasPrice: fm.toNumber(configs.defaultGasPrice),
-    selectedGasLimit: fm.toNumber(configs.defaultGasLimit),
+    selectedGasPrice: this.props.settings.trading.gasPrice,
+    selectedGasLimit: config.getGasLimitByType('eth_transfer'),
     selectedGas: 0,
     gasValueInSlider:0,
     advanced: false,
@@ -19,15 +19,16 @@ class Transfer extends React.Component {
   }
 
   componentDidMount() {
-    const gas = fm.toBig(this.state.estimateGasPrice).times(fm.toNumber(configs.defaultGasLimit)).div(1e9)
+    console.log(this.state)
+    const {settings} = this.props
+    console.log(settings.trading.gasPrice)
+    const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(config.getGasLimitByType('eth_transfer'))).div(1e9)
     this.setState({selectedGas: fm.toNumber(gas.toFixed(8)), gasValueInSlider:fm.toNumber(gas.toFixed(8)) * 1e9})
   }
 
   render() {
-    const {form, modal, account} = this.props
+    const {form, modal, account, settings} = this.props
     let selectedToken = modal.item || {}
-    const defaultGasLimit = fm.toNumber(configs.defaultGasLimit)
-    //TODO mock data
     selectedToken = {...selectedToken, balance: 100.00, allowance: 0}
     function handleSubmit() {
       form.validateFields((err, values) => {
@@ -37,9 +38,9 @@ class Transfer extends React.Component {
             tx.gasPrice = fm.toHex(fm.toBig(this.state.selectedGasPrice).times(1e9))
             tx.gasLimit = fm.toHex(this.state.selectedGasLimit)
           } else {
-            const gasPrice = fm.toBig(this.state.selectedGas).div(defaultGasLimit).times(1e9).toFixed(2)
+            const gasPrice = fm.toBig(this.state.selectedGas).div(fm.toNumber(this.state.selectedGasLimit)).times(1e9).toFixed(2)
             tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
-            tx.gasLimit = fm.toHex(fm.toNumber(defaultGasLimit))
+            tx.gasLimit = config.getGasLimitByType('eth_transfer')
           }
           if(selectedToken.symbol === "ETH") {
             tx.to = values.to;
