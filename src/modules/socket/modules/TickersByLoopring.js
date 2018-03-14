@@ -29,11 +29,17 @@ class TickersSocketContainer extends React.Component {
     }
     socket.off('loopringTickers_res')
   }
+  getTokenBySymbol(symbol){
+    return this.state.tickersByLoopring.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {}
+  }
   render() {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
-      ...this.state,
+      tickersByLoopring:{
+        data:this.state.tickersByLoopring,
+        getTokenBySymbol:this.getTokenBySymbol.bind(this)
+      }
     }
     const {render} = this.props
     if(render){

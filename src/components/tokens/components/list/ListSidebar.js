@@ -12,7 +12,7 @@ import * as fm from '../../../../common/Loopring/common/formatter'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
 
-function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
+function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
   let {
     items = [],
     selected = {},
@@ -21,17 +21,17 @@ function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
     page = {}
   } = LIST
   items.forEach(item=>{
-    const asset =  assets.find(asset=>asset.symbol === item.symbol)
-    if(asset){
-      item.balance = Number(asset.balance)
-      item.allowance = Number(asset.allowance)
+    const assetToken = assets.getTokenBySymbol(item.symbol)
+    if(assetToken){
+      item.balance = Number(assetToken.balance)
+      item.allowance = Number(assetToken.allowance)
     }else{
       item.balance = 0
       item.allowance = 0
     }
-    const price =  prices.find(price=>price.symbol === item.symbol)
-    if(price){
-      item.price = Number(price.price)
+    const priceToken = assets.getTokenBySymbol(item.symbol)
+    if(priceToken){
+      item.price = Number(priceToken.price)
     }else{
       item.price = 0
     }
