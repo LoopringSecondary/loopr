@@ -52,6 +52,14 @@ function Navbar(props){
     }
   }
 
+  const getAccount = ()=>{
+    if(account.address){
+      return window.uiFormatter.getShortAddress(account.address)
+    }else{
+      return 'Account'
+    }
+  }
+
   const accountMenus = (
     <div className="fs18">
       {
@@ -168,7 +176,7 @@ function Navbar(props){
               <Select.Option value="zh">中文</Select.Option>
             </Select>
             <Popover content={accountMenus} title={null}>
-                <a className="fs14">Account <Icon type="down" className="color-grey-400 fs12" /></a>
+                <a className="fs14">{getAccount()} <Icon type="down" className="color-grey-400 fs12" /></a>
             </Popover>
           </div>
 
