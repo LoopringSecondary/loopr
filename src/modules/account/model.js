@@ -3,6 +3,7 @@ import PrivateKeyUnlockAccount from "./PrivateKeyUnlockAccount";
 import MetaMaskUnlockAccount from './MetaMaskUnlockAccount'
 import MnemonicUnlockAccount from './MnemonicUnlockAccount'
 import TrezorUnlockAccount from './TrezorUnlockAccount'
+import LedgerUnlockAccount from './LedgerUnlockAccount'
 import {register} from "Loopring/relay/account";
 
 
@@ -42,9 +43,6 @@ export default {
       };
     },
 
-    register(state,payload){
-      register(payload.address)
-    }
   },
 
 
@@ -57,10 +55,10 @@ export default {
       yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password,walletType:'key'}})
     },
     * setMnemonic({payload}, {put}) {
-      const {mnemonic, dpath, password} = payload;
-      const wallet = fromMnemonic(mnemonic, dpath, password);
-      window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:dpath, password:password, privateKey: wallet.privateKey, address: wallet.address})
-      window.WALLET_UNLOCK_TYPE = 'Mnemonic'
+      const {mnemonic, dpath, password,index} = payload;
+      const wallet = fromMnemonic(mnemonic, dpath.concat(`/${index}`), password);
+      window.WALLET.setIndex(index);
+      window.WALLET.setPrivateKey(wallet.privateKey);
       yield put({type: 'setWallet', payload: {...wallet, password,walletType:'key'}})
     },
     * setPrivateKey({payload}, {put}) {
@@ -70,27 +68,21 @@ export default {
       window.WALLET_UNLOCK_TYPE = 'PrivateKey'
       yield put({type: 'setWallet', payload: {...wallet, mnemonic: null, password: null,walletType:'key'}})
     },
-    * setMetamask({payload}, {put}) {
-      const {web3} = payload
-      window.WALLET = new MetaMaskUnlockAccount({web3: web3, address: web3.eth.accounts[0]})
-      window.WALLET_UNLOCK_TYPE = 'Metamask'
-      yield put({type: 'setWallet', payload: {privateKey: null, address:web3.eth.accounts[0] , mnemonic: null, password: null,walletType:'metaMask'}})
-    },
     * createWallet({payload}, {put}) {
       const wallet = create(payload.password);
       yield put({type: 'setWallet', payload: {...wallet,password:payload.password,walletType:'key'}})
     },
-
     * connectToTrezor({payload},{put}){
-      window.WALLET = new TrezorUnlockAccount({address: payload.address, path: payload.path})
-      window.WALLET_UNLOCK_TYPE = 'Trezor'
-      yield put({type: 'setWallet', payload: {...payload,walletType:'trezor'}})
+      const {index} = payload;
+      window.WALLET.setIndex(index);
+      const address = window.WALLET.getAddress();
+      yield put({type: 'setWallet', payload: {address,walletType:'trezor'}})
     },
-
     * setWallet({payload}, {put,call}) {
       yield put({type: 'setAccount',payload:{...payload}});
       window.STORAGE.wallet.setWallet({address:payload.address});
-    //  yield call({type:'register',payload:{address:payload.address}})
-    }
+      yield call(register,payload.address);
+    },
+
   }
 };

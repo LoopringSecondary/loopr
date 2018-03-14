@@ -6,19 +6,18 @@ import * as fm from "../../common/Loopring/common/formatter";
 export default class MetaMaskUnlockAccount extends Account {
 
   constructor(input) {
-    if(input.web3) {
+    if(input.web3 && input.web3.eth.accounts[0]) {
       super({unlockType: 'metamask', address: input.web3.eth.accounts[0]})
       this.web3 = input.web3
       this.account = this.web3.eth.accounts[0]
-      console.log(this.account)
       this.web3.version.getNetwork((err, netId) => {
-        if(netId !== '1') throw new Error("Sorry, we currently only support MetaMask mainnet")
+        if(netId !== '1') throw new Error("Sorry, we currently only support MetaMask using Ethereum mainnet")
       })
     }
   }
 
   getAddress() {
-    if(this.web3) return this.web3.eth.accounts[0]
+    if(this.web3 && this.web3.eth.accounts[0]) return this.web3.eth.accounts[0]
     else return null
   }
 
@@ -36,11 +35,10 @@ export default class MetaMaskUnlockAccount extends Account {
         })
       })
     }
-    if(this.web3) {
+    if(this.web3 && this.web3.eth.accounts[0]) {
       return await signMethod()
     } else {
-      //TODO
-      console.log("no metamask")
+      throw new Error("Not found MetaMask")
     }
   }
 
@@ -55,8 +53,7 @@ export default class MetaMaskUnlockAccount extends Account {
       return new Promise((resolve)=>{
         this.web3.eth.sendTransaction(newTx.raw, function(err, transactionHash) {
           if (!err){
-            console.log(transactionHash);
-            resolve({transactionHash:transactionHash})
+            resolve({result:transactionHash})
           } else {
             const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
             resolve({error:{message:errorMsg}})
@@ -64,11 +61,10 @@ export default class MetaMaskUnlockAccount extends Account {
         })
       })
     }
-    if(this.web3) {
+    if(this.web3 && this.web3.eth.accounts[0]) {
       return await sendMethod()
     } else {
-      //TODO
-      console.log("no metamask")
+      throw new Error("Not found MetaMask")
     }
   }
 }

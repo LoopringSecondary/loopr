@@ -6,7 +6,7 @@
     {"name":"Digital Bitbox","dpath":"m/44'/60'/0'/0"},
     {"name":"Exodus","dpath":"m/44'/60'/0'/0"},
     {"name":"Jaxx","dpath":"m/44'/60'/0'/0"},
-    {"name":"Ledger (ETH)","dpath":"m/44'/60'/0"}
+    {"name":"Ledger (ETH)","dpath":"m/44'/60'/0'"}
 ]
 
 

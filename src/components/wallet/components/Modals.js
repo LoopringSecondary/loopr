@@ -5,7 +5,7 @@ import BackupWallet from './BackupWallet'
 import ExportKeystore from './ExportKeystore'
 import ModalContainer from '../../../modules/modals/container'
 import AccountContainer from '../../../modules/account/container'
-
+import SelectAccount from './SelectAccount'
 function Modals(props){
   return (
     <div>
@@ -14,6 +14,9 @@ function Modals(props){
 			  	<UnlockWallet />
 			  </AccountContainer>
 			</ModalContainer>
+      <ModalContainer id="wallet/selectAccount" >
+          <SelectAccount />
+      </ModalContainer>
 			<ModalContainer id="wallet/generate" >
 				<AccountContainer>
 					<GenerateWallet />

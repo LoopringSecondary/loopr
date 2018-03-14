@@ -41,9 +41,9 @@ export async function getTransactionCount(add,tag){
 
 export async function register(owner) {
 
-  let body = {}
-  body.method = 'loopring_unlockWallet'
-  body.params = {owner}
+  let body = {};
+  body.method = 'loopring_unlockWallet';
+  body.params = [{owner}];
   return request({
     method:'post',
     headers,
