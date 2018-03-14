@@ -29,9 +29,12 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
       item.balance = 0
       item.allowance = 0
     }
-    const priceToken = assets.getTokenBySymbol(item.symbol)
-    if(priceToken){
+    const priceToken = prices.getTokenBySymbol(item.symbol)
+    if(priceToken ){
       item.price = Number(priceToken.price)
+      if(typeof item.price !== 'number'){
+        item.price = 0
+      }
     }else{
       item.price = 0
     }

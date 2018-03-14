@@ -16,6 +16,7 @@ class TickersSocketContainer extends React.Component {
     socket.emit('loopringTickers_req','')
     socket.on('loopringTickers_res', (res)=>{
       console.log('loopringTickers_res')
+      res = JSON.parse(res)
       this.setState({
         tickersByLoopring:res.result,
       })
@@ -30,7 +31,7 @@ class TickersSocketContainer extends React.Component {
     socket.off('loopringTickers_res')
   }
   getTokenBySymbol(symbol){
-    return this.state.tickersByLoopring.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {}
+    return this.state.tickersByLoopring.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
   }
   render() {
     const {children,...rest} = this.props

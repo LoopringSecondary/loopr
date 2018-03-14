@@ -161,9 +161,12 @@ function Navbar(props){
               <Menu.Item key="/trade">
                 <Link to="/trade"><FormattedMessage id='navbar.trade' /></Link>
               </Menu.Item>
-              <Menu.Item key="/wallet/portfolio" >
-                <Link to="/wallet/portfolio"><FormattedMessage id='navbar.portfolio'/></Link>
-              </Menu.Item>
+              {
+                window.WALLET && window.WALLET.address &&
+                <Menu.Item key="/wallet/portfolio" >
+                  <Link to="/wallet/portfolio"><FormattedMessage id='navbar.portfolio'/></Link>
+                </Menu.Item>
+              }
               <Menu.Item key="/wallet">
                 <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
               </Menu.Item>

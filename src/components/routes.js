@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch,Redirect} from 'dva/router';
 import Pages from './pages';
 import Wallet from './wallet/components';
+import RingsRoutes from './rings/routes';
 import SettingsModals from './settings/pages/Modals';
 import TokenModals from './tokens/components/Modals';
 import WalletModals from './wallet/components/Modals';
@@ -43,6 +44,7 @@ export default (
         <Route path="/trade"  exact component={Pages.Trade} />
         <Route path="/auth" render={UnLogged} />
         <Route path="/wallet" render={Logged} />
+        {RingsRoutes}
       </Switch>
       <Pages.Unload />
       <TokenModals />

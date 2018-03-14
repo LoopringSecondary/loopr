@@ -61,7 +61,7 @@ class PricesContainer extends React.Component {
     socket.off('marketcap_res')
   }
   getTokenBySymbol(symbol){
-    return this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {}
+    return this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
   }
   render() {
     const {children,...rest} = this.props
