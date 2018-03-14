@@ -11,13 +11,8 @@ class BackupKeystore extends React.Component {
   };
 
   componentDidMount() {
-    const {account} = this.props;
-    const password = account['password'];
-    const privateKey = account['privateKey'];
-    if(privateKey){
-      const file = download(privateKey, password);
-      this.setState({...file})
-    }
+    const file = window.WALLET.download();
+    this.setState({...file})
   }
 
   render() {

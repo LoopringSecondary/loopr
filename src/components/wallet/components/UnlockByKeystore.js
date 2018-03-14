@@ -41,31 +41,29 @@ class UnlockByKeyStore extends React.Component {
       this.setState({
         loading: true
       }, function () {
-        setTimeout(() => {
-          this.clearState()
-        }, 0)
+        account.setKeystore({keyStore, password,cb:(e)=>{
+          if(e){
+            message.error(e.message)
+            this.setState({
+              loading: false
+            })
+          }else{
+            modal.hideModal({id: 'wallet/unlock'});
+            window.routeActions.gotoPath('wallet/portfolio');
+            this.setState({
+              fileList: [],
+              password: '',
+              isPasswordRequired: false,
+              keyStore: '',
+              loading: false
+            });
+          }
+        }});
       });
     } catch (e) {
       message.error(e.message)
     }
   };
-
-  clearState = () => {
-    const {keyStore, password} = this.state;
-    const {account, modal} = this.props;
-    setTimeout(() => {
-      account.setKeystore({keyStore, password});
-      this.setState({
-        fileList: [],
-        password: '',
-        isPasswordRequired: false,
-        keyStore: '',
-        loading: false
-      });
-    }, 0);
-    modal.hideModal({id: 'wallet/unlock'});
-    window.routeActions.gotoPath('portfolio');
-  }
 
   setPassword = (e) => {
     this.setState({password: e.target.value})
@@ -113,7 +111,7 @@ class UnlockByKeyStore extends React.Component {
         </Form>
         <Button type="primary" className="d-block w-100" size="large" onClick={this.unlock}
                 loading={loading}
-                disabled={keyStore === '' || (isPasswordRequired && password === "")}>UnLock {loading ? "true" : "false"}</Button>
+                disabled={keyStore === '' || (isPasswordRequired && password === "")}>UnLock</Button>
       </div>
     )
   }

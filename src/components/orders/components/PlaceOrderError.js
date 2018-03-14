@@ -39,6 +39,12 @@ const PlaceOrderError = ({
                   <a className="ml15 color-blue-500">Buy <Icon type="right" /></a>
                 </div>
               )
+            }else if(!item.type || item.type === 'unknown' ){
+              return (
+                <div className="" key={index}>
+                  {item.message}
+                </div>
+              )
             }
           })
         }

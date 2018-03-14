@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button,Icon,Card,Modal,Input,Radio,Select,Checkbox,message} from 'antd';
+import {Card, Input, message} from 'antd';
 import QRCode from 'qrcode.react';
 import copy from 'copy-to-clipboard';
+
 const Search = Input.Search;
 
 let Receive = (props) => {

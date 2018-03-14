@@ -50,7 +50,7 @@ class BackupPrivatekey extends React.Component {
         </div>
         <Input
           type={visible ? 'text' : 'password'}
-          value={account['privateKey']}
+          value={window.WALLET.getPrivateKey()}
           size="large"
           addonAfter={visibleIcon}
           readOnly

@@ -32,7 +32,7 @@ class UnlockByPrivateKey extends React.Component {
         account.setPrivateKey({...this.state});
         this.setState({privateKey: null});
         modal.hideModal({id: 'wallet/unlock'});
-        window.routeActions.gotoPath('portfolio');
+        window.routeActions.gotoPath('wallet/portfolio');
       } catch (e) {
         message.error(e.message)
       }
