@@ -19,14 +19,13 @@ let FiltersForm = ({
     })
   }
   function handleChange() {
-    setTimeout(handleSubmit, 0) 
+    setTimeout(handleSubmit, 0)
   }
   function handleCancle() {
 
   }
   function handleReset() {
     form.resetFields()
-    handleSubmit()
   }
 
   let formLayout = 'inline'
@@ -34,8 +33,8 @@ let FiltersForm = ({
       <div className="">
         <Form layout="inline">
           <Form.Item label="Market" >
-            {form.getFieldDecorator('pair', {
-              initialValue: filters.pair || 'all',
+            {form.getFieldDecorator('market', {
+              initialValue: filters.market || 'ALL',
               rules:[]
             })(
               <Select
@@ -47,16 +46,16 @@ let FiltersForm = ({
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="all">All</Select.Option>
-                  <Select.Option value="LRC/ETH">LRC/ETH</Select.Option>
-                  <Select.Option value="USDT/ETH">USDT/ETH</Select.Option>
-                  <Select.Option value="BNB/ETH">BNB/ETH</Select.Option>
+                  <Select.Option value="ALL">All</Select.Option>
+                  <Select.Option value="LRC-ETH">LRC-ETH</Select.Option>
+                  <Select.Option value="USDT-ETH">USDT-ETH</Select.Option>
+                  <Select.Option value="BNB-ETH">BNB-ETH</Select.Option>
               </Select>
             )}
           </Form.Item>
           <Form.Item label="Status" >
             {form.getFieldDecorator('status', {
-              initialValue:filters.status || 'all',
+              initialValue:filters.status || 'ALL',
               rules:[]
             })(
               <Select
@@ -68,12 +67,11 @@ let FiltersForm = ({
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="all">All</Select.Option>
-                  <Select.Option value="unenough">Unenough</Select.Option>
-                  <Select.Option value="opened">Opened</Select.Option>
-                  <Select.Option value="completed">Completed</Select.Option>
-                  <Select.Option value="cancelled">Cancelled</Select.Option>
-                  <Select.Option value="expired">Expired</Select.Option>
+                  <Select.Option value="ALL">All</Select.Option>
+                  <Select.Option value="ORDER_OPENED">Opened</Select.Option>
+                  <Select.Option value="ORDER_FINISHED">Completed</Select.Option>
+                  <Select.Option value="ORDER_CANCELED">Cancelled</Select.Option>
+                  <Select.Option value="ORDER_EXPIRE">Expired</Select.Option>
               </Select>
             )}
           </Form.Item>
@@ -100,4 +98,4 @@ let FiltersForm = ({
 
 export default Form.create()(FiltersForm);
 
- 
+
