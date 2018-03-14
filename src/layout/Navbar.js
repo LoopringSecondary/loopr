@@ -18,6 +18,13 @@ function Navbar(props){
         locale:value
       }
     })
+    props.dispatch({
+      type:'settings/preferenceChange',
+      payload:{
+        language: value,
+      }
+    })
+
   }
   const showModal = (id)=>{
     props.dispatch({
@@ -45,6 +52,14 @@ function Navbar(props){
     }
   }
 
+  const getAccount = ()=>{
+    if(account.address){
+      return window.uiFormatter.getShortAddress(account.address)
+    }else{
+      return 'Account'
+    }
+  }
+
   const accountMenus = (
     <div className="fs18">
       {
@@ -66,7 +81,12 @@ function Navbar(props){
               <Icon type="qrcode" className="mr5" />QR Code
             </a>
           </div>
-          {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <Link to="/wallet/airdrop" className="color-grey-900">
+              <Icon type="gift" className="mr5" />Airdrop
+            </Link>
+          </div>
+          {account.walletType === 'key' &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/export/keystore')}>
               <Icon type="export" className="mr5" />Export Keystore
             </a>
@@ -78,7 +98,7 @@ function Navbar(props){
             Switch Wallet
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            Tools
+            <Icon type="tool" className="mr5" />Tools
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={quit}><Icon type="poweroff" className="mr5" />Quit
@@ -91,12 +111,16 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col-auto">
-                <a  onClick={showModal.bind(this,'wallet/unlock')}>Unlock Wallet</a>
+                <a  onClick={showModal.bind(this,'wallet/unlock')} className="color-grey-900">
+                <Icon type="unlock" className="mr5" />Unlock Wallet
+                </a>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,'wallet/generate')}>Generate Wallet</a>
+            <a onClick={showModal.bind(this,'wallet/generate')} className="color-grey-900">
+              <Icon type="plus" className="mr5" />Generate Wallet
+            </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Icon type="question-circle-o" className="mr5" />Help
@@ -104,7 +128,9 @@ function Navbar(props){
           {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
           </div>}
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">Tools</div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <Icon type="tool" className="mr5" />Tools
+          </div>
         </div>
       }
     </div>
@@ -131,12 +157,14 @@ function Navbar(props){
               mode="horizontal"
               style={{ lineHeight: '64px' }}
             >
-              <Menu.Item key="home" ><Link to="/home"><FormattedMessage id='navbar.home' /></Link></Menu.Item>
-              <Menu.Item key="portfolio" ><Link to="/portfolio"><FormattedMessage id='navbar.portfolio'/></Link></Menu.Item>
-              <Menu.Item key="trade">
+              <Menu.Item key="/home" ><Link to="/home"><FormattedMessage id='navbar.home' /></Link></Menu.Item>
+              <Menu.Item key="/trade">
                 <Link to="/trade"><FormattedMessage id='navbar.trade' /></Link>
               </Menu.Item>
-              <Menu.Item key="wallet">
+              <Menu.Item key="/wallet/portfolio" >
+                <Link to="/wallet/portfolio"><FormattedMessage id='navbar.portfolio'/></Link>
+              </Menu.Item>
+              <Menu.Item key="/wallet">
                 <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
               </Menu.Item>
             </Menu>
@@ -148,7 +176,7 @@ function Navbar(props){
               <Select.Option value="zh">中文</Select.Option>
             </Select>
             <Popover content={accountMenus} title={null}>
-                <a className="fs14">Account <Icon type="down" className="color-grey-400 fs12" /></a>
+                <a className="fs14">{getAccount()} <Icon type="down" className="color-grey-400 fs12" /></a>
             </Popover>
           </div>
 

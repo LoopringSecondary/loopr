@@ -56,13 +56,13 @@ export default function Home(props){
                 <div className="pt15 pb15 bg-white" style={{borderRadius:'6px',border:'1px solid #dadada'}}>
                   <Trade.List />
                 </div>
-              } 
+              }
               />
               <Redirect path={`${match.url}/`} to={`${match.url}/assets`} />
             </Switch>
       </div>
       <div className="mb50"></div>
     </Layout>
-    
+
   )
 }

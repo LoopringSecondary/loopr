@@ -3,8 +3,9 @@ import {getTicker} from 'Loopring/relay/market'
 
 export async function fetchList(payload){
     let {page,filters,sort} = payload
-    let filter = {} 
-    filter = 'v1.0'
+    let filter = {
+      "contractVersion": "v1.2"
+    }
     return getTicker(filter).then(res=>{
       return {
         items:res.result, // why not res.result.data

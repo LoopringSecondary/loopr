@@ -15,7 +15,7 @@ export default class ModalContainer extends React.Component {
     }
   }
   render() {
-  	const {dispatch,modals,id,...rest} = this.props
+  	const {dispatch,modals,id,width,...rest} = this.props
   	let thisModal = modals[id] || {}
     // console.log('modal container render',id)
   	const hideModal = (payload)=>{
@@ -65,6 +65,7 @@ export default class ModalContainer extends React.Component {
 
   	const modalProps = {
   		visible:thisModal.visible,
+      width,
       destroyOnClose:true,
   		title:null,
   		footer:null,

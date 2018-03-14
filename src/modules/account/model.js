@@ -22,6 +22,9 @@ export default {
     },
 
     deleteAccount(state, {payload}) {
+      window.WALLET = null
+      window.WALLET_UNLOCK_TYPE = null
+      window.routeActions.gotoPath('/auth/wallet') // TODO
       return {
         ...state,
         address: null,

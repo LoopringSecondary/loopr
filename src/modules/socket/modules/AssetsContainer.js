@@ -43,7 +43,6 @@ class AssetsContainer extends React.Component {
     socket.emit('balance_req',JSON.stringify(options))
     socket.on('balance_res', (res)=>{
       console.log('balance_res')
-      res = JSON.parse(res)
       const asset = this.getTokenBySymbol(res.tokens)
       this.setState({
         assets:res.tokens,

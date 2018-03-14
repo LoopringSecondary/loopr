@@ -15,27 +15,21 @@ class UnlockByLedger extends React.Component {
         content: "Unlocking a Ledger hardware wallet is only possible on pages served over HTTPS",
       });
       return
-    } else {
-      const {account, modal} = this.props;
-      ledger.comm_u2f.create_async()
-        .then(comm => {
-          const ledgerConnection = new ledger.eth(comm)
-          window.WALLET = new LedgerUnlockAccount({ ledger:ledgerConnection })
-          window.WALLET_UNLOCK_TYPE = walletType
-          this.isConnected()
-            .then(connected=>{
-              if(connected){
-                modal.hideModal({id: 'wallet/unlock'});
-                modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
-              } else {
-                Modal.error({
-                  title: 'Error',
-                  content: "Failed to connect with your Ledger device, you could follow these advices and have a try later. 1、Make sure your Ledger device has connected with your computer and unlocked. 2、Set this to 'yes': Settings->Browser support 3、Enter into Ethereum app",
-                });
-              }
-            })
-        })
     }
+    const {account, modal} = this.props;
+    ledger.comm_u2f.create_async()
+      .then(comm => {
+        const ledgerConnection = new ledger.eth(comm)
+        window.WALLET = new LedgerUnlockAccount({ ledger:ledgerConnection })
+        window.WALLET_UNLOCK_TYPE = walletType
+        this.isConnected()
+          .then(connected=>{
+            if(connected){
+              modal.hideModal({id: 'wallet/unlock'});
+              modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
+            }
+          })
+      })
   }
 
   setWallet = (index, address) => {
@@ -54,6 +48,12 @@ class UnlockByLedger extends React.Component {
         window.WALLET.getPublicKey(dpath)
           .then(result=>{
             if(result.error){
+              //TODO got `Error: U2F not supported` when in Safari
+              let content = "Failed to connect with your Ledger device, you could follow these advices and have a try later. 1、Make sure your Ledger device has connected with your computer and unlocked. 2、Set this to 'yes': Settings->Browser support 3、Enter into Ethereum app"
+              Modal.error({
+                title: 'Error',
+                content: content,
+              });
               resolve(false)
             } else {
               window.WALLET.setPublicKey(result)
