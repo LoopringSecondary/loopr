@@ -18,9 +18,9 @@ const TradeConfirm = ({
                         assets = [],
                       }) => {
   const modal = modals['trade/confirm'] || {};
-  let {side, pair, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
-  const token = pair.split('-')[0];
-  const token2 = pair.split('-')[1];
+  let {side, market, amount, price, total, timeToLive, marginSplit, lrcFee} = modal;
+  const token = market.split('-')[0];
+  const token2 = market.split('-')[1];
   marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
   timeToLive = timeToLive === undefined ? window.uiFormatter.getSeconds(tradingConfig.timeToLive, tradingConfig.timeToLiveUnit) : timeToLive;
   const start = Math.ceil(new Date().getTime() / 1000);
