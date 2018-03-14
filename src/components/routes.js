@@ -9,7 +9,7 @@ import WalletModals from './wallet/components/Modals';
 import OrderModals from './orders/components/Modals';
 
 const UnLogged = ()=>{
-  const isLogged = !!window.WALLET_UNLOCK_TYPE
+  const isLogged = !!!window.WALLET
   if(isLogged){
     return <Redirect to="/wallet/portfolio" />
   }else{
@@ -22,7 +22,7 @@ const UnLogged = ()=>{
   }
 }
 const Logged = ()=>{
-  const isLogged = !!window.WALLET_UNLOCK_TYPE
+  const isLogged = !!!window.WALLET
   if(isLogged){
     return (
       <Switch>

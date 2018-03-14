@@ -25,7 +25,7 @@ function UnlockWallet({form,modal,account}) {
   return (
     <Card title="Unlock Wallet">
         <div title="UnLock Wallet">
-          <Tabs defaultActiveKey="metamask" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
+          <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true} style={{marginTop:'-10px'}}>
             <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">MetaMask</div>} key="metamask">
               <UnlockByMetaMask modal={modal} account={account}/>
             </Tabs.TabPane>
