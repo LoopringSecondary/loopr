@@ -4,7 +4,6 @@ export default class Account {
 
   constructor(input) {
     this.unlockType = input.unlockType
-    this.address = input.address
   }
 
   setUnlockType(unlockType) {
@@ -18,6 +17,7 @@ export default class Account {
   getAddress() {
     return this.address
   }
+  getAddresses(){}
 
   isUnlocked() {
     return this.unlockType !== ''

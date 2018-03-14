@@ -1,19 +1,28 @@
 import React from 'react';
-import {Button, Form,Alert,Icon} from 'antd';
-import {getAddress,sign} from "Loopring/ethereum/trezor";
+import {Alert, Button, Form, Icon} from 'antd';
 import TrezorUnlockAccount from "../../../modules/account/TrezorUnlockAccount";
 
 class UnlockByTrezor extends React.Component {
 
   connectTrezor = async () => {
-    const {account, modal} = this.props;
-    const path = "m/44'/60'/0'/0/0";
-    let address = "0x" + await getAddress(path);
-    account.connectToTrezor({address, path});
-
-    modal.hideModal({id: 'wallet/unlock'});
+    const {modal} = this.props;
+    const path = "m/44'/60'/0'/0";
+    window.TrezorConnect.setCurrency('BTC');
+    window.TrezorConnect.getXPubKey(path, function (result) {
+      if (result.success) {
+        window.WALLET = new TrezorUnlockAccount(result);
+        window.WALLET_UNLOCK_TYPE = 'Trezor';
+        modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
+      } else {
+        console.error('Error:', result.error);
+      }
+    }.bind(this));
   };
 
+  setWallet = (index) => {
+    const {account} = this.props;
+    account.connectToTrezor({index})
+  };
   render() {
     return (
       <div className="text-left">
