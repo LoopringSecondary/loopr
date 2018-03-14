@@ -27,6 +27,13 @@ export default class MnemonicUnlockAccount extends Account {
     this.address = privateKeytoAddress(privateKey)
   }
 
+  getPrivateKey(){
+    return this.privateKey;
+  }
+
+  getMnemonic(){
+    return this.mnemonic
+  }
   getAddresses(pageSize, pageNum) {
     const addresses = [];
     for (let i = 0; i < pageSize; i++) {
@@ -48,8 +55,9 @@ export default class MnemonicUnlockAccount extends Account {
     return await newTx.sendRawTx(signed)
   }
 
-  download(mime) {
+  download(password,mime) {
+    password = password || this.password;
     const privateKey = toBuffer(addHexPrefix(this.privateKey));
-    return download(privateKey, this.password, mime)
+    return download(privateKey, password, mime)
   }
 }

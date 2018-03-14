@@ -16,6 +16,10 @@ export default class PrivateKeyUnlockAccount extends Account {
     super.getAddress()
   }
 
+  getPrivateKey(){
+    return this.privateKey;
+  }
+
   signMessage(message) {
     console.log("private key sign");
     return this.signWithPrivateKey(message, this.privateKey)
@@ -30,9 +34,9 @@ export default class PrivateKeyUnlockAccount extends Account {
     return await newTx.sendRawTx(signed)
   }
 
-  download(mime) {
+  download(password,mime) {
     const privateKey = toBuffer(addHexPrefix(this.privateKey));
-    return download(privateKey,this.password,mime)
+    return download(privateKey,password,mime)
   }
 
 }

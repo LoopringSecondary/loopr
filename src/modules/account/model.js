@@ -41,7 +41,7 @@ export default {
         const wallet = decrypt(keyStore, password);
         window.WALLET = new PrivateKeyUnlockAccount({privateKey: wallet.privateKey, address: wallet.address,password});
         window.WALLET_UNLOCK_TYPE = 'KeyStore';
-        yield put({type: 'setWallet', payload: {address:wallet.address,walletType:'KeyStore'}})
+        yield put({type: 'setWallet', payload: {address:wallet.address,walletType:'KeyStore'}});
         cb();
       }catch(e){
        cb(e)
@@ -56,13 +56,13 @@ export default {
     * setPrivateKey({payload}, {put}) {
       const {privateKey} = payload;
       const wallet = fromPrivateKey(privateKey);
-      window.WALLET = new PrivateKeyUnlockAccount({privateKey: privateKey, address: wallet.address})
+      window.WALLET = new PrivateKeyUnlockAccount({privateKey: privateKey, address: wallet.address});
       window.WALLET_UNLOCK_TYPE = 'PrivateKey';
       yield put({type: 'setWallet', payload: {address:wallet.address,walletType:'PrivateKey'}})
     },
     * setMetamask({payload}, {put}) {
       const {web3} = payload;
-      window.WALLET = new MetaMaskUnlockAccount({web3: web3, address: web3.eth.accounts[0]})
+      window.WALLET = new MetaMaskUnlockAccount({web3: web3, address: web3.eth.accounts[0]});
       window.WALLET_UNLOCK_TYPE = 'MetaMask';
       yield put({type: 'setWallet', payload: {address:web3.eth.accounts[0],walletType:'MetaMask'}})
     },
@@ -70,7 +70,7 @@ export default {
       const wallet = create(payload.password);
       window.WALLET = new MnemonicUnlockAccount({...wallet,password:payload.password});
       window.WALLET_UNLOCK_TYPE = 'Mnemonic';
-      yield put({type: 'setWallet', payload: {...wallet,password:payload.password,walletType:'Mnemonic'}})
+      yield put({type: 'setWallet', payload: {address:wallet.address,walletType:'Mnemonic'}})
     },
 
     * connectToTrezor({payload},{put}){
