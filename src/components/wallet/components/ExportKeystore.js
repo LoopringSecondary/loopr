@@ -26,9 +26,9 @@ class ExportKeystore extends React.Component {
 
   getKeystore(){
     const {password} = this.state;
-    const {account} = this.props;
-    if(password && (!account.password || account.password === password) ){
-      const file = download(account.privateKey,password);
+    const accountPassword = window.WALLET.getPassword();
+    if(password && (!accountPassword || accountPassword === password) ){
+      const file = window.WALLET.download(password);
       this.setState({
         ...file
       });

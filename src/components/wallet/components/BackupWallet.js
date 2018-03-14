@@ -11,15 +11,13 @@ function BackupWallet({modal,account}) {
       <div title="UnLock Wallet">
         <Tabs defaultActiveKey="keystore" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
           <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
-            <BackupKeystore modal={modal} account={account}/>
+            <BackupKeystore modal={modal}/>
           </Tabs.TabPane>
-          {account['mnemonic'] &&
           <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Mnemonic</div>} key="mnemonic">
-            <BackupMnemonic modal={modal} account={account}/>
+            <BackupMnemonic modal={modal}/>
           </Tabs.TabPane>
-          }
           <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">PrivateKey</div>} key="privatekey">
-            <BackupPrivatekey modal={modal} account={account}/>
+            <BackupPrivatekey modal={modal}/>
           </Tabs.TabPane>
         </Tabs>
       </div>

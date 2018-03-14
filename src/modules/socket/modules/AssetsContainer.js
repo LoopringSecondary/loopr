@@ -59,13 +59,17 @@ class AssetsContainer extends React.Component {
     console.log('AssetsContainer unmount')
     socket.off('balance_res')
   }
+  getTokenBySymbol(symbol){
+    return this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {}
+  }
   render() {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
-      ...this.state,
-      // assets:assetsAata, // for mock data
-      // asset:this.getTokenBySymbol(assetsAata) // for mock data
+      assets:{
+        data:this.state.assets,
+        getTokenBySymbol:this.getTokenBySymbol.bind(this)
+      }
     }
     const {render} = this.props
     if(render){

@@ -19,7 +19,7 @@ let FiltersForm = ({
     })
   }
   function handleChange() {
-    setTimeout(handleSubmit, 0) 
+    setTimeout(handleSubmit, 0)
   }
   function handleCancle() {
   }
@@ -33,8 +33,8 @@ let FiltersForm = ({
       <div className="">
         <Form layout="inline">
           <Form.Item label="Market" >
-            {form.getFieldDecorator('pair', {
-              initialValue:filters.pair || 'all',
+            {form.getFieldDecorator('market', {
+              initialValue:filters.pair || 'All',
               rules:[]
             })(
               <Select
@@ -48,10 +48,10 @@ let FiltersForm = ({
                   onBlur={()=>{}}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="all">All</Select.Option>
-                  <Select.Option value="jack">LRC/ETH</Select.Option>
-                  <Select.Option value="lucy">USDT/ETH</Select.Option>
-                  <Select.Option value="tom">BNB/ETH</Select.Option>
+                  <Select.Option value="ALL">All</Select.Option>
+                  <Select.Option value="LRC-ETH">LRC-ETH</Select.Option>
+                  <Select.Option value="USDT-ETH">USDT-ETH</Select.Option>
+                  <Select.Option value="NB-ETH">BNB-ETH</Select.Option>
                 </Select>
             )}
           </Form.Item>
@@ -66,7 +66,7 @@ let FiltersForm = ({
                 <Radio.Button value="buy">Buy</Radio.Button>
               </Radio.Group>
             )}
-            
+
           </Form.Item>
           <Form.Item>
             <Button onClick={handleReset} type="default">Reset</Button>
@@ -79,4 +79,4 @@ let FiltersForm = ({
 
 export default Form.create()(FiltersForm);
 
- 
+
