@@ -27,6 +27,8 @@ export default {
     },
 
     deleteAccount(state, {payload}) {
+      window.WALLET = null
+      window.WALLET_UNLOCK_TYPE = null
       return {
         ...state,
         address: null,
