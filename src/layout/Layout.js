@@ -9,7 +9,7 @@ const HomeLayout = (props)=>{
 	return (
 		<Layout className="layout">
 		  <Header className="bg-white position-fixed w-100" style={{zIndex:'100'}}>
-		    <Navbar />
+		    <Navbar {...props}/>
 		  </Header>
 		  <Content className="">
 		    <div className="">
@@ -26,7 +26,7 @@ const MainLayout = (props)=>{
 	return (
 		<Layout className="layout">
 		  <Header className="bg-white">
-		    <Navbar />
+		    <Navbar {...props} />
 		  </Header>
 		  <Content className="" style={{background:'#F8F8F8'}}>
 		    <div className="">

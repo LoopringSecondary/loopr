@@ -8,7 +8,18 @@ import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
 
 function Navbar(props){
+  console.log('navbar props',props)
+  let selectedKeys = []
+  if(props.location && props.match){
+    let route = props.match.path
+    let url = props.location.pathname
+    if(url.indexOf(route)>-1){
+      selectedKeys.push(props.location.pathname)
+    }
+  }
+  if(props.match){
 
+  }
   const account = props.account;
 
   const localeChange = (value)=>{
@@ -156,6 +167,7 @@ function Navbar(props){
               className="bg-none border-0"
               mode="horizontal"
               style={{ lineHeight: '64px' }}
+              selectedKeys={selectedKeys}
             >
               <Menu.Item key="/home" ><Link to="/home"><FormattedMessage id='navbar.home' /></Link></Menu.Item>
               <Menu.Item key="/trade">

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Icon,Carousel } from 'antd';
 const TickerItem = ({item})=>{
+  console.log('item',item)
   return (
     <div className="p15 text-left ticker-item-carousel">
       <div className="fs16">
@@ -11,26 +12,28 @@ const TickerItem = ({item})=>{
         </span>
       </div>
       <div className="fs18">
-        <span className="color-white mr5">{Number(item.last).toFixed(4)}</span>
+        <span className="color-white mr5">{Number(item.last).toFixed(6)}</span>
         <span className="color-white" style={{opacity:'0.6'}}>{item.market.split('-')[1]}</span>
       </div>
 
     </div>
   )
 }
-const TickerCarousel = ({tickers})=>{
+const TickerCarousel = (props)=>{
+  const tickers = props.tickersByLoopring
+  console.log('carousel tickers',tickers)
   const carouselProps = {
     autoplay:true,
     dots:false,
     infinite:true,
     autoplaySpeed: 1000,
-    slidesToShow:6,
+    slidesToShow:2,
   }
   return (
     <div className="ticker-list-carousel">
       <Carousel  {...carouselProps}>
           {
-           tickers.items.filter(item=>item.change && item.last).map((item,index)=>
+           tickers.items.map((item,index)=>
              <div className="" key={index}>
                <TickerItem key={index} item={item} />
              </div>
