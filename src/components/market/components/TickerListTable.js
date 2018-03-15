@@ -3,8 +3,12 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Card,Tabs,Icon,Popover } from 'antd';
 
-const TickerTable = ({tickers,market})=>{
-  const items = tickers.items.filter(item=>{
+// TickersTable
+// TickersTabs
+
+const TickerTable = (props)=>{
+  const {tickers,market} = props
+  const items = tickers.filter(item=>{
     return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
   })
   const gotoTrade = (pair,e)=>{
@@ -53,18 +57,18 @@ const TickerTable = ({tickers,market})=>{
   )
 }
 
-const TickerTabs = ({tickers})=>{
+const TickerTabs = ({tickersByLoopring})=>{
   const tab = (text)=> <div className="fs14">{text}</div>
   return (
     <Tabs defaultActiveKey="WETH" animated={false} >
       <Tabs.TabPane tab={tab("Favorites")} key="Favorites">
         <div className="pl10 pr10">
-          <TickerTable tickers={tickers} market="favorites" />
+          <TickerTable tickers={tickersByLoopring.items} market="favorites" />
         </div>
       </Tabs.TabPane>
       <Tabs.TabPane tab={tab('WETH')} key="WETH">
         <div className="pl10 pr10">
-          <TickerTable tickers={tickers} market="WETH"  />
+          <TickerTable tickers={tickersByLoopring.items} market="WETH"  />
         </div>
       </Tabs.TabPane>
     </Tabs>

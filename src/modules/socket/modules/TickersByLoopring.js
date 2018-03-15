@@ -15,9 +15,9 @@ class TickersSocketContainer extends React.Component {
       socket.on('loopringTickers_res', (res)=>{
         console.log('loopringTickers_res')
         res = JSON.parse(res)
-        if(res.result){
+        if(typeof res === 'object'){
           this.setState({
-            tickersByLoopring:res.result,
+            tickersByLoopring:res,
           })
         }
       })

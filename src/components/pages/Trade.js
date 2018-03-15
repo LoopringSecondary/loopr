@@ -54,26 +54,24 @@ export default function Home(props){
               <div className="pt15">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
-                  <Order.List filters={{pair:pair,status:'all',side:'sell'}} />
+                  <Order.List filters={{market:pair,status:'all',side:'sell'}} />
                 }
                 {
                   !window.WALLET &&
                   <ToLogin />
                 }
-                <Order.List filters={{market:pair,status:'all',side:'sell'}} />
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Recent Trades</div>} key="trade">
               <div className="pt15">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
-                  <Trade.List filters={{pair:pair,side:'all'}} />
+                  <Trade.List filters={{market:pair,side:'all'}} />
                 }
                 {
                   !window.WALLET &&
                   <ToLogin />
                 }
-                <Trade.List filters={{market:pair,side:'all'}} />
               </div>
             </Tabs.TabPane>
           </Tabs>

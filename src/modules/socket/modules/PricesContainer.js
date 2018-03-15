@@ -7,7 +7,6 @@ class PricesContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      price:0,
       prices:[],
     }
   }
