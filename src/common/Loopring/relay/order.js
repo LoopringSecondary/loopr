@@ -151,6 +151,29 @@ export async function placeOrder(order) {
 
 export function sign(order, privateKey) {
   validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+  try {
+    if (typeof privateKey === 'string') {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      privateKey = toBuffer(addHexPrefix(privateKey))
+    } else {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
+  } catch (e) {
+    throw new Error('Invalid private key')
+  }
+  const hash = getOrderHash(order);
+  const signature = ecsign(hash, privateKey);
+  const v = toNumber(signature.v);
+  const r = toHex(signature.r);
+  const s = toHex(signature.s);
+  return {
+    ...order, v, r, s
+  }
+}
+
+
+export function getOrderHash(order) {
+
   validator.validate({value: order, type: 'RAW_Order'});
   const orderTypes = [
     'address',
@@ -167,7 +190,6 @@ export function sign(order, privateKey) {
     'uint',
     'uint8'
   ];
-
   const orderData = [
     order.protocol,
     order.owner,
@@ -183,24 +205,6 @@ export function sign(order, privateKey) {
     toBN(order.walletId),
     order.marginSplitPercentage
   ];
-
-  try {
-    if (typeof privateKey === 'string') {
-      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
-      privateKey = toBuffer(addHexPrefix(privateKey))
-    } else {
-      validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
-    }
-  } catch (e) {
-    throw new Error('Invalid private key')
-  }
   const hash = solSHA3(orderTypes, orderData);
-  const finalHash = hashPersonalMessage(hash);
-  const signature = ecsign(finalHash, privateKey);
-  const v = toNumber(signature.v);
-  const r = toHex(signature.r);
-  const s = toHex(signature.s);
-  return {
-    ...order, v, r, s
-  }
+  return hashPersonalMessage(hash);
 }
