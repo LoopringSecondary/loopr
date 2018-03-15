@@ -13,7 +13,7 @@ class TradeForm extends React.Component {
   }
 
   componentDidMount() {
-    const {side, pair, assets, prices} = this.props
+    const {side, pair, assets} = this.props
     if (side === 'sell') {
       const tokenL = pair.split('-')[0].toUpperCase()
       const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
@@ -110,8 +110,6 @@ class TradeForm extends React.Component {
           }
           let userSetLrcFeeInEth = calculateLrcFeeInEth(totalWorth, milliLrcFee)
           const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
-          //TODO mock
-          userSetLrcFeeInEth = 0.0000001
           if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
             tradeInfo.lrcFee = calculateLrcFeeInLrc(userSetLrcFeeInEth)
             showTradeModal(tradeInfo)
@@ -134,8 +132,7 @@ class TradeForm extends React.Component {
     }
 
     function toConfirm(tradeInfo) {
-      //TODO mock
-      const userOwnedLrc = 0.10000001
+      const userOwnedLrc = assets.getTokenBySymbol("LRC").balance
       if(userOwnedLrc < tradeInfo.lrcFee){
         const errors = new Array()
         errors.push({
@@ -157,21 +154,15 @@ class TradeForm extends React.Component {
     }
 
     function calculateLrcFeeInEth(totalWorth, milliLrcFee) {
-      //TODO tokenR -> weth
+      //TODO average exchange rate lrc -> weth
       const price = 0.00078
       return accMul(accDiv(accMul(totalWorth, milliLrcFee), 1000), price)
     }
 
-    function calculateLrcFeeInLrc(totalWethWorth) {
-      //TODO lrc -> weth
+    function calculateLrcFeeInLrc(totalEthWorth) {
+      //TODO average exchange rate lrc -> weth
       const price = 0.00078
-      return accDiv(Math.floor(accMul(accDiv(totalWethWorth, price), 100)), 100)
-    }
-
-    function calculateLrcFeeWithLrc(totalWorthWithLegalCurrency) {
-      //TODO lrc -> legal currency
-      const price = 23.4
-      return accDiv(totalWorthWithLegalCurrency, price)
+      return accDiv(Math.floor(accMul(accDiv(totalEthWorth, price), 100)), 100)
     }
 
     function calculateLrcFeeByEth(ethAmount) {
