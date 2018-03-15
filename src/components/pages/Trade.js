@@ -19,7 +19,7 @@ const ToLogin = ()=>{
 }
 export default function Home(props){
   const { children,match } = props
-  const pair = match.params.pair || 'LRC-WETH'
+  const pair = match.params.pair || window.STORAGE.market.getCurrentMarket()
   return (
     <Layout {...props}>
       <Sockets.TickersByPair pair={pair}>

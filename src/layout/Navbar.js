@@ -8,7 +8,6 @@ import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
 
 function Navbar(props){
-  console.log('navbar props',props)
   let selectedKeys = []
   if(props.location && props.match){
     let route = props.match.path

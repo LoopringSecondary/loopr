@@ -12,7 +12,7 @@ fm.getVolume = (value)=>{
     return value.toFixed(0)
   }
   if(value<=1000 && value>=1){
-    return value.toFixed(0)
+    return value.toFixed(1)
   }
   if(value<1 && value>=0.001){
     return value.toFixed(5)

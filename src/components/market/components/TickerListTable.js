@@ -13,6 +13,7 @@ const TickerTable = (props)=>{
   })
   const gotoTrade = (pair,e)=>{
     e.preventDefault()
+    window.STORAGE.market.setCurrentMarket(pair)
     window.routeActions.gotoPath(`/trade/${pair}`)
   }
   return (
