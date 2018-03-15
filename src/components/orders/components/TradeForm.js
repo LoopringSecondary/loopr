@@ -506,7 +506,14 @@ class TradeForm extends React.Component {
           }
           {(!account || !account.address) &&
             <div className="row justify-content-center bg-blue-grey-50">
-              <div className="col-auto"><a onClick={showModal.bind(this,'wallet/unlock')}>Unlock</a> to trade</div>
+              <div className="col-auto">
+                <a onClick={showModal.bind(this,'wallet/unlock')}>Unlock</a> to trade
+
+              </div>
+              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
+                      size="large">
+                Place Order
+              </Button>
             </div>
           }
         </Form>

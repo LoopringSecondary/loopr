@@ -38,9 +38,9 @@ class AssetsContainer extends React.Component {
         socket.on('balance_res', (res)=>{
           console.log('balance_res')
           res = JSON.parse(res)
-          if(res.tokens){
+          if(!res.error){
             this.setState({
-              assets:res.tokens,
+              assets:res.data.tokens,
             })
           }
 

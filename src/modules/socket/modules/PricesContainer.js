@@ -41,9 +41,9 @@ class PricesContainer extends React.Component {
       socket.on('marketcap_res', (res)=>{
         console.log('marketcap_res')
         res = JSON.parse(res)
-        if(res.tokens){
+        if(!res.error){
           _this.setState({
-            prices:res.tokens,
+            prices:res.data.tokens,
           })
         }
       })

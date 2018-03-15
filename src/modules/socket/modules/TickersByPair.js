@@ -32,9 +32,9 @@ class TickerSocketContainer extends React.Component {
       socket.on('tickers_res', (res)=>{
         console.log('ticker_res')
         res = JSON.parse(res)
-        if(typeof res === 'object'){
+        if(!res.error){
           this.setState({
-            tickersByPair:res
+            tickersByPair:res.data
           })
         }
       })
