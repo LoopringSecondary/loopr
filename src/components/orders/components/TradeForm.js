@@ -101,6 +101,13 @@ class TradeForm extends React.Component {
             tradeInfo.marginSplit = Number(values.marginSplit)
           }
           const totalWorth = calculateWorthInLegalCurrency(tokenR, tradeInfo.total)
+          if(totalWorth <= 0) {
+            Modal.error({
+              title: 'Error',
+              content: "Failed fetch data from server",
+            });
+            return
+          }
           let milliLrcFee = 0
           if (values.lrcFee) {
             milliLrcFee = Number(values.lrcFee)
