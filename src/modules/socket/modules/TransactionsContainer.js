@@ -21,7 +21,8 @@ class TransactionsSocketContainer extends React.Component {
     }
     socket.emit('transaction_req',JSON.stringify(query))
     socket.on('transaction_res', (res)=>{
-      console.log('transaction_res',res)
+      console.log('transaction_res')
+      res = JSON.parse(res)
       if(!res.error){
         this.setState({
           items:res.data,

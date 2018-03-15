@@ -7,11 +7,12 @@ import { tokens } from '../../../../common/config/data';
 
 function ListBlock({LIST={},actions,modal}) {
   const {
-      // items=[],
+      items=[],
       // loading,
       // page={}
   } = LIST
-  const items = tokens.slice(0,6)
+  // const items = tokens.slice(0,6)
+  console.log('LIST',LIST)
   const TokenItem = ({item,index})=>{
     const header = (
       <div className="row justify-content-center align-items-center no-gutters">
