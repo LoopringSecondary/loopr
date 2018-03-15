@@ -19,9 +19,9 @@ class TransactionsSocketContainer extends React.Component {
     const query = {
       owner:'0x750aD4351bB728ceC7d639A9511F9D6488f1E259',
     }
-    socket.emit('transaction_req',JSON.stringify(query))
-    socket.on('transaction_res', (res)=>{
-      console.log('transaction_res',res)
+    socket.emit('portfolio_req',JSON.stringify(query))
+    socket.on('portfolio_res', (res)=>{
+      console.log('portfolio_res',res)
       if(!res.error){
         this.setState({
           items:res.data,
@@ -35,7 +35,7 @@ class TransactionsSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    socket.off('transaction_res')
+    socket.off('portfolio_res')
   }
   render() {
     const {children,...rest} = this.props
