@@ -5,6 +5,7 @@ import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
 import config from '../../../common/config'
+import {accDiv, accMul} from '../../../common/Loopring/common/math'
 
 class Transfer extends React.Component {
   state = {
@@ -14,12 +15,10 @@ class Transfer extends React.Component {
     gasValueInSlider:0,
     advanced: false,
     value: 0,
-    estimateWorth: 0,
-    exchangeRate : 6.3
+    estimateWorth: 0
   }
 
   componentDidMount() {
-    console.log(this.state)
     const {settings} = this.props
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     const gas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
@@ -27,10 +26,14 @@ class Transfer extends React.Component {
   }
 
   render() {
-    const {form, modal, account, settings} = this.props
+    const {form, modal, account, settings, assets, prices} = this.props
     let selectedToken = modal.item || {}
-    selectedToken = {...selectedToken, balance: 100.00, allowance: 0}
+    selectedToken = {...config.getTokenBySymbol(selectedToken.symbol), ...assets.getTokenBySymbol(selectedToken.symbol)}
+    const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
+    selectedToken.balance = balance
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+    const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+
     function handleSubmit() {
       form.validateFields((err, values) => {
         if (!err) {
@@ -54,8 +57,8 @@ class Transfer extends React.Component {
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
-          const worth = (fm.toNumber(this.state.exchangeRate) * values.amount).toFixed(4)
-          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:worth}
+          const estimateWorth = accDiv(Math.floor(accMul(values.amount * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
+          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:estimateWorth}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', tx, extraData})
         }
@@ -81,8 +84,18 @@ class Transfer extends React.Component {
     }
 
     function isInteger(v){
-      if(v) {
-        var result = v.match(/^(-|\+)?\d+$/);
+      const value = v.toString()
+      if(value) {
+        var result = value.match(/^(-|\+)?\d+$/);
+        if(result === null) return false;
+        return true;
+      }
+    }
+
+    function isNumber(v) {
+      const value = v.toString()
+      if(value) {
+        var result = value.toString().match(amountReg)
         if(result === null) return false;
         return true;
       }
@@ -103,7 +116,8 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      this.setState({value: selectedToken.balance, estimateWorth: selectedToken.balance * this.state.exchangeRate})
+      const estimateWorth = accDiv(Math.floor(accMul(selectedToken.balance * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
+      this.setState({value: selectedToken.balance, estimateWorth: estimateWorth})
       form.setFieldsValue({"amount": selectedToken.balance})
     }
 
@@ -117,7 +131,11 @@ class Transfer extends React.Component {
     }
 
     function validateAmount(value) {
-      return value && value <= selectedToken.balance
+      if(isNumber(value)) {
+        return value && value <= selectedToken.balance
+      } else {
+        return false
+      }
     }
 
     function amountFocus() {
@@ -130,8 +148,8 @@ class Transfer extends React.Component {
     function amountChange(e) {
       if(e.target.value) {
         const v = fm.toNumber(e.target.value)
-        const worth = (fm.toNumber(this.state.exchangeRate) * v).toFixed(4)
-        this.setState({value: v, estimateWorth: worth})
+        const estimateWorth = accDiv(Math.floor(accMul(v * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
+        this.setState({value: v, estimateWorth: estimateWorth})
       }
     }
 
@@ -180,7 +198,8 @@ class Transfer extends React.Component {
             {form.getFieldDecorator('amount', {
               initialValue: 0,
               rules: [
-                {message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
+                {
+                  message: 'Please input valid amount',
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
                 }
               ]

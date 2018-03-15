@@ -5,10 +5,7 @@ import Trade from '../trades/pages'
 import Order from '../orders/containers'
 import Layout from '../../layout/Layout'
 import Market from '../market/components'
-import PlaceOrderContainer from '../../modules/orders/models/PlaceOrderContainer'
 import Sockets from '../../modules/socket/containers'
-import SettingsContainer from '../../modules/settings/container'
-import AccountContainer from '../../modules/account/container'
 
 const ToLogin = ()=>{
   return (
@@ -34,38 +31,10 @@ export default function Home(props){
         <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
           <div className="row justify-content-around">
             <div className="col-sm-6 pl40 pr40 zb-b-r">
-              <SettingsContainer>
-                <PlaceOrderContainer id="buy">
-                  <Sockets.Prices>
-                    <Sockets.Assets>
-                      <Sockets.TickersByLoopring>
-                        <Sockets.TickersByPair>
-                          <AccountContainer>
-                            <Order.TradeForm side="buy" pair={pair} />
-                          </AccountContainer>
-                        </Sockets.TickersByPair>
-                      </Sockets.TickersByLoopring>
-                    </Sockets.Assets>
-                  </Sockets.Prices>
-                </PlaceOrderContainer>
-              </SettingsContainer>
+              <Order.TradeForm side="buy" pair={pair} />
             </div>
             <div className="col-sm-6 pl40 pr40">
-              <SettingsContainer>
-                <PlaceOrderContainer id="sell">
-                  <Sockets.Prices>
-                    <Sockets.Assets>
-                      <Sockets.TickersByLoopring>
-                        <Sockets.TickersByPair>
-                          <AccountContainer>
-                            <Order.TradeForm side="sell" pair={pair} />
-                          </AccountContainer>
-                        </Sockets.TickersByPair>
-                      </Sockets.TickersByLoopring>
-                    </Sockets.Assets>
-                  </Sockets.Prices>
-                </PlaceOrderContainer>
-              </SettingsContainer>
+              <Order.TradeForm side="sell" pair={pair} />
             </div>
           </div>
         </Card>

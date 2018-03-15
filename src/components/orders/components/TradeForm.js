@@ -4,6 +4,7 @@ import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Co
 import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
+import config from '../../../common/config'
 
 class TradeForm extends React.Component {
   state = {
@@ -27,8 +28,12 @@ class TradeForm extends React.Component {
     const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account} = this.props
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
-    const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
-    const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
+    const tokenLBalance = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
+    const balanceL = fm.toBig(tokenLBalance.balance).div("1e"+tokenLBalance.digits).toNumber()
+    tokenLBalance.balance = balanceL
+    const tokenRBalance = {...config.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
+    const balanceR = fm.toBig(tokenRBalance.balance).div("1e"+tokenRBalance.digits).toNumber()
+    tokenRBalance.balance = balanceR
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
     const tokenRPrice = prices.getTokenBySymbol(tokenR)
     const integerReg = new RegExp("^[0-9]*$")
@@ -121,10 +126,10 @@ class TradeForm extends React.Component {
           let userSetLrcFeeInEth = calculateLrcFeeInEth(totalWorth, milliLrcFee)
           const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
           if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
-            tradeInfo.lrcFee = calculateLrcFeeInLrc(userSetLrcFeeInEth)
+            tradeInfo.lrcFee = calculateLrcFeeInLrc(totalWorth)
             showTradeModal(tradeInfo)
           } else {
-            tradeInfo.lrcFee = calculateLrcFeeInLrc(minimumLrcfeeInEth)
+            tradeInfo.lrcFee = calculateLrcFeeByEth(minimumLrcfeeInEth)
             const content = 'According to your setting, lrcFee is '+calculateLrcFeeByEth(userSetLrcFeeInEth)+'LRC, we increase it to a minimum value:'+tradeInfo.lrcFee+"LRC, will you continue place order?"
             showConfirm(content, tradeInfo)
           }
@@ -168,15 +173,15 @@ class TradeForm extends React.Component {
       return accDiv(accDiv(accMul(totalWorth, milliLrcFee), 1000), price)
     }
 
-    function calculateLrcFeeInLrc(totalEthWorth) {
-      //TODO average exchange rate lrc -> weth
-      const price = 0.00078
-      return accDiv(Math.floor(accMul(accDiv(totalEthWorth, price), 100)), 100)
+    function calculateLrcFeeInLrc(totalWorth) {
+      const price = prices.getTokenBySymbol("lrc").price
+      return accDiv(Math.floor(accMul(accDiv(totalWorth, price), 100)), 100)
     }
 
     function calculateLrcFeeByEth(ethAmount) {
-      //TODO lrc -> weth
-      const price = 0.00078
+      const ethPrice = prices.getTokenBySymbol("eth").price
+      const lrcPrice = prices.getTokenBySymbol("lrc").price
+      const price = accDiv(lrcPrice, ethPrice)
       return accDiv(Math.floor(accMul(accDiv(ethAmount, price), 100)), 100)
     }
 
