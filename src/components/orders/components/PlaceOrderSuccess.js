@@ -19,13 +19,15 @@ const PlaceOrderSuccess = ({
   }
   const gotoReceive = ()=>{
 
-  }
+    this.props.modal.showModal.bind(this,'token/receive')
+
+  };
   const gotoConvert = ()=>{
 
-  }
+  };
   const gotoBuy = ()=>{
 
-  }
+  };
   return (
     <Card title="Placing Order">
       <div className="text-center p15 zb-b-b">
@@ -41,13 +43,13 @@ const PlaceOrderSuccess = ({
         </div>
         <div className="">
           <Icon className="color-red-500 mr10" type="close-circle-o" />xxToken blance is not enough
-          <a onClick="" className="ml15 color-blue-500">Receive <Icon type="right" /></a>
-          <a onClick="" className="ml15 color-blue-500">Buy <Icon type="right" /></a>
+          <a onClick={gotoReceive} className="ml15 color-blue-500">Receive <Icon type="right" /></a>
+          <a onClick={gotoBuy} className="ml15 color-blue-500">Buy <Icon type="right" /></a>
         </div>
         <div className="">
           <Icon className="color-red-500 mr10" type="close-circle-o" />WETH blance is not enough
-          <a onClick="" className="ml15 color-blue-500">Receive <Icon type="right" /></a>
-          <a onClick="" className="ml15 color-blue-500">Convert <Icon type="right" /></a>
+          <a onClick={gotoReceive} className="ml15 color-blue-500">Receive <Icon type="right" /></a>
+          <a className="ml15 color-blue-500">Convert <Icon type="right" /></a>
         </div>
       </div>
     </Card>

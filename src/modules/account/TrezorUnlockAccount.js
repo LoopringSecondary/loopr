@@ -85,7 +85,7 @@ export default class TrezorUnlockAccount extends Account {
 
   async signOrder(order) {
     const hash = getOrderHash(order);
-    return trezorSign({path: this.dpath.concat(`/${this.index}`), hash: hash}).then(signature =>{
+    return trezorSign({path: this.dpath.concat(`/${this.index}`), hash: toHex(hash)}).then(signature =>{
       const r = addHexPrefix(signature.substr(0,64));
       const s = addHexPrefix(signature.substr(64,64));
       const v = toNumber(addHexPrefix(signature.substr(128,2)));
