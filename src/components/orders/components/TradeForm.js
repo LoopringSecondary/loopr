@@ -24,7 +24,7 @@ class TradeForm extends React.Component {
   render() {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
-    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair} = this.props
+    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account} = this.props
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
     const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
@@ -66,6 +66,9 @@ class TradeForm extends React.Component {
     }
 
     function handleSubmit() {
+      if(!window.WALLET_UNLOCK_TYPE) {
+        return
+      }
       form.validateFields((err, values) => {
         if (!err) {
           const tradeInfo = {}
@@ -156,14 +159,13 @@ class TradeForm extends React.Component {
     }
 
     function calculateWorthInLegalCurrency(symbol, amount) {
-      const price = prices.getTokenBySymbol(symbol)
-      return amount * price.price
+      const price = prices.getTokenBySymbol(symbol).price
+      return amount * price
     }
 
     function calculateLrcFeeInEth(totalWorth, milliLrcFee) {
-      //TODO average exchange rate lrc -> weth
-      const price = 0.00078
-      return accMul(accDiv(accMul(totalWorth, milliLrcFee), 1000), price)
+      const price = prices.getTokenBySymbol("eth").price
+      return accDiv(accDiv(accMul(totalWorth, milliLrcFee), 1000), price)
     }
 
     function calculateLrcFeeInLrc(totalEthWorth) {
@@ -479,22 +481,29 @@ class TradeForm extends React.Component {
               </div>
             </Collapse.Panel>
           </Collapse>
-          <Form.Item>
-            {
-              side == 'buy' &&
-              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
-                      size="large">
-                Place Order
-              </Button>
-            }
-            {
-              side == 'sell' &&
-              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
-                      size="large">
-                Place Order
-              </Button>
-            }
-          </Form.Item>
+          {account && account.address &&
+            <Form.Item>
+              {
+                side == 'buy' &&
+                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
+                        size="large">
+                  Place Order
+                </Button>
+              }
+              {
+                side == 'sell' &&
+                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
+                        size="large">
+                  Place Order
+                </Button>
+              }
+            </Form.Item>
+          }
+          {(!account || !account.address) &&
+            <div className="row justify-content-center bg-blue-grey-50">
+              <div className="col-auto"><a onClick={showModal.bind(this,'wallet/unlock')}>Unlock</a> to trade</div>
+            </div>
+          }
         </Form>
       </div>
     );

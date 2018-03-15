@@ -8,6 +8,7 @@ import Market from '../market/components'
 import PlaceOrderContainer from '../../modules/orders/models/PlaceOrderContainer'
 import Sockets from '../../modules/socket/containers'
 import SettingsContainer from '../../modules/settings/container'
+import AccountContainer from '../../modules/account/container'
 
 const ToLogin = ()=>{
   return (
@@ -39,7 +40,9 @@ export default function Home(props){
                     <Sockets.Assets>
                       <Sockets.TickersByLoopring>
                         <Sockets.TickersByPair>
-                          <Order.TradeForm side="buy" pair={pair} />
+                          <AccountContainer>
+                            <Order.TradeForm side="buy" pair={pair} />
+                          </AccountContainer>
                         </Sockets.TickersByPair>
                       </Sockets.TickersByLoopring>
                     </Sockets.Assets>
@@ -54,7 +57,9 @@ export default function Home(props){
                     <Sockets.Assets>
                       <Sockets.TickersByLoopring>
                         <Sockets.TickersByPair>
-                          <Order.TradeForm side="sell" pair={pair} />
+                          <AccountContainer>
+                            <Order.TradeForm side="sell" pair={pair} />
+                          </AccountContainer>
                         </Sockets.TickersByPair>
                       </Sockets.TickersByLoopring>
                     </Sockets.Assets>
