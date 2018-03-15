@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Collapse, Input} from 'antd';
+import {Button, Card, Collapse, Input, Modal} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
@@ -50,7 +50,16 @@ class TradeConfirm extends React.Component {
     const authAccount = create('');
     order.authAddr = authAccount.address;
     order.authPrivateKey = authAccount.privateKey;
+    if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
+      Modal.info({
+        title: 'To Confirm',
+        content: "Please confirm transaction on your Ledger device",
+      });
+    }
+    console.log(".........", window.WALLET)
     window.WALLET.signOrder(order).then(function(signedOrder){
+      console.log("order:",order)
+      console.log("signedOrder:",signedOrder)
       this.setState({
         order,
         signedOrder,

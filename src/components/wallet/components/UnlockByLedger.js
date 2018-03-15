@@ -34,12 +34,8 @@ class UnlockByLedger extends React.Component {
 
   setWallet = (index, address) => {
     const {account} = this.props;
-    window.WALLET.setIndex({dpath, index, address})
-      .then(result=>{
-        if(result.address) {
-          account.setWallet({address:result.address, walletType:walletType})
-        }
-      })
+    window.WALLET.setIndex({dpath, index})
+    account.setWallet({address:window.WALLET.getAddress(), walletType:walletType})
   };
 
   isConnected = () => {

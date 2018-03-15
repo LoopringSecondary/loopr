@@ -486,7 +486,7 @@ class TradeForm extends React.Component {
               </div>
             </Collapse.Panel>
           </Collapse>
-          {account && account.address &&
+          {account && account.isUnlocked &&
             <Form.Item>
               {
                 side == 'buy' &&
@@ -504,7 +504,7 @@ class TradeForm extends React.Component {
               }
             </Form.Item>
           }
-          {(!account || !account.address) &&
+          {(!account || !account.isUnlocked) &&
             <div className="row justify-content-center bg-blue-grey-50">
               <div className="col-auto">
                 <a onClick={showModal.bind(this,'wallet/unlock')}>Unlock</a> to trade

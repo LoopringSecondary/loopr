@@ -62,6 +62,7 @@ export default class MnemonicUnlockAccount extends Account {
     return download(privateKey, password, mime)
   }
  async signOrder(order){
+    console.log(111111)
     return new Promise((resolve)=>{
       resolve( sign(order,this.privateKey) )
     })

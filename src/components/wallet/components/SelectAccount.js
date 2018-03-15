@@ -36,7 +36,7 @@ export default class SelectAccount extends React.Component {
     setWallet(pageNum * pageSize + index);
     modal.hideModal({id: 'wallet/selectAccount'});
     modal.hideModal({id: 'wallet/unlock'});
-    window.routeActions.gotoPath('wallet/portfolio');
+    window.routeActions.gotoPath('/wallet/portfolio');
   };
 
   render() {
