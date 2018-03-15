@@ -3,6 +3,7 @@ import {fromMnemonic, download, privateKeytoAddress} from '../../common/Loopring
 import EthTransaction from 'ethereumjs-tx'
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import {toHex, toBuffer, addHexPrefix} from '../../common/Loopring/common/formatter'
+import {sign} from 'Loopring/relay/order'
 
 export default class MnemonicUnlockAccount extends Account {
 
@@ -59,5 +60,10 @@ export default class MnemonicUnlockAccount extends Account {
     password = password || this.password;
     const privateKey = toBuffer(addHexPrefix(this.privateKey));
     return download(privateKey, password, mime)
+  }
+ async signOrder(order){
+    return new Promise((resolve)=>{
+      resolve( sign(order,this.privateKey) )
+    })
   }
 }

@@ -113,7 +113,7 @@ class TradeForm extends React.Component {
           let userSetLrcFeeInEth = calculateLrcFeeInEth(totalWorth, milliLrcFee)
           const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
           //TODO mock
-          userSetLrcFeeInEth = 0.0000001
+          //userSetLrcFeeInEth = 0.0000001
           if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
             tradeInfo.lrcFee = calculateLrcFeeInLrc(userSetLrcFeeInEth)
             showTradeModal(tradeInfo)
