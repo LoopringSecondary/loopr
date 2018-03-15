@@ -6,6 +6,42 @@ import TickerListTable from './TickerListTable'
 import Sockets from '../../../modules/socket/containers'
 import Currency from '../../../modules/settings/CurrencyContainer'
 
+let fm = {}
+fm.getVolume = (value)=>{
+  if(value>1000){
+    return value.toFixed(0)
+  }
+  if(value<=1000 && value>=1){
+    return value.toFixed(1)
+  }
+  if(value<1 && value>=0.001){
+    return value.toFixed(5)
+  }
+  if(value<0.001 & value>0){
+    return value.toFixed(8)
+  }
+  if(value===0){
+    return 0.00
+  }
+}
+fm.getPrice = (value)=>{
+  if(value>1000){
+    return value.toFixed(2)
+  }
+  if(value<=1000 && value>=1){
+    return value.toFixed(2)
+  }
+  if(value<1 && value>=0.001){
+    return value.toFixed(5)
+  }
+  if(value<0.001 & value>0){
+    return value.toFixed(8)
+  }
+  if(value===0){
+    return 0.00
+  }
+}
+
 const LooprTicker = ({pair='',ticker={},price=0})=>{
   const tokenL = pair.split('-')[0]
   const tokenR = pair.split('-')[1]
@@ -87,16 +123,16 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
         <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <div className="col-auto">
             <div className="fs16 color-grey-900">
-              {ticker.last} {priceValue}
+              {fm.getPrice(ticker.last)} {priceValue}
               </div>
             <div className="fs14 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>{ticker.exchange}</div>
           </div>
-          <div className="col-auto">
+          <div className="col-auto text-right">
             <div className="fs16" style={{color:'#1DB427'}}>{ticker.change}</div>
             <div className="fs14 color-grey-400 ">24H Change</div>
           </div>
-          <div className="col-auto">
-            <div className="fs16 color-grey-900">{ticker.vol || (ticker.amount*ticker.last).toFixed(5)}</div>
+          <div className="col-auto text-right">
+            <div className="fs16 color-grey-900">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
             <div className="fs14 color-grey-400">24H Vol</div>
           </div>
         </div>
