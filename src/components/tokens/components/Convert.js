@@ -5,9 +5,9 @@ import wethLogo from '../../../assets/images/weth.png';
 import wrapArrow from '../../../assets/images/wrap-arrow.png';
 import WETH from '../../../common/Loopring/ethereum/weth'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
-import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
 import * as math from '../../../common/Loopring/common/math'
+import config from '../../../common/config'
 
 class Convert extends React.Component {
   state = {
@@ -20,10 +20,11 @@ class Convert extends React.Component {
   }
 
   render() {
-    const {form, modal, account, settings} = this.props
+    const {form, modal, account, settings, assets, prices} = this.props
     let selectedToken = modal.item || {}
-    //TODO mock data
-    selectedToken = {...selectedToken, balance: 1.2, allowance: 0}
+    selectedToken = {...config.getTokenBySymbol(selectedToken.symbol), ...assets.getTokenBySymbol(selectedToken.symbol)}
+    const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
+    selectedToken.balance = balance
 
     function handleSubmit() {
       const _this = this
@@ -53,7 +54,7 @@ class Convert extends React.Component {
     }
 
     function deposit(amount, nonce) {
-      const wethConfig = window.CONFIG.getTokenBySymbol('WETH')
+      const wethConfig = config.getTokenBySymbol('WETH')
       const tx = {};
       tx.to = wethConfig.address;
       tx.value = fm.toHex(fm.toBig(amount).times(1e18));
@@ -64,7 +65,7 @@ class Convert extends React.Component {
     }
 
     function withdraw(amount, nonce) {
-      const wethConfig = window.CONFIG.getTokenBySymbol('WETH')
+      const wethConfig = config.getTokenBySymbol('WETH')
       const tx = {};
       tx.to = wethConfig.address;
       tx.value = fm.toHex(fm.toBig(amount).times(1e18));
@@ -82,7 +83,8 @@ class Convert extends React.Component {
         wrapAmount = Math.max(math.accSub(selectedToken.balance, 0.1), 0)
         selectMaxWarn = true
       }
-      this.setState({amount: wrapAmount, estimateWorth: wrapAmount * this.state.exchangeRate, selectMaxWarn:selectMaxWarn, inputMaxWarn:false})
+      const estimateWorth = math.accDiv(Math.floor(math.accMul(wrapAmount * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
+      this.setState({amount: wrapAmount, estimateWorth: estimateWorth, selectMaxWarn:selectMaxWarn, inputMaxWarn:false})
       form.setFieldsValue({"amount": wrapAmount})
     }
 
@@ -97,7 +99,8 @@ class Convert extends React.Component {
         if(selectedToken.symbol === "ETH" && v >= selectedToken.balance) {
           inputMaxWarn = true
         }
-        this.setState({amount: v, estimateWorth: v * this.state.exchangeRate, selectMaxWarn: false, inputMaxWarn: inputMaxWarn})
+        const estimateWorth = math.accDiv(Math.floor(math.accMul(v * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
+        this.setState({amount: v, estimateWorth: estimateWorth, selectMaxWarn: false, inputMaxWarn: inputMaxWarn})
       }
     }
 

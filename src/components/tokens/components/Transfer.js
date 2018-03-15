@@ -4,31 +4,36 @@ import validator from '../../../common/Loopring/common/validator'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
+import config from '../../../common/config'
+import {accDiv, accMul} from '../../../common/Loopring/common/math'
 
 class Transfer extends React.Component {
   state = {
-    estimateGasPrice: 30,
-    selectedGasPrice: fm.toNumber(configs.defaultGasPrice),
-    selectedGasLimit: fm.toNumber(configs.defaultGasLimit),
+    selectedGasPrice: this.props.settings.trading.gasPrice,
+    selectedGasLimit: '',
     selectedGas: 0,
     gasValueInSlider:0,
     advanced: false,
     value: 0,
-    estimateWorth: 0,
-    exchangeRate : 6.3
+    estimateWorth: 0
   }
 
   componentDidMount() {
-    const gas = fm.toBig(this.state.estimateGasPrice).times(fm.toNumber(configs.defaultGasLimit)).div(1e9)
+    const {settings} = this.props
+    const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+    const gas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
     this.setState({selectedGas: fm.toNumber(gas.toFixed(8)), gasValueInSlider:fm.toNumber(gas.toFixed(8)) * 1e9})
   }
 
   render() {
-    const {form, modal, account} = this.props
+    const {form, modal, account, settings, assets, prices} = this.props
     let selectedToken = modal.item || {}
-    const defaultGasLimit = fm.toNumber(configs.defaultGasLimit)
-    //TODO mock data
-    selectedToken = {...selectedToken, balance: 100.00, allowance: 0}
+    selectedToken = {...config.getTokenBySymbol(selectedToken.symbol), ...assets.getTokenBySymbol(selectedToken.symbol)}
+    const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
+    selectedToken.balance = balance
+    const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+    const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+
     function handleSubmit() {
       form.validateFields((err, values) => {
         if (!err) {
@@ -37,9 +42,9 @@ class Transfer extends React.Component {
             tx.gasPrice = fm.toHex(fm.toBig(this.state.selectedGasPrice).times(1e9))
             tx.gasLimit = fm.toHex(this.state.selectedGasLimit)
           } else {
-            const gasPrice = fm.toBig(this.state.selectedGas).div(defaultGasLimit).times(1e9).toFixed(2)
+            const gasPrice = fm.toBig(this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
             tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
-            tx.gasLimit = fm.toHex(fm.toNumber(defaultGasLimit))
+            tx.gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
           }
           if(selectedToken.symbol === "ETH") {
             tx.to = values.to;
@@ -52,8 +57,8 @@ class Transfer extends React.Component {
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
-          const worth = (fm.toNumber(this.state.exchangeRate) * values.amount).toFixed(4)
-          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:worth}
+          const estimateWorth = accDiv(Math.floor(accMul(values.amount * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
+          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:estimateWorth}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', tx, extraData})
         }
@@ -78,6 +83,24 @@ class Transfer extends React.Component {
       // }
     }
 
+    function isInteger(v){
+      const value = v.toString()
+      if(value) {
+        var result = value.match(/^(-|\+)?\d+$/);
+        if(result === null) return false;
+        return true;
+      }
+    }
+
+    function isNumber(v) {
+      const value = v.toString()
+      if(value) {
+        var result = value.toString().match(amountReg)
+        if(result === null) return false;
+        return true;
+      }
+    }
+
     function setAdvance(v) {
       setTimeout(()=>{
         this.setState({advanced:v})
@@ -93,7 +116,8 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      this.setState({value: selectedToken.balance, estimateWorth: selectedToken.balance * this.state.exchangeRate})
+      const estimateWorth = accDiv(Math.floor(accMul(selectedToken.balance * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
+      this.setState({value: selectedToken.balance, estimateWorth: estimateWorth})
       form.setFieldsValue({"amount": selectedToken.balance})
     }
 
@@ -107,7 +131,11 @@ class Transfer extends React.Component {
     }
 
     function validateAmount(value) {
-      return value && value <= selectedToken.balance
+      if(isNumber(value)) {
+        return value && value <= selectedToken.balance
+      } else {
+        return false
+      }
     }
 
     function amountFocus() {
@@ -120,8 +148,8 @@ class Transfer extends React.Component {
     function amountChange(e) {
       if(e.target.value) {
         const v = fm.toNumber(e.target.value)
-        const worth = (fm.toNumber(this.state.exchangeRate) * v).toFixed(4)
-        this.setState({value: v, estimateWorth: worth})
+        const estimateWorth = accDiv(Math.floor(accMul(v * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
+        this.setState({value: v, estimateWorth: estimateWorth})
       }
     }
 
@@ -170,7 +198,8 @@ class Transfer extends React.Component {
             {form.getFieldDecorator('amount', {
               initialValue: 0,
               rules: [
-                {message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
+                {
+                  message: 'Please input valid amount',
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
                 }
               ]
@@ -234,8 +263,8 @@ class Transfer extends React.Component {
                 {form.getFieldDecorator('gasLimit', {
                   initialValue: this.state.selectedGasLimit,
                   rules: [{
-                    type : 'integer', message:"Please input integer value",
-                    transform:(value)=>fm.toNumber(value)
+                    message:"Please input integer value",
+                    validator: (rule, value, cb) => isInteger(value) ? cb() : cb(true)
                   }],
                 })(
                   <Input className="d-block w-100" placeholder="" size="large" onChange={gasLimitChange.bind(this)}/>

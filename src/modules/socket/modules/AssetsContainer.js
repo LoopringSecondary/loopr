@@ -64,7 +64,7 @@ class AssetsContainer extends React.Component {
     socket.off('balance_res')
   }
   getTokenBySymbol(symbol,ifFormat){
-    let assetToken = this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
+    let assetToken = this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {balance:0, allowance:0}
     if(ifFormat){
       if(assetToken){
         const balance =  Number(assetToken.balance)

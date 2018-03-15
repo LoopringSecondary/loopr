@@ -122,9 +122,23 @@ export default class LedgerUnlockAccount extends Account {
     };
   };
 
-  signMessage(message){
-    console.log("Ledger sign")
-    //TODO
+  signMessage(msg) {
+    const msgHex = Buffer.from(msg).toString('hex');
+
+    return new Promise((resolve, reject) => {
+      this.ledger
+        .signPersonalMessage_async(this.getPath(), msgHex, async (signed, error) => {
+        if (error) {
+          return reject(this.ledger.getError(error));
+        }
+
+        try {
+          resolve(signed);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    });
   }
 
   signRawTransaction(t) {
