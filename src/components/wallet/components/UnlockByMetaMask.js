@@ -23,7 +23,7 @@ let UnlockByMetaMask = ({
        window.WALLET_UNLOCK_TYPE = walletType
        account.setWallet({address:selectedAccount, walletType:walletType})
        modal.hideModal({id: 'wallet/unlock'});
-       window.routeActions.gotoPath('wallet/portfolio');
+       window.routeActions.gotoPath('/wallet/portfolio');
 
        var accountInterval = setInterval(function() {
          if (!window.web3 || !window.web3.eth.accounts[0]) {
