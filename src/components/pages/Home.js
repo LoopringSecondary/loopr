@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import { Route } from 'dva/router'
 import Layout from '../../layout/Layout'
 import Market from '../market/components'
-import TickersContainer from '../../modules/tickers/ListContainer'
+import Sockets from '../../modules/socket/containers'
 
 function Home(props){
   const { children,dispatch } = props
@@ -26,15 +26,15 @@ function Home(props){
          <div className="fs24 color-grey-500 mb10">Secure token trading right from your own wallet .</div>
          <div className="">
            <Button onClick={showModal.bind(this,'wallet/unlock')} className="m15" style={{width:'255px'}} type="primary" size="large">Unlock Wallet</Button>
-           <Button onClick={showModal.bind(this,'wallet/generate')} className="m15" style={{width:'255px'}} type="" size="large">Generate Wallet</Button>  
+           <Button onClick={showModal.bind(this,'wallet/generate')} className="m15" style={{width:'255px'}} type="" size="large">Generate Wallet</Button>
          </div>
        </div>
        <div className="position-absolute w-100" style={{bottom:'0px'}}>
-        <TickersContainer>
+        <Sockets.TickersByLoopring>
          <Market.TickerCarousel />
-        </TickersContainer>
+        </Sockets.TickersByLoopring>
        </div>
-       
+
       </div>
     </Layout>
   )
