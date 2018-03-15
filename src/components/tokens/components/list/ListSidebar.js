@@ -12,7 +12,7 @@ import * as fm from '../../../../common/Loopring/common/formatter'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
 
-function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
+function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
   let {
     items = [],
     selected = {},
@@ -20,28 +20,14 @@ function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
     filters = {},
     page = {}
   } = LIST
-  items.forEach(item=>{
-    const asset =  assets.find(asset=>asset.symbol === item.symbol)
-    if(asset){
-      item.balance = Number(asset.balance)
-      item.allowance = Number(asset.allowance)
-    }else{
-      item.balance = 0
-      item.allowance = 0
-    }
-    const price =  prices.find(price=>price.symbol === item.symbol)
-    if(price){
-      item.price = Number(price.price)
-    }else{
-      item.price = 0
-    }
-  })
 
-  //TODO load from store
-  const selectedGasPrice = 30
-  const selectedGasLimit = 21000
-  const address = "0x4919776519F2B290E0E98AA8d9f5751b5321876C"
-  const privateKey ="93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
+  items.forEach(item=>{
+    const assetToken = assets.getTokenBySymbol(item.symbol,true)
+    const priceToken = prices.getTokenBySymbol(item.symbol,true)
+    item.balance = assetToken.balance
+    item.allowance = assetToken.allowance
+    item.price = priceToken.price
+  })
   const showModal = (payload)=>{
     dispatch({
       type: 'modals/modalChange',
@@ -85,6 +71,11 @@ function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
       id: 'token/add',
     })
   }
+  /*
+  const selectedGasPrice = 30
+  const selectedGasLimit = 21000
+  const address = account.address
+  const privateKey ="93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
   const toggleApprove = (token, checked)=>{
     // there is no event in arguments
     console.log(token)
@@ -199,6 +190,7 @@ function ListSidebar({LIST, actions, dispatch,assets=[],prices=[]}) {
       }})
     }
   }
+  */
   const toggleMyFavorite = ()=>{
     actions.filtersChange({
       filters: {

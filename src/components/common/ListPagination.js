@@ -2,7 +2,7 @@ import React from 'react';
 import { Pagination} from 'antd';
 
 function DataTablePagination({actions={},LIST={},className}){
-  let {page={}} = LIST;
+  let {page={},items=[]} = LIST;
   let handlePageChange = (current,size) => {
     // action.payload { page,filters,sort,cloumns }
     actions.pageChange({
@@ -29,9 +29,14 @@ function DataTablePagination({actions={},LIST={},className}){
      // showTotal:true,
      // simple:true,
   }
-  return (
-    <Pagination {...paginationProps}/>
-  );
+  if(items.length>0){
+    return (
+      <Pagination {...paginationProps}/>
+    )
+  }else{
+    return null
+  }
+
 }
 
 export default DataTablePagination;

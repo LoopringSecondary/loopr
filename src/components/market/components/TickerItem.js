@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Icon,Popover } from 'antd';
 import TickerListTable from './TickerListTable'
-import TickersContainer from '../../../modules/tickers/ListContainer'
+import Sockets from '../../../modules/socket/containers'
 import Currency from '../../../modules/settings/CurrencyContainer'
 
 const LooprTicker = ({pair='',ticker={},price=0})=>{
@@ -24,9 +24,9 @@ const LooprTicker = ({pair='',ticker={},price=0})=>{
 		  arrowPointAtCenter={false}
 		  content={
 		    <div className="" style={{minWidth:'420px'}}>
-          <TickersContainer>
+          <Sockets.TickersByLoopring>
 		        <TickerListTable />
-          </TickersContainer>
+          </Sockets.TickersByLoopring>
 		    </div>
 		  }
 		>
@@ -97,17 +97,17 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
           </div>
           <div className="col-auto">
             <div className="fs16 color-grey-900">{ticker.vol || (ticker.amount*ticker.last).toFixed(5)}</div>
-            <div className="fs14 color-grey-400">24H Volume<span className="fs10"> / {tokenR}</span></div>
+            <div className="fs14 color-grey-400">24H Vol</div>
           </div>
         </div>
       )
 
 }
 
-function Ticker({pair,tickersByPair,prices}) {
+function Ticker({pair,tickersByPair={},prices={}}) {
   const tokenL = pair.split('-')[0]
   const tokenR = pair.split('-')[1]
-  const token = prices.find(price=>price.symbol.toLowerCase() === tokenR.toLowerCase()) || {}
+  const token = prices.getTokenBySymbol(tokenR,true)
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>

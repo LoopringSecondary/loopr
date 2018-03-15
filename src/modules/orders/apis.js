@@ -11,7 +11,7 @@ export async function fetchList(payload){
       filter.pageSize = page.size
     }
     filter.contractVersion = 'v1.2'
-    filter.owner = window.WALLET.getAddress()
+    filter.owner = window.WALLET && window.WALLET.getAddress()
     return getOrders(filter).then(res=>{
       return {
         items:res.result.data,

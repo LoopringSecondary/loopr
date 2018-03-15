@@ -4,20 +4,20 @@ import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Co
 import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
+import config from '../../../common/config'
 
 class TradeForm extends React.Component {
   state = {
-    exchangeRate: 812, //TODO eth-usd
     estimatePriceWorth: 0,
     availableAmount: 0,
     timeToLivePopularSetting: true
   }
 
   componentDidMount() {
-    const {side, pair} = this.props
+    const {side, pair, assets} = this.props
     if (side === 'sell') {
       const tokenL = pair.split('-')[0].toUpperCase()
-      const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 100.00, allowance: 0}
+      const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
       this.setState({availableAmount: tokenLBalance.balance})
     }
   }
@@ -25,13 +25,17 @@ class TradeForm extends React.Component {
   render() {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
-    const {form, dispatch, side = 'sell', pair = 'LRC-WETH'} = this.props
+    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account} = this.props
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
-    //TODO mock data
-    const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), balance: 100.00, allowance: 0}
-    const tokenRBalance = {...window.CONFIG.getTokenBySymbol(tokenR), balance: 321.00, allowance: 0}
+    const tokenLBalance = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
+    const balanceL = fm.toBig(tokenLBalance.balance).div("1e"+tokenLBalance.digits).toNumber()
+    tokenLBalance.balance = balanceL
+    const tokenRBalance = {...config.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
+    const balanceR = fm.toBig(tokenRBalance.balance).div("1e"+tokenRBalance.digits).toNumber()
+    tokenRBalance.balance = balanceR
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
+    const tokenRPrice = prices.getTokenBySymbol(tokenR)
     const integerReg = new RegExp("^[0-9]*$")
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
 
@@ -67,6 +71,9 @@ class TradeForm extends React.Component {
     }
 
     function handleSubmit() {
+      if(!window.WALLET_UNLOCK_TYPE) {
+        return
+      }
       form.validateFields((err, values) => {
         if (!err) {
           const tradeInfo = {}
@@ -101,8 +108,14 @@ class TradeForm extends React.Component {
           if (values.marginSplit) {
             tradeInfo.marginSplit = Number(values.marginSplit)
           }
-          // TODO milliLrcfee
           const totalWorth = calculateWorthInLegalCurrency(tokenR, tradeInfo.total)
+          if(totalWorth <= 0) {
+            Modal.error({
+              title: 'Error',
+              content: "Failed fetch data from server",
+            });
+            return
+          }
           let milliLrcFee = 0
           if (values.lrcFee) {
             milliLrcFee = Number(values.lrcFee)
@@ -112,13 +125,11 @@ class TradeForm extends React.Component {
           }
           let userSetLrcFeeInEth = calculateLrcFeeInEth(totalWorth, milliLrcFee)
           const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
-          //TODO mock
-          //userSetLrcFeeInEth = 0.0000001
           if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
-            tradeInfo.lrcFee = calculateLrcFeeInLrc(userSetLrcFeeInEth)
+            tradeInfo.lrcFee = calculateLrcFeeInLrc(totalWorth)
             showTradeModal(tradeInfo)
           } else {
-            tradeInfo.lrcFee = calculateLrcFeeInLrc(minimumLrcfeeInEth)
+            tradeInfo.lrcFee = calculateLrcFeeByEth(minimumLrcfeeInEth)
             const content = 'According to your setting, lrcFee is '+calculateLrcFeeByEth(userSetLrcFeeInEth)+'LRC, we increase it to a minimum value:'+tradeInfo.lrcFee+"LRC, will you continue place order?"
             showConfirm(content, tradeInfo)
           }
@@ -136,8 +147,7 @@ class TradeForm extends React.Component {
     }
 
     function toConfirm(tradeInfo) {
-      //TODO mock
-      const userOwnedLrc = 0.10000001
+      const userOwnedLrc = assets.getTokenBySymbol("LRC").balance
       if(userOwnedLrc < tradeInfo.lrcFee){
         const errors = new Array()
         errors.push({
@@ -154,31 +164,24 @@ class TradeForm extends React.Component {
     }
 
     function calculateWorthInLegalCurrency(symbol, amount) {
-      //TODO mock worth
-      return amount * 812
+      const price = prices.getTokenBySymbol(symbol).price
+      return amount * price
     }
 
     function calculateLrcFeeInEth(totalWorth, milliLrcFee) {
-      //TODO tokenR -> weth
-      const price = 0.00078
-      return accMul(accDiv(accMul(totalWorth, milliLrcFee), 1000), price)
+      const price = prices.getTokenBySymbol("eth").price
+      return accDiv(accDiv(accMul(totalWorth, milliLrcFee), 1000), price)
     }
 
-    function calculateLrcFeeInLrc(totalWethWorth) {
-      //TODO lrc -> weth
-      const price = 0.00078
-      return accDiv(Math.floor(accMul(accDiv(totalWethWorth, price), 100)), 100)
-    }
-
-    function calculateLrcFeeWithLrc(totalWorthWithLegalCurrency) {
-      //TODO lrc -> legal currency
-      const price = 23.4
-      return accDiv(totalWorthWithLegalCurrency, price)
+    function calculateLrcFeeInLrc(totalWorth) {
+      const price = prices.getTokenBySymbol("lrc").price
+      return accDiv(Math.floor(accMul(accDiv(totalWorth, price), 100)), 100)
     }
 
     function calculateLrcFeeByEth(ethAmount) {
-      //TODO lrc -> weth
-      const price = 0.00078
+      const ethPrice = prices.getTokenBySymbol("eth").price
+      const lrcPrice = prices.getTokenBySymbol("lrc").price
+      const price = accDiv(lrcPrice, ethPrice)
       return accDiv(Math.floor(accMul(accDiv(ethAmount, price), 100)), 100)
     }
 
@@ -251,7 +254,7 @@ class TradeForm extends React.Component {
           }
           e.target.value = price
         }
-        this.setState({estimatePriceWorth: accMul(price, this.state.exchangeRate).toFixed(2)})
+        this.setState({estimatePriceWorth: accMul(price, tokenRPrice.price).toFixed(2)})
         amount = Number(form.getFieldValue("amount"))
         if(side === 'buy'){
           const precision = Math.max(0,tokenRBalance.precision - marketConfig.pricePrecision)
@@ -483,22 +486,36 @@ class TradeForm extends React.Component {
               </div>
             </Collapse.Panel>
           </Collapse>
-          <Form.Item>
-            {
-              side == 'buy' &&
-              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
-                      size="large">
-                Place Order
-              </Button>
-            }
-            {
-              side == 'sell' &&
+          {account && account.address &&
+            <Form.Item>
+              {
+                side == 'buy' &&
+                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
+                        size="large">
+                  Place Order
+                </Button>
+              }
+              {
+                side == 'sell' &&
+                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
+                        size="large">
+                  Place Order
+                </Button>
+              }
+            </Form.Item>
+          }
+          {(!account || !account.address) &&
+            <div className="row justify-content-center bg-blue-grey-50">
+              <div className="col-auto">
+                <a onClick={showModal.bind(this,'wallet/unlock')}>Unlock</a> to trade
+
+              </div>
               <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
                       size="large">
                 Place Order
               </Button>
-            }
-          </Form.Item>
+            </div>
+          }
         </Form>
       </div>
     );

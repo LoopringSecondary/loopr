@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import TickersByLooopringData from '../mocks/TickersByLoopring.json'
 class TickersSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -9,31 +10,45 @@ class TickersSocketContainer extends React.Component {
   }
   componentDidMount() {
     const { socket } = this.context
-    if (!socket) {
-      console.log('socket connection has not been established')
-      return false
-    }
-    socket.emit('loopringTickers_req','')
-    socket.on('loopringTickers_res', (res)=>{
-      console.log('loopringTickers_res')
-      this.setState({
-        tickersByLoopring:res.result,
+    if(socket && socket.connected){
+      socket.emit('loopringTickers_req','')
+      socket.on('loopringTickers_res', (res)=>{
+        console.log('loopringTickers_res')
+        res = JSON.parse(res)
+        if(!res.error){
+          this.setState({
+            tickersByLoopring:res.data,
+          })
+        }
       })
-    })
+    }
+    if (!socket || !socket.connected) {
+      console.log('socket not connected')
+      this.setState({
+        tickersByLoopring:TickersByLooopringData
+      })
+    }
   }
   componentWillUnmount() {
     const { socket } = this.context
     if (!socket) {
-      console.log('socket connection has not been established')
+      console.log('socket not connected')
       return false
     }
     socket.off('loopringTickers_res')
   }
+  getTickerBySymbol(symbol){
+    return this.state.tickersByLoopring.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
+  }
   render() {
     const {children,...rest} = this.props
+    const { socket } = this.context
     const childProps = {
       ...rest,
-      ...this.state,
+      tickersByLoopring:{
+        items:this.state.tickersByLoopring,
+        getTickerBySymbol:this.getTickerBySymbol.bind(this)
+      }
     }
     const {render} = this.props
     if(render){

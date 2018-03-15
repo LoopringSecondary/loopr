@@ -2,6 +2,7 @@ import Account from "./Account";
 import EthTransaction from 'ethereumjs-tx'
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import * as fm from "../../common/Loopring/common/formatter";
+import {getOrderHash} from "Loopring/relay/order";
 
 export default class MetaMaskUnlockAccount extends Account {
 
@@ -21,10 +22,10 @@ export default class MetaMaskUnlockAccount extends Account {
     else return null
   }
 
-  async signMessage(message){
+  async signMessage(hash){
     const signMethod = () => {
       return new Promise((resolve)=>{
-        this.web3.eth.sign(this.account, this.web3.sha3(message), function(err, result){
+        this.web3.eth.sign(this.account, hash, function(err, result){
           if(!err){
             resolve(result)
           } else {
@@ -66,5 +67,12 @@ export default class MetaMaskUnlockAccount extends Account {
     } else {
       throw new Error("Not found MetaMask")
     }
+  }
+
+  async signOrder(order) {
+    const hash = getOrderHash(order);
+    const signed = await this.signMessage(fm.toHex(hash))
+    console.log({...order, ...signed})
+    return {...order, ...signed};
   }
 }
