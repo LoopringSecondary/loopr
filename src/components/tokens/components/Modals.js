@@ -10,6 +10,7 @@ import ModalContainer from '../../../modules/modals/container'
 import EthTxContainer from '../../../modules/tokens/models/EthTxContainer'
 import AccountContainer from '../../../modules/account/container'
 import SettingsContainer from '../../../modules/settings/container'
+import Sockets from '../../../modules/socket/containers'
 
 function Modals(props){
   return (
@@ -18,7 +19,11 @@ function Modals(props){
         <EthTxContainer id="transfer">
           <AccountContainer>
             <SettingsContainer>
-              <Transfer />
+              <Sockets.Prices>
+                <Sockets.Assets>
+                  <Transfer />
+                </Sockets.Assets>
+              </Sockets.Prices>
             </SettingsContainer>
           </AccountContainer>
         </EthTxContainer>
@@ -40,7 +45,11 @@ function Modals(props){
         <EthTxContainer id="convert">
           <AccountContainer>
             <SettingsContainer>
-              <Convert />
+              <Sockets.Prices>
+                <Sockets.Assets>
+                  <Convert />
+                </Sockets.Assets>
+              </Sockets.Prices>
             </SettingsContainer>
           </AccountContainer>
         </EthTxContainer>

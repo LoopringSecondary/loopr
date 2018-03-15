@@ -67,7 +67,7 @@ class PricesContainer extends React.Component {
     socket.off('marketcap_res')
   }
   getTokenBySymbol(symbol,ifFormat){
-    let priceToken = this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
+    let priceToken = this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {price:0}
     if(ifFormat){
       if(priceToken){
         const price =  Number(priceToken.price)
