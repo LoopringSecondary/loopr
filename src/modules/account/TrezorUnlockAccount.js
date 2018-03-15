@@ -1,12 +1,12 @@
 import Account from "./Account";
-import {getAddress, sign} from "../../common/Loopring/ethereum/trezor";
+import {trezorSign} from "../../common/Loopring/ethereum/trezor";
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import EthTransaction from 'ethereumjs-tx'
-import {signatureRecover} from '../../common/Loopring/ethereum/utils'
-import {clearPrefix, toBuffer, toHex, addHexPrefix} from '../../common/Loopring/common/formatter'
+import {addHexPrefix, clearPrefix, toBuffer, toHex,toNumber} from '../../common/Loopring/common/formatter'
 import {wallets} from "../../common/config/data";
 import HDKey from 'hdkey';
 import {publicKeytoAddress} from "Loopring/ethereum/account";
+import {getOrderHash} from "Loopring/relay/order";
 
 export default class TrezorUnlockAccount extends Account {
 
@@ -25,7 +25,7 @@ export default class TrezorUnlockAccount extends Account {
     hdk.chainCode = new Buffer(this.chainCode, 'hex');
     for (let i = 0; i < pageSize; i++) {
       const dkey = hdk.derive(`m/${i + pageSize * pageNum}`);
-      addresses.push(publicKeytoAddress(dkey.publicKey,true));
+      addresses.push(publicKeytoAddress(dkey.publicKey, true));
     }
     return addresses;
   }
@@ -36,7 +36,7 @@ export default class TrezorUnlockAccount extends Account {
     hdk.publicKey = new Buffer(this.publicKey, 'hex');
     hdk.chainCode = new Buffer(this.chainCode, 'hex');
     const dkey = hdk.derive(`m/${this.index}`);
-    const address = publicKeytoAddress(dkey.publicKey,true)
+    const address = publicKeytoAddress(dkey.publicKey, true);
     super.setAddress(address)
   }
 
@@ -79,5 +79,16 @@ export default class TrezorUnlockAccount extends Account {
     } else {
       throw new Error(signed.error)
     }
+  }
+
+  async signOrder(order) {
+    const hash = getOrderHash(order);
+    return trezorSign({path: this.dpath.concat(`/${this.index}`), hash: toHex(hash)}).then(signature =>{
+      const r = addHexPrefix(signature.slice(0,64));
+      const s = addHexPrefix(signature.slice(64,128));
+      const v = toNumber(addHexPrefix(signature.slice(128,130)));
+      return {...order,r,s,v};
+    })
+
   }
 }

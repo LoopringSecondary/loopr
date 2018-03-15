@@ -3,17 +3,14 @@ import EthTransaction from 'ethereumjs-tx'
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import {toHex, toBuffer, addHexPrefix} from '../../common/Loopring/common/formatter'
 import {privateKeytoAddress,download} from 'Loopring/ethereum/account';
+import {sign} from 'Loopring/relay/order'
 
 export default class PrivateKeyUnlockAccount extends Account {
 
   constructor(input) {
     const address = privateKeytoAddress(input.privateKey);
-    super({unlockType: 'privateKey', address: address,password:input.passsword});
+    super({unlockType: 'privateKey', address: address,password:input.password});
     this.privateKey = input.privateKey;
-  }
-
-  getAddress() {
-    super.getAddress()
   }
 
   getPrivateKey(){
@@ -39,4 +36,9 @@ export default class PrivateKeyUnlockAccount extends Account {
     return download(privateKey,password,mime)
   }
 
+ async signOrder(order){
+    return new Promise((resolve)=>{
+      resolve( sign(order,this.privateKey) )
+    })
+  }
 }

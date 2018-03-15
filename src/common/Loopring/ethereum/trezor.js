@@ -1,4 +1,4 @@
-export function getAddress(path) {
+export async function getAddress(path) {
   path = path || "m/44'/60'/0'/0/0";
   return new Promise((resolve) => {
     window.TrezorConnect.ethereumGetAddress(path, function (result) {
@@ -11,10 +11,10 @@ export function getAddress(path) {
   })
 }
 
-export function trezorSign({path, tx}) {
+export async function trezorSign({path, hash}) {
   path = path || "m/44'/60'/0'/0/0";
   return new Promise((resolve) => {
-    window.TrezorConnect.ethereumSignMessage(path, tx, function (result) {
+    window.TrezorConnect.ethereumSignMessage(path, hash, function (result) {
       if (result.success) {
         resolve(result.signature)
       } else {
