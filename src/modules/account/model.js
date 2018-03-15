@@ -41,7 +41,7 @@ export default {
       const {keyStore, password,cb} = payload;
       try{
         const wallet = decrypt(keyStore, password);
-        window.WALLET = new PrivateKeyUnlockAccount({privateKey: wallet.privateKey, address: wallet.address,password});
+        window.WALLET = new PrivateKeyUnlockAccount({privateKey: wallet.privateKey,password});
         window.WALLET_UNLOCK_TYPE = 'KeyStore';
         yield put({type: 'setWallet', payload: {address:wallet.address,walletType:'KeyStore'}});
         cb();

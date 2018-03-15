@@ -37,4 +37,8 @@ export default class Account {
     let tx = new Transaction(rawTx)
     return tx.sign(privateKey)
   }
+
+ async signOrder(){
+
+  }
 }

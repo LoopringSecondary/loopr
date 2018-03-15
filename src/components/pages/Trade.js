@@ -60,6 +60,7 @@ export default function Home(props){
                   !window.WALLET &&
                   <ToLogin />
                 }
+                <Order.List filters={{market:pair,status:'all',side:'sell'}} />
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Recent Trades</div>} key="trade">
@@ -72,6 +73,7 @@ export default function Home(props){
                   !window.WALLET &&
                   <ToLogin />
                 }
+                <Trade.List filters={{market:pair,side:'all'}} />
               </div>
             </Tabs.TabPane>
           </Tabs>
