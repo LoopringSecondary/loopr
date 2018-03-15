@@ -8,6 +8,8 @@ import HDKey from 'hdkey';
 import {publicKeytoAddress} from "Loopring/ethereum/account";
 import {getOrderHash} from "Loopring/relay/order";
 
+
+
 export default class TrezorUnlockAccount extends Account {
 
   constructor(input) {
@@ -83,11 +85,11 @@ export default class TrezorUnlockAccount extends Account {
 
   async signOrder(order) {
     const hash = getOrderHash(order);
-    return trezorSign({path: this.dpath.concat(`/${this.index}`), hash: toHex(hash)}).then(signature =>{
-      const r = addHexPrefix(signature.slice(0,64));
-      const s = addHexPrefix(signature.slice(64,128));
-      const v = toNumber(addHexPrefix(signature.slice(128,130)));
-      return {...order,r,s,v};
+    return trezorSign({path: this.dpath.concat(`/${this.index}`), hash: hash}).then(signature =>{
+      const r = addHexPrefix(signature.substr(0,64));
+      const s = addHexPrefix(signature.substr(64,64));
+      const v = toNumber(addHexPrefix(signature.substr(128,2)));
+      return {...order,v,r,s};
     })
 
   }

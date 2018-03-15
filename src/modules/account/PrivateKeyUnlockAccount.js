@@ -38,7 +38,7 @@ export default class PrivateKeyUnlockAccount extends Account {
 
  async signOrder(order){
     return new Promise((resolve)=>{
-      resolve( sign(order,this.privateKey) )
+      resolve(sign(order,this.privateKey) )
     })
   }
 }

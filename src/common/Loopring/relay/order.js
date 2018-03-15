@@ -4,8 +4,8 @@ import code from "../common/code"
 import {generateAbiData, solSHA3} from '../ethereum/abi'
 import validator from './validator'
 import Transaction from '../ethereum/transaction'
-import {toBN, toNumber, toHex, toBuffer, addHexPrefix} from "../common/formatter";
-import {hashPersonalMessage, ecsign} from "ethereumjs-util"
+import {toBN, toNumber, toHex, toBuffer, addHexPrefix, clearPrefix} from "../common/formatter";
+import {hashPersonalMessage, ecsign,sha3} from "ethereumjs-util"
 
 let headers = {
   'Content-Type': 'application/json'
@@ -206,5 +206,14 @@ export function getOrderHash(order) {
     order.marginSplitPercentage
   ];
   const hash = solSHA3(orderTypes, orderData);
-  return hashPersonalMessage(hash);
+  const hash_hex = toHex(hash);
+  const f_hash_h = toHex(hashPersonalMessage(hash));
+  console.log('OrderHash:', hash_hex);
+  console.log('FinalHash:', f_hash_h);
+
+ return hashPersonalMessage(new Buffer('test'))
+
+//  return hash.toString('hex')
+
+
 }

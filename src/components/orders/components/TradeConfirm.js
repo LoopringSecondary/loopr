@@ -50,6 +50,7 @@ class TradeConfirm extends React.Component {
     const authAccount = create('');
     order.authAddr = authAccount.address;
     order.authPrivateKey = authAccount.privateKey;
+    order = {"protocol":"0x6870830c79210e0fff6751d382938f4018b23f01","owner":"0xc57bb1cd690e7483ee2d2b4ecee060145a33fa3c","tokenB":"0xEF68e7C694F40c8202821eDF525dE3782458639f","tokenS":"0x2956356cD2a2bf3202F771F50D3D14A367b48070","amountB":"0x152d02c7e14af6000000","amountS":"0x56bc75e2d63100000","lrcFee":"0x8cdc0b39163700000","validSince":"0x5aa9e814","validUntil":"0x5ad17514","marginSplitPercentage":50,"buyNoMoreThanAmountB":true,"walletId":"0x1","authAddr":"0x592fb354e833df74f6de25f15cb9b363d72c88e2","authPrivateKey":"7ece2ddede24fddb3f24c62029bb869dc61341783571745afd306682cc271ee3"}
     window.WALLET.signOrder(order).then(function(signedOrder){
       this.setState({
         order,
