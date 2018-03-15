@@ -104,11 +104,10 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
 
 }
 
-function Ticker({pair,tickersByPair,prices}) {
+function Ticker({pair,tickersByPair={},prices={}}) {
   const tokenL = pair.split('-')[0]
   const tokenR = pair.split('-')[1]
-  const token = prices.getTokenBySymbol(tokenR)
-  console.log('token')
+  const token = prices.getTokenBySymbol(tokenR,true)
   return (
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
