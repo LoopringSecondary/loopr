@@ -3,7 +3,7 @@ import wallet from './wallet'
 import settings from './settings'
 import tokens from './tokens'
 import transactions from './transactions'
-import market from './market'
+import markets from './markets'
 
 export default {
   balances,
@@ -11,5 +11,5 @@ export default {
   settings,
   tokens,
   transactions,
-  market,
+  markets,
 }
