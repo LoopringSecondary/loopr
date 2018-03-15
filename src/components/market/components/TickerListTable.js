@@ -1,16 +1,22 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Card,Tabs,Icon,Popover } from 'antd';
+import { Card,Tabs,Icon,Popover,Input } from 'antd';
 
 // TickersTable
 // TickersTabs
 
 const TickerTable = (props)=>{
   const {tickers,market} = props
-  const items = tickers.filter(item=>{
+  let items = tickers.items.filter(item=>{
     return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
   })
+  const keywords = tickers.filters && tickers.filters.token
+  if(keywords){
+    items = items.filter(item=>{
+        return item.market.toUpperCase().indexOf(keywords.toUpperCase()) > -1
+    })
+  }
   const gotoTrade = (pair,e)=>{
     e.preventDefault()
     window.STORAGE.market.setCurrentMarket(pair)
@@ -58,18 +64,31 @@ const TickerTable = (props)=>{
   )
 }
 
-const TickerTabs = ({tickersByLoopring})=>{
+const TickerTabs = ({tickersByLoopring:tickers})=>{
   const tab = (text)=> <div className="fs14">{text}</div>
+  const search = (e)=>{
+    const value = e.target.value
+    const filters = {
+      token:value.toUpperCase(),
+    }
+    tickers.filtersChange({filters})
+  }
+  const keywords = tickers.filters && tickers.filters.token
+  const SearchInput = (
+      <div className="pr10" style={{marginTop:'3px'}}>
+       <Input.Search className="" size="small" onChange={search} value={keywords} />
+      </div>
+  )
   return (
-    <Tabs defaultActiveKey="WETH" animated={false} >
+    <Tabs className="" defaultActiveKey="WETH" animated={false} tabBarExtraContent={SearchInput}>
       <Tabs.TabPane tab={tab("Favorites")} key="Favorites">
         <div className="pl10 pr10">
-          <TickerTable tickers={tickersByLoopring.items} market="favorites" />
+          <TickerTable tickers={tickers} market="favorites" />
         </div>
       </Tabs.TabPane>
       <Tabs.TabPane tab={tab('WETH')} key="WETH">
         <div className="pl10 pr10">
-          <TickerTable tickers={tickersByLoopring.items} market="WETH"  />
+          <TickerTable tickers={tickers} market="WETH"  />
         </div>
       </Tabs.TabPane>
     </Tabs>

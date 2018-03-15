@@ -5,7 +5,8 @@ class TickersSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tickersByLoopring:[]
+      tickersByLoopring:[],
+      fitlers:{},
     }
   }
   componentDidMount() {
@@ -40,6 +41,12 @@ class TickersSocketContainer extends React.Component {
   getTickerBySymbol(symbol){
     return this.state.tickersByLoopring.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
   }
+  filtersChange({filters={}})  {
+    this.setState({
+      ...this.state,
+      filters,
+    })
+  }
   render() {
     const {children,...rest} = this.props
     const { socket } = this.context
@@ -47,7 +54,9 @@ class TickersSocketContainer extends React.Component {
       ...rest,
       tickersByLoopring:{
         items:this.state.tickersByLoopring,
-        getTickerBySymbol:this.getTickerBySymbol.bind(this)
+        filters:this.state.filters,
+        getTickerBySymbol:this.getTickerBySymbol.bind(this),
+        filtersChange:this.filtersChange.bind(this)
       }
     }
     const {render} = this.props

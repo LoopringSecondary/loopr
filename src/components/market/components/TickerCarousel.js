@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva';
 import { Icon,Carousel } from 'antd';
 const TickerItem = ({item})=>{
-  console.log('item',item)
   return (
     <div className="p15 text-left ticker-item-carousel">
       <div className="fs16">
