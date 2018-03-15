@@ -87,9 +87,13 @@ let FiltersForm = ({
               </Radio.Group>
             )}
           </Form.Item>
-          <Form.Item>
-            <Button onClick={handleReset} type="default">Reset</Button>
-          </Form.Item>
+          {
+            false &&
+            <Form.Item>
+              <Button onClick={handleReset} type="default">Reset</Button>
+            </Form.Item>
+          }
+
         </Form>
       </div>
   );

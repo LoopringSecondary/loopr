@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import TickersByPairData from '../mocks/TickersByPair.json'
 class TickerSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -22,23 +23,28 @@ class TickerSocketContainer extends React.Component {
   componentDidMount() {
     const { socket } = this.context
     const { pair } = this.props
-    if (!socket) {
-      console.log('socket connection has not been established')
-      return false
-    }
-    const options = {
-      "contractVersion" : "v1.0",
-      "market":pair,
-    }
-    console.log('did mount options',options)
-    socket.emit('tickers_req',JSON.stringify(options))
-    socket.on('tickers_res', (res)=>{
-      console.log('ticker_res')
-      res = JSON.parse(res)
-      this.setState({
-        tickersByPair:res
+    if(socket && socket.connected){
+      const options = {
+        "contractVersion" : "v1.2",
+        "market":pair,
+      }
+      socket.emit('tickers_req',JSON.stringify(options))
+      socket.on('tickers_res', (res)=>{
+        console.log('ticker_res')
+        res = JSON.parse(res)
+        if(typeof res === 'object'){
+          this.setState({
+            tickersByPair:res
+          })
+        }
       })
-    })
+    }
+    if(!socket || !socket.connected) {
+      console.log('socket not connected')
+      this.setState({
+        tickersByPair:TickersByPairData,
+      })
+    }
   }
   componentWillUnmount() {
     const { socket } = this.context
@@ -48,16 +54,12 @@ class TickerSocketContainer extends React.Component {
     }
     socket.off('tickers_res')
   }
-  getTokenBySymbol(symbol){
-    return this.state.tickersByPair.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {}
-  }
   render() {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
       tickersByPair:{
-        data:this.state.tickersByPair,
-        getTokenBySymbol:this.getTokenBySymbol.bind(this)
+        ...this.state.tickersByPair,
       }
     }
     const {render} = this.props

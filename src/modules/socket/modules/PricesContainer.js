@@ -32,24 +32,30 @@ class PricesContainer extends React.Component {
   }
   componentDidMount() {
     const { socket } = this.context
-    if (!socket) {
-      console.log('socket connection has not been established')
-      return false
-    }
-    const _this = this
-    const options = {
-      "currency":this.props.currency,
-    }
-    socket.emit('marketcap_req',JSON.stringify(options))
-    socket.on('marketcap_res', (res)=>{
-      console.log('marketcap_res')
-      res = JSON.parse(res)
-      const price = _this.getPrice(res.tokens)
-      this.setState({
-        price,
-        prices:res.tokens,
+
+    if(socket && socket.connected){
+      const _this = this
+      const options = {
+        "currency":this.props.currency,
+      }
+      socket.emit('marketcap_req',JSON.stringify(options))
+      socket.on('marketcap_res', (res)=>{
+        console.log('marketcap_res')
+        res = JSON.parse(res)
+        if(res.tokens){
+          _this.setState({
+            prices:res.tokens,
+          })
+        }
       })
-    })
+    }
+    if(!socket || !socket.connected) {
+      console.log('socket not connected')
+      this.setState({
+        prices:pricesData,
+      })
+    }
+
   }
   componentWillUnmount() {
     const { socket } = this.context
@@ -60,15 +66,33 @@ class PricesContainer extends React.Component {
     console.log('price unmount')
     socket.off('marketcap_res')
   }
-  getTokenBySymbol(symbol){
-    return this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {price:0}
+  getTokenBySymbol(symbol,ifFormat){
+    let priceToken = this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {price:0}
+    if(ifFormat){
+      if(priceToken){
+        const price =  Number(priceToken.price)
+        // fix bug: price == string
+        if(price && typeof price === 'number'){
+          priceToken.price = price
+        }else{
+           priceToken.price = 0
+        }
+        return priceToken
+      }else{
+        return {
+          price:0,
+        }
+      }
+    }else{
+      return priceToken
+    }
   }
   render() {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
       prices:{
-        data:this.state.prices,
+        items:this.state.prices,
         getTokenBySymbol:this.getTokenBySymbol.bind(this)
       }
     }

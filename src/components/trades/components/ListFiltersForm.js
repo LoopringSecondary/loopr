@@ -11,7 +11,6 @@ let FiltersForm = ({
     form.validateFields((err,values) => {
       console.log('values',values)
       if(!err){
-        // TODO
         actions.filtersChange({
           filters:values
         })
@@ -68,9 +67,12 @@ let FiltersForm = ({
             )}
 
           </Form.Item>
-          <Form.Item>
-            <Button onClick={handleReset} type="default">Reset</Button>
-          </Form.Item>
+          {
+            false &&
+            <Form.Item>
+              <Button onClick={handleReset} type="default">Reset</Button>
+            </Form.Item>
+          }
         </Form>
       </div>
   );

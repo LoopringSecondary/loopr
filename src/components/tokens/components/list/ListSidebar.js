@@ -20,21 +20,13 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
     filters = {},
     page = {}
   } = LIST
+
   items.forEach(item=>{
-    const assetToken = assets.getTokenBySymbol(item.symbol)
-    if(assetToken){
-      item.balance = Number(assetToken.balance)
-      item.allowance = Number(assetToken.allowance)
-    }else{
-      item.balance = 0
-      item.allowance = 0
-    }
-    const priceToken = assets.getTokenBySymbol(item.symbol)
-    if(priceToken){
-      item.price = Number(priceToken.price)
-    }else{
-      item.price = 0
-    }
+    const assetToken = assets.getTokenBySymbol(item.symbol,true)
+    const priceToken = prices.getTokenBySymbol(item.symbol,true)
+    item.balance = assetToken.balance
+    item.allowance = assetToken.allowance
+    item.price = priceToken.price
   })
   const showModal = (payload)=>{
     dispatch({
