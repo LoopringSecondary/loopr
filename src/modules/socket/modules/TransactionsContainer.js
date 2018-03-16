@@ -15,10 +15,9 @@ class TransactionsSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    const currency = window.STORAGE.settings.getCurrency() || 'CNY' // TODO
-    const data = {currency}
+    const owner = window.WALLET && window.WALLET.getAddress()
     const query = {
-      owner:'0x750aD4351bB728ceC7d639A9511F9D6488f1E259',
+      owner,
       symbol:'LRC',
       pageIndex:'1',
       pageSize:'20',
