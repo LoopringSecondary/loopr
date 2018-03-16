@@ -23,12 +23,7 @@ class AssetsContainer extends React.Component {
   }
   componentDidMount() {
     const { socket } = this.context
-    if (!socket) {
-      console.log('socket connection has not been established')
-      return false
-    }
-
-    if(socket && socket.connected){
+    if(socket){
       if(this.props.address){ // fix bug: trade page not unclock wallet
         const options = {
           "contractVersion" : "v1.2",
@@ -47,11 +42,11 @@ class AssetsContainer extends React.Component {
         })
       }
     }
-    if(!socket || !socket.connected) {
+    if(!socket) {
       console.log('socket not connected')
-      this.setState({
-        assets:assetsAata,
-      })
+      // this.setState({
+      //   assets:assetsAata,
+      // })
     }
   }
   componentWillUnmount() {
