@@ -56,10 +56,7 @@ class TradeConfirm extends React.Component {
         content: "Please confirm transaction on your Ledger device",
       });
     }
-    console.log(".........", window.WALLET)
     window.WALLET.signOrder(order).then(function(signedOrder){
-      console.log("order:",order)
-      console.log("signedOrder:",signedOrder)
       this.setState({
         order,
         signedOrder,
