@@ -20,12 +20,29 @@ const getCurrent = ()=>{
   }
 
 }
-const favor = (balances)=>{
-  let markets = JSON.parse(localStorage.markets)
-  return localStorage.market || 'RDN-WETH'
+const favor = (market)=>{
+  let markets = {}
+  if(
+    localStorage.markets &&
+    localStorage.markets !== 'undefined' &&
+    localStorage.markets !== 'null'
+  ){
+    markets = JSON.parse(localStorage.markets)
+  }
+  markets.favors[market] = true
+  localStorage.markets = JSON.stringify(markets)
 }
-const unFavor = (balances)=>{
-  return localStorage.market || 'RDN-WETH'
+const unFavor = (market)=>{
+  let markets = {}
+  if(
+    localStorage.markets &&
+    localStorage.markets !== 'undefined' &&
+    localStorage.markets !== 'null'
+  ){
+    markets = JSON.parse(localStorage.markets)
+  }
+  markets.favors[market] = false
+  localStorage.markets = JSON.stringify(markets)
 }
 
 export default {
