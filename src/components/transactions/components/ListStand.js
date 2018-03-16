@@ -11,20 +11,20 @@ import iconTrade from '../../../assets/images/icon-tx-type-trade.png'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 const uiFormatter = window.uiFormatter
 
-function ListBlock({LIST,actions}) {
+function ListBlock({LIST,actions,prices}) {
   const {
       items=[],
       loading,
       page={},
       filters,
   } = LIST
-  // const token = Object.keys(selected).find(key=>selected[key])
-  // console.log('token',token)
-
 
   const TxItem = ({item,index})=>{
     const tokenFm = new uiFormatter.TokenFormatter({symbol:item.symbol})
+    const priceToken = prices.getTokenBySymbol(item.symbol)
+    item.guzhi = tokenFm.getAmountValue(item.value,priceToken.price)
     item.value = tokenFm.getAmount(item.value)
+
     let change = ''
      switch (item.type) {
       case 'approve':
@@ -69,8 +69,7 @@ function ListBlock({LIST,actions}) {
           {item.type === 'approve' && `Enable ${item.symbol}`}
           {item.type === 'send' && `Send ${item.symbol}`}
           {item.type === 'receive' && `Received ${item.symbol}`}
-          {item.type === 'unwrap' && `Convert WETH To ETH`}
-          {item.type === 'wrap' && `Convert ETH To WETH`}
+          {item.type === 'convert' && `Convert WETH To ETH`}
         </div>
         {
           <div className="fs14 color-grey-400 text-nowrap text-truncate">
@@ -111,7 +110,7 @@ function ListBlock({LIST,actions}) {
                 + {item.value} {item.symbol}
               </div>
               <div className="fs16 color-green-500">
-                + <CurrencyContainer />{item.value}
+                + <CurrencyContainer />{item.guzhi}
               </div>
             </div>
           }
@@ -121,7 +120,7 @@ function ListBlock({LIST,actions}) {
                 - {item.value} {item.symbol}
               </div>
               <div className="fs16 color-red-500">
-                - <CurrencyContainer /> {item.value}
+                - <CurrencyContainer /> {item.guzhi}
               </div>
             </div>
           }

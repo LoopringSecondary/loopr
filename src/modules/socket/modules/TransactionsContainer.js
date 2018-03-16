@@ -6,6 +6,7 @@ class TransactionsSocketContainer extends React.Component {
     this.state = {
       items:[],
       filters:{},
+      loading:false,
     }
   }
   componentDidMount() {
@@ -29,6 +30,7 @@ class TransactionsSocketContainer extends React.Component {
       if(!res.error){
         this.setState({
           items:res.data.data,
+          loading:false,
         })
       }
     })
@@ -43,7 +45,8 @@ class TransactionsSocketContainer extends React.Component {
       page:{
         ...this.state.page,
         ...page
-      }
+      },
+      loading:true,
     })
   }
   pageChange({page={}}){
@@ -52,7 +55,8 @@ class TransactionsSocketContainer extends React.Component {
       page:{
         ...this.state.page,
         ...page
-      }
+      },
+      loading:true,
     })
   }
   componentWillUnmount() {

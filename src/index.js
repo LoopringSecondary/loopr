@@ -15,10 +15,11 @@ window.uiFormatter = uiFormatter
 window.routeActions = routeActions
 window.CONFIG = CONFIG
 window.STORAGE = STORAGE
-window.WALLET = {
-  address:'0xf2dad0425f304fa988ca19cf4b77e41d51130ed7',
-  getAddress:()=>'0xf2dad0425f304fa988ca19cf4b77e41d51130ed7',
-}
+// for dev
+// window.WALLET = {
+//   address:'0xf2dad0425f304fa988ca19cf4b77e41d51130ed7',
+//   getAddress:()=>'0xf2dad0425f304fa988ca19cf4b77e41d51130ed7',
+// }
 
 moment.locale('zh-cn');
 

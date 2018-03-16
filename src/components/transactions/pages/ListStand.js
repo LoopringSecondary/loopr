@@ -9,8 +9,10 @@ function Page(props){
   return (
     <div className="">
       <Sockets.Transactions {...props}>
+        <Sockets.Prices>
           <Components.ListStand />
           <Common.ListPagination className="mt25 ml15" />
+        </Sockets.Prices>
       </Sockets.Transactions>
     </div>
   )
