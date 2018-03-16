@@ -134,7 +134,7 @@ class TradeConfirm extends React.Component {
         <div className="fs12 color-grey-500 mb10">
           Submit order is free and does no consume gas
         </div>
-        <Button onClick={this.handelSubmit}  disabled={!signedOrder} type="primary" className="d-block w-100" size="large">
+        <Button onClick={this.handelSubmit} disabled={!signedOrder} type="primary" className="d-block w-100" size="large">
           Submit Order
         </Button>
       </div>
@@ -157,7 +157,7 @@ class TradeConfirm extends React.Component {
         let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
         const txs = [];
         const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
-        if (true) {
+        if (toBig(tokenS.allowance).greaterThan(allowanceS)) {
           const SToken = new Token({address: tokenS.address});
           if (toNumber(allowanceS) > 0) {
             txs.push(SToken.generateApproveTx({
@@ -178,7 +178,7 @@ class TradeConfirm extends React.Component {
           })));
           nonce = nonce + 1;
         }
-        if (true) {
+        if (tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(allowanceLrc)) {
           const LRCToken = new Token({address: LRC.address});
           if (toNumber(allowanceLrc) > 0) {
             txs.push(LRCToken.generateApproveTx({
@@ -205,7 +205,7 @@ class TradeConfirm extends React.Component {
             callback(res.error.message)
           } else {
             window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
-            window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:toNumber(tx.nonce)});
+            window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
             callback()
           }
         }, function (error) {
