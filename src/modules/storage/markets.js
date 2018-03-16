@@ -44,9 +44,20 @@ const unFavor = (market)=>{
   markets.favors[market] = false
   localStorage.markets = JSON.stringify(markets)
 }
+const getFavors = (market)=>{
+  if(localStorage.markets){
+    let markets = JSON.parse(localStorage.markets)
+    return markets.favors
+  }else{
+    return {}
+  }
+}
 
 export default {
   setCurrent,
   getCurrent,
+  favor,
+  unFavor,
+  getFavors,
 }
 
