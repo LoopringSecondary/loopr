@@ -8,7 +8,12 @@ const walletType = "Ledger"
 
 class UnlockByLedger extends React.Component {
 
+  state = {
+    loading: false
+  };
+
   connect = () => {
+    this.setState({loading:true})
     if (window.location.protocol !== 'https:') {
       Modal.error({
         title: 'Error',
@@ -24,6 +29,7 @@ class UnlockByLedger extends React.Component {
         window.WALLET_UNLOCK_TYPE = walletType
         this.isConnected()
           .then(connected=>{
+            this.setState({loading:false})
             if(connected){
               modal.hideModal({id: 'wallet/unlock'});
               modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
@@ -100,6 +106,7 @@ class UnlockByLedger extends React.Component {
   }
 
   render() {
+    const {loading} = this.state;
     return (
       <div>
         <Alert
@@ -109,7 +116,7 @@ class UnlockByLedger extends React.Component {
           showIcon={false}
         />
         <div className="color-grey-500 fs12 mb10 mt15"></div>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.connect}> Connect to Ledger</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.connect} loading={loading}> Connect to Ledger</Button>
       </div>
     )
   }

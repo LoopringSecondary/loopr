@@ -9,7 +9,7 @@ export default {
   state: {
     address: null,
     isUnlocked: false,
-    walletType:null, //PrivateKey,KeyStore,Mnemonic, Metamask, Trezor, LedgerHQ
+    walletType:null, //PrivateKey,KeyStore,Mnemonic, MetaMask, Trezor, LedgerHQ
   },
   reducers: {
     setAccount(state, {payload}) {
@@ -28,7 +28,7 @@ export default {
         ...state,
         address: null,
         isUnlocked: false,
-        walletType:null, //PrivateKey,KeyStore,Mnemonic, Metamask, Trezor, LedgerHQ
+        walletType:null, //PrivateKey,KeyStore,Mnemonic, MetaMask, Trezor, LedgerHQ
       };
     },
 

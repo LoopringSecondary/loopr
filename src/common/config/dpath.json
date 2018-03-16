@@ -1,7 +1,7 @@
 [
     {"name":"Loopring Wallet","dpath":"m/44'/60'/0'/0"},
     {"name":"Imtoken","dpath":"m/44'/60'/0'/0"},
-    {"name":"Metamask","dpath":"m/44'/60'/0'/0"},
+    {"name":"MetaMask","dpath":"m/44'/60'/0'/0"},
     {"name":"TREZOR (ETH)","dpath":"m/44'/60'/0'/0"},
     {"name":"Digital Bitbox","dpath":"m/44'/60'/0'/0"},
     {"name":"Exodus","dpath":"m/44'/60'/0'/0"},

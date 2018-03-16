@@ -25,6 +25,7 @@ let Preview = ({
         result = {...result, error:res.error.message}
       } else {
         window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+        window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
       }
       extraData.txHash = res.result
       modal.hideModal({id:'token/transfer/preview'})
