@@ -5,10 +5,11 @@ import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
 import config from '../../../common/config'
+import Currency from '../../../modules/settings/CurrencyContainer'
 
 class TradeForm extends React.Component {
   state = {
-    estimatePriceWorth: 0,
+    priceInput: 0,
     availableAmount: 0,
     timeToLivePopularSetting: true
   }
@@ -256,7 +257,7 @@ class TradeForm extends React.Component {
           }
           e.target.value = price
         }
-        this.setState({estimatePriceWorth: accMul(price, tokenRPrice.price).toFixed(2)})
+        this.setState({priceInput: price})
         amount = Number(form.getFieldValue("amount"))
         if(side === 'buy'){
           const precision = Math.max(0,tokenRBalance.precision - marketConfig.pricePrecision)
@@ -343,6 +344,13 @@ class TradeForm extends React.Component {
       })(
         <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={this.state.availableAmount <= 0}/>
       )
+    const priceValue = (
+      <span className="fs10">
+        ≈
+        <Currency />
+        {accMul(this.state.priceInput, tokenRPrice.price).toFixed(2)}
+      </span>
+    )
 
     return (
       <div>
@@ -359,7 +367,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item label="Price" {...formItemLayout} colon={false} extra={
             <div className="row">
-              <div className="col fs10">{`≈USD ${this.state.estimatePriceWorth}`}</div>
+              <div className="col fs10">{priceValue}</div>
             </div>
           }>
             {form.getFieldDecorator('price', {

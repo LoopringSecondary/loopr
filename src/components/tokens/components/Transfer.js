@@ -6,6 +6,7 @@ import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
 import config from '../../../common/config'
 import {accDiv, accMul} from '../../../common/Loopring/common/math'
+import Currency from '../../../modules/settings/CurrencyContainer'
 
 class Transfer extends React.Component {
   state = {
@@ -14,8 +15,7 @@ class Transfer extends React.Component {
     selectedGas: 0,
     gasValueInSlider:0,
     advanced: false,
-    value: 0,
-    estimateWorth: 0
+    value: 0
   }
 
   componentDidMount() {
@@ -57,8 +57,7 @@ class Transfer extends React.Component {
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
-          const estimateWorth = accDiv(Math.floor(accMul(values.amount * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
-          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:estimateWorth}
+          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, price:prices.getTokenBySymbol(selectedToken.symbol).price}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', tx, extraData})
         }
@@ -116,8 +115,7 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      const estimateWorth = accDiv(Math.floor(accMul(selectedToken.balance * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
-      this.setState({value: selectedToken.balance, estimateWorth: estimateWorth})
+      this.setState({value: selectedToken.balance})
       form.setFieldsValue({"amount": selectedToken.balance})
     }
 
@@ -148,8 +146,7 @@ class Transfer extends React.Component {
     function amountChange(e) {
       if(e.target.value) {
         const v = fm.toNumber(e.target.value)
-        const estimateWorth = accDiv(Math.floor(accMul(v * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
-        this.setState({value: v, estimateWorth: estimateWorth})
+        this.setState({value: v})
       }
     }
 
@@ -173,6 +170,13 @@ class Transfer extends React.Component {
     const formatGas = (value) => {
       return (value / 1e9) + " ether";
     }
+    const priceValue = (
+      <span className="fs10">
+        ≈
+        <Currency />
+        {accMul(this.state.value, prices.getTokenBySymbol(selectedToken.symbol).price).toFixed(2)}
+      </span>
+    )
     return (
       <Card title={"Send "+selectedToken.symbol}>
         <Form layout="horizontal">
@@ -190,7 +194,7 @@ class Transfer extends React.Component {
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
             <div className="row">
-              <div className="col-auto">{"≈USD "+this.state.estimateWorth}</div>
+              <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
               <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>Send Max</a></div>
             </div>

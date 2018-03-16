@@ -1,6 +1,8 @@
 import React from 'react';
 import { Avatar,Icon,Button,Card,Modal } from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
+import Currency from '../../../modules/settings/CurrencyContainer'
+import {accDiv, accMul} from '../../../common/Loopring/common/math'
 
 let Preview = ({
   modal, account
@@ -65,6 +67,13 @@ let Preview = ({
         </div>
       </div>
   )
+  const priceValue = (
+    <span className="fs10">
+      ≈
+      <Currency />
+      {accMul(extraData.amount, extraData.price).toFixed(2)}
+    </span>
+  )
   return (
       <Card title="You are about to send">
         <div className="row flex-nowrap zb-b-b pb30">
@@ -78,7 +87,7 @@ let Preview = ({
               <Avatar size="" className="bg-white border-grey-900" src="https://loopring.io/images/favicon.ico"></Avatar>
               <div className="fs12 color-grey-500">{extraData.tokenSymbol}</div>
               {ArrowDivider}
-              <div className="fs14 color-grey-900">{`${extraData.amount} ${extraData.tokenSymbol} (≈ $${extraData.worth})`}</div>
+              <div className="fs14 color-grey-900">{`${extraData.amount} ${extraData.tokenSymbol} `}{priceValue}</div>
             </div>
           </div>
           <div className="col-auto">
