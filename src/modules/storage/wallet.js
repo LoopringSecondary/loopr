@@ -4,42 +4,47 @@ import validator from 'Loopring/ethereum/validator';
 import transactions from './transactions'
 
 
-const setWallet = (wallet)=>{
-  localStorage.wallet = JSON.stringify(wallet)
+const setWallet = (wallet) => {
+  const localWallet = getWallet();
+  localStorage.wallet = JSON.stringify({...localWallet, ...wallet})
 }
 
-const getWallet = (wallet)=>{
-  if(localStorage.wallet){
+const getWallet = (wallet) => {
+  if (localStorage.wallet) {
     return JSON.parse(localStorage.wallet)
-  }else{
+  } else {
     return null
   }
 }
-const getAddress = ()=>{
-  if(localStorage.wallet){
+const getAddress = () => {
+  if (localStorage.wallet) {
     const wallet = JSON.parse(localStorage.wallet)
     return wallet && wallet.address
-  }else{
+  } else {
     return null
   }
 }
 
 const getNonce = async (address) => {
-  try{
-    validator.validate({value: address,type:"ADDRESS"});
-    const nonce = toNumber((await getTransactionCount(address,'latest')).result);
-    await transactions.updateTx();
-    const txs = transactions.getTxs(address);
-    return nonce + txs.length
-  }catch(e){
+  try {
+    validator.validate({value: address, type: "ADDRESS"});
+    const nonce = toNumber((await getTransactionCount(address, 'latest')).result);
+    const localNonce = getWallet() ? getWallet().nonce : 0;
+    if (nonce > localNonce) {
+      setWallet({nonce});
+      return nonce;
+    } else {
+      return localNonce
+    }
+  } catch (e) {
     throw  new Error(e.message)
   }
 };
 
-const isUnlocked = ()=>{
+const isUnlocked = () => {
   return !!getAddress()
 }
-const isInWhiteList = (address)=>{
+const isInWhiteList = (address) => {
 
 }
 

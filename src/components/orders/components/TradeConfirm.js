@@ -191,7 +191,8 @@ class TradeConfirm extends React.Component {
           if (res.error) {
             callback(res.error.message)
           } else {
-            window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()})
+            window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
+            window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
             callback()
           }
         }, function (error) {
