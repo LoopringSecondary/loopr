@@ -20,7 +20,7 @@ function ListBlock({LIST={},actions,modal}) {
           <img className="mr5 rounded-circle border-grey-300 border" src={item.logo} style={{width:'30px',height:'30px',padding:'5px'}}/>
         </div>
         <div className="col-auto">
-          <span className="color-grey-900 fs18">{item.token}</span>
+          <span className="color-grey-900 fs18">{item.Token}</span>
         </div>
         <div className="col">
         </div>
@@ -31,7 +31,7 @@ function ListBlock({LIST={},actions,modal}) {
         <div className="fs22 color-grey-700 mb5">USD 5343.53</div>
         <div className="row align-items-center">
           <div className="col-auto">
-            <div className="fs14 color-grey-500">Amount: {item.balance}</div>
+            <div className="fs14 color-grey-500">Amount: {item.Amount}</div>
           </div>
           <div className="col"></div>
           <div className="col-auto">

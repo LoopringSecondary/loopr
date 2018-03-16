@@ -37,12 +37,38 @@ class TransactionsSocketContainer extends React.Component {
     }
     socket.off('portfolio_res')
   }
+  filtersChange({filters={},page={}}){
+    this.setState({
+      ...this.state,
+      filters:{
+        ...this.state.filters,
+        ...filters,
+      },
+      page:{
+        ...this.state.page,
+        ...page
+      }
+    })
+  }
+  pageChange({page={}}){
+    this.setState({
+      ...this.state,
+      page:{
+        ...this.state.page,
+        ...page
+      }
+    })
+  }
   render() {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
       LIST:{
         ...this.state,
+      },
+      actions:{
+        filtersChange:this.filtersChange.bind(this),
+        pageChange:this.pageChange.bind(this),
       }
     }
     const {render} = this.props

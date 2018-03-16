@@ -18,15 +18,40 @@ class TransactionsSocketContainer extends React.Component {
     const data = {currency}
     const query = {
       owner:'0x750aD4351bB728ceC7d639A9511F9D6488f1E259',
+      symbol:'LRC',
+      pageIndex:'1',
+      pageSize:'20',
     }
     socket.emit('transaction_req',JSON.stringify(query))
     socket.on('transaction_res', (res)=>{
-      console.log('transaction_res')
       res = JSON.parse(res)
+      console.log('transaction_res',res)
       if(!res.error){
         this.setState({
-          items:res.data,
+          items:res.data.data,
         })
+      }
+    })
+  }
+  filtersChange({filters={},page={}}){
+    this.setState({
+      ...this.state,
+      filters:{
+        ...this.state.filters,
+        ...filters,
+      },
+      page:{
+        ...this.state.page,
+        ...page
+      }
+    })
+  }
+  pageChange({page={}}){
+    this.setState({
+      ...this.state,
+      page:{
+        ...this.state.page,
+        ...page
       }
     })
   }
@@ -44,6 +69,10 @@ class TransactionsSocketContainer extends React.Component {
       ...rest,
       LIST:{
         ...this.state,
+      },
+      actions:{
+        filtersChange:this.filtersChange.bind(this),
+        pageChange:this.pageChange.bind(this),
       }
     }
     const {render} = this.props
