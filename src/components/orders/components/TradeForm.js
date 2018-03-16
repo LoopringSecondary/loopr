@@ -26,17 +26,21 @@ class TradeForm extends React.Component {
   render() {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
-    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account} = this.props
+    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account,settings} = this.props
     const tickerByLoopring = tickersByLoopring.getTickerByMarket(pair)
     const displayPrice = tickerByLoopring ? tickerByLoopring.last : 0
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
     const tokenLBalance = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
     const balanceL = fm.toBig(tokenLBalance.balance).div("1e"+tokenLBalance.digits).toNumber()
+    const allowanceL = fm.toBig(tokenLBalance.allowance).div("1e"+tokenLBalance.digits).toNumber()
     tokenLBalance.balance = balanceL
+    tokenLBalance.allowance = allowanceL
     const tokenRBalance = {...config.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
     const balanceR = fm.toBig(tokenRBalance.balance).div("1e"+tokenRBalance.digits).toNumber()
+    const allowanceR = fm.toBig(tokenRBalance.allowance).div("1e"+tokenRBalance.digits).toNumber()
     tokenRBalance.balance = balanceR
+    tokenRBalance.allowance = allowanceR
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
     const tokenRPrice = prices.getTokenBySymbol(tokenR)
     const integerReg = new RegExp("^[0-9]*$")
@@ -159,11 +163,63 @@ class TradeForm extends React.Component {
             symbol:'lrc',
             balance:userOwnedLrc,
             required:accSub(tradeInfo.lrcFee, userOwnedLrc),
-          }})
+          }
+        })
         gotoError(errors)
-      } else {
-        showTradeModal(tradeInfo)
+        return
       }
+      // TODO gas
+      let totalGas = 0
+      const approveGasLimit = config.getGasLimitByType('approve').gasLimit
+      const warn = new Array()
+      if(side === 'buy') { //tokenR total
+        if(balanceR < tradeInfo.total) {
+          warn.push({
+            type:"BalanceNotEnough",
+            value:{
+              symbol:tokenR,
+              balance:balanceR,
+              required:accSub(tradeInfo.total, balanceR),
+            }
+          })
+        }
+        if(allowanceR < tradeInfo.total) {
+          warn.push({
+            type:"AllowanceNotEnough",
+            value:{
+              symbol:tokenR,
+              allowance:allowanceR,
+              required:accSub(tradeInfo.total, allowanceR),
+            }
+          })
+          totalGas += fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9)
+        }
+      } else { //tokenL amount
+        if(balanceL < tradeInfo.amount) {
+          warn.push({
+            type:"BalanceNotEnough",
+            value:{
+              symbol:tokenL,
+              balance:balanceL,
+              required:accSub(tradeInfo.amount, balanceL),
+            }
+          })
+        }
+        if(allowanceL < tradeInfo.amount) {
+          warn.push({
+            type:"AllowanceNotEnough",
+            value:{
+              symbol:tokenL,
+              allowance:allowanceL,
+              required:accSub(tradeInfo.amount, allowanceL),
+            }
+          })
+        }
+      }
+      if(warn.length >0) {
+        tradeInfo.warn = warn
+      }
+      showTradeModal(tradeInfo)
     }
 
     function calculateWorthInLegalCurrency(symbol, amount) {
