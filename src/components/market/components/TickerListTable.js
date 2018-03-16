@@ -17,11 +17,20 @@ const TickerTable = (props)=>{
         return item.market.toUpperCase().indexOf(keywords.toUpperCase()) > -1
     })
   }
+  const favors =  window.STORAGE.markets.getFavors()
   const gotoTrade = (pair,e)=>{
     e.preventDefault()
     window.STORAGE.markets.setCurrent(pair)
     window.routeActions.gotoPath(`/trade/${pair}`)
   }
+  const favor = (market)=>{
+    window.STORAGE.markets.favor(market)
+  }
+  const unFavor = (market)=>{
+    window.STORAGE.markets.unFavor(market)
+  }
+
+
   return (
     <div className="mb15" style={{height:'400px',overflow:'auto'}}>
       <table className="ticker-list-table">
@@ -38,11 +47,15 @@ const TickerTable = (props)=>{
               <tr key={index}>
                 {
                   item.isFavored &&
-                  <td className="fs12 border-0 color-yellow-700"><Icon type="star" /></td>
+                  <td className="fs12 border-0 color-yellow-700">
+                    <Icon onClick={unFavor.bind(this,item.market)} type="star" />
+                  </td>
                 }
                 {
                   !item.isFavored &&
-                  <td className="fs12 border-0 color-grey-300"><Icon type="star" /></td>
+                  <td className="fs12 border-0 color-grey-300">
+                    <Icon onClick={favor.bind(this,item.market)} type="star" />
+                  </td>
                 }
                 <td className="fs12 border-0 "><a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a></td>
                 <td className="fs12 border-0 color-green-600">{item.last || 0}</td>

@@ -31,8 +31,7 @@ class PricesContainer extends React.Component {
   }
   componentDidMount() {
     const { socket } = this.context
-
-    if(socket && socket.connected){
+    if(socket){
       const _this = this
       const options = {
         "currency":this.props.currency,
@@ -48,11 +47,11 @@ class PricesContainer extends React.Component {
         }
       })
     }
-    if(!socket || !socket.connected) {
+    if(!socket) {
       console.log('socket not connected')
-      this.setState({
-        prices:pricesData,
-      })
+      // this.setState({
+      //   prices:pricesData,
+      // })
     }
 
   }
@@ -62,7 +61,6 @@ class PricesContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    console.log('price unmount')
     socket.off('marketcap_res')
   }
   getTokenBySymbol(symbol,ifFormat){

@@ -23,7 +23,7 @@ class TickerSocketContainer extends React.Component {
   componentDidMount() {
     const { socket } = this.context
     const { pair } = this.props
-    if(socket && socket.connected){
+    if(socket){
       const options = {
         "contractVersion" : "v1.2",
         "market":pair,
@@ -39,11 +39,11 @@ class TickerSocketContainer extends React.Component {
         }
       })
     }
-    if(!socket || !socket.connected) {
+    if(!socket) {
       console.log('socket not connected')
-      this.setState({
-        tickersByPair:TickersByPairData,
-      })
+      // this.setState({
+      //   tickersByPair:TickersByPairData,
+      // })
     }
   }
   componentWillUnmount() {

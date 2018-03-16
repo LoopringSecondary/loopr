@@ -505,10 +505,8 @@ class TradeForm extends React.Component {
             </Form.Item>
           }
           {(!account || !account.isUnlocked) &&
-            <div className="row justify-content-center bg-blue-grey-50">
-              <div className="col-auto">
-                <a onClick={showModal.bind(this,'wallet/unlock')}>Unlock</a> to trade
-              </div>
+            <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
+              <a className="color-blue-500" onClick={showModal.bind(this,{id:'wallet/unlock'})}>Unlock Your Wallet</a> To Trade
             </div>
           }
         </Form>
