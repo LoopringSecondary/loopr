@@ -74,7 +74,7 @@ export default class MetaMaskUnlockAccount extends Account {
 
   async signOrder(order) {
     const hash = getOrderHash(order);
-    const signed = await this.signMessage(fm.addHexPrefix(fm.toHex(hashPersonalMessage(hash))))
+    const signed = await this.signMessage(fm.toHex(hashPersonalMessage(hash)))
     return {...order, ...signed};
   }
 }
