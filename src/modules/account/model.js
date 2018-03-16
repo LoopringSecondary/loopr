@@ -37,7 +37,6 @@ export default {
 
   effects: {
     * setKeystore({payload}, {put}) {
-      console.log('arguments', arguments);
       const {keyStore, password, cb} = payload;
       try {
         const wallet = decrypt(keyStore, password);
