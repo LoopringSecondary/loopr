@@ -44,7 +44,8 @@ function ListActionsBar(props) {
 
         window.WALLET.sendTransaction(tx).then((res) => {
           if (!res.error) {
-            window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+            window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
+            window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
           } else {
             //TODO 跳转到错误页。
           }
