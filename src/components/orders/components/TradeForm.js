@@ -26,10 +26,6 @@ class TradeForm extends React.Component {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
     const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account} = this.props
-
-    console.log(account)
-    console.log(account.isUnlocked)
-
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
     const tokenLBalance = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
