@@ -42,6 +42,7 @@ export default function Home(props){
                   </div>
                   <div className="col-8">
                     <Transaction.ListStand />
+                    <div className="mb15"></div>
                   </div>
                 </div>
               }
