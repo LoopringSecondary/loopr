@@ -50,10 +50,17 @@ class TradeConfirm extends React.Component {
     const authAccount = create('');
     order.authAddr = authAccount.address;
     order.authPrivateKey = authAccount.privateKey;
+    let toConfirmWarn = ''
     if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
+      toConfirmWarn = "Please confirm transaction on your Ledger device, then come back to send"
+    }
+    if(window.WALLET_UNLOCK_TYPE === 'MetaMask') {
+      toConfirmWarn = "Please confirm transaction on your MetaMask browser extension, then come back to send"
+    }
+    if(toConfirmWarn) {
       Modal.info({
-        title: 'To Confirm',
-        content: "Please confirm transaction on your Ledger device",
+        title: 'Waiting for your confirmation',
+        content: toConfirmWarn,
       });
     }
     window.WALLET.signOrder(order).then(function(signedOrder){

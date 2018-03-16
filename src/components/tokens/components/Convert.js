@@ -30,7 +30,9 @@ class Convert extends React.Component {
       const _this = this
       form.validateFields((err, values) => {
         if (!err) {
-          window.STORAGE.wallet.getNonce(account.address).then(nonce => {
+          let nonce = 0
+          window.STORAGE.wallet.getNonce(account.address).then(result => {
+            nonce = result
             if(selectedToken.symbol === "ETH") {
               return deposit(values.amount, nonce)
             } else {
@@ -41,6 +43,7 @@ class Convert extends React.Component {
               _this.setState({errorMsg: res.error.message})
             } else {
               window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+              window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce})
               modal.hideModal({id:'token/convert'})
               const result = {extraData:{txHash:res.result}}
               modal.showModal({id:'token/transfer/result', result})
