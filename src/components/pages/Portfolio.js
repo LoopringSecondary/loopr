@@ -5,6 +5,7 @@ import Tokens from '../tokens/pages'
 import TokensComp from '../tokens/components'
 import Layout from '../../layout/Layout'
 import circleChart from '../../assets/images/portfolio-circle-chart.png'
+import Sockets from '../../modules/socket/containers'
 
 const Portfolio = (props) => {
   return (
@@ -19,12 +20,18 @@ const Portfolio = (props) => {
             Total Value
           </div>
         </div>
-        <Tabs defaultActiveKey="assets" animated={false} className="rs nobar text-right">
-          <Tabs.TabPane tab={<div className="fs18 pb5 pt5"><Icon type="appstore-o" /></div>} key="assets" >
-            <TokensComp.ListCard />
+        <Tabs defaultActiveKey="assets" animated={false} className="rs nobar noline text-right">
+          <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="appstore-o" /></div>} key="assets" >
+            <div className="mb10"></div>
+            <Sockets.Portfolio>
+              <TokensComp.ListCard />
+            </Sockets.Portfolio>
           </Tabs.TabPane>
-          <Tabs.TabPane tab={<div className="fs18 pb5 pt5"><Icon type="bars" /></div>} key="orders" >
-            <Tokens.List />
+          <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="bars" /></div>} key="orders" >
+            <div className="mb10"></div>
+            <Sockets.Portfolio>
+              <Tokens.List />
+            </Sockets.Portfolio>
           </Tabs.TabPane>
         </Tabs>
       </div>

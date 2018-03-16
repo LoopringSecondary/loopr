@@ -6,7 +6,6 @@ class TransactionsSocketContainer extends React.Component {
     this.state = {
       items:[],
       filters:{},
-      loading:false,
     }
   }
   componentDidMount() {
@@ -15,25 +14,28 @@ class TransactionsSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    const currency = window.STORAGE.settings.getCurrency() || 'CNY' // TODO
-    const data = {currency}
+
     const query = {
       owner:'0x750aD4351bB728ceC7d639A9511F9D6488f1E259',
-      symbol:'LRC',
-      pageIndex:'1',
-      pageSize:'20',
     }
-    socket.emit('transaction_req',JSON.stringify(query))
-    socket.on('transaction_res', (res)=>{
+    socket.emit('portfolio_req',JSON.stringify(query))
+    socket.on('portfolio_res', (res)=>{
+      console.log('portfolio_res')
       res = JSON.parse(res)
-      console.log('transaction_res',res)
       if(!res.error){
         this.setState({
-          items:res.data.data,
-          loading:false,
+          items:res.data,
         })
       }
     })
+  }
+  componentWillUnmount() {
+    const { socket } = this.context
+    if (!socket) {
+      console.log('socket connection has not been established')
+      return false
+    }
+    socket.off('portfolio_res')
   }
   filtersChange({filters={},page={}}){
     this.setState({
@@ -45,8 +47,7 @@ class TransactionsSocketContainer extends React.Component {
       page:{
         ...this.state.page,
         ...page
-      },
-      loading:true,
+      }
     })
   }
   pageChange({page={}}){
@@ -55,17 +56,8 @@ class TransactionsSocketContainer extends React.Component {
       page:{
         ...this.state.page,
         ...page
-      },
-      loading:true,
+      }
     })
-  }
-  componentWillUnmount() {
-    const { socket } = this.context
-    if (!socket) {
-      console.log('socket connection has not been established')
-      return false
-    }
-    socket.off('transaction_res')
   }
   render() {
     const {children,...rest} = this.props
