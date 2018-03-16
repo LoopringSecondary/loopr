@@ -1,53 +1,41 @@
 import {getTransactionCount} from "Loopring/ethereum/utils";
 import {toNumber} from "Loopring/common/formatter";
 import validator from 'Loopring/ethereum/validator';
-import transactions from './transactions'
 
+const setWallet = (wallet) => {
+  const wallets = localStorage.wallet ? JSON.parse(localStorage.wallet) : [];
+  const otherWallets = wallets.filter(w => w.address.toLowerCase() === wallet.address.toLowerCase());
+  localStorage.wallet = JSON.stringify(otherWallets.push(wallet))
+};
 
-const setWallet = (wallet)=>{
-  localStorage.wallet = JSON.stringify(wallet)
-}
-
-const getWallet = (wallet)=>{
-  if(localStorage.wallet){
-    return JSON.parse(localStorage.wallet)
-  }else{
-    return null
-  }
-}
-const getAddress = ()=>{
-  if(localStorage.wallet){
-    const wallet = JSON.parse(localStorage.wallet)
-    return wallet && wallet.address
-  }else{
-    return null
-  }
-}
+const getWallet = (address) => {
+  const wallets = localStorage.wallet ? JSON.parse(localStorage.wallet) : [];
+  return wallets.find((wallet) => wallet.address.toLowerCase() === address.toLowerCase())
+};
 
 const getNonce = async (address) => {
-  try{
-    validator.validate({value: address,type:"ADDRESS"});
-    const nonce = toNumber((await getTransactionCount(address,'latest')).result);
-    await transactions.updateTx();
-    const txs = transactions.getTxs(address);
-    return nonce + txs.length
-  }catch(e){
+  try {
+    validator.validate({value: address, type: "ADDRESS"});
+    const nonce = toNumber((await getTransactionCount(address, 'pending')).result);
+    const localNonce = getWallet(address) && getWallet(address).nonce ? getWallet(address).nonce : 0;
+    if (nonce > localNonce) {
+      setWallet({address,nonce});
+      return nonce;
+    } else {
+      return localNonce
+    }
+  } catch (e) {
     throw  new Error(e.message)
   }
 };
 
-const isUnlocked = ()=>{
-  return !!getAddress()
-}
-const isInWhiteList = (address)=>{
+const isInWhiteList = (address) => {
 
 }
 
 export default {
   setWallet,
   getWallet,
-  getAddress,
-  isUnlocked,
   isInWhiteList,
   getNonce
 }
