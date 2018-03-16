@@ -130,7 +130,7 @@ class TradeForm extends React.Component {
           const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
           if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
             tradeInfo.lrcFee = calculateLrcFeeByEth(userSetLrcFeeInEth)
-            showTradeModal(tradeInfo)
+            toConfirm(tradeInfo)
           } else {
             tradeInfo.lrcFee = calculateLrcFeeByEth(minimumLrcfeeInEth)
             const content = 'According to your setting, lrcFee is '+calculateLrcFeeByEth(userSetLrcFeeInEth)+'LRC, we increase it to a minimum value:'+tradeInfo.lrcFee+"LRC, will you continue place order?"
