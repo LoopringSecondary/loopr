@@ -26,6 +26,8 @@ class TradeForm extends React.Component {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
     const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account} = this.props
+    const tickerByLoopring = tickersByLoopring.getTickerByMarket(pair)
+    const displayPrice = tickerByLoopring ? tickerByLoopring.last : 0
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
     const tokenLBalance = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
@@ -361,7 +363,7 @@ class TradeForm extends React.Component {
             </div>
           }>
             {form.getFieldDecorator('price', {
-              initialValue: 0,
+              initialValue: displayPrice,
               rules: [{
                 message: 'Please input valid price',
                 validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
