@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Collapse, Input} from 'antd';
+import {Button, Card, Collapse, Input, Modal} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
@@ -50,6 +50,12 @@ class TradeConfirm extends React.Component {
     const authAccount = create('');
     order.authAddr = authAccount.address;
     order.authPrivateKey = authAccount.privateKey;
+    if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
+      Modal.info({
+        title: 'To Confirm',
+        content: "Please confirm transaction on your Ledger device",
+      });
+    }
     window.WALLET.signOrder(order).then(function(signedOrder){
       this.setState({
         order,
@@ -129,18 +135,16 @@ class TradeConfirm extends React.Component {
   }
 
   handelSubmit = async () => {
-    const {modals,assets=[],tradingConfig} = this.props;
+    const {modals,assets={},tradingConfig} = this.props;
     let {signedOrder,tokenS} = this.state;
     modals.hideModal({id: 'trade/confirm'});
     placeOrder(signedOrder).then(async (res) => {
       if (res.error) {
         modals.showModal({id: 'trade/place-order-error', errors: [{type: 'unknown', message: res.error.message}]});
       } else {
-        const assetTokens = assets.find(asset => asset.symbol.toLowerCase() === tokenS.symbol.toLowerCase());
-        const assetLrc = assets.find(asset => asset.symbol.toLowerCase() === 'lrc');
-        const allowanceS = assetTokens ? assetTokens.allowance : 0;
+        const allowanceS = assets.getTokenBySymbol(tokenS.symbol,true).allowance;
         const LRC = window.CONFIG.getTokenBySymbol('LRC');
-        const allowanceLrc = assetLrc ? assetLrc.allowance : 0;
+        const allowanceLrc = assets.getTokenBySymbol('lrc',true).allowance;
         const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
         const delegateAddress = configs.delegateAddress;
         let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
@@ -193,11 +197,12 @@ class TradeConfirm extends React.Component {
           if (res.error) {
             callback(res.error.message)
           } else {
-            window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()})
+            window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
+            window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
             callback()
           }
         }, function (error) {
-          console.log(error.message)
+
         });
         modals.showModal({id: 'trade/place-order-success'});
       }

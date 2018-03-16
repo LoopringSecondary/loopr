@@ -16,6 +16,8 @@ export async function trezorSign({path, hash}) {
   return new Promise((resolve) => {
     window.TrezorConnect.ethereumSignMessage(path, hash, function (result) {
       if (result.success) {
+        console.log('Address:',result.address);
+        console.log('Result:',result);
         resolve(result.signature)
       } else {
         console.error('Error:', result.error); // error message

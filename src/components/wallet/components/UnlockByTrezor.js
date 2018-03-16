@@ -4,9 +4,10 @@ import TrezorUnlockAccount from "../../../modules/account/TrezorUnlockAccount";
 
 class UnlockByTrezor extends React.Component {
 
-  connectTrezor = async () => {
+  connectTrezor =  () => {
     const {modal} = this.props;
     const path = "m/44'/60'/0'/0";
+    console.log(this.props);
     window.TrezorConnect.setCurrency('BTC');
     window.TrezorConnect.getXPubKey(path, function (result) {
       if (result.success) {

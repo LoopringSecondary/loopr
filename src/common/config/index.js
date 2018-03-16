@@ -1,4 +1,5 @@
-const config = require('./config.json');
+//const config = require('./config.json');
+const config = require('./testConfig.json');
 let tokens = config.tokens || []
 const markets = config.markets
 const txs = config.txs;

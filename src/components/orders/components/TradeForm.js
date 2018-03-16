@@ -126,7 +126,7 @@ class TradeForm extends React.Component {
           let userSetLrcFeeInEth = calculateLrcFeeInEth(totalWorth, milliLrcFee)
           const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
           if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
-            tradeInfo.lrcFee = calculateLrcFeeInLrc(totalWorth)
+            tradeInfo.lrcFee = calculateLrcFeeByEth(userSetLrcFeeInEth)
             showTradeModal(tradeInfo)
           } else {
             tradeInfo.lrcFee = calculateLrcFeeByEth(minimumLrcfeeInEth)
@@ -486,7 +486,7 @@ class TradeForm extends React.Component {
               </div>
             </Collapse.Panel>
           </Collapse>
-          {account && account.address &&
+          {account && account.isUnlocked &&
             <Form.Item>
               {
                 side == 'buy' &&
@@ -504,9 +504,11 @@ class TradeForm extends React.Component {
               }
             </Form.Item>
           }
-          {(!account || !account.address) &&
-            <div className="bg-blue-grey-50 text-center p15" style={{borderRadius:'4px'}}>
-              <a className="color-blue-500" onClick={showModal.bind(this,{id:'wallet/unlock'})}>Unlock Your Wallet</a> To Trade
+          {(!account || !account.isUnlocked) &&
+            <div className="row justify-content-center bg-blue-grey-50">
+              <div className="col-auto">
+                <a onClick={showModal.bind(this,'wallet/unlock')}>Unlock</a> to trade
+              </div>
             </div>
           }
         </Form>
