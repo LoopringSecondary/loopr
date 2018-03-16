@@ -1,37 +1,25 @@
 import {getTransactionCount} from "Loopring/ethereum/utils";
 import {toNumber} from "Loopring/common/formatter";
 import validator from 'Loopring/ethereum/validator';
-import transactions from './transactions'
-
 
 const setWallet = (wallet) => {
-  const localWallet = getWallet();
-  localStorage.wallet = JSON.stringify({...localWallet, ...wallet})
-}
+  const wallets = localStorage.wallet ? JSON.parse(localStorage.wallet) : [];
+  const otherWallets = wallets.filter(w => w.address.toLowerCase() === wallet.address.toLowerCase());
+  localStorage.wallet = JSON.stringify(otherWallets.push(wallet))
+};
 
-const getWallet = (wallet) => {
-  if (localStorage.wallet) {
-    return JSON.parse(localStorage.wallet)
-  } else {
-    return null
-  }
-}
-const getAddress = () => {
-  if (localStorage.wallet) {
-    const wallet = JSON.parse(localStorage.wallet)
-    return wallet && wallet.address
-  } else {
-    return null
-  }
-}
+const getWallet = (address) => {
+  const wallets = localStorage.wallet ? JSON.parse(localStorage.wallet) : [];
+  return wallets.find((wallet) => wallet.address.toLowerCase() === address.toLowerCase())
+};
 
 const getNonce = async (address) => {
   try {
     validator.validate({value: address, type: "ADDRESS"});
-    const nonce = toNumber((await getTransactionCount(address, 'latest')).result);
-    const localNonce = getWallet() ? getWallet().nonce : 0;
+    const nonce = toNumber((await getTransactionCount(address, 'pending')).result);
+    const localNonce = getWallet(address) && getWallet(address).nonce ? getWallet(address).nonce : 0;
     if (nonce > localNonce) {
-      setWallet({nonce});
+      setWallet({address,nonce});
       return nonce;
     } else {
       return localNonce
@@ -41,9 +29,6 @@ const getNonce = async (address) => {
   }
 };
 
-const isUnlocked = () => {
-  return !!getAddress()
-}
 const isInWhiteList = (address) => {
 
 }
@@ -51,8 +36,6 @@ const isInWhiteList = (address) => {
 export default {
   setWallet,
   getWallet,
-  getAddress,
-  isUnlocked,
   isInWhiteList,
   getNonce
 }
