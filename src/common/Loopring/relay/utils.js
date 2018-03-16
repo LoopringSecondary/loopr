@@ -20,3 +20,21 @@ export async function getPendingTxs({owner, size,status}) {
   })
 
 }
+
+export async function getEstimatedAllocatedAllowance(owner,token) {
+  try {
+    validator.validate({value: owner, type: "ADDRESS"})
+  } catch (e) {
+    throw new Error('Invalid Address')
+  }
+  const params = [{owner,token}];
+  const body = {};
+  body.method = 'loopring_getEstimatedAllocatedAllowance';
+  body.params = params;
+  return request({
+    method: 'post',
+    body,
+  })
+
+
+}

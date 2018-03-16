@@ -134,7 +134,7 @@ class TradeConfirm extends React.Component {
         <div className="fs12 color-grey-500 mb10">
           Submit order is free and does no consume gas
         </div>
-        <Button onClick={this.handelSubmit} type="primary" className="d-block w-100" size="large">
+        <Button onClick={this.handelSubmit} disabled={!signedOrder} type="primary" className="d-block w-100" size="large">
           Submit Order
         </Button>
       </div>

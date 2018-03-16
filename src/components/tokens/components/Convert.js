@@ -71,10 +71,10 @@ class Convert extends React.Component {
       const wethConfig = config.getTokenBySymbol('WETH')
       const tx = {};
       tx.to = wethConfig.address;
-      tx.value = fm.toHex(fm.toBig(amount).times(1e18));
-      tx.data = generateAbiData({method: "withdraw", amount:tx.value});
+      tx.value = '0x0';
+      tx.data = generateAbiData({method: "withdraw", amount:fm.toHex(fm.toBig(amount).times(1e18))});
       tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
-      tx.nonce = fm.toHex(nonce)
+      tx.nonce = fm.toHex(nonce);
       return window.WALLET.sendTransaction(tx)
     }
 
