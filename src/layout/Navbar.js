@@ -178,9 +178,19 @@ function Navbar(props){
                   <Link to="/wallet/portfolio"><FormattedMessage id='navbar.portfolio'/></Link>
                 </Menu.Item>
               }
-              <Menu.Item key="/wallet">
-                <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
-              </Menu.Item>
+              {
+                (!window.WALLET || !window.WALLET.address) &&
+                <Menu.Item key="/wallet" >
+                  <a onClick={showModal.bind(this,'wallet/unlock')}><FormattedMessage id='navbar.wallet'/></a>
+                </Menu.Item>
+              }
+              {
+                window.WALLET && window.WALLET.address &&
+                <Menu.Item key="/wallet">
+                  <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
+                </Menu.Item>
+              }
+
             </Menu>
           </div>
           <div className="col-auto">

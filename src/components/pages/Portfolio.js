@@ -24,13 +24,17 @@ const Portfolio = (props) => {
           <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="appstore-o" /></div>} key="assets" >
             <div className="mb10"></div>
             <Sockets.Portfolio>
-              <TokensComp.ListCard />
+              <Sockets.Prices>
+                <TokensComp.ListCard />
+              </Sockets.Prices>
             </Sockets.Portfolio>
           </Tabs.TabPane>
           <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="bars" /></div>} key="orders" >
             <div className="mb10"></div>
             <Sockets.Portfolio>
-              <Tokens.List />
+              <Sockets.Prices>
+                <Tokens.List />
+              </Sockets.Prices>
             </Sockets.Portfolio>
           </Tabs.TabPane>
         </Tabs>

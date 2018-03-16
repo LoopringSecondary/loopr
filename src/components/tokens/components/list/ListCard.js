@@ -1,37 +1,43 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import {Card,Row,Col,Icon } from 'antd';
+import {Card,Row,Col,Icon,Tooltip } from 'antd';
 import schema from '../../../../modules/tokens/schema';
 import { tokens } from '../../../../common/config/data';
-
-function ListBlock({LIST={},actions,modal}) {
+import Currency from '../../../../modules/settings/CurrencyContainer';
+function ListBlock({LIST={},actions,prices,modal}) {
   const {
       items=[],
       // loading,
       // page={}
   } = LIST
   // const items = tokens.slice(0,6)
-  console.log('LIST',LIST)
+
   const TokenItem = ({item,index})=>{
+    const fm = new window.uiFormatter.TokenFormatter({symbol:item.Token})
+    const priceToken = prices.getTokenBySymbol(item.Token)
+
     const header = (
       <div className="row justify-content-center align-items-center no-gutters">
         <div className="col-auto">
           <img className="mr5 rounded-circle border-grey-300 border" src={item.logo} style={{width:'30px',height:'30px',padding:'5px'}}/>
         </div>
-        <div className="col-auto">
+        <div className="col">
           <span className="color-grey-900 fs18">{item.Token}</span>
         </div>
-        <div className="col">
+        <div className="col-auto">
+          <Tooltip title="Asset Ratio">
+            <span className="color-grey-500 fs14">{item.Percentage}</span>
+          </Tooltip>
         </div>
       </div>
     )
     return (
       <Card bordered title={header} className="token-list-card text-left">
-        <div className="fs22 color-grey-700 mb5">USD 5343.53</div>
+        <div className="fs22 color-grey-700 mb5"><Currency /> {fm.getAmountValue(item.Amount,priceToken.price)}</div>
         <div className="row align-items-center">
           <div className="col-auto">
-            <div className="fs14 color-grey-500">Amount: {item.Amount}</div>
+            <div className="fs14 color-grey-500">Amount: {fm.getAmount(item.Amount)}</div>
           </div>
           <div className="col"></div>
           <div className="col-auto">

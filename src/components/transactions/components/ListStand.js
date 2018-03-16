@@ -19,12 +19,12 @@ function ListBlock({LIST,actions,prices}) {
       filters,
   } = LIST
 
-  const TxItem = ({item,index})=>{
+  const TxItem = ({item:origin,index})=>{
+    let item = {...origin} // fix bug for update item self
     const tokenFm = new uiFormatter.TokenFormatter({symbol:item.symbol})
     const priceToken = prices.getTokenBySymbol(item.symbol)
-    item.guzhi = tokenFm.getAmountValue(item.value,priceToken.price)
-    item.value = tokenFm.getAmount(item.value)
-
+    item.guzhi = tokenFm.getAmountValue(origin.value,priceToken.price)
+    item.value = tokenFm.getAmount(origin.value)
     let change = ''
      switch (item.type) {
       case 'approve':
