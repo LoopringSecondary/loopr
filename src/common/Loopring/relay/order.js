@@ -128,13 +128,13 @@ export function cancelOrder({order, privateKey, protocolAddress, gasPrice, gasLi
 }
 
 export function cancelOrdersByTokenPair({privateKey, timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
- const tx = generateCancelOrdersByTokenPairTx({timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId})
+  const tx = generateCancelOrdersByTokenPairTx({timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId})
   const transaction = new Transaction(tx);
   return transaction.send({privateKey, walletType, path})
 }
 
 export function cancelAllOrders({privateKey, protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
- const tx = generateCancelAllOrdresTx({protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId});
+  const tx = generateCancelAllOrdresTx({protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId});
   const transaction = new Transaction(tx);
   return transaction.send({privateKey, walletType, path})
 }
@@ -163,6 +163,7 @@ export function sign(order, privateKey) {
   } catch (e) {
     throw new Error('Invalid private key')
   }
+
   const hash = getOrderHash(order);
   const signature = ecsign(hashPersonalMessage(hash),privateKey);
   const v = toNumber(signature.v);

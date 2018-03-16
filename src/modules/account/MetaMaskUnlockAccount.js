@@ -1,5 +1,5 @@
 import Account from "./Account";
-import EthTransaction from 'ethereumjs-tx'
+import {hashPersonalMessage} from "ethereumjs-util"
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import * as fm from "../../common/Loopring/common/formatter";
 import {getOrderHash} from "Loopring/relay/order";
@@ -27,7 +27,10 @@ export default class MetaMaskUnlockAccount extends Account {
       return new Promise((resolve)=>{
         this.web3.eth.sign(this.account, hash, function(err, result){
           if(!err){
-            resolve(result)
+            const r = result.slice(0,66);
+            const s = fm.addHexPrefix(result.slice(66,130));
+            const v = fm.toNumber(fm.addHexPrefix(result.slice(130,132)));
+            resolve({r, s, v})
           } else {
             console.error(err);
             const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
@@ -71,8 +74,7 @@ export default class MetaMaskUnlockAccount extends Account {
 
   async signOrder(order) {
     const hash = getOrderHash(order);
-    const signed = await this.signMessage(fm.toHex(hash))
-    console.log({...order, ...signed})
+    const signed = await this.signMessage(fm.toHex(hashPersonalMessage(hash)))
     return {...order, ...signed};
   }
 }
