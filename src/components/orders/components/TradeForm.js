@@ -26,6 +26,10 @@ class TradeForm extends React.Component {
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
     const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account} = this.props
+
+    console.log(account)
+    console.log(account.isUnlocked)
+
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
     const tokenLBalance = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
@@ -508,12 +512,7 @@ class TradeForm extends React.Component {
             <div className="row justify-content-center bg-blue-grey-50">
               <div className="col-auto">
                 <a onClick={showModal.bind(this,'wallet/unlock')}>Unlock</a> to trade
-
               </div>
-              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
-                      size="large">
-                Place Order
-              </Button>
             </div>
           }
         </Form>
