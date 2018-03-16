@@ -4,8 +4,9 @@ import validator from 'Loopring/ethereum/validator';
 
 const setWallet = (wallet) => {
   const wallets = localStorage.wallet ? JSON.parse(localStorage.wallet) : [];
-  const otherWallets = wallets.filter(w => w.address.toLowerCase() === wallet.address.toLowerCase());
-  localStorage.wallet = JSON.stringify(otherWallets.push(wallet))
+  const otherWallets = wallets.filter(w => w.address.toLowerCase() !== wallet.address.toLowerCase());
+  otherWallets.push({address:wallet.address,nonce:toNumber(wallet.nonce) + 1});
+  localStorage.wallet = JSON.stringify(otherWallets)
 };
 
 const getWallet = (address) => {
@@ -18,12 +19,7 @@ const getNonce = async (address) => {
     validator.validate({value: address, type: "ADDRESS"});
     const nonce = toNumber((await getTransactionCount(address, 'pending')).result);
     const localNonce = getWallet(address) && getWallet(address).nonce ? getWallet(address).nonce : 0;
-    if (nonce > localNonce) {
-      setWallet({address,nonce});
-      return nonce;
-    } else {
-      return localNonce
-    }
+    return Math.max(nonce,localNonce)
   } catch (e) {
     throw  new Error(e.message)
   }
