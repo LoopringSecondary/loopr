@@ -17,11 +17,9 @@ class BackupPrivatekey extends React.Component {
   }
 
   render() {
-    const {account} = this.props;
     const {visible} = this.state;
     const backup = () => {
-      const wallet = account['privateKey'];
-      copy(wallet) ? message.success('Copy to clipboard') : message.error('Copy failed')
+      copy(window.WALLET.getPrivateKey()) ? message.success('Copy to clipboard') : message.error('Copy failed')
     };
     const visibleIcon = (
       <div className="fs14 pl5 pr5">

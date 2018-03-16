@@ -11,10 +11,8 @@ class BackupMnemonic extends React.Component {
     })
   }
   render(){
-    const {account} = this.props;
     const backup = () => {
-      const wallet = account['mnemonic'];
-      copy(wallet) ? message.success('Copy to clipboard') : message.error('Copy failed')
+      copy(window.WALLET.getMnemonic()) ? message.success('Copy to clipboard') : message.error('Copy failed')
     };
 
     return (

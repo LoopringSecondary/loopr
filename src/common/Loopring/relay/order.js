@@ -1,11 +1,13 @@
 import request from '../common/request'
 import Response from '../common/response'
 import code from "../common/code"
-import {generateAbiData, solSHA3} from '../ethereum/abi'
+import {generateAbiData, solSHA3,isValidSig} from '../ethereum/abi'
 import validator from './validator'
 import Transaction from '../ethereum/transaction'
-import {toBN, toNumber, toHex, toBuffer, addHexPrefix} from "../common/formatter";
-import {hashPersonalMessage, ecsign} from "ethereumjs-util"
+import {toBN, toNumber, toHex,toBuffer, addHexPrefix, clearPrefix} from "../common/formatter";
+import {hashPersonalMessage, ecsign,sha3} from "ethereumjs-util"
+import {privateKeytoAddress} from "../ethereum/account";
+
 
 let headers = {
   'Content-Type': 'application/json'
@@ -126,13 +128,13 @@ export function cancelOrder({order, privateKey, protocolAddress, gasPrice, gasLi
 }
 
 export function cancelOrdersByTokenPair({privateKey, timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
- const tx = generateCancelOrdersByTokenPairTx({timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId})
+  const tx = generateCancelOrdersByTokenPairTx({timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId})
   const transaction = new Transaction(tx);
   return transaction.send({privateKey, walletType, path})
 }
 
 export function cancelAllOrders({privateKey, protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
- const tx = generateCancelAllOrdresTx({protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId});
+  const tx = generateCancelAllOrdresTx({protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId});
   const transaction = new Transaction(tx);
   return transaction.send({privateKey, walletType, path})
 }
@@ -161,31 +163,13 @@ export function sign(order, privateKey) {
   } catch (e) {
     throw new Error('Invalid private key')
   }
-  //TODO mock
-  const newOrder = {}
-  newOrder.amountB = "0x1bc16d674ec80000"
-  newOrder.amountS = "0x1bc16d674ec80000"
-  newOrder.authAddr = "0xa73090ae54e6ae22c40b5f0b4969febd2c9797fb"
-  newOrder.authPrivateKey = "016680d107a3a30bd2488b6d9c2cb1843b7038dc8dfebf99bac6d8652caa2094"
-  newOrder.buyNoMoreThanAmountB = false
-  newOrder.lrcFee = "0xaf375e923aba500000"
-  newOrder.marginSplitPercentage = 50
-  newOrder.owner = "0xee0e807969e118b033dab40050618ee17f730a2b"
-  newOrder.protocol = "0x6870830c79210e0fff6751d382938f4018b23f01"
-  newOrder.tokenB = "0x2956356cD2a2bf3202F771F50D3D14A367b48070"
-  newOrder.tokenS = "0xEF68e7C694F40c8202821eDF525dE3782458639f"
-  newOrder.validSince = "0x5aaa33e1"
-  newOrder.validUntil = "0x5ad1c0e1"
-  newOrder.walletId = "0x1"
 
-
-  const hash = getOrderHash(newOrder);
-  console.log("hash hex:", toHex(hash))
-  const signature = ecsign(hash, privateKey);
+  const hash = getOrderHash(order);
+  const signature = ecsign(hashPersonalMessage(hash),privateKey);
   const v = toNumber(signature.v);
   const r = toHex(signature.r);
   const s = toHex(signature.s);
-  console.log("result:", {v, r, s})
+
   return {
     ...order, v, r, s
   }
@@ -225,10 +209,6 @@ export function getOrderHash(order) {
     toBN(order.walletId),
     order.marginSplitPercentage
   ];
-  const hash = solSHA3(orderTypes, orderData);
-  console.log("nnnnnnnnnnn:", toHex(hash))
-  const h = hashPersonalMessage(hash);
-  //return hash
-  console.log("mmmmmmmmmmm:", toHex(h))
-  return h;
+
+  return solSHA3(orderTypes, orderData);
 }
