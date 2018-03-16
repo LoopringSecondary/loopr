@@ -16,7 +16,7 @@ const addTx = (tx) => {
 
 const updateTx = async () => {
   let txs = localStorage.txs ? JSON.parse(localStorage.txs) : [];
-  filter(txs, async function (tx, callback) {
+  await filter(txs, async function (tx, callback) {
     const res = await getTransactionByhash(tx.hash);
     callback(null, !!res.result && !res.result.blockNumber) // callback 必须调动，使用callback 返回true or false
   }, function (err, results) {

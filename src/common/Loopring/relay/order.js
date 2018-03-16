@@ -1,11 +1,13 @@
 import request from '../common/request'
 import Response from '../common/response'
 import code from "../common/code"
-import {generateAbiData, solSHA3} from '../ethereum/abi'
+import {generateAbiData, solSHA3,isValidSig} from '../ethereum/abi'
 import validator from './validator'
 import Transaction from '../ethereum/transaction'
-import {toBN, toNumber, toHex, toBuffer, addHexPrefix} from "../common/formatter";
-import {hashPersonalMessage, ecsign} from "ethereumjs-util"
+import {toBN, toNumber, toHex,toBuffer, addHexPrefix, clearPrefix} from "../common/formatter";
+import {hashPersonalMessage, ecsign,sha3} from "ethereumjs-util"
+import {privateKeytoAddress} from "../ethereum/account";
+
 
 let headers = {
   'Content-Type': 'application/json'
@@ -162,10 +164,11 @@ export function sign(order, privateKey) {
     throw new Error('Invalid private key')
   }
   const hash = getOrderHash(order);
-  const signature = ecsign(hash, privateKey);
+  const signature = ecsign(hashPersonalMessage(hash),privateKey);
   const v = toNumber(signature.v);
   const r = toHex(signature.r);
   const s = toHex(signature.s);
+
   return {
     ...order, v, r, s
   }
@@ -205,6 +208,6 @@ export function getOrderHash(order) {
     toBN(order.walletId),
     order.marginSplitPercentage
   ];
-  const hash = solSHA3(orderTypes, orderData);
-  return hashPersonalMessage(hash);
+
+  return solSHA3(orderTypes, orderData);
 }
