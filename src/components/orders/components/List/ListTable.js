@@ -30,7 +30,6 @@ function ListBlock(props) {
         originalOrder.tokenB  = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
         originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
         originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
-        console.log(JSON.stringify(originalOrder));
         const tx = generateCancelOrderTx({
           order: originalOrder,
           nonce: toHex(nonce),

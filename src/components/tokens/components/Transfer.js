@@ -44,18 +44,20 @@ class Transfer extends React.Component {
           } else {
             const gasPrice = fm.toBig(this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
             tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
-            tx.gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+
           }
           if(selectedToken.symbol === "ETH") {
             tx.to = values.to;
             tx.value = fm.toHex(fm.toBig(values.amount).times(1e18))
-            tx.data = values.data || '0x'
+            tx.data = values.data || '0x';
+            tx.gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
           } else {
             const tokenConfig = window.CONFIG.getTokenBySymbol(selectedToken.symbol)
             tx.to = tokenConfig.address;
             tx.value = "0x0";
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
+            tx.gasLimit = config.getGasLimitByType('token_transfer').gasLimit
           }
           const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, price:prices.getTokenBySymbol(selectedToken.symbol).price}
           modal.hideModal({id: 'token/transfer'})

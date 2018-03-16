@@ -33,7 +33,7 @@ export default class WETH extends Token {
     validator.validate({value:amount,type:"ETH_DATA"});
     const tx = {};
     tx.to = this.address;
-    tx.value = amount;
+    tx.value = '0x0';
     tx.data = generateAbiData({method: "withdraw", amount});
 
     if (gasPrice) {
