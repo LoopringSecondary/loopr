@@ -67,27 +67,17 @@ function ListBlock(props) {
     ),
     market: (value, item, index) => item.originalOrder && item.originalOrder.market,
     status: (value, item, index) => {
-      const content = <div className="p25">
-        <Steps current={1} progressDot>
-          <Steps.Step title="Allowance"/>
-          <Steps.Step title="Balance"/>
-          <Steps.Step title="Wrap"/>
-        </Steps>
-        <div className="p15">
-          TODODO
+      let status
+      if (item.status === 'ORDER_OPENED') { status = <Badge status="processing" text="Opened"/>}
+      if (item.status === 'ORDER_FINISHED') { status = <Badge status="success" text="Completed"/>}
+      if (item.status === 'ORDER_CANCELED') { status = <Badge status="default" text="Cancelled"/>}
+      if (item.status === 'ORDER_EXPIRE') { status = <Badge status="default" text="Expired"/>}
+      return (
+        <div>
+          {status}
         </div>
-      </div>
-      if (index % 5 === 0) return (
-        <Popover content={content} title="You Need To Do">
-          <div className="color-red-500">
-            <Icon className="mr5" type="exclamation-circle"/>
-          </div>
-        </Popover>
       )
-      if (item.status === 'ORDER_OPENED') return <Badge status="processing" text="Opened"/>
-      if (item.status === 'ORDER_FINISHED') return <Badge status="success" text="Completed"/>
-      if (item.status === 'ORDER_CANCELED') return <Badge status="default" text="Cancelled"/>
-      if (item.status === 'ORDER_EXPIRE') return <Badge status="default" text="Expired"/>
+
     },
     side: (value, item, index) => {
       if (item.originalOrder.side === 'sell') {
@@ -98,11 +88,34 @@ function ListBlock(props) {
       }
     },
     action: (value, item, index) => {
-      if (index % 5 === 0 || index % 5 === 1) {
-        return <Button onClick={cancel.bind(this, value, item)} size="small" className="color-blue-600 border-blue-600">Cancel</Button>
-      } else {
-        return null
-      }
+      const content = <div className="p25">
+        <Steps current={1} progressDot>
+          <Steps.Step title="Allowance"/>
+          <Steps.Step title="Balance"/>
+          <Steps.Step title="Wrap"/>
+        </Steps>
+        <div className="p15">
+          TODODO
+        </div>
+      </div>
+      let notEnough = !!(item.status === 'ORDER_OPENED')
+      return (
+        <span>
+          { item.status === 'ORDER_OPENED' &&
+            <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300" style={{borderRadius:'2px',border:'1px solid',padding:'2px 5px'}}>Cancel</a>
+          }
+          { notEnough &&
+            <span>
+              <Popover content={content} title="You Need To Do">
+                <div className="color-red-500">
+                  <Icon className="mr5" type="exclamation-circle"/>
+                </div>
+              </Popover>
+            </span>
+          }
+        </span>
+      )
+
     },
   }
   let columns = schema.map(field => {
