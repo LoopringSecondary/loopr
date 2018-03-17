@@ -65,7 +65,7 @@ function ListBlock(props) {
         {uiFormatter.getShortAddress(value)}
       </Link>
     ),
-    market: (value, item, index) => item.market,
+    market: (value, item, index) => item.originalOrder && item.originalOrder.market,
     status: (value, item, index) => {
       const content = <div className="p25">
         <Steps current={1} progressDot>
@@ -81,20 +81,19 @@ function ListBlock(props) {
         <Popover content={content} title="You Need To Do">
           <div className="color-red-500">
             <Icon className="mr5" type="exclamation-circle"/>
-            <span className="fs12">UnEnough</span>
           </div>
         </Popover>
       )
       if (item.status === 'ORDER_OPENED') return <Badge status="processing" text="Opened"/>
-      if (item.status === 'ORDER_FINSHED') return <Badge status="success" text="Completed"/>
+      if (item.status === 'ORDER_FINISHED') return <Badge status="success" text="Completed"/>
       if (item.status === 'ORDER_CANCELED') return <Badge status="default" text="Cancelled"/>
       if (item.status === 'ORDER_EXPIRE') return <Badge status="default" text="Expired"/>
     },
     side: (value, item, index) => {
-      if (item.side === 'sell') {
+      if (item.originalOrder.side === 'sell') {
         return <div className="color-green-500">Sell</div>
       }
-      if (item.side === 'buy') {
+      if (item.originalOrder.side === 'buy') {
         return <div className="color-red-500">Buy</div>
       }
     },

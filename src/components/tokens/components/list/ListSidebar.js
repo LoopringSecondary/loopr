@@ -20,7 +20,6 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
     filters = {},
     page = {}
   } = LIST
-  console.log('portfolio list',LIST)
   items.forEach(item=>{
     const assetToken = assets.getTokenBySymbol(item.symbol,true)
     const priceToken = prices.getTokenBySymbol(item.symbol,true)

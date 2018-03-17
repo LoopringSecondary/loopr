@@ -48,7 +48,7 @@ export default {
       yield put({type:'fetch'});
     },
     *fetch({ payload={} }, { call, select, put }) {
-      yield put({ type: 'fetchStart',payload}); 
+      yield put({ type: 'fetchStart',payload});
       const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
       let new_payload = {page,filters,sort,originQuery};
       if(defaultState.filters){
@@ -82,7 +82,7 @@ export default {
       let {payload} = action;
       if(!payload.defaultState){ payload.defaultState={} }
       if(!payload.originQuery){ payload.originQuery={} }
-      return { ...state, loading: true, loaded:false, 
+      return { ...state, loading: true, loaded:false,
         filters:{
           ...filters,
           ...payload.filters,
@@ -116,7 +116,7 @@ export default {
         ...page,...action.payload.page
       }}
     },
-    
+
     // filters 变化时 page.current也必须变化
     filtersChangeStart(state,action){
       let filters = state.filters;
@@ -156,11 +156,13 @@ export default {
         }
       }
     },
-    layerChange(state,action){
-      let layer = state.layer;
-      return {...state,layer:{
-        ...layer,...action.payload
-      }}
+    itemsChange(state,action){
+      console.log('itemsChange',action)
+      let items = action.payload.items || [];
+      return {
+        ...state,
+        items:[ ...items ]
+      }
     },
   },
 

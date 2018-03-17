@@ -33,7 +33,7 @@ let FiltersForm = ({
         <Form layout="inline">
           <Form.Item label="Market" >
             {form.getFieldDecorator('market', {
-              initialValue:filters.pair || 'All',
+              initialValue:filters.pair || '',
               rules:[]
             })(
               <Select
@@ -47,7 +47,7 @@ let FiltersForm = ({
                   onBlur={()=>{}}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="ALL">All</Select.Option>
+                  <Select.Option value="">All</Select.Option>
                   <Select.Option value="LRC-WETH">LRC-WETH</Select.Option>
                   <Select.Option value="USDT-WETH">USDT-WETH</Select.Option>
                   <Select.Option value="NB-WETH">BNB-WETH</Select.Option>
@@ -56,11 +56,11 @@ let FiltersForm = ({
           </Form.Item>
           <Form.Item label="Side" >
             {form.getFieldDecorator('side', {
-              initialValue:filters.side || 'all',
+              initialValue:filters.side || '',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>
-                <Radio.Button value="all">All</Radio.Button>
+                <Radio.Button value="">All</Radio.Button>
                 <Radio.Button value="sell">Sell</Radio.Button>
                 <Radio.Button value="buy">Buy</Radio.Button>
               </Radio.Group>

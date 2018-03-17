@@ -1,18 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import model from '../../transactions/models/list'
-const namespace =  model.namespace
-let keys = [ ...Object.keys(model.reducers),...Object.keys(model.effects) ]
-keys = keys.map(key=>key.replace(`${namespace}/`,''))
-const actionCreators = window.REDUX.getActionCreators(namespace,keys);
-
-class TransactionsContainer extends React.Component {
+import {connect} from 'react-redux';
+class TransactionsSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
-    const { dispatch } = props
-    this.actions = bindActionCreators(actionCreators,dispatch)
+    this.state = {
+      items:[],
+      filters:{},
+      loading:false,
+    }
   }
   componentDidMount() {
     const { socket } = this.context
@@ -32,10 +28,35 @@ class TransactionsContainer extends React.Component {
       res = JSON.parse(res)
       console.log('transaction_res',res)
       if(!res.error){
-        this.actions.itemsChange({
-          items:res.data.data
+        this.setState({
+          items:res.data.data,
+          loading:false,
         })
       }
+    })
+  }
+  filtersChange({filters={},page={}}){
+    this.setState({
+      ...this.state,
+      filters:{
+        ...this.state.filters,
+        ...filters,
+      },
+      page:{
+        ...this.state.page,
+        ...page
+      },
+      loading:true,
+    })
+  }
+  pageChange({page={}}){
+    this.setState({
+      ...this.state,
+      page:{
+        ...this.state.page,
+        ...page
+      },
+      loading:true,
     })
   }
   componentWillUnmount() {
@@ -47,10 +68,16 @@ class TransactionsContainer extends React.Component {
     socket.off('transaction_res')
   }
   render() {
-    const { children,...rest } = this.props
+    const {children,...rest} = this.props
     const childProps = {
       ...rest,
-      actions:this.actions
+      LIST:{
+        ...this.state,
+      },
+      actions:{
+        filtersChange:this.filtersChange.bind(this),
+        pageChange:this.pageChange.bind(this),
+      }
     }
     const {render} = this.props
     if(render){
@@ -67,7 +94,7 @@ class TransactionsContainer extends React.Component {
     )
   }
 }
-TransactionsContainer.contextTypes = {
+TransactionsSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default connect(({[namespace]:LIST})=>({LIST}))(TransactionsContainer)
+export default connect()(TransactionsSocketContainer)

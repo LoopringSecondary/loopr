@@ -21,6 +21,7 @@ function ListBlock({LIST,actions,prices}) {
 
   const TxItem = ({item:origin,index})=>{
     let item = {...origin} // fix bug for update item self
+    item.symbol = item.symbol || 'NO SYMBOL'
     const tokenFm = new uiFormatter.TokenFormatter({symbol:item.symbol})
     const priceToken = prices.getTokenBySymbol(item.symbol)
     item.guzhi = tokenFm.getAmountValue(origin.value,priceToken.price)
