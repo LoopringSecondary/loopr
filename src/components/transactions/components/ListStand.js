@@ -152,6 +152,13 @@ function ListBlock({LIST,actions,prices}) {
             <TxItem item={item} key={index} index={index}/>
           )
         }
+        {
+          items.length === 0 &&
+          <div className="text-center pt25 pb25 fs-12 color-grey-400">
+            No Transactions
+          </div>
+        }
+
       </div>
 
     </div>

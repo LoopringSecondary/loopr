@@ -16,7 +16,7 @@ class TransactionsSocketContainer extends React.Component {
     }
 
     const query = {
-      owner:'0x750aD4351bB728ceC7d639A9511F9D6488f1E259',
+      owner:window.WALLET && window.WALLET.getAddress(),
     }
     socket.emit('portfolio_req',JSON.stringify(query))
     socket.on('portfolio_res', (res)=>{

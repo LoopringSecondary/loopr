@@ -40,7 +40,7 @@ export default function Home(props){
                   <div className="col-4 zb-b-r">
                    <Token.ListSidebar />
                   </div>
-                  <div className="col-8">
+                  <div className="col-8 pb15">
                     <Transaction.ListStand />
                   </div>
                 </div>
