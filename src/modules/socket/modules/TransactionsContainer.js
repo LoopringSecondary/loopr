@@ -16,6 +16,8 @@ class TransactionsContainer extends React.Component {
   }
   componentDidMount() {
     const { socket } = this.context
+    const { LIST } = this.props
+    const { filters={},page, } = LIST
     if (!socket) {
       console.log('socket connection has not been established')
       return false
@@ -23,9 +25,9 @@ class TransactionsContainer extends React.Component {
     const owner = window.WALLET && window.WALLET.getAddress()
     const query = {
       owner,
-      symbol:'LRC',
-      pageIndex:1,
-      pageSize:20,
+      symbol:filters.token,
+      pageIndex:page.current,
+      pageSize:page.size,
     }
     socket.emit('transaction_req',JSON.stringify(query))
     socket.on('transaction_res', (res)=>{
@@ -38,21 +40,17 @@ class TransactionsContainer extends React.Component {
       }
     })
   }
-  send(){
+  filtersChange({filters={},page={}}){
     const { socket } = this.context
+    this.actions.filtersChange({filters,page})
     const owner = window.WALLET && window.WALLET.getAddress()
     const query = {
       owner,
-      symbol:'LRC',
-      pageIndex:1,
-      pageSize:20,
+      symbol:filters.token,
+      pageIndex:page.current,
+      pageSize:page.size,
     }
     socket.emit('transaction_req',JSON.stringify(query))
-  }
-  filtersChange({filters}){
-    const { socket } = this.context
-    this.actions.filtersChange({filters})
-    // socket.emit('transaction_req')
   }
   componentWillUnmount() {
     const { socket } = this.context

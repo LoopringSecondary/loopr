@@ -29,23 +29,23 @@ export default {
   effects: {
     *pageChange({payload},{call, select,put}){
       yield put({type:'pageChangeStart',payload});
-      yield put({type:'fetch'});
+      // yield put({type:'fetch'});
     },
     *filtersChange({payload},{call, select,put}){
       yield put({type:'filtersChangeStart',payload});
-      yield put({type:'fetch'});
+      // yield put({type:'fetch'});
     },
     *columnsChange({payload},{call, select,put}){
-      // yield put({type:'pageChangeStart',payload});
+      yield put({type:'pageChangeStart',payload});
       // yield put({type:'fetch'});
     },
     *sortChange({payload},{call, select,put}){
       yield put({type:'sortChangeStart',payload});
-      yield put({type:'fetch'});
+      // yield put({type:'fetch'});
     },
     *queryChange({payload},{call, select,put}){
       yield put({type:'queryChangeStart',payload});
-      yield put({type:'fetch'});
+      // yield put({type:'fetch'});
     },
     *fetch({ payload={} }, { call, select, put }) {
       yield put({ type: 'fetchStart',payload});
