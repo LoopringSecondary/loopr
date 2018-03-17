@@ -48,9 +48,9 @@ let FiltersForm = ({
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
                   <Select.Option value="ALL">All</Select.Option>
-                  <Select.Option value="LRC-ETH">LRC-ETH</Select.Option>
-                  <Select.Option value="USDT-ETH">USDT-ETH</Select.Option>
-                  <Select.Option value="NB-ETH">BNB-ETH</Select.Option>
+                  <Select.Option value="LRC-WETH">LRC-WETH</Select.Option>
+                  <Select.Option value="USDT-WETH">USDT-WETH</Select.Option>
+                  <Select.Option value="NB-WETH">BNB-WETH</Select.Option>
                 </Select>
             )}
           </Form.Item>

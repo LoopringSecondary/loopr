@@ -47,9 +47,9 @@ let FiltersForm = ({
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
                   <Select.Option value="ALL">All</Select.Option>
-                  <Select.Option value="LRC-ETH">LRC-ETH</Select.Option>
-                  <Select.Option value="USDT-ETH">USDT-ETH</Select.Option>
-                  <Select.Option value="BNB-ETH">BNB-ETH</Select.Option>
+                  <Select.Option value="LRC-WETH">LRC-WETH</Select.Option>
+                  <Select.Option value="USDT-WETH">USDT-WETH</Select.Option>
+                  <Select.Option value="BNB-WETH">BNB-WETH</Select.Option>
               </Select>
             )}
           </Form.Item>
@@ -77,7 +77,7 @@ let FiltersForm = ({
           </Form.Item>
           <Form.Item label="Side" >
             {form.getFieldDecorator('side', {
-              initialValue:filters.side || 'all',
+              initialValue:filters.side || 'All',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>

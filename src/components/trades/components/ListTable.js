@@ -18,16 +18,16 @@ function ListBlock({LIST,actions,className,style}) {
         </Link>
       ),
       side:(value,item,index)=>{
-        if(index < 3){
+        if (item.side === 'sell') {
           return <div className="color-green-500">Sell</div>
         }
-        if(index >= 3){
+        if (item.side === 'buy') {
           return <div className="color-red-500">Buy</div>
         }
       },
       miner:(value,item,index)=> <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/miner/detail/${value}`}>{value}</Link>,
       feeRecipient:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
-      txHash:(value,item,index)=> 
+      txHash:(value,item,index)=>
       <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/tx/${value}`}>
       {uiFormatter.getShortAddress(value)}
       </a>,
@@ -57,7 +57,7 @@ function ListBlock({LIST,actions,className,style}) {
     }
     actions.queryChange({
       sort,filters // TODO
-    }) 
+    })
   }
   const tableProps={
     dataSource:items,
@@ -70,7 +70,7 @@ function ListBlock({LIST,actions,className,style}) {
   }
   return (
     <div className={className} style={style}>
-      <Table {...tableProps}/>  
+      <Table {...tableProps}/>
     </div>
   )
 }
