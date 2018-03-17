@@ -29,7 +29,15 @@ class AssetsContainer extends React.Component {
           "contractVersion" : "v1.2",
           "owner":this.props.address,
         }
-        socket.emit('balance_req',JSON.stringify(options))
+        socket.emit('balance_req',JSON.stringify(options),(res)=>{
+          // console.log('balance_req res')
+          // res = JSON.parse(res)
+          // if(!res.error){
+          //   this.setState({
+          //     assets:res.data.tokens,
+          //   })
+          // }
+        })
         socket.on('balance_res', (res)=>{
           console.log('balance_res')
           res = JSON.parse(res)

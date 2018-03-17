@@ -69,7 +69,7 @@ function ListBlock({LIST,actions,className,style}) {
     bordered:false,
   }
   return (
-    <div className={className} style={style}>
+    <div className={className} style={{minHeight:'400px',...style}}>
       <Table {...tableProps}/>
     </div>
   )

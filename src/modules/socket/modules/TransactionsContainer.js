@@ -24,8 +24,8 @@ class TransactionsContainer extends React.Component {
     const query = {
       owner,
       symbol:'LRC',
-      pageIndex:'1',
-      pageSize:'20',
+      pageIndex:1,
+      pageSize:20,
     }
     socket.emit('transaction_req',JSON.stringify(query))
     socket.on('transaction_res', (res)=>{
@@ -37,6 +37,22 @@ class TransactionsContainer extends React.Component {
         })
       }
     })
+  }
+  send(){
+    const { socket } = this.context
+    const owner = window.WALLET && window.WALLET.getAddress()
+    const query = {
+      owner,
+      symbol:'LRC',
+      pageIndex:1,
+      pageSize:20,
+    }
+    socket.emit('transaction_req',JSON.stringify(query))
+  }
+  filtersChange({filters}){
+    const { socket } = this.context
+    this.actions.filtersChange({filters})
+    // socket.emit('transaction_req')
   }
   componentWillUnmount() {
     const { socket } = this.context
@@ -50,7 +66,10 @@ class TransactionsContainer extends React.Component {
     const { children,...rest } = this.props
     const childProps = {
       ...rest,
-      actions:this.actions
+      actions:{
+        ...this.actions,
+        filtersChange:this.filtersChange.bind(this),
+      }
     }
     const {render} = this.props
     if(render){

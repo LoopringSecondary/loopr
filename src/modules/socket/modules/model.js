@@ -1,100 +1,149 @@
-import React from 'react'
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-class TransactionsSocketContainer extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      items:[],
-      filters:{},
-      loading:false,
-    }
-  }
-  componentDidMount() {
-    const { socket } = this.context
-    if (!socket) {
-      console.log('socket connection has not been established')
-      return false
-    }
-    const owner = window.WALLET && window.WALLET.getAddress()
-    const query = {
-      owner,
-      symbol:'LRC',
-      pageIndex:'1',
-      pageSize:'20',
-    }
-    socket.emit('transaction_req',JSON.stringify(query))
-    socket.on('transaction_res', (res)=>{
-      res = JSON.parse(res)
-      console.log('transaction_res',res)
-      if(!res.error){
-        this.setState({
-          items:res.data.data,
-          loading:false,
-        })
-      }
-    })
-  }
-  filtersChange({filters={},page={}}){
-    this.setState({
-      ...this.state,
-      filters:{
-        ...this.state.filters,
-        ...filters,
-      },
-      page:{
-        ...this.state.page,
-        ...page
-      },
-      loading:true,
-    })
-  }
-  pageChange({page={}}){
-    this.setState({
-      ...this.state,
-      page:{
-        ...this.state.page,
-        ...page
-      },
-      loading:true,
-    })
-  }
-  componentWillUnmount() {
-    const { socket } = this.context
-    if (!socket) {
-      console.log('socket connection has not been established')
-      return false
-    }
-    socket.off('transaction_res')
-  }
-  render() {
-    const {children,...rest} = this.props
-    const childProps = {
-      ...rest,
-      LIST:{
-        ...this.state,
-      },
-      actions:{
-        filtersChange:this.filtersChange.bind(this),
-        pageChange:this.pageChange.bind(this),
-      }
-    }
-    const {render} = this.props
-    if(render){
-      return render.call(this,childProps)
-    }
-    return (
-      <div>
-         {
-           React.Children.map(this.props.children, child => {
-               return React.cloneElement(child, {...childProps})
-           })
-         }
-      </div>
-    )
+const socket = {}
+const sockets = {
+  fetchList:(payload,cb)=>{
+    socket.on('eventName',cb)
   }
 }
-TransactionsSocketContainer.contextTypes = {
-  socket: PropTypes.object.isRequired
+
+export default {
+  namespace: 'sockets',
+  state: {
+
+  },
+  effects: {
+    *pageChange({payload},{call, select,put}){
+      yield put({type:'pageChangeStart',payload});
+      yield put({type:'fetch'});
+    },
+    *filtersChange({payload},{call, select,put}){
+      yield put({type:'filtersChangeStart',payload});
+      yield put({type:'fetch'});
+    },
+    *sortChange({payload},{call, select,put}){
+      yield put({type:'sortChangeStart',payload});
+      yield put({type:'fetch'});
+    },
+    *queryChange({payload},{call, select,put}){
+      yield put({type:'queryChangeStart',payload});
+      yield put({type:'fetch'});
+    },
+    *fetch({ payload={} }, { call, select, put }) {
+      yield put({ type: 'fetchStart',payload});
+      const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
+      let new_payload = {page,filters,sort,originQuery};
+      if(defaultState.filters){
+        new_payload.filters={
+          ...new_payload.filters,
+          ...defaultState.filters
+        }
+      }
+      emit(new_payload,({})=>{
+          yield put({
+          type: 'fetchSuccess',
+          payload: {
+            page:{
+              ...page,
+              ...res.page,
+            },
+            items:res.items,
+            loading: false,
+            loaded:true
+          },
+        });
+      })
+      // const res = yield call(apis.fetchList, new_payload);
+    },
+  },
+  reducers: {
+    fetchStart(state, action) {
+      let {filters,page,sort,defaultState,originQuery}=state;
+      let {payload} = action;
+      if(!payload.defaultState){ payload.defaultState={} }
+      if(!payload.originQuery){ payload.originQuery={} }
+      return { ...state, loading: true, loaded:false,
+        filters:{
+          ...filters,
+          ...payload.filters,
+        },
+        page:{
+          ...page,
+          ...payload.page,
+        },
+        sort:{
+          ...sort,
+          ...payload.sort,
+        },
+        defaultState:{
+          ...defaultState,
+          ...payload.defaultState,
+        },
+        originQuery:{
+          ...originQuery,
+          ...payload.originQuery,
+        },
+
+      };
+
+    },
+    fetchSuccess(state, action) {
+      return { ...state, ...action.payload };
+    },
+    pageChangeStart(state,action){
+      let page = state.page;
+      return {...state,page:{
+        ...page,...action.payload.page
+      }}
+    },
+
+    // filters 变化时 page.current也必须变化
+    filtersChangeStart(state,action){
+      let filters = state.filters;
+      let page = state.page;
+      return {
+        ...state,
+        filters:{
+          ...filters,...action.payload.filters
+        },
+        page:{
+          ...page,
+          current:1,
+        }
+      }
+    },
+    columnsChangeStart(state,action){
+      return {...state,columns:action.payload.columns}
+    },
+    sortChangeStart(state,action){
+      return {...state,sort:action.payload.sort}
+    },
+    queryChangeStart(state,action){
+      let filters = state.filters;
+      let page = state.page;
+      return {
+        ...state,
+        filters:{
+          ...filters,
+          ...action.payload.filters
+        },
+        page:{
+          ...page,
+          current:1,
+        },
+        sort:{
+          ...action.payload.sort
+        }
+      }
+    },
+    itemsChange(state,action){
+      console.log('itemsChange',action)
+      let items = action.payload.items || [];
+      return {
+        ...state,
+        items:[ ...items ]
+      }
+    },
+  },
+
 };
-export default connect()(TransactionsSocketContainer)
+
+

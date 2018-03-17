@@ -412,15 +412,17 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
               </Popover>
             </div>
           }
-          <div className="col-auto pr5">
-            <Tooltip title="Send/Transfer">
-              <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
-                      className="bg-none color-grey-500 border-grey-400">
-                <Icon type="retweet"/>
-              </Button>
-            </Tooltip>
-          </div>
-
+          {
+            false &&
+            <div className="col-auto pr5">
+              <Tooltip title="Send/Transfer">
+                <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
+                        className="bg-none color-grey-500 border-grey-400">
+                  <Icon type="retweet"/>
+                </Button>
+              </Tooltip>
+            </div>
+          }
           <div className="col-auto" onClick={(e) => {
             e.stopPropagation();
             e.preventDefault()
@@ -462,6 +464,10 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
       })
     }
   })
+  // let sorter = (a,b)=>{
+  //   return !!a.custom < !!b.custom
+  // }
+  // results.sort(sorter)
 
   return (
     <div className="">
