@@ -11,6 +11,7 @@ import config from "../../../../common/config";
 const uiFormatter = window.uiFormatter;
 
 function ListBlock(props) {
+  console.log('ListTable render')
   const {LIST, actions, className, style, account, gasPrice,contractAddress} = props;
   const {
     items = [],

@@ -3,6 +3,7 @@ import Components from '../components';
 import Common from '../../common';
 import Containers from '../../../modules/orders/containers';
 function ListContainer(props){
+  console.log('orderListContainer',props.filters)
   return (
     <div className="">
       <Containers.StandList {...props}>

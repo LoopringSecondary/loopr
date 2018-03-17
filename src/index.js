@@ -16,10 +16,10 @@ window.routeActions = routeActions
 window.CONFIG = CONFIG
 window.STORAGE = STORAGE
 // for dev
-// window.WALLET = {
-//   address:'0xf2dad0425f304fa988ca19cf4b77e41d51130ed7',
-//   getAddress:()=>'0xf2dad0425f304fa988ca19cf4b77e41d51130ed7',
-// }
+window.WALLET = {
+  address:'0x750ad4351bb728cec7d639a9511f9d6488f1e259',
+  getAddress:()=>'0x750ad4351bb728cec7d639a9511f9d6488f1e259',
+}
 
 moment.locale('zh-cn');
 
