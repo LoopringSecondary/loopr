@@ -14,8 +14,8 @@ function ListBlock({LIST={},actions,prices,modal}) {
   // const items = tokens.slice(0,6)
 
   const TokenItem = ({item,index})=>{
-    const fm = new window.uiFormatter.TokenFormatter({symbol:item.Token})
-    const priceToken = prices.getTokenBySymbol(item.Token)
+    const fm = new window.uiFormatter.TokenFormatter({symbol:item.token})
+    const priceToken = prices.getTokenBySymbol(item.token)
 
     const header = (
       <div className="row justify-content-center align-items-center no-gutters">
@@ -23,21 +23,21 @@ function ListBlock({LIST={},actions,prices,modal}) {
           <img className="mr5 rounded-circle border-grey-300 border" src={item.logo} style={{width:'30px',height:'30px',padding:'5px'}}/>
         </div>
         <div className="col">
-          <span className="color-grey-900 fs18">{item.Token}</span>
+          <span className="color-grey-900 fs18">{item.token}</span>
         </div>
         <div className="col-auto">
           <Tooltip title="Asset Ratio">
-            <span className="color-grey-500 fs14">{item.Percentage}</span>
+            <span className="color-grey-500 fs14">{item.percentage}</span>
           </Tooltip>
         </div>
       </div>
     )
     return (
       <Card bordered title={header} className="token-list-card text-left">
-        <div className="fs22 color-grey-700 mb5"><Currency /> {fm.getAmountValue(item.Amount,priceToken.price)}</div>
+        <div className="fs22 color-grey-700 mb5"><Currency /> {fm.getAmountValue(item.amount,priceToken.price)}</div>
         <div className="row align-items-center">
           <div className="col-auto">
-            <div className="fs14 color-grey-500">Amount: {fm.getAmount(item.Amount)}</div>
+            <div className="fs14 color-grey-500">Amount: {fm.getAmount(item.amount)}</div>
           </div>
           <div className="col"></div>
           <div className="col-auto">

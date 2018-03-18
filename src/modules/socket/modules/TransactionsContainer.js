@@ -1,16 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-class TransactionsSocketContainer extends React.Component {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import model from '../../transactions/models/list'
+const namespace =  model.namespace
+let keys = [ ...Object.keys(model.reducers),...Object.keys(model.effects) ]
+keys = keys.map(key=>key.replace(`${namespace}/`,''))
+const actionCreators = window.REDUX.getActionCreators(namespace,keys);
+
+class TransactionsContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
-    this.state = {
-      items:[],
-      filters:{},
-      loading:false,
-    }
+    const { dispatch } = props
+    this.actions = bindActionCreators(actionCreators,dispatch)
   }
   componentDidMount() {
     const { socket } = this.context
+    const { LIST } = this.props
+    const { filters={},page, } = LIST
     if (!socket) {
       console.log('socket connection has not been established')
       return false
@@ -18,45 +25,32 @@ class TransactionsSocketContainer extends React.Component {
     const owner = window.WALLET && window.WALLET.getAddress()
     const query = {
       owner,
-      symbol:'LRC',
-      pageIndex:'1',
-      pageSize:'20',
+      symbol:filters.token,
+      pageIndex:page.current,
+      pageSize:page.size,
     }
     socket.emit('transaction_req',JSON.stringify(query))
     socket.on('transaction_res', (res)=>{
       res = JSON.parse(res)
       console.log('transaction_res',res)
       if(!res.error){
-        this.setState({
-          items:res.data.data,
-          loading:false,
+        this.actions.itemsChange({
+          items:res.data.data
         })
       }
     })
   }
   filtersChange({filters={},page={}}){
-    this.setState({
-      ...this.state,
-      filters:{
-        ...this.state.filters,
-        ...filters,
-      },
-      page:{
-        ...this.state.page,
-        ...page
-      },
-      loading:true,
-    })
-  }
-  pageChange({page={}}){
-    this.setState({
-      ...this.state,
-      page:{
-        ...this.state.page,
-        ...page
-      },
-      loading:true,
-    })
+    const { socket } = this.context
+    this.actions.filtersChange({filters,page})
+    const owner = window.WALLET && window.WALLET.getAddress()
+    const query = {
+      owner,
+      symbol:filters.token,
+      pageIndex:page.current,
+      pageSize:page.size,
+    }
+    socket.emit('transaction_req',JSON.stringify(query))
   }
   componentWillUnmount() {
     const { socket } = this.context
@@ -67,15 +61,12 @@ class TransactionsSocketContainer extends React.Component {
     socket.off('transaction_res')
   }
   render() {
-    const {children,...rest} = this.props
+    const { children,...rest } = this.props
     const childProps = {
       ...rest,
-      LIST:{
-        ...this.state,
-      },
       actions:{
+        ...this.actions,
         filtersChange:this.filtersChange.bind(this),
-        pageChange:this.pageChange.bind(this),
       }
     }
     const {render} = this.props
@@ -93,7 +84,7 @@ class TransactionsSocketContainer extends React.Component {
     )
   }
 }
-TransactionsSocketContainer.contextTypes = {
+TransactionsContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default TransactionsSocketContainer
+export default connect(({[namespace]:LIST})=>({LIST}))(TransactionsContainer)

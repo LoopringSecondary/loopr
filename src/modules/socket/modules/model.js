@@ -1,51 +1,31 @@
-import namespace from '../namespace'
-import * as apis from '../apis'
-const {MODULES} = namespace
+const socket = {}
+const sockets = {
+  fetchList:(payload,cb)=>{
+    socket.on('eventName',cb)
+  }
+}
+
 export default {
-  namespace: MODULES,
+  namespace: 'sockets',
   state: {
-    items: [],
-    loading: false,
-    loaded: false,
-    page:{
-      total:0,
-      size:10,
-      current:0,
-    },
-    filters:{token:'ETH'},
-    layer:{},
-    defaultState:{},
-    originQuery:{},
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(location => {
-        if (location.pathname === `/${MODULES}/list`) {
-          dispatch({type: 'fetch'});
-        }
-      });
-    },
+
   },
   effects: {
     *pageChange({payload},{call, select,put}){
       yield put({type:'pageChangeStart',payload});
-      // yield put({type:'fetch'});
+      yield put({type:'fetch'});
     },
     *filtersChange({payload},{call, select,put}){
       yield put({type:'filtersChangeStart',payload});
-      // yield put({type:'fetch'});
-    },
-    *columnsChange({payload},{call, select,put}){
-      yield put({type:'pageChangeStart',payload});
-      // yield put({type:'fetch'});
+      yield put({type:'fetch'});
     },
     *sortChange({payload},{call, select,put}){
       yield put({type:'sortChangeStart',payload});
-      // yield put({type:'fetch'});
+      yield put({type:'fetch'});
     },
     *queryChange({payload},{call, select,put}){
       yield put({type:'queryChangeStart',payload});
-      // yield put({type:'fetch'});
+      yield put({type:'fetch'});
     },
     *fetch({ payload={} }, { call, select, put }) {
       yield put({ type: 'fetchStart',payload});
@@ -57,10 +37,8 @@ export default {
           ...defaultState.filters
         }
       }
-
-      const res = yield call(apis.fetchList, new_payload);
-      if (res.items) {
-        yield put({
+      emit(new_payload,({})=>{
+          yield put({
           type: 'fetchSuccess',
           payload: {
             page:{
@@ -72,10 +50,10 @@ export default {
             loaded:true
           },
         });
-      }
+      })
+      // const res = yield call(apis.fetchList, new_payload);
     },
   },
-
   reducers: {
     fetchStart(state, action) {
       let {filters,page,sort,defaultState,originQuery}=state;

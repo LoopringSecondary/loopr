@@ -4,17 +4,23 @@ import React from 'react';
  * props
  * actions: redux actions
  * data-items:  request参数TODO
- * 
+ *
  * state
  * item: data
  * loading: data
  * loaded: data
- * 
+ *
  */
 
-class ListAsync extends React.PureComponent {
+class ListAsync extends React.Component {
   constructor(props) {
-    super(props); 
+    super(props);
+  }
+  shouldComponentUpdate(nextProps){
+    if(nextProps.filters !== this.props.filters){
+      this.init()
+    }
+    return true
   }
   componentDidMount() {
     this.init();
@@ -25,6 +31,7 @@ class ListAsync extends React.PureComponent {
   }
   render() {
     let { actions,LIST,dispatch,filters} = this.props;
+    // console.log('async container',filters)
     if(LIST.filters && filters){
       LIST.filters={
         ...LIST.fitlers,

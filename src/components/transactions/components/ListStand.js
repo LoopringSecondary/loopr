@@ -21,6 +21,7 @@ function ListBlock({LIST,actions,prices}) {
 
   const TxItem = ({item:origin,index})=>{
     let item = {...origin} // fix bug for update item self
+    item.symbol = item.symbol || 'NO SYMBOL'
     const tokenFm = new uiFormatter.TokenFormatter({symbol:item.symbol})
     const priceToken = prices.getTokenBySymbol(item.symbol)
     item.guzhi = tokenFm.getAmountValue(origin.value,priceToken.price)
@@ -151,6 +152,13 @@ function ListBlock({LIST,actions,prices}) {
             <TxItem item={item} key={index} index={index}/>
           )
         }
+        {
+          items.length === 0 &&
+          <div className="text-center pt25 pb25 fs-12 color-grey-400">
+            No Transactions
+          </div>
+        }
+
       </div>
 
     </div>
