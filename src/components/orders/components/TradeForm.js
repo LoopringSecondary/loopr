@@ -192,11 +192,11 @@ class TradeForm extends React.Component {
         const warn = new Array()
         if(side === 'buy') { //tokenR total
           if(tokenRBalance.balance.lessThan(fm.toBig(tradeInfo.total))) {
-            warn.push({type:"BalanceNotEnough", value:{symbol:tokenR, balance:tokenRBalance.balance.toNumber().toFixed(8), required:fm.toBig(tradeInfo.total).sub(tokenRBalance.balance)}})
+            warn.push({type:"BalanceNotEnough", value:{symbol:tokenR, balance:tokenRBalance.balance.toNumber().toFixed(8), required:fm.toBig(tradeInfo.total).sub(tokenRBalance.balance).toNumber()}})
           }
           frozenAmountR = frozenAmountR.add(fm.toBig(tradeInfo.total))
           if(frozenAmountR.greaterThan(tokenRBalance.allowance)) {
-            warn.push({type:"AllowanceNotEnough", value:{symbol:tokenR, allowance:tokenRBalance.allowance.toNumber(), required:frozenAmountR.sub(tokenRBalance.allowance)}})
+            warn.push({type:"AllowanceNotEnough", value:{symbol:tokenR, allowance:tokenRBalance.allowance.toNumber(), required:frozenAmountR.sub(tokenRBalance.allowance).toNumber()}})
             approveCount += 1
             if(tokenRBalance.allowance.greaterThan(0)) approveCount += 1
           }
@@ -206,7 +206,7 @@ class TradeForm extends React.Component {
           }
           frozenAmountL = frozenAmountL.add(fm.toBig(tradeInfo.amount))
           if(frozenAmountL.greaterThan(tokenLBalance.allowance)) {
-            warn.push({type:"AllowanceNotEnough", value:{symbol:tokenL, allowance:tokenLBalance.allowance.toNumber(), required:frozenAmountL.sub(tokenLBalance.allowance)}})
+            warn.push({type:"AllowanceNotEnough", value:{symbol:tokenL, allowance:tokenLBalance.allowance.toNumber(), required:frozenAmountL.sub(tokenLBalance.allowance).toNumber()}})
             approveCount += 1
             if(tokenLBalance.allowance.greaterThan(0)) approveCount += 1
           }
@@ -219,7 +219,7 @@ class TradeForm extends React.Component {
         const gas = fm.toBig(settings.trading.gasPrice).times(approveGasLimit).div(1e9).times(approveCount).toNumber()
         if(ethBalance.lessThan(gas)){
           const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:ethBalance.toNumber(), required:gas.sub(ethBalance)}})
+          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:ethBalance.toNumber(), required:gas.sub(ethBalance).toNumber()}})
           gotoError(errors)
           return
         }
