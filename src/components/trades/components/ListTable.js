@@ -94,4 +94,4 @@ function ListBlock(props) {
 ListBlock.propTypes = {
 };
 
-export default connect()(ListBlock)
+export default ListBlock
