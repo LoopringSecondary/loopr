@@ -8,6 +8,7 @@ import TokenModals from './tokens/components/Modals';
 import WalletModals from './wallet/components/Modals';
 import OrdersModals from './orders/components/Modals';
 import TradesModals from './trades/components/Modals';
+import TxsModals from './transactions/components/Modals';
 
 const UnLogged = ()=>{
   const isLogged = !!window.WALLET && !!window.WALLET.getAddress()
@@ -53,6 +54,7 @@ export default (
       <SettingsModals />
       <OrdersModals />
       <TradesModals />
+      <TxsModals />
   </div>
 
 )
