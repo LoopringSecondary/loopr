@@ -5,17 +5,33 @@ import { Table,Badge,Button } from 'antd';
 import schema from '../../../modules/trades/schema';
 const uiFormatter = window.uiFormatter
 
-function ListBlock({LIST,actions,className,style}) {
+function ListBlock(props) {
+  const {LIST, actions, className, style} = props;
   const {
       items=[],
       loading,
       page={}
   } = LIST
+  const {dispatch} = props;
+  const showModal = (payload={})=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        ...payload,
+        visible:true,
+      },
+    })
+  }
+  const handleCopy = (value, e) => {
+    e.preventDefault();
+    e.clipboardData.setData("text", value);
+  };
   const renders = {
       ringHash:(value,item,index)=>(
-        <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/rings/detail/${value}`}>
+        <a className="text-truncate d-block color-blue-500" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
+            onClick={showModal.bind(this,{id:'trade/detail',item})}>
           {uiFormatter.getShortAddress(value)}
-        </Link>
+        </a>
       ),
       side:(value,item,index)=>{
         if (item.side === 'sell') {
@@ -78,4 +94,4 @@ function ListBlock({LIST,actions,className,style}) {
 ListBlock.propTypes = {
 };
 
-export default ListBlock
+export default connect()(ListBlock)

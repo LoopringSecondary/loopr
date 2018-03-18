@@ -24,5 +24,4 @@ export default {
         return <div className="color-red-500">Buy</div>
       }
     },
-
   }

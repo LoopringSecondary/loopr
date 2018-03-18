@@ -6,7 +6,8 @@ import RingsRoutes from './rings/routes';
 import SettingsModals from './settings/pages/Modals';
 import TokenModals from './tokens/components/Modals';
 import WalletModals from './wallet/components/Modals';
-import OrderModals from './orders/components/Modals';
+import OrdersModals from './orders/components/Modals';
+import TradesModals from './trades/components/Modals';
 
 const UnLogged = ()=>{
   const isLogged = !!window.WALLET && !!window.WALLET.getAddress()
@@ -50,7 +51,8 @@ export default (
       <TokenModals />
       <WalletModals />
       <SettingsModals />
-      <OrderModals />
+      <OrdersModals />
+      <TradesModals />
   </div>
 
 )

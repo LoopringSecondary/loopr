@@ -9,9 +9,11 @@ function DetailBlock({modal={}}) {
   const tokenB = item.originalOrder.tokenB
   const amountB = item.originalOrder.amountB
   const amountS = item.originalOrder.amountS
+  const amountLrc = item.originalOrder.lrcFee
   const fm = window.uiFormatter.TokenFormatter
   let fmS = new fm({symbol:tokenS})
   let fmB = new fm({symbol:tokenB})
+  let fmLrc = new fm({symbol:'LRC'})
   const MetaItem = (props)=>{
     const {label,value} = props
     return (
@@ -75,6 +77,19 @@ function DetailBlock({modal={}}) {
           {tokenB}
         </div>
       } />
+      <MetaItem label="price" value={
+        <div>
+          <span className="mr5">{(amountB/amountS).toFixed(3)}</span>
+          {tokenS}
+        </div>
+      } />
+      <MetaItem label="Lrc Fee" value={
+        <div>
+          <span className="mr5">{fmLrc.getAmount(amountLrc)}</span>
+          {'LRC'}
+        </div>
+      } />
+
     </Card>
 
   );
