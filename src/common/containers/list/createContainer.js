@@ -13,4 +13,3 @@ export default (ListContainer,MODULES,actionCreators)=>{
   )(ListContainer);
 }
 
-

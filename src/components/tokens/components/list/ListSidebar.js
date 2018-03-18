@@ -283,11 +283,14 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
           }
         </Tooltip>
       </div>
-      <div className="col-auto">
-        <Tooltip title="Add Custom Token">
-          <Button onClick={gotoAdd.bind(this)} className="color-grey-600" icon="plus" shape="circle"></Button>
-        </Tooltip>
-      </div>
+      {
+        false &&
+        <div className="col-auto">
+          <Tooltip title="Add Custom Token">
+            <Button onClick={gotoAdd.bind(this)} className="color-grey-600" icon="plus" shape="circle"></Button>
+          </Tooltip>
+        </div>
+      }
 
       <div className="col-auto" hidden>
         <Tooltip title="">

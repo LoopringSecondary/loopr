@@ -31,7 +31,6 @@ class ListAsync extends React.Component {
   }
   render() {
     let { actions,LIST,dispatch,filters} = this.props;
-    console.log('dispatch',dispatch)
     // console.log('async container',filters)
     if(LIST.filters && filters){
       LIST.filters={
