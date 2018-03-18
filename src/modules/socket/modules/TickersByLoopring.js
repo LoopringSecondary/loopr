@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import TickersByLooopringData from '../mocks/TickersByLoopring.json'
 class TickersSocketContainer extends React.Component {
   constructor(props, context) {
@@ -86,4 +87,4 @@ class TickersSocketContainer extends React.Component {
 TickersSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default TickersSocketContainer
+export default connect()(TickersSocketContainer)

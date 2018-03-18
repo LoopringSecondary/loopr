@@ -8,7 +8,6 @@ import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
 
 function ListActionsBar(props) {
-  console.log('ListActionsBar render',props)
   const {actions = {}, LIST = {}, className, account, gasPrice, contractAddress,id} = props;
   const {filters = {}} = LIST[id] || {}
   const tokenPair = filters.market;

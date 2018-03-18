@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Icon,Popover } from 'antd';
-import TickerListTable from './TickerListTable'
+import TickerListTabs from './TickerListTabs'
 import Sockets from '../../../modules/socket/containers'
 import Currency from '../../../modules/settings/CurrencyContainer'
 
@@ -63,7 +63,7 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
 		  content={
 		    <div className="" style={{minWidth:'420px'}}>
           <Sockets.TickersByLoopring>
-		        <TickerListTable />
+		        <TickerListTabs />
           </Sockets.TickersByLoopring>
 		    </div>
 		  }
