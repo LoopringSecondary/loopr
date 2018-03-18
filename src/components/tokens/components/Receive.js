@@ -6,7 +6,7 @@ import copy from 'copy-to-clipboard';
 const Search = Input.Search;
 
 let Receive = (props) => {
-  const address = window.STORAGE.wallet.getAddress();
+  const address = window.WALLET.getAddress();
   if(!address){
     return (
       <Card title="Address is Null">

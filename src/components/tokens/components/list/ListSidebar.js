@@ -400,7 +400,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             </div>
           </div>
           {
-            index>0 && index<3 &&
+            false && index>0 && index<3 &&
             <div className="col-auto pr5">
               <Popover
                 title={<div className="pt5 pb5 fs18">{item.symbol}</div>}
