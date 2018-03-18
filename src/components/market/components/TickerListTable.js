@@ -40,13 +40,13 @@ const TickerTable = (props)=>{
                 {
                   favors[item.market] &&
                   <td className="fs12 border-0 color-yellow-700">
-                    <Icon className="pointer" onClick={tickers.unFavor.bind(this,item.market)} type="star" />
+                    <Icon className="pointer" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
                   </td>
                 }
                 {
                   !favors[item.market] &&
                   <td className="fs12 border-0 color-grey-300">
-                    <Icon className="pointer" onClick={tickers.favor.bind(this,item.market)} type="star" />
+                    <Icon className="pointer" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
                   </td>
                 }
                 <td className="fs12 border-0 "><a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a></td>

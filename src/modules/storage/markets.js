@@ -20,7 +20,7 @@ const getCurrent = ()=>{
   }
 
 }
-const favor = (market)=>{
+const toggleFavor = (market)=>{
   let markets = {}
   if(
     localStorage.markets &&
@@ -32,22 +32,7 @@ const favor = (market)=>{
   if(typeof markets.favors !== 'object'){
     markets.favors = {}
   }
-  markets.favors[market] = true
-  localStorage.markets = JSON.stringify(markets)
-}
-const unFavor = (market)=>{
-  let markets = {}
-  if(
-    localStorage.markets &&
-    localStorage.markets !== 'undefined' &&
-    localStorage.markets !== 'null'
-  ){
-    markets = JSON.parse(localStorage.markets)
-  }
-  if(typeof markets.favors !== 'object'){
-    markets.favors = {}
-  }
-  markets.favors[market] = false
+  markets.favors[market] = !markets.favors[market]
   localStorage.markets = JSON.stringify(markets)
 }
 const getFavors = (market)=>{
@@ -62,8 +47,7 @@ const getFavors = (market)=>{
 export default {
   setCurrent,
   getCurrent,
-  favor,
-  unFavor,
+  toggleFavor,
   getFavors,
 }
 
