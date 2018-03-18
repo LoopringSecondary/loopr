@@ -6,6 +6,7 @@ class TransactionsSocketContainer extends React.Component {
     this.state = {
       items:[],
       filters:{},
+      loading:false,
     }
   }
   componentDidMount() {
@@ -14,28 +15,24 @@ class TransactionsSocketContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-
+    const owner = window.WALLET && window.WALLET.getAddress()
     const query = {
-      owner:window.WALLET && window.WALLET.getAddress(),
+      owner,
+      symbol:'LRC',
+      pageIndex:'1',
+      pageSize:'20',
     }
-    socket.emit('portfolio_req',JSON.stringify(query))
-    socket.on('portfolio_res', (res)=>{
-      console.log('portfolio_res')
+    socket.emit('transaction_req',JSON.stringify(query))
+    socket.on('transaction_res', (res)=>{
       res = JSON.parse(res)
+      console.log('transaction_res',res)
       if(!res.error){
         this.setState({
-          items:res.data,
+          items:res.data.data,
+          loading:false,
         })
       }
     })
-  }
-  componentWillUnmount() {
-    const { socket } = this.context
-    if (!socket) {
-      console.log('socket connection has not been established')
-      return false
-    }
-    socket.off('portfolio_res')
   }
   filtersChange({filters={},page={}}){
     this.setState({
@@ -47,7 +44,8 @@ class TransactionsSocketContainer extends React.Component {
       page:{
         ...this.state.page,
         ...page
-      }
+      },
+      loading:true,
     })
   }
   pageChange({page={}}){
@@ -56,8 +54,17 @@ class TransactionsSocketContainer extends React.Component {
       page:{
         ...this.state.page,
         ...page
-      }
+      },
+      loading:true,
     })
+  }
+  componentWillUnmount() {
+    const { socket } = this.context
+    if (!socket) {
+      console.log('socket connection has not been established')
+      return false
+    }
+    socket.off('transaction_res')
   }
   render() {
     const {children,...rest} = this.props

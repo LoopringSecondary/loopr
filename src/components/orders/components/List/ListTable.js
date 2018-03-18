@@ -11,6 +11,7 @@ import config from "../../../../common/config";
 const uiFormatter = window.uiFormatter;
 
 function ListBlock(props) {
+  console.log('ListTable render')
   const {LIST, actions, className, style, account, gasPrice,contractAddress} = props;
   const {
     items = [],
@@ -64,7 +65,29 @@ function ListBlock(props) {
         {uiFormatter.getShortAddress(value)}
       </Link>
     ),
+    market: (value, item, index) => item.originalOrder && item.originalOrder.market,
     status: (value, item, index) => {
+      let status
+      if (item.status === 'ORDER_OPENED') { status = <Badge status="processing" text="Opened"/>}
+      if (item.status === 'ORDER_FINISHED') { status = <Badge status="success" text="Completed"/>}
+      if (item.status === 'ORDER_CANCELED') { status = <Badge status="default" text="Cancelled"/>}
+      if (item.status === 'ORDER_EXPIRE') { status = <Badge status="default" text="Expired"/>}
+      return (
+        <div>
+          {status}
+        </div>
+      )
+
+    },
+    side: (value, item, index) => {
+      if (item.originalOrder.side === 'sell') {
+        return <div className="color-green-500">Sell</div>
+      }
+      if (item.originalOrder.side === 'buy') {
+        return <div className="color-red-500">Buy</div>
+      }
+    },
+    action: (value, item, index) => {
       const content = <div className="p25">
         <Steps current={1} progressDot>
           <Steps.Step title="Allowance"/>
@@ -75,33 +98,24 @@ function ListBlock(props) {
           TODODO
         </div>
       </div>
-      if (index % 5 === 0) return (
-        <Popover content={content} title="You Need To Do">
-          <div className="color-red-500">
-            <Icon className="mr5" type="exclamation-circle"/>
-            <span className="fs12">UnEnough</span>
-          </div>
-        </Popover>
+      let notEnough = !!(item.status === 'ORDER_OPENED')
+      return (
+        <span>
+          { item.status === 'ORDER_OPENED' &&
+            <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300" style={{borderRadius:'2px',border:'1px solid',padding:'2px 5px'}}>Cancel</a>
+          }
+          { notEnough &&
+            <span>
+              <Popover content={content} title="You Need To Do">
+                <div className="color-red-500">
+                  <Icon className="mr5" type="exclamation-circle"/>
+                </div>
+              </Popover>
+            </span>
+          }
+        </span>
       )
-      if (index % 5 === 1) return <Badge status="processing" text="Opened"/>
-      if (index % 5 === 2) return <Badge status="success" text="Completed"/>
-      if (index % 5 === 3) return <Badge status="default" text="Cancelled"/>
-      if (index % 5 === 4) return <Badge status="default" text="Expired"/>
-    },
-    side: (value, item, index) => {
-      if (index < 3) {
-        return <div className="color-green-500">Sell</div>
-      }
-      if (index >= 3) {
-        return <div className="color-red-500">Buy</div>
-      }
-    },
-    action: (value, item, index) => {
-      if (index % 5 === 0 || index % 5 === 1) {
-        return <Button onClick={cancel.bind(this, value, item)} size="small" className="color-blue-600 border-blue-600">Cancel</Button>
-      } else {
-        return null
-      }
+
     },
   }
   let columns = schema.map(field => {
@@ -154,7 +168,7 @@ function ListBlock(props) {
     rowKey: (record) => record.originalOrder.hash, // set each record PK ( primary key)
   }
   return (
-    <div className={className} style={style}>
+    <div className={className} style={{minHeight:'400px',...style}}>
       <Table {...tableProps}/>
     </div>
 

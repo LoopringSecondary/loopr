@@ -34,7 +34,7 @@ let FiltersForm = ({
         <Form layout="inline">
           <Form.Item label="Market" >
             {form.getFieldDecorator('market', {
-              initialValue: filters.market || 'ALL',
+              initialValue: filters.market || '',
               rules:[]
             })(
               <Select
@@ -46,16 +46,16 @@ let FiltersForm = ({
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="ALL">All</Select.Option>
-                  <Select.Option value="LRC-ETH">LRC-ETH</Select.Option>
-                  <Select.Option value="USDT-ETH">USDT-ETH</Select.Option>
-                  <Select.Option value="BNB-ETH">BNB-ETH</Select.Option>
+                  <Select.Option value="">All</Select.Option>
+                  <Select.Option value="LRC-WETH">LRC-WETH</Select.Option>
+                  <Select.Option value="USDT-WETH">USDT-WETH</Select.Option>
+                  <Select.Option value="BNB-WETH">BNB-WETH</Select.Option>
               </Select>
             )}
           </Form.Item>
           <Form.Item label="Status" >
             {form.getFieldDecorator('status', {
-              initialValue:filters.status || 'ALL',
+              initialValue:filters.status || '',
               rules:[]
             })(
               <Select
@@ -67,7 +67,7 @@ let FiltersForm = ({
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="ALL">All</Select.Option>
+                  <Select.Option value="">All</Select.Option>
                   <Select.Option value="ORDER_OPENED">Opened</Select.Option>
                   <Select.Option value="ORDER_FINISHED">Completed</Select.Option>
                   <Select.Option value="ORDER_CANCELED">Cancelled</Select.Option>
@@ -77,11 +77,11 @@ let FiltersForm = ({
           </Form.Item>
           <Form.Item label="Side" >
             {form.getFieldDecorator('side', {
-              initialValue:filters.side || 'all',
+              initialValue:filters.side || '',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>
-                <Radio.Button value="all">All</Radio.Button>
+                <Radio.Button value="">All</Radio.Button>
                 <Radio.Button value="sell">Sell</Radio.Button>
                 <Radio.Button value="buy">Buy</Radio.Button>
               </Radio.Group>

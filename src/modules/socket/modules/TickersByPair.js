@@ -15,7 +15,6 @@ class TickerSocketContainer extends React.Component {
         "contractVersion" : "v1.0",
         "market":nextProps.pair,
       }
-      console.log('will update options',options)
       socket.emit('tickers_req',JSON.stringify(options))
     }
     return true
