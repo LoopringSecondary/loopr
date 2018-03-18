@@ -23,14 +23,6 @@ const TickerTable = (props)=>{
     window.STORAGE.markets.setCurrent(pair)
     window.routeActions.gotoPath(`/trade/${pair}`)
   }
-  const favor = (market)=>{
-    window.STORAGE.markets.favor(market)
-  }
-  const unFavor = (market)=>{
-    window.STORAGE.markets.unFavor(market)
-  }
-
-
   return (
     <div className="mb15" style={{height:'400px',overflow:'auto'}}>
       <table className="ticker-list-table">
@@ -46,15 +38,15 @@ const TickerTable = (props)=>{
             items.length>0 && items.map((item,index)=>
               <tr key={index}>
                 {
-                  item.isFavored &&
+                  favors[item.market] &&
                   <td className="fs12 border-0 color-yellow-700">
-                    <Icon onClick={unFavor.bind(this,item.market)} type="star" />
+                    <Icon className="pointer" onClick={tickers.unFavor.bind(this,item.market)} type="star" />
                   </td>
                 }
                 {
-                  !item.isFavored &&
+                  !favors[item.market] &&
                   <td className="fs12 border-0 color-grey-300">
-                    <Icon onClick={favor.bind(this,item.market)} type="star" />
+                    <Icon className="pointer" onClick={tickers.favor.bind(this,item.market)} type="star" />
                   </td>
                 }
                 <td className="fs12 border-0 "><a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a></td>

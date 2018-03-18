@@ -40,11 +40,15 @@ function ListBlock({LIST={},actions,prices,modal}) {
             <div className="fs14 color-grey-500">Amount: {fm.getAmount(item.amount)}</div>
           </div>
           <div className="col"></div>
-          <div className="col-auto">
-            <div className="fs14 color-green-500">
-              <Icon type="arrow-up" />34.5%
+          {
+            false &&
+            <div className="col-auto">
+              <div className="fs14 color-green-500">
+                <Icon type="arrow-up" />34.5%
+              </div>
             </div>
-          </div>
+          }
+
         </div>
       </Card>
     )
