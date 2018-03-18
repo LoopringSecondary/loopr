@@ -32,11 +32,13 @@ let Preview = ({
       extraData.txHash = res.result
       modal.hideModal({id:'token/transfer/preview'})
       modal.showModal({id:'token/transfer/result', result})
+      modal.hideLoading({id:'token/transfer/preview'})
     }).catch(e=>{
       console.error(e)
       result = {...result, error:e.message}
       modal.hideModal({id:'token/transfer/preview'})
       modal.showModal({id:'token/transfer/result', result})
+      modal.hideLoading({id:'token/transfer/preview'})
     })
   }
 
