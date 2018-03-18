@@ -10,8 +10,6 @@ addLocaleData([...enApp, ...zhApp]);
 const antdLocales = {zh,en}
 
 const Locales = ({ history,locales={},children})=>{
-    let initPreference = window.STORAGE.settings.get().preference
-    locales.locale = initPreference.language || locales.locale
 		const appProps = {
 			locale:locales.locale,
 			messages:locales.messages,

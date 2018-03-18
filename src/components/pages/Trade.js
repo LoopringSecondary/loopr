@@ -45,7 +45,7 @@ export default function Home(props){
               <div className="pt15">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
-                  <Order.List filters={{market:pair,status:'all',side:'sell'}} />
+                  <Order.List id="orders/trade" filters={{market:pair,status:'all',side:'sell'}} />
                 }
                 {
                   !(window.WALLET && window.WALLET.getAddress()) &&

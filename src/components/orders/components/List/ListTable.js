@@ -11,8 +11,8 @@ import config from "../../../../common/config";
 const uiFormatter = window.uiFormatter;
 
 function ListBlock(props) {
-  const {LIST, actions, className, style, account, gasPrice,contractAddress} = props;
-  const {dispatch} = props;
+  const {LIST, actions, className, style, account, gasPrice,contractAddress,} = props
+  const {dispatch,id} = props
   const showModal = (payload={})=>{
     dispatch({
       type:'modals/modalChange',
@@ -26,7 +26,7 @@ function ListBlock(props) {
     items = [],
     loading,
     page = {}
-  } = LIST;
+  } = LIST[id] || {};
   const cancel = (item) => {
     Modal.confirm({
       title: 'Do you Want to cancel this order ?',

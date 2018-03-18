@@ -1,22 +1,25 @@
 import namespace from '../namespace'
 import * as apis from '../apis'
 const {MODULES} = namespace
-
+let initState = {
+  items: [],
+  loading: false,
+  loaded: false,
+  page:{
+    total:0,
+    size:10,
+    current:0,
+  },
+  filters:{},
+  layer:{},
+  defaultState:{},
+  originQuery:{},
+}
 export default {
   namespace: MODULES,
   state: {
-    items: [],
-    loading: false,
-    loaded: false,
-    page:{
-      total:0,
-      size:10,
-      current:0,
-    },
-    filters:{},
-    layer:{},
-    defaultState:{},
-    originQuery:{},
+    'orders/trade':{...initState},
+    'orders/wallet':{...initState}
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -49,8 +52,9 @@ export default {
       yield put({type:'fetch'});
     },
     *fetch({ payload={} }, { call, select, put }) {
-      yield put({ type: 'fetchStart',payload}); // model的state中传入各种参数的一个机会接口
-      const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
+      yield put({ type: 'fetchStart',payload});
+      let {id} = payload
+      const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST[id] );
       let new_payload = {page,filters,sort,originQuery};
       if(defaultState.filters){
         new_payload.filters={
@@ -64,6 +68,7 @@ export default {
         yield put({
           type: 'fetchSuccess',
           payload: {
+            id:payload.id,
             page:{
               ...page,
               ...res.page,
@@ -79,89 +84,120 @@ export default {
 
   reducers: {
     fetchStart(state, action) {
-      let {filters,page,sort,defaultState,originQuery}=state;
-      let {payload} = action;
+      let {payload} = action
+      let {id} = payload
+      let {filters,page,sort,defaultState,originQuery}=state[id];
       if(!payload.defaultState){ payload.defaultState={} }
       if(!payload.originQuery){ payload.originQuery={} }
-      return { ...state, loading: true, loaded:false, 
-        filters:{
-          ...filters,
-          ...payload.filters,
-        },
-        page:{
-          ...page,
-          ...payload.page,
-        },
-        sort:{
-          ...sort,
-          ...payload.sort,
-        },
-        defaultState:{
-          ...defaultState,
-          ...payload.defaultState,
-        },
-        originQuery:{
-          ...originQuery,
-          ...payload.originQuery,
-        },
-
-      };
+      return {
+        ...state,
+        [id]:{
+          loading: true, loaded:false,
+          filters:{
+            ...filters,
+            ...payload.filters,
+          },
+          page:{
+            ...page,
+            ...payload.page,
+          },
+          sort:{
+            ...sort,
+            ...payload.sort,
+          },
+          defaultState:{
+            ...defaultState,
+            ...payload.defaultState,
+          },
+          originQuery:{
+            ...originQuery,
+            ...payload.originQuery,
+          },
+        }
+      }
 
     },
     fetchSuccess(state, action) {
-      return { ...state, ...action.payload };
+      let {payload} = action
+      let {id} = payload
+      return {
+        ...state,
+        [id]:{
+          ...state[id],
+          ...payload,
+        },
+      };
     },
     pageChangeStart(state,action){
-      let page = state.page;
-      return {...state,page:{
-        ...page,...action.payload.page
-      }}
+      let {payload} = action
+      let {id} = payload
+      return {
+        ...state,
+        [id]:{
+          ...state[id],
+          page:{
+            ...state[id].page,
+            ...payload.page
+          }
+        }
+      }
     },
-    
+
     // filters 变化时 page.current也必须变化
     filtersChangeStart(state,action){
-      let filters = state.filters;
-      let page = state.page;
+      let {payload} = action
+      let {id} = payload
       return {
         ...state,
-        filters:{
-          ...filters,...action.payload.filters
-        },
-        page:{
-          ...page,
-          current:1,
+        [id]:{
+          ...state[id],
+          filters:{
+            ...state[id].filters,
+            ...payload.filters,
+          },
+          page:{
+            ...state[id].page,
+            current:1,
+          }
         }
       }
-    },
-    columnsChangeStart(state,action){
-      return {...state,columns:action.payload.columns}
     },
     sortChangeStart(state,action){
-      return {...state,sort:action.payload.sort}
-    },
-    queryChangeStart(state,action){
-      let filters = state.filters;
-      let page = state.page;
+      let {payload} = action
+      let {id} = payload
       return {
         ...state,
-        filters:{
-          ...filters,
-          ...action.payload.filters
-        },
-        page:{
-          ...page,
-          current:1,
-        },
-        sort:{
-          ...action.payload.sort
+        [id]:{
+          ...state[id],
+          sort:{
+            // ...state[id].sort,
+            ...payload.sort
+          }
         }
       }
     },
-    layerChange(state,action){
-      let layer = state.layer;
-      return {...state,layer:{
-        ...layer,...action.payload
-      }}
+    queryChangeStart(state,action){
+      let {payload} = action
+      let {id} = payload
+      return {
+        ...state,
+        [id]:{
+          ...state[id],
+          filters:{
+            ...state[id].filters,
+            ...payload.filters,
+          },
+          page:{
+            ...state[id].page,
+            current:1,
+          },
+          sort:{
+            // ...state[id].sort,
+            ...payload.sort
+          },
+
+        }
+      }
     },
   },
 
