@@ -157,7 +157,7 @@ class TradeConfirm extends React.Component {
         let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
         const txs = [];
         const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
-        if (toBig(tokenS.allowance).greaterThan(allowanceS)) {
+        if (toBig(tokenS.allowance).greaterThan(toBig(allowanceS))) {
           const SToken = new Token({address: tokenS.address});
           if (toNumber(allowanceS) > 0) {
             txs.push(SToken.generateApproveTx({
@@ -178,7 +178,7 @@ class TradeConfirm extends React.Component {
           })));
           nonce = nonce + 1;
         }
-        if (tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(allowanceLrc)) {
+        if (tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(toBig(allowanceLrc))) {
           const LRCToken = new Token({address: LRC.address});
           if (toNumber(allowanceLrc) > 0) {
             txs.push(LRCToken.generateApproveTx({
