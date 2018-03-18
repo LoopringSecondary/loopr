@@ -5,7 +5,12 @@ import {languagesArray, timezoneArray} from '../../../common/config/data'
 const Perference = ({
     settings,form,dispatch
   }) => {
-  const {preference} = settings
+  let initPreference = window.STORAGE.settings.get().preference
+  let {preference} = settings
+  preference = {
+    ...preference,
+    ...initPreference,
+  }
   function handleChange(type, value) {
     console.log(type+" changed to:"+value);
     settings.preferenceChange({[type]: value})

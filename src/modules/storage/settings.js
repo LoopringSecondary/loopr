@@ -5,7 +5,11 @@ const get = ()=>{
   if(localStorage.settings){
      return JSON.parse(localStorage.settings)
   }else{
-    return {}
+    return {
+      preference:{},
+      trading:{},
+      relay:{},
+    }
   }
 }
 export default {
