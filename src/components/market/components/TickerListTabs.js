@@ -7,7 +7,8 @@ import { Card,Tabs,Icon,Popover,Input } from 'antd';
 // TickersTabs
 
 const TickerTable = (props)=>{
-  const {tickers,market} = props
+  const {tickers,market,dispatch} = props
+
   let items = tickers.items.filter(item=>{
     return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
   })
@@ -18,18 +19,37 @@ const TickerTable = (props)=>{
     })
   }
   const favors =  window.STORAGE.markets.getFavors()
+  const updateOrders = (pair)=>{
+    dispatch({
+      type:'orders/filtersChange',
+      payload:{
+        id:'orders/trade',
+        filters:{
+          market:pair
+        }
+      }
+    })
+
+  }
+  const updateTrades = (pair)=>{
+    dispatch({
+      type:'orders/filtersChange',
+      payload:{
+        id:'orders/trade',
+        filters:{
+          market:pair
+        }
+      }
+    })
+  }
+
   const gotoTrade = (pair,e)=>{
     e.preventDefault()
+    updateOrders(pair)
+    updateTrades(pair)
     window.STORAGE.markets.setCurrent(pair)
     window.routeActions.gotoPath(`/trade/${pair}`)
   }
-  const favor = (market)=>{
-    window.STORAGE.markets.favor(market)
-  }
-  const unFavor = (market)=>{
-    window.STORAGE.markets.unFavor(market)
-  }
-
 
   return (
     <div className="mb15" style={{height:'400px',overflow:'auto'}}>
@@ -46,15 +66,15 @@ const TickerTable = (props)=>{
             items.length>0 && items.map((item,index)=>
               <tr key={index}>
                 {
-                  item.isFavored &&
+                  favors[item.market] &&
                   <td className="fs12 border-0 color-yellow-700">
-                    <Icon onClick={unFavor.bind(this,item.market)} type="star" />
+                    <Icon className="pointer" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
                   </td>
                 }
                 {
-                  !item.isFavored &&
+                  !favors[item.market] &&
                   <td className="fs12 border-0 color-grey-300">
-                    <Icon onClick={favor.bind(this,item.market)} type="star" />
+                    <Icon className="pointer" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
                   </td>
                 }
                 <td className="fs12 border-0 "><a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a></td>
@@ -77,7 +97,7 @@ const TickerTable = (props)=>{
   )
 }
 
-const TickerTabs = ({tickersByLoopring:tickers})=>{
+const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
   const tab = (text)=> <div className="fs14">{text}</div>
   const search = (e)=>{
     const value = e.target.value
@@ -96,12 +116,12 @@ const TickerTabs = ({tickersByLoopring:tickers})=>{
     <Tabs className="" defaultActiveKey="WETH" animated={false} tabBarExtraContent={SearchInput}>
       <Tabs.TabPane tab={tab("Favorites")} key="Favorites">
         <div className="pl10 pr10">
-          <TickerTable tickers={tickers} market="favorites" />
+          <TickerTable tickers={tickers} market="favorites" dispatch={dispatch} />
         </div>
       </Tabs.TabPane>
       <Tabs.TabPane tab={tab('WETH')} key="WETH">
         <div className="pl10 pr10">
-          <TickerTable tickers={tickers} market="WETH"  />
+          <TickerTable tickers={tickers} market="WETH" dispatch={dispatch}  />
         </div>
       </Tabs.TabPane>
     </Tabs>

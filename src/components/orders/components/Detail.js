@@ -1,16 +1,19 @@
-import React from 'react';
-import { connect } from 'dva';
-import { Link } from 'dva/router';
-import { Card,ListItem,Avatar,Icon,Button } from 'antd';
-import schema from '../../../modules/orders/schema';
-
-function DetailBlock({LIST={},actions={}}) {
-  let { items=[],loading } = LIST
-  const item = items[0] || {}
-  const renders = {
-      orderHash:(value,item,index)=><Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/orders/detail/${value}`}>{value}</Link>,
-      status:(value,item,index)=>value,
-  }
+import React from 'react'
+import { connect } from 'dva'
+import { Link } from 'dva/router'
+import { Card,ListItem,Avatar,Icon,Button } from 'antd'
+import renders from './List/renders'
+function DetailBlock({modal={}}) {
+  const item = modal.item
+  const tokenS = item.originalOrder.tokenS
+  const tokenB = item.originalOrder.tokenB
+  const amountB = item.originalOrder.amountB
+  const amountS = item.originalOrder.amountS
+  const amountLrc = item.originalOrder.lrcFee
+  const fm = window.uiFormatter.TokenFormatter
+  let fmS = new fm({symbol:tokenS})
+  let fmB = new fm({symbol:tokenB})
+  let fmLrc = new fm({symbol:'LRC'})
   const MetaItem = (props)=>{
     const {label,value} = props
     return (
@@ -42,7 +45,9 @@ function DetailBlock({LIST={},actions={}}) {
         <div className="col-auto">
           <div className="text-center">
             <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth:'180px'}}>LRC</div>
+            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth:'180px'}}>
+              {tokenS}
+            </div>
           </div>
         </div>
         <div className="col-1">
@@ -53,22 +58,40 @@ function DetailBlock({LIST={},actions={}}) {
         <div className="col-auto">
           <div className="text-center">
             <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth:'180px'}}>ETH</div>
+            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth:'180px'}}>
+              {tokenB}
+            </div>
           </div>
         </div>
       </div>
-      <MetaItem label="Status" value={"Completed"} />
-      <MetaItem label="Hash" value={<a href="" target="_blank">0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00</a>} />
-      <MetaItem label="Fill Sell Amount" value="500/500LRC" />
-      <MetaItem label="Fill Buy Amount" value="0.5/0.5ETH" />
-      <MetaItem label="Ring" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
-      <div className="row pt40">
-        <div className="col pl0">
-          <Button className="d-block w-100" type="" size="large">View More Info in Ringinfo.io</Button>
+      <MetaItem label="Status" value={renders.status(null,item)} />
+      <MetaItem label="Fill Sell Amount" value={
+        <div>
+          <span className="mr5">{fmS.getAmount(amountS)}</span>
+          {tokenS}
         </div>
-      </div>
+      } />
+      <MetaItem label="Fill Buy Amount" value={
+        <div>
+          <span className="mr5">{fmB.getAmount(amountB)}</span>
+          {tokenB}
+        </div>
+      } />
+      <MetaItem label="price" value={
+        <div>
+          <span className="mr5">{(amountB/amountS).toFixed(3)}</span>
+          {tokenS}
+        </div>
+      } />
+      <MetaItem label="Lrc Fee" value={
+        <div>
+          <span className="mr5">{fmLrc.getAmount(amountLrc)}</span>
+          {'LRC'}
+        </div>
+      } />
+
     </Card>
-      
+
   );
 }
 

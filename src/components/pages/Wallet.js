@@ -48,7 +48,7 @@ export default function Home(props){
               />
               <Route path={`${match.url}/orders`} exact render={()=>
                 <div className="pt15 pb0 bg-white" style={{borderRadius:'6px',border:'1px solid #dadada'}}>
-                  <Order.List />
+                  <Order.List id="orders/wallet" />
                 </div>
               }
               />

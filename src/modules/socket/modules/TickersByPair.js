@@ -5,7 +5,7 @@ class TickerSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tickersByPair:{}
+      item:{}
     }
   }
   shouldComponentUpdate(nextProps){
@@ -33,16 +33,13 @@ class TickerSocketContainer extends React.Component {
         res = JSON.parse(res)
         if(!res.error){
           this.setState({
-            tickersByPair:res.data
+            item:res.data
           })
         }
       })
     }
     if(!socket) {
       console.log('socket not connected')
-      // this.setState({
-      //   tickersByPair:TickersByPairData,
-      // })
     }
   }
   componentWillUnmount() {
@@ -53,12 +50,22 @@ class TickerSocketContainer extends React.Component {
     }
     socket.off('tickers_res')
   }
+  toggleFavor(){
+    this.setState({
+      item:{
+        ...this.state.item,
+        favored:!this.state.item.favored
+      }
+    })
+    window.STORAGE.markets.toggleFavor(this.props.pair)
+  }
   render() {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
       tickersByPair:{
-        ...this.state.tickersByPair,
+        ...this.state.item,
+        toggleFavor:this.toggleFavor.bind(this)
       }
     }
     const {render} = this.props

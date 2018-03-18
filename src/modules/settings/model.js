@@ -54,31 +54,37 @@ export default {
   },
   reducers: {
     preferenceChange(state, { payload }) {
-      return {
+      let newState =  {
         ...state,
         preference: {
           ...state.preference,
           ...payload
         }
       };
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     tradingChange(state, { payload }) {
-      return {
+      let newState =  {
         ...state,
         trading: {
           ...state.trading,
           ...payload
         }
       };
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     relayChange(state,{payload}){
-      return {
+      let newState =  {
         ...state,
         relay: {
           ...state.relay,
           selected: payload.selected
         }
       }
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     languageChange(state,{payload}){
       // TODO
@@ -102,15 +108,18 @@ export default {
       }
     },
     addRelay(state,{payload}){
+
       const newNodes = [...state.relay.nodes];
       newNodes.push({value: payload.url, name : payload.name, custom: true})
-      return {
+      let newState =  {
         ...state,
         relay:{
           ...state.relay,
           nodes: [ ...newNodes ]
         }
       }
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     editRelay(state,{payload}){
       const newNodes = [...state.relay.nodes];
@@ -120,26 +129,30 @@ export default {
         value : payload.url,
         name : payload.name,
       }
-      return {
+      let newState =  {
         ...state,
         relay:{
           ...state.relay,
           nodes: [ ...newNodes ]
         }
       }
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     deleteRelay(state,{payload}){
       const toDelete = state.relay.nodes.find(item => item.id === payload.id)
       const newNodes = state.relay.nodes.filter(item => item.id !== payload.id)
       setRelayIds(newNodes)
       const selected = state.relay.selected === toDelete.value ? newNodes[0].value : state.relay.selected
-      return {
+      let newState =  {
         ...state,
         relay:{
           selected: selected,
           nodes: [ ...newNodes ]
         }
       }
+      window.STORAGE.settings.set(newState)
+      return newState
     },
   },
 };

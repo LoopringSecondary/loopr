@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Icon,Popover } from 'antd';
-import TickerListTable from './TickerListTable'
+import TickerListTabs from './TickerListTabs'
 import Sockets from '../../../modules/socket/containers'
 import Currency from '../../../modules/settings/CurrencyContainer'
 
@@ -42,9 +42,10 @@ fm.getPrice = (value)=>{
   }
 }
 
-const LooprTicker = ({pair='',ticker={},price=0})=>{
+const LooprTicker = ({pair='',tickers={},price=0})=>{
   const tokenL = pair.split('-')[0]
   const tokenR = pair.split('-')[1]
+  const ticker = tickers.loopr || {} // fix bug: when init loopr is null
   const priceValue = (
     <span className="fs10">
       ≈
@@ -52,6 +53,7 @@ const LooprTicker = ({pair='',ticker={},price=0})=>{
       {(price*ticker.last).toFixed(3)}
     </span>
   )
+  const favors = window.STORAGE.markets.getFavors()
 
 	const TickerHeader = ()=>(
 		<Popover
@@ -61,14 +63,22 @@ const LooprTicker = ({pair='',ticker={},price=0})=>{
 		  content={
 		    <div className="" style={{minWidth:'420px'}}>
           <Sockets.TickersByLoopring>
-		        <TickerListTable />
+		        <TickerListTabs />
           </Sockets.TickersByLoopring>
 		    </div>
 		  }
 		>
 		  <div className="row align-items-center pt15 pb15" style={{background:'rgba(0,0,0,0.1)'}}>
 		    <div className="col-auto pr5 pl20">
-		      <Icon className="fs16 color-yellow-600" type="star" />
+          {
+            favors[pair] &&
+          <Icon onClick={tickers.toggleFavor} className="fs16 color-yellow-600 pointer" type="star" />
+          }
+          {
+            !favors[pair] &&
+		      <Icon onClick={tickers.toggleFavor} className="fs16 color-white pointer" type="star" />
+          }
+
 		    </div>
 		    <div className="col">
 		      <div className="fs18 color-white">{pair}</div>
@@ -140,7 +150,7 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
 
 }
 
-function Ticker({pair,tickersByPair={},prices={}}) {
+function Ticker({pair,tickersByPair:tickers={},prices={}}) {
   const tokenL = pair.split('-')[0]
   const tokenR = pair.split('-')[1]
   const token = prices.getTokenBySymbol(tokenR,true)
@@ -148,27 +158,27 @@ function Ticker({pair,tickersByPair={},prices={}}) {
   	<div>
   		<div className="" style={{background:'#0077FF'}}>
   		  <div className="container">
-  		    <LooprTicker pair={pair} ticker={tickersByPair.loopr} price={token.price} />
+  		    <LooprTicker pair={pair} tickers={tickers} price={token.price} />
   		  </div>
   		</div>
   		<div className="container">
         <div className="row ml0 mr0 mt15 mb15">
            {
-            tickersByPair.binance &&
+            tickers.binance &&
             <div className="col pl0">
-              <ExchangeItem pair={pair} ticker={tickersByPair.binance} price={token.price} />
+              <ExchangeItem pair={pair} ticker={tickers.binance} price={token.price} />
             </div>
            }
            {
-            tickersByPair.okex &&
+            tickers.okex &&
             <div className="col pr0">
-              <ExchangeItem pair={pair} ticker={tickersByPair.okex} price={token.price} />
+              <ExchangeItem pair={pair} ticker={tickers.okex} price={token.price} />
             </div>
            }
            {
-            tickersByPair.huobi &&
+            tickers.huobi &&
             <div className="col pr0">
-              <ExchangeItem pair={pair} ticker={tickersByPair.huobi} price={token.price} />
+              <ExchangeItem pair={pair} ticker={tickers.huobi} price={token.price} />
             </div>
            }
 

@@ -28,10 +28,12 @@ function Navbar(props){
         locale:value
       }
     })
+    let currency = value === 'en' ? 'USD' : 'CNY'
     props.dispatch({
       type:'settings/preferenceChange',
       payload:{
         language: value,
+        currency: currency,
       }
     })
 

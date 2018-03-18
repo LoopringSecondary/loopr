@@ -14,7 +14,7 @@ export default class ModalContainer extends React.Component {
     }
   }
   render() {
-  	const {dispatch,modals,id,width,...rest} = this.props
+  	const {dispatch,modals,id,width,apisOnly=false,...rest} = this.props
   	let thisModal = modals[id] || {}
     // console.log('modal container render',id)
   	const hideModal = (payload)=>{
@@ -93,14 +93,26 @@ export default class ModalContainer extends React.Component {
         modalChange:modalChange.bind(this),
       },
   	}
-    return (
-  		<Modal {...modalProps}>
-  			{
-  			  React.Children.map(this.props.children, child => {
-  			      return React.cloneElement(child, {...childProps})
-  			  })
-  			}
-  		</Modal>
-    )
+    if(!apisOnly){
+        return (
+          <Modal {...modalProps}>
+            {
+              React.Children.map(this.props.children, child => {
+                  return React.cloneElement(child, {...childProps})
+              })
+            }
+          </Modal>
+        )
+    }else{
+      return (
+        <div>
+          {
+            React.Children.map(this.props.children, child => {
+                return React.cloneElement(child, {...childProps})
+            })
+          }
+        </div>
+      )
+    }
   }
 }

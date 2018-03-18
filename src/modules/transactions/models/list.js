@@ -33,7 +33,7 @@ export default {
     },
     *filtersChange({payload},{call, select,put}){
       yield put({type:'filtersChangeStart',payload});
-      // yield put({type:'fetch'});
+      yield put({type:'emit'});
     },
     *columnsChange({payload},{call, select,put}){
       yield put({type:'pageChangeStart',payload});
@@ -47,6 +47,40 @@ export default {
       yield put({type:'queryChangeStart',payload});
       // yield put({type:'fetch'});
     },
+    *emit({payload},{call, select,put}){
+      const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
+      if(window.SOCKET){
+        const owner = window.WALLET && window.WALLET.getAddress()
+        const query = {
+          owner,
+          symbol:filters.token,
+          status:filters.status,
+          txType:filters.txType,
+          pageIndex:page.current,
+          pageSize:page.size,
+        }
+        console.log('transaction_req',query)
+        window.SOCKET.emit('transaction_req',JSON.stringify(query),(res)=>{
+          res = JSON.parse(res)
+          console.log('transaction_req res',res)
+          if(!res.error){
+            put({
+              type: 'emitSuccess',
+              payload: {
+                page:{
+                  ...page,
+                },
+                items:res.data.data,
+                loading: false,
+                loaded:true
+              },
+            });
+          }
+        })
+      }
+
+    },
+
     *fetch({ payload={} }, { call, select, put }) {
       yield put({ type: 'fetchStart',payload});
       const {page,filters,sort,defaultState,originQuery} = yield select(({ [MODULES]:LIST }) => LIST );
@@ -108,6 +142,9 @@ export default {
 
     },
     fetchSuccess(state, action) {
+      return { ...state, ...action.payload };
+    },
+    emitSuccess(state, action) {
       return { ...state, ...action.payload };
     },
     pageChangeStart(state,action){

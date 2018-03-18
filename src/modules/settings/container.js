@@ -15,7 +15,8 @@ const SettingsContainer = (props)=>{
     settings:{
       ...settings,
       ...actions,
-    }
+    },
+    dispatch
   }
   return (
     <div>

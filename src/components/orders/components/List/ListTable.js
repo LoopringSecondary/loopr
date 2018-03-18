@@ -11,13 +11,22 @@ import config from "../../../../common/config";
 const uiFormatter = window.uiFormatter;
 
 function ListBlock(props) {
-  console.log('ListTable render')
-  const {LIST, actions, className, style, account, gasPrice,contractAddress} = props;
+  const {LIST, actions, className, style, account, gasPrice,contractAddress,} = props
+  const {dispatch,id} = props
+  const showModal = (payload={})=>{
+    dispatch({
+      type:'modals/modalChange',
+      payload:{
+        ...payload,
+        visible:true,
+      },
+    })
+  }
   const {
     items = [],
     loading,
     page = {}
-  } = LIST;
+  } = LIST[id] || {};
   const cancel = (item) => {
     Modal.confirm({
       title: 'Do you Want to cancel this order ?',
@@ -60,10 +69,10 @@ function ListBlock(props) {
   };
   const renders = {
     orderHash: (value, item, index) => (
-      <Link className="text-truncate d-block" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
-            to={`/orders/detail/${value}`}>
+      <a className="text-truncate d-block color-blue-500" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
+          onClick={showModal.bind(this,{id:'order/detail',item})}>
         {uiFormatter.getShortAddress(value)}
-      </Link>
+      </a>
     ),
     market: (value, item, index) => item.originalOrder && item.originalOrder.market,
     status: (value, item, index) => {
@@ -77,7 +86,6 @@ function ListBlock(props) {
           {status}
         </div>
       )
-
     },
     side: (value, item, index) => {
       if (item.originalOrder.side === 'sell') {
