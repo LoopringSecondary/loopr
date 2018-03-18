@@ -33,11 +33,11 @@ export default {
   effects: {
     *pageChange({payload},{call, select,put}){
       yield put({type:'pageChangeStart',payload});
-      yield put({type:'fetch'});
+      yield put({type:'fetch',payload});
     },
     *filtersChange({payload},{call, select,put}){
       yield put({type:'filtersChangeStart',payload});
-      yield put({type:'fetch'});
+      yield put({type:'fetch',payload});
     },
     *columnsChange({payload},{call, select,put}){
       // yield put({type:'pageChangeStart',payload});
@@ -45,11 +45,11 @@ export default {
     },
     *sortChange({payload},{call, select,put}){
       yield put({type:'sortChangeStart',payload});
-      yield put({type:'fetch'});
+      yield put({type:'fetch',payload});
     },
     *queryChange({payload},{call, select,put}){
       yield put({type:'queryChangeStart',payload});
-      yield put({type:'fetch'});
+      yield put({type:'fetch',payload});
     },
     *fetch({ payload={} }, { call, select, put }) {
       yield put({ type: 'fetchStart',payload});
