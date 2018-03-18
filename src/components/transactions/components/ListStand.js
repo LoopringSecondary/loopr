@@ -37,14 +37,10 @@ function ListBlock({LIST,actions,prices}) {
       case 'receive':
         change = '+'
         break;
-      case 'unwrap':
-        change = '-'
-        break;
-      case 'wrap':
+      case 'convert':
         change = '-'
         break;
       default:
-        return ''
         break;
     }
     const statusCol = (
@@ -59,8 +55,7 @@ function ListBlock({LIST,actions,prices}) {
         { item.type === 'approve' && <img src={iconTransfer} alt="" style={{width:'30px'}} /> }
         { item.type === 'send' && <img src={iconReceive} alt="" style={{width:'30px'}} /> }
         { item.type === 'receive' && <img src={iconTrade} alt="" style={{width:'30px'}} /> }
-        { item.type === 'unwrap' && <img src={iconTrade} alt="" style={{width:'30px'}} /> }
-        { item.type === 'wrap' && <img src={iconTrade} alt="" style={{width:'30px'}} /> }
+        { item.type === 'convert' && <img src={iconTrade} alt="" style={{width:'30px'}} /> }
       </div>
     )
 

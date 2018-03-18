@@ -17,7 +17,7 @@ class TransactionsContainer extends React.Component {
   componentDidMount() {
     const { socket } = this.context
     const { LIST } = this.props
-    const { filters={},page, } = LIST
+    const { filters={},page,} = LIST
     if (!socket) {
       console.log('socket connection has not been established')
       return false
@@ -26,9 +26,12 @@ class TransactionsContainer extends React.Component {
     const query = {
       owner,
       symbol:filters.token,
+      status:filters.status,
+      txType:filters.txType,
       pageIndex:page.current,
       pageSize:page.size,
     }
+    console.log('transaction_req',query)
     socket.emit('transaction_req',JSON.stringify(query))
     socket.on('transaction_res', (res)=>{
       res = JSON.parse(res)
@@ -40,18 +43,38 @@ class TransactionsContainer extends React.Component {
       }
     })
   }
-  filtersChange({filters={},page={}}){
-    const { socket } = this.context
-    this.actions.filtersChange({filters,page})
-    const owner = window.WALLET && window.WALLET.getAddress()
-    const query = {
-      owner,
-      symbol:filters.token,
-      pageIndex:page.current,
-      pageSize:page.size,
-    }
-    socket.emit('transaction_req',JSON.stringify(query))
-  }
+  // filtersChange({filters={},page={}}){
+  //   const { socket } = this.context
+  //   const { LIST } = this.props
+  //   this.actions.filtersChange({filters,socket})
+  //   const owner = window.WALLET && window.WALLET.getAddress()
+  //   const new_filters = {
+  //       ...LIST.filters,
+  //       ...filters,
+  //   }
+  //   const new_page = {
+  //       ...LIST.page,
+  //       current:1,
+  //   }
+  //   const query = {
+  //     owner,
+  //     symbol:new_filters.token,
+  //     status:new_filters.status,
+  //     type:new_filters.type,
+  //     pageIndex:new_page.current,
+  //     pageSize:new_page.size,
+  //   }
+  //   console.log('transaction_req',query)
+  //   socket.emit('transaction_req',JSON.stringify(query),(res)=>{
+  //     res = JSON.parse(res)
+  //     console.log('transaction_req res',res)
+  //     if(!res.error){
+  //       this.actions.itemsChange({
+  //         items:res.data.data
+  //       })
+  //     }
+  //   })
+  // }
   componentWillUnmount() {
     const { socket } = this.context
     if (!socket) {
@@ -66,7 +89,6 @@ class TransactionsContainer extends React.Component {
       ...rest,
       actions:{
         ...this.actions,
-        filtersChange:this.filtersChange.bind(this),
       }
     }
     const {render} = this.props
