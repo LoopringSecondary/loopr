@@ -1,11 +1,12 @@
 import React from 'react';
 import {connect} from 'dva';
-import {FormattedMessage,injectIntl} from 'react-intl';
 import {Menu,Select,Popover,Button,Icon,message,Alert} from 'antd';
 import {Link} from 'dva/router';
 import logo from '../assets/images/logo-blue@2x.png'
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
+import {locales} from '../common/config/data'
+import intl from 'react-intl-universal';
 
 function Navbar(props){
   let selectedKeys = []
@@ -23,11 +24,11 @@ function Navbar(props){
 
   const localeChange = (value)=>{
     props.dispatch({
-      type:'locales/localeChange',
+      type:'locales/setLocale',
       payload:{
         locale:value
       }
-    })
+    });
     let currency = value === 'en' ? 'USD' : 'CNY'
     props.dispatch({
       type:'settings/preferenceChange',
@@ -36,7 +37,6 @@ function Navbar(props){
         currency: currency,
       }
     })
-
   }
   const showModal = (id)=>{
     props.dispatch({
@@ -54,6 +54,9 @@ function Navbar(props){
       payload:{}
     })
   };
+
+  const localesOptions = locales.map(locale => <Select.Option value={locale.value} key={locale.value}>{locale.name}</Select.Option>);
+
 
   function copyToClipboard() {
 
@@ -170,42 +173,40 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              <Menu.Item key="/home" ><Link to="/home"><FormattedMessage id='navbar.home' /></Link></Menu.Item>
+              <Menu.Item key="/home" ><Link to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
               <Menu.Item key="/trade">
-                <Link to="/trade"><FormattedMessage id='navbar.trade' /></Link>
+                <Link to="/trade">{intl.get('navbar.trade')}</Link>
               </Menu.Item>
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet/portfolio" >
-                  <Link to="/wallet/portfolio"><FormattedMessage id='navbar.portfolio'/></Link>
+                  <Link to="/wallet/portfolio">{intl.get("navbar.portfolio")}</Link>
                 </Menu.Item>
               }
               {
                 (!window.WALLET || !window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
-                  <a onClick={showModal.bind(this,'wallet/unlock')}><FormattedMessage id='navbar.wallet'/></a>
+                  <a onClick={showModal.bind(this,'wallet/unlock')}>{intl.get('navbar.wallet')}</a>
                 </Menu.Item>
               }
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
-                  <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
+                  <Link to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
 
             </Menu>
           </div>
           <div className="col-auto">
-            <span className="fs14 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}><FormattedMessage id='navbar.setting' /></span>
-            <Select defaultValue="en" onChange={localeChange} className="navbar-language mr5">
-              <Select.Option value="en">English</Select.Option>
-              <Select.Option value="zh">中文</Select.Option>
+            <span className="fs14 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}>{intl.get('navbar.setting')}</span>
+            <Select value={props.locales.locale || 'en-US'} onChange={localeChange} className="navbar-language mr5">
+              {localesOptions}
             </Select>
             <Popover content={accountMenus} title={null}>
                 <a className="fs14">{getAccount()} <Icon type="down" className="color-grey-400 fs12" /></a>
             </Popover>
           </div>
-
         </div>
       </div>
 
