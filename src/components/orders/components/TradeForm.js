@@ -6,7 +6,7 @@ import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/ma
 import {configs} from '../../../common/config/data'
 import config from '../../../common/config'
 import Currency from '../../../modules/settings/CurrencyContainer'
-import {getEstimatedAllocatedAllowance} from '../../../common/Loopring/relay/utils'
+import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from '../../../common/Loopring/relay/utils'
 
 class TradeForm extends React.Component {
   state = {
@@ -161,6 +161,7 @@ class TradeForm extends React.Component {
       const approveGasLimit = config.getGasLimitByType('approve').gasLimit
       const frozenAmountLResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), tokenL)
       const frozenAmountRResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), tokenR)
+      const lrcBalance = tokenDivDigist({...config.getTokenBySymbol('LRC'), ...assets.getTokenBySymbol('LRC')})
       let tokenBalanceS = null, tokenBalanceB = null
       let frozenAmountS = null
       if(side === 'buy') {//buy eos-weth
@@ -177,29 +178,35 @@ class TradeForm extends React.Component {
         if(frozenAmountS.greaterThan(tokenBalanceS.allowance)) {
           approveCount += 1
           if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
-          const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9).times(approveCount)
-          if(ethBalance.lessThan(gas)){
-            const errors = new Array()
-            errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:ethBalance.toNumber().toFixed(8), required:gas.sub(ethBalance).toNumber()}})
-            gotoError(errors)
-            return
-          }
+        }
+        if(lrcBalance.allowance.lessThan(tradeInfo.lrcFee)){
+          approveCount += 1
+          if(lrcBalance.allowance.greaterThan(0)) approveCount += 1
+        }
+        const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9).times(approveCount)
+        if(ethBalance.lessThan(gas)){
+          const errors = new Array()
+          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:ethBalance.toNumber().toFixed(8), required:gas.sub(ethBalance).toNumber()}})
+          gotoError(errors)
+          return
         }
       } else {
         //lrc balance not enough, lrcNeed = frozenLrc + lrcFee
-        const frozenLrcResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), "LRC")
-        let frozenLrc = fm.toBig(frozenLrcResult.result).div(1e18).add(fm.toBig(tradeInfo.lrcFee))
-        if(tokenL === 'LRC') { // lrc-weth
-          frozenLrc = frozenLrc.add(fm.toBig(tradeInfo.amount))
-        } else { // eos-lrc
-          frozenLrc = frozenLrc.add(fm.toBig(tradeInfo.total))
-        }
-        const lrcBalance = tokenDivDigist({...config.getTokenBySymbol('LRC'), ...assets.getTokenBySymbol('LRC')})
+        const frozenLrcFee = await getFrozenLrcFee(window.WALLET.getAddress())
+        let frozenLrc = fm.toBig(frozenLrcFee.result).div(1e18).add(fm.toBig(tradeInfo.lrcFee))
         if(lrcBalance.balance.lessThan(frozenLrc)){
           const errors = new Array()
           errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:lrcBalance.balance.toNumber(), required:frozenLrc.sub(lrcBalance.balance).toNumber()}})
           gotoError(errors)
           return
+        }
+        const frozenLrcInOrderResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), "LRC")
+        frozenLrc = frozenLrc.add(fm.toBig(frozenLrcInOrderResult.result).div(1e18))
+        if(tokenL === 'LRC' && side === 'sell') {// sell lrc-weth
+          frozenLrc = frozenLrc.add(fm.toBig(tradeInfo.amount))
+        }
+        if(tokenR === 'LRC' && side === 'buy'){// buy eos-lrc
+          frozenLrc = frozenLrc.add(fm.toBig(tradeInfo.total))
         }
         // verify tokenL/tokenR balance and allowance cause gas cost
         const warn = new Array()
@@ -215,7 +222,7 @@ class TradeForm extends React.Component {
           if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
         }
         // lrcFee allowance
-        if(frozenLrc.greaterThan(lrcBalance.allowance)) {
+        if(frozenLrc.greaterThan(lrcBalance.allowance) && tokenBalanceS.symbol !== 'LRC') {
           approveCount += 1
           if(lrcBalance.allowance.greaterThan(0)) approveCount += 1
         }

@@ -7,6 +7,7 @@ import * as fm from '../../../common/Loopring/common/formatter'
 import config from '../../../common/config'
 import {accDiv, accMul} from '../../../common/Loopring/common/math'
 import Currency from '../../../modules/settings/CurrencyContainer'
+import {getGasPrice} from '../../../common/Loopring/relay/utils'
 
 class Transfer extends React.Component {
   state = {
@@ -15,7 +16,11 @@ class Transfer extends React.Component {
     selectedGas: 0,
     gasValueInSlider:0,
     advanced: false,
-    value: 0
+    value: 0,
+    gasMark: {
+      200000: 'slow',
+      3000000: 'fast'
+    }
   }
 
   componentDidMount() {
@@ -23,6 +28,19 @@ class Transfer extends React.Component {
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     const gas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
     this.setState({selectedGas: fm.toNumber(gas.toFixed(8)), gasValueInSlider:fm.toNumber(gas.toFixed(8)) * 1e9})
+    getGasPrice().then(res=>{
+      const estimateGas = fm.toBig(fm.toBig(fm.toNumber(res.result) * defaultGasLimit).div(1e18).toFixed(8))
+      const estimateGasShow = estimateGas.times(1e9)
+      this.setState({
+        gasMark: {
+          200000: 'slow',
+          [estimateGasShow]: '',
+          3000000: 'fast'
+        },
+        selectedGas: estimateGas.toNumber(),
+        gasValueInSlider: estimateGasShow.toNumber()
+      })
+    })
   }
 
   render() {
@@ -235,10 +253,7 @@ class Transfer extends React.Component {
                     rules: []
                   })(
                     <Slider min={200000} max={3000000} step={10}
-                            marks={{
-                              200000: 'slow',
-                              3000000: 'fast'
-                            }}
+                            marks={this.state.gasMark}
                             tipFormatter={formatGas}
                             onChange={setGas.bind(this)}
                     />
