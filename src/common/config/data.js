@@ -5,6 +5,8 @@ for(var p in languages){
 }
 export {languagesArray}
 
+export const locales = require('./locale.json');
+
 export const timezones = require('./timezone.json');
 let timezoneArray = new Array();
 for(var p in timezones){
@@ -12,7 +14,7 @@ for(var p in timezones){
 }
 export {timezoneArray}
 
-export const configs = require('./config.json');
+export const configs = require('./testConfig.json');
 export const tokens = require('./tokens.json');
 
 export const wallets = require('./dpath.json');

@@ -8,6 +8,7 @@ import Token from '../tokens/pages'
 import Transaction from '../transactions/pages'
 import Ring from '../rings/pages'
 import Layout from '../../layout/Layout'
+import intl from 'react-intl-universal';
 
 export default function Home(props){
   const { children,match,location } = props
@@ -30,9 +31,9 @@ export default function Home(props){
     <Layout {...props}>
       <div className="container">
           <Tabs className="rs no-ink-bar" onChange={handleTabChange} activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
-            <Tabs.TabPane tab={<div className="fs18 pl15 pr15 pt20 pb20 "><FormattedMessage id="page.wallet.assets"/></div>} key="assets" />
-            <Tabs.TabPane tab={<div className="fs18 pl15 pr15 pt20 pb20 "><FormattedMessage id="page.wallet.orders"/></div>} key="orders" />
-            <Tabs.TabPane tab={<div className="fs18 pl15 pr15 pt20 pb20 "><FormattedMessage id="page.wallet.trades"/></div>} key="trades" />
+            <Tabs.TabPane tab={<div className="fs18 pl15 pr15 pt20 pb20 "> {intl.get("page.wallet.assets")}</div>} key="assets" />
+            <Tabs.TabPane tab={<div className="fs18 pl15 pr15 pt20 pb20 ">{intl.get("page.wallet.orders")}</div>} key="orders" />
+            <Tabs.TabPane tab={<div className="fs18 pl15 pr15 pt20 pb20 ">{intl.get("page.wallet.trades")}</div>} key="trades" />
           </Tabs>
             <Switch>
               <Route path={`${match.url}/assets`} exact render={()=>

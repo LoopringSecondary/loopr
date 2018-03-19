@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
+import {locales} from '../../../common/config/data'
+
 
 const Perference = ({
     settings,form,dispatch
@@ -16,9 +18,10 @@ const Perference = ({
     settings.preferenceChange({[type]: value})
     if(type==='language'){
       dispatch({
-        type:'locales/localeChange',
+        type:'locales/setLocale',
         payload:{
-          locale:value
+          locale:value,
+          storage:true,
         }
       })
     }
@@ -47,6 +50,10 @@ const Perference = ({
       sm: { span: 16 },
     },
   };
+  const localesOptions = locales.map(locale => <Select.Option value={locale.value} key={locale.value}>  <div className="d-flex justify-content-between">
+    <div>{locale.name}</div>
+    <div>{false && locale.logo}</div>
+  </div></Select.Option>)
 
   return (
     <div className="">
@@ -61,14 +68,7 @@ const Perference = ({
               size="large"
               onChange={handleChange.bind(this, "language")}
             >
-              {languagesArray && languagesArray.map((item,index)=>
-                <Select.Option value={item.language} key={index}>
-                  <div className="d-flex justify-content-between">
-                    <div>{item.value.display}</div>
-                    <div>{false && item.value.logo}</div>
-                  </div>
-                </Select.Option>
-              )}
+              {localesOptions}
             </Select>
           )}
         </Form.Item>
