@@ -2,7 +2,7 @@ export default {
   navbar:{
     home:"Home",
     trade:"Trade",
-    wallet:"wallet",
+    wallet:"Wallet",
     settings:"Settings",
     account:{
       copy:{
