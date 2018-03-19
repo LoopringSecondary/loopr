@@ -29,9 +29,9 @@ class TradeConfirm extends React.Component {
     const token2 = pair.split('-')[1];
     marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
     timeToLive = timeToLive === undefined ? window.uiFormatter.getSeconds(tradingConfig.timeToLive, tradingConfig.timeToLiveUnit) : timeToLive;
-    const start = Math.ceil(new Date().getTime() / 1000);
+    const start = Math.ceil(new Date().getTime());
     const since = window.uiFormatter.getFormatTime(start);
-    const till = window.uiFormatter.getFormatTime(start + Number(timeToLive));
+    const till = window.uiFormatter.getFormatTime(start + Number(timeToLive) * 1000);
     let order = {};
     order.protocol = tradingConfig.contract.address;
     order.owner = window.WALLET.getAddress();
@@ -43,7 +43,7 @@ class TradeConfirm extends React.Component {
     order.amountS = toHex((side.toLowerCase() === "sell" ? amount : total) * Number('1e' + tokenS.digits));
     order.lrcFee = toHex(lrcFee * 1e18);
     order.validSince = toHex(start);
-    order.validUntil = toHex(start + Number(timeToLive));
+    order.validUntil = toHex(start + Number(timeToLive) * 1000);
     order.marginSplitPercentage = Number(marginSplit);
     order.buyNoMoreThanAmountB = side.toLowerCase() === "buy";
     order.walletId = toHex(1);
@@ -52,11 +52,15 @@ class TradeConfirm extends React.Component {
     order.authPrivateKey = authAccount.privateKey;
     let toConfirmWarn = ''
     if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
-      toConfirmWarn = "Please confirm transaction on your Ledger device, then come back to send"
+      toConfirmWarn = "Please confirm transaction on your Ledger device, then come back to continue"
     }
     if(window.WALLET_UNLOCK_TYPE === 'MetaMask') {
-      toConfirmWarn = "Please confirm transaction on your MetaMask browser extension, then come back to send"
+      toConfirmWarn = "Please confirm transaction on your MetaMask browser extension, then come back to continue"
     }
+    if(window.WALLET_UNLOCK_TYPE === 'Trezor') {
+      toConfirmWarn = "Please confirm transaction on your Trezor device , then come back to continue"
+    }
+
     if(toConfirmWarn) {
       Modal.info({
         title: 'Waiting for your confirmation',
