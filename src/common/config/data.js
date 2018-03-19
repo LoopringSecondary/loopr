@@ -5,6 +5,8 @@ for(var p in languages){
 }
 export {languagesArray}
 
+export const locales = require('./locale.json');
+
 export const timezones = require('./timezone.json');
 let timezoneArray = new Array();
 for(var p in timezones){
