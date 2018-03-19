@@ -1,62 +1,42 @@
 const schema = [
     {
-      title:'ID',
-      name:'id',
-    },
-    {
       title:'Ring',
       description:'The ring hash',
       name:'ringHash',
+    },
+    {
+      title:'Maket',
+      name:'market',
     },
     {
       title:'Side',
       name:'side',
     },
     {
-      title:'Maket',
-      name:'market',
-    },
-
-    {
       title:'Size',
       description:'The fills number int the ring.',
-      name:'tradeAmount',
+      name:'size',
     },
     {
-      title:'Miner',
-      description:'The miner that submit match orders.',
-      name:'miner',
-    },
-
-    {
-      title:'FeeRecipient',
-      description:'The fee recepient address.',
-      name:'feeRecipient',
+      title:'Price',
+      description:'The fills number int the ring.',
+      name:'price',
     },
     {
-      title:'Transaction',
-      description:' The ring match transaction hash.',
-      name:'txHash',
-    },
-    {
-      title:'BlockNumber',
-      description:'The number of the block which contains the transaction.',
-      name:'blockNumber',
+      title:'Total',
+      description:'The fills number int the ring.',
+      name:'total',
     },
     {
       title:'LrcFee',
       description:'The total lrc fee.',
-      name:'totalLrcFee',
+      name:'lrcFee',
     },
 
     {
       title:'Time',
       description:'The ring matched time',
-      name:'timestamp',
-    },
-    {
-      title:'Protocol',
-      name:'protocol',
+      name:'time',
     },
   ]
   export default schema

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Table, Badge, Button, Modal, Icon, Popover, Steps} from 'antd';
+import {Table, Badge, Button, Modal, Icon, Popover,Progress} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
 import {toHex, toNumber,clearPrefix} from "Loopring/common/formatter";
@@ -77,10 +77,10 @@ function ListBlock(props) {
     market: (value, item, index) => item.originalOrder && item.originalOrder.market,
     status: (value, item, index) => {
       let status
-      if (item.status === 'ORDER_OPENED') { status = <Badge status="processing" text="Opened"/>}
-      if (item.status === 'ORDER_FINISHED') { status = <Badge status="success" text="Completed"/>}
-      if (item.status === 'ORDER_CANCELED') { status = <Badge status="default" text="Cancelled"/>}
-      if (item.status === 'ORDER_EXPIRE') { status = <Badge status="default" text="Expired"/>}
+      if (item.status === 'ORDER_OPENED') { status = <Badge className="fs12" status="processing" text="Opened"/>}
+      if (item.status === 'ORDER_FINISHED') { status = <Badge className="fs12" status="success" text="Completed"/>}
+      if (item.status === 'ORDER_CANCELED') { status = <Badge className="fs12" status="default" text="Cancelled"/>}
+      if (item.status === 'ORDER_EXPIRE') { status = <Badge className="fs12" status="default" text="Expired"/>}
       return (
         <div>
           {status}
@@ -94,6 +94,9 @@ function ListBlock(props) {
       if (item.originalOrder.side === 'buy') {
         return <div className="color-red-500">Buy</div>
       }
+    },
+    filled:(value,item,index)=>{
+      return  <Progress type="circle" percent={75.2} width={36} />
     },
     action: (value, item, index) => {
       const tokenS = item.originalOrder.tokenS
