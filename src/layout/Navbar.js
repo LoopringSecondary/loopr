@@ -61,9 +61,9 @@ function Navbar(props){
   function copyToClipboard() {
 
     if(account.isUnlocked ){
-      copy(account.address) ? message.success('Copy Successfully') :  message.error("Copy Failed")
+      copy(account.address) ? message.success(intl.get('navbar.account.copy.success')) :  message.error(intl.get('navbar.account.copy.failed'))
     }else{
-      message.warning('Please unlock you wallet first')
+      message.warning(intl.get('navbar.account.copy.title'))
     }
   }
 
@@ -71,7 +71,7 @@ function Navbar(props){
     if(account.address){
       return window.uiFormatter.getShortAddress(account.address)
     }else{
-      return 'Account'
+      return intl.get('navbar.account.title')
     }
   }
 
@@ -83,40 +83,40 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
-                <div className="fs16 color-grey-900">Wallet Address</div>
+                <div className="fs16 color-grey-900">{intl.get('navbar.account.address')}</div>
                 <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
               </div>
               <div className="col-auto">
-                <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>Copy</Button>
+                <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.account.copy.title')}</Button>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'token/receive')}>
-              <Icon type="qrcode" className="mr5" />QR Code
+              <Icon type="qrcode" className="mr5" />{intl.get('navbar.account.qrcode')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Link to="/wallet/airdrop" className="color-grey-900">
-              <Icon type="gift" className="mr5" />Airdrop
+              <Icon type="gift" className="mr5" />{intl.get('navbar.account.airdrop')}
             </Link>
           </div>
           {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/export/keystore')}>
-              <Icon type="export" className="mr5" />Export Keystore
+              <Icon type="export" className="mr5" />{intl.get('navbar.account.export')}
             </a>
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="question-circle-o" className="mr5" />Help
+            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.account.help')}
           </div>
           {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="tool" className="mr5" />Tools
+            <Icon type="tool" className="mr5" />{intl.get('navbar.account.tools')}
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={quit}><Icon type="poweroff" className="mr5" />Quit
+            <a onClick={quit}><Icon type="poweroff" className="mr5" />{intl.get('navbar.account.quit')}
             </a>
           </div>
         </div>
@@ -127,24 +127,24 @@ function Navbar(props){
             <div className="row align-items-center">
               <div className="col-auto">
                 <a  onClick={showModal.bind(this,'wallet/unlock')} className="color-grey-900">
-                <Icon type="unlock" className="mr5" />Unlock Wallet
+                <Icon type="unlock" className="mr5" />{intl.get('navbar.account.unlock')}
                 </a>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/generate')} className="color-grey-900">
-              <Icon type="plus" className="mr5" />Generate Wallet
+              <Icon type="plus" className="mr5" />{intl.get('navbar.account.generate')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="question-circle-o" className="mr5" />Help
+            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.account.help')}
           </div>
           {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="tool" className="mr5" />Tools
+            <Icon type="tool" className="mr5" />{intl.get('navbar.account.tools')}
           </div>
         </div>
       }
@@ -173,38 +173,38 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              <Menu.Item key="/home" ><Link to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
+              <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
               <Menu.Item key="/trade">
-                <Link to="/trade">{intl.get('navbar.trade')}</Link>
+                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
               </Menu.Item>
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet/portfolio" >
-                  <Link to="/wallet/portfolio">{intl.get("navbar.portfolio")}</Link>
+                  <Link className="fs16" to="/wallet/portfolio">{intl.get("navbar.portfolio")}</Link>
                 </Menu.Item>
               }
               {
                 (!window.WALLET || !window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
-                  <a onClick={showModal.bind(this,'wallet/unlock')}>{intl.get('navbar.wallet')}</a>
+                  <a className="fs16" onClick={showModal.bind(this,'wallet/unlock')}>{intl.get('navbar.wallet')}</a>
                 </Menu.Item>
               }
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
-                  <Link to="/wallet">{intl.get('navbar.wallet')}</Link>
+                  <Link className="fs16" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
 
             </Menu>
           </div>
           <div className="col-auto">
-            <span className="fs14 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}>{intl.get('navbar.setting')}</span>
-            <Select value={props.locales.locale || 'en-US'} onChange={localeChange} className="navbar-language mr5">
+            <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}>{intl.get('navbar.setting')}</span>
+            <Select value={props.locales.locale || 'en-US'} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
             <Popover content={accountMenus} title={null}>
-                <a className="fs14">{getAccount()} <Icon type="down" className="color-grey-400 fs12" /></a>
+                <a className="fs16">{getAccount()} <Icon type="down" className="color-grey-400 fs12" /></a>
             </Popover>
           </div>
         </div>

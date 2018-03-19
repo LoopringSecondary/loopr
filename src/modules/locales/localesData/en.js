@@ -1,10 +1,31 @@
 export default {
-	"navbar.home":'Home',
-	"navbar.trade":'Trade',
-	"navbar.wallet":'Wallet',
-	"navbar.setting":'Setting',
-	"page.wallet.assets":'My Assets',
-	"page.wallet.orders":'My Orders',
-	"page.wallet.trades":'My Trades',
-  "navbar.portfolio":"Portfolio",
+  navbar:{
+    home:"Home",
+    trade:"Trade",
+    wallet:"wallet",
+    settings:"Settings",
+    account:{
+      copy:{
+        title:'Copy',
+        success:'Copy Successfully!',
+        faild:'Copy Failed',
+      },
+      title:'Account',
+      unlock:'Unlock Wallet',
+      generate:'Generate Wallet',
+      help:'Help',
+      tools:'Tools',
+      qrcode:'QR Code',
+      airdrop:'Airdrop',
+      quit:'Quit',
+    },
+    portfolio:"Portfolio",
+  },
+  page:{
+    wallet:{
+      assets:'My Assets',
+      orders:'My Orders',
+      trades:'My Trades',
+    }
+  }
 }

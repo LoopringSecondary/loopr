@@ -191,7 +191,7 @@ function ListBlock(props) {
       dataIndex: field.name,
       render: renderGenerator,
       className: 'text-nowrap',
-      sorter: true,
+      // sorter: true,
     }
   })
   const actionColumn = {
@@ -217,7 +217,7 @@ function ListBlock(props) {
     columns: columns,
     pagination: false,
     loading: loading,
-    scroll: {x: 1000},
+    // scroll: {x: 1500},
     onChange: tableChange,
     bordered: false,
     size: 'default',
