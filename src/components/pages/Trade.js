@@ -6,13 +6,14 @@ import Order from '../orders/containers'
 import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
+import ModalContainer from '../../modules/modals/container'
 
-const ToLogin = ()=>{
+const ToLogin = ({modal})=>{
   return (
     <div>
       <div className="text-center pt25 pb25">
-        <Button className="m15" style={{width:'255px'}} type="primary" size="large">Unlock Wallet</Button>
-        <Button className="m15" style={{width:'255px'}} type="default" size="large">Generate Wallet</Button>
+        <Button className="m15" onClick={modal.showModal.bind(this,{id:'wallet/unlock'})} style={{width:'255px'}} type="primary" size="large">Unlock Wallet</Button>
+        <Button className="m15" onClick={modal.showModal.bind(this,{id:'wallet/generate'})} style={{width:'255px'}} type="default" size="large">Generate Wallet</Button>
       </div>
     </div>
   )
@@ -44,11 +45,14 @@ export default function Home(props){
               <div className="pt15">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
-                  <Order.List filters={{market:pair,status:'all',side:'sell'}} />
+                  <Order.List id="orders/trade" />
                 }
                 {
-                  !window.WALLET &&
-                  <ToLogin />
+                  !(window.WALLET && window.WALLET.getAddress()) &&
+                  <ModalContainer apisOnly={true}>
+                    <ToLogin />
+                  </ModalContainer>
+
                 }
               </div>
             </Tabs.TabPane>
@@ -56,11 +60,13 @@ export default function Home(props){
               <div className="pt15">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
-                  <Trade.List filters={{market:pair,side:'all'}} />
+                  <Trade.List />
                 }
                 {
-                  !window.WALLET &&
-                  <ToLogin />
+                  !(window.WALLET && window.WALLET.getAddress()) &&
+                  <ModalContainer apisOnly={true}>
+                    <ToLogin />
+                  </ModalContainer>
                 }
               </div>
             </Tabs.TabPane>

@@ -1,7 +1,4 @@
 {
   "en": {"display":"English", "logo":"🇺🇸"},
-  "de": {"display":"Deutsch", "logo":"🇩🇪"},
-  "ja": {"display":"日本語", "logo":"🇯🇵"},
-  "ko": {"display":"Korean", "logo":"🇰🇷"},
-  "zhcn": {"display":"简体中文", "logo":"🇨🇳"}
+  "zh": {"display":"简体中文", "logo":"🇨🇳"}
 }

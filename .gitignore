@@ -5,6 +5,7 @@
 .idea
 # production
 /dist
+/mocks
 
 package-lock.json
 # misc

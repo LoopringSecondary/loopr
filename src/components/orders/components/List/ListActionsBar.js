@@ -8,9 +8,8 @@ import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
 
 function ListActionsBar(props) {
-  console.log('ListActionsBar render')
-  const {actions = {}, LIST = {}, className, account, gasPrice, contractAddress} = props;
-  const {filters = {}} = LIST
+  const {actions = {}, LIST = {}, className, account, gasPrice, contractAddress,id} = props;
+  const {filters = {}} = LIST[id] || {}
   const tokenPair = filters.market;
   const cancelAll = () => {
     Modal.confirm({
@@ -63,7 +62,7 @@ function ListActionsBar(props) {
     <div className={className}>
       <div className="row ml0 mr0 align-items-center">
         <div className="col-auto">
-          <ListFiltersForm actions={actions} LIST={LIST}/>
+          <ListFiltersForm actions={actions} LIST={LIST[id]} id={id} />
         </div>
         <div className="col">
 

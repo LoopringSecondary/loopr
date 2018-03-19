@@ -5,14 +5,16 @@ let FiltersForm = ({
   form,
   LIST,
   actions,
+  id,
   }) => {
-  const {filters} = LIST
+  const {filters={}} = LIST || {}
   function handleSubmit() {
     form.validateFields((err,values) => {
       console.log('values',values)
       if(!err){
         // TODO
         actions.filtersChange({
+          id,
           filters:values
         })
       }

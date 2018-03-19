@@ -4,9 +4,8 @@ import { Link } from 'dva/router';
 import { Card,ListItem } from 'antd';
 import schema from '../../../modules/trades/schema';
 
-function DetailBlock({LIST={},actions={}}) {
-  let { items=[],loading } = LIST
-  const item = items[0] || {}
+function DetailBlock({modal={}}) {
+  let item = modal.item || {}
   const renders = {
       ringHash:(value,item,index)=><Link className="text-truncate d-block" style={{}} to={`/rings/detail/${value}`}>{value}</Link>,
       miner:(value,item,index)=> <Link className="text-truncate d-block" style={{}} to={`/miner/detail/${value}`}>{value}</Link>,
@@ -17,10 +16,7 @@ function DetailBlock({LIST={},actions={}}) {
   }
   return (
     <div className="">
-      <Card title="Ring Chart">
-        TODO Chart
-      </Card>
-      <Card title="Ring Infomation" loading={loading}>
+      <Card title="Ring Infomation" loading={false}>
         {
           schema.map((field,index)=>
             <div className="row pb10" key={index}>

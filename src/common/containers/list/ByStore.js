@@ -26,11 +26,11 @@ class ListAsync extends React.Component {
     this.init();
   }
   init(){
-    const { actions,filters,page,sort,originQuery,defaultState } = this.props;
-    actions.fetch({filters,page,sort,originQuery,defaultState});
+    const { actions,filters,page,sort,originQuery,defaultState,id } = this.props;
+    actions.fetch({filters,page,sort,originQuery,defaultState,id});
   }
   render() {
-    let { actions,LIST,dispatch,filters} = this.props;
+    let { actions,LIST,dispatch,filters,id} = this.props;
     // console.log('async container',filters)
     if(LIST.filters && filters){
       LIST.filters={
@@ -38,7 +38,7 @@ class ListAsync extends React.Component {
         ...filters
       }
     }
-    let childProps = {actions,LIST};
+    let childProps = {actions,LIST,dispatch,id};
 
     return (
        <div>

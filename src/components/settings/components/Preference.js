@@ -3,12 +3,25 @@ import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} 
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 
 const Perference = ({
-    settings, form
+    settings,form,dispatch
   }) => {
-  const {preference} = settings
+  let initPreference = window.STORAGE.settings.get().preference
+  let {preference} = settings
+  preference = {
+    ...preference,
+    ...initPreference,
+  }
   function handleChange(type, value) {
     console.log(type+" changed to:"+value);
     settings.preferenceChange({[type]: value})
+    if(type='language'){
+      dispatch({
+        type:'locales/localeChange',
+        payload:{
+          locale:value
+        }
+      })
+    }
   }
   function handleSubmit() {
     form.validateFields((err,values) => {

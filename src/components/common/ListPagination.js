@@ -1,16 +1,27 @@
 import React from 'react';
 import { Pagination} from 'antd';
 
-function DataTablePagination({actions={},LIST={},className}){
-  let {page={},items=[]} = LIST;
+function DataTablePagination({actions={},LIST={},className,id}){
+  let {page={},items=[]} = id ? (LIST[id] || {}): LIST;
   let handlePageChange = (current,size) => {
     // action.payload { page,filters,sort,cloumns }
-    actions.pageChange({
-      page:{
-        current,
-        size,
-      }
-    })
+    if(id){
+      actions.pageChange({
+        id,
+        page:{
+          current,
+          size,
+        }
+      })
+    }else{
+      actions.pageChange({
+        page:{
+          current,
+          size,
+        }
+      })
+    }
+
   }
   // let showTotal = (total, range) => {
   //   // range = [start,end];
