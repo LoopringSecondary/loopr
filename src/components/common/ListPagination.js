@@ -40,7 +40,7 @@ function DataTablePagination({actions={},LIST={},className,id}){
      // showTotal:true,
      // simple:true,
   }
-  if(items.length>0){
+  if(items.length>0 && page.total/page.size >= 1){
     return (
       <Pagination {...paginationProps}/>
     )

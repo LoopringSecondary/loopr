@@ -217,7 +217,7 @@ function ListBlock(props) {
     rowKey: (record) => record.originalOrder.hash, // set each record PK ( primary key)
   }
   return (
-    <div className={className} style={{minHeight:'400px',...style}}>
+    <div className={className} style={{...style}}>
       <Table {...tableProps}/>
     </div>
 

@@ -97,7 +97,7 @@ function ListBlock(props) {
     bordered:false,
   }
   return (
-    <div className={className} style={{minHeight:'400px',...style}}>
+    <div className={className} style={{...style}}>
       <Table {...tableProps}/>
     </div>
   )
