@@ -9,6 +9,7 @@ import uiFormatter from './common/utils/uiFormatter'
 import routeActions from './common/utils/routeActions'
 import CONFIG from './common/config'
 import STORAGE from './modules/storage'
+
 window.CONTAINERS = containers
 window.REDUX = redux
 window.uiFormatter = uiFormatter
