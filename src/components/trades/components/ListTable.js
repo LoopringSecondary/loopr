@@ -34,6 +34,10 @@ function ListBlock(props) {
           {uiFormatter.getShortAddress(value)}
         </a>
       ),
+      ringHash:(value,item,index)=>(
+        <Progress type="circle" percent={100} width={36} format={percent => `#${item.fillIndex+1}`}  />
+
+      ),
       side:(value,item,index)=>{
         if (item.side === 'sell') {
           return <div className="color-green-500">Sell</div>

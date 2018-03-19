@@ -9,6 +9,7 @@ import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
 
 const uiFormatter = window.uiFormatter;
+const fm = window.uiFormatter.TokenFormatter;
 
 function ListBlock(props) {
   const {LIST, actions, className, style, account, gasPrice,contractAddress,} = props
@@ -96,7 +97,13 @@ function ListBlock(props) {
       }
     },
     filled:(value,item,index)=>{
-      return  <Progress type="circle" percent={75.2} width={36} />
+      let percent = 0
+      if(!item.buyNoMoreThanAmountB){
+        percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
+      }else{
+        percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
+      }
+      return  <Progress type="circle" percent={percent} width={36} format={percent=>`${percent}%`} />
     },
     action: (value, item, index) => {
       const tokenS = item.originalOrder.tokenS
