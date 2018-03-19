@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Select} from 'antd';
 let Option = Select.Option;
 
-class SelectAsync extends React.Component {
+class SelectContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,8 +20,9 @@ class SelectAsync extends React.Component {
     })
     let transform = this.props.transform;
     this.props.loadOptions()
-    .then(res=>res.data.items.map(transform))
+    .then(transform)
     .then(options=>{
+      console.log('options',options)
       this.setState({
         options,
         loading:false,
@@ -51,4 +52,4 @@ class SelectAsync extends React.Component {
   }
 }
 
-export default SelectAsync;
+export default SelectContainer;
