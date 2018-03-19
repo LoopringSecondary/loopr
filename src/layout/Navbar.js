@@ -199,7 +199,7 @@ function Navbar(props){
             </Menu>
           </div>
           <div className="col-auto">
-            <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}>{intl.get('navbar.setting')}</span>
+            <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}>{intl.get('navbar.settings')}</span>
             <Select value={props.locales.locale || 'en-US'} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
