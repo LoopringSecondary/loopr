@@ -61,9 +61,9 @@ function Navbar(props){
   function copyToClipboard() {
 
     if(account.isUnlocked ){
-      copy(account.address) ? message.success(intl.get('navbar.account.copy.success')) :  message.error(intl.get('navbar.account.copy.failed'))
+      copy(account.address) ? message.success(intl.get('navbar.subs.copy_success')) :  message.error(intl.get('navbar.subs.copy_failed'))
     }else{
-      message.warning(intl.get('navbar.account.copy.title'))
+      message.warning(intl.get('navbar.subs.copy'))
     }
   }
 
@@ -71,7 +71,7 @@ function Navbar(props){
     if(account.address){
       return window.uiFormatter.getShortAddress(account.address)
     }else{
-      return intl.get('navbar.account.title')
+      return intl.get('navbar.account')
     }
   }
 
@@ -83,40 +83,40 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
-                <div className="fs16 color-grey-900">{intl.get('navbar.account.address')}</div>
+                <div className="fs16 color-grey-900">{intl.get('navbar.subs.address')}</div>
                 <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
               </div>
               <div className="col-auto">
-                <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.account.copy.title')}</Button>
+                <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'token/receive')}>
-              <Icon type="qrcode" className="mr5" />{intl.get('navbar.account.qrcode')}
+              <Icon type="qrcode" className="mr5" />{intl.get('navbar.subs.qrcode')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Link to="/wallet/airdrop" className="color-grey-900">
-              <Icon type="gift" className="mr5" />{intl.get('navbar.account.airdrop')}
+              <Icon type="gift" className="mr5" />{intl.get('navbar.subs.airdrop')}
             </Link>
           </div>
           {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/export/keystore')}>
-              <Icon type="export" className="mr5" />{intl.get('navbar.account.export')}
+              <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
             </a>
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.account.help')}
+            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
           </div>
           {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="tool" className="mr5" />{intl.get('navbar.account.tools')}
+            <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={quit}><Icon type="poweroff" className="mr5" />{intl.get('navbar.account.quit')}
+            <a onClick={quit}><Icon type="poweroff" className="mr5" />{intl.get('navbar.subs.quit')}
             </a>
           </div>
         </div>
@@ -127,24 +127,24 @@ function Navbar(props){
             <div className="row align-items-center">
               <div className="col-auto">
                 <a  onClick={showModal.bind(this,'wallet/unlock')} className="color-grey-900">
-                <Icon type="unlock" className="mr5" />{intl.get('navbar.account.unlock')}
+                <Icon type="unlock" className="mr5" />{intl.get('navbar.subs.unlock')}
                 </a>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/generate')} className="color-grey-900">
-              <Icon type="plus" className="mr5" />{intl.get('navbar.account.generate')}
+              <Icon type="plus" className="mr5" />{intl.get('navbar.subs.generate')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.account.help')}
+            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
           </div>
           {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="tool" className="mr5" />{intl.get('navbar.account.tools')}
+            <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
           </div>
         </div>
       }

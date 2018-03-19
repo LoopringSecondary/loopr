@@ -31,9 +31,9 @@ export default function Home(props){
     <Layout {...props}>
       <div className="container">
           <Tabs className="rs no-ink-bar" onChange={handleTabChange} activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
-            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("page.wallet.assets")}</div>} key="assets" />
-            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("page.wallet.orders")}</div>} key="orders" />
-            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("page.wallet.trades")}</div>} key="trades" />
+            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("wallet.assets")}</div>} key="assets" />
+            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("wallet.orders")}</div>} key="orders" />
+            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("wallet.trades")}</div>} key="trades" />
           </Tabs>
             <Switch>
               <Route path={`${match.url}/assets`} exact render={()=>

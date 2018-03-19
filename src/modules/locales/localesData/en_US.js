@@ -4,13 +4,12 @@ export default {
     trade:"Trade",
     wallet:"Wallet",
     settings:"Settings",
-    account:{
-      copy:{
-        title:'Copy',
-        success:'Copy Successfully!',
-        faild:'Copy Failed',
-      },
-      title:'Account',
+    portfolio:"Portfolio",
+    account:"Account",
+    subs:{
+      copy:'Copy',
+      copy_success:'Copy Successfully!',
+      copy_failed:'Copy Failed',
       unlock:'Unlock Wallet',
       generate:'Generate Wallet',
       help:'Help',
@@ -19,13 +18,10 @@ export default {
       airdrop:'Airdrop',
       quit:'Quit',
     },
-    portfolio:"Portfolio",
   },
-  page:{
-    wallet:{
-      assets:'My Assets',
-      orders:'My Orders',
-      trades:'My Trades',
-    }
+  wallet:{
+    assets:'My Assets',
+    orders:'My Orders',
+    trades:'My Trades',
   }
 }
