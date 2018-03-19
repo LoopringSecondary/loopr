@@ -97,29 +97,38 @@ function ListBlock(props) {
     },
     action: (value, item, index) => {
       const tokenS = item.originalOrder.tokenS
+      const amountS = item.originalOrder.amountS
+      const fm = window.uiFormatter.TokenFormatter
+      const fmS = new fm({symbol:tokenS})
+      const balance = 100.00
+      const required = fmS.getAmount(amountS)
+      const lacked = required - balance
+
       const content = (
-        <div className="pt10 pb15 pl15 pr15">
-          <div className="pt5 pb5">
-            {tokenS} Balance : <span className="font-weight-bold color-grey-900">222.00</span>
+        <div className="p10" >
+          <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100" style={{borderRadius:'4px',border:'1px solid'}}>
+            <div className="pb5 fs16 color-red-600">
+              {tokenS} Balance Is Not Enough !
+            </div>
+            <div className="pb5 fs12 color-red-400">
+              Balance : <span className="font-weight-bold mr10">{balance}</span>
+              Required : <span className="font-weight-bold mr10">{required}</span>
+              Lacked: <span className="font-weight-bold mr10">{lacked}</span>
+            </div>
+            <div className="pt5">
+              <Button onClick={showModal.bind(this,{id:'token/receive'})} type="primary" className="bg-red-500 border-none">Recieve {tokenS}</Button>
+              <span className="color-grey-500 ml5 mr5"> or </span>
+              {
+                tokenS !== 'WETH' &&
+                <Button onClick={window.routeActions.gotoPath.bind(this,`/trade/${tokenS}-WETH`)} className="bg-red-500 border-none" type="primary">Buy {tokenS}</Button>
+              }
+              {
+                tokenS === 'WETH' &&
+                <Button onClick={showModal.bind(this,{id:'token/convert',item:{symbol:'ETH'}})} className="bg-red-500 border-none" type="primary">Convert ETH To WETH </Button>
+              }
+            </div>
           </div>
-          <div className="pt5 pb5">
-            {tokenS} Required : <span className="font-weight-bold color-grey-900">333.00</span>
-          </div>
-          <div className="pt5 pb5">
-            {tokenS} Lacked: <span className="font-weight-bold color-grey-900"> 111.00 ( at least ) </span>
-          </div>
-          <div className="pt10">
-            <Button onClick={showModal.bind(this,{id:'token/receive'})} type="primary">Recieve {tokenS}</Button>
-            <span className="color-grey-500 ml5 mr5"> or </span>
-            {
-              tokenS !== 'WETH' &&
-              <Button onClick={window.routeActions.gotoPath.bind(this,`/trade/${tokenS}-WETH`)} className="" type="primary">Buy {tokenS}</Button>
-            }
-            {
-              tokenS === 'WETH' &&
-              <Button onClick={showModal.bind(this,{id:'token/convert',item:{symbol:'ETH'}})} className="" type="primary">Convert ETH To WETH </Button>
-            }
-          </div>
+
 
         </div>
       )
@@ -131,7 +140,20 @@ function ListBlock(props) {
             <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300" style={{borderRadius:'2px',border:'1px solid',padding:'2px 5px'}}>Cancel</a>
           }
           { notEnough &&
-            <Popover content={content} title={<div className="pt5 pb5">Token Balance Is Not Enough! </div>} position="">
+            <Popover arrowPointAtCenter placement="topRight" content={content}
+              title={
+                <div className="pt5 pb5">
+                  <div className="row">
+                    <div className="col">
+                      Token Amount Is Not Enough !
+                    </div>
+                    <div className="col-auto">
+                      <a className="fs12 color-blue-500">Why?</a>
+                    </div>
+                  </div>
+                </div>
+              }
+            >
                 <span className="color-red-500">
                   <Icon className="mr5" type="exclamation-circle"/>
                 </span>
