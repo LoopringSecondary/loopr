@@ -109,8 +109,16 @@ function ListBlock(props) {
             {tokenS} Lacked: <span className="font-weight-bold color-grey-900"> 111.00 ( at least ) </span>
           </div>
           <div className="pt10">
-            <Button className="mr10" type="primary">Buy {tokenS}</Button>
-            <Button type="primary">Recieve {tokenS}</Button>
+            <Button onClick={showModal.bind(this,{id:'token/receive'})} type="primary">Recieve {tokenS}</Button>
+            <span className="color-grey-500 ml5 mr5"> or </span>
+            {
+              tokenS !== 'WETH' &&
+              <Button onClick={window.routeActions.gotoPath.bind(this,`/trade/${tokenS}-WETH`)} className="" type="primary">Buy {tokenS}</Button>
+            }
+            {
+              tokenS === 'WETH' &&
+              <Button onClick={showModal.bind(this,{id:'token/convert',item:{symbol:'ETH'}})} className="" type="primary">Convert ETH To WETH </Button>
+            }
           </div>
 
         </div>
