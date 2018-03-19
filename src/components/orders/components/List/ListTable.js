@@ -103,7 +103,7 @@ function ListBlock(props) {
       }else{
         percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
       }
-      return  <Progress type="circle" percent={percent} width={36} format={percent=>`${percent}%`} />
+      return  <Progress type="circle" percent={Number(percent)} width={36} format={percent=>`${percent}%`} />
     },
     action: (value, item, index) => {
       const tokenS = item.originalOrder.tokenS
@@ -174,6 +174,7 @@ function ListBlock(props) {
 
     },
   }
+
   let columns = schema.map(field => {
     const renderGenerator = (value, item, index) => {
       if (typeof field.formatter === 'function') {
@@ -191,6 +192,7 @@ function ListBlock(props) {
       dataIndex: field.name,
       render: renderGenerator,
       className: 'text-nowrap',
+      width:`${100/schema.length}%`,
       // sorter: true,
     }
   })
@@ -217,7 +219,7 @@ function ListBlock(props) {
     columns: columns,
     pagination: false,
     loading: loading,
-    // scroll: {x: 1500},
+    scroll: {x: true},
     onChange: tableChange,
     bordered: false,
     size: 'default',

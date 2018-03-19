@@ -76,7 +76,7 @@ function ListBlock(props) {
         dataIndex:field.name,
         render:renders[field.name],
         className:'text-nowrap',
-        // sorter:true,
+        width:`${100/schema.length}%`,
     }
   })
   const tableChange = (pagination, filters, sorter)=>{
@@ -94,7 +94,7 @@ function ListBlock(props) {
     columns:columns,
     pagination:false,
     loading:loading,
-    scroll:{x:1000},
+    scroll:{x:true},
     onChange:tableChange,
     bordered:false,
   }
