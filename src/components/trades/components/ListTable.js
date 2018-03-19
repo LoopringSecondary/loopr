@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Table,Badge,Button } from 'antd';
+import { Table,Badge,Button,Progress } from 'antd';
 import schema from '../../../modules/trades/schema';
 const uiFormatter = window.uiFormatter
+const fm = window.uiFormatter.TokenFormatter
 
 function ListBlock(props) {
   const {LIST, actions, className, style} = props;
@@ -41,17 +42,28 @@ function ListBlock(props) {
           return <div className="color-red-500">Buy</div>
         }
       },
-      miner:(value,item,index)=> <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/miner/detail/${value}`}>{value}</Link>,
-      feeRecipient:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
-      txHash:(value,item,index)=>
-      <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/tx/${value}`}>
-      {uiFormatter.getShortAddress(value)}
-      </a>,
-      blockNumber:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/block/${value}`}>{value}</a>,
-      protocol:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>
-      {uiFormatter.getShortAddress(value)}
-      </a>,
-
+      size:(value,item,index)=>{
+        const fmS = new fm({symbol:item.tokenS})
+        return <span> {fmS.getAmount(item.amountS)}  {item.tokenS} </span>
+      },
+      price:(value,item,index)=>{
+        // const fmB = new fm({symbol:item.tokenB})
+        // const fmS = new fm({symbol:item.tokenS})
+        // const amountS = fmS.getAmount(item.amountS)
+        // const amountB = fmB.getAmount(item.amountB)
+        return <span> {(item.amountB/item.amountS).toFixed(5)} </span>
+      },
+      total:(value,item,index)=>{
+        const fmB = new fm({symbol:item.tokenB})
+        return <span> {fmB.getAmount(item.amountB)}  {item.tokenB} </span>
+      },
+      lrcFee:(value,item,index)=>{
+        const fmLrc = new fm({symbol:'LRC'})
+        return <span> {fmLrc.getAmount(item.lrcFee)}  {'LRC'} </span>
+      },
+      time:(value,item,index)=>{
+        return uiFormatter.getFormatTime(item.stimestamp)
+      },
   }
   const actionRender = (value,item,index)=>{
     return <Button>Cancel</Button>
@@ -85,7 +97,7 @@ function ListBlock(props) {
     bordered:false,
   }
   return (
-    <div className={className} style={{minHeight:'400px',...style}}>
+    <div className={className} style={{...style}}>
       <Table {...tableProps}/>
     </div>
   )

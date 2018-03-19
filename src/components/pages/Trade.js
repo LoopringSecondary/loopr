@@ -41,8 +41,8 @@ export default function Home(props){
         </Card>
         <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
           <Tabs defaultActiveKey="open" animated={false} tabBarStyle={{marginBottom:'0px'}}>
-            <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Open Orders</div>} key="open">
-              <div className="pt15">
+            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">My Open Orders</div>} key="open">
+              <div className="">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
                   <Order.List id="orders/trade" />
@@ -52,12 +52,11 @@ export default function Home(props){
                   <ModalContainer apisOnly={true}>
                     <ToLogin />
                   </ModalContainer>
-
                 }
               </div>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Recent Trades</div>} key="trade">
-              <div className="pt15">
+            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">My Recent Trades</div>} key="trade">
+              <div className="">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
                   <Trade.List />

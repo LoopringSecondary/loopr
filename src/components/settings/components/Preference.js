@@ -14,7 +14,7 @@ const Perference = ({
   function handleChange(type, value) {
     console.log(type+" changed to:"+value);
     settings.preferenceChange({[type]: value})
-    if(type='language'){
+    if(type==='language'){
       dispatch({
         type:'locales/localeChange',
         payload:{

@@ -116,6 +116,12 @@
 			// 	border-right:1px solid #eee !important;
 			// }
    }
+   .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+    padding:12px 8px !important;
+    font-size: 12px !important;
+    color:#888;
+    font-weight: normal;
+   }
 	 .ant-popover{
 	 		.ant-popover-inner-content{
 	 			padding:0px !important;
@@ -216,6 +222,11 @@
         margin-right:0px !important;
         padding:0px !important;
       }
+      &.no-ink-bar{
+        .ant-tabs-ink-bar{
+          display: none !important;
+        }
+      }
     }
    }
 
@@ -259,4 +270,16 @@
        }
       }
    }
+   .ant-progress-circle .ant-progress-text{
+      transform: scale(0.7) !important;
+      margin-top: -5px !important;
+   }
+   .ant-badge.ant-badge-status{
+    &.fs12{
+      .ant-badge-status-text{
+        font-size:12px !important;
+      }
+    }
+   }
+
 }

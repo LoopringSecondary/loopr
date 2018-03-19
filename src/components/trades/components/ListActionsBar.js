@@ -2,9 +2,9 @@ import React from 'react';
 import ListFiltersForm from './ListFiltersForm'
 import {Button} from 'antd'
 
-function ListActionsBar({actions={},LIST={}}){
+function ListActionsBar({actions={},LIST={},className}){
   return (
-    <div className="">
+    <div className={className}>
     	<div className="row ml0 mr0 align-items-center" >
     		<div className="col-auto">
     			<ListFiltersForm actions={actions} LIST={LIST} />
