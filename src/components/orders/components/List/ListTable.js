@@ -96,16 +96,26 @@ function ListBlock(props) {
       }
     },
     action: (value, item, index) => {
-      const content = <div className="p25">
-        <Steps current={1} progressDot>
-          <Steps.Step title="Allowance"/>
-          <Steps.Step title="Balance"/>
-          <Steps.Step title="Wrap"/>
-        </Steps>
-        <div className="p15">
-          TODODO
+      const tokenS = item.originalOrder.tokenS
+      const content = (
+        <div className="pt10 pb15 pl15 pr15">
+          <div className="pt5 pb5">
+            {tokenS} Balance : <span className="font-weight-bold color-grey-900">222.00</span>
+          </div>
+          <div className="pt5 pb5">
+            {tokenS} Required : <span className="font-weight-bold color-grey-900">333.00</span>
+          </div>
+          <div className="pt5 pb5">
+            {tokenS} Lacked: <span className="font-weight-bold color-grey-900"> 111.00 ( at least ) </span>
+          </div>
+          <div className="pt10">
+            <Button className="mr10" type="primary">Buy {tokenS}</Button>
+            <Button type="primary">Recieve {tokenS}</Button>
+          </div>
+
         </div>
-      </div>
+      )
+
       let notEnough = !!(item.status === 'ORDER_OPENED')
       return (
         <span>
@@ -113,13 +123,11 @@ function ListBlock(props) {
             <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300" style={{borderRadius:'2px',border:'1px solid',padding:'2px 5px'}}>Cancel</a>
           }
           { notEnough &&
-            <span>
-              <Popover content={content} title="You Need To Do">
-                <div className="color-red-500">
+            <Popover content={content} title={<div className="pt5 pb5">Token Balance Is Not Enough! </div>} position="">
+                <span className="color-red-500">
                   <Icon className="mr5" type="exclamation-circle"/>
-                </div>
+                </span>
               </Popover>
-            </span>
           }
         </span>
       )

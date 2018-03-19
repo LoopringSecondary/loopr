@@ -85,7 +85,7 @@ const schema = [
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');
       token = token || {digits:18, precision:6} ;
-      return (toNumber(item.originalOrder.amountB) / Number('1e' + token.digits)).toFixed(token.precision)
+      return (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision)
     },
   },
     {
