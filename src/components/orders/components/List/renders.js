@@ -6,10 +6,10 @@ export default {
     market: (value, item, index) => item.originalOrder && item.originalOrder.market,
     status: (value, item, index) => {
       let status
-      if (item.status === 'ORDER_OPENED') { status = <Badge status="processing" text="Opened"/>}
-      if (item.status === 'ORDER_FINISHED') { status = <Badge status="success" text="Completed"/>}
-      if (item.status === 'ORDER_CANCELED') { status = <Badge status="default" text="Cancelled"/>}
-      if (item.status === 'ORDER_EXPIRE') { status = <Badge status="default" text="Expired"/>}
+      if (item.status === 'ORDER_OPENED') { status = <Badge className="fs12" status="processing" text="Opened"/>}
+      if (item.status === 'ORDER_FINISHED') { status = <Badge className="fs12" status="success" text="Completed"/>}
+      if (item.status === 'ORDER_CANCELED') { status = <Badge className="fs12" status="default" text="Cancelled"/>}
+      if (item.status === 'ORDER_EXPIRE') { status = <Badge className="fs12" status="default" text="Expired"/>}
       return (
         <div>
           {status}

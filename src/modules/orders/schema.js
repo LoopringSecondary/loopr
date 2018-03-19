@@ -36,12 +36,16 @@ const status = {
   ORDER_CUTOFF:{}
 }
 const schema = [
+    // {
+    //   title:'Order',
+    //   name:'orderHash',
+    //   formatter:(item)=>item.originalOrder.hash,
+    // },
     {
-      title:'Order',
-      name:'orderHash',
-      formatter:(item)=>item.originalOrder.hash,
+        title:'Time',
+        name:'timestamp',
+        formatter:(item)=> moment(item.originalOrder.timestamp).format('YYYY/MM/DD HH:mm:ss'),
     },
-
     {
       title:'Status',
       name:'status',
@@ -85,13 +89,14 @@ const schema = [
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');
       token = token || {digits:18, precision:6} ;
-      return (toNumber(item.originalOrder.amountB) / Number('1e' + token.digits)).toFixed(token.precision)
+      return (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision)
     },
   },
-    {
-      title:'Time',
-      name:'timestamp',
-      formatter:(item)=> moment(item.originalOrder.timestamp).format('YYYY/MM/DD HH:mm:ss'),
-    },
+  {
+    title: 'Filled',
+    name: 'filled',
+
+  },
+
   ]
   export default schema
