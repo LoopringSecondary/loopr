@@ -14,7 +14,7 @@ for(var p in timezones){
 }
 export {timezoneArray}
 
-export const configs = require('./config.json');
+export const configs = require('./testConfig.json');
 export const tokens = require('./tokens.json');
 
 export const wallets = require('./dpath.json');
