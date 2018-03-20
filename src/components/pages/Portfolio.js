@@ -14,13 +14,22 @@ class AssetsPieChart extends React.Component{
     if(!portfolio || portfolio.size == 0 || !prices || prices.size == 0) {
       return;
     }
-    const worthArray = portfolio.map(item=>{
-      const price = prices.getTokenBySymbol(item.token).price
-      const tokenConfig = window.CONFIG.getTokenBySymbol(item.token)
-      const amount = item.amount > 0 ? fm.toBig(item.amount).div("1e"+tokenConfig.digits) : fm.toBig(0)
-      const worth = amount.times(price).toNumber().toFixed(0)
-      return {token:item.token, amount: item.amount, worth: worth}
+    let hasNo0Balance = false
+    portfolio.map(item=>{
+      if(fm.toBig(item.amount).greaterThan(0)) hasNo0Balance = false
     })
+    let worthArray = null
+    if(hasNo0Balance) {
+      worthArray = portfolio.map(item=>{
+        const price = prices.getTokenBySymbol(item.token).price
+        const tokenConfig = window.CONFIG.getTokenBySymbol(item.token)
+        const amount = item.amount > 0 ? fm.toBig(item.amount).div("1e"+tokenConfig.digits) : fm.toBig(0)
+        const worth = amount.times(price).toNumber().toFixed(0)
+        return {token:item.token, amount: item.amount, worth: worth}
+      })
+    } else {
+      worthArray = [{token: 'Assets', amount:0, worth: 1}]
+    }
     const sequence = (a,b) => {
       const va = fm.toNumber(a.worth)
       const vb = fm.toNumber(b.worth)
@@ -59,7 +68,8 @@ class AssetsPieChart extends React.Component{
     const data = worth.map(item=> {
       return {name: item.token, value: fm.toNumber(item.worth)}
     })
-    // const data = [{name: "ETH", value: 10517.1},{name: "WETH", value: 5267},{name: "EOS", value: 554},{name: "AE", value: 115},{name: "RDN", value: 1488},{name: "OTHERS", value: 233}]
+    // console.log(data, data.length)
+    //const data = [{name: "ETH", value: 1},{name: "WETH", value: 0},{name: "EOS", value: 0},{name: "AE", value: 0},{name: "RDN", value: 0},{name: "OTHERS", value: 0}]
 
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#F9FF6A', '#FF76F7', '#97FAFF'];
     const RADIAN = Math.PI / 180;
@@ -87,7 +97,7 @@ class AssetsPieChart extends React.Component{
           label={renderCustomizedLabel}
         >
           {
-            data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+            data.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]}/>)
           }
         </Pie>
       </PieChart>
