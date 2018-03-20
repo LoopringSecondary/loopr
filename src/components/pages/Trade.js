@@ -7,13 +7,14 @@ import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import ModalContainer from '../../modules/modals/container'
+import intl from 'react-intl-universal'
 
 const ToLogin = ({modal})=>{
   return (
     <div>
       <div className="text-center pt25 pb25">
-        <Button className="m15" onClick={modal.showModal.bind(this,{id:'wallet/unlock'})} style={{width:'255px'}} type="primary" size="large">Unlock Wallet</Button>
-        <Button className="m15" onClick={modal.showModal.bind(this,{id:'wallet/generate'})} style={{width:'255px'}} type="default" size="large">Generate Wallet</Button>
+        <Button className="m15" onClick={modal.showModal.bind(this,{id:'wallet/unlock'})} style={{width:'255px'}} type="primary" size="large">{intl.get('buttons.unlock_wallet')}</Button>
+        <Button className="m15" onClick={modal.showModal.bind(this,{id:'wallet/generate'})} style={{width:'255px'}} type="default" size="large">{intl.get('buttons.generate_wallet')}</Button>
       </div>
     </div>
   )
@@ -43,7 +44,7 @@ export default function Home(props){
         </Card>
         <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
           <Tabs defaultActiveKey="open" animated={false} tabBarStyle={{marginBottom:'0px'}}>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">My Open Orders</div>} key="open">
+            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_open_orders')}</div>} key="open">
               <div className="">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
@@ -57,7 +58,7 @@ export default function Home(props){
                 }
               </div>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">My Recent Trades</div>} key="trade">
+            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_recent_trades')}</div>} key="trade">
               <div className="">
                 {
                   window.WALLET && window.WALLET.getAddress() &&

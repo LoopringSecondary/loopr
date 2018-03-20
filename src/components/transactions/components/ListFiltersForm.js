@@ -17,7 +17,7 @@ let FiltersForm = ({
     })
   }
   function handleChange() {
-    setTimeout(handleSubmit, 0) 
+    setTimeout(handleSubmit, 0)
   }
   function handleCancle() {
   }
@@ -72,4 +72,4 @@ let FiltersForm = ({
 
 export default Form.create()(FiltersForm);
 
- 
+

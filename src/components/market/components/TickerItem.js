@@ -5,6 +5,7 @@ import { Icon,Popover } from 'antd';
 import TickerListTabs from './TickerListTabs'
 import Sockets from '../../../modules/socket/containers'
 import Currency from '../../../modules/settings/CurrencyContainer'
+import intl from 'react-intl-universal'
 
 let fm = {}
 fm.getVolume = (value)=>{
@@ -82,7 +83,7 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
 		    </div>
 		    <div className="col">
 		      <div className="fs18 color-white">{pair}</div>
-		      <div className="fs12 color-white opacity-70">Select Market Pair <Icon hidden className="" type="down" /></div>
+		      <div className="fs12 color-white opacity-70">{intl.get('exchanges.loopr')} <Icon hidden className="" type="down" /></div>
 		    </div>
 		    <div className="col-auto">
 		      <Icon type="caret-down" className="color-white" />
@@ -102,19 +103,19 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
            <TickerHeader />
          </div>
          <div className="col-auto">
-           <NumberCaption title="Latest Price" content={<div>{ticker.last || 0} {priceValue}</div>} />
+           <NumberCaption title={`24H ${intl.get('ticker.last')}`} content={<div>{ticker.last || 0} {priceValue}</div>} />
          </div>
          <div className="col-auto">
-          <NumberCaption title="24H Change" content={<span style={{fontcolor:'#00E831'}}>{ticker.change || 0}</span>} />
+          <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={<span style={{fontcolor:'#00E831'}}>{ticker.change || 0}</span>} />
          </div>
          <div className="col-auto">
-          <NumberCaption title="24H Low" content={ticker.low || 0} />
+          <NumberCaption title={`24H ${intl.get('ticker.low')}`} content={ticker.low || 0} />
          </div>
          <div className="col-auto">
-           <NumberCaption title="24H High" content={ticker.high || 0} />
+           <NumberCaption title={`24H ${intl.get('ticker.high')}`} content={ticker.high || 0} />
          </div>
          <div className="col-sm-6 col-lg-2">
-          <NumberCaption title={<div>24H Volume <span className="fs10">/ {tokenR}</span></div>} content={<div>{`${ticker.vol || 0}`} </div>} />
+          <NumberCaption title={<div>24H {intl.get('ticker.vol')} <span className="fs10">/ {tokenR}</span></div>} content={<div>{`${ticker.vol || 0}`} </div>} />
          </div>
       </div>
   )
@@ -135,15 +136,17 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
             <div className="fs16 color-grey-900">
               {fm.getPrice(ticker.last)} {priceValue}
               </div>
-            <div className="fs14 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>{ticker.exchange}</div>
+            <div className="fs14 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
+            {intl.get(`exchanges.${ticker.exchange}`)}
+            </div>
           </div>
           <div className="col-auto text-right">
             <div className="fs16" style={{color:'#1DB427'}}>{ticker.change}</div>
-            <div className="fs14 color-grey-400 ">24H Change</div>
+            <div className="fs14 color-grey-400 ">24H {intl.get('ticker.change')}</div>
           </div>
           <div className="col-auto text-right">
             <div className="fs16 color-grey-900">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
-            <div className="fs14 color-grey-400">24H Vol</div>
+            <div className="fs14 color-grey-400">24H {intl.get('ticker.vol')}</div>
           </div>
         </div>
       )

@@ -19,11 +19,6 @@ export default {
       quit:'退出',
     },
   },
-  wallet:{
-    assets:'我的资产',
-    orders:'我的订单',
-    trades:'交易记录',
-  },
   order:{
     buy:'买',
     sell:'卖',
@@ -44,6 +39,76 @@ export default {
     place_warn:'为了保证您的订单可以被撮合. 您需要做以下事项:',
     balance_not_enough:'{token} 余额不足',
     submit:"提交订单"
-  }
+  },
+  ticker:{
+    last:'最新价',
+    change:'涨跌',
+    low:'最高价',
+    high:'最低价',
+    vol:'成交量',
+    market:'市场',
+    favorites:'自选',
+  },
+  exchanges:{
+    loopr:'路印 DEX',
+    binance:'币安',
+    okex:'Okex',
+    huobi:'火币',
+  },
+  home:{
+    title:'路印钱包及去中心化交易所',
+    subtitle:'安全高流动性的交易你的代币',
+  },
+  buttons:{
+    unlock_wallet:'解锁钱包',
+    generate_wallet:'生成钱包',
+  },
+  tabs:{
+    my_open_orders:'我的当前订单',
+    my_recent_trades:'我的历史成交',
+    my_assets:'我的资产',
+    my_orders:'我的订单',
+    my_trades:'历史成交',
+  },
+  txs:{
+    title:'交易',
+    status:'状态',
+    status_pending:'交易处理中',
+    status_success:'交易成功',
+    status_failed:'交易失败',
+    type:'类型',
+    type_transfer:'转账',
+    type_convert:'转换',
+    type_convert_title_eth:'ETH 转换为 WETH',
+    type_convert_title_weth:'WETH 转换为 ETH',
+    type_receive:'收款',
+    type_enable:'启用',
+  },
+  orders:{
+    market:'市场',
+    status:'状态',
+    status_opened:'当前订单',
+    status_completed:'已成交订单',
+    status_canceled:'已取消订单',
+    status_expired:'已过期订单',
+    side:'方向',
+    side_sell:'卖',
+    side_buy:'买',
+    create_time:'提交时间',
+    update_time:'更新时间',
+    amount:'数量',
+    price:'价格',
+    total:'金额',
+    LrcFee:'Lrc撮合费',
+    filled:'成交率',
+  },
+  global:{
+    all:'全部',
+    market:'市场',
+    options:'操作',
+  },
+
+
+
 }
 

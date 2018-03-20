@@ -9,6 +9,7 @@ import iconTransfer from '../../../assets/images/icon-tx-type-transfer.png'
 import iconReceive from '../../../assets/images/icon-tx-type-receive.png'
 import iconTrade from '../../../assets/images/icon-tx-type-trade.png'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
+import intl from 'react-intl-universal'
 const uiFormatter = window.uiFormatter
 
 function ListBlock({LIST,actions,prices}) {
@@ -45,9 +46,9 @@ function ListBlock({LIST,actions,prices}) {
     }
     const statusCol = (
       <div className="text-left" style={{width:'85px'}}>
-        { item.status === 'pending' && <Badge status="warning" text="Pending" /> }
-        { item.status === 'success' && <Badge status="success" text="Success" /> }
-        { item.status === 'failed' && <Badge status="error" text="Failed" /> }
+        { item.status === 'pending' && <Badge status="warning" text={intl.get('txs.status_pending')} /> }
+        { item.status === 'success' && <Badge status="success" text={intl.get('txs.status_success')} /> }
+        { item.status === 'failed' && <Badge status="error" text={intl.get('txs.status_failed')} /> }
       </div>
     )
     const iconCol = (
@@ -61,12 +62,12 @@ function ListBlock({LIST,actions,prices}) {
 
     const caption = (
       <div className="">
-        <div className="fs18 color-grey-900 mb5">
-          {item.type === 'approve' && `Enable ${item.symbol}`}
-          {item.type === 'send' && `Send ${item.symbol}`}
-          {item.type === 'receive' && `Received ${item.symbol}`}
-          {item.type === 'convert' && item.symbol==='WETH' && `Convert WETH To ETH`}
-          {item.type === 'convert' && item.symbol==='ETH' && `Convert ETH To WETH`}
+        <div className="fs16 color-grey-700 mb5">
+          {item.type === 'approve' && `${intl.get('txs.type_enable')} ${item.symbol}`}
+          {item.type === 'send' && `${intl.get('txs.type_transfer')} ${item.symbol}`}
+          {item.type === 'receive' && `${intl.get('txs.type_receive')} ${item.symbol}`}
+          {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth')}
+          {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth')}
 
         </div>
         {
@@ -136,7 +137,7 @@ function ListBlock({LIST,actions,prices}) {
     <div className="">
       <div className="row zb-b-b p15 no-gutters align-items-center">
         <div className="col">
-          <div className="fs20 color-grey-900">{filters.token || 'All'} Transactions</div>
+          <div className="fs18 color-grey-900">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
         </div>
         <div className="col-auto" style={{height:'32px'}}>
             <ListFiltersFormSimple actions={actions} LIST={LIST} />
