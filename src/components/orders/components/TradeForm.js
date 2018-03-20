@@ -154,6 +154,11 @@ class TradeForm extends React.Component {
       });
     }
 
+    function cutDecimal(number, decimail) {
+      const d = new Number("1e"+decimail)
+      return Math.floor(number * d) / d
+    }
+
     async function toConfirm(tradeInfo) {
       const configR = config.getTokenBySymbol(tokenR)
       const configL = config.getTokenBySymbol(tokenL)
@@ -174,15 +179,20 @@ class TradeForm extends React.Component {
         frozenAmountS = fm.toBig(frozenAmountLResult.result).div(configL.digits).add(fm.toBig(tradeInfo.amount))
       }
       let approveCount = 0
+      const warn = new Array()
       if(tokenBalanceB.symbol === 'LRC') { //buy lrc, only verify eth balance could cover gas cost if approve is needed
+        if(tokenBalanceS.balance.lessThan(frozenAmountS)) {
+          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:cutDecimal(tokenBalanceS.balance.toNumber(),6), required:cutDecimal(frozenAmountS.sub(tokenBalanceS.balance).toNumber(),6)}})
+        }
         if(frozenAmountS.greaterThan(tokenBalanceS.allowance)) {
+          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:cutDecimal(tokenBalanceS.allowance.toNumber(),6), required:cutDecimal(frozenAmountS.sub(tokenBalanceS.allowance).toNumber(),6)}})
           approveCount += 1
           if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
         }
         const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9).times(approveCount)
         if(ethBalance.lessThan(gas)){
           const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:ethBalance.toNumber().toFixed(8), required:gas.sub(ethBalance).toNumber()}})
+          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:cutDecimal(gas.sub(ethBalance).toNumber(),6)}})
           gotoError(errors)
           return
         }
@@ -192,7 +202,7 @@ class TradeForm extends React.Component {
         let frozenLrc = fm.toBig(frozenLrcFee.result).div(1e18).add(fm.toBig(tradeInfo.lrcFee))
         if(lrcBalance.balance.lessThan(frozenLrc)){
           const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:lrcBalance.balance.toNumber(), required:frozenLrc.sub(lrcBalance.balance).toNumber()}})
+          errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:cutDecimal(lrcBalance.balance.toNumber(), 6), required:cutDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}})
           gotoError(errors)
           return
         }
@@ -205,33 +215,33 @@ class TradeForm extends React.Component {
           frozenLrc = frozenLrc.add(fm.toBig(tradeInfo.total))
         }
         // verify tokenL/tokenR balance and allowance cause gas cost
-        const warn = new Array()
         if(tokenBalanceS.symbol === 'LRC') {
           frozenAmountS = frozenLrc
         }
         if(tokenBalanceS.balance.lessThan(frozenAmountS)) {
-          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:tokenBalanceS.balance.toNumber().toFixed(8), required:frozenAmountS.sub(tokenBalanceS.balance).toNumber()}})
+          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:cutDecimal(tokenBalanceS.balance.toNumber(),6), required:cutDecimal(frozenAmountS.sub(tokenBalanceS.balance).toNumber(),6)}})
         }
         if(tokenBalanceS.allowance.lessThan(frozenAmountS)) {
-          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:tokenBalanceS.allowance.toNumber(), required:frozenAmountS.sub(tokenBalanceS.allowance).toNumber()}})
+          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:cutDecimal(tokenBalanceS.allowance.toNumber(),6), required:cutDecimal(frozenAmountS.sub(tokenBalanceS.allowance).toNumber(),6)}})
           approveCount += 1
           if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
         }
         // lrcFee allowance
         if(frozenLrc.greaterThan(lrcBalance.allowance) && tokenBalanceS.symbol !== 'LRC') {
+          warn.push({type:"AllowanceNotEnough", value:{symbol:"LRC", allowance:cutDecimal(lrcBalance.allowance.toNumber(),6), required:cutDecimal(frozenLrc.sub(lrcBalance.allowance).toNumber(),6)}})
           approveCount += 1
           if(lrcBalance.allowance.greaterThan(0)) approveCount += 1
         }
         const gas = fm.toBig(settings.trading.gasPrice).times(approveGasLimit).div(1e9).times(approveCount).toNumber()
         if(ethBalance.lessThan(gas)){
           const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:ethBalance.toNumber(), required:gas.sub(ethBalance).toNumber()}})
+          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:cutDecimal(gas.sub(ethBalance).toNumber(),6)}})
           gotoError(errors)
           return
         }
-        if(warn.length >0) {
-          tradeInfo.warn = warn
-        }
+      }
+      if(warn.length >0) {
+        tradeInfo.warn = warn
       }
       showTradeModal(tradeInfo)
     }
