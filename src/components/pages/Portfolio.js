@@ -16,7 +16,7 @@ class AssetsPieChart extends React.Component{
     }
     let hasNo0Balance = false
     portfolio.map(item=>{
-      if(fm.toBig(item.amount).greaterThan(0)) hasNo0Balance = false
+      if(fm.toBig(item.amount).greaterThan(0)) hasNo0Balance = true
     })
     let worthArray = null
     if(hasNo0Balance) {
@@ -25,10 +25,10 @@ class AssetsPieChart extends React.Component{
         const tokenConfig = window.CONFIG.getTokenBySymbol(item.token)
         const amount = item.amount > 0 ? fm.toBig(item.amount).div("1e"+tokenConfig.digits) : fm.toBig(0)
         const worth = amount.times(price).toNumber().toFixed(0)
-        return {token:item.token, amount: item.amount, worth: worth}
+        return {token:item.token, amount: item.amount, worth: worth, percentage: item.percentage}
       })
     } else {
-      worthArray = [{token: 'Assets', amount:0, worth: 1}]
+      worthArray = []
     }
     const sequence = (a,b) => {
       const va = fm.toNumber(a.worth)
@@ -42,36 +42,38 @@ class AssetsPieChart extends React.Component{
       }
     }
     worthArray.sort(sequence)
-    let showArray = null, othersArray = null
-    if(worthArray.length > 6) {
-      showArray = worthArray.slice(0, 5)
-      othersArray = worthArray.slice(5, worthArray.length)
+    let showArray = new Array(), otherWorth = 0, otherAmount = 0
+    worthArray.map(item=>{
+      const per = fm.toNumber(item.percentage.toString().split("%")[0])
+      if(per < 0.05) {
+        otherWorth += fm.toNumber(item.worth)
+        otherAmount += fm.toNumber(item.amount)
+      } else {
+        showArray.push(item)
+      }
+    })
+    if(showArray.length >0 ){
+      showArray.push({token:'OTHERS', amount:otherAmount, worth:otherWorth})
     } else {
-      showArray = worthArray
-    }
-    if(othersArray) {
-      let totalWorth = 0
-      let total = fm.toBig(0)
-      othersArray.map(item=>{
-        totalWorth += fm.toNumber(item.worth)
-        total.add(item.amount)
-      })
-      showArray.push({token:'OTHERS', amount:total.toNumber(), worth:totalWorth})
+      showArray.push({token: 'Assets', amount:0, worth: 1, percentage: "100%"})
     }
     return showArray
   }
 
   render () {
     const {prices, portfolio} = this.props
+    let COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#F9FF6A', '#FF76F7', '#97FAFF'];
     const worth = this.sortAssetsByWorth(portfolio.items, prices)
     const {PieChart, Pie, Sector, Cell} = Recharts
     const data = worth.map(item=> {
-      return {name: item.token, value: fm.toNumber(item.worth)}
+      return {name: item.token, amount: item.amount, value: fm.toNumber(item.worth)}
     })
+    if(data.length === 1 && data[0].amount === 0) {
+      COLORS = ['#eee']
+    }
     // console.log(data, data.length)
     //const data = [{name: "ETH", value: 1},{name: "WETH", value: 0},{name: "EOS", value: 0},{name: "AE", value: 0},{name: "RDN", value: 0},{name: "OTHERS", value: 0}]
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#F9FF6A', '#FF76F7', '#97FAFF'];
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
       const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
