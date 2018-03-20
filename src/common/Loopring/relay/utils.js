@@ -69,3 +69,23 @@ export async function getGasPrice(filter) {
     body,
   })
 }
+
+
+export async function notifyTransactionSubmitted(txHash) {
+
+  try {
+    validator.validate({value: txHash, type: "TX_HASH"})
+  } catch (e) {
+    throw new Error('Invalid transaction hash')
+  }
+  const params = [{txHash}];
+  const body = {};
+  body.method = 'loopring_notifyTransactionSubmitted';
+  body.params = params;
+  return request({
+    method: 'post',
+    body,
+  })
+
+
+}

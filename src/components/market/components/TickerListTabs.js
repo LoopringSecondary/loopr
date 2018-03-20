@@ -8,17 +8,26 @@ import { Card,Tabs,Icon,Popover,Input } from 'antd';
 
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
+  const favors =  window.STORAGE.markets.getFavors()
+  let items = []
+  if(market === 'favorites'){
+    items = tickers.items.filter(item=>{
+      return favors[item.market]
+    })
+  }else{
+    items = tickers.items.filter(item=>{
+      return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
+    })
+  }
 
-  let items = tickers.items.filter(item=>{
-    return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
-  })
+
   const keywords = tickers.filters && tickers.filters.token
   if(keywords){
     items = items.filter(item=>{
         return item.market.toUpperCase().indexOf(keywords.toUpperCase()) > -1
     })
   }
-  const favors =  window.STORAGE.markets.getFavors()
+
   const updateOrders = (pair)=>{
     dispatch({
       type:'orders/filtersChange',
@@ -112,8 +121,17 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
        <Input.Search className="" size="small" onChange={search} value={keywords} />
       </div>
   )
+  const favors =  window.STORAGE.markets.getFavors()
+  let favoredNumber = 0
+  for (let key in favors ){
+    if(favors[key]){
+      favoredNumber += 1
+    }
+  }
+  const activeTab = favoredNumber > 0 ? 'Favorites' : 'WETH'
+
   return (
-    <Tabs className="" defaultActiveKey="WETH" animated={false} tabBarExtraContent={SearchInput}>
+    <Tabs className="" defaultActiveKey={activeTab} animated={false} tabBarExtraContent={SearchInput}>
       <Tabs.TabPane tab={tab("Favorites")} key="Favorites">
         <div className="pl10 pr10">
           <TickerTable tickers={tickers} market="favorites" dispatch={dispatch} />
