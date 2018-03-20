@@ -1,4 +1,5 @@
-import moment from 'moment';
+import React from 'react';
+import {Icon,Popover} from 'antd';
 import {toNumber} from "Loopring/common/formatter";
 import {getFormatTime} from "../../common/utils/uiFormatter";
 
@@ -64,10 +65,12 @@ const schema = [
     title: 'Amount',
     name: 'amount',
     formatter: (item) => {
-      let token = item.originalOrder.side.toLowerCase() === 'buy' ? window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB) : window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS);
+      const side = item.originalOrder.side.toLowerCase()
+      let token =  side === 'buy' ? window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB) : window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS);
       token = token || {digits: 18, precision: 6};
-      const amount = item.originalOrder.side.toLowerCase() === 'buy' ? item.originalOrder.amountB : item.originalOrder.amountS
-      return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
+      const amount = side === 'buy' ? item.originalOrder.amountB : item.originalOrder.amountS
+      const symbol = side === 'buy' ? item.originalOrder.tokenB : item.originalOrder.tokenS
+      return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision) + ' ' + symbol
     }
   },
   {
@@ -81,19 +84,25 @@ const schema = [
     title: 'Total',
     name: 'total',
     formatter: (item) => {
-      let token = item.originalOrder.side.toLowerCase() === 'buy' ? window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS):  window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB);
+      const side = item.originalOrder.side.toLowerCase()
+      const tokenS = item.originalOrder.tokenS
+      const tokenB = item.originalOrder.tokenB
+      const amountS = item.originalOrder.amountS
+      const amountB = item.originalOrder.amountB
+      let token = side ? window.CONFIG.getTokenBySymbol(tokenS): window.CONFIG.getTokenBySymbol(tokenB);
       token = token || {digits: 18, precision: 6};
-      const amount = item.originalOrder.side.toLowerCase() === 'buy' ? item.originalOrder.amountS : item.originalOrder.amountB
-      return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
+      const amount = side === 'buy' ? amountS : amountB
+      const symbol = side === 'buy' ? tokenS : tokenB
+      return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision) + ' ' +symbol
     },
   },
   {
-    title: 'LrcFee',
+    title: <span>LrcFee <a onClick={()=>{}}><Icon type="question-circle"></Icon></a></span>,
     name: 'lrcFee',
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');
       token = token || {digits: 18, precision: 6};
-      return (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision)
+      return (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision) + ' LRC'
     },
   },
   {

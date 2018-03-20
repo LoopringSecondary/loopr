@@ -20,7 +20,9 @@ const ToLogin = ({modal})=>{
 }
 export default function Home(props){
   const { children,match } = props
-  const pair = match.params.pair || window.STORAGE.markets.getCurrent()
+  let pair = match.params.pair || window.STORAGE.markets.getCurrent() || 'LRC-WETH'
+  if(pair.indexOf('-') < 0){ }
+  // TODO if market is not support or goto some route
   return (
     <Layout {...props}>
       <Sockets.TickersByPair pair={pair}>

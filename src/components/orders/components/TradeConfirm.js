@@ -81,7 +81,15 @@ class TradeConfirm extends React.Component {
       console.log('signOrder error',err)
     })
   }
-
+  updateOrders(){
+    const {dispatch} = this.props
+    dispatch({
+      type:'orders/filtersChange',
+      payload:{
+        id:'orders/trade',
+      }
+    })
+  }
   render() {
     const {modals,tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
@@ -151,6 +159,7 @@ class TradeConfirm extends React.Component {
     const modal = modals['trade/confirm'] || {};
     let {warn} = modal;
     let {signedOrder,tokenS} = this.state;
+    const _this = this
     modals.hideModal({id: 'trade/confirm'});
     placeOrder(signedOrder).then(async (res) => {
       if (res.error) {
@@ -205,6 +214,7 @@ class TradeConfirm extends React.Component {
           });
           const balanceWarn = warn.filter(item => item.type === "BalanceNotEnough");
           modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
+          _this.updateOrders()
         }
       }
     });

@@ -65,7 +65,9 @@ function ListBlock({LIST,actions,prices}) {
           {item.type === 'approve' && `Enable ${item.symbol}`}
           {item.type === 'send' && `Send ${item.symbol}`}
           {item.type === 'receive' && `Received ${item.symbol}`}
-          {item.type === 'convert' && `Convert WETH To ETH`}
+          {item.type === 'convert' && item.symbol==='WETH' && `Convert WETH To ETH`}
+          {item.type === 'convert' && item.symbol==='ETH' && `Convert ETH To WETH`}
+
         </div>
         {
           <div className="fs12 color-grey-400 text-nowrap text-truncate">
@@ -73,20 +75,21 @@ function ListBlock({LIST,actions,prices}) {
               {uiFormatter.getFormatTime(item.createTime*1000)}
             </span>
             <span className="mr15">
-              {item.txHash && <span>TxHash: <a href={`https://etherscan.io/tx/${item.txHash}`} className="color-blue-500" target="_blank">{uiFormatter.getShortAddress(item.txHash)}</a></span>}
+              {item.txHash && <span>TxHash: <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.txHash)}</a></span>}
             </span>
             {
               item.type === 'send' &&
               <span className="mr15">
-                {item.to && <span>To: <a href="" className="color-blue-500" target="_blank">{uiFormatter.getShortAddress(item.to)}</a></span>}
+                {item.to && <span>To: <a href={`https://etherscan.io/tx/${item.to}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.to)}</a></span>}
               </span>
             }
             {
               item.type === 'receive' &&
-              <span className="15">
-                {item.from && <span>From: <a href="" className="color-blue-500" target="_blank">{uiFormatter.getShortAddress(item.from)}</a></span>}
+              <span className="mr15">
+                {item.from && <span>From: <a href={`https://etherscan.io/tx/${item.from}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.from)}</a></span>}
               </span>
             }
+
           </div>
         }
       </div>
