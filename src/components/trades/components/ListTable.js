@@ -29,20 +29,18 @@ function ListBlock(props) {
     e.clipboardData.setData("text", value);
   };
   const renders = {
-      ringHash:(value,item,index)=>(
-        <div>
-          <a className="text-truncate text-left color-blue-500" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
-              onClick={showModal.bind(this,{id:'trade/detail',item})}>
-              {uiFormatter.getShortAddress(value)}
-          </a>
-          <span className=""> #{item.fillIndex+1}</span>
-          {
-            false &&
-            <Progress className="ml5" type="circle" percent={100} width={36} format={percent => `#${item.fillIndex+1}`}  />
-          }
-        </div>
-
-      ),
+      ringHash:(value,item,index)=>{
+        const gapPosition = item.fillIndex === 0 ? 'top' : 'bottom'
+        return (
+          <div>
+            <Progress className="mr5" type="circle" gapPosition={gapPosition}  percent={50} width={36} format={percent => <span className="color-blue-500">#{item.fillIndex+1}</span>} />
+            <a className="text-truncate text-left color-blue-500" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
+                onClick={showModal.bind(this,{id:'trade/detail',item})}>
+                {uiFormatter.getShortAddress(value)}
+            </a>
+          </div>
+        )
+      },
       side:(value,item,index)=>{
         if (item.side === 'sell') {
           return <div className="color-green-500">Sell</div>
