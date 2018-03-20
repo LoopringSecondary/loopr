@@ -29,7 +29,7 @@ class TradeConfirm extends React.Component {
     const token2 = pair.split('-')[1];
     marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
     timeToLive = timeToLive === undefined ? window.uiFormatter.getSeconds(tradingConfig.timeToLive, tradingConfig.timeToLiveUnit) : timeToLive;
-    const start = Math.ceil(new Date().getTime());
+    const start = new Date().getTime();
     const since = window.uiFormatter.getFormatTime(start);
     const till = window.uiFormatter.getFormatTime(start + Number(timeToLive) * 1000);
     let order = {};
@@ -42,8 +42,8 @@ class TradeConfirm extends React.Component {
     order.amountB = toHex((side.toLowerCase() === "buy" ? amount : total) * Number('1e' + tokenB.digits));
     order.amountS = toHex((side.toLowerCase() === "sell" ? amount : total) * Number('1e' + tokenS.digits));
     order.lrcFee = toHex(lrcFee * 1e18);
-    order.validSince = toHex(start);
-    order.validUntil = toHex(start + Number(timeToLive) * 1000);
+    order.validSince = toHex(Math.ceil(start / 1e3));
+    order.validUntil = toHex(Math.ceil(start / 1e3) + Number(timeToLive));
     order.marginSplitPercentage = Number(marginSplit);
     order.buyNoMoreThanAmountB = side.toLowerCase() === "buy";
     order.walletId = toHex(1);

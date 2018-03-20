@@ -98,7 +98,7 @@ function ListBlock(props) {
     },
     filled:(value,item,index)=>{
       let percent = 0
-      if(!item.buyNoMoreThanAmountB){
+      if(item.originalOrder.side.toLowerCase() === 'sell'){
         percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
       }else{
         percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
