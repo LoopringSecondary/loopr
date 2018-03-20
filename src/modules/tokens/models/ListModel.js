@@ -15,7 +15,7 @@ export default {
       size:10,
       current:0,
     },
-    filters:{},
+    filters:initTokens.filters || {},
     layer:{},
     defaultState:{},
     originQuery:{},

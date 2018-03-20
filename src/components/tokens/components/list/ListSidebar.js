@@ -452,7 +452,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
     const value = filters[key]
     if (key === 'ifOnlyShowMyFavorite') {
       if (value) {
-        results = results.filter(token => !!token.isFavored == !!value)
+        results = results.filter(token => !!favored[token.symbol] == !!value)
       }
     }
     if(key==='ifHideSmallBalance'){
