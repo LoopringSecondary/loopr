@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-class TransactionsSocketContainer extends React.Component {
+class PortfolioSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
@@ -63,6 +63,9 @@ class TransactionsSocketContainer extends React.Component {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
+      portfolio : {
+        items : this.state.items
+      },
       LIST:{
         ...this.state,
       },
@@ -86,7 +89,7 @@ class TransactionsSocketContainer extends React.Component {
     )
   }
 }
-TransactionsSocketContainer.contextTypes = {
+PortfolioSocketContainer.contextTypes = {
   socket: PropTypes.object.isRequired
 };
-export default TransactionsSocketContainer
+export default PortfolioSocketContainer
