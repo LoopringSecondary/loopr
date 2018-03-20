@@ -159,6 +159,11 @@ class TradeForm extends React.Component {
       return Math.floor(number * d) / d
     }
 
+    function ceilDecimal(number, decimail) {
+      const d = new Number("1e"+decimail)
+      return Math.ceil(number * d) / d
+    }
+
     async function toConfirm(tradeInfo) {
       const configR = config.getTokenBySymbol(tokenR)
       const configL = config.getTokenBySymbol(tokenL)
@@ -182,17 +187,17 @@ class TradeForm extends React.Component {
       const warn = new Array()
       if(tokenBalanceB.symbol === 'LRC') { //buy lrc, only verify eth balance could cover gas cost if approve is needed
         if(tokenBalanceS.balance.lessThan(frozenAmountS)) {
-          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:cutDecimal(tokenBalanceS.balance.toNumber(),6), required:cutDecimal(frozenAmountS.sub(tokenBalanceS.balance).toNumber(),6)}})
+          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:cutDecimal(tokenBalanceS.balance.toNumber(),6), required:ceilDecimal(frozenAmountS.sub(tokenBalanceS.balance).toNumber(),6)}})
         }
         if(frozenAmountS.greaterThan(tokenBalanceS.allowance)) {
-          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:cutDecimal(tokenBalanceS.allowance.toNumber(),6), required:cutDecimal(frozenAmountS.sub(tokenBalanceS.allowance).toNumber(),6)}})
+          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:cutDecimal(tokenBalanceS.allowance.toNumber(),6), required:ceilDecimal(frozenAmountS.sub(tokenBalanceS.allowance).toNumber(),6)}})
           approveCount += 1
           if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
         }
         const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9).times(approveCount)
         if(ethBalance.lessThan(gas)){
           const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:cutDecimal(gas.sub(ethBalance).toNumber(),6)}})
+          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
           gotoError(errors)
           return
         }
@@ -202,7 +207,7 @@ class TradeForm extends React.Component {
         let frozenLrc = fm.toBig(frozenLrcFee.result).div(1e18).add(fm.toBig(tradeInfo.lrcFee))
         if(lrcBalance.balance.lessThan(frozenLrc)){
           const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:cutDecimal(lrcBalance.balance.toNumber(), 6), required:cutDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}})
+          errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:cutDecimal(lrcBalance.balance.toNumber(), 6), required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}})
           gotoError(errors)
           return
         }
@@ -219,23 +224,23 @@ class TradeForm extends React.Component {
           frozenAmountS = frozenLrc
         }
         if(tokenBalanceS.balance.lessThan(frozenAmountS)) {
-          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:cutDecimal(tokenBalanceS.balance.toNumber(),6), required:cutDecimal(frozenAmountS.sub(tokenBalanceS.balance).toNumber(),6)}})
+          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:cutDecimal(tokenBalanceS.balance.toNumber(),6), required:ceilDecimal(frozenAmountS.sub(tokenBalanceS.balance).toNumber(),6)}})
         }
         if(tokenBalanceS.allowance.lessThan(frozenAmountS)) {
-          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:cutDecimal(tokenBalanceS.allowance.toNumber(),6), required:cutDecimal(frozenAmountS.sub(tokenBalanceS.allowance).toNumber(),6)}})
+          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:cutDecimal(tokenBalanceS.allowance.toNumber(),6), required:ceilDecimal(frozenAmountS.sub(tokenBalanceS.allowance).toNumber(),6)}})
           approveCount += 1
           if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
         }
         // lrcFee allowance
         if(frozenLrc.greaterThan(lrcBalance.allowance) && tokenBalanceS.symbol !== 'LRC') {
-          warn.push({type:"AllowanceNotEnough", value:{symbol:"LRC", allowance:cutDecimal(lrcBalance.allowance.toNumber(),6), required:cutDecimal(frozenLrc.sub(lrcBalance.allowance).toNumber(),6)}})
+          warn.push({type:"AllowanceNotEnough", value:{symbol:"LRC", allowance:cutDecimal(lrcBalance.allowance.toNumber(),6), required:ceilDecimal(frozenLrc.sub(lrcBalance.allowance).toNumber(),6)}})
           approveCount += 1
           if(lrcBalance.allowance.greaterThan(0)) approveCount += 1
         }
         const gas = fm.toBig(settings.trading.gasPrice).times(approveGasLimit).div(1e9).times(approveCount).toNumber()
         if(ethBalance.lessThan(gas)){
           const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:cutDecimal(gas.sub(ethBalance).toNumber(),6)}})
+          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
           gotoError(errors)
           return
         }
