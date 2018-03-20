@@ -61,34 +61,39 @@ function ListBlock({LIST,actions,prices}) {
 
     const caption = (
       <div className="">
-        <div className="fs20 color-grey-900 mb5">
+        <div className="fs18 color-grey-900 mb5">
           {item.type === 'approve' && `Enable ${item.symbol}`}
           {item.type === 'send' && `Send ${item.symbol}`}
           {item.type === 'receive' && `Received ${item.symbol}`}
           {item.type === 'convert' && `Convert WETH To ETH`}
         </div>
         {
-          <div className="fs14 color-grey-400 text-nowrap text-truncate">
+          <div className="fs12 color-grey-400 text-nowrap text-truncate">
             <span className="mr15">
-              {item.from && `From: ${uiFormatter.getShortAddress(item.from)}`}
+              {uiFormatter.getFormatTime(item.createTime*1000)}
             </span>
-            <span>
-              {item.to && `To: ${uiFormatter.getShortAddress(item.to)}`}
+            <span className="mr15">
+              {item.txHash && <span>TxHash: <a href={`https://etherscan.io/tx/${item.txHash}`} className="color-blue-500" target="_blank">{uiFormatter.getShortAddress(item.txHash)}</a></span>}
             </span>
+            {
+              item.type === 'send' &&
+              <span className="mr15">
+                {item.to && <span>To: <a href="" className="color-blue-500" target="_blank">{uiFormatter.getShortAddress(item.to)}</a></span>}
+              </span>
+            }
+            {
+              item.type === 'receive' &&
+              <span className="15">
+                {item.from && <span>From: <a href="" className="color-blue-500" target="_blank">{uiFormatter.getShortAddress(item.from)}</a></span>}
+              </span>
+            }
           </div>
         }
-        <div className="fs14 color-grey-400 text-nowrap text-truncate mt5">
-          {uiFormatter.getFormatTime(item.createtime)}
-          {
-            false &&
-            <span>3 mins ago ( 2018-01-20 10:00:00 )</span>
-          }
-        </div>
       </div>
     )
 
     return (
-      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p20" key={index}>
+      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p15" key={index}>
         <div className="col-auto">
           {statusCol}
         </div>
@@ -98,24 +103,23 @@ function ListBlock({LIST,actions,prices}) {
         <div className="col pr10">
           {caption}
         </div>
-        <div className="col"></div>
         <div className="col-auto mr5">
           { change === '+' &&
             <div className="text-right">
-              <div className="fs20 color-green-500 mb10">
+              <div className="fs18 color-green-500 mb5">
                 + {item.value} {item.symbol}
               </div>
-              <div className="fs16 color-green-500">
+              <div className="fs14 color-green-500">
                 + <CurrencyContainer />{item.guzhi}
               </div>
             </div>
           }
           { change === '-' &&
             <div className="text-right">
-              <div className="fs20 color-red-500 mb10">
+              <div className="fs18 color-red-500 mb5">
                 - {item.value} {item.symbol}
               </div>
-              <div className="fs16 color-red-500">
+              <div className="fs14 color-red-500">
                 - <CurrencyContainer /> {item.guzhi}
               </div>
             </div>
