@@ -25,6 +25,7 @@ class Convert extends React.Component {
     selectedToken = {...config.getTokenBySymbol(selectedToken.symbol), ...assets.getTokenBySymbol(selectedToken.symbol)}
     const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
     selectedToken.balance = balance
+    const price = prices.getTokenBySymbol(selectedToken.symbol)
 
     function handleSubmit() {
       const _this = this
@@ -46,7 +47,7 @@ class Convert extends React.Component {
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce})
               notifyTransactionSubmitted(res.result);
               modal.hideModal({id:'token/convert'})
-              const result = {extraData:{txHash:res.result}}
+              const result = {extraData:{txHash:res.result, amount:values.amount, price:price.price, tokenSymbol:selectedToken.symbol, pageFrom:'Convert'}}
               modal.showModal({id:'token/transfer/result', result})
             }
           }).catch(error=>{

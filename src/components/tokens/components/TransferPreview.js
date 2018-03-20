@@ -11,6 +11,7 @@ let Preview = ({
   const {tx,extraData} = modal
   const handelSubmit = ()=>{
     modal.showLoading({id:'token/transfer/preview'})
+    extraData.pageFrom = "Transfer"
     let result = {...tx, extraData}
     // To test Ledger
     // tx.chainId = 1
