@@ -30,12 +30,18 @@ function ListBlock(props) {
   };
   const renders = {
       ringHash:(value,item,index)=>(
-        <a className="text-truncate d-block color-blue-500 text-left" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
-            onClick={showModal.bind(this,{id:'trade/detail',item})}>
-            <Progress className="mr5" type="circle" percent={100} width={36} format={percent => `#${item.fillIndex+1}`}  />
-            <span>{uiFormatter.getShortAddress(value)}</span>
+        <div>
+          <a className="text-truncate text-left color-blue-500" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
+              onClick={showModal.bind(this,{id:'trade/detail',item})}>
+              {uiFormatter.getShortAddress(value)}
+          </a>
+          <span className=""> #{item.fillIndex+1}</span>
+          {
+            false &&
+            <Progress className="ml5" type="circle" percent={100} width={36} format={percent => `#${item.fillIndex+1}`}  />
+          }
+        </div>
 
-        </a>
       ),
       side:(value,item,index)=>{
         if (item.side === 'sell') {
@@ -79,7 +85,7 @@ function ListBlock(props) {
         dataIndex:field.name,
         render:renders[field.name],
         className:'text-nowrap',
-        width:`${100/schema.length}%`,
+        width:`auto`,
     }
   })
   const tableChange = (pagination, filters, sorter)=>{
