@@ -34,23 +34,23 @@ class UnlockByMetaMask extends React.Component {
         var accountInterval = setInterval(function() {
           if (!window.web3 || !window.web3.eth.accounts[0]) {
             console.log("MetaMask account locked:", selectedAccount)
+            clearInterval(accountInterval)
             account.deleteAccount({})
             Modal.warning({
               title: 'Warning',
               content: 'You have logout from MetaMask',
             });
-            clearInterval(accountInterval)
             return
           }
           // page will be reload automatically
           window.web3.version.getNetwork((err, netId) => {
             if (netId !== '1') {
+              clearInterval(accountInterval)
               account.deleteAccount({})
               Modal.error({
                 title: 'Error',
-                content: "We only support Ethereum mainnet when using MetaMask",
+                content: "You may have changed your MetaMask network, or your computer has ever been locked. For either reason, you should make sure your MetaMask is using MainNetwork and unlock your wallet again",
               });
-              clearInterval(accountInterval)
               return
             }
           })
