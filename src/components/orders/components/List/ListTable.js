@@ -1,10 +1,11 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Table, Badge, Button, Modal, Icon, Popover,Progress} from 'antd';
+import {Table, Badge, Button, Modal, Icon, Popover, Progress} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
-import {toHex, toNumber,clearPrefix} from "Loopring/common/formatter";
+import {toHex, toNumber, clearPrefix} from "Loopring/common/formatter";
+import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
 
@@ -12,14 +13,14 @@ const uiFormatter = window.uiFormatter;
 const fm = window.uiFormatter.TokenFormatter;
 
 function ListBlock(props) {
-  const {LIST, actions, className, style, account, gasPrice,contractAddress,} = props
-  const {dispatch,id} = props
-  const showModal = (payload={})=>{
+  const {LIST, actions, className, style, account, gasPrice, contractAddress,} = props
+  const {dispatch, id} = props
+  const showModal = (payload = {}) => {
     dispatch({
-      type:'modals/modalChange',
-      payload:{
+      type: 'modals/modalChange',
+      payload: {
         ...payload,
-        visible:true,
+        visible: true,
       },
     })
   }
@@ -38,7 +39,7 @@ function ListBlock(props) {
         originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
         originalOrder.owner = originalOrder.address;
         originalOrder.v = toNumber(originalOrder.v);
-        originalOrder.tokenB  = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
+        originalOrder.tokenB = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
         originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
         originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
         const tx = generateCancelOrderTx({
@@ -51,10 +52,17 @@ function ListBlock(props) {
         window.WALLET.sendTransaction(tx).then((res) => {
           if (!res.error) {
             window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
-            window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
-            //TODO 跳转到 发送成功的Modal
-          }else{
-            // TODO 跳转到发送失败的Modal
+            window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
+            notifyTransactionSubmitted(res.result);
+            Modal.success({
+              title: "Cancel Order Successfully",
+              content: <div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> window.uiFormatter.getShortAddress(res.result)</a></div>
+            })
+          } else {
+            Modal.error({
+              title: "Cancel Order Failed",
+              content: res.error.message
+            })
           }
         })
       },
@@ -70,18 +78,27 @@ function ListBlock(props) {
   };
   const renders = {
     orderHash: (value, item, index) => (
-      <a className="text-truncate d-block color-blue-500" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
-          onClick={showModal.bind(this,{id:'order/detail',item})}>
+      <a className="text-truncate d-block color-blue-500" onCopy={handleCopy.bind(this, value)}
+         style={{maxWidth: '150px'}}
+         onClick={showModal.bind(this, {id: 'order/detail', item})}>
         {uiFormatter.getShortAddress(value)}
       </a>
     ),
     market: (value, item, index) => item.originalOrder && item.originalOrder.market,
     status: (value, item, index) => {
       let status
-      if (item.status === 'ORDER_OPENED') { status = <Badge className="fs12" status="processing" text="Opened"/>}
-      if (item.status === 'ORDER_FINISHED') { status = <Badge className="fs12" status="success" text="Completed"/>}
-      if (item.status === 'ORDER_CANCELED') { status = <Badge className="fs12" status="default" text="Cancelled"/>}
-      if (item.status === 'ORDER_EXPIRE') { status = <Badge className="fs12" status="default" text="Expired"/>}
+      if (item.status === 'ORDER_OPENED') {
+        status = <Badge className="fs12" status="processing" text="Opened"/>
+      }
+      if (item.status === 'ORDER_FINISHED') {
+        status = <Badge className="fs12" status="success" text="Completed"/>
+      }
+      if (item.status === 'ORDER_CANCELED') {
+        status = <Badge className="fs12" status="default" text="Cancelled"/>
+      }
+      if (item.status === 'ORDER_EXPIRE') {
+        status = <Badge className="fs12" status="default" text="Expired"/>
+      }
       return (
         <div>
           {status}
@@ -96,27 +113,28 @@ function ListBlock(props) {
         return <div className="color-red-500">Buy</div>
       }
     },
-    filled:(value,item,index)=>{
+    filled: (value, item, index) => {
       let percent = 0
-      if(item.originalOrder.side.toLowerCase() === 'sell'){
+      if (item.originalOrder.side.toLowerCase() === 'sell') {
         percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
-      }else{
+      } else {
         percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
       }
-      return  <Progress type="circle" percent={Number(percent)} width={36} format={percent=>`${percent}%`} />
+      return <Progress type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/>
     },
     action: (value, item, index) => {
       const tokenS = item.originalOrder.tokenS
       const amountS = item.originalOrder.amountS
       const fm = window.uiFormatter.TokenFormatter
-      const fmS = new fm({symbol:tokenS})
+      const fmS = new fm({symbol: tokenS})
       const balance = 100.00
       const required = fmS.getAmount(amountS)
       const lacked = required - balance
 
       const content = (
-        <div className="p10" >
-          <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100" style={{borderRadius:'4px',border:'1px solid'}}>
+        <div className="p10">
+          <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100"
+               style={{borderRadius: '4px', border: '1px solid'}}>
             <div className="pb5 fs16 color-red-600">
               {tokenS} Balance Is Not Enough !
             </div>
@@ -126,15 +144,18 @@ function ListBlock(props) {
               Lacked: <span className="font-weight-bold mr10">{lacked}</span>
             </div>
             <div className="pt5">
-              <Button onClick={showModal.bind(this,{id:'token/receive'})} type="primary" className="bg-red-500 border-none">Recieve {tokenS}</Button>
+              <Button onClick={showModal.bind(this, {id: 'token/receive'})} type="primary"
+                      className="bg-red-500 border-none">Recieve {tokenS}</Button>
               <span className="color-grey-500 ml5 mr5"> or </span>
               {
                 tokenS !== 'WETH' &&
-                <Button onClick={window.routeActions.gotoPath.bind(this,`/trade/${tokenS}-WETH`)} className="bg-red-500 border-none" type="primary">Buy {tokenS}</Button>
+                <Button onClick={window.routeActions.gotoPath.bind(this, `/trade/${tokenS}-WETH`)}
+                        className="bg-red-500 border-none" type="primary">Buy {tokenS}</Button>
               }
               {
                 tokenS === 'WETH' &&
-                <Button onClick={showModal.bind(this,{id:'token/convert',item:{symbol:'ETH'}})} className="bg-red-500 border-none" type="primary">Convert ETH To WETH </Button>
+                <Button onClick={showModal.bind(this, {id: 'token/convert', item: {symbol: 'ETH'}})}
+                        className="bg-red-500 border-none" type="primary">Convert ETH To WETH </Button>
               }
             </div>
           </div>
@@ -146,28 +167,29 @@ function ListBlock(props) {
       let notEnough = !!(item.status === 'ORDER_OPENED')
       return (
         <span>
-          { item.status === 'ORDER_OPENED' &&
-            <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300" style={{borderRadius:'2px',border:'1px solid',padding:'2px 5px'}}>Cancel</a>
+          {item.status === 'ORDER_OPENED' &&
+          <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300"
+             style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px'}}>Cancel</a>
           }
-          { notEnough &&
-            <Popover arrowPointAtCenter placement="topRight" content={content}
-              title={
-                <div className="pt5 pb5">
-                  <div className="row">
-                    <div className="col">
-                      Token Amount Is Not Enough !
-                    </div>
-                    <div className="col-auto">
-                      <a className="fs12 color-blue-500">Why?</a>
-                    </div>
-                  </div>
-                </div>
-              }
-            >
+          {notEnough &&
+          <Popover arrowPointAtCenter placement="topRight" content={content}
+                   title={
+                     <div className="pt5 pb5">
+                       <div className="row">
+                         <div className="col">
+                           Token Amount Is Not Enough !
+                         </div>
+                         <div className="col-auto">
+                           <a className="fs12 color-blue-500">Why?</a>
+                         </div>
+                       </div>
+                     </div>
+                   }
+          >
                 <span className="color-red-500">
                   <Icon className="mr5" type="exclamation-circle"/>
                 </span>
-              </Popover>
+          </Popover>
           }
         </span>
       )

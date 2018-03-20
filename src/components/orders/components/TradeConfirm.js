@@ -3,6 +3,7 @@ import {Button, Card, Collapse, Input, Modal} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
+import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {toBig, toHex, toNumber} from 'Loopring/common/formatter';
 import Token from 'Loopring/ethereum/token';
 import {configs} from "../../../common/config/data";
@@ -147,75 +148,61 @@ class TradeConfirm extends React.Component {
 
   handelSubmit = async () => {
     const {modals,assets={},tradingConfig} = this.props;
+    const modal = modals['trade/confirm'] || {};
+    let {warn} = modal;
     let {signedOrder,tokenS} = this.state;
     modals.hideModal({id: 'trade/confirm'});
     placeOrder(signedOrder).then(async (res) => {
       if (res.error) {
         modals.showModal({id: 'trade/place-order-error', errors: [{type: 'unknown', message: res.error.message}]});
       } else {
-        const allowanceS = assets.getTokenBySymbol(tokenS.symbol,true).allowance;
-        const LRC = window.CONFIG.getTokenBySymbol('LRC');
-        const allowanceLrc = assets.getTokenBySymbol('lrc',true).allowance;
-        const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
-        const delegateAddress = configs.delegateAddress;
-        let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
-        const txs = [];
-        const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
-        if (toBig(tokenS.allowance).greaterThan(toBig(allowanceS))) {
-          const SToken = new Token({address: tokenS.address});
-          if (toNumber(allowanceS) > 0) {
-            txs.push(SToken.generateApproveTx({
+
+        if(warn){
+          const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
+          const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
+          const delegateAddress = configs.delegateAddress;
+          let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
+          const txs = [];
+          const approveWarn = warn.filter(item => item.type === "AllowanceNotEnough");
+          approveWarn.forEach(item => {
+            const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
+            const token = new Token({address: tokenConfig.address})
+            if(item.value.allowance > 0){
+              txs.push(token.generateApproveTx({
+                spender: delegateAddress,
+                amount: '0x0',
+                gasPrice,
+                gasLimit,
+                nonce: toHex(nonce),
+              }));
+              nonce = nonce + 1;
+            }
+            txs.push(token.generateApproveTx(({
               spender: delegateAddress,
-              amount: '0x0',
+              amount: toHex(toBig('9223372036854775806')),
               gasPrice,
               gasLimit,
               nonce: toHex(nonce),
-            }));
+            })));
             nonce = nonce + 1;
-          }
-          txs.push(SToken.generateApproveTx(({
-            spender: delegateAddress,
-            amount: toHex(toBig('9223372036854775806')),
-            gasPrice,
-            gasLimit,
-            nonce: toHex(nonce),
-          })));
-          nonce = nonce + 1;
-        }
-        if (tokenS.address !== LRC.address && toBig(LRC.allowance).greaterThan(toBig(allowanceLrc))) {
-          const LRCToken = new Token({address: LRC.address});
-          if (toNumber(allowanceLrc) > 0) {
-            txs.push(LRCToken.generateApproveTx({
-              spender: delegateAddress,
-              amount: '0x0',
-              gasPrice,
-              gasLimit,
-              nonce: toHex(nonce),
-            }));
-            nonce = nonce + 1;
-          }
-          txs.push(LRCToken.generateApproveTx(({
-            spender: delegateAddress,
-            amount: toHex(toBig('9223372036854775806')),
-            gasPrice,
-            gasLimit,
-            nonce: toHex(nonce),
-          })));
-        }
+          });
 
-        eachLimit(txs, 1, async function (tx, callback) {
-          const res = await window.WALLET.sendTransaction(tx);
-          if (res.error) {
-            callback(res.error.message)
-          } else {
-            window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
-            window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
-            callback()
-          }
-        }, function (error) {
+          eachLimit(txs, 1, async function (tx, callback) {
+            const res = await window.WALLET.sendTransaction(tx);
+            if (res.error) {
+              callback(res.error.message)
+            } else {
+              window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
+              window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
+              notifyTransactionSubmitted(res.result);
+              callback()
+            }
+          }, function (error) {
 
-        });
-        modals.showModal({id: 'trade/place-order-success'});
+          });
+          const balanceWarn = warn.filter(item => item.type === "BalanceNotEnough");
+          modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
+        }
       }
     });
   };

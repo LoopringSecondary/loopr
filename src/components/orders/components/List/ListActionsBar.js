@@ -3,6 +3,7 @@ import {connect} from 'dva'
 import ListFiltersForm from './ListFiltersForm'
 import {Button, Modal} from 'antd'
 import {generateCancelAllOrdresTx, generateCancelOrdersByTokenPairTx} from 'Loopring/relay/order';
+import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {toHex} from 'Loopring/common/formatter'
 import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
@@ -45,8 +46,16 @@ function ListActionsBar(props) {
           if (!res.error) {
             window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
             window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
+            notifyTransactionSubmitted(res.result);
+            Modal.success({
+              title: "Cancel Order Successfully",
+              content: <div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> window.uiFormatter.getShortAddress(res.result)</a></div>
+            })
           } else {
-            //TODO 跳转到错误页。
+            Modal.error({
+              title: "Cancel Order Failed",
+              content: res.error.message
+            })
           }
         });
 

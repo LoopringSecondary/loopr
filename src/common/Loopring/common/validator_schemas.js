@@ -47,6 +47,11 @@ let basicSchemas = {
     required: true,
     len: 64,
   },
+  TX_HASH:{
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{64}$/g,
+  },
   ABI_METHOD: {
     type: 'enum',
     required: true,
