@@ -1,4 +1,5 @@
-import moment from 'moment';
+import React from 'react';
+import {Icon,Popover} from 'antd';
 import {toNumber} from "Loopring/common/formatter";
 import {getFormatTime} from "../../common/utils/uiFormatter";
 
@@ -96,7 +97,7 @@ const schema = [
     },
   },
   {
-    title: 'LrcFee',
+    title: <span>LrcFee <a onClick={()=>{}}><Icon type="question-circle"></Icon></a></span>,
     name: 'lrcFee',
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');

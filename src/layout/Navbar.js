@@ -161,9 +161,9 @@ function Navbar(props){
       <div className="container">
         <div className="row align-items-stretch justify-content-between ml0">
           <div className="col-auto pl0 pr0">
-            <a href="/" className="d-block" >
+            <Link to="/" className="d-block" >
               <img src={logo} alt="" style={{height:'38px'}} />
-            </a>
+            </Link>
           </div>
           <div className="col-auto">
             <Menu
