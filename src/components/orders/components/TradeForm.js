@@ -28,9 +28,10 @@ class TradeForm extends React.Component {
 
   render() {
     const tokenDivDigist = (token) => {
-      token.balance = token.balance > 0 ? fm.toBig(token.balance).div("1e"+token.digits) : fm.toBig(0)
-      token.allowance = token.allowance > 0 ? fm.toBig(token.allowance).div("1e"+token.digits) : fm.toBig(0)
-      return token
+      const tokenCopy = {...token}
+      tokenCopy.balance = tokenCopy.balance > 0 ? fm.toBig(tokenCopy.balance).div("1e"+tokenCopy.digits) : fm.toBig(0)
+      tokenCopy.allowance = tokenCopy.allowance > 0 ? fm.toBig(tokenCopy.allowance).div("1e"+tokenCopy.digits) : fm.toBig(0)
+      return tokenCopy
     }
 
     const RadioButton = Radio.Button;
@@ -40,12 +41,17 @@ class TradeForm extends React.Component {
     const displayPrice = tickerByLoopring ? tickerByLoopring.last : 0
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
-    const tokenLBalance = tokenDivDigist({...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)})
-    const tokenRBalance = tokenDivDigist({...config.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)})
+    const tokenLBalanceOriginal = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
+    const tokenLBalance = tokenDivDigist(tokenLBalanceOriginal)
+    const tokenRBalanceOriginal = {...config.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
+    const tokenRBalance = tokenDivDigist(tokenRBalanceOriginal)
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
     const tokenRPrice = prices.getTokenBySymbol(tokenR)
     const integerReg = new RegExp("^[0-9]*$")
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+    const TokenFormatter = window.uiFormatter.TokenFormatter
+    let fmL = new TokenFormatter({symbol:tokenL})
+    let fmR = new TokenFormatter({symbol:tokenR})
 
     const showModal = (payload)=>{
       dispatch({
@@ -445,7 +451,7 @@ class TradeForm extends React.Component {
               <div className="col fs18 color-grey-900 text-capitalize">{side} {tokenL}</div>
               <div className="col-auto">
                 {
-                  side === 'buy' ? `${tokenR} Balance: ${tokenRBalance.balance}` : `${tokenL} Balance: ${tokenLBalance.balance}`
+                  side === 'buy' ? `${tokenR} Balance: ${fmR.getAmount(tokenRBalanceOriginal.balance)}` : `${tokenL} Balance: ${fmL.getAmount(tokenLBalanceOriginal.balance)}`
                 }
               </div>
             </div>
