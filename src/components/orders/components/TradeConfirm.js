@@ -9,7 +9,7 @@ import Token from 'Loopring/ethereum/token';
 import {configs} from "../../../common/config/data";
 import config from "../../../common/config";
 import eachLimit from 'async/eachLimit';
-
+import intl from 'react-intl-universal';
 
 class TradeConfirm extends React.Component {
 
@@ -103,31 +103,31 @@ class TradeConfirm extends React.Component {
         </div>
       )
     }
-    const title = <div className="text-capitalize">{side} {token}</div>
+    const title = <div className="text-capitalize">{intl.get(`order.${side}`)} {token}</div>
     return ( <Card title={title}>
       <div className="caption zb-b-b text-center p25 pt0">
-        <div className="fs16 color-grey-500 mb5">You are {side === 'sell' ? 'selling' : 'buying'}</div>
+        <div className="fs16 color-grey-500 mb5">{intl.get(`order.${side === 'sell' ? 'selling' : 'buying'}`)}</div>
         <div className="fs28 color-grey-900">{amount} {token}</div>
         <div className="fs14 color-grey-500 mt5">{price} x {amount} = {total} {token2} </div>
       </div>
-      <MetaItem label="LRC Fee" value={`${lrcFee} LRC`}/>
-      <MetaItem label="Margin Split" value={`${marginSplit} %`}/>
-      <MetaItem label="Valid Since " value={since}/>
-      <MetaItem label="Valid Until " value={till}/>
+      <MetaItem label={intl.get('order.lrcfee')} value={`${lrcFee} LRC`}/>
+      <MetaItem label={intl.get('order.margin')} value={`${marginSplit} %`}/>
+      <MetaItem label={intl.get('order.since')} value={since}/>
+      <MetaItem label={intl.get('order.till')} value={till}/>
       <Collapse bordered={false} defaultActiveKey={[]}>
         <Collapse.Panel className=""
                         style={{border: 'none', margin: '0px -15px', padding: '0px -15px'}}
-                        header={<div style={{}}>Sign</div>}
+                        header={<div style={{}}>{intl.get('order.sign')}</div>}
                         key="1"
         >
           <div className="row">
             <div className="col">
-              <div className="fs12 color-grey-500">Raw Order</div>
+              <div className="fs12 color-grey-500">{intl.get('order.raw')}</div>
               <Input.TextArea disabled rows="4" className="d-block w-100 bg-grey-100 border-0" placeholder=""
                               size="large" value={JSON.stringify(order)}/>
             </div>
             <div className="col">
-              <div className="fs12 color-grey-500">Signed Order</div>
+              <div className="fs12 color-grey-500">{intl.get('order.signed')}</div>
               <Input.TextArea disabled rows="4" className="d-block w-100 bg-grey-100 border-0" placeholder=""
                               size="large" value={JSON.stringify(signedOrder)}/>
             </div>
@@ -137,10 +137,10 @@ class TradeConfirm extends React.Component {
 
       <div className="pt15 text-center">
         <div className="fs12 color-grey-500 mb10">
-          Submit order is free and does no consume gas
+          {intl.get('order.place_tip')}
         </div>
         <Button onClick={this.handelSubmit} disabled={!signedOrder} type="primary" className="d-block w-100" size="large">
-          Submit Order
+          {intl.get('order.submit')}
         </Button>
       </div>
     </Card>)
@@ -166,8 +166,10 @@ class TradeConfirm extends React.Component {
           const approveWarn = warn.filter(item => item.type === "AllowanceNotEnough");
           approveWarn.forEach(item => {
             const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
-            const token = new Token({address: tokenConfig.address})
+            const token = new Token({address: tokenConfig.address});
+            console.log('Allowance',item.value.allowance);
             if(item.value.allowance > 0){
+              console.log('Approve to 0',item.value.symbol);
               txs.push(token.generateApproveTx({
                 spender: delegateAddress,
                 amount: '0x0',
@@ -177,6 +179,7 @@ class TradeConfirm extends React.Component {
               }));
               nonce = nonce + 1;
             }
+            console.log('Enable',item.value.symbol);
             txs.push(token.generateApproveTx(({
               spender: delegateAddress,
               amount: toHex(toBig('9223372036854775806')),
