@@ -3,6 +3,7 @@ import { Avatar,Icon,Button,Card,Modal } from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {accDiv, accMul} from '../../../common/Loopring/common/math'
+import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 
 let Preview = ({
   modal, account
@@ -28,6 +29,7 @@ let Preview = ({
       } else {
         window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
         window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
+        notifyTransactionSubmitted(res.result);
       }
       extraData.txHash = res.result
       modal.hideModal({id:'token/transfer/preview'})
