@@ -44,7 +44,7 @@ const schema = [
   {
     title: 'Time',
     name: 'timestamp',
-    formatter: (item) => getFormatTime(toNumber(item.originalOrder.validSince)),
+    formatter: (item) => getFormatTime(toNumber(item.originalOrder.validSince) * 1e3),
   },
   {
     title: 'Status',

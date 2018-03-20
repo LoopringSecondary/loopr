@@ -2,31 +2,29 @@ import React from 'react';
 import { Modal,Collapse,Button,Input,Steps,Popover,Alert,Card,Icon} from 'antd';
 import iconSuccess from '../../../assets/images/icon-success.png'
 
-const PlaceOrderSuccess = ({
+const PlaceOrderSuccess = ({modal
   }) => {
-  const MetaItem = (props)=>{
-    const {label,value}=props
+
+  const {warn} = modal;
+
+  const MetaItem = (item)=>{
     return (
-      <div className="row zb-b-b pt10 pb10 no-gutters">
-        <div className="col">
-          <div className="fs14 color-grey-500">{label}</div>
-        </div>
-        <div className="col-auto">
-          <div className="fs14 color-grey-900">{value}</div>
-        </div>
+      <div className="">
+        <Icon className="color-red-500 mr10" type="close-circle-o" />{item.value.symbol} balance is not enough
+        <a onClick={gotoReceive} className="ml15 color-blue-500">Receive <Icon type="right" /></a>
+        {item.value.symbol.toUpperCase() !== 'WETH' && <a onClick={gotoBuy.bind(this,item.value.symbol)} className="ml15 color-blue-500">Buy <Icon type="right" /></a>}
+        {item.value.symbol.toUpperCase() === 'WETH' && <a onClick={gotoConvert.bind(this,item.value.symbol)} className="ml15 color-blue-500">Buy <Icon type="right" /></a>}
       </div>
     )
   }
   const gotoReceive = ()=>{
-
-    this.props.modal.showModal.bind(this,'token/receive')
-
+   modal.showModal.bind(this,'token/receive')
   };
   const gotoConvert = ()=>{
-
+    modal.showModal.bind(this,{id:'token/convert',item:{symbol:'ETH'}})
   };
-  const gotoBuy = ()=>{
-
+  const gotoBuy = (token)=>{
+    window.routeActions.gotoPath.bind(this,`/trade/${token.toUpperCase()}-WETH`)
   };
   return (
     <Card title="Placing Order">
@@ -37,21 +35,13 @@ const PlaceOrderSuccess = ({
           Congratulation! Your order is under trading now!
         </div>
       </div>
-      <div className="p15 bg-grey-100" style={{borderRadius:'6px'}}>
+      {warn && warn.length > 0 &&  <div className="p15 bg-grey-100" style={{borderRadius:'6px'}}>
         <div className="fs12 color-grey-500 mb10">
           Before your orders can be filled. You should do things followed: (<a href="">Why</a>)
         </div>
-        <div className="">
-          <Icon className="color-red-500 mr10" type="close-circle-o" />xxToken blance is not enough
-          <a onClick={gotoReceive} className="ml15 color-blue-500">Receive <Icon type="right" /></a>
-          <a onClick={gotoBuy} className="ml15 color-blue-500">Buy <Icon type="right" /></a>
-        </div>
-        <div className="">
-          <Icon className="color-red-500 mr10" type="close-circle-o" />WETH blance is not enough
-          <a onClick={gotoReceive} className="ml15 color-blue-500">Receive <Icon type="right" /></a>
-          <a className="ml15 color-blue-500">Convert <Icon type="right" /></a>
-        </div>
+        {warn.map(item => MetaItem(item))}
       </div>
+      }
     </Card>
   )
 }
