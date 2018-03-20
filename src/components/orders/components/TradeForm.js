@@ -24,8 +24,6 @@ class TradeForm extends React.Component {
     }
   }
 
-
-
   render() {
     const tokenDivDigist = (token) => {
       const tokenCopy = {...token}
@@ -93,7 +91,7 @@ class TradeForm extends React.Component {
           const tradeInfo = {}
           tradeInfo.amount = Number(values.amount)
           tradeInfo.price = Number(values.price)
-          tradeInfo.total = tradeInfo.amount * tradeInfo.price
+          tradeInfo.total = accMul(tradeInfo.amount, tradeInfo.price)
           if(this.state.timeToLivePopularSetting && values.timeToLivePopularSetting) {
             let timeToLive = 0
             switch(values.timeToLivePopularSetting){
@@ -162,12 +160,12 @@ class TradeForm extends React.Component {
 
     function cutDecimal(number, decimail) {
       const d = new Number("1e"+decimail)
-      return Math.floor(number * d) / d
+      return Math.floor(accMul(number, d)) / d
     }
 
     function ceilDecimal(number, decimail) {
       const d = new Number("1e"+decimail)
-      return Math.ceil(number * d) / d
+      return Math.ceil(accMul(number, d)) / d
     }
 
     async function toConfirm(tradeInfo) {
@@ -259,7 +257,7 @@ class TradeForm extends React.Component {
 
     function calculateWorthInLegalCurrency(symbol, amount) {
       const price = prices.getTokenBySymbol(symbol).price
-      return amount * price
+      return accMul(amount, price)
     }
 
     function calculateLrcFeeInEth(totalWorth, milliLrcFee) {
@@ -390,7 +388,7 @@ class TradeForm extends React.Component {
 
     function amountSliderChange(e) {
       if(this.state.availableAmount > 0) {
-        const amount = this.state.availableAmount * Number(e) / 100
+        const amount = accMul(this.state.availableAmount, Number(e)) / 100
         form.setFieldsValue({"amount": amount})
         const price = Number(form.getFieldValue("price"))
         const total = accMul(price, amount)
