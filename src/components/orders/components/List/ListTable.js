@@ -164,9 +164,9 @@ function ListBlock(props) {
         </div>
       )
 
-      let notEnough = !!(item.status === 'ORDER_OPENED')
+      let notEnough = false && !!(item.status === 'ORDER_OPENED')
       return (
-        <span>
+        <span className="text-nowrap">
           {item.status === 'ORDER_OPENED' &&
           <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300"
              style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px'}}>Cancel</a>
