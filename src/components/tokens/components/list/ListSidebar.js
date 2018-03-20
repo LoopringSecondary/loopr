@@ -269,7 +269,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
 
         </Tooltip>
       </div>
-      <div className="col-auto mr5">
+      <div className="col-auto">
         <Tooltip title="Hide 0 Balances">
           {
             filters.ifHideSmallBalance &&

@@ -1,12 +1,13 @@
 import namespace from '../namespace'
 import * as apis from '../apis'
 import { tokens } from '../../../common/config/data';
-
+const initTokens = window.STORAGE.tokens.getTokens()
 export default {
   namespace: 'tokens',
   state: {
     items: [...tokens],
-    selected:{ETH:true},
+    selected:initTokens.selected || {ETH:true},
+    favored:initTokens.favored || {},
     loading: false,
     loaded: false,
     page:{
@@ -37,20 +38,34 @@ export default {
       }
     },
     selectedChange(state,action){
+      window.STORAGE.tokens.update({
+        selected:{
+          ...state.selected,
+          ...action.payload.selected,
+        }
+      })
       return {
         ...state,
         selected:{
           ...state.selected,
           ...action.payload.selected,
-      }}
+        }
+      }
     },
     favoredChange(state,action){
+      window.STORAGE.tokens.update({
+        favored:{
+          ...state.favored,
+          ...action.payload.favored,
+        }
+      })
       return {
         ...state,
         favored:{
           ...state.favored,
           ...action.payload.favored,
-      }}
+        }
+      }
     },
     pageChange(state,action){
       let page = state.page;
@@ -61,6 +76,12 @@ export default {
     filtersChange(state,action){
       let filters = state.filters;
       let page = state.page;
+      window.STORAGE.tokens.update({
+        filters:{
+          ...filters,
+          ...action.payload.filters
+        }
+      })
       return {
         ...state,
         filters:{
@@ -71,6 +92,7 @@ export default {
           current:1,
         }
       }
+
     },
     columnsChange(state,action){
       return {...state,columns:action.payload.columns}

@@ -61,7 +61,7 @@ function ListBlock({LIST,actions,prices}) {
 
     const caption = (
       <div className="">
-        <div className="fs20 color-grey-900 mb5">
+        <div className="fs18 color-grey-900 mb5">
           {item.type === 'approve' && `Enable ${item.symbol}`}
           {item.type === 'send' && `Send ${item.symbol}`}
           {item.type === 'receive' && `Received ${item.symbol}`}
@@ -75,7 +75,6 @@ function ListBlock({LIST,actions,prices}) {
             <span className="mr15">
               {item.txHash && <span>TxHash: <a href={`https://etherscan.io/tx/${item.txHash}`} className="color-blue-500" target="_blank">{uiFormatter.getShortAddress(item.txHash)}</a></span>}
             </span>
-
             {
               item.type === 'send' &&
               <span className="mr15">
@@ -94,7 +93,7 @@ function ListBlock({LIST,actions,prices}) {
     )
 
     return (
-      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p20" key={index}>
+      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p15" key={index}>
         <div className="col-auto">
           {statusCol}
         </div>
@@ -107,20 +106,20 @@ function ListBlock({LIST,actions,prices}) {
         <div className="col-auto mr5">
           { change === '+' &&
             <div className="text-right">
-              <div className="fs20 color-green-500 mb10">
+              <div className="fs18 color-green-500 mb5">
                 + {item.value} {item.symbol}
               </div>
-              <div className="fs16 color-green-500">
+              <div className="fs14 color-green-500">
                 + <CurrencyContainer />{item.guzhi}
               </div>
             </div>
           }
           { change === '-' &&
             <div className="text-right">
-              <div className="fs20 color-red-500 mb10">
+              <div className="fs18 color-red-500 mb5">
                 - {item.value} {item.symbol}
               </div>
-              <div className="fs16 color-red-500">
+              <div className="fs14 color-red-500">
                 - <CurrencyContainer /> {item.guzhi}
               </div>
             </div>
