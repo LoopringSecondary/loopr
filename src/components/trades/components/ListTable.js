@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Table,Badge,Button,Progress } from 'antd';
 import schema from '../../../modules/trades/schema';
+import {toNumber} from 'Loopring/common/formatter';
 const uiFormatter = window.uiFormatter
 const fm = window.uiFormatter.TokenFormatter
 
@@ -44,27 +45,29 @@ function ListBlock(props) {
           return <div className="color-red-500">Buy</div>
         }
       },
-      size:(value,item,index)=>{
-        const fmS = new fm({symbol:item.tokenS})
-        return <span> {fmS.getAmount(item.amountS)}  {item.tokenS} </span>
+      amount:(value,item,index)=>{
+        const fmS = item.side === 'buy'? new fm({symbol:item.tokenB}) : new fm({symbol:item.tokenS});
+        const amount = item.side === 'buy'? fmS.getAmount(item.amountB) : fmS.getAmount(item.amountS);
+        return <span> {amount}  {item.side === 'buy'? item.tokenB : item.tokenS} </span>
       },
       price:(value,item,index)=>{
         // const fmB = new fm({symbol:item.tokenB})
         // const fmS = new fm({symbol:item.tokenS})
         // const amountS = fmS.getAmount(item.amountS)
         // const amountB = fmB.getAmount(item.amountB)
-        return <span> {(item.amountB/item.amountS).toFixed(5)} </span>
+        return <span> {(item.side === 'buy' ? (item.amountS/item.amountB) :(item.amountB/item.amountS) ).toFixed(5)} </span>
       },
       total:(value,item,index)=>{
-        const fmB = new fm({symbol:item.tokenB})
-        return <span> {fmB.getAmount(item.amountB)}  {item.tokenB} </span>
+        const fmS = item.side === 'buy'? new fm({symbol:item.tokenS}) : new fm({symbol:item.tokenB});
+        const amount = item.side === 'buy'? fmS.getAmount(item.amountS) : fmS.getAmount(item.amountB);
+        return <span> {amount}  {item.side === 'buy' ? item.tokenS : item.tokenB} </span>
       },
       lrcFee:(value,item,index)=>{
         const fmLrc = new fm({symbol:'LRC'})
         return <span> {fmLrc.getAmount(item.lrcFee)}  {'LRC'} </span>
       },
       time:(value,item,index)=>{
-        return uiFormatter.getFormatTime(item.stimestamp)
+        return uiFormatter.getFormatTime(toNumber(item.createTime)* 1e3)
       },
   }
   const actionRender = (value,item,index)=>{
