@@ -179,10 +179,6 @@ class TradeForm extends React.Component {
           approveCount += 1
           if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
         }
-        if(lrcBalance.allowance.lessThan(tradeInfo.lrcFee)){
-          approveCount += 1
-          if(lrcBalance.allowance.greaterThan(0)) approveCount += 1
-        }
         const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9).times(approveCount)
         if(ethBalance.lessThan(gas)){
           const errors = new Array()
