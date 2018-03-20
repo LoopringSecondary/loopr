@@ -70,5 +70,24 @@ export default {
     my_orders:'我的订单',
     my_trades:'历史成交',
   },
+  txs:{
+    title:'交易',
+    status:'状态',
+    status_pending:'交易处理中',
+    status_success:'交易成功',
+    status_failed:'交易失败',
+    type:'类型',
+    type_transfer:'转账',
+    type_convert:'转换',
+    type_convert_title_eth:'ETH 转换为 WETH',
+    type_convert_title_weth:'WETH 转换为 ETH',
+    type_receive:'收款',
+    type_enable:'启用',
+  },
+  global:{
+    all:'全部'
+  },
+
+
 }
 

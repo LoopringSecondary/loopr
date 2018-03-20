@@ -70,5 +70,22 @@ export default {
     my_orders:'My Orders',
     my_trades:'My Trades',
   },
+  txs:{
+    title:'Transactions',
+    status:'Status',
+    status_pending:'Pending',
+    status_success:'Success',
+    status_failed:'Failed',
+    type:'Type',
+    type_transfer:'Send',
+    type_convert:'Convert',
+    type_convert_title_eth:'Convert ETH To WETH',
+    type_convert_title_weth:'Convert WETH To ETH',
+    type_receive:'Receive',
+    type_enable:'Enable',
+  },
+  global:{
+    all:'All'
+  }
 
 }
