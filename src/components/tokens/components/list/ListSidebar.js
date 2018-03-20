@@ -16,6 +16,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
   let {
     items = [],
     selected = {},
+    favored = {},
     loading,
     filters = {},
     page = {}
@@ -216,10 +217,9 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
   }
   const toggleFavored = (item, e) => {
     e.stopPropagation()
-    actions.updateItem({
-      item: {
-        symbol: item.symbol,
-        isFavored: !item.isFavored,
+    actions.favoredChange({
+      favored: {
+        [item.symbol]: !favored[item.symbol],
       }
     })
   }
@@ -377,11 +377,11 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
         <div className={`row align-items-center no-gutters p10`}>
           <div className="col-auto pr10">
             {
-              item.isFavored &&
+              favored[item.symbol] &&
               <Icon type="star" className="color-yellow-700" onClick={toggleFavored.bind(this, item)}/>
             }
             {
-              !item.isFavored &&
+              !favored[item.symbol] &&
               <Icon type="star" className="color-grey-300" onClick={toggleFavored.bind(this, item)}/>
             }
           </div>
