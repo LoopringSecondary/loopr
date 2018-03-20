@@ -192,14 +192,16 @@ function ListBlock(props) {
       dataIndex: field.name,
       render: renderGenerator,
       className: 'text-nowrap',
-      width:`${100/schema.length}%`,
+      // width:`${100/(schema.length+1)}%`,
+      width:`auto`,
       // sorter: true,
     }
   })
   const actionColumn = {
     title: 'Options',
     render: renders.action,
-    fixed: 'right',
+    // width:150,
+    // fixed: 'right',
   }
   columns.push(actionColumn)
 
