@@ -392,7 +392,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             <div className="">
               <span className="fs18 color-grey-900">{item.symbol}</span>
               <span className="fs12 ml5 color-grey-400 align-middle text-truncate text-nowrap d-inline-block"
-                    style={{width: '55px'}}>{item.title}</span>
+                    style={{width: 'auto'}}>{item.title}</span>
             </div>
             <div className="">
               <span className="fs14 color-grey-900">{theToken.getBalance()}</span>
