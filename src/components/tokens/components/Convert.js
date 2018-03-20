@@ -9,6 +9,7 @@ import * as fm from '../../../common/Loopring/common/formatter'
 import * as math from '../../../common/Loopring/common/math'
 import config from '../../../common/config'
 import Currency from '../../../modules/settings/CurrencyContainer'
+import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 
 class Convert extends React.Component {
   state = {
@@ -24,6 +25,7 @@ class Convert extends React.Component {
     selectedToken = {...config.getTokenBySymbol(selectedToken.symbol), ...assets.getTokenBySymbol(selectedToken.symbol)}
     const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
     selectedToken.balance = balance
+    const price = prices.getTokenBySymbol(selectedToken.symbol)
 
     function handleSubmit() {
       const _this = this
@@ -43,8 +45,9 @@ class Convert extends React.Component {
             } else {
               window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce})
+              notifyTransactionSubmitted(res.result);
               modal.hideModal({id:'token/convert'})
-              const result = {extraData:{txHash:res.result}}
+              const result = {extraData:{txHash:res.result, amount:values.amount, price:price.price, tokenSymbol:selectedToken.symbol, pageFrom:'Convert'}}
               modal.showModal({id:'token/transfer/result', result})
             }
           }).catch(error=>{

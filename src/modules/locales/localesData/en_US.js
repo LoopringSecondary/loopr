@@ -23,5 +23,26 @@ export default {
     assets:'My Assets',
     orders:'My Orders',
     trades:'My Trades',
+  },
+  order:{
+    buy:'Buy',
+    sell:'Sell',
+    receive:'Receive',
+    convert:"Convert",
+    buying:"You are buying",
+    selling:"You are selling",
+    lrcfee:"LRC Fee",
+    margin:"Margin Split",
+    since:"Valid Since",
+    till:"Valid Until",
+    raw:"Raw Order",
+    sign:"Sign",
+    signed:"Signed Order",
+    place_tip:"Submit order is free and does no consume gas",
+    place_success:"Success!",
+    place_success_tip:'Congratulation! Your order is under trading now!',
+    place_warn:'Before your orders can be filled. You should do things followed:',
+    balance_not_enough:'{token} balance is not enough',
+    submit:"Submit Order"
   }
 }
