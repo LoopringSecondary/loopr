@@ -55,7 +55,7 @@ function Navbar(props){
     })
   };
 
-  const localesOptions = locales.map(locale => <Select.Option value={locale.value} key={locale.value}>{locale.name}</Select.Option>);
+  const localesOptions = locales.map(locale => <Select.Option className="fs16" value={locale.value} key={locale.value}><span className="fs16">{locale.name}</span></Select.Option>);
 
 
   function copyToClipboard() {

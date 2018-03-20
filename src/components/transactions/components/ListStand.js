@@ -62,7 +62,7 @@ function ListBlock({LIST,actions,prices}) {
 
     const caption = (
       <div className="">
-        <div className="fs18 color-grey-900 mb5">
+        <div className="fs16 color-grey-700 mb5">
           {item.type === 'approve' && `${intl.get('txs.type_enable')} ${item.symbol}`}
           {item.type === 'send' && `${intl.get('txs.type_transfer')} ${item.symbol}`}
           {item.type === 'receive' && `${intl.get('txs.type_receive')} ${item.symbol}`}
@@ -137,7 +137,7 @@ function ListBlock({LIST,actions,prices}) {
     <div className="">
       <div className="row zb-b-b p15 no-gutters align-items-center">
         <div className="col">
-          <div className="fs20 color-grey-900">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
+          <div className="fs18 color-grey-900">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
         </div>
         <div className="col-auto" style={{height:'32px'}}>
             <ListFiltersFormSimple actions={actions} LIST={LIST} />
