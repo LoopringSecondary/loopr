@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Card,Tabs,Icon,Popover,Input } from 'antd';
+import intl from 'react-intl-universal';
 
 // TickersTable
 // TickersTabs
@@ -66,10 +67,10 @@ const TickerTable = (props)=>{
         <tbody>
           <tr className="">
             <th className="fs12 border-0 "></th>
-            <th className="fs12 border-0 ">Pair</th>
-            <th className="fs12 border-0 ">Price</th>
-            <th className="fs12 border-0 ">Change</th>
-            <th className="fs12 border-0 ">Volume</th>
+            <th className="fs12 border-0 ">{intl.get('ticker.market')}</th>
+            <th className="fs12 border-0 ">{intl.get('ticker.last')}</th>
+            <th className="fs12 border-0 ">{intl.get('ticker.change')}</th>
+            <th className="fs12 border-0 ">{intl.get('ticker.vol')}</th>
           </tr>
           {
             items.length>0 && items.map((item,index)=>
@@ -128,11 +129,11 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
       favoredNumber += 1
     }
   }
-  const activeTab = favoredNumber > 0 ? 'Favorites' : 'WETH'
+  const activeTab = favoredNumber > 0 ? 'favorites' : 'WETH'
 
   return (
     <Tabs className="" defaultActiveKey={activeTab} animated={false} tabBarExtraContent={SearchInput}>
-      <Tabs.TabPane tab={tab("Favorites")} key="Favorites">
+      <Tabs.TabPane tab={tab(intl.get('ticker.favorites'))} key="Favorites">
         <div className="pl10 pr10">
           <TickerTable tickers={tickers} market="favorites" dispatch={dispatch} />
         </div>

@@ -44,6 +44,21 @@ export default {
     place_warn:'为了保证您的订单可以被撮合. 您需要做以下事项:',
     balance_not_enough:'{token} 余额不足',
     submit:"提交订单"
-  }
+  },
+  ticker:{
+    last:'最新价',
+    change:'涨跌',
+    low:'最高价',
+    high:'最低价',
+    vol:'成交量',
+    market:'市场',
+    favorites:'自选',
+  },
+  exchanges:{
+    loopr:'路印 DEX',
+    binance:'币安',
+    okex:'Okex',
+    huobi:'火币',
+  },
 }
 

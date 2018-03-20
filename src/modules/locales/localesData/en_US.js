@@ -44,5 +44,20 @@ export default {
     place_warn:'Before your orders can be filled. You should do things followed:',
     balance_not_enough:'{token} balance is not enough',
     submit:"Submit Order"
-  }
+  },
+  ticker:{
+    last:'Last Price',
+    change:'Change',
+    low:'Low',
+    high:'High',
+    vol:'Volume',
+    market:'Market',
+    favorites:'Favorites',
+  },
+  exchanges:{
+    loopr:'Loopring DEX',
+    binance:'Binance',
+    okex:'Okex',
+    huobi:'Huobi',
+  },
 }
