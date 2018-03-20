@@ -19,11 +19,6 @@ export default {
       quit:'退出',
     },
   },
-  wallet:{
-    assets:'我的资产',
-    orders:'我的订单',
-    trades:'交易记录',
-  },
   order:{
     buy:'买',
     sell:'卖',
@@ -59,6 +54,21 @@ export default {
     binance:'币安',
     okex:'Okex',
     huobi:'火币',
+  },
+  home:{
+    title:'路印钱包及去中心化交易所',
+    subtitle:'安全高流动性的交易你的代币',
+  },
+  buttons:{
+    unlock_wallet:'解锁钱包',
+    generate_wallet:'生成钱包',
+  },
+  tabs:{
+    my_open_orders:'我的当前订单',
+    my_recent_trades:'我的历史成交',
+    my_assets:'我的资产',
+    my_orders:'我的订单',
+    my_trades:'历史成交',
   },
 }
 

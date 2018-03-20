@@ -19,11 +19,6 @@ export default {
       quit:'Quit',
     },
   },
-  wallet:{
-    assets:'My Assets',
-    orders:'My Orders',
-    trades:'My Trades',
-  },
   order:{
     buy:'Buy',
     sell:'Sell',
@@ -60,4 +55,20 @@ export default {
     okex:'Okex',
     huobi:'Huobi',
   },
+  home:{
+    title:'Welcome To Loopring Wallet & DEX',
+    subtitle:'Secure token trading right from your own wallet.',
+  },
+  buttons:{
+    unlock_wallet:'Unlock Wallet',
+    generate_wallet:'Generate Wallet',
+  },
+  tabs:{
+    my_open_orders:'My Open Orders',
+    my_recent_trades:'My Recent Trades',
+    my_assets:'My Assets',
+    my_orders:'My Orders',
+    my_trades:'My Trades',
+  },
+
 }
