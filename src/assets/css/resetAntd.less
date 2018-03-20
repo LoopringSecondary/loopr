@@ -1,4 +1,10 @@
 :global{
+    body{
+      background:rgb(248, 248, 248) !important;
+    }
+    .ant-layout{
+      background:rgb(248, 248, 248)  !important;
+    }
     .ant-layout-header{
       padding:0px !important;
       height:auto !important;
@@ -90,6 +96,9 @@
    .ant-table-bordered table{
 			border:1px solid #DADADA !important;
    }
+   .ant-table-placeholder{
+    border-bottom:none !important;
+   }
    .ant-table-small{
    	border:none !important;
    }
@@ -97,11 +106,23 @@
 			color:rgba(76,83,90,0.6) !important;
 			background:#fff !important;
 			border-right:none !important;
+      padding:15px 8px !important;
+      font-size: 13px !important;
 			// &:last-child{
 			// 	border-right:1px solid #eee !important;
 			// }
    }
-
+    .ant-table .ant-table-tbody > tr > td{
+      border-right:none !important;
+      border-bottom:none;
+       padding:8px 8px !important;
+       font-size: 13px !important;
+       color:#999;
+       font-weight: normal;
+      // &:last-child{
+      //  border-right:1px solid #eee !important;
+      // }
+    }
    .ant-table .ant-table-tbody > tr{
 			&:nth-child(2n){
 				&>td{
@@ -109,19 +130,11 @@
 				}
 			}
    }
-   .ant-table .ant-table-tbody > tr > td{
-			border-right:none !important;
-			border-bottom:none;
-			// &:last-child{
-			// 	border-right:1px solid #eee !important;
-			// }
-   }
-   .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
-    padding:8px 8px !important;
-    font-size: 13px !important;
-    color:#999;
-    font-weight: normal;
-   }
+
+
+   // .ant-table-thead > tr, .ant-table-tbody > tr{
+   //  height:auto !important;
+   // }
 	 .ant-popover{
 	 		.ant-popover-inner-content{
 	 			padding:0px !important;
