@@ -8,14 +8,13 @@ import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
 import * as fm from '../../../common/Loopring/common/formatter'
 import * as math from '../../../common/Loopring/common/math'
 import config from '../../../common/config'
+import Currency from '../../../modules/settings/CurrencyContainer'
 
 class Convert extends React.Component {
   state = {
     amount: 0,
-    exchangeRate : 6.3,
     selectMaxWarn: false,
     inputMaxWarn: false,
-    estimateWorth: 0,
     errorMsg: ''
   }
 
@@ -86,8 +85,7 @@ class Convert extends React.Component {
         wrapAmount = Math.max(math.accSub(selectedToken.balance, 0.1), 0)
         selectMaxWarn = true
       }
-      const estimateWorth = math.accDiv(Math.floor(math.accMul(wrapAmount * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
-      this.setState({amount: wrapAmount, estimateWorth: estimateWorth, selectMaxWarn:selectMaxWarn, inputMaxWarn:false})
+      this.setState({amount: wrapAmount, selectMaxWarn:selectMaxWarn, inputMaxWarn:false})
       form.setFieldsValue({"amount": wrapAmount})
     }
 
@@ -102,8 +100,7 @@ class Convert extends React.Component {
         if(selectedToken.symbol === "ETH" && v >= selectedToken.balance) {
           inputMaxWarn = true
         }
-        const estimateWorth = math.accDiv(Math.floor(math.accMul(v * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
-        this.setState({amount: v, estimateWorth: estimateWorth, selectMaxWarn: false, inputMaxWarn: inputMaxWarn})
+        this.setState({amount: v, inputMaxWarn: inputMaxWarn})
       }
     }
 
@@ -111,6 +108,15 @@ class Convert extends React.Component {
       labelCol: {span: 7},
       wrapperCol: {span: 17},
     }
+
+    const priceValue = (
+      <span className="fs10">
+        ≈
+        <Currency />
+        {math.accMul(this.state.amount, prices.getTokenBySymbol(selectedToken.symbol).price).toFixed(2)}
+      </span>
+    )
+
     return (
       <Card title="Convert">
         <div className="row justify-content-center align-items-center mb15">
@@ -127,7 +133,7 @@ class Convert extends React.Component {
         <Form layout="horizontal">
           <Form.Item label="Amount" colon={false} {...formItemLayout} className="mb0" extra={
             <div className="row">
-              <div className="col-auto">{"≈USD "+this.state.estimateWorth}</div>
+              <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
               <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>Wrap Max</a></div>
             </div>

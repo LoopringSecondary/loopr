@@ -6,6 +6,8 @@ import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
 import config from '../../../common/config'
 import {accDiv, accMul} from '../../../common/Loopring/common/math'
+import Currency from '../../../modules/settings/CurrencyContainer'
+import {getGasPrice} from '../../../common/Loopring/relay/utils'
 
 class Transfer extends React.Component {
   state = {
@@ -15,7 +17,10 @@ class Transfer extends React.Component {
     gasValueInSlider:0,
     advanced: false,
     value: 0,
-    estimateWorth: 0
+    gasMark: {
+      200000: 'slow',
+      3000000: 'fast'
+    }
   }
 
   componentDidMount() {
@@ -23,6 +28,19 @@ class Transfer extends React.Component {
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     const gas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
     this.setState({selectedGas: fm.toNumber(gas.toFixed(8)), gasValueInSlider:fm.toNumber(gas.toFixed(8)) * 1e9})
+    getGasPrice().then(res=>{
+      const estimateGas = fm.toBig(fm.toBig(fm.toNumber(res.result) * defaultGasLimit).div(1e18).toFixed(8))
+      const estimateGasShow = estimateGas.times(1e9)
+      this.setState({
+        gasMark: {
+          200000: 'slow',
+          [estimateGasShow]: '',
+          3000000: 'fast'
+        },
+        selectedGas: estimateGas.toNumber(),
+        gasValueInSlider: estimateGasShow.toNumber()
+      })
+    })
   }
 
   render() {
@@ -59,8 +77,7 @@ class Transfer extends React.Component {
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
             tx.gasLimit = config.getGasLimitByType('token_transfer').gasLimit
           }
-          const estimateWorth = accDiv(Math.floor(accMul(values.amount * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
-          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, worth:estimateWorth}
+          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, price:prices.getTokenBySymbol(selectedToken.symbol).price}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', tx, extraData})
         }
@@ -118,8 +135,7 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      const estimateWorth = accDiv(Math.floor(accMul(selectedToken.balance * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
-      this.setState({value: selectedToken.balance, estimateWorth: estimateWorth})
+      this.setState({value: selectedToken.balance})
       form.setFieldsValue({"amount": selectedToken.balance})
     }
 
@@ -150,8 +166,7 @@ class Transfer extends React.Component {
     function amountChange(e) {
       if(e.target.value) {
         const v = fm.toNumber(e.target.value)
-        const estimateWorth = accDiv(Math.floor(accMul(v * prices.getTokenBySymbol(selectedToken.symbol).price, 100)), 100)
-        this.setState({value: v, estimateWorth: estimateWorth})
+        this.setState({value: v})
       }
     }
 
@@ -175,6 +190,13 @@ class Transfer extends React.Component {
     const formatGas = (value) => {
       return (value / 1e9) + " ether";
     }
+    const priceValue = (
+      <span className="fs10">
+        ≈
+        <Currency />
+        {accMul(this.state.value, prices.getTokenBySymbol(selectedToken.symbol).price).toFixed(2)}
+      </span>
+    )
     return (
       <Card title={"Send "+selectedToken.symbol}>
         <Form layout="horizontal">
@@ -192,7 +214,7 @@ class Transfer extends React.Component {
           </Form.Item>
           <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
             <div className="row">
-              <div className="col-auto">{"≈USD "+this.state.estimateWorth}</div>
+              <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
               <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>Send Max</a></div>
             </div>
@@ -231,10 +253,7 @@ class Transfer extends React.Component {
                     rules: []
                   })(
                     <Slider min={200000} max={3000000} step={10}
-                            marks={{
-                              200000: 'slow',
-                              3000000: 'fast'
-                            }}
+                            marks={this.state.gasMark}
                             tipFormatter={formatGas}
                             onChange={setGas.bind(this)}
                     />

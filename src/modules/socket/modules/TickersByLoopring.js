@@ -40,6 +40,9 @@ class TickersSocketContainer extends React.Component {
   getTickerBySymbol(symbol){
     return this.state.tickersByLoopring.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
   }
+  getTickerByMarket(market){
+    return this.state.tickersByLoopring.find(item => item.market.toLowerCase() === market.toLowerCase() )
+  }
   toggleFavor(market){
     this.setState({
       favors:{
@@ -66,6 +69,7 @@ class TickersSocketContainer extends React.Component {
         filters:this.state.filters,
         getTickerBySymbol:this.getTickerBySymbol.bind(this),
         filtersChange:this.filtersChange.bind(this),
+        getTickerByMarket:this.getTickerByMarket.bind(this),
         toggleFavor:this.toggleFavor.bind(this),
       }
     }
