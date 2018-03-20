@@ -9,6 +9,8 @@ import uiFormatter from './common/utils/uiFormatter'
 import routeActions from './common/utils/routeActions'
 import CONFIG from './common/config'
 import STORAGE from './modules/storage'
+import {setLocale} from "./common/utils/localeSetting";
+
 window.CONTAINERS = containers
 window.REDUX = redux
 window.uiFormatter = uiFormatter
@@ -16,10 +18,13 @@ window.routeActions = routeActions
 window.CONFIG = CONFIG
 window.STORAGE = STORAGE
 // for dev
-// window.WALLET = {
-//   address:'0x750ad4351bb728cec7d639a9511f9d6488f1e259',
-//   getAddress:()=>'0x750ad4351bb728cec7d639a9511f9d6488f1e259',
-// }
+window.WALLET = {
+  address:'0x750ad4351bb728cec7d639a9511f9d6488f1e259',
+  getAddress:()=>'0x750ad4351bb728cec7d639a9511f9d6488f1e259',
+}
+
+
+setLocale(window.STORAGE.settings.get().preference.language);
 
 moment.locale('zh-cn');
 

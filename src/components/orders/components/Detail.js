@@ -65,22 +65,22 @@ function DetailBlock({modal={}}) {
         </div>
       </div>
       <MetaItem label="Status" value={renders.status(null,item)} />
-      <MetaItem label="Fill Sell Amount" value={
+      <MetaItem label="Sell Amount" value={
         <div>
           <span className="mr5">{fmS.getAmount(amountS)}</span>
           {tokenS}
         </div>
       } />
-      <MetaItem label="Fill Buy Amount" value={
+      <MetaItem label="Buy Amount" value={
         <div>
           <span className="mr5">{fmB.getAmount(amountB)}</span>
           {tokenB}
         </div>
       } />
-      <MetaItem label="price" value={
+      <MetaItem label="Price" value={
         <div>
-          <span className="mr5">{(amountB/amountS).toFixed(3)}</span>
-          {tokenS}
+          <span className="mr5">{(amountB/amountS).toFixed(3)} </span>
+          {tokenB}/{tokenS}
         </div>
       } />
       <MetaItem label="Lrc Fee" value={

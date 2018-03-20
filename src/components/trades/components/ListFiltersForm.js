@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
+import SelectContainer from '../../common/SelectContainer';
+import {getSupportedMarket} from 'Loopring/relay/market';
 
 let FiltersForm = ({
   form,
@@ -36,22 +38,21 @@ let FiltersForm = ({
               initialValue:filters.pair || '',
               rules:[]
             })(
-              <Select
-                  showSearch
-                  allowClear
-                  style={{ width: 120 }}
-                  placeholder="Search"
-                  optionFilterProp="children"
-                  onChange={handleChange}
-                  onFocus={()=>{}}
-                  onBlur={()=>{}}
-                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                >
-                  <Select.Option value="">All</Select.Option>
-                  <Select.Option value="LRC-WETH">LRC-WETH</Select.Option>
-                  <Select.Option value="USDT-WETH">USDT-WETH</Select.Option>
-                  <Select.Option value="NB-WETH">BNB-WETH</Select.Option>
-                </Select>
+              <SelectContainer
+                loadOptions={getSupportedMarket}
+                transform={(res)=>{
+                  let options = res.result.map(item=>({label:item,value:item}))
+                  return [
+                    {label:'All',value:''},
+                    ...options,
+                  ]
+                }}
+                style={{width:'120px'}}
+                onChange={handleChange}
+                placeholder="Search/Select"
+                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+              </SelectContainer>
             )}
           </Form.Item>
           <Form.Item label="Side" >

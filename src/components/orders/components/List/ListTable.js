@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Table, Badge, Button, Modal, Icon, Popover, Steps} from 'antd';
+import {Table, Badge, Button, Modal, Icon, Popover,Progress} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
 import {toHex, toNumber,clearPrefix} from "Loopring/common/formatter";
@@ -9,6 +9,7 @@ import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
 
 const uiFormatter = window.uiFormatter;
+const fm = window.uiFormatter.TokenFormatter;
 
 function ListBlock(props) {
   const {LIST, actions, className, style, account, gasPrice,contractAddress,} = props
@@ -77,10 +78,10 @@ function ListBlock(props) {
     market: (value, item, index) => item.originalOrder && item.originalOrder.market,
     status: (value, item, index) => {
       let status
-      if (item.status === 'ORDER_OPENED') { status = <Badge status="processing" text="Opened"/>}
-      if (item.status === 'ORDER_FINISHED') { status = <Badge status="success" text="Completed"/>}
-      if (item.status === 'ORDER_CANCELED') { status = <Badge status="default" text="Cancelled"/>}
-      if (item.status === 'ORDER_EXPIRE') { status = <Badge status="default" text="Expired"/>}
+      if (item.status === 'ORDER_OPENED') { status = <Badge className="fs12" status="processing" text="Opened"/>}
+      if (item.status === 'ORDER_FINISHED') { status = <Badge className="fs12" status="success" text="Completed"/>}
+      if (item.status === 'ORDER_CANCELED') { status = <Badge className="fs12" status="default" text="Cancelled"/>}
+      if (item.status === 'ORDER_EXPIRE') { status = <Badge className="fs12" status="default" text="Expired"/>}
       return (
         <div>
           {status}
@@ -95,17 +96,53 @@ function ListBlock(props) {
         return <div className="color-red-500">Buy</div>
       }
     },
+    filled:(value,item,index)=>{
+      let percent = 0
+      if(!item.buyNoMoreThanAmountB){
+        percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
+      }else{
+        percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
+      }
+      return  <Progress type="circle" percent={Number(percent)} width={36} format={percent=>`${percent}%`} />
+    },
     action: (value, item, index) => {
-      const content = <div className="p25">
-        <Steps current={1} progressDot>
-          <Steps.Step title="Allowance"/>
-          <Steps.Step title="Balance"/>
-          <Steps.Step title="Wrap"/>
-        </Steps>
-        <div className="p15">
-          TODODO
+      const tokenS = item.originalOrder.tokenS
+      const amountS = item.originalOrder.amountS
+      const fm = window.uiFormatter.TokenFormatter
+      const fmS = new fm({symbol:tokenS})
+      const balance = 100.00
+      const required = fmS.getAmount(amountS)
+      const lacked = required - balance
+
+      const content = (
+        <div className="p10" >
+          <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100" style={{borderRadius:'4px',border:'1px solid'}}>
+            <div className="pb5 fs16 color-red-600">
+              {tokenS} Balance Is Not Enough !
+            </div>
+            <div className="pb5 fs12 color-red-400">
+              Balance : <span className="font-weight-bold mr10">{balance}</span>
+              Required : <span className="font-weight-bold mr10">{required}</span>
+              Lacked: <span className="font-weight-bold mr10">{lacked}</span>
+            </div>
+            <div className="pt5">
+              <Button onClick={showModal.bind(this,{id:'token/receive'})} type="primary" className="bg-red-500 border-none">Recieve {tokenS}</Button>
+              <span className="color-grey-500 ml5 mr5"> or </span>
+              {
+                tokenS !== 'WETH' &&
+                <Button onClick={window.routeActions.gotoPath.bind(this,`/trade/${tokenS}-WETH`)} className="bg-red-500 border-none" type="primary">Buy {tokenS}</Button>
+              }
+              {
+                tokenS === 'WETH' &&
+                <Button onClick={showModal.bind(this,{id:'token/convert',item:{symbol:'ETH'}})} className="bg-red-500 border-none" type="primary">Convert ETH To WETH </Button>
+              }
+            </div>
+          </div>
+
+
         </div>
-      </div>
+      )
+
       let notEnough = !!(item.status === 'ORDER_OPENED')
       return (
         <span>
@@ -113,19 +150,31 @@ function ListBlock(props) {
             <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300" style={{borderRadius:'2px',border:'1px solid',padding:'2px 5px'}}>Cancel</a>
           }
           { notEnough &&
-            <span>
-              <Popover content={content} title="You Need To Do">
-                <div className="color-red-500">
-                  <Icon className="mr5" type="exclamation-circle"/>
+            <Popover arrowPointAtCenter placement="topRight" content={content}
+              title={
+                <div className="pt5 pb5">
+                  <div className="row">
+                    <div className="col">
+                      Token Amount Is Not Enough !
+                    </div>
+                    <div className="col-auto">
+                      <a className="fs12 color-blue-500">Why?</a>
+                    </div>
+                  </div>
                 </div>
+              }
+            >
+                <span className="color-red-500">
+                  <Icon className="mr5" type="exclamation-circle"/>
+                </span>
               </Popover>
-            </span>
           }
         </span>
       )
 
     },
   }
+
   let columns = schema.map(field => {
     const renderGenerator = (value, item, index) => {
       if (typeof field.formatter === 'function') {
@@ -143,7 +192,8 @@ function ListBlock(props) {
       dataIndex: field.name,
       render: renderGenerator,
       className: 'text-nowrap',
-      sorter: true,
+      width:`${100/schema.length}%`,
+      // sorter: true,
     }
   })
   const actionColumn = {
@@ -169,14 +219,14 @@ function ListBlock(props) {
     columns: columns,
     pagination: false,
     loading: loading,
-    scroll: {x: 1000},
+    scroll: {x: true},
     onChange: tableChange,
     bordered: false,
     size: 'default',
     rowKey: (record) => record.originalOrder.hash, // set each record PK ( primary key)
   }
   return (
-    <div className={className} style={{minHeight:'400px',...style}}>
+    <div className={className} style={{...style}}>
       <Table {...tableProps}/>
     </div>
 

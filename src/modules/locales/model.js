@@ -1,17 +1,29 @@
 import localesData from './localesData'
-let language = window.STORAGE.settings.get().preference.language
+import {setLocale} from "../../common/utils/localeSetting";
+
+let language = window.STORAGE.settings.get().preference.language;
 export default {
   namespace: 'locales',
   state: {
-    locale: language || 'en',
-    messages:language ? localesData[language] : localesData['en']
+    locale: language || 'en_US',
   },
   reducers: {
     localeChange(state, { payload }) {
       return {
         locale: payload.locale,
-        messages:localesData[payload.locale]
       };
     },
   },
+
+  effects: {
+    * setLocale({payload}, {put, call}) {
+      yield put({type: "localeChange", payload: {locale: payload.locale}});
+      yield call(setLocale, payload.locale);
+      if (payload.storage) {
+        const settings = window.STORAGE.settings.get();
+        settings.preference.language = payload.locale || settings.preference.language
+        window.STORAGE.settings.set(settings);
+      }
+    }
+  }
 };

@@ -1,11 +1,12 @@
 import React from 'react';
 import {connect} from 'dva';
-import {FormattedMessage,injectIntl} from 'react-intl';
 import {Menu,Select,Popover,Button,Icon,message,Alert} from 'antd';
 import {Link} from 'dva/router';
 import logo from '../assets/images/logo-blue@2x.png'
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
+import {locales} from '../common/config/data'
+import intl from 'react-intl-universal';
 
 function Navbar(props){
   let selectedKeys = []
@@ -23,11 +24,11 @@ function Navbar(props){
 
   const localeChange = (value)=>{
     props.dispatch({
-      type:'locales/localeChange',
+      type:'locales/setLocale',
       payload:{
         locale:value
       }
-    })
+    });
     let currency = value === 'en' ? 'USD' : 'CNY'
     props.dispatch({
       type:'settings/preferenceChange',
@@ -36,7 +37,6 @@ function Navbar(props){
         currency: currency,
       }
     })
-
   }
   const showModal = (id)=>{
     props.dispatch({
@@ -55,12 +55,15 @@ function Navbar(props){
     })
   };
 
+  const localesOptions = locales.map(locale => <Select.Option value={locale.value} key={locale.value}>{locale.name}</Select.Option>);
+
+
   function copyToClipboard() {
 
     if(account.isUnlocked ){
-      copy(account.address) ? message.success('Copy Successfully') :  message.error("Copy Failed")
+      copy(account.address) ? message.success(intl.get('navbar.subs.copy_success')) :  message.error(intl.get('navbar.subs.copy_failed'))
     }else{
-      message.warning('Please unlock you wallet first')
+      message.warning(intl.get('navbar.subs.copy'))
     }
   }
 
@@ -68,7 +71,7 @@ function Navbar(props){
     if(account.address){
       return window.uiFormatter.getShortAddress(account.address)
     }else{
-      return 'Account'
+      return intl.get('navbar.account')
     }
   }
 
@@ -80,40 +83,40 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
-                <div className="fs16 color-grey-900">Wallet Address</div>
+                <div className="fs16 color-grey-900">{intl.get('navbar.subs.address')}</div>
                 <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
               </div>
               <div className="col-auto">
-                <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>Copy</Button>
+                <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'token/receive')}>
-              <Icon type="qrcode" className="mr5" />QR Code
+              <Icon type="qrcode" className="mr5" />{intl.get('navbar.subs.qrcode')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Link to="/wallet/airdrop" className="color-grey-900">
-              <Icon type="gift" className="mr5" />Airdrop
+              <Icon type="gift" className="mr5" />{intl.get('navbar.subs.airdrop')}
             </Link>
           </div>
           {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/export/keystore')}>
-              <Icon type="export" className="mr5" />Export Keystore
+              <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
             </a>
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="question-circle-o" className="mr5" />Help
+            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
           </div>
           {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="tool" className="mr5" />Tools
+            <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={quit}><Icon type="poweroff" className="mr5" />Quit
+            <a onClick={quit}><Icon type="poweroff" className="mr5" />{intl.get('navbar.subs.quit')}
             </a>
           </div>
         </div>
@@ -124,24 +127,24 @@ function Navbar(props){
             <div className="row align-items-center">
               <div className="col-auto">
                 <a  onClick={showModal.bind(this,'wallet/unlock')} className="color-grey-900">
-                <Icon type="unlock" className="mr5" />Unlock Wallet
+                <Icon type="unlock" className="mr5" />{intl.get('navbar.subs.unlock')}
                 </a>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,'wallet/generate')} className="color-grey-900">
-              <Icon type="plus" className="mr5" />Generate Wallet
+              <Icon type="plus" className="mr5" />{intl.get('navbar.subs.generate')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="question-circle-o" className="mr5" />Help
+            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
           </div>
           {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             Switch Wallet
           </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="tool" className="mr5" />Tools
+            <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
           </div>
         </div>
       }
@@ -170,42 +173,40 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              <Menu.Item key="/home" ><Link to="/home"><FormattedMessage id='navbar.home' /></Link></Menu.Item>
+              <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
               <Menu.Item key="/trade">
-                <Link to="/trade"><FormattedMessage id='navbar.trade' /></Link>
+                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
               </Menu.Item>
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet/portfolio" >
-                  <Link to="/wallet/portfolio"><FormattedMessage id='navbar.portfolio'/></Link>
+                  <Link className="fs16" to="/wallet/portfolio">{intl.get("navbar.portfolio")}</Link>
                 </Menu.Item>
               }
               {
                 (!window.WALLET || !window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
-                  <a onClick={showModal.bind(this,'wallet/unlock')}><FormattedMessage id='navbar.wallet'/></a>
+                  <a className="fs16" onClick={showModal.bind(this,'wallet/unlock')}>{intl.get('navbar.wallet')}</a>
                 </Menu.Item>
               }
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
-                  <Link to="/wallet"><FormattedMessage id='navbar.wallet' /></Link>
+                  <Link className="fs16" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
 
             </Menu>
           </div>
           <div className="col-auto">
-            <span className="fs14 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}><FormattedMessage id='navbar.setting' /></span>
-            <Select defaultValue="en" onChange={localeChange} className="navbar-language mr5">
-              <Select.Option value="en">English</Select.Option>
-              <Select.Option value="zh">中文</Select.Option>
+            <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}>{intl.get('navbar.settings')}</span>
+            <Select value={props.locales.locale || 'en-US'} onChange={localeChange} className="navbar-language mr5 fs16">
+              {localesOptions}
             </Select>
             <Popover content={accountMenus} title={null}>
-                <a className="fs14">{getAccount()} <Icon type="down" className="color-grey-400 fs12" /></a>
+                <a className="fs16">{getAccount()} <Icon type="down" className="color-grey-400 fs12" /></a>
             </Popover>
           </div>
-
         </div>
       </div>
 

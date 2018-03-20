@@ -4,17 +4,17 @@ import React from 'react';
  * props
  * actions: API actions
  * data-items:  request参数TODO
- * 
+ *
  * state
  * item: data
  * loading: data
  * loaded: data
- * 
+ *
  */
 
 class ListAsync extends React.Component {
   constructor(props) {
-    super(props); 
+    super(props);
     this.state = {
       items:[],
       loading:false,
@@ -51,9 +51,12 @@ class ListAsync extends React.Component {
   }
   render() {
     let { items,loading,loaded } = this.state;
-    let { Children,ListView } = this.props;
+    let { render } = this.props;
     let childProps = {
       ...this.state,
+    }
+    if(render){
+      return render.call(this,childProps)
     }
     return (
       <div>
@@ -64,7 +67,7 @@ class ListAsync extends React.Component {
          }
       </div>
     )
-    
+
   }
 }
 
