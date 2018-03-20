@@ -84,8 +84,28 @@ export default {
     type_receive:'Receive',
     type_enable:'Enable',
   },
+  orders:{
+    market:'Market',
+    status:'Status',
+    status_opened:'Opend',
+    status_completed:'Completed',
+    status_canceled:'Cancelled',
+    status_expired:'Expired',
+    side:'Side',
+    side_sell:'Sell',
+    side_buy:'Buy',
+    create_time:'Create Time',
+    update_time:'Update Time',
+    amount:'Amount',
+    price:'Price',
+    total:'Total',
+    LrcFee:'LrcFee',
+    filled:'Filled',
+  },
   global:{
-    all:'All'
+    all:'All',
+    market:'市场',
+    options:'操作',
   }
 
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
 import SelectContainer from '../../../common/SelectContainer';
 import {getSupportedMarket} from 'Loopring/relay/market';
+import intl from 'react-intl-universal'
 
 let FiltersForm = ({
   form,
@@ -37,7 +38,7 @@ let FiltersForm = ({
   return (
       <div className="">
         <Form layout="inline">
-          <Form.Item label="Market" >
+          <Form.Item label={intl.get('orders.market')} >
             {form.getFieldDecorator('market', {
               initialValue: filters.market || '',
               rules:[]
@@ -47,7 +48,7 @@ let FiltersForm = ({
                 transform={(res)=>{
                   let options = res.result.map(item=>({label:item,value:item}))
                   return [
-                    {label:'All',value:'',},
+                    {label:intl.get('global.all'),value:'',},
                     ...options,
                   ]
                 }}
@@ -59,7 +60,7 @@ let FiltersForm = ({
               </SelectContainer>
             )}
           </Form.Item>
-          <Form.Item label="Status" >
+          <Form.Item label={intl.get('orders.status')} >
             {form.getFieldDecorator('status', {
               initialValue:filters.status || '',
               rules:[]
@@ -73,23 +74,23 @@ let FiltersForm = ({
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="">All</Select.Option>
-                  <Select.Option value="ORDER_OPENED">Opened</Select.Option>
-                  <Select.Option value="ORDER_FINISHED">Completed</Select.Option>
-                  <Select.Option value="ORDER_CANCELED">Cancelled</Select.Option>
-                  <Select.Option value="ORDER_EXPIRE">Expired</Select.Option>
+                  <Select.Option value="">{intl.get('global.all')}</Select.Option>
+                  <Select.Option value="ORDER_OPENED">{intl.get('orders.status_opened')}</Select.Option>
+                  <Select.Option value="ORDER_FINISHED">{intl.get('orders.status_completed')}</Select.Option>
+                  <Select.Option value="ORDER_CANCELED">{intl.get('orders.status_canceled')}</Select.Option>
+                  <Select.Option value="ORDER_EXPIRE">{intl.get('orders.status_expired')}</Select.Option>
               </Select>
             )}
           </Form.Item>
-          <Form.Item label="Side" >
+          <Form.Item label={intl.get('orders.side')} >
             {form.getFieldDecorator('side', {
               initialValue:filters.side || '',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>
-                <Radio.Button value="">All</Radio.Button>
-                <Radio.Button value="sell">Sell</Radio.Button>
-                <Radio.Button value="buy">Buy</Radio.Button>
+                <Radio.Button value="">{intl.get('global.all')}</Radio.Button>
+                <Radio.Button value="sell">{intl.get('orders.side_sell')}</Radio.Button>
+                <Radio.Button value="buy">{intl.get('orders.side_buy')}</Radio.Button>
               </Radio.Group>
             )}
           </Form.Item>

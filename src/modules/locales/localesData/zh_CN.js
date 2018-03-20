@@ -84,9 +84,30 @@ export default {
     type_receive:'收款',
     type_enable:'启用',
   },
-  global:{
-    all:'全部'
+  orders:{
+    market:'市场',
+    status:'状态',
+    status_opened:'当前订单',
+    status_completed:'已成交订单',
+    status_canceled:'已取消订单',
+    status_expired:'已过期订单',
+    side:'方向',
+    side_sell:'卖',
+    side_buy:'买',
+    create_time:'提交时间',
+    update_time:'更新时间',
+    amount:'数量',
+    price:'价格',
+    total:'金额',
+    LrcFee:'Lrc撮合费',
+    filled:'成交率',
   },
+  global:{
+    all:'全部',
+    market:'市场',
+    options:'操作',
+  },
+
 
 
 }
