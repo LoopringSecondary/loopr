@@ -1,6 +1,6 @@
 import moment from 'moment';
 import {toNumber} from "Loopring/common/formatter";
-
+import {getFormatTime} from "../../common/utils/uiFormatter";
 
 // example
 // {
@@ -29,74 +29,77 @@ import {toNumber} from "Loopring/common/formatter";
 // }
 
 const status = {
-  ORDER_NEW:{},
-  ORDER_PARTIAL:{},
-  ORDER_FINISHED:{},
-  ORDER_CANCEL:{},
-  ORDER_CUTOFF:{}
+  ORDER_NEW: {},
+  ORDER_PARTIAL: {},
+  ORDER_FINISHED: {},
+  ORDER_CANCEL: {},
+  ORDER_CUTOFF: {}
 }
 const schema = [
-    // {
-    //   title:'Order',
-    //   name:'orderHash',
-    //   formatter:(item)=>item.originalOrder.hash,
-    // },
-    {
-        title:'Time',
-        name:'timestamp',
-        formatter:(item)=> moment(item.originalOrder.timestamp).format('YYYY/MM/DD HH:mm:ss'),
+  // {
+  //   title:'Order',
+  //   name:'orderHash',
+  //   formatter:(item)=>item.originalOrder.hash,
+  // },
+  {
+    title: 'Time',
+    name: 'timestamp',
+    formatter: (item) => getFormatTime(toNumber(item.originalOrder.validSince)),
+  },
+  {
+    title: 'Status',
+    name: 'status',
+    formatter: (item) => item.status,
+  },
+  {
+    title: 'Maket',
+    name: 'market',
+    formatter: (item) => `${item.originalOrder.tokenB}/${item.originalOrder.tokenS}`,
+  },
+  {
+    title: 'Side',
+    name: 'side',
+  },
+  {
+    title: 'Amount',
+    name: 'amount',
+    formatter: (item) => {
+      let token = item.originalOrder.side.toLowerCase() === 'buy' ? window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB) : window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS);
+      token = token || {digits: 18, precision: 6};
+      const amount = item.originalOrder.side.toLowerCase() === 'buy' ? item.originalOrder.amountB : item.originalOrder.amountS
+      return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
+    }
+  },
+  {
+    title: 'Price',
+    name: 'price',
+    formatter: (item) => {
+      return item.originalOrder.side.toLowerCase() === 'buy' ? Number(item.originalOrder.amountS / item.originalOrder.amountB).toFixed(5) : Number(item.originalOrder.amountB / item.originalOrder.amountS).toFixed(5)
+    }
+  },
+  {
+    title: 'Total',
+    name: 'total',
+    formatter: (item) => {
+      let token = item.originalOrder.side.toLowerCase() === 'buy' ? window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS):  window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB);
+      token = token || {digits: 18, precision: 6};
+      const amount = item.originalOrder.side.toLowerCase() === 'buy' ? item.originalOrder.amountS : item.originalOrder.amountB
+      return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
     },
-    {
-      title:'Status',
-      name:'status',
-      formatter:(item)=>item.status,
-    },
-    {
-      title:'Maket',
-      name:'market',
-      formatter:(item)=>`${item.originalOrder.tokenB}/${item.originalOrder.tokenS}`,
-    },
-    {
-      title:'Side',
-      name:'side',
-    },
-    {
-      title:'Amount',
-      name:'amount',
-      formatter:(item)=> {
-        let token = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS)
-        token = token || {digits:18, precision:6} ;
-        return (toNumber(item.originalOrder.amountS)/Number('1e'+token.digits)).toFixed(token.precision)
-      }
-    },
-    {
-      title:'Price',
-      name:'price',
-      formatter:(item)=>Number(item.originalOrder.amountB/item.originalOrder.amountS).toFixed(5),
-    },
-    {
-      title:'Size',
-      name:'size',
-      formatter:(item)=>{
-        let token = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB);
-        token = token || {digits:18, precision:6} ;
-       return (toNumber(item.originalOrder.amountB)/Number('1e'+token.digits)).toFixed(token.precision)
-      },
-    },
+  },
   {
     title: 'LrcFee',
     name: 'lrcFee',
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');
-      token = token || {digits:18, precision:6} ;
+      token = token || {digits: 18, precision: 6};
       return (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision)
     },
   },
   {
     title: 'Filled',
     name: 'filled',
-
   },
 
-  ]
-  export default schema
+]
+export default schema
