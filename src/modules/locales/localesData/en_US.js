@@ -168,7 +168,7 @@ export default {
     why: "Why",
     balance_not_enough:'{token} balance is not enough, required {required}',
     receive: 'Receive',
-    buy: 'Buy'
+    to_buy: 'Buy'
   },
   token:{
     convert_title: "Convert",

@@ -36,7 +36,7 @@ const PlaceOrderError = ({
                 <div className="" key={index}>
                   <Icon className="color-red-500 mr10" type="close-circle-o" />{intl.get('trade.balance_not_enough', {token:item.value.symbol.toUpperCase(),required:item.value.required})}
                   <a className="ml15 color-blue-500" onClick={gotoReceive}>{intl.get('trade.receive')} <Icon type="right" /></a>
-                  <a className="ml15 color-blue-500" onClick={gotoBuy.bind(this,item.value.symbol)}>{intl.get('trade.buy')} <Icon type="right" /></a>
+                  <a className="ml15 color-blue-500" onClick={gotoBuy.bind(this,item.value.symbol)}>{intl.get('trade.to_buy')} <Icon type="right" /></a>
                 </div>
               )
             }else if(!item.type || item.type === 'unknown' ){
