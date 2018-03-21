@@ -5,6 +5,7 @@ import {Card,Row,Col,Icon,Tooltip } from 'antd';
 import schema from '../../../../modules/tokens/schema';
 import { tokens } from '../../../../common/config/data';
 import Currency from '../../../../modules/settings/CurrencyContainer';
+import CoinIcon from '../../../common/CoinIcon'
 function ListBlock({LIST={},actions,prices,modal}) {
   const {
       items=[],
@@ -20,7 +21,7 @@ function ListBlock({LIST={},actions,prices,modal}) {
     const header = (
       <div className="row justify-content-center align-items-center no-gutters">
         <div className="col-auto">
-          <img className="mr5 rounded-circle border-grey-300 border" src={item.logo} style={{width:'30px',height:'30px',padding:'5px'}}/>
+        <CoinIcon symbol={item.token} size="32" className="mr5" />
         </div>
         <div className="col">
           <span className="color-grey-900 fs16">{item.token}</span>
