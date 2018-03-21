@@ -8,6 +8,7 @@ import config from '../../../common/config'
 import {accDiv, accMul} from '../../../common/Loopring/common/math'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {getGasPrice} from '../../../common/Loopring/relay/utils'
+import intl from 'react-intl-universal';
 
 class Transfer extends React.Component {
   state = {

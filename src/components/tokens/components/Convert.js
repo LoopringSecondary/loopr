@@ -10,6 +10,7 @@ import * as math from '../../../common/Loopring/common/math'
 import config from '../../../common/config'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
+import intl from 'react-intl-universal';
 
 class Convert extends React.Component {
   state = {
@@ -121,7 +122,7 @@ class Convert extends React.Component {
     )
 
     return (
-      <Card title="Convert">
+      <Card title={intl.get('token.convert_title')}>
         <div className="row justify-content-center align-items-center mb15">
           <div className="col text-center">
             <img className="rounded-circle" src={selectedToken.symbol === "ETH" ? ethLogo : wethLogo} style={{height: '60px'}}/>
@@ -134,17 +135,17 @@ class Convert extends React.Component {
           </div>
         </div>
         <Form layout="horizontal">
-          <Form.Item label="Amount" colon={false} {...formItemLayout} className="mb0" extra={
+          <Form.Item label={intl.get('token.amount')} colon={false} {...formItemLayout} className="mb0" extra={
             <div className="row">
               <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
-              <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>Wrap Max</a></div>
+              <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>{intl.get('token.convert_max')}</a></div>
             </div>
           }>
             {form.getFieldDecorator('amount', {
               initialValue: '',
               rules: [
-                {message: 'Please input valid amount', transform:(value)=>fm.toNumber(value),
+                {message: intl.get('token.amount_verification_message'), transform:(value)=>fm.toNumber(value),
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
                 }
               ]
@@ -156,15 +157,15 @@ class Convert extends React.Component {
           <Form.Item className="mb0 mt15">
             {this.state.selectMaxWarn &&
               <div className="fs12 color-grey-500 text-center mb5">
-                0.1 ETH is reserved as gas so that you can send transactions.
+                {intl.get('token.min_gas_remain_warn')}
               </div>
             }
             {this.state.inputMaxWarn &&
               <div className="fs12 color-grey-500 text-center mb5">
-                You do not or will not have sufficient ETH as gas for sending transactions.
+                {intl.get('token.no_eth_balance_warn')}
               </div>
             }
-            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">Yes,Wrap Now!</Button>
+            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">{intl.get('token.convert_confirm')}</Button>
             {this.state.errorMsg &&
               <div className="fs12 color-red-500 text-center mb5">
                 {this.state.errorMsg}

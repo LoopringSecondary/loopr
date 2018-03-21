@@ -135,7 +135,59 @@ export default {
     relayUrl_tip:"请输入合法的URL地址"
 
   },
-
+  trade:{
+    orderForm: "订单信息",
+    sell:"卖出",
+    buy:"买入",
+    balance: "余额",
+    price: "单价",
+    price_verification_message: "请输入合法的单价",
+    amount: "数量",
+    amount_verification_message: "请输入合法的数量",
+    available_amount: "有效数量",
+    total: "总共",
+    advanced: "高级选项",
+    time_to_live: "有效时间",
+    more: "更多",
+    popular_option: "常用选项",
+    integer_verification_message: "请输入数字类型",
+    second: "秒",
+    minute: "分钟",
+    hour: "小时",
+    day: "天",
+    week: "周",
+    month: "月",
+    lrc_fee: "Lrc 手续费",
+    margin_split: "分润比例",
+    place_order: "提交订单",
+    unlock_your_wallet: "解锁你的钱包",
+    to_trade: "去交易",
+    lrcFee_increased: "通过您的设定，您当前订单需要支付的lrcFee 是 {userSet}LRC, 我们自动增加至下单允许最小的值: {increased}LRC, 您是否继续下单?",
+    notice: "请注意",
+    placing_order: '订单提交结果',
+    place_order_failed: "订单提交失败 !",
+    you_should_do_things: "你可以按以下提示尝试",
+    why: "为什么",
+    balance_not_enough:'{token} 余额不足, 还需要 {required}',
+    receive: '去接收',
+    buy: '去购买'
+  },
+  token:{
+    convert_title: "转换",
+    amount: "数量",
+    amount_verification_message: "请输入合法的数量",
+    convert_max: "最大数量",
+    min_gas_remain_warn: "我们为您保留0.1 ETH作为油费以保证后续可以发送交易",
+    no_eth_balance_warn: "您将没有足够的ETH作为油费发送交易",
+    convert_confirm: "是的，马上转换！",
+    send_title: "发送",
+    result_failed: "您{do} {amount} {token} 失败, 原因:{reason}",
+    completed: "完成",
+    result_success: "您{do} {amount} {token} 成功",
+    view_transaction: '通过Etherscan查看交易',
+    send_again: '再一次发送',
+    convert_again: '再一次转换'
+  }
 
 }
 
