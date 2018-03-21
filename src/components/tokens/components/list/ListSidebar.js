@@ -387,11 +387,12 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             }
           </div>
           <div className="col-auto pr10">
-            {
-              false &&
-              <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5"/>
+            { selected[item.symbol] &&
+              <CoinIcon symbol={item.symbol} size="32" fill="fill-white"/>
             }
-            <CoinIcon symbol={item.symbol} size="32" fill="fill-blue-500" />
+            { !selected[item.symbol] &&
+              <CoinIcon symbol={item.symbol} size="32" />
+            }
           </div>
           <div className="col pr10">
             <div className="">
