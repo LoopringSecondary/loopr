@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Card} from 'antd';
-import {languagesArray, timezoneArray} from '../../../common/config/data'
+import {Button, Card, Form, Input} from 'antd';
+import intl from 'react-intl-universal';
 
 const RelayEditForm = ({
     form, settings, modal
@@ -35,13 +35,13 @@ const RelayEditForm = ({
     return true
   }
   return (
-    <Card title="Edit Relay">
+    <Card title={intl.get('settings.editRelay')}>
       <Form layout="horizontal" className="">
-        <Form.Item label="Relay Name" colon={false}>
+        <Form.Item label={intl.get('settings.relayName')} colon={false}>
           {form.getFieldDecorator('name', {
             initialValue:relayConfig.name,
             rules:[
-              {message: 'Please input valid and distinct relay name',
+              {message: intl.get('settings.relayName_tip'),
                 validator: (rule, value, cb) => validateRelayName(value) ? cb() : cb(true)
               }
             ]
@@ -49,17 +49,17 @@ const RelayEditForm = ({
             <Input size="large"/>
           )}
         </Form.Item>
-        <Form.Item label="Relay URL" colon={false}>
+        <Form.Item label={intl.get('settings.relayUrl')} colon={false}>
           {form.getFieldDecorator('url', {
             initialValue:relayConfig.value,
-            rules:[{type: "url", message : "Not a valid url"}]
+            rules:[{type: "url", message :intl.get('settings.relayUrl_tip')}]
           })(
             <Input size="large" />
           )}
         </Form.Item>
         <Form.Item className="mb0">
-          <Button onClick={handleSubmit} type="primary" className="d-block w-100 mb15" size="large">Save</Button>
-          <Button onClick={handleDelete} type="danger" className="d-block w-100 bg-red-600 border-0 color-white" size="large">Delete</Button>
+          <Button onClick={handleSubmit} type="primary" className="d-block w-100 mb15" size="large">{intl.get('settings.save')}</Button>
+          <Button onClick={handleDelete} type="danger" className="d-block w-100 bg-red-600 border-0 color-white" size="large">{intl.get('settings.delete')}</Button>
         </Form.Item>
       </Form>
     </Card>

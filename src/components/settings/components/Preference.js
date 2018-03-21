@@ -2,6 +2,7 @@ import React from 'react';
 import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
 import {languagesArray, timezoneArray} from '../../../common/config/data'
 import {locales} from '../../../common/config/data'
+import intl from 'react-intl-universal';
 
 
 const Perference = ({
@@ -58,7 +59,7 @@ const Perference = ({
   return (
     <div className="">
       <Form layout="horizontal" className="p15">
-        <Form.Item {...formItemLayout} label="Language" colon={false}>
+        <Form.Item {...formItemLayout} label={intl.get('settings.language')} colon={false}>
           {form.getFieldDecorator('language', {
             initialValue:preference.language,
             rules:[]
@@ -72,7 +73,7 @@ const Perference = ({
             </Select>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Currency" colon={false}>
+        <Form.Item {...formItemLayout} label={intl.get('settings.currency')} colon={false}>
           {form.getFieldDecorator('currency', {
             initialValue:preference.currency,
             rules:[]
@@ -88,7 +89,7 @@ const Perference = ({
             </Select>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Timezone" colon={false} className="mb0">
+        <Form.Item {...formItemLayout} label={intl.get('settings.timezone')} colon={false} className="mb0">
           {form.getFieldDecorator('timezone', {
             initialValue:preference.timezone,
             rules:[]
@@ -107,7 +108,7 @@ const Perference = ({
         </Form.Item>
       </Form>
       <div className="p15 zb-b-t text-right">
-        <Button onClick={handleReset} type="" className="">Reset</Button>
+        <Button onClick={handleReset} type="" className="">{intl.get('settings.reset')}</Button>
       </div>
     </div>
   );
