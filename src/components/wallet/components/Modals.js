@@ -9,7 +9,7 @@ import SelectAccount from './SelectAccount'
 function Modals(props){
   return (
     <div>
-			<ModalContainer id="wallet/unlock" width="70%" >
+			<ModalContainer id="wallet/unlock" width="60%" >
 				<AccountContainer>
 			  	<UnlockWallet />
 			  </AccountContainer>

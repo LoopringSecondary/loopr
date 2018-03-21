@@ -7,6 +7,8 @@ import Layout from '../../layout/Layout'
 import Sockets from '../../modules/socket/containers'
 import * as Recharts from 'recharts'
 import * as fm from '../../common/Loopring/common/formatter'
+import circleChart from '../../assets/images/portfolio-circle-chart.png'
+
 
 class AssetsPieChart extends React.Component{
 
@@ -111,37 +113,56 @@ const Portfolio = (props) => {
   return (
     <Layout {...props}>
       <div className="pt50 container">
-        <div style={{textAlign:"center"}}>
+        <div style={{textAlign:"center",position:'relative'}}>
+          {
+            false &&
+            <Sockets.Portfolio>
+              <Sockets.Prices>
+                <AssetsPieChart/>
+              </Sockets.Prices>
+            </Sockets.Portfolio>
+          }
+          <img src={circleChart} alt="" style={{width:'300px'}}/>
+          <div style={{position:'absolute','top':'105px',textAlign:'center',width:'100%'}}>
+            <div className="fs30 color-grey-900 mt10">
+              $ 39,484,950
+            </div>
+            <div className="fs16 color-grey-500">
+              Total Value
+            </div>
+          </div>
+
+        </div>
+        <div className="pt30 pb20">
           <Sockets.Portfolio>
             <Sockets.Prices>
-              <AssetsPieChart/>
+              <TokensComp.ListCard />
             </Sockets.Prices>
           </Sockets.Portfolio>
-          <div className="fs32 color-grey-900 mt10">
-            USD 39,484,950
-          </div>
-          <div className="fs16 color-grey-500">
-            Total Value
-          </div>
         </div>
-        <Tabs defaultActiveKey="assets" animated={false} className="rs nobar noline text-right">
-          <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="appstore-o" /></div>} key="assets" >
-            <div className="mb10"></div>
-            <Sockets.Portfolio>
-              <Sockets.Prices>
-                <TokensComp.ListCard />
-              </Sockets.Prices>
-            </Sockets.Portfolio>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="bars" /></div>} key="orders" >
-            <div className="mb10"></div>
-            <Sockets.Portfolio>
-              <Sockets.Prices>
-                <Tokens.List />
-              </Sockets.Prices>
-            </Sockets.Portfolio>
-          </Tabs.TabPane>
-        </Tabs>
+        {
+          false &&
+          <Tabs defaultActiveKey="assets" animated={false} className="rs nobar noline text-right">
+            <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="appstore-o" /></div>} key="assets" >
+              <div className="mb10"></div>
+              <Sockets.Portfolio>
+                <Sockets.Prices>
+                  <TokensComp.ListCard />
+                </Sockets.Prices>
+              </Sockets.Portfolio>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="bars" /></div>} key="orders" >
+              <div className="mb10"></div>
+              <Sockets.Portfolio>
+                <Sockets.Prices>
+                  <Tokens.List />
+                </Sockets.Prices>
+              </Sockets.Portfolio>
+            </Tabs.TabPane>
+          </Tabs>
+
+        }
+
       </div>
     </Layout>
   )

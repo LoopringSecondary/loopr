@@ -56,8 +56,6 @@ function Navbar(props){
   };
 
   const localesOptions = locales.map(locale => <Select.Option className="fs16" value={locale.value} key={locale.value}><span className="fs16">{locale.name}</span></Select.Option>);
-
-
   function copyToClipboard() {
 
     if(account.isUnlocked ){
@@ -66,15 +64,6 @@ function Navbar(props){
       message.warning(intl.get('navbar.subs.copy'))
     }
   }
-
-  const getAccount = ()=>{
-    if(account.address){
-      return window.uiFormatter.getShortAddress(account.address)
-    }else{
-      return intl.get('navbar.account')
-    }
-  }
-
   const accountMenus = (
     <div className="fs18">
       {
@@ -204,7 +193,20 @@ function Navbar(props){
               {localesOptions}
             </Select>
             <Popover content={accountMenus} title={null}>
-                <a className="fs16">{getAccount()} <Icon type="down" className="color-grey-400 fs12" /></a>
+                {
+                  account.address &&
+                  <span className="fs16 color-blue-600">
+                    {window.uiFormatter.getShortAddress(account.address)}
+                    <Icon type="down" className="fs12 ml5" />
+                  </span>
+                }
+                {
+                  !account.address &&
+                  <span className="fs16">
+                    {intl.get('navbar.account')}
+                    <Icon type="down" className="color-grey-400 fs12 ml5" />
+                  </span>
+                }
             </Popover>
           </div>
         </div>

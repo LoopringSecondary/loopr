@@ -23,55 +23,29 @@ function UnlockWallet({form,modal,account}) {
     </div>
   )
   return (
-    <Card title={<div className="fs20">How would you like to access your wallet?</div>}>
+    <Card title={<div className="fs18">How would you like to access your wallet?</div>}>
         <div>
           <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true} style={{marginTop:'15px'}}>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px'}} className="fs16 text-left">MetaMask</div>} key="metamask">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">MetaMask</div>} key="metamask">
               <UnlockByMetaMask modal={modal} account={account}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px'}} className="fs16 text-left">Trezor</div>} key="trezor">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">Trezor</div>} key="trezor">
               <UnlockByTrezor modal={modal} account={account}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px'}} className="fs16 text-left">Ledger</div>} key="ledger">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">Ledger</div>} key="ledger">
               <UnlockByLedger modal={modal} account={account}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px'}} className="fs16 text-left">Keystore JSON File</div>} key="keystore">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">Keystore JSON File</div>} key="keystore">
              <UnlockByKeystore modal={modal} account={account} />
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px'}} className="fs16 text-left">Mnemonic</div>} key="mnemonic">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">Mnemonic</div>} key="mnemonic">
               <UnlockByMnemonic modal={modal} account={account}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px'}} className="fs16 text-left">Private Key</div>} key="privatekey">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">Private Key</div>} key="privatekey">
              <UnlockByPrivateKey modal={modal} account={account}/>
             </Tabs.TabPane>
           </Tabs>
           {footer}
-        </div>
-        <div hidden>
-          <Form layout="horizontal"className="d-flex flex-column preference-form">
-            <Form.Item label="How would you like to access your wallet" colon={false}>
-              {form.getFieldDecorator('way', {
-                initialValue:'metamask',
-                rules:[]
-              })(
-                <Radio.Group className="">
-                  <Radio className="d-flex align-items-center mb15 w-100" value={'metamask'}>
-                    MetaMask <Button type="primary" className="bg-green-600 border-none ml10" size="small" icon="like">Recommended</Button>
-                  </Radio>
-                  <Radio className="d-flex align-items-center mb15 w-100" value={'keystore'}>
-                     Keystore / JSON File
-                  </Radio>
-                  <Radio className="d-flex align-items-center mb15 w-100" value={'mnemonic'}>
-                    Mnemonic
-                  </Radio>
-                  <Radio className="d-flex align-items-center mb15 w-100" value={'privatekey'}>
-                     Private Key
-                  </Radio>
-                </Radio.Group>
-              )}
-            </Form.Item>
-            {footer}
-          </Form>
         </div>
     </Card>
   )
