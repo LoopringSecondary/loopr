@@ -145,7 +145,7 @@ export default {
     amount: "数量",
     amount_verification_message: "请输入合法的数量",
     available_amount: "有效数量",
-    total: "总共",
+    total: "总计",
     advanced: "高级选项",
     time_to_live: "有效时间",
     more: "更多",
@@ -169,7 +169,7 @@ export default {
     you_should_do_things: "你可以按以下提示尝试",
     why: "为什么",
     balance_not_enough: '{token} 余额不足, 还需要 {required}',
-    receive: '去接收',
+    receive: '去收款',
     buy: '去购买'
   },
   token: {
@@ -185,8 +185,8 @@ export default {
     completed: "完成",
     result_success: "您{do} {amount} {token} 成功",
     view_transaction: '通过Etherscan查看交易',
-    send_again: '再一次发送',
-    convert_again: '再一次转换',
+    send_again: '继续转账',
+    convert_again: '继续转换',
     ethereum_address:"我的以太坊地址",
     copy:"复制",
     copy_success:"复制成功",
