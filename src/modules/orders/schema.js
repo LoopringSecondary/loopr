@@ -37,11 +37,11 @@ const status = {
   ORDER_CUTOFF: {}
 }
 const schema = [
-  // {
-  //   title:'Order',
-  //   name:'orderHash',
-  //   formatter:(item)=>item.originalOrder.hash,
-  // },
+  {
+    title:'Order',
+    name:'orderHash',
+    formatter:(item)=>item.originalOrder.hash,
+  },
   {
     title: 'Time',
     name: 'timestamp',

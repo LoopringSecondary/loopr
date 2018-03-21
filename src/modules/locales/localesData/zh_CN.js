@@ -82,7 +82,10 @@ export default {
     type_convert_title_eth: 'ETH 转换为 WETH',
     type_convert_title_weth: 'WETH 转换为 ETH',
     type_receive: '收款',
-    type_enable: '启用',
+    type_enable: '授权',
+    type_enable_title: "授权 {symbol} 进行撮合交易",
+    type_transfer_title: "转出 {symbol}",
+    type_receive_title: "接收 {symbol}",
   },
   orders: {
     market: '市场',
@@ -133,7 +136,6 @@ export default {
     relayUrl: "中继URL地址",
     relayName_tip: "请输入合法，不同的中继名称",
     relayUrl_tip: "请输入合法的URL地址"
-
   },
   trade: {
     orderForm: "订单信息",
@@ -209,7 +211,15 @@ export default {
     no_wallet: "暂时没有钱包，让我们来",
     generate_one: "创建一个"
   },
-
-
+  tokens:{
+    "hide_small_balances":"隐藏小额资产",
+    "only_show_favorites":"只显示我的收藏",
+    "options":"操作",
+    "options_transfer":"转账",
+    "options_receive":"收款",
+    "options_convert":"转换",
+    "options_trade":"买卖",
+    "options_edit":"修改",
+  }
 }
 

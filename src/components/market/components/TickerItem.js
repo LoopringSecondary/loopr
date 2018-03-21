@@ -34,41 +34,24 @@ fm.getVolume = (value)=>{
 }
 fm.getPrice = (value)=>{
   value = Number(value)
-  switch (value) {
+  switch (true) {
     case value>1000:
-      return value.toFixed(2)
+      value = value.toFixed(2)
       break;
     case value<=1000 && value>=1:
-      return value.toFixed(2)
+      value = value.toFixed(2)
       break;
     case value<1 && value>=0.01:
-      return value.toFixed(5)
+      value = value.toFixed(5)
       break;
     case value<0.01 && value>0:
-      return value.toFixed(8)
+      value = value.toFixed(8)
       break;
     default:
-      return '0.00'
+      value = '0.00'
       break;
   }
-  // if(value>1000){
-  //   return value.toFixed(2)
-  // }
-  // if(value<=1000 && value>=1){
-  //   return value.toFixed(2)
-  // }
-  // if(value<1 && value>=0.01){
-  //   return value.toFixed(5)
-  // }
-  // if(value<0.01 & value>0){
-  //   return value.toFixed(8)
-  // }
-  // if(Number(value)===0){
-  //   return 0.00
-  // }
-  // if(!!value){
-  //   return 0.00
-  // }
+  return value
 }
 fm.getChange = (value)=>{
   if(value){

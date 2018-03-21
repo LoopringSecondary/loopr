@@ -18,9 +18,9 @@ const PlaceOrderError = ({
 
   return (
     <Card title={intl.get('trade.placing_order')}>
-      <div className="text-center p15 zb-b-b">
+      <div className="text-center p15">
         <Icon type="close-circle" className="color-red-500" style={{fontSize:'72px'}}/>
-        <div className="fs24 color-grey-900 mb10">{intl.get("trade.place_order_failed")}</div>
+        <div className="fs24 color-grey-900 mb5 mt15">{intl.get("trade.place_order_failed")}</div>
         <div className="fs14 color-grey-500">
 
         </div>
@@ -35,8 +35,9 @@ const PlaceOrderError = ({
               return (
                 <div className="" key={index}>
                   <Icon className="color-red-500 mr10" type="close-circle-o" />{intl.get('trade.balance_not_enough', {token:item.value.symbol.toUpperCase(),required:item.value.required})}
-                  <a className="ml15 color-blue-500" onClick={gotoReceive}>{intl.get('trade.receive')} <Icon type="right" /></a>
-                  <a className="ml15 color-blue-500" onClick={gotoBuy.bind(this,item.value.symbol)}>{intl.get('trade.to_buy')} <Icon type="right" /></a>
+                  <a className="color-blue-500 ml10" onClick={gotoReceive}>{intl.get('trade.receive')} </a>
+                  <span className="fs12 ml5 mr5">or</span>
+                  <a className="color-blue-500" onClick={gotoBuy.bind(this,item.value.symbol)}>{intl.get('trade.to_buy')}</a>
                 </div>
               )
             }else if(!item.type || item.type === 'unknown' ){

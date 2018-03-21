@@ -10,8 +10,17 @@ import config from "../../../../common/config";
 
 function ListActionsBar(props) {
   const {actions = {}, LIST = {}, className, account, gasPrice, contractAddress,id} = props;
+  const {dispatch} = props;
   const {filters = {}} = LIST[id] || {}
   const tokenPair = filters.market;
+  const refresh = ()=>{
+    dispatch({
+      type:'orders/filtersChange',
+      payload:{
+        id:'orders/trade',
+      }
+    })
+  }
   const cancelAll = () => {
     Modal.confirm({
       title: 'Do you Want to cancel all orders?',
@@ -75,6 +84,9 @@ function ListActionsBar(props) {
         </div>
         <div className="col">
 
+        </div>
+        <div className="col-auto pr0">
+          <Button type="default" onClick={refresh}>Refresh</Button>
         </div>
         <div className="col-auto">
           <Button type="primary" onClick={cancelAll}>Cancel All</Button>

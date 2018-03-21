@@ -12,6 +12,7 @@ import * as fm from '../../../../common/Loopring/common/formatter'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
 import CoinIcon from '../../../common/CoinIcon'
+import intl from 'react-intl-universal'
 
 function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
   let {
@@ -256,7 +257,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
         />
       </div>
       <div className="col-auto mr5">
-        <Tooltip title="Only Show My Favorites">
+        <Tooltip title={intl.get('tokens.only_show_favorites')}>
           {
             filters.ifOnlyShowMyFavorite &&
             <Button onClick={toggleMyFavorite.bind(this)} className="color-white border-blue-600 bg-blue-600"
@@ -271,7 +272,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
         </Tooltip>
       </div>
       <div className="col-auto">
-        <Tooltip title="Hide 0 Balances">
+        <Tooltip title={intl.get('tokens.hide_small_balances')}>
           {
             filters.ifHideSmallBalance &&
             <Button onClick={toggleSmallBalance.bind(this)} className="color-white border-blue-600 bg-blue-600"
@@ -316,32 +317,48 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
     </div>
   )
   const TokenItemActions = (token) => (
-    <div style={{width:'150px'}}>
+    <div style={{minWidth:'150px',maxWidth:'250px'}}>
       <div className="row no-gutters p5" >
         <div className="col-12 p5">
-          <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100" type="primary"
-                  icon="pay-circle-o">Transfer</Button>
+          <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary" icon="pay-circle-o">
+            {intl.get('tokens.options_transfer')} {token.symbol}
+          </Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={gotoReceive.bind(this, token)} className="d-block w-100" type="primary" icon="qrcode">Receive</Button>
+          <Button onClick={gotoReceive.bind(this, token)} className="d-block w-100 text-left" type="primary" icon="qrcode">
+          {intl.get('tokens.options_receive')} {token.symbol}
+          </Button>
         </div>
         {
           token.custom &&
           <div className="col-12 p5">
-            <Button onClick={gotoEdit.bind(this,token)} className="d-block w-100" type="primary" icon="edit">Edit</Button>
+            <Button onClick={gotoEdit.bind(this,token)} className="d-block w-100 text-left" type="primary" icon="edit">
+              {intl.get('tokens.options_edit')} {token.symbol}
+            </Button>
           </div>
         }
         {
-          (token.symbol === 'ETH' || token.symbol === 'WETH') &&
+          (token.symbol === 'ETH') &&
           <div className="col-12 p5">
-            <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100" type="primary" icon="retweet">Convert</Button>
+            <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary" icon="retweet">
+            {intl.get('tokens.options_convert')} {token.symbol} To WETH
+            </Button>
+          </div>
+        }
+        {
+          (token.symbol === 'WETH') &&
+          <div className="col-12 p5">
+            <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary" icon="retweet">
+            {intl.get('tokens.options_convert')} {token.symbol} To ETH
+            </Button>
           </div>
         }
         {
           (token.symbol != 'ETH' && token.symbol != 'WETH') &&
           <div className="col-12 p5">
-            <Button onClick={gotoTrade.bind(this,token)} className="d-block w-100" type="primary">
-              <i className="fa fa-line-chart mr5"></i>Trade
+            <Button onClick={gotoTrade.bind(this,token)} className="d-block w-100 text-left" type="primary">
+              <i className="fa fa-line-chart mr5"></i>
+              {intl.get('tokens.options_trade')} {token.symbol}
             </Button>
           </div>
         }
@@ -437,7 +454,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             e.preventDefault()
           }}>
             <Popover
-              title={<div className="pt5 pb5 fs18">{item.symbol}</div>}
+              title={<div className="pt5 pb5 fs18">{item.symbol} {intl.get('tokens.options')}</div>}
               placement="right"
               arrowPointAtCenter
               content={TokenItemActions(item)}

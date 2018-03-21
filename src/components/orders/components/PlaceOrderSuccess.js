@@ -17,7 +17,7 @@ const PlaceOrderSuccess = ({modal
   };
   return (
     <Card title="Placing Order">
-      <div className="text-center p15 zb-b-b">
+      <div className="text-center p15">
         <img src={iconSuccess} alt="" style={{width:'60px'}} className="mb15"/>
         <div className="fs24 color-grey-900 mb10">{intl.get('place_success')}</div>
         <div className="fs14 color-grey-500">

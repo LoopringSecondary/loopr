@@ -83,6 +83,9 @@ export default {
     type_convert_title_weth:'Convert WETH To ETH',
     type_receive:'Receive',
     type_enable:'Enable',
+    type_enable_title: "Enable {symbol} To Trade",
+    type_transfer_title: "Send {symbol}",
+    type_receive_title: "Receive {symbol}",
   },
   orders:{
     market:'Market',
@@ -166,7 +169,7 @@ export default {
     place_order_failed: "Place Order Failed !",
     you_should_do_things: "You should do things followed",
     why: "Why",
-    balance_not_enough:'{token} balance is not enough, required {required}',
+    balance_not_enough:'{token} is not enough, required {required}.',
     receive: 'Receive',
     to_buy: 'Buy'
   },
@@ -206,6 +209,15 @@ export default {
     mnemonic: "Mnemonic",
     no_wallet:"Don't have a Wallet? Let's",
     generate_one:"generate one"
+  },
+  tokens:{
+    "hide_small_balances":" Hide Small Balances",
+    "only_show_favorites":"Only Show My Favorites",
+    "options":"Options",
+    "options_transfer":"Send",
+    "options_receive":"Receive",
+    "options_convert":"Convert",
+    "options_trade":"Trade",
+    "options_edit":"Edit",
   }
-
 }

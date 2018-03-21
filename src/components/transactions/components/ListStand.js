@@ -55,8 +55,8 @@ function ListBlock({LIST,actions,prices}) {
     const iconCol = (
       <div className="text-center">
         { item.type === 'approve' && <CoinIcon symbol={item.symbol} size="30" /> }
-        { item.type === 'send' && <img src={iconReceive} alt="" style={{width:'30px'}} /> }
-        { item.type === 'receive' && <img src={iconTrade} alt="" style={{width:'30px'}} /> }
+        { item.type === 'send' && <img src={iconTransfer} alt="" style={{width:'30px'}} /> }
+        { item.type === 'receive' && <img src={iconReceive} alt="" style={{width:'30px'}} /> }
         { item.type === 'convert' && <CoinIcon symbol={item.symbol} size="30" /> }
       </div>
     )
@@ -64,30 +64,29 @@ function ListBlock({LIST,actions,prices}) {
     const caption = (
       <div className="">
         <div className="fs16 color-grey-700 mb5">
-          {item.type === 'approve' && `${intl.get('txs.type_enable')} ${item.symbol}`}
-          {item.type === 'send' && `${intl.get('txs.type_transfer')} ${item.symbol}`}
-          {item.type === 'receive' && `${intl.get('txs.type_receive')} ${item.symbol}`}
+          {item.type === 'approve' && intl.get('txs.type_enable_title',{symbol:item.symbol})}
+          {item.type === 'send' && intl.get('txs.type_transfer_title',{symbol:item.symbol})}
+          {item.type === 'receive' && intl.get('txs.type_receive_title',{symbol:item.symbol})}
           {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth')}
           {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth')}
-
         </div>
         {
-          <div className="fs12 color-grey-400 text-nowrap text-truncate">
+          <div className="fs12 color-grey-400 ">
             <span className="mr15">
               {uiFormatter.getFormatTime(item.createTime*1000)}
             </span>
-            <span className="mr15">
+            <span className="mr15 d-inline-block">
               {item.txHash && <span>TxHash: <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.txHash)}</a></span>}
             </span>
             {
               item.type === 'send' &&
-              <span className="mr15">
+              <span className="mr15  d-inline-block">
                 {item.to && <span>To: <a href={`https://etherscan.io/tx/${item.to}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.to)}</a></span>}
               </span>
             }
             {
               item.type === 'receive' &&
-              <span className="mr15">
+              <span className="mr15  d-inline-block">
                 {item.from && <span>From: <a href={`https://etherscan.io/tx/${item.from}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.from)}</a></span>}
               </span>
             }
@@ -108,28 +107,32 @@ function ListBlock({LIST,actions,prices}) {
         <div className="col pr10">
           {caption}
         </div>
-        <div className="col-auto mr5">
-          { change === '+' &&
-            <div className="text-right">
-              <div className="fs18 color-green-500 mb5">
-                + {item.value} {item.symbol}
+        {
+          item.type !== 'approve' &&
+          <div className="col-auto mr5">
+            { change === '+' &&
+              <div className="text-right">
+                <div className="fs18 color-green-500 mb5">
+                  + {item.value} {item.symbol}
+                </div>
+                <div className="fs14 color-green-500">
+                  + <CurrencyContainer />{item.guzhi}
+                </div>
               </div>
-              <div className="fs14 color-green-500">
-                + <CurrencyContainer />{item.guzhi}
+            }
+            { change === '-' &&
+              <div className="text-right">
+                <div className="fs18 color-red-500 mb5">
+                  - {item.value} {item.symbol}
+                </div>
+                <div className="fs14 color-red-500">
+                  - <CurrencyContainer /> {item.guzhi}
+                </div>
               </div>
-            </div>
-          }
-          { change === '-' &&
-            <div className="text-right">
-              <div className="fs18 color-red-500 mb5">
-                - {item.value} {item.symbol}
-              </div>
-              <div className="fs14 color-red-500">
-                - <CurrencyContainer /> {item.guzhi}
-              </div>
-            </div>
-          }
-        </div>
+            }
+          </div>
+        }
+
       </div>
     )
   }
