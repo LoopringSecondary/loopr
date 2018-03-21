@@ -5,10 +5,12 @@ import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
 import config from '../../../common/config'
+import Currency from '../../../modules/settings/CurrencyContainer'
+import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from '../../../common/Loopring/relay/utils'
 
 class TradeForm extends React.Component {
   state = {
-    estimatePriceWorth: 0,
+    priceInput: 0,
     availableAmount: 0,
     timeToLivePopularSetting: true
   }
@@ -22,22 +24,34 @@ class TradeForm extends React.Component {
     }
   }
 
+
+
   render() {
+    const tokenDivDigist = (token) => {
+      const tokenCopy = {...token}
+      tokenCopy.balance = tokenCopy.balance > 0 ? fm.toBig(tokenCopy.balance).div("1e"+tokenCopy.digits) : fm.toBig(0)
+      tokenCopy.allowance = tokenCopy.allowance > 0 ? fm.toBig(tokenCopy.allowance).div("1e"+tokenCopy.digits) : fm.toBig(0)
+      return tokenCopy
+    }
+
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
-    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account} = this.props
+    const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account,settings} = this.props
+    const tickerByLoopring = tickersByLoopring.getTickerByMarket(pair)
+    const displayPrice = tickerByLoopring ? tickerByLoopring.last : 0
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
-    const tokenLBalance = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
-    const balanceL = fm.toBig(tokenLBalance.balance).div("1e"+tokenLBalance.digits).toNumber()
-    tokenLBalance.balance = balanceL
-    const tokenRBalance = {...config.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
-    const balanceR = fm.toBig(tokenRBalance.balance).div("1e"+tokenRBalance.digits).toNumber()
-    tokenRBalance.balance = balanceR
+    const tokenLBalanceOriginal = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
+    const tokenLBalance = tokenDivDigist(tokenLBalanceOriginal)
+    const tokenRBalanceOriginal = {...config.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
+    const tokenRBalance = tokenDivDigist(tokenRBalanceOriginal)
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
     const tokenRPrice = prices.getTokenBySymbol(tokenR)
     const integerReg = new RegExp("^[0-9]*$")
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+    const TokenFormatter = window.uiFormatter.TokenFormatter
+    let fmL = new TokenFormatter({symbol:tokenL})
+    let fmR = new TokenFormatter({symbol:tokenR})
 
     const showModal = (payload)=>{
       dispatch({
@@ -127,7 +141,7 @@ class TradeForm extends React.Component {
           const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
           if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
             tradeInfo.lrcFee = calculateLrcFeeByEth(userSetLrcFeeInEth)
-            showTradeModal(tradeInfo)
+            toConfirm(tradeInfo)
           } else {
             tradeInfo.lrcFee = calculateLrcFeeByEth(minimumLrcfeeInEth)
             const content = 'According to your setting, lrcFee is '+calculateLrcFeeByEth(userSetLrcFeeInEth)+'LRC, we increase it to a minimum value:'+tradeInfo.lrcFee+"LRC, will you continue place order?"
@@ -146,21 +160,101 @@ class TradeForm extends React.Component {
       });
     }
 
-    function toConfirm(tradeInfo) {
-      const userOwnedLrc = assets.getTokenBySymbol("LRC").balance
-      if(userOwnedLrc < tradeInfo.lrcFee){
-        const errors = new Array()
-        errors.push({
-          type:"BalanceNotEnough",
-          value:{
-            symbol:'lrc',
-            balance:userOwnedLrc,
-            required:accSub(tradeInfo.lrcFee, userOwnedLrc),
-          }})
-        gotoError(errors)
-      } else {
-        showTradeModal(tradeInfo)
+    function cutDecimal(number, decimail) {
+      const d = new Number("1e"+decimail)
+      return Math.floor(number * d) / d
+    }
+
+    function ceilDecimal(number, decimail) {
+      const d = new Number("1e"+decimail)
+      return Math.ceil(number * d) / d
+    }
+
+    async function toConfirm(tradeInfo) {
+      const configR = config.getTokenBySymbol(tokenR)
+      const configL = config.getTokenBySymbol(tokenL)
+      const ethBalance = fm.toBig(assets.getTokenBySymbol('ETH').balance).div(1e18)
+      const approveGasLimit = config.getGasLimitByType('approve').gasLimit
+      const frozenAmountLResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), tokenL)
+      const frozenAmountRResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), tokenR)
+      const lrcBalance = tokenDivDigist({...config.getTokenBySymbol('LRC'), ...assets.getTokenBySymbol('LRC')})
+      let tokenBalanceS = null, tokenBalanceB = null
+      let frozenAmountS = null
+      if(side === 'buy') {//buy eos-weth
+        tokenBalanceS = tokenRBalance
+        tokenBalanceB = tokenLBalance
+        frozenAmountS = fm.toBig(frozenAmountRResult.result).div(configR.digits).add(fm.toBig(tradeInfo.total))
+      } else {//sell eos-weth
+        tokenBalanceS = tokenLBalance
+        tokenBalanceB = tokenRBalance
+        frozenAmountS = fm.toBig(frozenAmountLResult.result).div(configL.digits).add(fm.toBig(tradeInfo.amount))
       }
+      let approveCount = 0
+      const warn = new Array()
+      if(tokenBalanceB.symbol === 'LRC') { //buy lrc, only verify eth balance could cover gas cost if approve is needed
+        if(tokenBalanceS.balance.lessThan(frozenAmountS)) {
+          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:cutDecimal(tokenBalanceS.balance.toNumber(),6), required:ceilDecimal(frozenAmountS.sub(tokenBalanceS.balance).toNumber(),6)}})
+        }
+        if(frozenAmountS.greaterThan(tokenBalanceS.allowance)) {
+          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:cutDecimal(tokenBalanceS.allowance.toNumber(),6), required:ceilDecimal(frozenAmountS.sub(tokenBalanceS.allowance).toNumber(),6)}})
+          approveCount += 1
+          if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
+        }
+        const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9).times(approveCount)
+        if(ethBalance.lessThan(gas)){
+          const errors = new Array()
+          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
+          gotoError(errors)
+          return
+        }
+      } else {
+        //lrc balance not enough, lrcNeed = frozenLrc + lrcFee
+        const frozenLrcFee = await getFrozenLrcFee(window.WALLET.getAddress())
+        let frozenLrc = fm.toBig(frozenLrcFee.result).div(1e18).add(fm.toBig(tradeInfo.lrcFee))
+        if(lrcBalance.balance.lessThan(frozenLrc)){
+          const errors = new Array()
+          errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:cutDecimal(lrcBalance.balance.toNumber(), 6), required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}})
+          gotoError(errors)
+          return
+        }
+        const frozenLrcInOrderResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), "LRC")
+        frozenLrc = frozenLrc.add(fm.toBig(frozenLrcInOrderResult.result).div(1e18))
+        if(tokenL === 'LRC' && side === 'sell') {// sell lrc-weth
+          frozenLrc = frozenLrc.add(fm.toBig(tradeInfo.amount))
+        }
+        if(tokenR === 'LRC' && side === 'buy'){// buy eos-lrc
+          frozenLrc = frozenLrc.add(fm.toBig(tradeInfo.total))
+        }
+        // verify tokenL/tokenR balance and allowance cause gas cost
+        if(tokenBalanceS.symbol === 'LRC') {
+          frozenAmountS = frozenLrc
+        }
+        if(tokenBalanceS.balance.lessThan(frozenAmountS)) {
+          warn.push({type:"BalanceNotEnough", value:{symbol:tokenBalanceS.symbol, balance:cutDecimal(tokenBalanceS.balance.toNumber(),6), required:ceilDecimal(frozenAmountS.sub(tokenBalanceS.balance).toNumber(),6)}})
+        }
+        if(tokenBalanceS.allowance.lessThan(frozenAmountS)) {
+          warn.push({type:"AllowanceNotEnough", value:{symbol:tokenBalanceS.symbol, allowance:cutDecimal(tokenBalanceS.allowance.toNumber(),6), required:ceilDecimal(frozenAmountS.sub(tokenBalanceS.allowance).toNumber(),6)}})
+          approveCount += 1
+          if(tokenBalanceS.allowance.greaterThan(0)) approveCount += 1
+        }
+        // lrcFee allowance
+        if(frozenLrc.greaterThan(lrcBalance.allowance) && tokenBalanceS.symbol !== 'LRC') {
+          warn.push({type:"AllowanceNotEnough", value:{symbol:"LRC", allowance:cutDecimal(lrcBalance.allowance.toNumber(),6), required:ceilDecimal(frozenLrc.sub(lrcBalance.allowance).toNumber(),6)}})
+          approveCount += 1
+          if(lrcBalance.allowance.greaterThan(0)) approveCount += 1
+        }
+        const gas = fm.toBig(settings.trading.gasPrice).times(approveGasLimit).div(1e9).times(approveCount).toNumber()
+        if(ethBalance.lessThan(gas)){
+          const errors = new Array()
+          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
+          gotoError(errors)
+          return
+        }
+      }
+      if(warn.length >0) {
+        tradeInfo.warn = warn
+      }
+      showTradeModal(tradeInfo)
     }
 
     function calculateWorthInLegalCurrency(symbol, amount) {
@@ -254,7 +348,7 @@ class TradeForm extends React.Component {
           }
           e.target.value = price
         }
-        this.setState({estimatePriceWorth: accMul(price, tokenRPrice.price).toFixed(2)})
+        this.setState({priceInput: price})
         amount = Number(form.getFieldValue("amount"))
         if(side === 'buy'){
           const precision = Math.max(0,tokenRBalance.precision - marketConfig.pricePrecision)
@@ -336,11 +430,18 @@ class TradeForm extends React.Component {
     };
 
     const amountSlider = form.getFieldDecorator('amountSlider', {
-        initialValue: 0,
-        rules: []
-      })(
-        <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={this.state.availableAmount <= 0}/>
-      )
+      initialValue: 0,
+      rules: []
+    })(
+      <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={this.state.availableAmount <= 0}/>
+    )
+    const priceValue = (
+      <span className="fs10">
+        ≈
+        <Currency />
+        {accMul(this.state.priceInput, tokenRPrice.price).toFixed(2)}
+      </span>
+    )
 
     return (
       <div>
@@ -350,18 +451,18 @@ class TradeForm extends React.Component {
               <div className="col fs18 color-grey-900 text-capitalize">{side} {tokenL}</div>
               <div className="col-auto">
                 {
-                  side === 'buy' ? `${tokenR} Balance: ${tokenRBalance.balance}` : `${tokenL} Balance: ${tokenLBalance.balance}`
+                  side === 'buy' ? `${tokenR} Balance: ${fmR.getAmount(tokenRBalanceOriginal.balance)}` : `${tokenL} Balance: ${fmL.getAmount(tokenLBalanceOriginal.balance)}`
                 }
               </div>
             </div>
           </Form.Item>
           <Form.Item label="Price" {...formItemLayout} colon={false} extra={
             <div className="row">
-              <div className="col fs10">{`≈USD ${this.state.estimatePriceWorth}`}</div>
+              <div className="col fs10">{priceValue}</div>
             </div>
           }>
             {form.getFieldDecorator('price', {
-              initialValue: 0,
+              initialValue: displayPrice,
               rules: [{
                 message: 'Please input valid price',
                 validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
@@ -487,27 +588,27 @@ class TradeForm extends React.Component {
             </Collapse.Panel>
           </Collapse>
           {account && account.isUnlocked &&
-            <Form.Item>
-              {
-                side == 'buy' &&
-                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
-                        size="large">
-                  Place Order
-                </Button>
-              }
-              {
-                side == 'sell' &&
-                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
-                        size="large">
-                  Place Order
-                </Button>
-              }
-            </Form.Item>
+          <Form.Item>
+            {
+              side == 'buy' &&
+              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
+                      size="large">
+                Place Order
+              </Button>
+            }
+            {
+              side == 'sell' &&
+              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
+                      size="large">
+                Place Order
+              </Button>
+            }
+          </Form.Item>
           }
           {(!account || !account.isUnlocked) &&
-            <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
-              <a className="color-blue-500" onClick={showModal.bind(this,{id:'wallet/unlock'})}>Unlock Your Wallet</a> To Trade
-            </div>
+          <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
+            <a className="color-blue-500" onClick={showModal.bind(this,{id:'wallet/unlock'})}>Unlock Your Wallet</a> To Trade
+          </div>
           }
         </Form>
       </div>
