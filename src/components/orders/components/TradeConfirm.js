@@ -82,7 +82,7 @@ class TradeConfirm extends React.Component {
     })
   }
   updateOrders(){
-    const {dispatch} = this.props
+    const {dispatch} = this.props;
     dispatch({
       type:'orders/filtersChange',
       payload:{
@@ -165,7 +165,6 @@ class TradeConfirm extends React.Component {
       if (res.error) {
         modals.showModal({id: 'trade/place-order-error', errors: [{type: 'unknown', message: res.error.message}]});
       } else {
-
         if(warn){
           const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
           const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
@@ -212,10 +211,10 @@ class TradeConfirm extends React.Component {
           }, function (error) {
 
           });
-          const balanceWarn = warn.filter(item => item.type === "BalanceNotEnough");
-          modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
-          _this.updateOrders()
         }
+        const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
+        modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
+        _this.updateOrders();
       }
     });
   };
