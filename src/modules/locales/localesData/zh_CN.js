@@ -84,6 +84,8 @@ export default {
     type_receive: '收款',
     type_enable: '授权',
     type_enable_title: "授权 {symbol} 进行撮合交易",
+    type_transfer_title: "转出 {symbol}",
+    type_receive_title: "接收 {symbol}",
   },
   orders: {
     market: '市场',

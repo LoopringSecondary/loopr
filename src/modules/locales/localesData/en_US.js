@@ -84,6 +84,8 @@ export default {
     type_receive:'Receive',
     type_enable:'Enable',
     type_enable_title: "Enable {symbol} To Trade",
+    type_transfer_title: "Send {symbol}",
+    type_receive_title: "Receive {symbol}",
   },
   orders:{
     market:'Market',

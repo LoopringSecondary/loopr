@@ -316,14 +316,14 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
     </div>
   )
   const TokenItemActions = (token) => (
-    <div style={{width:'150px'}}>
+    <div style={{minWidth:'150px',maxWidth:'250px'}}>
       <div className="row no-gutters p5" >
         <div className="col-12 p5">
           <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100" type="primary"
-                  icon="pay-circle-o">Transfer</Button>
+                  icon="pay-circle-o">Send {token.symbol}</Button>
         </div>
         <div className="col-12 p5">
-          <Button onClick={gotoReceive.bind(this, token)} className="d-block w-100" type="primary" icon="qrcode">Receive</Button>
+          <Button onClick={gotoReceive.bind(this, token)} className="d-block w-100" type="primary" icon="qrcode">Receive {token.symbol}</Button>
         </div>
         {
           token.custom &&
@@ -332,9 +332,19 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
           </div>
         }
         {
-          (token.symbol === 'ETH' || token.symbol === 'WETH') &&
+          (token.symbol === 'ETH') &&
           <div className="col-12 p5">
-            <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100" type="primary" icon="retweet">Convert</Button>
+            <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100" type="primary" icon="retweet">
+            Convert {token.symbol} To WETH
+            </Button>
+          </div>
+        }
+        {
+          (token.symbol === 'WETH') &&
+          <div className="col-12 p5">
+            <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100" type="primary" icon="retweet">
+            Convert {token.symbol} To ETH
+            </Button>
           </div>
         }
         {
@@ -437,7 +447,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             e.preventDefault()
           }}>
             <Popover
-              title={<div className="pt5 pb5 fs18">{item.symbol}</div>}
+              title={<div className="pt5 pb5 fs18">{item.symbol} Options</div>}
               placement="right"
               arrowPointAtCenter
               content={TokenItemActions(item)}

@@ -65,8 +65,8 @@ function ListBlock({LIST,actions,prices}) {
       <div className="">
         <div className="fs16 color-grey-700 mb5">
           {item.type === 'approve' && intl.get('txs.type_enable_title',{symbol:item.symbol})}
-          {item.type === 'send' && `${intl.get('txs.type_transfer')} ${item.symbol}`}
-          {item.type === 'receive' && `${intl.get('txs.type_receive')} ${item.symbol}`}
+          {item.type === 'send' && intl.get('txs.type_transfer_title',{symbol:item.symbol})}
+          {item.type === 'receive' && intl.get('txs.type_receive_title',{symbol:item.symbol})}
           {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth')}
           {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth')}
         </div>
