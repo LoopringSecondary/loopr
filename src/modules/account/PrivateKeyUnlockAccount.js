@@ -10,8 +10,6 @@ export default class PrivateKeyUnlockAccount extends Account {
   constructor(input) {
     const address = privateKeytoAddress(input.privateKey);
     super({unlockType: 'privateKey', address: address,password:input.password});
-    console.log('privateKey:',input.privateKey);
-    JSON.stringify()
     this.privateKey = input.privateKey;
   }
 

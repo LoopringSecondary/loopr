@@ -84,9 +84,6 @@ export default class Transaction {
   }
 
   async sendRawTx(signedTx) {
-    console.log('RawTx:', JSON.stringify(this.raw));
-    console.log('SignedTx: ', this.signed);
-
     let body = {};
     body.method = 'eth_sendRawTransaction';
     body.params = [signedTx];
