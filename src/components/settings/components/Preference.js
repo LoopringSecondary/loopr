@@ -1,7 +1,6 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
-import {languagesArray, timezoneArray} from '../../../common/config/data'
-import {locales} from '../../../common/config/data'
+import {Button, Form, Select} from 'antd';
+import {locales, timezoneArray} from '../../../common/config/data'
 import intl from 'react-intl-universal';
 
 
