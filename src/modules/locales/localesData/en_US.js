@@ -184,7 +184,11 @@ export default {
     result_success: "You have successfully {do} {amount} {token}",
     view_transaction: 'View Transaction In Etherscan',
     send_again: 'Send Again',
-    convert_again: 'Convert Again'
+    convert_again: 'Convert Again',
+    ethereum_address:"My Ethereum Address",
+    copy:"Copy",
+    copy_success:"Copy Successfully",
+    copy_failed:"Copy Failed"
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",

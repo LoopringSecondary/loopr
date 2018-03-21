@@ -186,7 +186,11 @@ export default {
     result_success: "您{do} {amount} {token} 成功",
     view_transaction: '通过Etherscan查看交易',
     send_again: '再一次发送',
-    convert_again: '再一次转换'
+    convert_again: '再一次转换',
+    ethereum_address:"我的以太坊地址",
+    copy:"复制",
+    copy_success:"复制成功",
+    copy_failed:"复制失败"
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
