@@ -104,8 +104,34 @@ export default {
   },
   global:{
     all:'All',
-    market:'市场',
-    options:'操作',
+    market:'Market',
+    options:'Options',
+  },
+  settings:{
+    preference:"Preference",
+    trade:"Trade",
+    relay:"Relay",
+    language:"Language",
+    currency:"Currency",
+    timezone:"Timezone",
+    reset:"Reset",
+    contract:"Contract Version",
+    ttl:"Time to live",
+    ttl_tip:"Please input integer value",
+    lrcfee:"LRC Fee",
+    margin:"Margin S",
+    gasPrice:"Gas Price",
+    slow:"Slow",
+    fast:"Fast",
+    edit:"Edit",
+    save:"Save",
+    delete:"Delete",
+    addRelay:"Add Custom Relay",
+    editRelay:"Edit Relay",
+    chooseRelay:"Choose Relay",
+    relayName:"Relay Name",
+    relayUrl:"Relay URL",
+    select :"Select"
   }
 
 }

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Card} from 'antd';
-import {languagesArray, timezoneArray} from '../../../common/config/data'
+import {Button, Card, Form, Input} from 'antd';
+import intl from 'react-intl-universal';
 
 const AddRelayForm = ({
   form, settings, modal
@@ -28,9 +28,9 @@ const AddRelayForm = ({
     return !relay.nodes.find(item=>item.name === value)
   }
   return (
-    <Card title="Add Relay">
+    <Card title={intl.get('settings.addRelay')}>
       <Form layout="horizontal" className="">
-        <Form.Item label="Relay Name" colon={false}>
+        <Form.Item label={intl.get('settings.relayName')} colon={false}>
           {form.getFieldDecorator('name', {
             initialValue:'',
             rules:[
@@ -42,7 +42,7 @@ const AddRelayForm = ({
             <Input size="large"/>
           )}
         </Form.Item>
-        <Form.Item label="Relay URL" colon={false}>
+        <Form.Item label={intl.get('settings.relayUrl')} colon={false}>
           {form.getFieldDecorator('url', {
             initialValue:'',
             rules:[{type: "url", message : "Not a valid url"}]
@@ -51,7 +51,7 @@ const AddRelayForm = ({
           )}
         </Form.Item>
         <Form.Item className="mb0">
-          <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">Save</Button>
+          <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large">{intl.get('settings.save')}</Button>
         </Form.Item>
       </Form>
     </Card>

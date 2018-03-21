@@ -71,6 +71,18 @@
     },
     {
       "symbol": "WETH",
+      "name": "Wrapped Ether",
+      "digits": 18,
+      "address": "0x639687b7f8501f174356d3acb1972f749021ccd0",
+      "unit": "WETH",
+      "website": "https://weth.io",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "WETH_OLD",
       "name": "Ether Token",
       "digits": 18,
       "address": "0x88699e7fee2da0462981a08a15a3b940304cc516",
