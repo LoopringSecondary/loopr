@@ -172,14 +172,21 @@ export default {
     receive: '去接收',
     buy: '去购买'
   },
-  convert:{
-    title: "转换",
+  token:{
+    convert_title: "转换",
     amount: "数量",
     amount_verification_message: "请输入合法的数量",
-    max: "最大数量",
+    convert_max: "最大数量",
     min_gas_remain_warn: "我们为您保留0.1 ETH作为油费以保证后续可以发送交易",
     no_eth_balance_warn: "您将没有足够的ETH作为油费发送交易",
-    confirm_convert: "是的，马上转换！"
+    convert_confirm: "是的，马上转换！",
+    send_title: "发送",
+    result_failed: "您{do} {amount} {token} 失败, 原因:{reason}",
+    completed: "完成",
+    result_success: "您{do} {amount} {token} 成功",
+    view_transaction: '通过Etherscan查看交易',
+    send_again: '再一次发送',
+    convert_again: '再一次转换'
   }
 
 }

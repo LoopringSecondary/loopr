@@ -170,13 +170,20 @@ export default {
     receive: 'Receive',
     buy: 'Buy'
   },
-  convert:{
-    title: "Convert",
+  token:{
+    convert_title: "Convert",
     amount: "Amount",
     amount_verification_message: "Please input valid amount",
-    max: "Wrap Max",
+    convert_max: "Wrap Max",
     min_gas_remain_warn: "0.1 ETH is reserved as gas so that you can send transactions.",
     no_eth_balance_warn: "You do not or will not have sufficient ETH as gas for sending transactions.",
-    confirm_convert: "Yes,Wrap Now!"
+    convert_confirm: "Yes,Wrap Now!",
+    send_title: "Send",
+    result_failed: "Your have failed {do} {amount} {token}, cause:{reason}",
+    completed: "Completed",
+    result_success: "You have successfully {do} {amount} {token}",
+    view_transaction: 'View Transaction In Etherscan',
+    send_again: 'Send Again',
+    convert_again: 'Convert Again'
   }
 }
