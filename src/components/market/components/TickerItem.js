@@ -9,11 +9,15 @@ import intl from 'react-intl-universal'
 
 let fm = {}
 fm.getVolume = (value)=>{
+  value = Number(value)
   if(value>1000){
     return value.toFixed(0)
   }
-  if(value<=1000 && value>=1){
+  if(value<=1000 && value>=100){
     return value.toFixed(1)
+  }
+  if(value<=100 && value>=1){
+    return value.toFixed(2)
   }
   if(value<1 && value>=0.001){
     return value.toFixed(5)
@@ -22,26 +26,58 @@ fm.getVolume = (value)=>{
     return value.toFixed(8)
   }
   if(value===0){
-    return 0.00
+    return '0.00'
+  }
+  if(!!value){
+    return '0.00'
   }
 }
 fm.getPrice = (value)=>{
-  if(value>1000){
-    return value.toFixed(2)
+  value = Number(value)
+  switch (value) {
+    case value>1000:
+      return value.toFixed(2)
+      break;
+    case value<=1000 && value>=1:
+      return value.toFixed(2)
+      break;
+    case value<1 && value>=0.01:
+      return value.toFixed(5)
+      break;
+    case value<0.01 && value>0:
+      return value.toFixed(8)
+      break;
+    default:
+      return '0.00'
+      break;
   }
-  if(value<=1000 && value>=1){
-    return value.toFixed(2)
-  }
-  if(value<1 && value>=0.001){
-    return value.toFixed(5)
-  }
-  if(value<0.001 & value>0){
-    return value.toFixed(8)
-  }
-  if(value===0){
-    return 0.00
+  // if(value>1000){
+  //   return value.toFixed(2)
+  // }
+  // if(value<=1000 && value>=1){
+  //   return value.toFixed(2)
+  // }
+  // if(value<1 && value>=0.01){
+  //   return value.toFixed(5)
+  // }
+  // if(value<0.01 & value>0){
+  //   return value.toFixed(8)
+  // }
+  // if(Number(value)===0){
+  //   return 0.00
+  // }
+  // if(!!value){
+  //   return 0.00
+  // }
+}
+fm.getChange = (value)=>{
+  if(value){
+    return value
+  }else{
+    return '0.00%'
   }
 }
+
 
 const LooprTicker = ({pair='',tickers={},price=0})=>{
   const tokenL = pair.split('-')[0]
@@ -93,7 +129,7 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
 	)
   const NumberCaption = ({title,content})=>(
     <div className="pt15 pb15">
-      <div className="fs20 color-white">{content}</div>
+      <div className="fs18 color-white">{content}</div>
       <div className="fs12 color-white opacity-70">{title}</div>
     </div>
   )
@@ -103,19 +139,19 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
            <TickerHeader />
          </div>
          <div className="col-auto">
-           <NumberCaption title={`24H ${intl.get('ticker.last')}`} content={<div>{ticker.last || 0} {priceValue}</div>} />
+           <NumberCaption title={`24H ${intl.get('ticker.last')}`} content={<div>{fm.getPrice(ticker.last)} {priceValue}</div>} />
          </div>
          <div className="col-auto">
-          <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={<span style={{fontcolor:'#00E831'}}>{ticker.change || 0}</span>} />
+          <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={<span style={{fontcolor:'#00E831'}}>{fm.getChange(ticker.change)}</span>} />
          </div>
          <div className="col-auto">
-          <NumberCaption title={`24H ${intl.get('ticker.low')}`} content={ticker.low || 0} />
+          <NumberCaption title={`24H ${intl.get('ticker.low')}`} content={fm.getPrice(ticker.low)} />
          </div>
          <div className="col-auto">
-           <NumberCaption title={`24H ${intl.get('ticker.high')}`} content={ticker.high || 0} />
+           <NumberCaption title={`24H ${intl.get('ticker.high')}`} content={fm.getPrice(ticker.high)} />
          </div>
          <div className="col-sm-6 col-lg-2">
-          <NumberCaption title={<div>24H {intl.get('ticker.vol')} <span className="fs10">/ {tokenR}</span></div>} content={<div>{`${ticker.vol || 0}`} </div>} />
+          <NumberCaption title={<div>24H {intl.get('ticker.vol')} <span className="fs10">/ {tokenR}</span></div>} content={<div>{`${fm.getVolume(ticker.vol)}`} </div>} />
          </div>
       </div>
   )

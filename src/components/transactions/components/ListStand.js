@@ -10,6 +10,7 @@ import iconReceive from '../../../assets/images/icon-tx-type-receive.png'
 import iconTrade from '../../../assets/images/icon-tx-type-trade.png'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
+import CoinIcon from '../../common/CoinIcon'
 const uiFormatter = window.uiFormatter
 
 function ListBlock({LIST,actions,prices}) {
@@ -53,10 +54,10 @@ function ListBlock({LIST,actions,prices}) {
     )
     const iconCol = (
       <div className="text-center">
-        { item.type === 'approve' && <img src={iconTransfer} alt="" style={{width:'30px'}} /> }
+        { item.type === 'approve' && <CoinIcon symbol={item.symbol} size="30" /> }
         { item.type === 'send' && <img src={iconReceive} alt="" style={{width:'30px'}} /> }
         { item.type === 'receive' && <img src={iconTrade} alt="" style={{width:'30px'}} /> }
-        { item.type === 'convert' && <img src={iconTrade} alt="" style={{width:'30px'}} /> }
+        { item.type === 'convert' && <CoinIcon symbol={item.symbol} size="30" /> }
       </div>
     )
 
