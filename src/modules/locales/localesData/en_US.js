@@ -83,6 +83,7 @@ export default {
     type_convert_title_weth:'Convert WETH To ETH',
     type_receive:'Receive',
     type_enable:'Enable',
+    type_enable_title: "Enable {symbol} To Trade",
   },
   orders:{
     market:'Market',

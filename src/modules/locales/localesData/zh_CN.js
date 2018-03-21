@@ -82,7 +82,8 @@ export default {
     type_convert_title_eth: 'ETH 转换为 WETH',
     type_convert_title_weth: 'WETH 转换为 ETH',
     type_receive: '收款',
-    type_enable: '启用',
+    type_enable: '授权',
+    type_enable_title: "授权 {symbol} 进行撮合交易",
   },
   orders: {
     market: '市场',
@@ -133,7 +134,6 @@ export default {
     relayUrl: "中继URL地址",
     relayName_tip: "请输入合法，不同的中继名称",
     relayUrl_tip: "请输入合法的URL地址"
-
   },
   trade: {
     orderForm: "订单信息",

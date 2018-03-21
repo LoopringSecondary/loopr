@@ -54,7 +54,7 @@ let FiltersForm = ({
                 }}
                 style={{width:'120px'}}
                 onChange={handleChange}
-                placeholder="Search/Select"
+                placeholder={intl.get('global.all')}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               >
               </SelectContainer>
@@ -69,7 +69,7 @@ let FiltersForm = ({
                   showSearch
                   allowClear
                   style={{width:'120px'}}
-                  placeholder="Search/Select"
+                  placeholder={intl.get('global.all')}
                   optionFilterProp="children"
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}

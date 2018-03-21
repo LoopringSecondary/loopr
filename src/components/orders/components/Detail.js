@@ -21,8 +21,8 @@ function DetailBlock({modal={}}) {
         <div className="col">
           <div className="fs14 color-grey-600">{label}</div>
         </div>
-        <div className="col-auto">
-          <div className="fs14 color-grey-900">{value}</div>
+        <div className="col-5">
+          <div className="fs14 color-grey-900 text-wrap">{value}</div>
         </div>
       </div>
     )
@@ -64,6 +64,7 @@ function DetailBlock({modal={}}) {
           </div>
         </div>
       </div>
+      <MetaItem label="OrderHash" value={item.originalOrder.hash} />
       <MetaItem label="Status" value={renders.status(null,item)} />
       <MetaItem label="Sell Amount" value={
         <div>
