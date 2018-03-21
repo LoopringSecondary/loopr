@@ -5,6 +5,7 @@ import {connect} from 'dva';
 import {projects} from "../../../common/config/data";
 import {toHex} from "Loopring/common/formatter";
 import Layout from '../../../layout/Layout'
+import intl from 'react-intl-universal';
 
 class Airdrop extends React.Component {
 
@@ -70,24 +71,23 @@ class Airdrop extends React.Component {
     return (
       <Layout {...this.props}>
         <div className="container mt50 mb50">
-          <Card title='Bind Address For Airdrop'>
+          <Card title={intl.get('wallet.bind_tip')}>
             <Form>
-              <Form.Item label="Bind Type">
+              <Form.Item label={intl.get('wallet.bind_type')}>
                 <Select
                   showSearch
                   size="large"
-                  placeholder="Select Token To Bind"
+                  placeholder={intl.get('wallet.type_tip')}
                   onChange={this.projectChange}
-                  value={project && project.projectId}
                 >
                   {options}
                 </Select>
               </Form.Item>
-              <Form.Item label="Address">
+              <Form.Item label={intl.get('wallet.address')}>
                 <Input.TextArea
                   size="large"
                   autoSize={true}
-                  placeholder="Paste corresponding address here"
+                  placeholder={intl.get('wallet.address_tip')}
                   onChange={this.addressChange}
                   value={address}
                 />
@@ -96,7 +96,7 @@ class Airdrop extends React.Component {
             <div className="mb25"></div>
             <Button onClick={this.showModal}
                     className="w-100 d-block mt15" type="primary" size="large" disabled={!project || !address}>
-              Bind Address
+              {intl.get('wallet.bind_address')}
             </Button>
             <Modal
               title={`Bind ${ project && project.name.toUpperCase()} Address`}

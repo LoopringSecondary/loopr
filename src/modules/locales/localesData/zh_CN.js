@@ -133,9 +133,24 @@ export default {
     relayUrl:"中继URL地址",
     relayName_tip:"请输入合法，不同的中继名称",
     relayUrl_tip:"请输入合法的URL地址"
-
   },
-
+  wallet:{
+    bind_tip:"绑定空投接收地址",
+    bind_type:"类型",
+    address:"地址",
+    type_tip:"请选择要绑定的类型",
+    address_tip:"请粘贴您要绑定的地址",
+    bind_address:"绑定地址",
+    unlock_tip:"您将怎么样解锁使用钱包",
+    metamask:"MetaMask 钱包",
+    trezor:"Trezor 钱包",
+    ledger:"Ledger 钱包",
+    keystore:"Keystore 文件",
+    privateKey:"私钥",
+    mnemonic:"助记词",
+    no_wallet:"暂时没有钱包，让我们来",
+    generate_one:"创建一个"
+  },
 
 }
 
