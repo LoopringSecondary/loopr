@@ -211,7 +211,15 @@ export default {
     no_wallet: "暂时没有钱包，让我们来",
     generate_one: "创建一个"
   },
-
-
+  tokens:{
+    "hide_small_balances":"隐藏小额资产",
+    "only_show_favorites":"只显示我的收藏",
+    "options":"操作",
+    "options_transfer":"转账",
+    "options_receive":"收款",
+    "options_convert":"转换",
+    "options_trade":"买卖",
+    "options_edit":"修改",
+  }
 }
 

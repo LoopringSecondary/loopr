@@ -209,6 +209,15 @@ export default {
     mnemonic: "Mnemonic",
     no_wallet:"Don't have a Wallet? Let's",
     generate_one:"generate one"
+  },
+  tokens:{
+    "hide_small_balances":" Hide Small Balances",
+    "only_show_favorites":"Only Show My Favorites",
+    "options":"Options",
+    "options_transfer":"Send",
+    "options_receive":"Receive",
+    "options_convert":"Convert",
+    "options_trade":"Trade",
+    "options_edit":"Edit",
   }
-
 }
