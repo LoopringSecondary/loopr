@@ -170,7 +170,7 @@ export default {
     why: "为什么",
     balance_not_enough:'{token} 余额不足, 还需要 {required}',
     receive: '去接收',
-    buy: '去购买'
+    to_buy: '去购买'
   },
   token:{
     convert_title: "转换",
