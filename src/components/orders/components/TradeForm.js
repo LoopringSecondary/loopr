@@ -529,7 +529,7 @@ class TradeForm extends React.Component {
                     <div className="row">
                       <div className="col-auto">{intl.get('trade.time_to_live')}</div>
                       <div className="col"></div>
-                      <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? "More" : "Popular option" }</a></div>
+                      <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
                     </div>
                   }>
                     {form.getFieldDecorator('timeToLivePopularSetting')(
