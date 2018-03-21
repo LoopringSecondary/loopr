@@ -23,21 +23,22 @@ function ListBlock({LIST={},actions,prices,modal}) {
           <img className="mr5 rounded-circle border-grey-300 border" src={item.logo} style={{width:'30px',height:'30px',padding:'5px'}}/>
         </div>
         <div className="col">
-          <span className="color-grey-900 fs18">{item.token}</span>
+          <span className="color-grey-900 fs16">{item.token}</span>
         </div>
         <div className="col-auto">
-          <Tooltip title="Asset Ratio">
-            <span className="color-grey-500 fs14">{item.percentage}</span>
-          </Tooltip>
+            <span className="color-grey-400 fs14 mr5">{item.percentage}</span>
+            <Tooltip title="Asset Currency Ratio">
+              <span className="color-grey-400 fs12"><Icon type="question-circle" /></span>
+            </Tooltip>
         </div>
       </div>
     )
     return (
       <Card bordered title={header} className="token-list-card text-left">
-        <div className="fs20 color-grey-900 mb5"><Currency /> {fm.getAmountValue(item.amount,priceToken.price)}</div>
+        <div className="fs20 color-grey-900 mb5"><Currency /> {Number(fm.getAmountValue(item.amount,priceToken.price)).toFixed(2)}</div>
         <div className="row align-items-center">
           <div className="col-auto">
-            <div className="fs14 color-grey-400">Amount: {fm.getAmount(item.amount)}</div>
+            <div className="fs14 color-grey-400">Amount: {Number(fm.getAmount(item.amount)).toFixed(5)}</div>
           </div>
           <div className="col"></div>
           {
