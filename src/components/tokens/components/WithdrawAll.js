@@ -13,7 +13,7 @@ import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 class WithdrawAll extends React.Component {
 
   render() {
-    const {modal,prices,settings,account} = this.props;
+    const {modal,prices,settings,account,form} = this.props;
     const selectedToken = modal.item || {};
     const balance = toBig(selectedToken.balance).div(1e18).toNumber();
     const price = prices.getTokenBySymbol('ETH');
