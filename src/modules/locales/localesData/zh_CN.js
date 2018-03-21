@@ -107,7 +107,34 @@ export default {
     market:'市场',
     options:'操作',
   },
+  settings:{
+    preference:"偏好",
+    trade:"交易",
+    relay:"中继",
+    language:"语言",
+    currency:"货币",
+    timezone:"时区",
+    reset:"重置",
+    contract:"合约版本",
+    ttl:"有效期",
+    ttl_tip:"请输入合法的整数",
+    lrcfee:"订单费",
+    margin:"分润比例",
+    gasPrice:"Gas价格",
+    slow:"慢",
+    fast:"快",
+    edit:"编辑",
+    save:"保存",
+    delete:"删除",
+    addRelay:"添加中继",
+    editRelay:"编辑中继",
+    chooseRelay:"选择中继",
+    relayName:"中继名称",
+    relayUrl:"中继URL地址",
+    relayName_tip:"请输入合法，不同的中继名称",
+    relayUrl_tip:"请输入合法的URL地址"
 
+  },
 
 
 }

@@ -1,4 +1,3 @@
-import localesData from './localesData'
 import {setLocale} from "../../common/utils/localeSetting";
 
 let language = window.STORAGE.settings.get().preference.language;

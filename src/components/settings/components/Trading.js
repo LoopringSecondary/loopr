@@ -1,13 +1,13 @@
 import React from 'react';
-import {connect} from 'dva';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
-import {languagesArray, timezoneArray, configs} from '../../../common/config/data'
+import {Button, Form, Input, Select, Slider} from 'antd';
+import {configs} from '../../../common/config/data'
+import intl from 'react-intl-universal';
 
 const TradingSettingForm = ({
     settings,form
   }) => {
   const {trading} = settings
-  const integerReg = new RegExp("^[0-9]*$")
+  const integerReg = new RegExp("^0*[1-9]{1}[0-9]*$")
   function handleChange(type, e) {
     if ("contractVersion" === type){
       const address = configs.contracts.find(item => item.version === e)
@@ -90,7 +90,7 @@ const TradingSettingForm = ({
   return (
     <div className="" >
       <Form layout="horizontal" className="p15">
-        <Form.Item {...formItemLayout} label="Contract Version" colon={false} extra={contractVersionExtra}>
+        <Form.Item {...formItemLayout} label={intl.get('settings.contract')} colon={false} extra={contractVersionExtra}>
           {form.getFieldDecorator('contractVersion', {
             initialValue:trading.contract.version,
             rules:[]
@@ -107,12 +107,12 @@ const TradingSettingForm = ({
             </Select>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Time to live" colon={false}>
+        <Form.Item {...formItemLayout} label={intl.get('settings.ttl')} colon={false}>
           {form.getFieldDecorator('timeToLive', {
             initialValue:trading.timeToLive,
             rules:[
               {
-                message:"Please input integer value",
+                message:intl.get("settings.ttl_tip"),
                 validator: (rule, value, cb) => validateInteger(value) ? cb() : cb(true)
               }
             ]
@@ -120,11 +120,11 @@ const TradingSettingForm = ({
             <Input size="large" addonAfter={timeToLiveSelectAfter} onChange={handleChange.bind(this, "timeToLive")}/>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="LRC Fee" colon={false}>
+        <Form.Item {...formItemLayout} label={intl.get('settings.lrcfee')} colon={false}>
           {form.getFieldDecorator('lrcFee', {
             initialValue:trading.lrcFee,
             rules:[
-              {message: 'Input valid integer value (0~50)',
+              {message: intl.get("settings.ttl_tip").concat('(0~50)') ,
                 validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)
               }
             ]
@@ -132,11 +132,11 @@ const TradingSettingForm = ({
             <Input size="large" addonAfter="‰" onChange={handleChange.bind(this, "lrcFee")}/>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Margin Split" colon={false}>
+        <Form.Item {...formItemLayout} label={intl.get('settings.margin')} colon={false}>
           {form.getFieldDecorator('marginSplit', {
             initialValue:trading.marginSplit,
             rules:[
-              {message: 'Input valid integer value (0~100)',
+              {message: intl.get("settings.ttl_tip").concat('(0~100)'),
                 validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)
               }
             ]
@@ -144,22 +144,22 @@ const TradingSettingForm = ({
             <Input size="large" addonAfter="％" onChange={handleChange.bind(this, "marginSplit")}/>
           )}
         </Form.Item>
-        <Form.Item label={"Gas Price: " +trading.gasPrice+" Gwei"} colon={false} className="mb5">
+        <Form.Item label={intl.get('settings.gasPrice')+':  '+ trading.gasPrice+" Gwei"} colon={false} className="mb5">
           {form.getFieldDecorator('gasPrice', {
             initialValue:Number([trading.gasPrice]),
             rules:[]
           })(
             <Slider min={1} max={99} step={1} onChange={handleChange.bind(this, "gasPrice")}
               marks={{
-                1: 'Slow',
-                99: 'Fast',
+                1: intl.get('settings.slow') ,
+                99: intl.get('settings.fast') ,
               }}
             />
           )}
         </Form.Item>
       </Form>
       <div className="p15 zb-b-t text-right">
-        <Button onClick={handleReset} type="" className="">Reset</Button>
+        <Button onClick={handleReset} type="" className="">{intl.get('settings.reset')} </Button>
       </div>
     </div>
   );

@@ -1,9 +1,6 @@
 import React from 'react';
-import {connect} from 'dva';
-import { Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider} from 'antd';
-import ModalContainer from '../../../modules/modals/container'
-import RelayAdd from './RelayAdd'
-import RelayEdit from './RelayEdit'
+import {Button, Form, Input, Radio} from 'antd';
+import intl from 'react-intl-universal';
 
 const RealySettingForm = ({
     settings, form, modal
@@ -48,7 +45,7 @@ const RealySettingForm = ({
   return (
     <div className="" >
       <Form layout="horizontal" className="p15">
-        <Form.Item label="Choose Relay" colon={false}>
+        <Form.Item label={intl.get('settings.chooseRelay')} colon={false}>
           <Radio.Group className="" onChange={handleChange} value={relayConfig.value}>
             {
               relay.nodes.map((item,index)=>
@@ -63,7 +60,7 @@ const RealySettingForm = ({
                       </div>
                       <div className="col-auto">
                         { item.custom &&
-                        <a href="" onClick={gotoEdit.bind(this, item.id)} className="">Edit</a>
+                        <a href="" onClick={gotoEdit.bind(this, item.id)} className="">{intl.get('settings.edit')}</a>
                         }
                       </div>
                     </div>
@@ -76,8 +73,8 @@ const RealySettingForm = ({
 
       </Form>
       <div className="p15 zb-b-t text-right">
-        <Button onClick={handleReset} type="" className="mr5">Reset</Button>
-        <Button type="primary" onClick={gotoAdd} className="">Add Cutom Relay</Button>
+        <Button onClick={handleReset} type="" className="mr5">{intl.get('settings.reset')}</Button>
+        <Button type="primary" onClick={gotoAdd} className="">{intl.get('settings.addRelay')}</Button>
       </div>
     </div>
   );
