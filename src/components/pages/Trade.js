@@ -32,7 +32,7 @@ export default function Home(props){
         </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
-        <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+        <Card title={intl.get('trade.orderForm')} style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <div className="row justify-content-around">
             <div className="col-sm-6 pl40 pr40 zb-b-r">
               <Order.TradeForm side="buy" pair={pair} />
