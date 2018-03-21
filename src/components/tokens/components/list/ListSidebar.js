@@ -11,6 +11,7 @@ import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
+import CoinIcon from '../../../common/CoinIcon'
 
 function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
   let {
@@ -386,7 +387,11 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             }
           </div>
           <div className="col-auto pr10">
-            <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5"/>
+            {
+              false &&
+              <Avatar src={item.logo} size="" className="bg-white border border-grey-300 p5"/>
+            }
+            <CoinIcon symbol={item.symbol} size="32" fill="fill-blue-500" />
           </div>
           <div className="col pr10">
             <div className="">
