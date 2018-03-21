@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar,Icon,Button,Card } from 'antd';
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {accDiv, accMul} from '../../../common/Loopring/common/math'
+import intl from 'react-intl-universal';
 
 let Preview = ({
   modal,
@@ -24,9 +25,9 @@ let Preview = ({
   }
   let t = ""
   if(result.extraData.pageFrom === "Transfer") {
-    t = "Send"
+    t = intl.get('token.send_title')
   } else if(result.extraData.pageFrom === "Convert") {
-    t = "Convert"
+    t = intl.get('token.convert_title')
   }
   return (
       <Card title="Result">
@@ -34,7 +35,7 @@ let Preview = ({
           {result.error &&
             <div>
               <div className="fs14 color-grey-900">
-                {`Your hava failed  ${result.extraData.amount} ${result.extraData.tokenSymbol} cause: ${result.error}`}
+                {intl.get('token.result_failed', {do:t, amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error})}
               </div>
             </div>
           }
@@ -42,13 +43,13 @@ let Preview = ({
             <div>
               <Icon className="fs60" type="check-circle"></Icon>
               <div className="fs20 color-grey-900">
-                {t} Completed
+                {t} {intl.get('token.completed')}
               </div>
               <div className="fs14 color-grey-900">
-                {`You have successfully ${t.toLowerCase()} ${result.extraData.amount} ${result.extraData.tokenSymbol} `} ({priceValue})
+                {intl.get('token.result_success', {do:t, amount:result.extraData.amount, token:result.extraData.tokenSymbol})} ({priceValue})
               </div>
               <div>
-                <a href={`https://etherscan.io/tx/${result.extraData.txHash}`} target="_blank">View Transaction In Etherscan</a>
+                <a href={`https://etherscan.io/tx/${result.extraData.txHash}`} target="_blank">{intl.get('token.view_transaction')}</a>
               </div>
             </div>
           }
@@ -57,11 +58,11 @@ let Preview = ({
           <div className="col pr0">
             {
               result.extraData.pageFrom && result.extraData.pageFrom === 'Transfer' &&
-              <Button className="d-block w-100" type="primary" size="large" onClick={sendAgain}>Send Again</Button>
+              <Button className="d-block w-100" type="primary" size="large" onClick={sendAgain}>{intl.get('token.send_again')}</Button>
             }
             {
               result.extraData.pageFrom && result.extraData.pageFrom === 'Convert' &&
-              <Button className="d-block w-100" type="primary" size="large" onClick={convertAgain}>Convert Again</Button>
+              <Button className="d-block w-100" type="primary" size="large" onClick={convertAgain}>{intl.get('token.convert_again')}</Button>
             }
           </div>
         </div>
