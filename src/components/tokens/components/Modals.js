@@ -11,6 +11,9 @@ import EthTxContainer from '../../../modules/tokens/models/EthTxContainer'
 import AccountContainer from '../../../modules/account/container'
 import SettingsContainer from '../../../modules/settings/container'
 import Sockets from '../../../modules/socket/containers'
+import WithdrawAll from './WithdrawAll';
+
+
 
 function Modals(props){
   return (
@@ -59,6 +62,9 @@ function Modals(props){
       </ModalContainer>
       <ModalContainer id='token/edit'>
         <EditToken />
+      </ModalContainer>
+      <ModalContainer id='token/withdrawall'>
+        <WithdrawAll />
       </ModalContainer>
     </div>
   );
