@@ -34,10 +34,10 @@ function ListBlock({LIST={},actions,prices,modal}) {
     )
     return (
       <Card bordered title={header} className="token-list-card text-left">
-        <div className="fs22 color-grey-700 mb5"><Currency /> {fm.getAmountValue(item.amount,priceToken.price)}</div>
+        <div className="fs20 color-grey-900 mb5"><Currency /> {fm.getAmountValue(item.amount,priceToken.price)}</div>
         <div className="row align-items-center">
           <div className="col-auto">
-            <div className="fs14 color-grey-500">Amount: {fm.getAmount(item.amount)}</div>
+            <div className="fs14 color-grey-400">Amount: {fm.getAmount(item.amount)}</div>
           </div>
           <div className="col"></div>
           {
