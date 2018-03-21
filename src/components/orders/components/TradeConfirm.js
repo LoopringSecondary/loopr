@@ -190,7 +190,7 @@ class TradeConfirm extends React.Component {
             console.log('Enable',item.value.symbol);
             txs.push(token.generateApproveTx(({
               spender: delegateAddress,
-              amount: toHex(toBig('9223372036854775806').times(1e18)),
+              amount: toHex(toBig('9223372036854775806').times('1e'+ tokenConfig.digits||18)),
               gasPrice,
               gasLimit,
               nonce: toHex(nonce),

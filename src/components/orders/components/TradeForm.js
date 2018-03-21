@@ -181,11 +181,11 @@ class TradeForm extends React.Component {
       if(side === 'buy') {//buy eos-weth
         tokenBalanceS = tokenRBalance
         tokenBalanceB = tokenLBalance
-        frozenAmountS = fm.toBig(frozenAmountRResult.result).div(configR.digits).add(fm.toBig(tradeInfo.total))
+        frozenAmountS = fm.toBig(frozenAmountRResult.result).div('1e'+configR.digits).add(fm.toBig(tradeInfo.total))
       } else {//sell eos-weth
         tokenBalanceS = tokenLBalance
         tokenBalanceB = tokenRBalance
-        frozenAmountS = fm.toBig(frozenAmountLResult.result).div(configL.digits).add(fm.toBig(tradeInfo.amount))
+        frozenAmountS = fm.toBig(frozenAmountLResult.result).div('1e'+configL.digits).add(fm.toBig(tradeInfo.amount))
       }
       let approveCount = 0
       const warn = new Array()
