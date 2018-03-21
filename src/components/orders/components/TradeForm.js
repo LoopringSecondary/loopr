@@ -463,7 +463,7 @@ class TradeForm extends React.Component {
             {form.getFieldDecorator('price', {
               initialValue: displayPrice,
               rules: [{
-                message: intl.get('price_verification_message'),
+                message: intl.get('trade.price_verification_message'),
                 validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
               }]
             })(
