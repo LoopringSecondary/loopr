@@ -167,7 +167,7 @@ export default {
     place_order_failed: "Place Order Failed !",
     you_should_do_things: "You should do things followed",
     why: "Why",
-    balance_not_enough:'{token} balance is not enough, required {required}',
+    balance_not_enough:'{token} is not enough, required {required}.',
     receive: 'Receive',
     to_buy: 'Buy'
   },
