@@ -56,7 +56,6 @@ class WithdrawAll extends React.Component {
               <Input placeholder="" size="large" addonAfter={selectedToken.symbol} disabled />
             )}
           </Form.Item>
-
           <Form.Item className="mb0 mt15">
             <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">Yes,Wrap Now!</Button>
             {this.state.errorMsg &&
