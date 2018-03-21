@@ -131,22 +131,22 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
       </span>
     )
     return (
-        <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+        <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'3px'}}>
           <div className="col-auto">
-            <div className="fs16 color-grey-900">
+            <div className="fs16 color-grey-800">
               {fm.getPrice(ticker.last)} {priceValue}
               </div>
-            <div className="fs14 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
+            <div className="fs12 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
             {intl.get(`exchanges.${ticker.exchange}`)}
             </div>
           </div>
           <div className="col-auto text-right">
             <div className="fs16" style={{color:'#1DB427'}}>{ticker.change}</div>
-            <div className="fs14 color-grey-400 ">24H {intl.get('ticker.change')}</div>
+            <div className="fs12 color-grey-400 ">24H {intl.get('ticker.change')}</div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs16 color-grey-900">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
-            <div className="fs14 color-grey-400">24H {intl.get('ticker.vol')}</div>
+            <div className="fs16 color-grey-800">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
+            <div className="fs12 color-grey-400">24H {intl.get('ticker.vol')}</div>
           </div>
         </div>
       )

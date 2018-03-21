@@ -32,7 +32,7 @@ export default function Home(props){
         </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
-        <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
+        <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <div className="row justify-content-around">
             <div className="col-sm-6 pl40 pr40 zb-b-r">
               <Order.TradeForm side="buy" pair={pair} />
@@ -42,7 +42,7 @@ export default function Home(props){
             </div>
           </div>
         </Card>
-        <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
+        <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <Tabs defaultActiveKey="open" animated={false} tabBarStyle={{marginBottom:'0px'}}>
             <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_open_orders')}</div>} key="open">
               <div className="">
