@@ -35,6 +35,7 @@ export default {
     sign:"Sign",
     signed:"Signed Order",
     place_tip:"Submit order is free and does no consume gas",
+    placing_order:"Placing Order",
     place_success:"Success!",
     place_success_tip:'Congratulation! Your order is under trading now!',
     place_warn:'Before your orders can be filled. You should do things followed:',

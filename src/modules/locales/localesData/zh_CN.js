@@ -36,6 +36,7 @@ export default {
     raw: "未签名的订单",
     signed: "签名的订单",
     place_tip: "提交订单是免费的，不需要消耗gas",
+    placing_order:"下单结果",
     place_success: "下单成功!",
     place_success_tip: '恭喜, 您的订单已经可以等待交易',
     place_warn: '为了保证您的订单可以被撮合. 您需要做以下事项:',
