@@ -2,12 +2,12 @@ import React from 'react';
 import {Button, Form, Modal, Icon, Alert} from 'antd';
 import ledger from 'ledgerco';
 import LedgerUnlockAccount from '../../../modules/account/LedgerUnlockAccount'
+import intl from 'react-intl-universal';
 
 const dpath = "m/44'/60'/0'"
 const walletType = "Ledger"
 
 class UnlockByLedger extends React.Component {
-
   state = {
     loading: false
   };
@@ -16,8 +16,8 @@ class UnlockByLedger extends React.Component {
     this.setState({loading:true})
     if (window.location.protocol !== 'https:') {
       Modal.error({
-        title: 'Error',
-        content: "Unlocking a Ledger hardware wallet is only possible on pages served over HTTPS",
+        title: intl.get('wallet.error_title'),
+        content: intl.get('wallet.content_ledger_unlock_require_https'),
       });
       return
     }
@@ -51,10 +51,9 @@ class UnlockByLedger extends React.Component {
           .then(result=>{
             if(result.error){
               //TODO got `Error: U2F not supported` when in Safari
-              let content = "Failed to connect with your Ledger device, you could follow these advices and have a try later. 1、Make sure your Ledger device has connected with your computer and unlocked. 2、Set this to 'yes': Settings->Browser support 3、Enter into Ethereum app"
               Modal.error({
-                title: 'Error',
-                content: content,
+                title: intl.get('wallet.error_title'),
+                content: intl.get('wallet.content_ledger_connect_failed'),
               });
               resolve(false)
             } else {
@@ -74,7 +73,7 @@ class UnlockByLedger extends React.Component {
       if(res.error){
         let content = ''
         switch(res.error){
-          case 'Invalid status 6801': content = "Your Ledger seems to be locked"; break;
+          case 'Invalid status 6801': content = intl.get('wallet.content_leder_locked'); break;
 
         }
         Modal.error({
@@ -92,7 +91,7 @@ class UnlockByLedger extends React.Component {
       if(res.error){
         let content = ''
         switch(res.error){
-          case 'Invalid status 6801': content = "Your Ledger seems to be locked"; break;
+          case 'Invalid status 6801': content = intl.get('wallet.content_leder_locked'); break;
 
         }
         Modal.error({
@@ -110,13 +109,13 @@ class UnlockByLedger extends React.Component {
     return (
       <div>
         <Alert
-          message={<div className="color-green-600"><Icon type="like"/> Recommended</div>}
-          description={<div className="color-green-600">This is a recommended way to access your wallet.</div>}
+          message={<div className="color-green-600"><Icon type="like"/> {intl.get('wallet.recommended')}</div>}
+          description={<div className="color-green-600">{intl.get('wallet.recommend_way')}</div>}
           type="success"
           showIcon={false}
         />
         <div className="color-grey-500 fs12 mb10 mt15"></div>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.connect} loading={loading}> Connect to Ledger</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.connect} loading={loading}> {intl.get('wallet.connect_to_ledger')}</Button>
       </div>
     )
   }

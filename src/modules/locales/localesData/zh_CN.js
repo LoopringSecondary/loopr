@@ -229,7 +229,22 @@ export default {
     privateKey: "私钥",
     mnemonic: "助记词",
     no_wallet: "暂时没有钱包，让我们来",
-    generate_one: "创建一个"
+    generate_one: "创建一个",
+    error_title: "错误信息",
+    content_ledger_unlock_require_https: "解锁Ledger钱包只能在HTTPS网页上",
+    content_ledger_connect_failed: "与您的Ledger设备连接失败, 您可以参照以下建议. 1、请确保您的设备与电脑连接并解锁. 2、在设备上将该选项设置为'yes': Settings->Browser support 3、在设备上选择'Ethereum app'并进入",
+    content_leder_locked:"您的Ledger设备似乎被锁定了",
+    recommended:"推荐",
+    recommend_way: "这是推荐的解锁方式.",
+    connect_to_ledger: "连接您的Ledger",
+    content_metamask_mainnet: "在您使用MetaMask解锁时，我们只支持Ethereum mainnet，请在您的MetaMask切换",
+    warning_title: "请注意",
+    content_metamask_logout: "您已经从MetaMask登出",
+    content_metamask_unlock_again : "您刚刚切换了MetaMask network, 或您的电脑曾被锁定. 出于任何原因您的钱包已经被登出, 如要继续使用请确认MetaMask正在使用MainNetwork并再次解锁您的钱包",
+    content_metamask_install: "您可能需要在浏览器安装MetaMask插件",
+    content_metamask_locked: "与MetaMask连接失败, 请解锁后使用",
+    get_metamask:"下载MetaMask Chrome插件 (适合Chrome Firefox Opera)",
+    connect_to_metamask: "连接您的MetaMask"
   },
   tokens:{
     "hide_small_balances":"隐藏小额资产",

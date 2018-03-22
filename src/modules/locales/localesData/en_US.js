@@ -228,7 +228,22 @@ export default {
     privateKey: "Private Key",
     mnemonic: "Mnemonic",
     no_wallet:"Don't have a Wallet? Let's",
-    generate_one:"generate one"
+    generate_one:"generate one",
+    error_title: "Error",
+    content_ledger_unlock_require_https: "Unlocking a Ledger hardware wallet is only possible on pages served over HTTPS",
+    content_ledger_connect_failed: "Failed to connect with your Ledger device, you could follow these advices and have a try later. 1、Make sure your Ledger device has connected with your computer and unlocked. 2、Set this to 'yes': Settings->Browser support 3、Enter into Ethereum app",
+    content_leder_locked:"Your Ledger seems to be locked",
+    recommended:"Recommended",
+    recommend_way: "This is a recommended way to access your wallet.",
+    connect_to_ledger: "Connect to Ledger",
+    content_metamask_mainnet: "We only support Ethereum mainnet when using MetaMask",
+    warning_title: "Warning",
+    content_metamask_logout: "You have logout from MetaMask",
+    content_metamask_unlock_again : "You may have changed your MetaMask network, or your computer has ever been locked. For either reason, you should make sure your MetaMask is using MainNetwork and unlock your wallet again",
+    content_metamask_install: "Your may need to install MetaMask extension to your browser first",
+    content_metamask_locked: "Failed to connect with MetaMask, please unlock and use",
+    get_metamask:"Get MetaMask Chrome extension (for Chrome Firefox Opera)",
+    connect_to_metamask: "Connect To MetaMask"
   },
   tokens:{
     "hide_small_balances":" Hide Small Balances",
