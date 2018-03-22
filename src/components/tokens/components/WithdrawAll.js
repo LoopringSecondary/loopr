@@ -10,6 +10,7 @@ import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
 import config from '../../../common/config'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
+import CoinIcon from '../../common/CoinIcon';
 
 class WithdrawAll extends React.Component {
 
@@ -37,19 +38,27 @@ class WithdrawAll extends React.Component {
 
     return (
       <Card title={intl.get('token.convert_title')}>
-        <div className="row justify-content-center align-items-center mb15">
-          <div className="col text-center">
-            <img className="rounded-circle" src={wethLogo} style={{height: '60px'}}/>
+        <div className="row justify-content-center align-items-center mb30">
+          <div className="col text-right">
+            <div className="text-center d-inline-block">
+               <CoinIcon size="60" symbol="WETH" />
+                <br/>
+                <span className="fs12">Old WETH</span>
+            </div>
           </div>
-          <div className="col-auto">
+          <div className="col-2">
             <img src={wrapArrow} alt="" style={{height: '14px'}}/>
           </div>
-          <div className="col text-center">
-            <img className="rounded-circle" src={ethLogo} style={{height: '60px'}}/>
+          <div className="col text-left">
+            <div className="text-center d-inline-block">
+               <CoinIcon size="60" symbol="ETH" />
+               <br/>
+               <span className="fs12">ETH</span>
+            </div>
           </div>
         </div>
         <Form layout="horizontal">
-          <Form.Item label={intl.get('token.amount')} colon={false} {...formItemLayout} className="mb0" extra={
+          <Form.Item label={null} colon={false} className="mb0" extra={
             <div className="row">
               <div className="col-auto">{priceValue}</div>
               <div className="col"/>
@@ -58,7 +67,7 @@ class WithdrawAll extends React.Component {
             {form.getFieldDecorator('amount', {
               initialValue: balance,
             })(
-              <Input placeholder="" size="large" addonAfter={selectedToken.symbol} disabled />
+              <Input placeholder={intl.get('token.amount')} size="large" addonAfter={selectedToken.symbol} disabled />
             )}
           </Form.Item>
           <Form.Item className="mb0 mt15">
