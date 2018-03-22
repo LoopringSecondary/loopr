@@ -124,23 +124,24 @@ class Convert extends React.Component {
       <Card title={intl.get('token.convert_title')}>
         <div className="row justify-content-center align-items-center mb15">
           <div className="col text-right">
-            <span className="text-center">
+            <div className="text-center d-inline-block">
                <CoinIcon size="60" symbol={selectedToken.symbol === "ETH" ? 'ETH' :'WETH' } />
                 <br/>
-                <span className="fs12 m5">{selectedToken.symbol === "ETH" ? 'ETH' :'WETH' }</span>
-            </span>
+                <span className="fs12">{selectedToken.symbol === "ETH" ? 'ETH' :'WETH' }</span>
+            </div>
           </div>
           <div className="col-auto">
             <img src={wrapArrow} alt="" style={{height: '14px'}}/>
           </div>
           <div className="col text-left">
-            <span className="text-center">
+            <div className="text-center d-inline-block">
               <CoinIcon size="60" symbol={selectedToken.symbol === "ETH" ? 'WETH' :'ETH' } />
               <br/>
-              <span className="fs12 m5">{selectedToken.symbol === "ETH" ? 'ETH' :'WETH' }</span>
-            </span>
+              <span className="fs12 ">{selectedToken.symbol === "ETH" ? 'WETH' :'ETH' }</span>
+            </div>
           </div>
         </div>
+        <div className="pt10 pb10"></div>
         <Form layout="horizontal">
           <Form.Item colon={false} className="mb0" extra={
             <div className="row">

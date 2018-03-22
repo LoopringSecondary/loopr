@@ -12,7 +12,7 @@ class TickerSocketContainer extends React.Component {
     if(nextProps.pair !== this.props.pair){
       const { socket } = this.context
       const options = {
-        "contractVersion" : "v1.0",
+        "contractVersion" : "v1.2",
         "market":nextProps.pair,
       }
       socket.emit('tickers_req',JSON.stringify(options))
