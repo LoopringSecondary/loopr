@@ -1,7 +1,7 @@
 import dva from 'dva';
 // import './index.css';
 import './assets/css/index.less'
-import moment from 'moment';
+
 import 'moment/locale/zh-cn';
 import containers from './common/containers'
 import redux from './common/redux'
@@ -20,7 +20,7 @@ window.STORAGE = STORAGE
 
 setLocale(window.STORAGE.settings.get().preference.language);
 
-moment.locale('zh-cn');
+
 
 // 1. Initialize
 const app = dva();
