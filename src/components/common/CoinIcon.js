@@ -13,9 +13,8 @@ const CoinIcon = (props)=>{
   if(!color){
     color = 'color-'+ colors[symbol] || ''
   }
-
   return (
-    <i className={`icon iconfont icon-${symbol} fs${size} ${color}`} ></i>
+    <i className={`icon icon-loopring icon-loopring-${symbol} fs${size} ${color} ${className}`} ></i>
   )
 
 }
