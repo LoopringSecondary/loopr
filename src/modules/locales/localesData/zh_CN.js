@@ -41,7 +41,13 @@ export default {
     place_success_tip: '恭喜, 您的订单已经可以等待交易',
     place_warn: '为了保证您的订单可以被撮合. 您需要做以下事项:',
     balance_not_enough: '{token} 余额不足',
-    submit: "提交订单"
+    submit: "提交订单",
+    confirm_cancel_order:"您确定要取消该笔订单？",
+    confirm_cancel_all:"您确定要取消全部{pair}订单？",
+    cancel_order_success:"取消订单成功",
+    cancel_order_failed:"取消订单失败",
+    cancel_all_success:"取消全部{pair}订单成功",
+    cancel_all_failed:"取消全部{pair}订单失败"
   },
   ticker: {
     last: '最新价',
