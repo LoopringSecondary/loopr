@@ -251,6 +251,15 @@ export default {
       download: "I Understand, Download Wallet File",
       copy_mnemonic:"I Understand, Copy Mnemonic",
       copy_privatekey:"I Understand, Copy Private Key",
+      wrong_password:"Wrong Password",
+      input_password:"Please input password first",
+      get_keystore:"Get Keystore",
+      download_keystore:"Download Keystore File",
+      enter_wallet_password:"Enter wallet Password",
+      enter_password:"Enter a password to protect your wallet",
+      file_keystore:"File Keystore",
+      text_keystore:"Text Keystore",
+      qr_keystore:"Qrcode Keystore"
     }
   },
   tokens: {

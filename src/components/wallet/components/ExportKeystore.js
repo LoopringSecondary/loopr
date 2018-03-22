@@ -5,6 +5,7 @@ import {download} from "Loopring/ethereum/account"
 import copy from 'copy-to-clipboard';
 import QRCode from 'qrcode.react';
 import {connect} from 'dva';
+import intl from 'react-intl-universal';
 
 class ExportKeystore extends React.Component {
   state = {
@@ -33,15 +34,15 @@ class ExportKeystore extends React.Component {
         ...file
       });
     }else{
-      message.error('Wrong password')
+      message.error(intl.get('wallet.backup.wrong_password'))
     }
   }
    copyToClipboard() {
     const {content} = this.state;
     if(content){
-      copy(JSON.stringify(content)) ? message.success('Copy Successfully') :  message.error("Copy Failed")
+      copy(JSON.stringify(content)) ? message.success(intl.get('token.copy_success')) :  message.error(intl.get('token.copy_failed'))
     }else{
-      message.warning('Please input password first')
+      message.warning(intl.get('wallet.backup.input_password'))
     }
   }
 
@@ -53,24 +54,24 @@ class ExportKeystore extends React.Component {
       <div className="text-left">
         <img hidden src={icon} className="mt25 mb25" style={{width: '100px'}}/>
         <Alert
-          message="Dont Lose It !"
-          description="It cannot be recovered if you lose it."
+          message={intl.get('wallet.backup.not_lose') + " !"}
+          description={intl.get('wallet.backup.not_recover')+ "."}
           type="error"
           iconType="exclamation-circle"
           showIcon
           className="mb15 mt15"
         />
         <Alert
-          message="Do Not Share It !!"
-          description="It cannot be recovered if you lose it."
+          message={intl.get('wallet.backup.not_share')+" !!"}
+          description={intl.get('wallet.backup.stolen')+"."}
           type="error"
           iconType="exclamation-circle"
           showIcon
           className="mb15"
         />
         <Alert
-          message="Make A Backup !!!"
-          description="Secure it like the millions of dollars it may one day be worth."
+          message={intl.get('wallet.backup.backup'+ "!!!")}
+          description={intl.get('wallet.backup.secure')+ "."}
           type="error"
           iconType="exclamation-circle"
           showIcon
@@ -79,11 +80,11 @@ class ExportKeystore extends React.Component {
       </div>
     )
     return (
-      <Card title="Export Keystore">
+      <Card title={intl.get('navbar.subs.export')}>
           {!content && <div className="pt15">
           <Input
             type='password'
-            placeholder= {account.password ? "Enter Wallet password":"Enter a password to protect your wallet"}
+            placeholder= {window.WALLET.getPassword() ? intl.get('wallet.backup.enter_wallet_password'):intl.get('wallet.backup.enter_password')}
             size="large"
             onChange={this.handlePasswordChange.bind(this)}
           />
@@ -92,7 +93,7 @@ class ExportKeystore extends React.Component {
           </Button>
           </div>}
           {content && <Tabs defaultActiveKey="file" tabPosition="" animated={true} className="layout-center layout-col mt15">
-            <Tabs.TabPane tab={<div className="fs16 text-center mb5">File Keystore</div>} key="file">
+            <Tabs.TabPane tab={<div className="fs16 text-center mb5">{intl.get('wallet.backup.file_keystore')}</div>} key="file">
               {tip}
               <a href={blob}
                  download={fileName}
@@ -100,7 +101,7 @@ class ExportKeystore extends React.Component {
                  Download Keystore File
               </a>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs16 text-center mb5">Text Keystore</div>} key="Text">
+            <Tabs.TabPane tab={<div className="fs16 text-center mb5">{intl.get('wallet.backup.text_keystore')}</div>} key="Text">
               {tip}
               <Input.TextArea
                 value={JSON.stringify(content)}
@@ -112,7 +113,7 @@ class ExportKeystore extends React.Component {
                 Copy Keystore
               </Button>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs16 text-center mb5">Qrcode Keystore</div>} key="qrcode">
+            <Tabs.TabPane tab={<div className="fs16 text-center mb5">{intl.get('wallet.backup.qr_keystore')}</div>} key="qrcode">
               {tip}
              <QRCode value={JSON.stringify(content)} size={240}/>
             </Tabs.TabPane>

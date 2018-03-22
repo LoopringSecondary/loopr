@@ -252,6 +252,15 @@ export default {
       download:"我已经明白，下载钱包文件",
       copy_mnemonic:"我已经我明白，复制助记词",
       copy_privatekey:"我已经明白，复制私钥",
+      wrong_password:"密码错误",
+      input_password:"请先输入密码",
+      get_keystore:"获取Keystore",
+      download_keystore:"下载Keystore文件",
+      enter_wallet_password:"请输入钱包密码",
+      enter_password:"请输入一个密码来保护钱包",
+      file_keystore:"文件",
+      text_keystore:"文本",
+      qr_keystore:"二维码"
     }
   },
   tokens:{
