@@ -67,7 +67,7 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
   const tokenR = pair.split('-')[1]
   const ticker = tickers.loopr || {} // fix bug: when init loopr is null
   const priceValue = (
-    <span className="fs10">
+    <span className="fs12">
       ≈
       <Currency />
       {(price*ticker.last).toFixed(3)}
@@ -112,7 +112,7 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
 	)
   const NumberCaption = ({title,content})=>(
     <div className="pt15 pb15">
-      <div className="fs18 color-white">{content}</div>
+      <div className="fs14 color-white font-weight-bold">{content}</div>
       <div className="fs12 color-white opacity-70">{title}</div>
     </div>
   )
@@ -143,9 +143,8 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     const priceValue = (
-      <span className="fs10">
-        ≈
-        <Currency />
+      <span className="fs12">
+        ≈<Currency />
         {(price*ticker.last).toFixed(3)}
       </span>
     )
