@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Form, Radio, Input, Tabs, Upload, Icon, message, Alert} from 'antd';
 import {isKeystorePassRequired} from 'Loopring/common/keystore';
+import intl from 'react-intl-universal';
 
 class UnlockByKeyStore extends React.Component {
 
@@ -81,26 +82,26 @@ class UnlockByKeyStore extends React.Component {
     return (
       <div className="">
         <Alert
-          message={<div className="color-red-600"><Icon type="exclamation-circle"/> NOT Recommended</div>}
-          description={<div className="color-red-600">This is a NOT recommended way to access your wallet.</div>}
+          message={<div className="color-red-600"><Icon type="exclamation-circle"/>{intl.get('wallet.not_recommended')}</div>}
+          description={<div className="color-red-600">{intl.get('wallet.not_recommended_tip')}</div>}
           type="error"
           showIcon={false}
           className="mb15"
         />
         <Form layout="horizontal" className="">
-          <Form.Item label="Select Your Keystore File" colon={false}>
+          <Form.Item label={intl.get('wallet.select_keystore')} colon={false}>
             {form.getFieldDecorator('keystore', {
               initialValue: '',
               rules: []
             })(
               <Upload {...uploadProps} >
                 <Button>
-                  <Icon type="upload"/> Select JSON File
+                  <Icon type="upload"/> {intl.get('wallet.select_json')}
                 </Button>
               </Upload>
             )}
           </Form.Item>
-          {isPasswordRequired && <Form.Item className="" label="password">
+          {isPasswordRequired && <Form.Item className="" label={intl.get('wallet.password')}>
             {form.getFieldDecorator('password', {
               initialValue: '',
               rules: []
@@ -111,7 +112,7 @@ class UnlockByKeyStore extends React.Component {
         </Form>
         <Button type="primary" className="d-block w-100" size="large" onClick={this.unlock}
                 loading={loading}
-                disabled={keyStore === '' || (isPasswordRequired && password === "")}>UnLock</Button>
+                disabled={keyStore === '' || (isPasswordRequired && password === "")}>{intl.get('wallet.unlock')}</Button>
       </div>
     )
   }

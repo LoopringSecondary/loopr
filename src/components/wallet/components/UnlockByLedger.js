@@ -2,6 +2,8 @@ import React from 'react';
 import {Button, Form, Modal, Icon, Alert} from 'antd';
 import ledger from 'ledgerco';
 import LedgerUnlockAccount from '../../../modules/account/LedgerUnlockAccount'
+import intl from 'react-intl-universal';
+
 
 const dpath = "m/44'/60'/0'"
 const walletType = "Ledger"
@@ -110,13 +112,13 @@ class UnlockByLedger extends React.Component {
     return (
       <div>
         <Alert
-          message={<div className="color-green-600"><Icon type="like"/> Recommended</div>}
-          description={<div className="color-green-600">This is a recommended way to access your wallet.</div>}
+          message={<div className="color-green-600"><Icon type="like"/> {intl.get('wallet.recommended')}</div>}
+          description={<div className="color-green-600">{intl.get('wallet.recommended_tip')}</div>}
           type="success"
           showIcon={false}
         />
         <div className="color-grey-500 fs12 mb10 mt15"></div>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.connect} loading={loading}> Connect to Ledger</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.connect} loading={loading}> {intl.get('wallet.connect_ledger')}</Button>
       </div>
     )
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'dva/router';
 import {Alert, Button, Form, Icon, Input, message} from 'antd';
 import validator from 'Loopring/common/validator';
+import intl from 'react-intl-universal';
 
 class UnlockByPrivateKey extends React.Component {
 
@@ -41,14 +42,14 @@ class UnlockByPrivateKey extends React.Component {
     return (
       <div className="">
         <Alert
-          message={<div className="color-red-600"><Icon type="exclamation-circle"/> NOT Recommended</div>}
-          description={<div className="color-red-600">This is a NOT recommended way to access your wallet.</div>}
+          message={<div className="color-red-600"><Icon type="exclamation-circle"/> {intl.get('wallet.not_recommended')}</div>}
+          description={<div className="color-red-600">{intl.get('wallet.not_recommended_tip')}</div>}
           type="error"
           showIcon={false}
           className="mb15"
         />
         <Form layout="horizontal" className="">
-          <Form.Item className="" label="Paste Your PrivateKey Here">
+          <Form.Item className="" label={intl.get('wallet.paste_privatekey')}>
             {form.getFieldDecorator('privatekey', {
               initialValue: '',
               rules: [{
@@ -62,7 +63,7 @@ class UnlockByPrivateKey extends React.Component {
           </Form.Item>
         </Form>
         <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large"
-                disabled={!this.state.privateKey || !this.state.valid}>UnLock</Button>
+                disabled={!this.state.privateKey || !this.state.valid}>{intl.get('wallet.unlock')}</Button>
       </div>
     )
   }

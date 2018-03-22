@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'dva/router';
 import { Modal, Button,Icon,Alert } from 'antd';
 import MetaMaskUnlockAccount from '../../../modules/account/MetaMaskUnlockAccount'
+import intl from 'react-intl-universal';
 
-const walletType = "MetaMask"
+const walletType = "MetaMask";
 
 class UnlockByMetaMask extends React.Component {
   state = {
@@ -81,20 +82,20 @@ class UnlockByMetaMask extends React.Component {
     return (
       <div className="text-left">
         <Alert
-          message={<div className="color-green-600"><Icon type="like"/> Recommended</div>}
-          description={<div className="color-green-600">This is a recommended way to access your wallet.</div>}
+          message={<div className="color-green-600"><Icon type="like"/>{intl.get('wallet.recommended')}</div>}
+          description={<div className="color-green-600"> {intl.get('wallet.recommended_tip')}</div>}
           type="success"
           showIcon={false}
         />
         <div className="color-grey-500 fs12 mb10 mt15">
-          <a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">Get MetaMask chrome extension (for Chrome Firefox Opera)</a>
+          <a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
         </div>
         {false &&
         <div className="color-grey-500 fs12 mb10">
           Download MetaMask For Other Browser
         </div>
         }
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>Connect To MetaMask</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_metamask')}</Button>
       </div>
     )
   }
