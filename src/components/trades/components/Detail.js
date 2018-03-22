@@ -1,9 +1,22 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Card,ListItem } from 'antd';
+import { Card,ListItem,Button } from 'antd';
 import schema from '../../../modules/trades/schema';
-
+const MetaItem = (props)=>{
+  const {label,value} = props
+  return (
+    <div className="row pt10 pb10 zb-b-b">
+      <div className="col">
+        <div className="fs14 color-grey-600">{label}</div>
+      </div>
+      <div className="col-8 text-right">
+        <div className="fs12 color-grey-900 text-wrap">{value}</div>
+      </div>
+    </div>
+  )
+}
+// <MetaItem label= value={renders.status(null,item)} />
 function DetailBlock({modal={}}) {
   let item = modal.item || {}
   const renders = {
@@ -17,17 +30,12 @@ function DetailBlock({modal={}}) {
   return (
     <div className="">
       <Card title="Ring Infomation" loading={false}>
-        {
-          schema.map((field,index)=>
-            <div className="row pb10" key={index}>
-              <div className="col-1 color-grey-700">{field.title}</div>
-              <div className="col color-grey-700 text-left">
-                {renders[field.name] &&  renders[field.name](item[field.name],item)}
-                {!renders[field.name] && item[field.name]}
-              </div>
-            </div>
-          )
-        }
+        <MetaItem label="RingHash" value={item.ringHash} />
+        <MetaItem label="Field" value="value" />
+        <MetaItem label="Field" value="value" />
+        <MetaItem label="Field" value="value" />
+        <div className="mb30"></div>
+        <Button type="default" className="d-block w-100" size="large"> More Detail About Ring, Goto Ringinfo</Button>
       </Card>
     </div>
   );
