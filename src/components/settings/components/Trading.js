@@ -9,27 +9,34 @@ const TradingSettingForm = ({
   const {trading} = settings
   const integerReg = new RegExp("^0*[1-9]{1}[0-9]*$")
   function handleChange(type, e) {
+    if ('timeToLive' === type || 'lrcFee' === type || 'marginSplit' === type) {
+      handleChangeValue(type, e.target.value)
+    } else {
+      handleChangeValue(type, e)
+    }
+  }
+  function handleChangeValue(type, v) {
     if ("contractVersion" === type){
-      const address = configs.contracts.find(item => item.version === e)
+      const address = configs.contracts.find(item => item.version === v)
       if(address) {
-        settings.tradingChange({contract:{version:e, address:address.address}})
+        settings.tradingChange({contract:{version:v, address:address.address}})
       } else {
         console.error("error")
       }
     } else if('timeToLive' === type){
-      if(validateInteger(e.target.value)) {
-        settings.tradingChange({[type]:e.target.value})
+      if(validateInteger(v)) {
+        settings.tradingChange({[type]:v})
       }
     } else if('timeToLiveUnit' === type) {
-      settings.tradingChange({[type]:e})
+      settings.tradingChange({[type]:v})
     } else if ('gasPrice' === type) {
-      if (validateGasPrice(e)) {
-        settings.tradingChange({[type]:e})
+      if (validateGasPrice(v)) {
+        settings.tradingChange({[type]:v})
       }
     } else {
-      if (('lrcFee' === type && validateLrcFee(e.target.value))
-        || ('marginSplit' === type && validateMarginSplit(e.target.value))){
-        settings.tradingChange({[type]:e.target.value})
+      if (('lrcFee' === type && validateLrcFee(v))
+        || ('marginSplit' === type && validateMarginSplit(v))){
+        settings.tradingChange({[type]:v})
       }
     }
   }
@@ -56,7 +63,15 @@ const TradingSettingForm = ({
     });
   }
   function handleReset() {
-    form.resetFields()
+    const latestContract = configs.contracts[configs.contracts.length-1]
+    form.setFieldsValue({contractVersion:latestContract.version, timeToLive:configs.defaultExpireTime, timeToLiveUnit:configs.defaultExpireTimeUnit,
+      lrcFee:configs.defaultLrcFeePermillage, marginSplit:configs.defaultMarginSplitPercentage, gasPrice:configs.defaultGasPrice})
+    handleChangeValue('contractVersion', latestContract.version)
+    handleChangeValue('timeToLive', configs.defaultExpireTime)
+    handleChangeValue('timeToLiveUnit', configs.defaultExpireTimeUnit)
+    handleChangeValue('lrcFee', configs.defaultLrcFeePermillage)
+    handleChangeValue('marginSplit', configs.defaultMarginSplitPercentage)
+    handleChangeValue('gasPrice', configs.defaultGasPrice)
   }
   function resetForm(){
     form.resetFields()

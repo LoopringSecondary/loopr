@@ -73,7 +73,7 @@ const RealySettingForm = ({
 
       </Form>
       <div className="p15 zb-b-t text-right">
-        <Button onClick={handleReset} type="" className="mr5">{intl.get('settings.reset')}</Button>
+        {false && <Button onClick={handleReset} type="" className="mr5">{intl.get('settings.reset')}</Button>}
         <Button type="primary" onClick={gotoAdd} className="">{intl.get('settings.addRelay')}</Button>
       </div>
     </div>
