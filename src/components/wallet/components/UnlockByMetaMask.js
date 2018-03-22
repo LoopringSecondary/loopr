@@ -32,8 +32,10 @@ class UnlockByMetaMask extends React.Component {
         modal.hideModal({id: 'wallet/unlock'});
         window.routeActions.gotoPath('/wallet/portfolio');
 
+        let alert = false
         var accountInterval = setInterval(function() {
-          if (!window.web3 || !window.web3.eth.accounts[0]) {
+          if ((!window.web3 || !window.web3.eth.accounts[0]) && !alert) {
+            alert = true
             console.log("MetaMask account locked:", selectedAccount)
             clearInterval(accountInterval)
             account.deleteAccount({})
@@ -45,7 +47,8 @@ class UnlockByMetaMask extends React.Component {
           }
           // page will be reload automatically
           window.web3.version.getNetwork((err, netId) => {
-            if (netId !== '1') {
+            if (netId !== '1' && !alert) {
+              alert = true
               clearInterval(accountInterval)
               account.deleteAccount({})
               Modal.error({
