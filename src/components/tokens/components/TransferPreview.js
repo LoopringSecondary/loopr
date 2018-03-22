@@ -4,6 +4,7 @@ import * as fm from '../../../common/Loopring/common/formatter'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {accDiv, accMul} from '../../../common/Loopring/common/math'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
+import intl from 'react-intl-universal';
 
 let Preview = ({
   modal, account
@@ -19,8 +20,8 @@ let Preview = ({
       tx.nonce = fm.toHex(nonce)
       if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
         Modal.info({
-          title: 'To Confirm',
-          content: "Please confirm transaction on your Ledger device",
+          title: intl.get('token.to_confirm_title'),
+          content: intl.get('token.to_confirm_ledger_content'),
         });
       }
       return window.WALLET.sendTransaction(tx)
@@ -80,7 +81,7 @@ let Preview = ({
     </span>
   )
   return (
-      <Card title="You are about to send">
+      <Card title={intl.get('token.transfer_preview_title')}>
         <div className="row flex-nowrap zb-b-b pb30">
           <div className="col-auto">
             <div className="text-center">
@@ -101,9 +102,9 @@ let Preview = ({
             </div>
           </div>
         </div>
-        <MetaItem label="From" value={extraData.from} />
-        <MetaItem label="To" value={tx.to} />
-        <MetaItem label="Gas" value={
+        <MetaItem label={intl.get('token.from')} value={extraData.from} />
+        <MetaItem label={intl.get('token.to')} value={tx.to} />
+        <MetaItem label={intl.get('token.gas')} value={
           <div className="mr15">
             <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
             <div className="row justify-content-end fs10 color-dark-text-disabled">{`≈ Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
@@ -111,10 +112,10 @@ let Preview = ({
         }/>
         <div className="row pt40">
           <div className="col pl0">
-            <Button onClick={handelCancel} className="d-block w-100" type="" size="large">No, Cancel It</Button>
+            <Button onClick={handelCancel} className="d-block w-100" type="" size="large">{intl.get('token.transfer_cancel')}</Button>
           </div>
           <div className="col pr0">
-            <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">Yes, Send Now</Button>
+            <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">{intl.get('token.transfer_send')}</Button>
           </div>
         </div>
       </Card>
