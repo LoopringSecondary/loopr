@@ -98,7 +98,7 @@ class WithdrawAll extends React.Component {
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce});
               notifyTransactionSubmitted(res.result);
               modal.hideModal({id:'token/withdrawall'});
-              const result = {extraData:{txHash:res.result, amount:values.amount, price:price.price, tokenSymbol:selectedToken.symbol, pageFrom:'Convert'}};
+              const result = {extraData:{txHash:res.result, amount:values.amount, price:price.price, tokenSymbol:selectedToken.symbol, pageFrom:'WithdrawAll'}};
               modal.showModal({id:'token/transfer/result', result})
             }
           }).catch(error=>{
