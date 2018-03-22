@@ -1,7 +1,5 @@
 import React from 'react';
 import { Form,Avatar,Input,Button,Card} from 'antd';
-import ethLogo from '../../../assets/images/eth.png';
-import wethLogo from '../../../assets/images/weth.png';
 import wrapArrow from '../../../assets/images/wrap-arrow.png';
 import WETH from '../../../common/Loopring/ethereum/weth'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
@@ -11,6 +9,7 @@ import config from '../../../common/config'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
+import CoinIcon from '../../common/CoinIcon';
 
 class Convert extends React.Component {
   state = {
@@ -124,18 +123,26 @@ class Convert extends React.Component {
     return (
       <Card title={intl.get('token.convert_title')}>
         <div className="row justify-content-center align-items-center mb15">
-          <div className="col text-center">
-            <img className="rounded-circle" src={selectedToken.symbol === "ETH" ? ethLogo : wethLogo} style={{height: '60px'}}/>
+          <div className="col text-right">
+            <span className="text-center">
+               <CoinIcon size="60" symbol={selectedToken.symbol === "ETH" ? 'ETH' :'WETH' } />
+                <br/>
+                <span className="fs12 m5">{selectedToken.symbol === "ETH" ? 'ETH' :'WETH' }</span>
+            </span>
           </div>
           <div className="col-auto">
             <img src={wrapArrow} alt="" style={{height: '14px'}}/>
           </div>
-          <div className="col text-center">
-            <img className="rounded-circle" src={selectedToken.symbol === "ETH" ? wethLogo : ethLogo} style={{height: '60px'}}/>
+          <div className="col text-left">
+            <span className="text-center">
+              <CoinIcon size="60" symbol={selectedToken.symbol === "ETH" ? 'WETH' :'ETH' } />
+              <br/>
+              <span className="fs12 m5">{selectedToken.symbol === "ETH" ? 'ETH' :'WETH' }</span>
+            </span>
           </div>
         </div>
         <Form layout="horizontal">
-          <Form.Item label={intl.get('token.amount')} colon={false} {...formItemLayout} className="mb0" extra={
+          <Form.Item colon={false} className="mb0" extra={
             <div className="row">
               <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
@@ -150,7 +157,7 @@ class Convert extends React.Component {
                 }
               ]
             })(
-              <Input placeholder="" size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}/>
+              <Input placeholder={intl.get('token.amount')} size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}/>
             )}
           </Form.Item>
 
