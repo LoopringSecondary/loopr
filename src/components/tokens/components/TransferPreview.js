@@ -5,6 +5,7 @@ import Currency from '../../../modules/settings/CurrencyContainer'
 import {accDiv, accMul} from '../../../common/Loopring/common/math'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
+import CoinIcon from '../../common/CoinIcon'
 
 let Preview = ({
   modal, account
@@ -74,7 +75,7 @@ let Preview = ({
       </div>
   )
   const priceValue = (
-    <span className="fs10">
+    <span className="fs12">
       ≈
       <Currency />
       {accMul(extraData.amount, extraData.price).toFixed(2)}
@@ -82,26 +83,35 @@ let Preview = ({
   )
   return (
       <Card title={intl.get('token.transfer_preview_title')}>
-        <div className="row flex-nowrap zb-b-b pb30">
-          <div className="col-auto">
-            <div className="text-center">
-              <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-            </div>
-          </div>
+
+        <div className="row flex-nowrap pb30">
           <div className="col">
             <div className="text-center">
-              <Avatar size="" className="bg-white border-grey-900" src="https://loopring.io/images/favicon.ico"></Avatar>
-              <div className="fs12 color-grey-500">{extraData.tokenSymbol}</div>
-              {ArrowDivider}
-              <div className="fs14 color-grey-900">{`${extraData.amount} ${extraData.tokenSymbol} `}{priceValue}</div>
-            </div>
-          </div>
-          <div className="col-auto">
-            <div className="text-center">
-              <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
+              <CoinIcon size="60" symbol={extraData.tokenSymbol} />
+              <div className="fs20 color-grey-900">{`${extraData.amount} ${extraData.tokenSymbol} `}{priceValue}</div>
             </div>
           </div>
         </div>
+        {
+          false &&
+          <div className="row flex-nowrap zb-b-b">
+            <div className="col-auto">
+              <div className="text-center">
+                <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
+              </div>
+            </div>
+            <div className="col">
+              <div className="text-center">
+                {ArrowDivider}
+              </div>
+            </div>
+            <div className="col-auto">
+              <div className="text-center">
+                <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
+              </div>
+            </div>
+          </div>
+        }
         <MetaItem label={intl.get('token.from')} value={extraData.from} />
         <MetaItem label={intl.get('token.to')} value={tx.to} />
         <MetaItem label={intl.get('token.gas')} value={
