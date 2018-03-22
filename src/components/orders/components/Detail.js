@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Link } from 'dva/router'
 import { Card,ListItem,Avatar,Icon,Button } from 'antd'
 import renders from './List/renders'
+import CoinIcon from '../../common/CoinIcon'
 function DetailBlock({modal={}}) {
   const item = modal.item
   const tokenS = item.originalOrder.tokenS
@@ -21,8 +22,8 @@ function DetailBlock({modal={}}) {
         <div className="col">
           <div className="fs14 color-grey-600">{label}</div>
         </div>
-        <div className="col-5">
-          <div className="fs14 color-grey-900 text-wrap">{value}</div>
+        <div className="col-8 text-right">
+          <div className="fs12 color-grey-900 text-wrap">{value}</div>
         </div>
       </div>
     )
@@ -44,20 +45,20 @@ function DetailBlock({modal={}}) {
       <div className="row flex-nowrap zb-b-b pb30 justify-content-center align-items-center">
         <div className="col-auto">
           <div className="text-center">
-            <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
+            <CoinIcon size="50" symbol={tokenS} />
             <div className="fs12 color-grey-900 text-wrap" style={{maxWidth:'180px'}}>
               {tokenS}
             </div>
           </div>
         </div>
-        <div className="col-1">
+        <div className="col-2">
           <div className="text-center">
             <ArrowDivider />
           </div>
         </div>
         <div className="col-auto">
           <div className="text-center">
-            <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
+            <CoinIcon size="50" symbol={tokenB} />
             <div className="fs12 color-grey-900 text-wrap" style={{maxWidth:'180px'}}>
               {tokenB}
             </div>
