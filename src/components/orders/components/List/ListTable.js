@@ -8,6 +8,7 @@ import {toHex, toNumber, clearPrefix} from "Loopring/common/formatter";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
+import intl from 'react-intl-universal';
 
 const uiFormatter = window.uiFormatter;
 const fm = window.uiFormatter.TokenFormatter;
@@ -31,8 +32,7 @@ function ListBlock(props) {
   } = LIST[id] || {};
   const cancel = (item) => {
     Modal.confirm({
-      title: 'Do you Want to cancel this order ?',
-      content: 'Some descriptions',
+      title: intl.get('order.confirm_cancel_order'),
       onOk: async () => {
         const nonce = await window.STORAGE.wallet.getNonce(account.address);
         const originalOrder = item.originalOrder;
@@ -55,12 +55,12 @@ function ListBlock(props) {
             window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
             notifyTransactionSubmitted(res.result);
             Modal.success({
-              title: "Cancel Order Successfully",
+              title: intl.get('order.cancel_order_success'),
               content: <div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {window.uiFormatter.getShortAddress(res.result)}</a></div>
             })
           } else {
             Modal.error({
-              title: "Cancel Order Failed",
+              title: intl.get('order.cancel_order_failed'),
               content: res.error.message
             })
           }

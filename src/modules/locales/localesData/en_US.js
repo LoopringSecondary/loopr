@@ -35,11 +35,18 @@ export default {
     sign:"Sign",
     signed:"Signed Order",
     place_tip:"Submit order is free and does no consume gas",
+    placing_order:"Placing Order",
     place_success:"Success!",
     place_success_tip:'Congratulation! Your order is under trading now!',
     place_warn:'Before your orders can be filled. You should do things followed:',
     balance_not_enough:'{token} balance is not enough',
-    submit:"Submit Order"
+    submit:"Submit Order",
+    confirm_cancel_order:"Do you Want to cancel this order ?",
+    confirm_cancel_all:"Do you Want to cancel all {pair} orders?",
+    cancel_order_success:"Cancel Order Success",
+    cancel_order_failed:"Cancel Order Failed",
+    cancel_all_success:"Cancel All {pair} Orders Success",
+    cancel_all_failed:"Cancel All {pair} Orders Failed"
   },
   ticker:{
     last:'Last Price',
