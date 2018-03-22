@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Card, Input, Progress} from 'antd';
-
+import intl from 'react-intl-universal';
 
 export default class GenerateWallet extends React.Component {
   constructor(props) {
@@ -78,12 +78,12 @@ export default class GenerateWallet extends React.Component {
       </div>
     )
     return (
-      <Card title='Generate Wallet'>
+      <Card title={intl.get('wallet.genearte_wallet')}>
         <Input
           type={visible ? 'text' : 'password'}
           value={value}
           size="large"
-          placeholder="Set a strong password"
+          placeholder={intl.get('wallet.set_password')}
           addonAfter={visibleIcon}
           onChange={this.passwordChange.bind(this)}
         />
@@ -112,12 +112,12 @@ export default class GenerateWallet extends React.Component {
         <div className="mb25"></div>
         <Button disabled={disabled} loading={loading} onClick={this.handelSubmit.bind(this)}
                 className="w-100 d-block mt15" type="primary" size="large">
-          Generate Now
+          {intl.get('wallet.generate')}
         </Button>
         <div className="fs14 color-grey-900 text-center pt20 zb-b-t mt20">
-          Already have a wallet ?
+          {intl.get('wallet.have_one')} ?
           <a className="color-blue-600 ml5" onClick={this.gotoUnlock.bind(this)}>
-            Click to unlock !
+            {intl.get('wallet.to_unlock')} !
           </a>
         </div>
       </Card>

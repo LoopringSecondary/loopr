@@ -99,15 +99,15 @@ class Airdrop extends React.Component {
               {intl.get('wallet.bind_address')}
             </Button>
             <Modal
-              title={`Bind ${ project && project.name.toUpperCase()} Address`}
+              title= {intl.get('wallet.bind_type_address',{type: project && project.name.toUpperCase()})}
               visible={this.state.visible}
               onOk={this.handelSubmit}
               onCancel={this.hideModal}
-              okText="确认"
-              cancelText="取消"
+              okText={intl.get('wallet.confirm')}
+              cancelText={intl.get('wallet.cancel')}
             >
-              <p>token: {project && project.lrx.toUpperCase()}</p>
-              <p>address:{address}</p>
+              <p>{intl.get('wallet.token')}: {project && project.lrx.toUpperCase()}</p>
+              <p>{intl.get('wallet.address')}:{address}</p>
             </Modal>
           </Card>
         </div>

@@ -9,11 +9,16 @@ import wrapArrow from '../../../assets/images/wrap-arrow.png';
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
 import config from '../../../common/config'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
+import intl from 'react-intl-universal';
 
 class WithdrawAll extends React.Component {
 
+  state = {
+    errorMsg: ''
+  };
+
   render() {
-    const {modal,prices,settings,account,form} = this.props;
+    const {modal,prices,settings,form} = this.props;
     const selectedToken = modal.item || {};
     const balance = toBig(selectedToken.balance).div(1e18).toNumber();
     const price = prices.getTokenBySymbol('ETH');
@@ -31,7 +36,7 @@ class WithdrawAll extends React.Component {
     };
 
     return (
-      <Card title="Convert">
+      <Card title={intl.get('token.convert_title')}>
         <div className="row justify-content-center align-items-center mb15">
           <div className="col text-center">
             <img className="rounded-circle" src={wethLogo} style={{height: '60px'}}/>
@@ -44,7 +49,7 @@ class WithdrawAll extends React.Component {
           </div>
         </div>
         <Form layout="horizontal">
-          <Form.Item label="Amount" colon={false} {...formItemLayout} className="mb0" extra={
+          <Form.Item label={intl.get('token.amount')} colon={false} {...formItemLayout} className="mb0" extra={
             <div className="row">
               <div className="col-auto">{priceValue}</div>
               <div className="col"/>
@@ -57,7 +62,7 @@ class WithdrawAll extends React.Component {
             )}
           </Form.Item>
           <Form.Item className="mb0 mt15">
-            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">Yes,Wrap Now!</Button>
+            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">{intl.get('token.convert_confirm')}</Button>
             {this.state.errorMsg &&
             <div className="fs12 color-red-500 text-center mb5">
               {this.state.errorMsg}
@@ -74,13 +79,13 @@ class WithdrawAll extends React.Component {
       form.validateFields((err, values) => {
         if (!err) {
           let nonce = 0;
-          window.STORAGE.wallet.getNonce(account.address).then(result => {
+          window.STORAGE.wallet.getNonce(window.WALLET.getAddress()).then(result => {
               return withdraw(result);
           }).then(res=>{
             if (res.error) {
               _this.setState({errorMsg: res.error.message})
             } else {
-              window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
+              window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce});
               notifyTransactionSubmitted(res.result);
               modal.hideModal({id:'token/withdrawall'});
@@ -94,7 +99,6 @@ class WithdrawAll extends React.Component {
         }
       });
     }
-
 
     function withdraw(nonce) {
       const wethConfig = config.getTokenBySymbol(selectedToken.symbol);

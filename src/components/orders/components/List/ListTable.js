@@ -56,7 +56,7 @@ function ListBlock(props) {
             notifyTransactionSubmitted(res.result);
             Modal.success({
               title: "Cancel Order Successfully",
-              content: <div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> window.uiFormatter.getShortAddress(res.result)</a></div>
+              content: <div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {window.uiFormatter.getShortAddress(res.result)}</a></div>
             })
           } else {
             Modal.error({

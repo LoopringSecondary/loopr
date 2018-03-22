@@ -64,7 +64,13 @@ function Modals(props){
         <EditToken />
       </ModalContainer>
       <ModalContainer id='token/withdrawall'>
-        <WithdrawAll />
+        <SettingsContainer>
+          <Sockets.Prices>
+            <Sockets.Assets>
+              <WithdrawAll />
+            </Sockets.Assets>
+          </Sockets.Prices>
+        </SettingsContainer>
       </ModalContainer>
     </div>
   );
