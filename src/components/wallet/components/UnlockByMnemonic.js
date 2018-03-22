@@ -1,12 +1,12 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Alert, Button, Form, Icon, Input, message, Select,Modal,Radio} from 'antd';
+import {Alert, Button, Form, Icon, Input, Select} from 'antd';
 import {wallets} from "../../../common/config/data";
 import {isValidateMnemonic} from "Loopring/common/mnemonic"
 import {fromMnemonic} from 'Loopring/ethereum/account';
 import MnemonicUnlockAccount from '../../../modules/account/MnemonicUnlockAccount'
+import intl from 'react-intl-universal';
 
-const RadioGroup = Radio.Group;
 class UnlockByMnemonic extends React.Component {
 
   state = {
@@ -50,14 +50,14 @@ class UnlockByMnemonic extends React.Component {
     return (
       <div className="">
         <Alert
-          message={<div className="color-red-600"><Icon type="exclamation-circle"/> NOT Recommended</div>}
-          description={<div className="color-red-600">This is a NOT recommended way to access your wallet.</div>}
+          message={<div className="color-red-600"><Icon type="exclamation-circle"/> {intl.get('wallet.not_recommended')}</div>}
+          description={<div className="color-red-600">{intl.get('wallet.not_recommended_tip')}</div>}
           type="error"
           showIcon={false}
           className="mb15"
         />
         <Form layout="horizontal" className="">
-          <Form.Item className="mb15" label="Select Your Wallet Type">
+          <Form.Item className="mb15" label={intl.get('wallet.select_wallet')}>
             {form.getFieldDecorator('wallet', {
               initialValue: '',
               rules: [{
@@ -77,19 +77,19 @@ class UnlockByMnemonic extends React.Component {
               </Select>
             )}
           </Form.Item>
-          <Form.Item className="mb15" label="Paste Your Mnemonic Here">
+          <Form.Item className="mb15" label={intl.get('wallet.paste_mnemonic')}>
             {form.getFieldDecorator('mnemonic', {
               initialValue:'',
               rules: [{
                 required:true,
-                message:"Please input valid phrase",
+                message:intl.get('wallet.mnemonic_tip'),
                 validator:(rule, value, cb) => isValidateMnemonic(value) ? cb() : cb(true)
               }]
             })(
               <Input.TextArea size="large" autosize={{minRows: 3, maxRows: 6}} onChange={this.handleMnemonicChange}/>
             )}
           </Form.Item>
-          <Form.Item className="mb25" label="Password(optional)">
+          <Form.Item className="mb25" label={intl.get('wallet.password')+"("+intl.get('wallet.optional')+")"}>
             {form.getFieldDecorator('password', {
               initialValue: '',
               rules: []
@@ -98,7 +98,8 @@ class UnlockByMnemonic extends React.Component {
             )}
           </Form.Item>
         </Form>
-        <Button type="primary" className="d-block w-100" size="large" disabled={!this.state.dpath || !this.state.mnemonic || !this.state.isMnemonicValid} onClick={this.showAddresses}>UnLock</Button>
+        <Button type="primary" className="d-block w-100" size="large"
+                disabled={!this.state.dpath || !this.state.mnemonic || !this.state.isMnemonicValid} onClick={this.showAddresses}>{intl.get('wallet.unlock')}</Button>
       </div>
     )
   }
