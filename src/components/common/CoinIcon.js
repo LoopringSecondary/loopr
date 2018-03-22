@@ -6,20 +6,16 @@ import colors from '../../common/config/tokens_colors.json'
 // const path = `./${symbol}.svg`
 // const path = `../assets/icons/${symbol}.svg`
 const CoinIcon = (props)=>{
-  let {symbol='LRC',size='50',fill='',className="",style={} } = props
+  let {symbol='LRC',size='50',fill='',color,className="",style={} } = props
   symbol = symbol.toUpperCase()
-  const path = `../../../../release/icons/${symbol}.svg`
-  if(!fill){
-    fill = 'fill-'+ colors[symbol] || ''
+  // const path = `../../../../release/icons/${symbol}.svg`
+  const path = `../../assets/icons/${symbol}.svg`
+  if(!color){
+    color = 'color-'+ colors[symbol] || ''
   }
 
   return (
-    <ReactSVG
-        path={path}
-        callback={svg => console.log(svg)}
-        className={`${fill} ${className}`}
-        style={{width:size}}
-    />
+    <i className={`icon iconfont icon-${symbol} fs${size} ${color}`} ></i>
   )
 
 }
