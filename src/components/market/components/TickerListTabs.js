@@ -90,7 +90,7 @@ const TickerTable = (props)=>{
                 <td className="fs12 border-0 "><a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a></td>
                 <td className="fs12 border-0 color-green-600">{item.last || 0}</td>
                 <td className="fs12 border-0 color-green-600">{item.change || 0}</td>
-                <td className="fs12 border-0 ">{Number(item.vol).toFixed(4)} {market}</td>
+                <td className="fs12 border-0 ">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
               </tr>
             )
           }

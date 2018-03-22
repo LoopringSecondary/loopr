@@ -14,7 +14,7 @@ class AssetsContainer extends React.Component {
     if(nextProps.address !== this.props.address){
       const { socket } = this.context
       const options = {
-        "contractVersion" : "v1.0",
+        "contractVersion" : "v1.2",
         "owner":nextProps.address,
       }
       socket.emit('balance_req',JSON.stringify(options))
