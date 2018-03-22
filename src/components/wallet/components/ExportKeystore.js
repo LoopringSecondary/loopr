@@ -12,8 +12,15 @@ class ExportKeystore extends React.Component {
     password:null,
     content:'',
     fileName:'',
-    blob:null
+    blob:null,
+    visible:false,
   };
+
+  togglePassword() {
+    this.setState({
+      visible: !this.state.visible
+    })
+  }
 
   componentWillMount() {
   }
@@ -48,7 +55,18 @@ class ExportKeystore extends React.Component {
 
   render() {
     const {account} = this.props;
-    const {password,content,fileName,blob} = this.state;
+    const {password,content,fileName,blob,visible} = this.state;
+
+    const visibleIcon = (
+      <div className="fs14 pl5 pr5">
+        {visible &&
+        <i className="fa fa-eye" onClick={this.togglePassword.bind(this)}/>
+        }
+        {!visible &&
+        <i className="fa fa-eye-slash" onClick={this.togglePassword.bind(this)}/>
+        }
+      </div>
+    );
 
     const tip = (
       <div className="text-left">
@@ -83,13 +101,14 @@ class ExportKeystore extends React.Component {
       <Card title={intl.get('navbar.subs.export')}>
           {!content && <div className="pt15">
           <Input
-            type='password'
+            type={visible ? 'text':'password'}
             placeholder= {window.WALLET.getPassword() ? intl.get('wallet.backup.enter_wallet_password'):intl.get('wallet.backup.enter_password')}
             size="large"
+            addonAfter={visibleIcon}
             onChange={this.handlePasswordChange.bind(this)}
           />
           <Button disabled={!password} size="large" className="d-block w-100 mt25" type="primary" onClick={this.getKeystore.bind(this)}>
-            Get Keystore
+            {intl.get('wallet.backup.get_keystore')}
           </Button>
           </div>}
           {content && <Tabs defaultActiveKey="file" tabPosition="" animated={true} className="layout-center layout-col mt15">
@@ -98,7 +117,7 @@ class ExportKeystore extends React.Component {
               <a href={blob}
                  download={fileName}
                  className="ant-btn ant-btn-primary ant-btn-lg d-flex justify-content-center w-100 mt15 align-items-center">
-                 Download Keystore File
+                {intl.get('wallet.backup.download_keystore')}
               </a>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs16 text-center mb5">{intl.get('wallet.backup.text_keystore')}</div>} key="Text">
@@ -110,7 +129,7 @@ class ExportKeystore extends React.Component {
                 auto={true}
               />
               <Button size="large" type="primary" className="d-block w-100 mt25" onClick={this.copyToClipboard.bind(this)}>
-                Copy Keystore
+                {intl.get('wallet.backup.copy_keystore')}
               </Button>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs16 text-center mb5">{intl.get('wallet.backup.qr_keystore')}</div>} key="qrcode">

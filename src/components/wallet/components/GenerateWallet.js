@@ -76,9 +76,9 @@ export default class GenerateWallet extends React.Component {
         <i className="fa fa-eye-slash" onClick={this.togglePassword.bind(this)}/>
         }
       </div>
-    )
+    );
     return (
-      <Card title={intl.get('wallet.genearte_wallet')}>
+      <Card title={intl.get('wallet.generate_wallet')}>
         <Input
           type={visible ? 'text' : 'password'}
           value={value}
