@@ -4,7 +4,7 @@ import { Modal, Button,Icon,Alert } from 'antd';
 import MetaMaskUnlockAccount from '../../../modules/account/MetaMaskUnlockAccount'
 import intl from 'react-intl-universal';
 
-const walletType = "MetaMask";
+const walletType = "MetaMask"
 
 class UnlockByMetaMask extends React.Component {
   state = {
@@ -18,8 +18,8 @@ class UnlockByMetaMask extends React.Component {
       window.web3.version.getNetwork((err, netId) => {
         if (netId !== '1') {
           Modal.error({
-            title: 'Error',
-            content: "We only support Ethereum mainnet when using MetaMask",
+            title: intl.get('wallet.error_title'),
+            content: intl.get('wallet.content_metamask_mainnet'),
           });
           this.setState({loading:false})
           return
@@ -32,25 +32,28 @@ class UnlockByMetaMask extends React.Component {
         modal.hideModal({id: 'wallet/unlock'});
         window.routeActions.gotoPath('/wallet/portfolio');
 
+        let alert = false
         var accountInterval = setInterval(function() {
-          if (!window.web3 || !window.web3.eth.accounts[0]) {
+          if ((!window.web3 || !window.web3.eth.accounts[0]) && !alert) {
+            alert = true
             console.log("MetaMask account locked:", selectedAccount)
             clearInterval(accountInterval)
             account.deleteAccount({})
             Modal.warning({
-              title: 'Warning',
-              content: 'You have logout from MetaMask',
+              title: intl.get('wallet.warning_title'),
+              content: intl.get('wallet.content_metamask_logout'),
             });
             return
           }
           // page will be reload automatically
           window.web3.version.getNetwork((err, netId) => {
-            if (netId !== '1') {
+            if (netId !== '1' && !alert) {
+              alert = true
               clearInterval(accountInterval)
               account.deleteAccount({})
               Modal.error({
-                title: 'Error',
-                content: "You may have changed your MetaMask network, or your computer has ever been locked. For either reason, you should make sure your MetaMask is using MainNetwork and unlock your wallet again",
+                title: intl.get('wallet.error_title'),
+                content: intl.get('wallet.content_metamask_unlock_again'),
               });
               return
             }
@@ -65,12 +68,12 @@ class UnlockByMetaMask extends React.Component {
         }, 100);
       })
     } else {
-      let content = 'Your may need to install MetaMask extension to your browser first'
+      let content = intl.get('wallet.content_metamask_install')
       if(window.web3 && !window.web3.eth.accounts[0]) { // locked
-        content = 'Failed to connect with MetaMask, please unlock and use'
+        content = intl.get('wallet.content_metamask_locked')
       }
       Modal.error({
-        title: 'Error',
+        title: intl.get('wallet.error_title'),
         content: content,
       });
       this.setState({loading:false})
@@ -82,8 +85,8 @@ class UnlockByMetaMask extends React.Component {
     return (
       <div className="text-left">
         <Alert
-          message={<div className="color-green-600"><Icon type="like"/>{intl.get('wallet.recommended')}</div>}
-          description={<div className="color-green-600"> {intl.get('wallet.recommended_tip')}</div>}
+          message={<div className="color-green-600"><Icon type="like"/> {intl.get('wallet.recommended')}</div>}
+          description={<div className="color-green-600">{intl.get('wallet.recommend_way')}</div>}
           type="success"
           showIcon={false}
         />
@@ -95,7 +98,7 @@ class UnlockByMetaMask extends React.Component {
           Download MetaMask For Other Browser
         </div>
         }
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_metamask')}</Button>
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_to_metamask')}</Button>
       </div>
     )
   }
