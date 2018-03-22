@@ -30,7 +30,7 @@ class UnlockByTrezor extends React.Component {
       <div className="text-left">
         <Alert
           message={<div className="color-green-600"><Icon type="like" /> {intl.get('wallet.recommended')}</div>}
-          description={<div className="color-green-600">{intl.get('wallet.recommended_tip')}</div>}
+          description={<div className="color-green-600">{intl.get('wallet.recommend_way')}</div>}
           type="success"
           showIcon={false}
         />
