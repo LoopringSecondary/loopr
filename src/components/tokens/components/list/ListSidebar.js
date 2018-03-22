@@ -320,7 +320,8 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
     <div style={{minWidth:'150px',maxWidth:'250px'}}>
       <div className="row no-gutters p5" >
         <div className="col-12 p5">
-          <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary" icon="pay-circle-o">
+          <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary" >
+            <i className="icon icon-loopring icon-loopring-send fs12 color-white mr5"></i>
             {intl.get('tokens.options_transfer')} {token.symbol}
           </Button>
         </div>
@@ -405,7 +406,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
           </div>
           <div className="col-auto pr10">
             { selected[item.symbol] &&
-              <CoinIcon symbol={item.symbol} size="32" fill="fill-white"/>
+              <CoinIcon symbol={item.symbol} size="32" color="white"/>
             }
             { !selected[item.symbol] &&
               <CoinIcon symbol={item.symbol} size="32" />
