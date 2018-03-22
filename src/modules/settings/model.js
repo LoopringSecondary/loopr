@@ -32,7 +32,7 @@ export default {
   namespace: 'settings',
   state: {
     preference: {
-      language: "en",
+      language: "en_US",
       currency: "USD",
       timezone: "UTC+00:00"
     },
