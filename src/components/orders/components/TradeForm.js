@@ -446,7 +446,7 @@ class TradeForm extends React.Component {
       <span className="fs10">
         ≈
         <Currency />
-        {accMul(this.state.priceInput, tokenRPrice.price).toFixed(2)}
+        {this.state.priceInput >0 ? accMul(this.state.priceInput, tokenRPrice.price).toFixed(2) : accMul(displayPrice, tokenRPrice.price).toFixed(2)}
       </span>
     )
 
