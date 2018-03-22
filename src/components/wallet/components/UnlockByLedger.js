@@ -19,6 +19,7 @@ class UnlockByLedger extends React.Component {
         title: intl.get('wallet.error_title'),
         content: intl.get('wallet.content_ledger_unlock_require_https'),
       });
+      this.setState({loading:false})
       return
     }
     const {account, modal} = this.props;
