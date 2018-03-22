@@ -8,10 +8,10 @@ import Sockets from '../../modules/socket/containers'
 import * as Recharts from 'recharts'
 import * as fm from '../../common/Loopring/common/formatter'
 import circleChart from '../../assets/images/portfolio-circle-chart.png'
-
+import Currency from '../../modules/settings/CurrencyContainer'
+import {accAdd, accSub, accMul, accDiv} from '../../common/Loopring/common/math'
 
 class AssetsPieChart extends React.Component{
-
   sortAssetsByWorth(portfolio, prices) {
     if(!portfolio || portfolio.size == 0 || !prices || prices.size == 0) {
       return;
@@ -109,6 +109,26 @@ class AssetsPieChart extends React.Component{
   }
 }
 
+class AssetsWorth extends React.Component{
+  render () {
+    const {assets, prices} = this.props
+    let totalWorth = 0
+    assets.items.map(item=>{
+      const tokenConfig = window.CONFIG.getTokenBySymbol(item.symbol)
+      const amount = item.balance > 0 ? fm.toBig(item.balance).div("1e"+tokenConfig.digits) : fm.toBig(0)
+      const worth = amount.times(prices.getTokenBySymbol(item.symbol).price).toNumber().toFixed(0)
+      totalWorth = accAdd(totalWorth, worth)
+    })
+    return (
+      <span className="fs10">
+        ≈
+        <Currency />
+        {totalWorth}
+      </span>
+    );
+  }
+}
+
 const Portfolio = (props) => {
   return (
     <Layout {...props}>
@@ -125,7 +145,11 @@ const Portfolio = (props) => {
           <img src={circleChart} alt="" style={{width:'300px'}}/>
           <div style={{position:'absolute','top':'105px',textAlign:'center',width:'100%'}}>
             <div className="fs30 color-grey-900 mt10">
-              $ 39,484,950
+              <Sockets.Prices>
+                <Sockets.Assets>
+                  <AssetsWorth/>
+                </Sockets.Assets>
+              </Sockets.Prices>
             </div>
             <div className="fs16 color-grey-500">
               Total Value
