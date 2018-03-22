@@ -261,7 +261,6 @@ export default {
       file_keystore:"文件",
       text_keystore:"文本",
       qr_keystore:"二维码"
-    }
   },
   tokens:{
     "hide_small_balances":"隐藏小额资产",

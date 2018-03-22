@@ -19,8 +19,8 @@ class Transfer extends React.Component {
     advanced: false,
     value: 0,
     gasMark: {
-      200000: 'slow',
-      3000000: 'fast'
+      200000: intl.get('token.slow'),
+      3000000: intl.get('token.fast')
     }
   }
 
@@ -34,9 +34,9 @@ class Transfer extends React.Component {
       const estimateGasShow = estimateGas.times(1e9)
       this.setState({
         gasMark: {
-          200000: 'slow',
+          200000: intl.get('token.slow'),
           [estimateGasShow]: '',
-          3000000: 'fast'
+          3000000: intl.get('token.fast')
         },
         selectedGas: estimateGas.toNumber(),
         gasValueInSlider: estimateGasShow.toNumber()
@@ -199,13 +199,13 @@ class Transfer extends React.Component {
       </span>
     )
     return (
-      <Card title={"Send "+selectedToken.symbol}>
+      <Card title={`${intl.get('token.send')} ${selectedToken.symbol}`}>
         <Form layout="horizontal">
-          <Form.Item label="Recipient" {...formItemLayout} colon={false}>
+          <Form.Item label={intl.get('token.recipient')} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('to', {
               initialValue: '',
               rules: [
-                {message: 'Invalid Ethereum address',
+                {message: intl.get("token.eth_address_verification_message"),
                   validator: (rule, value, cb) => validateEthAddress(value) ? cb() : cb(true)
                 }
               ]
@@ -213,18 +213,18 @@ class Transfer extends React.Component {
               <Input placeholder="" size="large"/>
             )}
           </Form.Item>
-          <Form.Item label="Amount" {...formItemLayout} colon={false} extra={
+          <Form.Item label={intl.get("token.amount")} {...formItemLayout} colon={false} extra={
             <div className="row">
               <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
-              <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>Send Max</a></div>
+              <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>{intl.get("token.send_max")}</a></div>
             </div>
           }>
             {form.getFieldDecorator('amount', {
               initialValue: 0,
               rules: [
                 {
-                  message: 'Please input valid amount',
+                  message: intl.get('token.amount_verification_message'),
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
                 }
               ]
@@ -248,7 +248,7 @@ class Transfer extends React.Component {
           {!this.state.advanced &&
             <div>
               <div style={{height:"253px"}}>
-                <Form.Item className="mb0" label={"Transaction Fee: "+formatGas(this.state.gasValueInSlider)} colon={false}>
+                <Form.Item className="mb0" label={`${intl.get('token.transaction_fee')} ${formatGas(this.state.gasValueInSlider)}`} colon={false}>
                   {form.getFieldDecorator('transactionFee', {
                     initialValue: this.state.gasValueInSlider,
                     rules: []
@@ -264,7 +264,7 @@ class Transfer extends React.Component {
               <div className="row">
                 <div className="col"></div>
                 <div className="col-auto">
-                  <Form.Item className="mb0 text-right d-flex align-items-center" label="Advance" colon={false}>
+                  <Form.Item className="mb0 text-right d-flex align-items-center" label={intl.get('token.advanced')} colon={false}>
                     <Switch onChange={setAdvance.bind(this)}/>
                   </Form.Item>
                 </div>
@@ -273,7 +273,7 @@ class Transfer extends React.Component {
           }
           {this.state.advanced &&
             <div>
-              <Form.Item label="Data" {...formItemLayout} colon={false}>
+              <Form.Item label={intl.get('token.data')} {...formItemLayout} colon={false}>
                 {form.getFieldDecorator('data', {
                   initialValue: '',
                   rules: []
@@ -281,26 +281,26 @@ class Transfer extends React.Component {
                   <Input className="d-block w-100" placeholder="" size="large"/>
                 )}
               </Form.Item>
-              <Form.Item label="Gas Limit" {...formItemLayout} colon={false}>
+              <Form.Item label={intl.get('token.gas_limit')} {...formItemLayout} colon={false}>
                 {form.getFieldDecorator('gasLimit', {
                   initialValue: this.state.selectedGasLimit,
                   rules: [{
-                    message:"Please input integer value",
+                    message:intl.get('trade.integer_verification_message'),
                     validator: (rule, value, cb) => isInteger(value) ? cb() : cb(true)
                   }],
                 })(
                   <Input className="d-block w-100" placeholder="" size="large" onChange={gasLimitChange.bind(this)}/>
                 )}
               </Form.Item>
-              <Form.Item label="GasPrice" colon={false}>
+              <Form.Item label={intl.get('token.gas_price')} colon={false}>
                 {form.getFieldDecorator('gasPrice', {
                   initialValue: fm.toNumber(configs.defaultGasPrice),
                   rules: []
                 })(
                   <Slider min={1} max={99} step={1}
                           marks={{
-                            1: 'slow',
-                            99: 'fast'
+                            1: intl.get('token.slow'),
+                            99: intl.get('token.fast')
                           }}
                           onChange={gasPriceChange.bind(this)}
                   />
@@ -309,7 +309,7 @@ class Transfer extends React.Component {
               <div className="row">
                 <div className="col"></div>
                 <div className="col-auto">
-                  <Form.Item className="mb0 text-right d-flex align-items-center" label="Advance" colon={false}>
+                  <Form.Item className="mb0 text-right d-flex align-items-center" label={intl.get('token.advanced')} colon={false}>
                     <Switch defaultChecked onChange={setAdvance.bind(this)}/>
                   </Form.Item>
                 </div>
@@ -317,7 +317,7 @@ class Transfer extends React.Component {
             </div>
           }
           <Form.Item>
-            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">Continue</Button>
+            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">{intl.get('token.continue')}</Button>
           </Form.Item>
         </Form>
       </Card>

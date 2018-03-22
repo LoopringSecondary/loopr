@@ -2,7 +2,7 @@ export default {
 	"extraBabelPlugins": [
     ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
 	],
-  // disableCSSModules: true,
+  disableCSSModules: true,
   // "extraBabelPresets":[
   //   "es2015"
   // ],

@@ -32,12 +32,10 @@ class TradeForm extends React.Component {
       tokenCopy.allowance = tokenCopy.allowance > 0 ? fm.toBig(tokenCopy.allowance).div("1e"+tokenCopy.digits) : fm.toBig(0)
       return tokenCopy
     }
-
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
     const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account,settings} = this.props
     const tickerByLoopring = tickersByLoopring.getTickerByMarket(pair)
-    const displayPrice = tickerByLoopring ? tickerByLoopring.last : 0
     const tokenL = pair.split('-')[0].toUpperCase()
     const tokenR = pair.split('-')[1].toUpperCase()
     const tokenLBalanceOriginal = {...config.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
@@ -51,6 +49,16 @@ class TradeForm extends React.Component {
     const TokenFormatter = window.uiFormatter.TokenFormatter
     let fmL = new TokenFormatter({symbol:tokenL})
     let fmR = new TokenFormatter({symbol:tokenR})
+    let displayPrice = tickerByLoopring ? tickerByLoopring.last : 0
+    const priceArr = displayPrice.toString().split(".")
+    if (priceArr[1] && priceArr[1].length > marketConfig.pricePrecision) {
+      try {
+        displayPrice = Number(priceArr[0] + "." + priceArr[1].substring(0, marketConfig.pricePrecision))
+      } catch (e) {
+        console.error(e)
+        displayPrice = 0
+      }
+    }
 
     const showModal = (payload)=>{
       dispatch({
