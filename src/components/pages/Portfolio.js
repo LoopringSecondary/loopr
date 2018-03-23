@@ -159,7 +159,7 @@ const Portfolio = (props) => {
               </Sockets.Prices>
             </div>
             <div className="fs16 color-grey-500">
-              Total Value ≈
+              Total Value
             </div>
           </div>
 

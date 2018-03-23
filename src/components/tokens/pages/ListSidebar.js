@@ -9,6 +9,7 @@ import SettingsContainer from '../../../modules/settings/container'
 import AccountContainer from '../../../modules/account/container'
 
 function Page(props){
+  console.log('list sidebar ',props)
   return (
     <div className="">
       <ListContainer {...props}>
