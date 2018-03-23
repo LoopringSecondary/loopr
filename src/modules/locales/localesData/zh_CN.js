@@ -47,7 +47,9 @@ export default {
     cancel_order_success:"取消订单成功",
     cancel_order_failed:"取消订单失败",
     cancel_all_success:"取消全部{pair}订单成功",
-    cancel_all_failed:"取消全部{pair}订单失败"
+    cancel_all_failed:"取消全部{pair}订单失败",
+    yes:"确认",
+    no:"取消"
   },
   ticker: {
     last: '最新价',

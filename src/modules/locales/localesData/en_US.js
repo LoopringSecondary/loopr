@@ -46,7 +46,9 @@ export default {
     cancel_order_success:"Cancel Order Success",
     cancel_order_failed:"Cancel Order Failed",
     cancel_all_success:"Cancel All {pair} Orders Success",
-    cancel_all_failed:"Cancel All {pair} Orders Failed"
+    cancel_all_failed:"Cancel All {pair} Orders Failed",
+    yes:"Confirm",
+    no:"Cancel"
   },
   ticker:{
     last:'Last Price',

@@ -72,8 +72,8 @@ function ListActionsBar(props) {
       },
       onCancel: () => {
       },
-      okText: 'Yes',
-      cancelText: 'No',
+      okText: intl.get('order.yes'),
+      cancelText: intl.get('order.no'),
     })
   }
   return (
