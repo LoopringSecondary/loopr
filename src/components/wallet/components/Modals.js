@@ -6,6 +6,9 @@ import ExportKeystore from './ExportKeystore'
 import ModalContainer from '../../../modules/modals/container'
 import AccountContainer from '../../../modules/account/container'
 import SelectAccount from './SelectAccount'
+import Airdrop from './Airdrop'
+
+
 function Modals(props){
   return (
     <div>
@@ -30,6 +33,9 @@ function Modals(props){
       <ModalContainer id="wallet/export/keystore" >
 			  <ExportKeystore />
 			</ModalContainer>
+      <ModalContainer id="wallet/airdrop" >
+        <Airdrop />
+      </ModalContainer>
     </div>
   );
 }

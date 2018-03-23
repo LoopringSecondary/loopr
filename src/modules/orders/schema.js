@@ -1,7 +1,8 @@
 import React from 'react';
-import {Icon,Popover} from 'antd';
+import {Icon} from 'antd';
 import {toNumber} from "Loopring/common/formatter";
 import {getFormatTime} from "../../common/utils/uiFormatter";
+import intl from 'react-intl-universal';
 
 // example
 // {
@@ -70,14 +71,15 @@ const schema = [
       token = token || {digits: 18, precision: 6};
       const amount = side === 'buy' ? item.originalOrder.amountB : item.originalOrder.amountS
       const symbol = side === 'buy' ? item.originalOrder.tokenB : item.originalOrder.tokenS
-      return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision) + ' ' + symbol
+      return intl.get('amount',{amount:toNumber((toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision))}) + ' ' + symbol
     }
   },
   {
     title: 'Price',
     name: 'price',
     formatter: (item) => {
-      return item.originalOrder.side.toLowerCase() === 'buy' ? Number(item.originalOrder.amountS / item.originalOrder.amountB).toFixed(5) : Number(item.originalOrder.amountB / item.originalOrder.amountS).toFixed(5)
+      const price =  item.originalOrder.side.toLowerCase() === 'buy' ? Number(item.originalOrder.amountS / item.originalOrder.amountB).toFixed(5) : Number(item.originalOrder.amountB / item.originalOrder.amountS).toFixed(5)
+      return price
     }
   },
   {
@@ -91,9 +93,10 @@ const schema = [
       const amountB = item.originalOrder.amountB
       let token = side ? window.CONFIG.getTokenBySymbol(tokenS): window.CONFIG.getTokenBySymbol(tokenB);
       token = token || {digits: 18, precision: 6};
-      const amount = side === 'buy' ? amountS : amountB
-      const symbol = side === 'buy' ? tokenS : tokenB
-      return (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision) + ' ' +symbol
+      const amount = side === 'buy' ? amountS : amountB;
+      const symbol = side === 'buy' ? tokenS : tokenB;
+      const total = (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
+      return intl.get('amount',{amount:toNumber(total)}) + ' ' +symbol
     },
   },
   {
@@ -102,7 +105,8 @@ const schema = [
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');
       token = token || {digits: 18, precision: 6};
-      return (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision) + ' LRC'
+      const total = (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision)
+      return intl.get('amount',{amount:toNumber(total)})  + ' LRC'
     },
   },
   {

@@ -4,7 +4,8 @@ import moment from 'moment';
 
 const locales = {
   "en-US": locale.en_US,
-  "zh-CN": locale.zh_CN
+  "zh-CN": locale.zh_CN,
+  "fr-FR":locale.fr_FR
 };
 
 export function setLocale(value) {
@@ -24,5 +25,7 @@ export function setLocale(value) {
     currentLocale: value || 'en-US',
     locales,
   });
+
+  window.locale = value || 'en-US'
 
 }
