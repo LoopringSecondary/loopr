@@ -130,7 +130,7 @@ export default {
     ttl:"Time to live",
     ttl_tip:"Please input integer value",
     lrcfee:"LRC Fee",
-    margin:"Margin S",
+    margin:"Margin Split",
     gasPrice:"Gas Price",
     slow:"Slow",
     fast:"Fast",
