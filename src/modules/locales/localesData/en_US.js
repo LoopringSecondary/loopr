@@ -1,4 +1,5 @@
 export default {
+  amount: "{amount,number}",
   navbar: {
     home: "Home",
     trade: "Trade",
@@ -51,7 +52,6 @@ export default {
     no: "Cancel",
     cancel_all: "Cancel All",
     refresh: "Refresh",
-    amount: "{amount,number}"
   },
   ticker: {
     last: 'Last Price',

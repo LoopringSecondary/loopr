@@ -1,4 +1,5 @@
 export default {
+  amount: "{amount,number}",
   navbar: {
     home: "首页",
     trade: "交易",
@@ -51,7 +52,6 @@ export default {
     no: "取消",
     cancel_all: "取消全部",
     refresh: "刷新",
-    amount: "{amount,number}"
   },
   ticker: {
     last: '最新价',
