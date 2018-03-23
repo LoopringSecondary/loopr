@@ -12,8 +12,8 @@ export default {
 	// "extraBabelPlugins":["transform-remove-console"],
 	// "theme": `${__dirname}/theme.js`,
   "theme": {
-    @font-family-no-number  : "DIN",Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    // @font-family            : "Monospaced Number", @font-family-no-number;
+    "@font-family-no-number"  : "DIN-Light",
+    "@font-family"            : "Monospaced Number , @font-family-no-number",
     "@primary-color": "#0077FF",
     "@link-color": "#0077FF",
     "@border-radius-base": "2px",
