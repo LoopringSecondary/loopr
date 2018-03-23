@@ -46,11 +46,11 @@ function ListBlock({LIST,actions,prices}) {
         break;
     }
     const statusCol = (
-      <div className="text-left" style={{width:'85px'}}>
+      <span className="text-left">
         { item.status === 'pending' && <Badge status="warning" text={intl.get('txs.status_pending')} /> }
         { item.status === 'success' && <Badge status="success" text={intl.get('txs.status_success')} /> }
         { item.status === 'failed' && <Badge status="error" text={intl.get('txs.status_failed')} /> }
-      </div>
+      </span>
     )
     const iconCol = (
       <div className="text-center">
@@ -63,34 +63,38 @@ function ListBlock({LIST,actions,prices}) {
 
     const caption = (
       <div className="">
-        <div className="fs16 color-grey-700 mb5">
+        <div className="fs2 color-black-1 mb5">
           {item.type === 'approve' && intl.get('txs.type_enable_title',{symbol:item.symbol})}
           {item.type === 'send' && intl.get('txs.type_transfer_title',{symbol:item.symbol})}
           {item.type === 'receive' && intl.get('txs.type_receive_title',{symbol:item.symbol})}
           {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth')}
           {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth')}
+          <span className="ml10">{statusCol}</span>
         </div>
         {
-          <div className="fs12 color-grey-400 ">
+          <div className="fs3 color-black-4">
             <span className="mr15">
               {uiFormatter.getFormatTime(item.createTime*1000)}
             </span>
-            <span className="mr15 d-inline-block">
-              {item.txHash && <span>TxHash: <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.txHash)}</a></span>}
-            </span>
             {
-              item.type === 'send' &&
+              false &&
+              <span className="mr15 d-inline-block">
+                {item.txHash && <span>TxHash: <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.txHash)}</a></span>}
+              </span>
+            }
+
+            {
+              false && item.type === 'send' &&
               <span className="mr15  d-inline-block">
                 {item.to && <span>To: <a href={`https://etherscan.io/tx/${item.to}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.to)}</a></span>}
               </span>
             }
             {
-              item.type === 'receive' &&
+              false && item.type === 'receive' &&
               <span className="mr15  d-inline-block">
                 {item.from && <span>From: <a href={`https://etherscan.io/tx/${item.from}`} target="_blank" className="color-blue-500">{uiFormatter.getShortAddress(item.from)}</a></span>}
               </span>
             }
-
           </div>
         }
       </div>
@@ -98,9 +102,6 @@ function ListBlock({LIST,actions,prices}) {
 
     return (
       <div className="row align-items-center no-gutters flex-nowrap zb-b-b p15" key={index}>
-        <div className="col-auto">
-          {statusCol}
-        </div>
         <div className="col-auto pr15">
           {iconCol}
         </div>
@@ -112,22 +113,30 @@ function ListBlock({LIST,actions,prices}) {
           <div className="col-auto mr5">
             { change === '+' &&
               <div className="text-right">
-                <div className="fs18 color-green-500 mb5">
+                <div className="fs18 color-green-500">
                   + {item.value} {item.symbol}
                 </div>
-                <div className="fs14 color-green-500">
-                  + <CurrencyContainer />{item.guzhi}
-                </div>
+                {
+                  false &&
+                  <div className="fs14 color-green-500">
+                    + <CurrencyContainer />{item.guzhi}
+                  </div>
+                }
+
               </div>
             }
             { change === '-' &&
               <div className="text-right">
-                <div className="fs18 color-red-500 mb5">
+                <div className="fs18 color-red-500">
                   - {item.value} {item.symbol}
                 </div>
-                <div className="fs14 color-red-500">
-                  - <CurrencyContainer /> {item.guzhi}
-                </div>
+                {
+                  false &&
+                  <div className="fs14 color-red-500">
+                    - <CurrencyContainer /> {item.guzhi}
+                  </div>
+                }
+
               </div>
             }
           </div>
@@ -141,7 +150,7 @@ function ListBlock({LIST,actions,prices}) {
     <div className="">
       <div className="row zb-b-b p15 no-gutters align-items-center">
         <div className="col">
-          <div className="fs18 color-grey-900">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
+          <div className="fs2 color-black-1">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
         </div>
         <div className="col-auto" style={{height:'32px'}}>
             <ListFiltersFormSimple actions={actions} LIST={LIST} />

@@ -64,11 +64,11 @@ class Home extends React.Component{
           }
           <Tabs className="rs no-ink-bar" onChange={handleTabChange}
                 activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
-            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_assets")}</div>}
+            <Tabs.TabPane tab={<div className="color-black-1 fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_assets")}</div>}
                           key="assets"/>
-            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_orders")}</div>}
+            <Tabs.TabPane tab={<div className="color-black-1 fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_orders")}</div>}
                           key="orders"/>
-            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_trades")}</div>}
+            <Tabs.TabPane tab={<div className="color-black-1 fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_trades")}</div>}
                           key="trades"/>
           </Tabs>
           <Switch>
