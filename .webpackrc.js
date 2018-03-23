@@ -13,7 +13,7 @@ export default {
 	// "theme": `${__dirname}/theme.js`,
   "theme": {
     "@font-family-no-number"  : "DIN-Light",
-    "@font-family"            : "Monospaced Number , @font-family-no-number",
+    "@font-family"            : "@font-family-no-number",
     "@primary-color": "#0077FF",
     "@link-color": "#0077FF",
     "@border-radius-base": "2px",
