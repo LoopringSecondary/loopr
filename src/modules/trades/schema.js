@@ -1,6 +1,9 @@
+import React from 'react';
+import {Icon,Popover} from 'antd';
+
 const schema = [
   {
-    title: 'Ring',
+    title: <span>Ring <a onClick={()=>{}}><Icon type="question-circle"></Icon></a></span>,
     description: 'The ring hash',
     name: 'ringHash',
   },
@@ -28,7 +31,7 @@ const schema = [
     name: 'total',
   },
   {
-    title: 'LrcFee',
+    title: <span>LRC Fee <a onClick={()=>{}}><Icon type="question-circle"></Icon></a></span>,
     description: 'The total lrc fee.',
     name: 'lrcFee',
   },

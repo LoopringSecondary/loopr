@@ -97,7 +97,7 @@ const schema = [
     },
   },
   {
-    title: <span>LrcFee <a onClick={()=>{}}><Icon type="question-circle"></Icon></a></span>,
+    title: <span>LRC Fee <a onClick={()=>{}}><Icon type="question-circle"></Icon></a></span>,
     name: 'lrcFee',
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');

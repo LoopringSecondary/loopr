@@ -122,7 +122,6 @@ function ListBlock({LIST,actions,prices}) {
                     + <CurrencyContainer />{item.guzhi}
                   </div>
                 }
-
               </div>
             }
             { change === '-' &&
@@ -136,12 +135,10 @@ function ListBlock({LIST,actions,prices}) {
                     - <CurrencyContainer /> {item.guzhi}
                   </div>
                 }
-
               </div>
             }
           </div>
         }
-
       </div>
     )
   }

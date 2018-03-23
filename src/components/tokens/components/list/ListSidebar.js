@@ -391,8 +391,8 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
     const TokenFormatter = window.uiFormatter.TokenFormatter
     let theToken = new TokenFormatter(item)
     return (
-      <div style={{borderBottom: '1px solid rgba(0,0,0,0.05)'}} onClick={toggleSelected.bind(this, item)}
-           className={`cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
+      <div onClick={toggleSelected.bind(this, item)}
+           className={`zb-b-b cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
         <div className={`row align-items-center no-gutters p10`}>
           <div className="col-auto pr10">
             {
@@ -414,16 +414,17 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
           </div>
           <div className="col pr10">
             <div className="">
-              <span className="fs18 color-grey-900">{item.symbol}</span>
-              <span className="fs12 ml5 color-grey-400 align-middle text-truncate text-nowrap d-inline-block"
-                    style={{width: 'auto'}}>{item.title}</span>
+              <span className="fs2 color-black-1">{item.symbol}</span>
+              <span className="fs3 ml5 color-black-3 ">
+                {item.title}
+              </span>
             </div>
             <div className="">
-              <span className="fs14 color-grey-900">{theToken.getBalance()}</span>
-              <span className="fs12 ml5 color-grey-400">
+              <span className="fs3 color-black-1">{theToken.getBalance()}</span>
+              <span className="fs3 ml5 color-black-3">
                 <CurrencyContainer />
               </span>
-              <span className="fs12 color-grey-400">{theToken.getBalanceValue(item.price)}</span>
+              <span className="fs14 color-black-3">{theToken.getBalanceValue(item.price)}</span>
             </div>
           </div>
           {
