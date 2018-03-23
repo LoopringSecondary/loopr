@@ -446,7 +446,7 @@ class TradeForm extends React.Component {
       <span className="fs10">
         ≈
         <Currency />
-        {accMul(this.state.priceInput, tokenRPrice.price).toFixed(2)}
+        {this.state.priceInput >0 ? accMul(this.state.priceInput, tokenRPrice.price).toFixed(2) : accMul(displayPrice, tokenRPrice.price).toFixed(2)}
       </span>
     )
 
@@ -563,7 +563,7 @@ class TradeForm extends React.Component {
                         validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
                       }]
                     })(
-                      <Input className="d-block w-100" placeholder="" size="large" addonAfter={timeToLiveSelectAfter}/>
+                      <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}/>
                     )}
                   </Form.Item>}
                 </div>

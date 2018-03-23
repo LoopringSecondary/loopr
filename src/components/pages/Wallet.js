@@ -50,8 +50,18 @@ class Home extends React.Component{
     return (
       <Layout {...this.props}>
         <div className="container">
-          {toBig(this.state.oldWeth).gt(0)&& <Alert description={<div>我们检测到您在已经过时的WETH合约上仍有余额，我们推荐您全部提出. <a className='color-blue-500 ml50' onClick={showWithDrawAll}>去提出全部</a></div>} type="warning" showIcon
-                 closable/>}
+          {
+            toBig(this.state.oldWeth).gt(0) &&
+            <Alert type="warning" showIcon closable className="mt15"
+            description={
+              <div>
+                  检测到您的地址有WETH余额（旧版本WETH合约），建议您转换为ETH (<a className='color-blue-500 pointer'>Why?</a>)
+                  <a className='color-blue-500 ml5' onClick={showWithDrawAll}>开始转换</a>
+
+              </div>
+            }
+            />
+          }
           <Tabs className="rs no-ink-bar" onChange={handleTabChange}
                 activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_assets")}</div>}

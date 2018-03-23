@@ -183,7 +183,8 @@ export default {
     why: "为什么",
     balance_not_enough: '{token} 余额不足, 还需要 {required}',
     receive: '去收款',
-    to_buy: '去购买'
+    to_buy: '去购买',
+    time_to_live_input_place_holder: '订单持续多久有效?'
   },
   token: {
     convert_title: "转换",

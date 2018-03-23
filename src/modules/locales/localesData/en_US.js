@@ -169,7 +169,7 @@ export default {
     week: "Week",
     month: "Month",
     lrc_fee: "Lrc Fee",
-    margin_split: "MarginSplit",
+    margin_split: "Margin Split",
     place_order: "Place Order",
     unlock_your_wallet: "Unlock Your Wallet",
     to_trade: "To Trade",
@@ -181,7 +181,8 @@ export default {
     why: "Why",
     balance_not_enough:'{token} is not enough, required {required}.',
     receive: 'Receive',
-    to_buy: 'Buy'
+    to_buy: 'Buy',
+    time_to_live_input_place_holder: 'How long should the order last?'
   },
   token:{
     convert_title: "Convert",
