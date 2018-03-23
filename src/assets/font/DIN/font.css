@@ -1,0 +1,16 @@
+
+@font-face {
+  font-family: "DIN";
+  src: url('Linotype-DINNextLTPro-Regular.otf'); /* IE9*/
+  src: url('Linotype-DINNextLTPro-Regular.otf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+       url('Linotype-DINNextLTPro-Regular.otf') format('svg'); /* iOS 4.1- */
+}
+@font-face {
+  font-family: "DIN-Light";
+  src: url('Linotype-DINNextW1G-Light.otf'); /* IE9*/
+  src: url('Linotype-DINNextW1G-Light.otf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+       url('Linotype-DINNextW1G-Light.otf') format('svg'); /* iOS 4.1- */
+}
+
+
+
