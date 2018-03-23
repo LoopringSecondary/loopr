@@ -67,12 +67,12 @@ function ListBlock({LIST,actions,prices}) {
           {item.type === 'approve' && intl.get('txs.type_enable_title',{symbol:item.symbol})}
           {item.type === 'send' && intl.get('txs.type_transfer_title',{symbol:item.symbol})}
           {item.type === 'receive' && intl.get('txs.type_receive_title',{symbol:item.symbol})}
-          {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth')}
-          {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth')}
+          {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth',{value:item.value || 0})}
+          {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth',{value:item.value || 0} )}
           <span className="ml10">{statusCol}</span>
         </div>
         {
-          <div className="fs3 color-black-4">
+          <div className="fs3 color-black-3">
             <span className="mr15">
               {uiFormatter.getFormatTime(item.createTime*1000)}
             </span>
@@ -113,7 +113,7 @@ function ListBlock({LIST,actions,prices}) {
           <div className="col-auto mr5">
             { change === '+' &&
               <div className="text-right">
-                <div className="fs18 color-green-500">
+                <div className="fs18 color-green-500 font-weight-bold">
                   + {item.value} {item.symbol}
                 </div>
                 {
@@ -127,7 +127,7 @@ function ListBlock({LIST,actions,prices}) {
             }
             { change === '-' &&
               <div className="text-right">
-                <div className="fs18 color-red-500">
+                <div className="fs18 color-red-500 font-weight-bold">
                   - {item.value} {item.symbol}
                 </div>
                 {

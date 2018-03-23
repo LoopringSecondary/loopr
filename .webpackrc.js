@@ -16,9 +16,9 @@ export default {
     "@font-family"            : "@font-family-no-number",
     "@primary-color": "#0077FF",
     "@link-color": "#0077FF",
-    "@border-radius-base": "2px",
+    "@border-radius-base": "4px",
     "@font-size-base": "16px",
-    "@line-height-base": "1.2"
+    // "@line-height-base": "1.2"
   },
 
 }
