@@ -14,10 +14,10 @@ export function setLocale(value) {
       moment.locale('zh-cn');
       break;
     case "en_US":
-      moment.locale('en-gb');
+      moment.locale('en');
       break;
     default:
-      moment.locale('en-gb');
+      moment.locale('en');
   }
 
   intl.init({
