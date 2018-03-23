@@ -503,9 +503,12 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
   //   return !!a.custom < !!b.custom
   // }
   // results.sort(sorter)
-
+  let style = {
+    boxShadow:"3px 0px 4px rgba(0,0,0,0.05)"
+  }
+  style={style}
   return (
-    <div className="">
+    <div className="" >
       {TokenListAcionsBar}
       <div className="token-list-sidebar">
         {
