@@ -51,7 +51,7 @@ export default {
     no: "Cancel",
     cancel_all: "Cancel All",
     refresh: "Refresh",
-    amount: "{amount}"
+    amount: "{amount,number}"
   },
   ticker: {
     last: 'Last Price',
