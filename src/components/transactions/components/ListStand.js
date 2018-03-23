@@ -55,8 +55,8 @@ function ListBlock({LIST,actions,prices}) {
     const iconCol = (
       <div className="text-center">
         { item.type === 'approve' && <CoinIcon symbol={item.symbol} size="30" /> }
-        { item.type === 'send' && <img src={iconTransfer} alt="" style={{width:'30px'}} /> }
-        { item.type === 'receive' && <img src={iconReceive} alt="" style={{width:'30px'}} /> }
+        { item.type === 'send' && <i className="icon icon-loopring icon-loopring-transfer fs30"></i> }
+        { item.type === 'receive' && <i className="icon icon-loopring icon-loopring-receive fs30"></i> }
         { item.type === 'convert' && <CoinIcon symbol={item.symbol} size="30" /> }
       </div>
     )
