@@ -3,17 +3,17 @@ import locale from '../../modules/locales/localesData'
 import moment from 'moment';
 
 const locales = {
-  "en_US": locale.en_US,
-  "zh_CN": locale.zh_CN
+  "en-US": locale.en_US,
+  "zh-CN": locale.zh_CN
 };
 
 export function setLocale(value) {
 
   switch (value) {
-    case "zh_CN" :
+    case "zh-CN" :
       moment.locale('zh-cn');
       break;
-    case "en_US":
+    case "en-US":
       moment.locale('en');
       break;
     default:
@@ -21,7 +21,7 @@ export function setLocale(value) {
   }
 
   intl.init({
-    currentLocale: value || 'en_US',
+    currentLocale: value || 'en-US',
     locales,
   });
 
