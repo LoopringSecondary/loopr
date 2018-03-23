@@ -405,12 +405,19 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             }
           </div>
           <div className="col-auto pr10">
-            { selected[item.symbol] &&
+            { selected[item.symbol] && item.icon &&
               <CoinIcon symbol={item.symbol} size="32" color="white"/>
             }
-            { !selected[item.symbol] &&
+            { selected[item.symbol] && !item.icon &&
+              <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200" />
+            }
+            { !selected[item.symbol] && item.icon &&
               <CoinIcon symbol={item.symbol} size="32" />
             }
+            { !selected[item.symbol] && !item.icon &&
+              <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200" />
+            }
+
           </div>
           <div className="col pr10">
             <div className="">
