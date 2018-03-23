@@ -12,7 +12,7 @@ export function getShortAddress(address) {
 }
 
 export function getFormatTime(seconds, style) {
-  style = style || 'YYYY/MM/DD HH:mm:ss';
+  style = style || "LLL";
   return moment(seconds).format(style);
 }
 

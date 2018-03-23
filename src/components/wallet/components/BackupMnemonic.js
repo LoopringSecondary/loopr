@@ -6,11 +6,6 @@ import intl from 'react-intl-universal';
 
 class BackupMnemonic extends React.Component {
 
-  togglePassword(){
-    this.setState({
-      visible: !this.state.visible
-    })
-  }
   render(){
     const backup = () => {
       copy(window.WALLET.getMnemonic()) ? message.success(intl.get('token.copy_success')) : message.error(intl.get('token.copy_failed'))
