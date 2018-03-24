@@ -236,6 +236,7 @@ export default {
     address_tip: "请粘贴您要绑定的地址",
     bind_address: "绑定地址",
     bind_type_address: "绑定{type}地址",
+    bind_address_confirm:"您确定绑定 {project} 地址: {address} 到您的钱包吗?",
     unlock_tip: "您将怎么样解锁使用钱包",
     metamask: "MetaMask 钱包",
     trezor: "Trezor 钱包",
@@ -309,6 +310,8 @@ export default {
       qr_keystore: "二维码"
     },
     token: "代币",
+    info_title: "请注意",
+    content_metamask_account_change: "检测到您刚刚在MetaMask切换了账户, 请注意您账户资产发生了改变"
   },
   tokens: {
     "hide_small_balances": "隐藏小额资产",

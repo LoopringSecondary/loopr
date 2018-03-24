@@ -235,6 +235,7 @@ export default {
     address: "Address",
     bind_address: "Bind Address",
     bind_type_address: "Bind {type} Address",
+    bind_address_confirm:"Bind your {project} address: {address} to your wallet?",
     unlock_tip: "How would you like to access your wallet",
     metamask: "MetaMask",
     trezor: "Trezor",
@@ -308,6 +309,8 @@ export default {
       qr_keystore: "Qrcode Keystore"
     },
     token: "Token",
+    info_title: "Notice",
+    content_metamask_account_change: "We detected your just changed account on MetaMask, please notice your assets change"
   },
   tokens: {
     "hide_small_balances": " Hide Small Balances",

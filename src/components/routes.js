@@ -29,7 +29,6 @@ const Logged = ()=>{
     return (
       <Switch>
         <Route path={`/wallet/portfolio`} exact component={Pages.Portfolio}/>
-        <Route path={`/wallet/airdrop`} component={Wallet.Airdrop} />
         <Route path={`/wallet`} component={Pages.Wallet} />
       </Switch>
     )

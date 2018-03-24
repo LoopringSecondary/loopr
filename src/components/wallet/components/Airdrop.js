@@ -1,54 +1,51 @@
 import React from 'react';
-import {Button, Card, Input, Modal, Form, Select, message} from 'antd';
-import {bindAddress} from "Loopring/ethereum/utils";
+import {Button, Card, Form, Input, message, Modal, Select} from 'antd';
+import {generateBindAddressTx} from "Loopring/ethereum/utils";
+import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {connect} from 'dva';
 import {projects} from "../../../common/config/data";
 import {toHex} from "Loopring/common/formatter";
-import Layout from '../../../layout/Layout'
 import intl from 'react-intl-universal';
 
 class Airdrop extends React.Component {
-
   state = {
     address: null,
-    visible: false,
     project: null
   };
 
-  props = {
-    tradingConfig: null,
-    account: null
-  };
-  hideModal = () => {
-    this.setState({visible: false})
-  };
+  showConfirm = (address, project) => {
+    const _this = this;
+    Modal.confirm({
+      title: intl.get('wallet.bind_address_confirm', {project: project.name.toUpperCase(), address}),
+      onOk: async () => {
+        const {tradingConfig, modal} = _this.props;
+        const {project, address} = _this.state;
+        const nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
+        const tx = generateBindAddressTx({
+          projectId: project.projectId,
+          address,
+          to: "0xbf78b6e180ba2d1404c92fc546cbc9233f616c42",
+          gasPrice: toHex(tradingConfig.gasPrice * 1e9),
+          nonce: toHex(nonce)
+        });
+        window.WALLET.sendTransaction(tx).then(response => {
+          if (!response.error) {
+            message.error(response.error.message)
+          } else {
+            message.info('bind success');
+            //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
+            window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
+            notifyTransactionSubmitted(response.result);
+            _this.setState({address: null, project: null});
+            modal.hideModal({id: 'wallet/airdrop'});
+          }
+        });
+      },
+      onCancel() {
+      },
+      okText: intl.get('order.yes'),
+      cancelText: intl.get('order.no'),
 
-  showModal = () => {
-    const {account,} = this.props;
-    if (!account.isUnlocked) {
-      message.warning('Please unlock your wallet first');
-      return;
-    }
-    this.setState({visible: true})
-  };
-
-  handelSubmit = () => {
-    const {account, tradingConfig} = this.props;
-    const {project, address} = this.state;
-    bindAddress({
-      projectId: project.projectId,
-      address,
-      to: "0xbf78b6e180ba2d1404c92fc546cbc9233f616c42",
-      privateKey: account.privateKey,
-      gasPrice: toHex(tradingConfig.gasPrice * 1e9),
-      walletType: account.walletType
-    }).then(response => {
-      if (!response.error) {
-        message.error(response.error.message)
-      } else {
-        message.info('bind success');
-        this.setState({address: null, visible: false, project: null})
-      }
     });
   };
 
@@ -65,54 +62,39 @@ class Airdrop extends React.Component {
   };
 
   render() {
-    const options = projects.map(project => <Select.Option value={project.projectId}>{project.lrx.toUpperCase()} (
+    const options = projects.map(project => <Select.Option value={project.projectId}
+                                                           key={project.projectId}>{project.lrx.toUpperCase()} (
       for {project.name.toUpperCase()} )</Select.Option>)
     const {project, address} = this.state;
     return (
-      <Layout {...this.props}>
-        <div className="container mt50 mb50">
-          <Card title={intl.get('wallet.bind_tip')}>
-            <Form>
-              <Form.Item label={intl.get('wallet.bind_type')}>
-                <Select
-                  showSearch
-                  size="large"
-                  placeholder={intl.get('wallet.type_tip')}
-                  onChange={this.projectChange}
-                >
-                  {options}
-                </Select>
-              </Form.Item>
-              <Form.Item label={intl.get('wallet.address')}>
-                <Input.TextArea
-                  size="large"
-                  autoSize={true}
-                  placeholder={intl.get('wallet.address_tip')}
-                  onChange={this.addressChange}
-                  value={address}
-                />
-              </Form.Item>
-            </Form>
-            <div className="mb25"></div>
-            <Button onClick={this.showModal}
-                    className="w-100 d-block mt15" type="primary" size="large" disabled={!project || !address}>
-              {intl.get('wallet.bind_address')}
-            </Button>
-            <Modal
-              title= {intl.get('wallet.bind_type_address',{type: project && project.name.toUpperCase()})}
-              visible={this.state.visible}
-              onOk={this.handelSubmit}
-              onCancel={this.hideModal}
-              okText={intl.get('wallet.confirm')}
-              cancelText={intl.get('wallet.cancel')}
+      <Card title={intl.get('wallet.bind_tip')}>
+        <Form>
+          <Form.Item label={intl.get('wallet.bind_type')}>
+            <Select
+              showSearch
+              size="large"
+              placeholder={intl.get('wallet.type_tip')}
+              onChange={this.projectChange}
             >
-              <p>{intl.get('wallet.token')}: {project && project.lrx.toUpperCase()}</p>
-              <p>{intl.get('wallet.address')}:{address}</p>
-            </Modal>
-          </Card>
-        </div>
-      </Layout>
-
+              {options}
+            </Select>
+          </Form.Item>
+          <Form.Item label={intl.get('wallet.address')}>
+            <Input.TextArea
+              size="large"
+              autoSize={true}
+              placeholder={intl.get('wallet.address_tip')}
+              onChange={this.addressChange}
+              value={address}
+            />
+          </Form.Item>
+        </Form>
+        <div className="mb25"></div>
+        <Button onClick={this.showConfirm.bind(this, this.state.address, this.state.project)}
+                className="w-100 d-block mt15" type="primary" size="large" disabled={!project || !address}>
+          {intl.get('wallet.bind_address')}
+        </Button>
+      </Card>
     );
   }
 }

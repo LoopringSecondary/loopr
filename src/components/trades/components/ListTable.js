@@ -1,11 +1,14 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Link } from 'dva/router';
-import { Table,Badge,Button,Progress } from 'antd';
+import {Link} from 'dva/router';
+import {Button, Progress, Table} from 'antd';
 import schema from '../../../modules/trades/schema';
 import {toNumber} from 'Loopring/common/formatter';
+import intl from 'react-intl-universal';
+
 const uiFormatter = window.uiFormatter
 const fm = window.uiFormatter.TokenFormatter
+
+
 
 function ListBlock(props) {
   const {LIST, actions, className, style} = props;
@@ -51,23 +54,25 @@ function ListBlock(props) {
       amount:(value,item,index)=>{
         const fmS = item.side === 'buy'? new fm({symbol:item.tokenB}) : new fm({symbol:item.tokenS});
         const amount = item.side === 'buy'? fmS.getAmount(item.amountB) : fmS.getAmount(item.amountS);
-        return <span> {amount}  {item.side === 'buy'? item.tokenB : item.tokenS} </span>
+        return <span> {intl.get('amount',{amount})}  {item.side === 'buy'? item.tokenB : item.tokenS} </span>
       },
       price:(value,item,index)=>{
         // const fmB = new fm({symbol:item.tokenB})
         // const fmS = new fm({symbol:item.tokenS})
         // const amountS = fmS.getAmount(item.amountS)
         // const amountB = fmB.getAmount(item.amountB)
-        return <span> {(item.side === 'buy' ? (item.amountS/item.amountB) :(item.amountB/item.amountS) ).toFixed(5)} </span>
+
+        const price = (item.side === 'buy' ? (item.amountS/item.amountB) :(item.amountB/item.amountS)).toFixed(5);
+        return <span> {window.uiFormatter.getFormatNum(price)} </span>
       },
       total:(value,item,index)=>{
         const fmS = item.side === 'buy'? new fm({symbol:item.tokenS}) : new fm({symbol:item.tokenB});
         const amount = item.side === 'buy'? fmS.getAmount(item.amountS) : fmS.getAmount(item.amountB);
-        return <span> {amount}  {item.side === 'buy' ? item.tokenS : item.tokenB} </span>
+        return <span> {intl.get('amount',{amount})}  {item.side === 'buy' ? item.tokenS : item.tokenB} </span>
       },
       lrcFee:(value,item,index)=>{
-        const fmLrc = new fm({symbol:'LRC'})
-        return <span> {fmLrc.getAmount(item.lrcFee)}  {'LRC'} </span>
+        const fmLrc = new fm({symbol:'LRC'});
+        return <span> {intl.get('amount',{amount:fmLrc.getAmount(item.lrcFee)})}  {'LRC'} </span>
       },
       time:(value,item,index)=>{
         return uiFormatter.getFormatTime(toNumber(item.createTime)* 1e3)
