@@ -22,15 +22,17 @@ export default function Unload(props){
   //          },
   //          onCancel() {
   //          },
-  //       }) 
+  //       })
   //   }
   // }
   window.onbeforeunload = function (e){
-    alert("before close & refresh")
+    e.targetValue = 'msgmsgmsgmsg'
+    return e.targetValue
   }
   window.onunload=function(e){
-    alert("离开")
+    e.targetValue = 'msgmsgmsgmsg'
+    return e.targetValue
   }
-  return <div></div>
+  return false
 
 }

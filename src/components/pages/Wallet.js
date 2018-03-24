@@ -73,7 +73,7 @@ class Home extends React.Component{
           </Tabs>
           <Switch>
             <Route path={`${match.url}/assets`} exact render={() =>
-              <div className="row no-gutters bg-white zb-b" style={{borderRadius: '4px'}}>
+              <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar/>
                 </div>
