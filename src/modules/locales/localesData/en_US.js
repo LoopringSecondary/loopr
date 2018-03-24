@@ -243,6 +243,7 @@ export default {
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
+    cu_bind_address:"Current Bind Address",
     bind_type: "Type",
     type_tip: "Select Token To Bind",
     address_tip: "Paste corresponding address here",
