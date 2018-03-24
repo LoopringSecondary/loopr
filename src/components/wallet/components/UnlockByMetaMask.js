@@ -3,6 +3,7 @@ import { Link } from 'dva/router';
 import { Modal, Button,Icon,Alert } from 'antd';
 import MetaMaskUnlockAccount from '../../../modules/account/MetaMaskUnlockAccount'
 import intl from 'react-intl-universal';
+import {unlockRedirection} from '../../../common/utils/redirection'
 
 const walletType = "MetaMask"
 
@@ -12,7 +13,7 @@ class UnlockByMetaMask extends React.Component {
   };
 
   connectToMetamask = () => {
-    const {modal, account} = this.props
+    const {modal, account, pageFrom} = this.props
     this.setState({loading:true})
     if (window.web3 && window.web3.eth.accounts[0]) {
       window.web3.version.getNetwork((err, netId) => {
@@ -30,8 +31,7 @@ class UnlockByMetaMask extends React.Component {
         account.setWallet({address:selectedAccount, walletType:walletType})
         this.setState({loading:false})
         modal.hideModal({id: 'wallet/unlock'});
-        window.routeActions.gotoPath('/wallet/portfolio');
-
+        unlockRedirection(pageFrom)
         let alert = false
         var accountInterval = setInterval(function() {
           if ((!window.web3 || !window.web3.eth.accounts[0]) && !alert) {
