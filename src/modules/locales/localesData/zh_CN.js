@@ -310,6 +310,8 @@ export default {
       qr_keystore: "二维码"
     },
     token: "代币",
+    info_title: "请注意",
+    content_metamask_account_change: "检测到您刚刚在MetaMask切换了账户, 请注意您账户资产发生了改变"
   },
   tokens: {
     "hide_small_balances": "隐藏小额资产",
