@@ -6,7 +6,7 @@ import {connect} from 'dva';
 import {projects} from "../../../common/config/data";
 import {toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
-import map from 'async/map';
+import mapAsync from 'async/map';
 
 class Airdrop extends React.Component {
 
@@ -17,7 +17,7 @@ class Airdrop extends React.Component {
   };
 
   componentDidMount() {
-    map(projects, async (project) => {
+    mapAsync(projects, async (project) => {
       const address = await getBindAddress(window.WALLET.getAddress(), project.projectId).then(res => {
         if (!res.error) {
           return res.result;
@@ -84,10 +84,11 @@ class Airdrop extends React.Component {
   };
 
   render() {
+    const {project, address, projects} = this.state;
     const options = projects.map(project => <Select.Option value={project.projectId}
                                                            key={project.projectId}>{project.lrx.toUpperCase()} (
-      for {project.name.toUpperCase()} )</Select.Option>)
-    const {project, address, projects} = this.state;
+      for {project.name.toUpperCase()} )</Select.Option>);
+
     return (
       <Card title={intl.get('wallet.bind_tip')}>
         <Form>

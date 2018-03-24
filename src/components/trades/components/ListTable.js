@@ -54,7 +54,7 @@ function ListBlock(props) {
       amount:(value,item,index)=>{
         const fmS = item.side === 'buy'? new fm({symbol:item.tokenB}) : new fm({symbol:item.tokenS});
         const amount = item.side === 'buy'? fmS.getAmount(item.amountB) : fmS.getAmount(item.amountS);
-        return <span> {intl.get('amount',{amount})}  {item.side === 'buy'? item.tokenB : item.tokenS} </span>
+        return <span> {uiFormatter.getFormatNum(amount)}  {item.side === 'buy'? item.tokenB : item.tokenS} </span>
       },
       price:(value,item,index)=>{
         // const fmB = new fm({symbol:item.tokenB})
@@ -63,16 +63,16 @@ function ListBlock(props) {
         // const amountB = fmB.getAmount(item.amountB)
 
         const price = (item.side === 'buy' ? (item.amountS/item.amountB) :(item.amountB/item.amountS)).toFixed(5);
-        return <span> {window.uiFormatter.getFormatNum(price)} </span>
+        return <span> {uiFormatter.getFormatNum(price)} </span>
       },
       total:(value,item,index)=>{
         const fmS = item.side === 'buy'? new fm({symbol:item.tokenS}) : new fm({symbol:item.tokenB});
         const amount = item.side === 'buy'? fmS.getAmount(item.amountS) : fmS.getAmount(item.amountB);
-        return <span> {intl.get('amount',{amount})}  {item.side === 'buy' ? item.tokenS : item.tokenB} </span>
+        return <span> {uiFormatter.getFormatNum(amount)}  {item.side === 'buy' ? item.tokenS : item.tokenB} </span>
       },
       lrcFee:(value,item,index)=>{
         const fmLrc = new fm({symbol:'LRC'});
-        return <span> {intl.get('amount',{amount:fmLrc.getAmount(item.lrcFee)})}  {'LRC'} </span>
+        return <span> {uiFormatter.getFormatNum(fmLrc.getAmount(item.lrcFee))}  {'LRC'} </span>
       },
       time:(value,item,index)=>{
         return uiFormatter.getFormatTime(toNumber(item.createTime)* 1e3)
