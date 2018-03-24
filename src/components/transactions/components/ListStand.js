@@ -77,8 +77,7 @@ function ListBlock({LIST,actions,prices}) {
               {uiFormatter.getFormatTime(item.createTime*1000)}
             </span>
             <a href={`https://etherscan.io/tx/${item.from}`} target="_blank" className="color-black-3 mr15  d-inline-block">
-              {"Detail"}
-              <i className="icon-loopring icon-loopring-right fs12"></i>
+              {uiFormatter.getShortAddress(item.txHash)}
             </a>
             {
               false &&

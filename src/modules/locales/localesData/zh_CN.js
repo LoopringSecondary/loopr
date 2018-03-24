@@ -257,7 +257,7 @@ export default {
     warning_title: "请注意",
     content_metamask_logout: "您已经从MetaMask登出",
     content_metamask_unlock_again: "您刚刚切换了MetaMask network, 或您的电脑曾被锁定. 出于任何原因您的钱包已经被登出, 如要继续使用请确认MetaMask正在使用MainNetwork并再次解锁您的钱包",
-    content_metamask_install: "您可能需要在浏览器安装MetaMask插件",
+    content_metamask_install: "您可能需要在浏览器安装MetaMask插件，安装完成后请刷新页面",
     content_metamask_locked: "与MetaMask连接失败, 请解锁后使用",
     get_metamask: "下载MetaMask Chrome插件 (适合Chrome Firefox Opera)",
     connect_to_metamask: "连接您的MetaMask钱包",
