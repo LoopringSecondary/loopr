@@ -1,45 +1,46 @@
 import React from 'react';
-import {Icon,Popover} from 'antd';
+import {Icon} from 'antd';
+import intl from 'react-intl-universal';
 
 const schema = [
   {
-    title: <span>Ring <a onClick={()=>{}}><Icon type="question-circle"></Icon></a></span>,
+    title: <span>{intl.get('trade.ring')} <a onClick={()=>{}}><Icon type="question-circle"/></a></span>,
     description: 'The ring hash',
     name: 'ringHash',
   },
   {
-    title: 'Maket',
+    title: intl.get('orders.market'),
     name: 'market',
   },
   {
-    title: 'Side',
+    title: intl.get('orders.side'),
     name: 'side',
   },
   {
-    title: 'Amount',
+    title: intl.get('orders.amount'),
     description: 'The fills number int the ring.',
     name: 'amount',
   },
   {
-    title: 'Price',
+    title: intl.get('orders.price'),
     description: 'The fills number int the ring.',
     name: 'price',
   },
   {
-    title: 'Total',
+    title: intl.get('orders.total'),
     description: 'The fills number int the ring.',
     name: 'total',
   },
   {
-    title: <span>LRC Fee <a onClick={()=>{}}><Icon type="question-circle"></Icon></a></span>,
+    title: <span>{intl.get('orders.LrcFee')} <a onClick={()=>{}}><Icon type="question-circle"/></a></span>,
     description: 'The total lrc fee.',
     name: 'lrcFee',
   },
 
   {
-    title: 'Time',
+    title: intl.get('orders.time'),
     description: 'The ring matched time',
     name: 'time',
   },
-]
+];
 export default schema

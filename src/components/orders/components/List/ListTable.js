@@ -88,16 +88,16 @@ function ListBlock(props) {
     status: (value, item, index) => {
       let status
       if (item.status === 'ORDER_OPENED') {
-        status = <Badge className="fs12" status="processing" text="Opened"/>
+        status = <Badge className="fs12" status="processing" text={intl.get('orders.status_opened')}/>
       }
       if (item.status === 'ORDER_FINISHED') {
-        status = <Badge className="fs12" status="success" text="Completed"/>
+        status = <Badge className="fs12" status="success" text={intl.get('orders.status_completed')}/>
       }
       if (item.status === 'ORDER_CANCELED') {
-        status = <Badge className="fs12" status="default" text="Cancelled"/>
+        status = <Badge className="fs12" status="default" text={intl.get('orders.status_canceled')}/>
       }
       if (item.status === 'ORDER_EXPIRE') {
-        status = <Badge className="fs12" status="default" text="Expired"/>
+        status = <Badge className="fs12" status="default" text={intl.get('orders.status_expired')}/>
       }
       return (
         <div>
@@ -107,14 +107,14 @@ function ListBlock(props) {
     },
     side: (value, item, index) => {
       if (item.originalOrder.side === 'sell') {
-        return <div className="color-green-500">Sell</div>
+        return <div className="color-green-500">{intl.get('orders.side_sell')}</div>
       }
       if (item.originalOrder.side === 'buy') {
-        return <div className="color-red-500">Buy</div>
+        return <div className="color-red-500">{intl.get('orders.side_buy')}</div>
       }
     },
     filled: (value, item, index) => {
-      let percent = 0
+      let percent = 0;
       if (item.originalOrder.side.toLowerCase() === 'sell') {
         percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
       } else {
@@ -136,35 +136,35 @@ function ListBlock(props) {
           <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100"
                style={{borderRadius: '4px', border: '1px solid'}}>
             <div className="pb5 fs16 color-red-600">
-              {tokenS} Balance Is Not Enough !
+              {intl.get('orders.balance_not_enough',{token:tokenS})}
             </div>
             <div className="pb5 fs12 color-red-400">
-              Balance : <span className="font-weight-bold mr10">{balance}</span>
-              Required : <span className="font-weight-bold mr10">{required}</span>
-              Lacked: <span className="font-weight-bold mr10">{lacked}</span>
+              {intl.get('orders.balance')} : <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(balance)}</span>
+              {intl.get('orders.required')} : <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(required)}</span>
+              {intl.get('orders.lacked')}: <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(lacked)}</span>
             </div>
             <div className="pt5">
               <Button onClick={showModal.bind(this, {id: 'token/receive'})} type="primary"
-                      className="bg-red-500 border-none">Recieve {tokenS}</Button>
+                      className="bg-red-500 border-none">{intl.get('orders.receive',{token:tokenS})}</Button>
               <span className="color-grey-500 ml5 mr5"> or </span>
               {
                 tokenS !== 'WETH' &&
                 <Button onClick={window.routeActions.gotoPath.bind(this, `/trade/${tokenS}-WETH`)}
-                        className="bg-red-500 border-none" type="primary">Buy {tokenS}</Button>
+                        className="bg-red-500 border-none" type="primary">{intl.get('orders.buy',{token:tokenS})}</Button>
               }
               {
                 tokenS === 'WETH' &&
                 <Button onClick={showModal.bind(this, {id: 'token/convert', item: {symbol: 'ETH'}})}
-                        className="bg-red-500 border-none" type="primary">Convert ETH To WETH </Button>
+                        className="bg-red-500 border-none" type="primary">{intl.get('orders.convert')} </Button>
               }
             </div>
           </div>
 
 
         </div>
-      )
+      );
 
-      let notEnough = false && !!(item.status === 'ORDER_OPENED')
+      let notEnough = false && (item.status === 'ORDER_OPENED')
       return (
         <span className="text-nowrap">
           {item.status === 'ORDER_OPENED' &&
@@ -177,7 +177,7 @@ function ListBlock(props) {
                      <div className="pt5 pb5">
                        <div className="row">
                          <div className="col">
-                           Token Amount Is Not Enough !
+                           {intl.get('orders.token_not_enough')} !
                          </div>
                          <div className="col-auto">
                            <a className="fs12 color-blue-500">Why?</a>
@@ -220,7 +220,7 @@ function ListBlock(props) {
     }
   })
   const actionColumn = {
-    title: 'Options',
+    title: intl.get('orders.options'),
     render: renders.action,
     // width:150,
     // fixed: 'right',

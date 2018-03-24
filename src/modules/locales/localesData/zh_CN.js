@@ -19,6 +19,7 @@ export default {
       qrcode: '二维码',
       airdrop: '空投',
       quit: '退出',
+      address:'地址'
     },
   },
   order: {
@@ -101,6 +102,8 @@ export default {
     type_receive_title: "接收 {symbol}",
   },
   orders: {
+    order:"订单哈希",
+    time:"时间",
     market: '市场',
     status: '状态',
     status_opened: '当前订单',
@@ -117,6 +120,15 @@ export default {
     total: '金额',
     LrcFee: 'Lrc撮合费',
     filled: '成交率',
+    options:"动作",
+    balance_not_enough:"{token} 余额不足!",
+    balance:"余额",
+    required:"要求",
+    lacked:"缺少",
+    receive:"接收 {token}",
+    buy:"买 {token}",
+    convert:"转ETH到WETH",
+    token_not_enough:"代币数量不足",
   },
   global: {
     all: '全部',
@@ -186,7 +198,8 @@ export default {
     balance_not_enough: '{token} 余额不足, 还需要 {required}',
     receive: '去收款',
     to_buy: '去购买',
-    time_to_live_input_place_holder: '订单持续多久有效?'
+    time_to_live_input_place_holder: '订单持续多久有效?',
+    ring:"环哈希"
   },
   token: {
     convert_title: "转换",
@@ -226,7 +239,7 @@ export default {
     transfer_cancel: "不，取消发送",
     transfer_send: "是的，马上发送",
     to_confirm_title: "待确认",
-    to_confirm_ledger_content: "请在您的Ledger设备上确认交易信息"
+    to_confirm_ledger_content: "请在您的Ledger设备上确认交易信息",
   },
   wallet: {
     bind_tip: "绑定空投接收地址",

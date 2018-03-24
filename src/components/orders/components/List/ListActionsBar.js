@@ -86,10 +86,10 @@ function ListActionsBar(props) {
 
         </div>
         <div className="col-auto pr0">
-          <Button type="default" onClick={refresh}>Refresh</Button>
+          <Button type="default" onClick={refresh}>{intl.get('order.refresh')}</Button>
         </div>
         <div className="col-auto">
-          <Button type="primary" onClick={cancelAll}>Cancel All</Button>
+          <Button type="primary" onClick={cancelAll}>{intl.get('order.cancel_all')}</Button>
         </div>
       </div>
     </div>

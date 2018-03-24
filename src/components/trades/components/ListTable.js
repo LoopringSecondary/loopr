@@ -8,8 +8,6 @@ import intl from 'react-intl-universal';
 const uiFormatter = window.uiFormatter
 const fm = window.uiFormatter.TokenFormatter
 
-
-
 function ListBlock(props) {
   const {LIST, actions, className, style} = props;
   const {
@@ -33,7 +31,7 @@ function ListBlock(props) {
   };
   const renders = {
       ringHash:(value,item,index)=>{
-        const gapPosition = item.fillIndex === 0 ? 'top' : 'bottom'
+        const gapPosition = item.fillIndex === 0 ? 'top' : 'bottom';
         return (
           <div>
             <a className="text-truncate text-left color-blue-500" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
@@ -45,10 +43,10 @@ function ListBlock(props) {
       },
       side:(value,item,index)=>{
         if (item.side === 'sell') {
-          return <div className="color-green-500">Sell</div>
+          return <div className="color-green-500">{intl.get('orders.side_sell')}</div>
         }
         if (item.side === 'buy') {
-          return <div className="color-red-500">Buy</div>
+          return <div className="color-red-500">{intl.get('orders.side_buy')}</div>
         }
       },
       amount:(value,item,index)=>{
@@ -57,11 +55,6 @@ function ListBlock(props) {
         return <span> {uiFormatter.getFormatNum(amount)}  {item.side === 'buy'? item.tokenB : item.tokenS} </span>
       },
       price:(value,item,index)=>{
-        // const fmB = new fm({symbol:item.tokenB})
-        // const fmS = new fm({symbol:item.tokenS})
-        // const amountS = fmS.getAmount(item.amountS)
-        // const amountB = fmB.getAmount(item.amountB)
-
         const price = (item.side === 'buy' ? (item.amountS/item.amountB) :(item.amountB/item.amountS)).toFixed(5);
         return <span> {uiFormatter.getFormatNum(price)} </span>
       },
@@ -79,7 +72,7 @@ function ListBlock(props) {
       },
   }
   const actionRender = (value,item,index)=>{
-    return <Button>Cancel</Button>
+    return <Button>{intl.get('wallet.cancel')}</Button>
   }
   let columns = schema.map(field=>{
     return {
