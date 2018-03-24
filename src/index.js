@@ -18,6 +18,8 @@ window.routeActions = routeActions
 window.CONFIG = CONFIG
 window.STORAGE = STORAGE
 
+
+
 setLocale(window.STORAGE.settings.get().preference.language);
 
 // 1. Initialize
