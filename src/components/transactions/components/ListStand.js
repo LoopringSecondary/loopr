@@ -63,19 +63,23 @@ function ListBlock({LIST,actions,prices}) {
 
     const caption = (
       <div className="">
-        <div className="fs2 color-black-1 mb5">
+        <a className="fs2 color-black-1 mb5 d-block pointer">
           {item.type === 'approve' && intl.get('txs.type_enable_title',{symbol:item.symbol})}
           {item.type === 'send' && intl.get('txs.type_transfer_title',{symbol:item.symbol})}
           {item.type === 'receive' && intl.get('txs.type_receive_title',{symbol:item.symbol})}
           {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth',{value:item.value || 0})}
           {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth',{value:item.value || 0} )}
           <span className="ml10">{statusCol}</span>
-        </div>
+        </a>
         {
           <div className="fs3 color-black-3">
             <span className="mr15">
               {uiFormatter.getFormatTime(item.createTime*1000)}
             </span>
+            <a href={`https://etherscan.io/tx/${item.from}`} target="_blank" className="color-black-3 mr15  d-inline-block">
+              {"Detail"}
+              <i className="icon-loopring icon-loopring-right fs12"></i>
+            </a>
             {
               false &&
               <span className="mr15 d-inline-block">
