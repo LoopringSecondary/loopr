@@ -458,20 +458,26 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
               </Tooltip>
             </div>
           }
-          <div className="col-auto" onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault()
-          }}>
-            <Popover
-              title={<div className="pt5 pb5 fs18">{item.symbol} {intl.get('tokens.options')}</div>}
-              placement="right"
-              arrowPointAtCenter
-              content={TokenItemActions(item)}
-            >
-              <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
-                <Icon type="ellipsis"/>
-              </Button>
-            </Popover>
+          {
+            false &&
+            <div className="col-auto" onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault()
+            }}>
+              <Popover
+                title={<div className="pt5 pb5 fs18">{item.symbol} {intl.get('tokens.options')}</div>}
+                placement="right"
+                arrowPointAtCenter
+                content={TokenItemActions(item)}
+              >
+                <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
+                  <Icon type="ellipsis"/>
+                </Button>
+              </Popover>
+            </div>
+          }
+          <div className="col-auto">
+          <i className="icon-loopring icon-loopring-right color-black-3"></i>
           </div>
         </div>
       </div>
