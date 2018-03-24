@@ -477,7 +477,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             </div>
           }
           <div className="col-auto">
-          <i className="icon-loopring icon-loopring-right color-black-3"></i>
+          <i className="icon-loopring icon-loopring-right color-black-4"></i>
           </div>
         </div>
       </div>
