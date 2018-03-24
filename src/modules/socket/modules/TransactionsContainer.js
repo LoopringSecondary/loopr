@@ -29,7 +29,7 @@ class TransactionsContainer extends React.Component {
       status:filters.status,
       txType:filters.txType,
       pageIndex:page.current,
-      pageSize:page.size,
+      pageSize:page.size || 10,
     }
     console.log('transaction_req',query)
     socket.emit('transaction_req',JSON.stringify(query))

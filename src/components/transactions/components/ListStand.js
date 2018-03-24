@@ -63,19 +63,23 @@ function ListBlock({LIST,actions,prices}) {
 
     const caption = (
       <div className="">
-        <div className="fs2 color-black-1 mb5">
+        <a className="fs2 color-black-1 mb5 d-block pointer">
           {item.type === 'approve' && intl.get('txs.type_enable_title',{symbol:item.symbol})}
           {item.type === 'send' && intl.get('txs.type_transfer_title',{symbol:item.symbol})}
           {item.type === 'receive' && intl.get('txs.type_receive_title',{symbol:item.symbol})}
           {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth',{value:item.value || 0})}
           {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth',{value:item.value || 0} )}
           <span className="ml10">{statusCol}</span>
-        </div>
+        </a>
         {
           <div className="fs3 color-black-3">
             <span className="mr15">
               {uiFormatter.getFormatTime(item.createTime*1000)}
             </span>
+            <a href={`https://etherscan.io/tx/${item.from}`} target="_blank" className="color-black-3 mr15  d-inline-block">
+              {"Detail"}
+              <i className="icon-loopring icon-loopring-right fs12"></i>
+            </a>
             {
               false &&
               <span className="mr15 d-inline-block">
@@ -101,50 +105,53 @@ function ListBlock({LIST,actions,prices}) {
     )
 
     return (
-      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p15" key={index}>
-        <div className="col-auto pr15">
-          {iconCol}
-        </div>
-        <div className="col pr10">
-          {caption}
-        </div>
-        {
-          item.type !== 'approve' &&
-          <div className="col-auto mr5">
-            { change === '+' &&
-              <div className="text-right">
-                <div className="fs18 color-green-500 font-weight-bold">
-                  + {item.value} {item.symbol}
-                </div>
-                {
-                  false &&
-                  <div className="fs14 color-green-500">
-                    + <CurrencyContainer />{item.guzhi}
-                  </div>
-                }
-              </div>
-            }
-            { change === '-' &&
-              <div className="text-right">
-                <div className="fs18 color-red-500 font-weight-bold">
-                  - {item.value} {item.symbol}
-                </div>
-                {
-                  false &&
-                  <div className="fs14 color-red-500">
-                    - <CurrencyContainer /> {item.guzhi}
-                  </div>
-                }
-              </div>
-            }
+      <div className="ml15 mr15 mt15 pb15 zb-b-b">
+        <div className="row align-items-center no-gutters flex-nowrap" key={index}>
+          <div className="col-auto pr15">
+            {iconCol}
           </div>
-        }
+          <div className="col pr10">
+            {caption}
+          </div>
+          {
+            item.type !== 'approve' &&
+            <div className="col-auto mr5">
+              { change === '+' &&
+                <div className="text-right">
+                  <div className="fs18 color-green-500 font-weight-bold">
+                    + {item.value} {item.symbol}
+                  </div>
+                  {
+                    false &&
+                    <div className="fs14 color-green-500">
+                      + <CurrencyContainer />{item.guzhi}
+                    </div>
+                  }
+                </div>
+              }
+              { change === '-' &&
+                <div className="text-right">
+                  <div className="fs18 color-red-500 font-weight-bold">
+                    - {item.value} {item.symbol}
+                  </div>
+                  {
+                    false &&
+                    <div className="fs14 color-red-500">
+                      - <CurrencyContainer /> {item.guzhi}
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
       </div>
+
     )
   }
-
+  // background:"rgba(0,0,0,0.02)"
   return (
-    <div className="">
+    <div className="" style={{}}>
       <div className="row zb-b-b p15 no-gutters align-items-center">
         <div className="col">
           <div className="fs2 color-black-1">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
