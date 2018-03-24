@@ -17,11 +17,7 @@ window.uiFormatter = uiFormatter
 window.routeActions = routeActions
 window.CONFIG = CONFIG
 window.STORAGE = STORAGE
-// for dev
-window.WALLET = {
-  address:'0x750ad4351bb728cec7d639a9511f9d6488f1e259',
-  getAddress:()=>'0x750ad4351bb728cec7d639a9511f9d6488f1e259',
-}
+
 
 
 setLocale(window.STORAGE.settings.get().preference.language);
