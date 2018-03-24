@@ -459,7 +459,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             </div>
           }
           {
-            false &&
+            true &&
             <div className="col-auto" onClick={(e) => {
               e.stopPropagation();
               e.preventDefault()
@@ -470,15 +470,19 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
                 arrowPointAtCenter
                 content={TokenItemActions(item)}
               >
-                <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
-                  <Icon type="ellipsis"/>
-                </Button>
+                <i className="icon-loopring icon-loopring-right color-black-3 d-block"></i>
               </Popover>
             </div>
           }
-          <div className="col-auto">
-          <i className="icon-loopring icon-loopring-right color-black-3"></i>
-          </div>
+          {
+            false &&
+            <div className="col-auto">
+              <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
+                <Icon type="ellipsis"/>
+              </Button>
+            </div>
+          }
+
         </div>
       </div>
     )
