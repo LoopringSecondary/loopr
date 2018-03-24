@@ -324,7 +324,9 @@ export default {
     },
     token: "代币",
     info_title: "请注意",
-    content_metamask_account_change: "检测到您刚刚在MetaMask切换了账户, 请注意您账户资产发生了改变"
+    content_metamask_account_change: "检测到您刚刚在MetaMask切换了账户, 请注意您账户资产发生了改变",
+    old_weth_detect:"检测到您的地址有WETH余额（旧版本WETH合约），建议您转换为ETH. ",
+    to_convert:"开始转换"
   },
   tokens: {
     "hide_small_balances": "隐藏小额资产",

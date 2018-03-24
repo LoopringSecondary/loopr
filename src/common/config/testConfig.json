@@ -9,7 +9,7 @@
   "defaultExpireTimeUnit": "day",
   "delegateAddress": "0x4e9d4d3b7db4973c91b23a634eb9f675d0e19f79",
   "chainId": 7107171,
-  "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
+  "bindContractAddress": "0x87ab705372cb463c967d396ee2cb2b25da0efb7e",
   "minimumLrcfeeInEth":0.00045,
   "contracts": [
     {

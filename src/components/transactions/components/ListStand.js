@@ -28,20 +28,23 @@ function ListBlock({LIST,actions,prices}) {
     const priceToken = prices.getTokenBySymbol(item.symbol)
     item.guzhi = tokenFm.getAmountValue(origin.value,priceToken.price)
     item.value = tokenFm.getAmount(origin.value)
-    let change = ''
+    let change = '';
      switch (item.type) {
       case 'approve':
-        change = '+'
+        change = '+';
         break;
       case 'send':
-        change = '-'
+        change = '-';
         break;
       case 'receive':
-        change = '+'
+        change = '+';
         break;
-      case 'convert':
-        change = '-'
+      case 'convert_income':
+        change = '+';
         break;
+       case 'convert_outcome':
+         change = '-';
+         break;
       default:
         break;
     }
@@ -55,11 +58,11 @@ function ListBlock({LIST,actions,prices}) {
     const iconCol = (
       <div className="text-center">
         { item.type === 'approve' && <CoinIcon symbol={item.symbol} size="30" /> }
-        { item.type === 'send' && <i className="icon icon-loopring icon-loopring-transfer fs30"></i> }
-        { item.type === 'receive' && <i className="icon icon-loopring icon-loopring-receive fs30"></i> }
-        { item.type === 'convert' && <CoinIcon symbol={item.symbol} size="30" /> }
+        { item.type === 'send' && <i className="icon icon-loopring icon-loopring-transfer fs30"/> }
+        { item.type === 'receive' && <i className="icon icon-loopring icon-loopring-receive fs30"/> }
+        { item.type.startsWith('convert') && <CoinIcon symbol={item.symbol} size="30" /> }
       </div>
-    )
+    );
 
     const caption = (
       <div className="">
@@ -67,8 +70,10 @@ function ListBlock({LIST,actions,prices}) {
           {item.type === 'approve' && intl.get('txs.type_enable_title',{symbol:item.symbol})}
           {item.type === 'send' && intl.get('txs.type_transfer_title',{symbol:item.symbol})}
           {item.type === 'receive' && intl.get('txs.type_receive_title',{symbol:item.symbol})}
-          {item.type === 'convert' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth',{value:item.value || 0})}
-          {item.type === 'convert' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth',{value:item.value || 0} )}
+          {item.type === 'convert_outcome' && item.symbol==='WETH' && intl.get('txs.type_convert_title_weth',{value:item.value || 0})}
+          {item.type === 'convert_outcome' && item.symbol==='ETH' && intl.get('txs.type_convert_title_eth',{value:item.value || 0} )}
+          {item.type === 'convert_income' && item.symbol==='WETH' && intl.get('txs.type_convert_title_eth',{value:item.value || 0})}
+          {item.type === 'convert_income' && item.symbol==='ETH' && intl.get('txs.type_convert_title_weth',{value:item.value || 0} )}
           <span className="ml10">{statusCol}</span>
         </a>
         {
