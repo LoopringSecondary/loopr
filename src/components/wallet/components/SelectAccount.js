@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Card, Input, Radio} from 'antd';
 import intl from 'react-intl-universal';
+import {unlockRedirection} from '../../../common/utils/redirection'
 const RadioGroup = Radio.Group;
 
 export default class SelectAccount extends React.Component {
@@ -32,11 +33,12 @@ export default class SelectAccount extends React.Component {
   confirm = () => {
     const {modals,modal} = this.props;
     const {setWallet} = modals['wallet/selectAccount'];
+    const {pageFrom} = modal
     const {pageNum, index, pageSize} = this.state;
     setWallet(pageNum * pageSize + index);
     modal.hideModal({id: 'wallet/selectAccount'});
     modal.hideModal({id: 'wallet/unlock'});
-    window.routeActions.gotoPath('/wallet/portfolio');
+    unlockRedirection(pageFrom)
   };
 
   render() {

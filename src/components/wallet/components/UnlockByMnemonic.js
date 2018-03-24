@@ -29,10 +29,11 @@ class UnlockByMnemonic extends React.Component {
   };
 
   showAddresses = () => {
+    const {pageFrom} = this.props;
     const {mnemonic,dpath,password} = this.state;
     window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:dpath, password:password});
     window.WALLET_UNLOCK_TYPE = 'Mnemonic';
-    this.props.modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
+    this.props.modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet, pageFrom:pageFrom})
   };
   setWallet = (index) => {
     const {account} = this.props;

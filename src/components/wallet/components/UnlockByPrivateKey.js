@@ -3,6 +3,7 @@ import {Link} from 'dva/router';
 import {Alert, Button, Form, Icon, Input, message} from 'antd';
 import validator from 'Loopring/common/validator';
 import intl from 'react-intl-universal';
+import {unlockRedirection} from '../../../common/utils/redirection'
 
 class UnlockByPrivateKey extends React.Component {
 
@@ -26,14 +27,14 @@ class UnlockByPrivateKey extends React.Component {
   };
 
   render() {
-    const {form, modal, account} = this.props;
+    const {form, modal, account, pageFrom} = this.props;
 
     function handleSubmit() {
       try {
         account.setPrivateKey({...this.state});
         this.setState({privateKey: null});
         modal.hideModal({id: 'wallet/unlock'});
-        window.routeActions.gotoPath('/wallet/portfolio');
+        unlockRedirection(pageFrom)
       } catch (e) {
         message.error(e.message)
       }

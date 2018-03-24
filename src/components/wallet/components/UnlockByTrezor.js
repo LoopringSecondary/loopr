@@ -6,7 +6,7 @@ import intl from 'react-intl-universal';
 class UnlockByTrezor extends React.Component {
 
   connectTrezor =  () => {
-    const {modal} = this.props;
+    const {modal, pageFrom} = this.props;
     const path = "m/44'/60'/0'/0";
     console.log(this.props);
     window.TrezorConnect.setCurrency('BTC');
@@ -14,7 +14,7 @@ class UnlockByTrezor extends React.Component {
       if (result.success) {
         window.WALLET = new TrezorUnlockAccount(result);
         window.WALLET_UNLOCK_TYPE = 'Trezor';
-        modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
+        modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet, pageFrom:pageFrom})
       } else {
         console.error('Error:', result.error);
       }
