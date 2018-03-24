@@ -60,6 +60,10 @@ class UnlockByMetaMask extends React.Component {
           })
           if (window.web3.eth.accounts[0] !== selectedAccount) {
             selectedAccount = window.web3.eth.accounts[0];
+            Modal.info({
+              title: intl.get('wallet.info_title'),
+              content: intl.get('wallet.content_metamask_account_change'),
+            });
             if(selectedAccount) {
               console.log("MetaMask account changed to:", selectedAccount)
               account.setWallet({address: selectedAccount})

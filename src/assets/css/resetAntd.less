@@ -109,21 +109,13 @@
    	border:none !important;
    }
    .ant-table .ant-table-thead > tr > th{
-			color:rgba(76,83,90,0.6) !important;
-			background:#fff !important;
-			border-right:none !important;
       padding:15px 8px !important;
-      font-size: 13px !important;
 			// &:last-child{
 			// 	border-right:1px solid #eee !important;
 			// }
    }
     .ant-table .ant-table-tbody > tr > td{
-      border-right:none !important;
-      border-bottom:none;
        padding:8px 8px !important;
-       font-size: 13px !important;
-       color:#999;
        font-weight: normal;
       // &:last-child{
       //  border-right:1px solid #eee !important;
@@ -177,16 +169,22 @@
 	 	}
 	 }
    .ant-badge-status-text{
-    font-size:12px !important;
+      font-size:14px !important;
+      margin-left: 6px !important;
    }
+   .ant-badge-status-dot{
+      top:0px !important;
+      font-size:12px !important;
+   }
+
 	 .ant-badge.ant-badge-not-a-wrapper.ant-badge-status{
       .ant-badge-status-dot{
-        width:8px !important;
-        height:8px !important;
+        // width:8px !important;
+        // height:8px !important;
       }
       .ant-badge-status-dot{
-        width:8px !important;
-        height:8px !important;
+        // width:8px !important;
+        // height:8px !important;
 
       }
       .ant-badge-status-warning{
@@ -291,6 +289,9 @@
        }
       }
    }
+   .ant-tabs-nav .ant-tabs-tab-active{
+    font-weight: 600 !important;
+   }
    .ant-progress-circle .ant-progress-text{
       transform: scale(0.7) !important;
       margin-top: -6px !important;
@@ -311,5 +312,39 @@
    .ant-progress-circle-trail{
       stroke:#eee !important;
    }
+
+   .navbar-loopring{
+      * {
+        color:rgba(0,0,0,0.85) !important;
+      }
+      .ant-menu{
+        color:rgba(0,0,0,0.85) !important;
+      }
+
+      .ant-select-dropdown{
+        color:rgba(0,0,0,0.85) !important;
+      }
+      .ant-select{
+        color:rgba(0,0,0,0.85) !important;
+      }
+   }
+   .ant-tabs{
+     color:rgba(0,0,0,0.85) !important;
+   }
+   .ant-form-item-label label{
+      color:rgba(0,0,0,0.65) !important;
+   }
+  .ant-table .ant-table-thead > tr > th{
+    color:rgba(0,0,0,0.65) !important;
+    background:#fff !important;
+    font-size:14px;
+  }
+  .ant-table .ant-table-tbody > tr > td{
+    border-right:none !important;
+    border-bottom:none;
+    color:rgba(0,0,0,0.65) !important;
+    font-size:14px;
+  }
+
 
 }

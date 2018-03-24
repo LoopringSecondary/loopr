@@ -141,7 +141,7 @@ function Navbar(props){
   )
 
   return (
-    <div className="">
+    <div className="navbar-loopring">
       {
         false &&
         <TopNotification />

@@ -36,7 +36,6 @@ function ListBlock(props) {
         const gapPosition = item.fillIndex === 0 ? 'top' : 'bottom'
         return (
           <div>
-            <Progress className="mr5" type="circle" gapPosition={gapPosition}  percent={50} width={36} format={percent => <span className="color-blue-500">#{item.fillIndex+1}</span>} />
             <a className="text-truncate text-left color-blue-500" onCopy={handleCopy.bind(this, value)} style={{maxWidth: '150px'}}
                 onClick={showModal.bind(this,{id:'trade/detail',item})}>
                 {uiFormatter.getShortAddress(value)}

@@ -309,6 +309,8 @@ export default {
       qr_keystore: "Qrcode Keystore"
     },
     token: "Token",
+    info_title: "Notice",
+    content_metamask_account_change: "We detected your just changed account on MetaMask, please notice your assets change"
   },
   tokens: {
     "hide_small_balances": " Hide Small Balances",

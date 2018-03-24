@@ -4,7 +4,8 @@ const CoinIcon = (props)=>{
   let {symbol='LRC',size='50',color='',className="",style={} } = props
   symbol = symbol.toUpperCase()
   if(!color){
-    color = 'color-'+ colors[symbol] || ''
+    // color = 'color-'+ colors[symbol] || ''
+    color = 'color-grey-900'
   }else{
     color = 'color-'+ color
   }
