@@ -235,6 +235,7 @@ export default {
     address: "Address",
     bind_address: "Bind Address",
     bind_type_address: "Bind {type} Address",
+    bind_address_confirm:"Bind your {project} address: {address} to your wallet?",
     unlock_tip: "How would you like to access your wallet",
     metamask: "MetaMask",
     trezor: "Trezor",

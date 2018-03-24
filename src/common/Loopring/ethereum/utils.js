@@ -92,7 +92,7 @@ export async function getTransactionByhash(hash) {
 }
 
 
-export async function bindAddress({projectId, address, to, privateKey, gasPrice, gasLimit, nonce, chainId,walletType,path}) {
+export  function generateBindAddressTx({projectId, address, to, gasPrice, gasLimit, nonce, chainId}) {
 
   validator.validate({value: to, type: 'ADDRESS'});
   const tx = {};
@@ -111,7 +111,6 @@ export async function bindAddress({projectId, address, to, privateKey, gasPrice,
   if (chainId) {
     tx.chainId = chainId
   }
-  const transaction = new Transaction(tx);
-  transaction.send({privateKey,walletType,path})
+  return tx
 }
 
