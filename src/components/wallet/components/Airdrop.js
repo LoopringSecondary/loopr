@@ -1,16 +1,39 @@
 import React from 'react';
 import {Button, Card, Form, Input, message, Modal, Select} from 'antd';
-import {generateBindAddressTx} from "Loopring/ethereum/utils";
+import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {connect} from 'dva';
 import {projects} from "../../../common/config/data";
 import {toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
+import map from 'async/map';
 
 class Airdrop extends React.Component {
+
   state = {
     address: null,
-    project: null
+    project: null,
+    projects
+  };
+
+  componentDidMount() {
+    map(projects, async (project) => {
+      const address = await getBindAddress(window.WALLET.getAddress(), project.projectId).then(res => {
+        if (!res.error) {
+          return res.result;
+        }
+      });
+      return {...project, address}
+    }, function (err, results) {
+      if (!err) {
+        this.setState({projects: results})
+      }
+    }.bind(this))
+
+  }
+
+  findBindAddress = (project) =>{
+    return projects.find(project => project.projectId === project.projectId)
   };
 
   showConfirm = (address, project) => {
@@ -24,7 +47,6 @@ class Airdrop extends React.Component {
         const tx = generateBindAddressTx({
           projectId: project.projectId,
           address,
-          to: "0xbf78b6e180ba2d1404c92fc546cbc9233f616c42",
           gasPrice: toHex(tradingConfig.gasPrice * 1e9),
           nonce: toHex(nonce)
         });
@@ -65,7 +87,7 @@ class Airdrop extends React.Component {
     const options = projects.map(project => <Select.Option value={project.projectId}
                                                            key={project.projectId}>{project.lrx.toUpperCase()} (
       for {project.name.toUpperCase()} )</Select.Option>)
-    const {project, address} = this.state;
+    const {project, address, projects} = this.state;
     return (
       <Card title={intl.get('wallet.bind_tip')}>
         <Form>
@@ -80,14 +102,21 @@ class Airdrop extends React.Component {
             </Select>
           </Form.Item>
           <Form.Item label={intl.get('wallet.address')}>
-            <Input.TextArea
+            <Input
               size="large"
-              autoSize={true}
               placeholder={intl.get('wallet.address_tip')}
               onChange={this.addressChange}
               value={address}
             />
           </Form.Item>
+          {project && this.findBindAddress(project) && this.findBindAddress(project).address &&
+          <Form.Item label={intl.get('wallet.address')}>
+            <Input
+              size="large"
+              value={project && this.findBindAddress(project) && this.findBindAddress(project).address}
+              disabled
+            />
+          </Form.Item>}
         </Form>
         <div className="mb25"></div>
         <Button onClick={this.showConfirm.bind(this, this.state.address, this.state.project)}
