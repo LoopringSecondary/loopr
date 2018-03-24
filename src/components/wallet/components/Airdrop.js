@@ -17,23 +17,22 @@ class Airdrop extends React.Component {
   };
 
   componentDidMount() {
-    mapAsync(projects, async (project) => {
-      const address = await getBindAddress(window.WALLET.getAddress(), project.projectId).then(res => {
-        if (!res.error) {
-          return res.result;
-        }
-      });
-      return {...project, address}
-    }, function (err, results) {
+    const _this = this;
+    mapAsync(projects, async (project, callback) => {
+      const address = await getBindAddress(window.WALLET.getAddress(), project.projectId);
+      callback(null, {...project, address})
+    }, (err, results) => {
       if (!err) {
-        this.setState({projects: results})
+        _this.setState({projects: results})
       }
-    }.bind(this))
-
+    })
   }
 
-  findBindAddress = (project) =>{
-    return projects.find(project => project.projectId === project.projectId)
+  findBindAddress = (project) => {
+    const targetProject =  this.state.projects.find(pro => pro.projectId === project.projectId);
+    const address =  targetProject ? targetProject.address : '';
+    console.log('Address:',address);
+    return address
   };
 
   showConfirm = (address, project) => {
@@ -51,7 +50,7 @@ class Airdrop extends React.Component {
           nonce: toHex(nonce)
         });
         window.WALLET.sendTransaction(tx).then(response => {
-          if (!response.error) {
+          if (response.error) {
             message.error(response.error.message)
           } else {
             message.info('bind success');
@@ -110,11 +109,11 @@ class Airdrop extends React.Component {
               value={address}
             />
           </Form.Item>
-          {project && this.findBindAddress(project) && this.findBindAddress(project).address &&
-          <Form.Item label={intl.get('wallet.address')}>
+          {project && this.findBindAddress(project)  &&
+          <Form.Item label={intl.get('wallet.cu_bind_address')}>
             <Input
               size="large"
-              value={project && this.findBindAddress(project) && this.findBindAddress(project).address}
+              value={this.findBindAddress(project)}
               disabled
             />
           </Form.Item>}

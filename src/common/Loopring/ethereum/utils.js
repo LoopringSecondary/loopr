@@ -2,7 +2,8 @@ import validator from '../common/validator'
 import request from '../common/request'
 import {generateAbiData} from './abi';
 import {configs} from "../../config/data";
-
+import {toBuffer} from "../common/formatter";
+import {rawDecode} from 'ethereumjs-abi'
 
 export async function getTransactionCount(address, tag) {
   try {
@@ -121,11 +122,11 @@ export async function getBindAddress(owner,projectId) {
   const body = {};
   body.method = 'eth_call';
   body.params = params;
-  return request({
+  const response  = await request({
     method: 'post',
     body,
-  })
-
-
+  });
+  const results = rawDecode(['string'], toBuffer(response.result));
+  return results.length > 0 ? results[0] : '';
 }
 

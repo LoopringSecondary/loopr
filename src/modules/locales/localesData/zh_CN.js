@@ -243,6 +243,7 @@ export default {
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
+    cu_bind_address:"当前绑定的地址",
     bind_type: "类型",
     address: "地址",
     type_tip: "请选择要绑定的类型",
