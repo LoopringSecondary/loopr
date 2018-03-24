@@ -1,13 +1,9 @@
 export default {
 	"extraBabelPlugins": [
     ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }],
-    ["dva-hmr"]
 	],
   disableCSSModules: true,
-  // hash:true,
-  // "extraBabelPresets":[
-  //   "es2015"
-  // ],
+  hash:true,
 	"alias":{
 		"Loopring":`${__dirname}/src/common/Loopring`
 	},
@@ -19,11 +15,12 @@ export default {
     "@border-radius-base": "4px",
     "@line-height-base" : 1.6,
   },
-  // "env": {
-  //   "development": {
-
-  //   }
-  // }
+  "html": { "template": "./public/index.ejs" },
+  env: {
+    development: {
+      extraBabelPlugins: ['dva-hmr'],
+    },
+  },
 
 }
 
