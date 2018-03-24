@@ -1,7 +1,8 @@
 import validator from '../common/validator'
 import request from '../common/request'
 import {generateAbiData} from './abi';
-import Transaction from './transaction';
+import {configs} from "../../config/data";
+
 
 export async function getTransactionCount(address, tag) {
   try {
@@ -91,12 +92,10 @@ export async function getTransactionByhash(hash) {
 
 }
 
+export  function generateBindAddressTx({projectId, address, gasPrice, gasLimit, nonce, chainId}) {
 
-export  function generateBindAddressTx({projectId, address, to, gasPrice, gasLimit, nonce, chainId}) {
-
-  validator.validate({value: to, type: 'ADDRESS'});
   const tx = {};
-  tx.to = to;
+  tx.to = configs.bindContractAddress;
   tx.value = "0x0";
   tx.data = generateAbiData({method: "bind", address: address, projectId});
   if (gasPrice) {
@@ -112,5 +111,21 @@ export  function generateBindAddressTx({projectId, address, to, gasPrice, gasLim
     tx.chainId = chainId
   }
   return tx
+}
+
+export async function getBindAddress(owner,projectId) {
+  const tx = {};
+  tx.data = generateAbiData({method: "getBindingAddress", owner, projectId});
+  tx.to = configs.bindContractAddress;
+  const params = [tx,"latest"];
+  const body = {};
+  body.method = 'eth_call';
+  body.params = params;
+  return request({
+    method: 'post',
+    body,
+  })
+
+
 }
 

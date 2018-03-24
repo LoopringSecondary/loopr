@@ -55,9 +55,8 @@ class Home extends React.Component{
             <Alert type="warning" showIcon closable className="mt15"
             description={
               <div>
-                  检测到您的地址有WETH余额（旧版本WETH合约），建议您转换为ETH (<a className='color-blue-500 pointer'>Why?</a>)
-                  <a className='color-blue-500 ml5' onClick={showWithDrawAll}>开始转换</a>
-
+                {intl.get('wallet.old_weth_detect')} (<a className='color-blue-500 pointer'>Why?</a>)
+                  <a className='color-blue-500 ml5' onClick={showWithDrawAll}>{intl.get('to_convert')}</a>
               </div>
             }
             />
