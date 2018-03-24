@@ -64,10 +64,10 @@ export default {
     favorites: '自选',
   },
   exchanges: {
-    loopr: '路印DEX-市场价',
-    binance: '币安-市场价',
-    okex: 'Okex-市场价',
-    huobi: '火币-市场价',
+    loopr: '路印DEX 市场行情',
+    binance: '币安 市场行情',
+    okex: 'Okex 市场行情',
+    huobi: '火币 市场行情',
   },
   home: {
     title: '路印钱包及去中心化交易所',
