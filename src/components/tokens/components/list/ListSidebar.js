@@ -458,21 +458,31 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
               </Tooltip>
             </div>
           }
-          <div className="col-auto" onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault()
-          }}>
-            <Popover
-              title={<div className="pt5 pb5 fs18">{item.symbol} {intl.get('tokens.options')}</div>}
-              placement="right"
-              arrowPointAtCenter
-              content={TokenItemActions(item)}
-            >
+          {
+            true &&
+            <div className="col-auto" onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault()
+            }}>
+              <Popover
+                title={<div className="pt5 pb5 fs18">{item.symbol} {intl.get('tokens.options')}</div>}
+                placement="right"
+                arrowPointAtCenter
+                content={TokenItemActions(item)}
+              >
+                <i className="icon-loopring icon-loopring-right color-black-3 d-block"></i>
+              </Popover>
+            </div>
+          }
+          {
+            false &&
+            <div className="col-auto">
               <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
                 <Icon type="ellipsis"/>
               </Button>
-            </Popover>
-          </div>
+            </div>
+          }
+
         </div>
       </div>
     )
@@ -503,9 +513,12 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
   //   return !!a.custom < !!b.custom
   // }
   // results.sort(sorter)
-
+  let style = {
+    boxShadow:"3px 0px 4px rgba(0,0,0,0.05)"
+  }
+  style={style}
   return (
-    <div className="">
+    <div className="" >
       {TokenListAcionsBar}
       <div className="token-list-sidebar">
         {

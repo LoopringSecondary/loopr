@@ -12,11 +12,12 @@ export default {
 	// "extraBabelPlugins":["transform-remove-console"],
 	// "theme": `${__dirname}/theme.js`,
   "theme": {
-    "@font-family-no-number"  : "DIN-Light",
+    "@font-family-no-number"  : "DIN-Light, PingFang SC Light",
     "@font-family"            : "@font-family-no-number",
     "@primary-color": "#0077FF",
     "@link-color": "#0077FF",
     "@border-radius-base": "4px",
+    "@line-height-base" : 1.6,
   },
 
 }
