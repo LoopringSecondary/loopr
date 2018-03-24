@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Form, Radio, Input, Tabs, Upload, Icon, message, Alert} from 'antd';
 import {isKeystorePassRequired} from 'Loopring/common/keystore';
 import intl from 'react-intl-universal';
+import {unlockRedirection} from '../../../common/utils/redirection'
 
 class UnlockByKeyStore extends React.Component {
 
@@ -38,7 +39,7 @@ class UnlockByKeyStore extends React.Component {
   unlock = () => {
     try {
       const {keyStore, password} = this.state;
-      const {account, modal} = this.props;
+      const {account, modal, pageFrom} = this.props;
       this.setState({
         loading: true
       }, function () {
@@ -50,7 +51,7 @@ class UnlockByKeyStore extends React.Component {
             })
           }else{
             modal.hideModal({id: 'wallet/unlock'});
-            window.routeActions.gotoPath('/wallet/portfolio');
+            unlockRedirection(pageFrom)
             this.setState({
               fileList: [],
               password: '',

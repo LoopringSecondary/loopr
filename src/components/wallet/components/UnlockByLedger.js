@@ -22,7 +22,7 @@ class UnlockByLedger extends React.Component {
       this.setState({loading:false})
       return
     }
-    const {account, modal} = this.props;
+    const {modal, pageFrom} = this.props;
     ledger.comm_u2f.create_async()
       .then(comm => {
         const ledgerConnection = new ledger.eth(comm)
@@ -33,7 +33,7 @@ class UnlockByLedger extends React.Component {
             this.setState({loading:false})
             if(connected){
               modal.hideModal({id: 'wallet/unlock'});
-              modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet})
+              modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet, pageFrom:pageFrom})
             }
           })
       })

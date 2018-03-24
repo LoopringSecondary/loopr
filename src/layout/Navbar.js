@@ -38,11 +38,11 @@ function Navbar(props){
       }
     })
   }
-  const showModal = (id)=>{
+  const showModal = (payload)=>{
     props.dispatch({
       type:'modals/modalChange',
       payload:{
-        id,
+        ...payload,
         visible:true
       }
     })
@@ -81,17 +81,17 @@ function Navbar(props){
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,'token/receive')}>
+            <a onClick={showModal.bind(this,{id:'token/receive'})}>
               <Icon type="qrcode" className="mr5" />{intl.get('navbar.subs.qrcode')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,'wallet/airdrop')} className="color-grey-900">
+            <a onClick={showModal.bind(this,{id:'wallet/airdrop'})} className="color-grey-900">
               <Icon type="gift" className="mr5" />{intl.get('navbar.subs.airdrop')}
             </a>
           </div>
           {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,'wallet/export/keystore')}>
+            <a onClick={showModal.bind(this,{id:'wallet/export/keystore'})}>
               <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
             </a>
           </div>}
@@ -115,14 +115,14 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col-auto">
-                <a  onClick={showModal.bind(this,'wallet/unlock')} className="color-grey-900">
+                <a  onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Portfolio'})} className="color-grey-900">
                 <Icon type="unlock" className="mr5" />{intl.get('navbar.subs.unlock')}
                 </a>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,'wallet/generate')} className="color-grey-900">
+            <a onClick={showModal.bind(this,{id:'wallet/generate'})} className="color-grey-900">
               <Icon type="plus" className="mr5" />{intl.get('navbar.subs.generate')}
             </a>
           </div>
@@ -175,7 +175,7 @@ function Navbar(props){
               {
                 (!window.WALLET || !window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
-                  <a className="fs16" onClick={showModal.bind(this,'wallet/unlock')}>{intl.get('navbar.wallet')}</a>
+                  <a className="fs16" onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Wallet'})}>{intl.get('navbar.wallet')}</a>
                 </Menu.Item>
               }
               {
@@ -188,7 +188,7 @@ function Navbar(props){
             </Menu>
           </div>
           <div className="col-auto">
-            <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,'settings')}>{intl.get('navbar.settings')}</span>
+            <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,{id:'settings'})}>{intl.get('navbar.settings')}</span>
             <Select value={props.locales.locale || 'en_US'} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>

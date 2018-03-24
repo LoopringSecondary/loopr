@@ -14,6 +14,7 @@ function Home(props){
       type:'modals/modalChange',
       payload:{
         id:id,
+        pageFrom:'Portfolio',
         visible:true,
       }
     })
