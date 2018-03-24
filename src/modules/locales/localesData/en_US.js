@@ -256,7 +256,7 @@ export default {
     warning_title: "Warning",
     content_metamask_logout: "You have logout from MetaMask",
     content_metamask_unlock_again: "You may have changed your MetaMask network, or your computer has ever been locked. For either reason, you should make sure your MetaMask is using MainNetwork and unlock your wallet again",
-    content_metamask_install: "Your may need to install MetaMask extension to your browser first",
+    content_metamask_install: "Your may need to install MetaMask extension to your browser first, please reload our page after installed",
     content_metamask_locked: "Failed to connect with MetaMask, please unlock and use",
     get_metamask: "Get MetaMask Chrome extension (for Chrome Firefox Opera)",
     connect_to_metamask: "Connect To MetaMask",
