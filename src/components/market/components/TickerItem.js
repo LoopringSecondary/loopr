@@ -68,7 +68,6 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
   const ticker = tickers.loopr || {} // fix bug: when init loopr is null
   const priceValue = (
     <span className="fs12">
-      ≈
       <Currency />
       {(price*ticker.last).toFixed(3)}
     </span>
@@ -113,7 +112,7 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
   const NumberCaption = ({title,content})=>(
     <div className="pt15 pb15">
       <div className="fs14 color-white font-weight-bold">{content}</div>
-      <div className="fs12 color-white opacity-70">{title}</div>
+      <div className="fs14 color-white opacity-70">{title}</div>
     </div>
   )
   return (
@@ -134,7 +133,7 @@ const LooprTicker = ({pair='',tickers={},price=0})=>{
            <NumberCaption title={`24H ${intl.get('ticker.high')}`} content={fm.getPrice(ticker.high)} />
          </div>
          <div className="col-sm-6 col-lg-2">
-          <NumberCaption title={<div>24H {intl.get('ticker.vol')} <span className="fs10">/ {tokenR}</span></div>} content={<div>{`${fm.getVolume(ticker.vol)}`} </div>} />
+          <NumberCaption title={<div>24H {intl.get('ticker.vol')}</div>} content={<div>{`${fm.getVolume(ticker.vol)}`}  <span className="fs10">{tokenR}</span></div>} />
          </div>
       </div>
   )
@@ -143,28 +142,27 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     const priceValue = (
-      <span className="fs12">
-        ≈<Currency />
-        {(price*ticker.last).toFixed(3)}
+      <span className="fs14 color-black-3">
+        <Currency />{(price*ticker.last).toFixed(3)}
       </span>
     )
     return (
         <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'3px'}}>
           <div className="col-auto">
-            <div className="fs16 color-grey-800">
+            <div className="fs14 color-black-1 font-weight-bold">
               {fm.getPrice(ticker.last)} {priceValue}
               </div>
-            <div className="fs12 color-grey-400 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
+            <div className="fs14 color-black-3 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
             {intl.get(`exchanges.${ticker.exchange}`)}
             </div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs16" style={{color:'#1DB427'}}>{ticker.change}</div>
-            <div className="fs12 color-grey-400 ">24H {intl.get('ticker.change')}</div>
+            <div className="fs14 font-weight-bold" style={{color:'#1DB427'}}>{ticker.change}</div>
+            <div className="fs14 color-black-3 ">24H {intl.get('ticker.change')}</div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs16 color-grey-800">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
-            <div className="fs12 color-grey-400">24H {intl.get('ticker.vol')}</div>
+            <div className="fs14 color-black-1 font-weight-bold">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
+            <div className="fs14 color-black-3">24H {intl.get('ticker.vol')}</div>
           </div>
         </div>
       )

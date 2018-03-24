@@ -64,10 +64,10 @@ export default {
     favorites: 'Favorites',
   },
   exchanges: {
-    loopr: 'Loopring DEX',
-    binance: 'Binance',
-    okex: 'Okex',
-    huobi: 'Huobi',
+    loopr: 'Loopring DEX Price',
+    binance: 'Binance Price',
+    okex: 'Okex Price',
+    huobi: 'Huobi Price',
   },
   home: {
     title: 'Welcome To Loopring Wallet & DEX',
