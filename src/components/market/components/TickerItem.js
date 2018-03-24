@@ -151,7 +151,7 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
           <div className="col-auto">
             <div className="fs14 color-black-1 font-weight-bold">
               {fm.getPrice(ticker.last)} {priceValue}
-              </div>
+            </div>
             <div className="fs14 color-black-3 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
             {intl.get(`exchanges.${ticker.exchange}`)}
             </div>
