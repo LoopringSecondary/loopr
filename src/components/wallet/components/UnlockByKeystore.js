@@ -25,7 +25,6 @@ class UnlockByKeyStore extends React.Component {
     });
   };
   beforeUpload = (file) => {
-    console.log("before upload");
     const fileReader = new FileReader();
     fileReader.onload = () => {
       const keyStore = fileReader.result;
@@ -36,22 +35,57 @@ class UnlockByKeyStore extends React.Component {
     this.setState({fileList: [file]});
     return false;
   };
+
+  bindEnter = (e) =>{
+    if(e.keyCode === 13){
+      e.preventDefault();
+      try {
+        const {keyStore} = this.state;
+        const password = e.target.value;
+        const {account, modal, pageFrom} = this.props;
+        this.setState({
+          loading: true
+        }, function () {
+          account.setKeystore({keyStore, password,cb:(e)=>{
+            if(e){
+              message.error(e.message);
+              this.setState({
+                loading: false
+              })
+            }else{
+              modal.hideModal({id: 'wallet/unlock'});
+              unlockRedirection(pageFrom);
+              this.setState({
+                fileList: [],
+                password: '',
+                isPasswordRequired: false,
+                keyStore: '',
+                loading: false
+              });
+            }
+          }});
+        });
+      } catch (e) {
+        message.error(e.message)
+      }
+    }
+ };
   unlock = () => {
     try {
-      const {keyStore, password} = this.state;
+      const {keyStore,password} = this.state;
       const {account, modal, pageFrom} = this.props;
       this.setState({
         loading: true
       }, function () {
         account.setKeystore({keyStore, password,cb:(e)=>{
           if(e){
-            message.error(e.message)
+            message.error(e.message);
             this.setState({
               loading: false
             })
           }else{
             modal.hideModal({id: 'wallet/unlock'});
-            unlockRedirection(pageFrom)
+            unlockRedirection(pageFrom);
             this.setState({
               fileList: [],
               password: '',
@@ -83,8 +117,8 @@ class UnlockByKeyStore extends React.Component {
     return (
       <div className="">
         <Alert
-          message={<div className="color-red-600"><Icon type="exclamation-circle"/>{intl.get('wallet.not_recommended')}</div>}
-          description={<div className="color-red-600">{intl.get('wallet.not_recommended_tip')}</div>}
+          message={<div className="color-red-600"><Icon type="exclamation-circle"/> {intl.get('wallet.not_recommended')}</div>}
+          description={<div className="color-red-600"><div className="fs10">{intl.getHTML('wallet.instruction_keystore')}</div></div>}
           type="error"
           showIcon={false}
           className="mb15"
@@ -107,7 +141,7 @@ class UnlockByKeyStore extends React.Component {
               initialValue: '',
               rules: []
             })(
-              <Input size="large" type="password" onChange={this.setPassword.bind(this)}/>
+              <Input size="large" type="password" onChange={this.setPassword.bind(this)} onKeyDown={this.bindEnter.bind(this)}/>
             )}
           </Form.Item>}
         </Form>

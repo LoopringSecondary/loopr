@@ -7,7 +7,7 @@ import ModalContainer from '../../../modules/modals/container'
 import AccountContainer from '../../../modules/account/container'
 import SelectAccount from './SelectAccount'
 import Airdrop from './Airdrop'
-
+import AirdropBind from './AirdropBind'
 
 function Modals(props){
   return (
@@ -35,6 +35,9 @@ function Modals(props){
 			</ModalContainer>
       <ModalContainer id="wallet/airdrop" >
         <Airdrop />
+      </ModalContainer>
+      <ModalContainer id="wallet/bind" >
+        <AirdropBind />
       </ModalContainer>
     </div>
   );

@@ -1,40 +1,29 @@
 import React from 'react';
-import {Button, Card, Form, Input, message, Modal, Select} from 'antd';
+import {Button, Card, Form, Input, message, Modal} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {connect} from 'dva';
-import {projects} from "../../../common/config/data";
 import {toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
-import mapAsync from 'async/map';
 
-class Airdrop extends React.Component {
+class AirdropBind extends React.Component {
 
   state = {
     address: null,
     project: null,
-    projects
   };
 
-  componentDidMount() {
-    const _this = this;
-    mapAsync(projects, async (project, callback) => {
-      const address = await getBindAddress(window.WALLET.getAddress(), project.projectId);
-      callback(null, {...project, address})
-    }, (err, results) => {
-      if (!err) {
-        _this.setState({projects: results})
-      }
-    })
+  componentDidMount(){
+    const {modals} = this.props;
+    const modal = modals['wallet/bind'];
+    const {project,address} = modal;
+    this.setState({
+      address,
+      project
+    });
+    console.log('address:',this.state.address);
+    console.log('project:',this.state.project)
   }
-
-  findBindAddress = (project) => {
-    const targetProject =  this.state.projects.find(pro => pro.projectId === project.projectId);
-    const address =  targetProject ? targetProject.address : '';
-    console.log('Address:',address);
-    return address
-  };
-
   showConfirm = (address, project) => {
     const _this = this;
     Modal.confirm({
@@ -58,7 +47,8 @@ class Airdrop extends React.Component {
             window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
             notifyTransactionSubmitted(response.result);
             _this.setState({address: null, project: null});
-            modal.hideModal({id: 'wallet/airdrop'});
+            modal.hideModal({id: 'wallet/bind'});
+          //  modal.hideModal({id: 'wallet/airdrop'});
           }
         });
       },
@@ -70,77 +60,20 @@ class Airdrop extends React.Component {
     });
   };
 
-  projectChange = (value) => {
-    const project = window.CONFIG.getProjectById(value)
-    if (project) {
-      this.setState({project})
-    } else {
-      message.error('invalid type of project')
-    }
-  };
   addressChange = (e) => {
     this.setState({address: e.target.value})
   };
 
   render() {
-    const {project, address, projects} = this.state;
-    const options = projects.map(project => <Select.Option value={project.projectId}
-                                                           key={project.projectId}>{project.lrx.toUpperCase()} (
-      for {project.name.toUpperCase()} )</Select.Option>);
-
+    const {project, address} = this.state;
     return (
       <Card title={intl.get('wallet.bind_tip')}>
-        <div className="row zb-b-b pt10 pb10 ml0 mr0 align-items-center">
-          <div className="col pl0 pr0">
-            <div className="fs1 color-black-1 font-weight-bold">
-              LRN
-            </div>
-            <div className="fs2 color-black-3 pl0 pr0">
-              Loopring On NEO
-            </div>
-          </div>
-          <div className="col-auto pl0 pr0">
-            <div className="f2 color-black-3">
-              Go To Bind
-            </div>
-          </div>
-          <div className="col-auto pr0">
-            <div className="f2 color-black-3">
-              <i className="icon-loopring icon-loopring-right"></i>
-            </div>
-          </div>
-        </div>
-        <div className="row zb-b-b pt10 pb10 ml0 mr0 align-items-center">
-          <div className="col pl0 pr0">
-            <div className="fs1 color-black-1 font-weight-bold">
-              LRQ
-            </div>
-            <div className="fs2 color-black-3 pl0 pr0">
-              Loopring On QTUM
-            </div>
-          </div>
-          <div className="col-auto pl0 pr0">
-            <div className="f2 color-black-3">
-              Binded
-            </div>
-          </div>
-          <div className="col-auto pr0">
-            <div className="f2 color-black-3">
-              <i className="icon-loopring icon-loopring-right"></i>
-            </div>
-          </div>
-        </div>
-
         <Form>
           <Form.Item label={intl.get('wallet.bind_type')}>
-            <Select
-              showSearch
+            <Input
               size="large"
-              placeholder={intl.get('wallet.type_tip')}
-              onChange={this.projectChange}
-            >
-              {options}
-            </Select>
+              value={project && project.lrx.toUpperCase()}
+              disabled/>
           </Form.Item>
           <Form.Item label={intl.get('wallet.address')}>
             <Input
@@ -150,14 +83,6 @@ class Airdrop extends React.Component {
               value={address}
             />
           </Form.Item>
-          {project && this.findBindAddress(project)  &&
-          <Form.Item label={intl.get('wallet.cu_bind_address')}>
-            <Input
-              size="large"
-              value={this.findBindAddress(project)}
-              disabled
-            />
-          </Form.Item>}
         </Form>
         <div className="mb25"></div>
         <Button onClick={this.showConfirm.bind(this, this.state.address, this.state.project)}
@@ -172,9 +97,8 @@ class Airdrop extends React.Component {
 function mapStateToProps(state) {
   return {
     tradingConfig: state.settings.trading,
-    account: state.account
   };
 }
 
-export default connect(mapStateToProps)(Airdrop)
+export default connect(mapStateToProps)(AirdropBind)
 
