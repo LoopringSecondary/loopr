@@ -93,6 +93,7 @@ export default {
     type: 'Type',
     type_transfer: 'Send',
     type_convert: 'Convert',
+    buy:"Buy",
     type_convert_title_eth: 'Convert ETH To WETH',
     type_convert_title_weth: 'Convert WETH To ETH',
     type_receive: 'Receive',
@@ -100,6 +101,11 @@ export default {
     type_enable_title: "Enable {symbol} To Trade",
     type_transfer_title: "Send {symbol}",
     type_receive_title: "Receive {symbol}",
+    cancel_order:'Cancel Order',
+    cancel_all:'Cancel All Orders',
+    cancel_pair_order:"Cancel {pair} Orders",
+    unsupported_contract:" Call Unsupported Contract",
+    balance_not_enough:"Balance is not enough for orders"
   },
   orders: {
     order: "Order Hash",

@@ -77,7 +77,7 @@ let FiltersForm = ({
                   <Select.Option value="">{intl.get('global.all')}</Select.Option>
                   <Select.Option value="ORDER_OPENED">{intl.get('orders.status_opened')}</Select.Option>
                   <Select.Option value="ORDER_FINISHED">{intl.get('orders.status_completed')}</Select.Option>
-                  <Select.Option value="ORDER_CANCELED">{intl.get('orders.status_canceled')}</Select.Option>
+                  <Select.Option value="ORDER_CANCELLED">{intl.get('orders.status_canceled')}</Select.Option>
                   <Select.Option value="ORDER_EXPIRE">{intl.get('orders.status_expired')}</Select.Option>
               </Select>
             )}
