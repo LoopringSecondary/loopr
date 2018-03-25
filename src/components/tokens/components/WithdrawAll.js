@@ -1,9 +1,7 @@
 import React from 'react';
 import {Button, Card, Form, Input} from 'antd';
-import ethLogo from '../../../assets/images/eth.png';
-import wethLogo from '../../../assets/images/weth.png';
 import {accMul} from 'Loopring/common/math'
-import {toBig,toHex,toNumber} from "Loopring/common/formatter";
+import {toBig, toHex, toNumber} from "Loopring/common/formatter";
 import Currency from '../../../modules/settings/CurrencyContainer'
 import wrapArrow from '../../../assets/images/wrap-arrow.png';
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi'

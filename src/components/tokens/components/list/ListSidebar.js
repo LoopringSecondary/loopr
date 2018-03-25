@@ -1,13 +1,8 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Table, Badge, Button, List, Modal, Avatar, Icon, Switch, Tooltip, Input, Menu, Popover, Checkbox, message} from 'antd';
-import schema from '../../../../modules/tokens/schema';
-import {tokens} from '../../../../common/config/data';
-import {configs} from '../../../../common/config/data'
+import {Button, Icon, Input, Popover, Tooltip} from 'antd';
 import './ListSidebar.less'
-import Token from '../../../../common/Loopring/ethereum/token'
-import {getTransactionCount} from '../../../../common/Loopring/ethereum/utils'
 import * as fm from '../../../../common/Loopring/common/formatter'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
 import {toNumber} from "Loopring/common/formatter";
@@ -73,126 +68,6 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
       id: 'token/add',
     })
   }
-  /*
-  const selectedGasPrice = 30
-  const selectedGasLimit = 21000
-  const address = account.address
-  const privateKey ="93d2d40c13f4d4ca422c154dac7db78f8b0964ad8aa9047c9eb5dfa750357c4e"
-  const toggleApprove = (token, checked)=>{
-    // there is no event in arguments
-    console.log(token)
-    console.log(checked)
-    const gasPrice = fm.toHex(fm.toNumber(selectedGasPrice) * 1e9)
-    const gasLimit = fm.toHex(fm.toNumber(selectedGasLimit))
-    const chainId = configs.chainId || 1
-    if(checked) {
-      enableToken(token,gasPrice,gasLimit,chainId)
-    } else {
-      Modal.confirm({
-        title: 'Attention',
-        content: 'You are disabling '+token.symbol,
-        onOk:()=>{
-          disableToken(token,gasPrice,gasLimit,chainId)
-        },
-        onCancel:()=>{},
-        okText:'Yes, Disable it',
-        cancelText:'No',
-      })
-    }
-  }
-  const enableToken = (token,gasPrice,gasLimit,chainId) => {
-    const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol)
-    const setAllowance = fm.toHex(fm.toBig('9223372036854775806').times('1e'+tokenConfig.digits))
-    const api = new Token({address:tokenConfig.address})
-    let latestNonce = ''
-    actions.updateItem({item:{
-      symbol:token.symbol,
-      loading:true,
-      checked:true
-    }})
-    getTransactionCount(address).then(nonce=>{
-      console.log(nonce)
-      //TODO mock data
-      token.allowance = 1
-      if(nonce.result){
-        if(fm.toNumber(token.allowance) > 0){
-          latestNonce = fm.toHex(fm.toNumber(nonce.result)+1)
-          return api.approve({spender:configs.delegateAddress, amount:"0x0", privateKey, gasPrice, gasLimit, nonce:nonce.result, chainId})
-        } else {
-          latestNonce = nonce.result
-          return {result:true}
-        }
-      }
-    }).then(disable => {
-      console.log(disable)
-      if(disable.result){
-        return api.approve({spender:configs.delegateAddress, amount:setAllowance, privateKey, gasPrice, gasLimit, nonce:latestNonce, chainId})
-      } else {
-        throw new Error('Failed to call ethereum API, please try later')
-      }
-    }).then(enable=>{
-      console.log(enable)
-      if(enable.reslut){
-        actions.updateItem({item:{
-          symbol:token.symbol,
-          loading:false,
-          checked:true
-        }})
-      } else {
-        throw new Error('Failed to call ethereum API, please try later')
-      }
-    }).catch(e=>{
-      console.error(e)
-      actions.updateItem({item:{
-        symbol:token.symbol,
-        loading:false,
-        checked:false
-      }})
-    })
-  }
-  const disableToken = (token,gasPrice,gasLimit,chainId) => {
-    const tokenConfig = window.CONFIG.getTokenBySymbol(token.symbol)
-    const api = new Token({address:tokenConfig.address})
-    //TODO mock data
-    token.allowance = 1
-    actions.updateItem({item:{
-      symbol:token.symbol,
-      loading:true,
-      checked:false
-    }})
-    if(fm.toNumber(token.allowance) > 0){
-      getTransactionCount(address).then(nonce=>{
-        if(nonce.result){
-          return api.approve(configs.delegateAddress, "0x0", privateKey, gasPrice, gasLimit, nonce.result, chainId)
-        } else {
-          throw new Error('Failed to call ethereum API, please try later')
-        }
-      }).then(disable => {
-        if(!disable.result){
-          throw new Error('Failed to call ethereum API, please try later')
-        }
-        actions.updateItem({item:{
-          symbol:token.symbol,
-          loading:false,
-          checked:false
-        }})
-      }).catch(e=>{
-        console.error(e)
-        actions.updateItem({item:{
-          symbol:token.symbol,
-          loading:false,
-          checked:true
-        }})
-      })
-    } else {
-      actions.updateItem({item:{
-        symbol:token.symbol,
-        loading:false,
-        checked:false
-      }})
-    }
-  }
-  */
   const toggleMyFavorite = ()=>{
     actions.filtersChange({
       filters: {
@@ -261,14 +136,13 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
           {
             filters.ifOnlyShowMyFavorite &&
             <Button onClick={toggleMyFavorite.bind(this)} className="color-white border-blue-600 bg-blue-600"
-                    icon="star-o" shape="circle"></Button>
+                    icon="star-o" shape="circle"/>
           }
           {
             !filters.ifOnlyShowMyFavorite &&
             <Button onClick={toggleMyFavorite.bind(this)} className="color-grey-600" icon="star-o"
-                    shape="circle"></Button>
+                    shape="circle"/>
           }
-
         </Tooltip>
       </div>
       <div className="col-auto">
@@ -276,12 +150,12 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
           {
             filters.ifHideSmallBalance &&
             <Button onClick={toggleSmallBalance.bind(this)} className="color-white border-blue-600 bg-blue-600"
-                    icon="eye-o" shape="circle"></Button>
+                    icon="eye-o" shape="circle"/>
           }
           {
             !filters.ifHideSmallBalance &&
             <Button onClick={toggleSmallBalance.bind(this)} className="color-grey-600" icon="eye-o"
-                    shape="circle"></Button>
+                    shape="circle"/>
           }
         </Tooltip>
       </div>
@@ -289,7 +163,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
         false &&
         <div className="col-auto">
           <Tooltip title="Add Custom Token">
-            <Button onClick={gotoAdd.bind(this)} className="color-grey-600" icon="plus" shape="circle"></Button>
+            <Button onClick={gotoAdd.bind(this)} className="color-grey-600" icon="plus" shape="circle"/>
           </Tooltip>
         </div>
       }
@@ -309,7 +183,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
             }
           >
             <Button className="color-grey-600" shape="circle">
-              <i className="fa fa-sort"></i>
+              <i className="fa fa-sort"/>
             </Button>
           </Popover>
         </Tooltip>
@@ -321,7 +195,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
       <div className="row no-gutters p5" >
         <div className="col-12 p5">
           <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary" >
-            <i className="icon icon-loopring icon-loopring-send fs12 color-white mr5"></i>
+            <i className="icon icon-loopring icon-loopring-send fs12 color-white mr5"/>
             {intl.get('tokens.options_transfer')} {token.symbol}
           </Button>
         </div>
@@ -355,17 +229,17 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
           </div>
         }
         {
-          (token.symbol != 'ETH' && token.symbol != 'WETH') &&
+          (token.symbol !== 'ETH' && token.symbol !== 'WETH') &&
           <div className="col-12 p5">
             <Button onClick={gotoTrade.bind(this,token)} className="d-block w-100 text-left" type="primary">
-              <i className="fa fa-line-chart mr5"></i>
+              <i className="fa fa-line-chart mr5"/>
               {intl.get('tokens.options_trade')} {token.symbol}
             </Button>
           </div>
         }
       </div>
     </div>
-  )
+  );
   const NotEnoughTip = ({token})=>{
     return (
       <div className="p15">
@@ -386,7 +260,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
         </div>
       </div>
     )
-  }
+  };
   const TokenItem = ({item,index})=>{
     const TokenFormatter = window.uiFormatter.TokenFormatter
     let theToken = new TokenFormatter(item)
@@ -447,8 +321,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
               </Popover>
             </div>
           }
-          {
-            false &&
+          {false &&
             <div className="col-auto pr5">
               <Tooltip title="Send/Transfer">
                 <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
@@ -458,8 +331,7 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
               </Tooltip>
             </div>
           }
-          {
-            true &&
+          {true &&
             <div className="col-auto" onClick={(e) => {
               e.stopPropagation();
               e.preventDefault()
@@ -526,6 +398,9 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
               <TokenItem key={index} index={index} item={item}/>
           ))
         }
+        <div className='zb-b-b cursor-pointer token-item-sidebar'>
+          Add Custom Token
+        </div>
       </div>
 
     </div>
