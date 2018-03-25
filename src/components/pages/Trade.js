@@ -1,6 +1,5 @@
 import React from 'react';
 import { Icon,Popover,Tabs,Card,Steps,Button } from 'antd'
-import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/containers'
 import Layout from '../../layout/Layout'
@@ -8,6 +7,7 @@ import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import ModalContainer from '../../modules/modals/container'
 import intl from 'react-intl-universal'
+import {Redirect, Route, Switch} from 'dva/router'
 
 const ToLogin = ({modal})=>{
   return (
@@ -20,10 +20,48 @@ const ToLogin = ({modal})=>{
   )
 }
 export default function Home(props){
-  const { children,match } = props
+  const { children, match, location } = props
   let pair = match.params.pair || window.STORAGE.markets.getCurrent() || 'LRC-WETH'
   if(pair.indexOf('-') < 0){ }
   // TODO if market is not support or goto some route
+  const handleTabChange = (key) => {
+    switch (key) {
+      case 'orders':
+        window.routeActions.gotoPath(`${match.url}/orders`);
+        break;
+      case 'trades':
+        window.routeActions.gotoPath(`${match.url}/trades`);
+        break;
+      default:
+        break;
+    }
+  };
+  const tabChange = (key) => {
+    if(window.WALLET && window.WALLET.getAddress()) {
+      switch(key) {
+        case 'orders': refreshOrders(); break;
+        case 'trades': refreshTrades(); break;
+        default: break;
+      }
+    }
+  }
+  const refreshOrders = ()=>{
+    window.STORE.dispatch({
+      type:'orders/filtersChange',
+      payload:{
+        id:'orders/trade'
+      }
+    })
+  }
+  const refreshTrades = ()=>{
+    window.STORE.dispatch({
+      type:'trades/filtersChange',
+      payload:{
+        id:'orders/trade'
+      }
+    })
+  }
+
   return (
     <Layout {...props}>
       <Sockets.TickersByPair pair={pair}>
@@ -43,8 +81,8 @@ export default function Home(props){
           </div>
         </Card>
         <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
-          <Tabs defaultActiveKey="open" animated={false} tabBarStyle={{marginBottom:'0px'}}>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_open_orders')}</div>} key="open">
+          <Tabs defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_open_orders')}</div>} key="orders">
               <div className="">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
@@ -58,7 +96,7 @@ export default function Home(props){
                 }
               </div>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_recent_trades')}</div>} key="trade">
+            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
               <div className="">
                 {
                   window.WALLET && window.WALLET.getAddress() &&
