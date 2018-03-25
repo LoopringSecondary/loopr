@@ -96,6 +96,7 @@ export default {
     type_convert_title_eth: 'ETH 转换为 WETH',
     type_convert_title_weth: 'WETH 转换为 ETH',
     type_receive: '收款',
+    buy:"购买",
     type_enable: '授权',
     type_enable_title: "授权 {symbol} 进行撮合交易",
     type_transfer_title: "转出 {symbol}",
@@ -103,7 +104,8 @@ export default {
     cancel_order:'取消订单',
     cancel_all:'取消全部订单',
     cancel_pair_order:"取消{pair}订单",
-    unsupported_contract:"调用不支持的合约"
+    unsupported_contract:"调用不支持的合约",
+    balance_not_enough:"余额不足以支持您所有有效的订单完全成交"
   },
   orders: {
     order:"订单哈希",

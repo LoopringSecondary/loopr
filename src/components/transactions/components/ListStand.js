@@ -13,37 +13,38 @@ const uiFormatter = window.uiFormatter;
 class ListBlock extends React.Component {
 
   state = {
-    needed: 0,
+    needed: toBig(0),
     token: null
   };
-
-  componentDidMount() {
-    const currentToken = window.STORAGE.tokens.getCurrent().toUpperCase();
-    getEstimatedAllocatedAllowance(window.WALLET.getAddress(), currentToken).then(res => {
-      if (!res.error) {
-        const orderAmount = toBig(res.result);
-        if (currentToken === 'LRC') {
-          getFrozenLrcFee(window.WALLET.getAddress()).then(res => {
-            if (!res.error) {
-              const lrcFee = toBig(res.result);
-              this.setState({needed: orderAmount.plus(lrcFee), token: currentToken});
-            } else {
-              this.setState({needed: orderAmount, token: currentToken});
-            }
-          })
-        } else {
-          this.setState({needed: orderAmount, token: currentToken});
+  shouldComponentUpdate(nextProps){
+    if(nextProps.LIST.filters.token && nextProps.LIST.filters.token !== this.props.LIST.filters.token){
+      const currentToken = nextProps.LIST.filters.token.toUpperCase();
+      getEstimatedAllocatedAllowance(window.WALLET.getAddress(), currentToken).then(res => {
+        if (!res.error) {
+          const orderAmount = toBig(res.result);
+          if (currentToken === 'LRC') {
+            getFrozenLrcFee(window.WALLET.getAddress()).then(res => {
+              if (!res.error) {
+                const lrcFee = toBig(res.result);
+                this.setState({needed: orderAmount.plus(lrcFee), token: currentToken});
+              } else {
+                this.setState({needed: orderAmount, token: currentToken});
+              }
+            })
+          } else {
+            this.setState({needed: orderAmount, token: currentToken});
+          }
         }
-      }
-    })
+      })
+    }
+    return true
   }
-
 
   render() {
     const {LIST, actions, prices, assets} = this.props;
     const {items = [], loading, page = {}, filters} = LIST;
     const {token, needed} = this.state;
-    const balance = assets.getTokenBySymbol(token).balance;
+    const balance = token && assets.getTokenBySymbol(token).balance;
 
     const showModal = (payload) => {
       window.STORE.dispatch({
@@ -125,7 +126,7 @@ class ListBlock extends React.Component {
             {item.type === 'convert_income' && item.symbol === 'ETH' && intl.get('txs.type_convert_title_weth')}
             {item.type === 'cancel_order' && intl.get('txs.cancel_order')}
             {item.type === 'cutoff' && intl.get('txs.cancel_all')}
-            {item.type === 'cutoff_trading_pair' && intl.get('txs.cancel_pair_order', {pair: item.content})}
+            {item.type === 'cutoff_trading_pair' && intl.get('txs.cancel_pair_order', {pair: item.content.market})}
             {item.type === 'unsupported_contract' && intl.get('txs.unsupported_contract')}
             <span className="ml10">{statusCol}</span>
           </a>
@@ -228,16 +229,16 @@ class ListBlock extends React.Component {
               <Spin/>
             </div>
           }
-          {needed && needed.gt(toBig(balance)) && <Alert type="warning" showIcon closable className="mt15"
+          {balance && needed.gt(toBig(balance)) && <Alert type="warning" showIcon closable
                   description={
                     <div className="text-center">
                       <div className="fs16 ">
-                        Balance is not enough for orders
+                        {intl.get('txs.balance_not_enough')}
                       </div>
                       <div>
-                        <Button onClick={gotoReceive} className="m5 color-blue-500">Receive</Button>
-                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500">Buy</Button>}
-                        {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 color-blue-500">Convert</Button>}
+                        <Button onClick={gotoReceive} className="m5 color-blue-500">{intl.get('txs.type_receive')}</Button>
+                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500">{intl.get('txs.buy')}</Button>}
+                        {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 color-blue-500">{intl.get('txs.type_convert')}</Button>}
                       </div>
                     </div>}/>
           }

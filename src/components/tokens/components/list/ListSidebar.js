@@ -398,6 +398,9 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
               <TokenItem key={index} index={index} item={item}/>
           ))
         }
+        <div className='zb-b-b cursor-pointer token-item-sidebar'>
+          Add Custom Token
+        </div>
       </div>
 
     </div>
