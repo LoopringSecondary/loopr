@@ -248,7 +248,7 @@ export default {
     bind_tip: "Bind Address For Airdrop",
     cu_bind_address:"Current Bind Address",
     airdrop:"Airdrop",
-    binding:"inding",
+    binding:"Binding",
     bind_type: "Type",
     type_tip: "Select Token To Bind",
     address_tip: "Paste corresponding address here",
