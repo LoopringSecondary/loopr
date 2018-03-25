@@ -82,7 +82,12 @@ function Navbar(props){
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,{id:'token/receive'})}>
-              <Icon type="qrcode" className="mr5" />{intl.get('navbar.subs.qrcode')}
+              <i className="icon-loopring icon-loopring-receive fs13 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
+            </a>
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <a onClick={showModal.bind(this,{id:'token/transfer'})}>
+              <i className="icon-loopring icon-loopring-transfer fs13 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">

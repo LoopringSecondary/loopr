@@ -21,11 +21,13 @@ class Transfer extends React.Component {
     gasMark: {
       200000: intl.get('token.slow'),
       3000000: intl.get('token.fast')
-    }
+    },
+    showTokenSelector : false,
+    selectedToken:{symbol:'', balance:0, digits:0}
   }
 
   componentDidMount() {
-    const {settings} = this.props
+    const {settings, modal, assets} = this.props
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     const gas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
     this.setState({selectedGas: fm.toNumber(gas.toFixed(8)), gasValueInSlider:fm.toNumber(gas.toFixed(8)) * 1e9})
@@ -42,14 +44,24 @@ class Transfer extends React.Component {
         gasValueInSlider: estimateGasShow.toNumber()
       })
     })
+    if(modal.item) {
+      let selectedToken = {...config.getTokenBySymbol(modal.item.symbol), ...assets.getTokenBySymbol(modal.item.symbol)}
+      const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
+      selectedToken.balance = balance
+      this.setState({selectedToken: selectedToken})
+    } else {
+      this.setState({showTokenSelector: true})
+    }
   }
 
   render() {
+    function getToken(symbol) {
+      let selectedToken = {...config.getTokenBySymbol(symbol), ...assets.getTokenBySymbol(symbol)}
+      const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
+      selectedToken.balance = balance
+      return selectedToken
+    }
     const {form, modal, account, settings, assets, prices} = this.props
-    let selectedToken = modal.item || {}
-    selectedToken = {...config.getTokenBySymbol(selectedToken.symbol), ...assets.getTokenBySymbol(selectedToken.symbol)}
-    const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
-    selectedToken.balance = balance
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
 
@@ -63,22 +75,21 @@ class Transfer extends React.Component {
           } else {
             const gasPrice = fm.toBig(this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
             tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
-
           }
-          if(selectedToken.symbol === "ETH") {
+          if(this.state.selectedToken.symbol === "ETH") {
             tx.to = values.to;
             tx.value = fm.toHex(fm.toBig(values.amount).times(1e18))
             tx.data = values.data || '0x';
             tx.gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
           } else {
-            const tokenConfig = window.CONFIG.getTokenBySymbol(selectedToken.symbol)
+            const tokenConfig = window.CONFIG.getTokenBySymbol(this.state.selectedToken.symbol)
             tx.to = tokenConfig.address;
             tx.value = "0x0";
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
             tx.gasLimit = config.getGasLimitByType('token_transfer').gasLimit
           }
-          const extraData = {from:account.address, tokenSymbol:selectedToken.symbol, amount:values.amount, price:prices.getTokenBySymbol(selectedToken.symbol).price}
+          const extraData = {from:account.address, tokenSymbol:this.state.selectedToken.symbol, amount:values.amount, price:prices.getTokenBySymbol(this.state.selectedToken.symbol).price}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', tx, extraData})
         }
@@ -136,8 +147,8 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      this.setState({value: selectedToken.balance})
-      form.setFieldsValue({"amount": selectedToken.balance})
+      this.setState({value: this.state.selectedToken.balance})
+      form.setFieldsValue({"amount": this.state.selectedToken.balance})
     }
 
     function validateEthAddress(value) {
@@ -151,7 +162,7 @@ class Transfer extends React.Component {
 
     function validateAmount(value) {
       if(isNumber(value)) {
-        return value && value <= selectedToken.balance
+        return value && value <= this.state.selectedToken.balance
       } else {
         return false
       }
@@ -184,23 +195,59 @@ class Transfer extends React.Component {
     }
 
     resetForm()
+
     const formItemLayout = {
       labelCol: {span: 7},
       wrapperCol: {span: 17},
     }
+
     const formatGas = (value) => {
       return (value / 1e9) + " ether";
     }
+
     const priceValue = (
       <span className="fs10">
         ≈
         <Currency />
-        {accMul(this.state.value, prices.getTokenBySymbol(selectedToken.symbol).price).toFixed(2)}
+        {accMul(this.state.value, prices.getTokenBySymbol(this.state.selectedToken.symbol).price).toFixed(2)}
       </span>
     )
+
+    function handleChange(v) {
+      if(v) {
+        this.setState({selectedToken : getToken(v)})
+      } else {
+        this.setState({selectedToken : {symbol:'', balance:0, digits:0}})
+      }
+    }
     return (
-      <Card title={`${intl.get('token.send')} ${selectedToken.symbol}`}>
+      <Card title={`${intl.get('token.send')} ${this.state.selectedToken.symbol}`}>
         <Form layout="horizontal">
+          {this.state.showTokenSelector &&
+          <Form.Item label={intl.get('token.select_token')} {...formItemLayout} colon={false}>
+            {form.getFieldDecorator('token', {
+              initialValue: ''
+            })(
+              <Select
+                size="large"
+                className="d-block w-100"
+                showSeach={true}
+                allowClear
+                style={{ width: 300 }}
+                placeholder="Select Token"
+                optionFilterProp="children"
+                onChange={handleChange.bind(this)}
+                onFocus={()=>{}}
+                onBlur={()=>{}}
+                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
+                {assets.items.map((token,index) => {
+                  const asset = {...config.getTokenBySymbol(token.symbol), ...assets.getTokenBySymbol(token.symbol)}
+                  return <Select.Option value={asset.symbol} key={index}>{asset.name}</Select.Option>}
+                )}
+              </Select>
+            )}
+          </Form.Item>
+          }
           <Form.Item label={intl.get('token.recipient')} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('to', {
               initialValue: '',
@@ -225,11 +272,11 @@ class Transfer extends React.Component {
               rules: [
                 {
                   message: intl.get('token.amount_verification_message'),
-                  validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
+                  validator: (rule, value, cb) => validateAmount.bind(this, value) ? cb() : cb(true)
                 }
               ]
             })(
-              <Input className="d-block w-100" placeholder="" size="large" suffix={selectedToken.symbol}
+              <Input className="d-block w-100" placeholder="" size="large" suffix={this.state.selectedToken.symbol}
                      onChange={amountChange.bind(this)} onFocus={() => {
                 const amount = form.getFieldValue("amount")
                 if (amount === 0) {

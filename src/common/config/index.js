@@ -51,6 +51,10 @@ function getCustomTokens(){
   return tokens.filter(token=>token.custom)
 }
 
+function getTokens(){
+  return tokens
+}
+
 function getMarketByPair(pair) {
   if (pair) {
     const pairArr = pair.split('-')
@@ -95,6 +99,7 @@ function getGasLimitByType(type) {
 export default {
   getTokenBySymbol,
   getTokenByAddress,
+  getTokens,
   getMarketBySymbol,
   getMarketByPair,
   getProjectByName,

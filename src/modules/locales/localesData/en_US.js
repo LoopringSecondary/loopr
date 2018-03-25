@@ -17,6 +17,8 @@ export default {
       help: 'Help',
       tools: 'Tools',
       qrcode: 'QR Code',
+      receive: 'Receive',
+      send: 'Send',
       airdrop: 'Airdrop',
       quit: 'Quit',
       address:'Address'
@@ -202,7 +204,10 @@ export default {
     ring:"Ring",
     tips_time_to_live: "How long would you like the order to last?</br> Setting a large time allows the order to be matched by the miners for a long time and increase the probability of matching success. </br>If small, your order may not be able to be matched.</br>We Recommend this value larger than 1 hour.",
     tips_lrc_fee: "LRC Fee instruction in english",
-    tips_margin_split: "Margin Split instruction in english"
+    tips_margin_split: "Margin Split instruction in english",
+    confirm_warn_ledger: "Please confirm transaction on your Ledger device, then come back to continue",
+    confirm_warn_trezor: "Please confirm transaction on your Trezor device , then come back to continue",
+    confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue"
   },
   token: {
     convert_title: "Convert",
@@ -242,7 +247,8 @@ export default {
     transfer_cancel: "No, Cancel It",
     transfer_send: "Yes, Send Now",
     to_confirm_title: "To Confirm",
-    to_confirm_ledger_content: "Please confirm transaction on your Ledger device"
+    to_confirm_ledger_content: "Please confirm transaction on your Ledger device",
+    select_token: "Select Token"
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
@@ -284,6 +290,7 @@ export default {
     content_metamask_install: "Your may need to install MetaMask extension to your browser first, please reload our page after installed",
     content_metamask_locked: "Failed to connect with MetaMask, please unlock and use",
     get_metamask: "Get MetaMask Chrome extension (for Chrome Firefox Opera)",
+    get_metamask_for_others: 'Download MetaMask For Other Browser',
     connect_to_metamask: "Connect To MetaMask",
     recommend_tip: "This is a recommended way to access your wallet.",
     not_recommended: "Not Recommended",
@@ -355,5 +362,8 @@ export default {
     "options_convert": "Convert",
     "options_trade": "Trade",
     "options_edit": "Edit",
+  },
+  portfolio: {
+    total_value: "Total Value"
   }
 }

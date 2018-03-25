@@ -99,13 +99,11 @@ class UnlockByMetaMask extends React.Component {
           showIcon={false}
         />
         <div className="color-grey-500 fs12 mb10 mt15">
-          <a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
+          <Icon type="export" className="mr5 fs12" /><a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
         </div>
-        {false &&
         <div className="color-grey-500 fs12 mb10">
-          Download MetaMask For Other Browser
+          <Icon type="export" className="mr5 fs12" /><a href="https://metamask.io/">{intl.get('wallet.get_metamask_for_others')}</a>
         </div>
-        }
         <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_to_metamask')}</Button>
       </div>
     )
