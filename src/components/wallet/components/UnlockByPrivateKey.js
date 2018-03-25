@@ -61,7 +61,7 @@ class UnlockByPrivateKey extends React.Component {
         <Alert
           message={<div className="color-red-600"><Icon type="exclamation-circle"/> {intl.get('wallet.not_recommended')}
           </div>}
-          description={<div className="color-red-600">{intl.get('wallet.not_recommended_tip')}</div>}
+          description={<div className="color-red-600"><div className="fs10">{intl.getHTML('wallet.instruction_privatekey')}</div></div>}
           type="error"
           showIcon={false}
           className="mb15"
