@@ -166,16 +166,20 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
-              <Menu.Item key="/trade">
-                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
-              </Menu.Item>
+              {
+                !(window.WALLET && window.WALLET.getAddress()) &&
+                <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
+              }
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet/portfolio" >
                   <Link className="fs16" to="/wallet/portfolio">{intl.get("navbar.portfolio")}</Link>
                 </Menu.Item>
               }
+              <Menu.Item key="/trade">
+                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
+              </Menu.Item>
+
               {
                 (!window.WALLET || !window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >

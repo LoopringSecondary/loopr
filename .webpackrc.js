@@ -8,7 +8,7 @@ export default {
 		"Loopring":`${__dirname}/src/common/Loopring`
 	},
   "theme": {
-    "@font-family-no-number"  : "DIN-Light, PingFang SC Light",
+    "@font-family-no-number"  : "DIN-light, PingHei-light,PingFang SC Light",
     "@font-family"            : "@font-family-no-number",
     "@primary-color": "#0077FF",
     "@link-color": "#0077FF",

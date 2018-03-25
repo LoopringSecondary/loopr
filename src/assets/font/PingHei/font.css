@@ -1,0 +1,16 @@
+
+@font-face {
+  font-family: "PingHei";
+  src: url('PingHei-Text.ttf'); /* IE9*/
+  src: url('PingHei-Text.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+       url('PingHei-Text.ttf') format('svg'); /* iOS 4.1- */
+}
+@font-face {
+  font-family: "PingHei-light";
+  src: url('PingHei-Light.ttf'); /* IE9*/
+  src: url('PingHei-Light.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+       url('PingHei-Light.ttf') format('svg'); /* iOS 4.1- */
+}
+
+
+
