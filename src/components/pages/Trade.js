@@ -32,7 +32,7 @@ export default function Home(props){
         default: break;
       }
     }
-  }
+  };
   const refreshOrders = ()=>{
     window.STORE.dispatch({
       type:'orders/filtersChange',
@@ -40,7 +40,7 @@ export default function Home(props){
         id:'orders/trade'
       }
     })
-  }
+  };
   const refreshTrades = ()=>{
     window.STORE.dispatch({
       type:'trades/filtersChange',
@@ -48,7 +48,7 @@ export default function Home(props){
         id:'orders/trade'
       }
     })
-  }
+  };
 
   return (
     <Layout {...props}>

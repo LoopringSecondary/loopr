@@ -100,6 +100,10 @@ export default {
     type_enable_title: "Enable {symbol} To Trade",
     type_transfer_title: "Send {symbol}",
     type_receive_title: "Receive {symbol}",
+    cancel_order:'Cancel Order',
+    cancel_all:'Cancel All Orders',
+    cancel_pair_order:"Cancel {pair} Orders",
+    unsupported_contract:" Call Unsupported Contract"
   },
   orders: {
     order: "Order Hash",

@@ -100,6 +100,10 @@ export default {
     type_enable_title: "授权 {symbol} 进行撮合交易",
     type_transfer_title: "转出 {symbol}",
     type_receive_title: "接收 {symbol}",
+    cancel_order:'取消订单',
+    cancel_all:'取消全部订单',
+    cancel_pair_order:"取消{pair}订单",
+    unsupported_contract:"调用不支持的合约"
   },
   orders: {
     order:"订单哈希",

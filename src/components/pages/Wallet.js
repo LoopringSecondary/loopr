@@ -51,12 +51,12 @@ class Home extends React.Component{
       <Layout {...this.props}>
         <div className="container">
           {
-            toBig(this.state.oldWeth).gt(0) &&
+            toBig(this.state.oldWeth).gt(1e16) &&
             <Alert type="warning" showIcon closable className="mt15"
             description={
               <div>
                 {intl.get('wallet.old_weth_detect')} (<a className='color-blue-500 pointer'>Why?</a>)
-                  <a className='color-blue-500 ml5' onClick={showWithDrawAll}>{intl.get('to_convert')}</a>
+                  <a className='color-blue-500 ml5' onClick={showWithDrawAll}>{intl.get('wallet.to_convert')}</a>
               </div>
             }
             />
