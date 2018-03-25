@@ -121,14 +121,14 @@ class AssetsWorth extends React.Component{
     })
     if(totalWorth > 1000000001){
       return (
-        <span className="fs24">
+        <span className="fs24 color-black-1 font-weight-bold">
           <Currency /> {totalWorth}
         </span>
       )
     }
     if(totalWorth<=100000000){
       return (
-        <span className="fs32">
+        <span className="fs36 color-black-1 font-weight-bold">
           <Currency /> {totalWorth}
         </span>
       )
@@ -158,7 +158,7 @@ const Portfolio = (props) => {
                 </Sockets.Assets>
               </Sockets.Prices>
             </div>
-            <div className="fs16 color-grey-500">
+            <div className="fs18 color-black-3">
               Total Value
             </div>
           </div>
