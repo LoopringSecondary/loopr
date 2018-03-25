@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse} from 'antd';
+import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip} from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
@@ -536,7 +536,11 @@ class TradeForm extends React.Component {
                   <Form.Item className="ttl" colon={false} label={
                     <div className="row">
                       <div className="col-auto">{intl.get('trade.time_to_live')}</div>
-                      <div className="col"></div>
+                      <div className="col">
+                        <Tooltip title={intl.get('trade.tips_time_to_live')}>
+                          <Icon className="color-gray-500 mr10" type="question-circle"/>
+                        </Tooltip>
+                      </div>
                       <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
                     </div>
                   }>
@@ -552,8 +556,14 @@ class TradeForm extends React.Component {
                   {!this.state.timeToLivePopularSetting &&
                   <Form.Item className="mb5 ttl" colon={false} label={
                     <div className="row">
-                      <div className="col-auto">{intl.get('trade.time_to_live')}</div>
-                      <div className="col"></div>
+                      <div className="col-auto">
+                        {intl.get('trade.time_to_live')}
+                      </div>
+                      <div className="col">
+                        <Tooltip title={intl.get('trade.tips_time_to_live')}>
+                          <Icon className="color-gray-500 mr10" type="question-circle"/>
+                        </Tooltip>
+                      </div>
                       <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
                     </div>
                   }>
@@ -568,7 +578,18 @@ class TradeForm extends React.Component {
                   </Form.Item>}
                 </div>
                 <div className="col">
-                  <Form.Item className="mb5" colon={false} label={intl.get('trade.lrc_fee')}>
+                  <Form.Item className="mb5 ttl" colon={false} label={
+                    <div className="row">
+                      <div className="col-auto">
+                        {intl.get('trade.lrc_fee')}
+                      </div>
+                      <div className="col">
+                        <Tooltip title={intl.get('trade.tips_lrc_fee')}>
+                          <Icon className="color-gray-500 mr10" type="question-circle"/>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  }>
                     {form.getFieldDecorator('lrcFee', {
                       rules: [{
                         message: `${intl.get('trade.integer_verification_message')}(1~50)`,
@@ -580,7 +601,18 @@ class TradeForm extends React.Component {
                   </Form.Item>
                 </div>
                 <div className="col">
-                  <Form.Item className="mb5" colon={false} label={intl.get('trade.margin_split')}>
+                  <Form.Item className="mb5 ttl" colon={false} label={
+                    <div className="row">
+                      <div className="col-auto">
+                        {intl.get('trade.margin_split')}
+                      </div>
+                      <div className="col">
+                        <Tooltip title={intl.get('trade.tips_margin_split')}>
+                          <Icon className="color-gray-500 mr10" type="question-circle"/>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  }>
                     {form.getFieldDecorator('marginSplit', {
                       rules: [{
                         message: `${intl.get('trade.integer_verification_message')}(0~100)`,
