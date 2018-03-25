@@ -184,7 +184,7 @@ export default {
     day: "Day",
     week: "Week",
     month: "Month",
-    lrc_fee: "Lrc Fee",
+    lrc_fee: "LRC Fee",
     margin_split: "Margin Split",
     place_order: "Place Order",
     unlock_your_wallet: "Unlock Your Wallet",
@@ -199,7 +199,10 @@ export default {
     receive: 'Receive',
     to_buy: 'Buy',
     time_to_live_input_place_holder: 'How long should the order last?',
-    ring:"Ring"
+    ring:"Ring",
+    tips_time_to_live: "How long would you like the order to last? Setting a large time allows the order to be matched by the miners for a long time and increase the probability of matching success. If small, your order may not be able to be matched.We Recommend this value larger than 1 hour.",
+    tips_lrc_fee: "lrc",
+    tips_margin_split: "margin"
   },
   token: {
     convert_title: "Convert",
