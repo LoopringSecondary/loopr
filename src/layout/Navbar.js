@@ -86,7 +86,7 @@ function Navbar(props){
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,{id:'token/transfer'})}>
+            <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
               <i className="icon-loopring icon-loopring-transfer fs13 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
             </a>
           </div>
