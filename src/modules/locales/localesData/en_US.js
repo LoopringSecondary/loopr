@@ -248,7 +248,8 @@ export default {
     transfer_send: "Yes, Send Now",
     to_confirm_title: "To Confirm",
     to_confirm_ledger_content: "Please confirm transaction on your Ledger device",
-    select_token: "Select Token"
+    select_token: "Select Token",
+    token_select_verification_message: "Please select token to send"
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",

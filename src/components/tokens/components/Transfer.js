@@ -151,6 +151,14 @@ class Transfer extends React.Component {
       form.setFieldsValue({"amount": this.state.selectedToken.balance})
     }
 
+    function validateTokenSelect(value) {
+      if(value) {
+        return true
+      } else {
+        return false
+      }
+    }
+
     function validateEthAddress(value) {
       try {
         validator.validate({value: value, type: 'ADDRESS'})
@@ -226,7 +234,12 @@ class Transfer extends React.Component {
           {this.state.showTokenSelector &&
           <Form.Item label={intl.get('token.select_token')} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('token', {
-              initialValue: ''
+              initialValue: '',
+              rules: [
+                {message: intl.get("token.token_select_verification_message"),
+                  validator: (rule, value, cb) => validateTokenSelect(value) ? cb() : cb(true)
+                }
+              ]
             })(
               <Select
                 size="large"
@@ -272,7 +285,7 @@ class Transfer extends React.Component {
               rules: [
                 {
                   message: intl.get('token.amount_verification_message'),
-                  validator: (rule, value, cb) => validateAmount.bind(this, value) ? cb() : cb(true)
+                  validator: (rule, value, cb) => validateAmount.call(this, value) ? cb() : cb(true)
                 }
               ]
             })(
