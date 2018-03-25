@@ -10,11 +10,11 @@ import UnlockByLedger from './UnlockByLedger'
 import intl from 'react-intl-universal';
 
 function UnlockWallet({form,modal,account}) {
-  let { pageFrom } = modal
+  let { pageFrom } = modal;
   const gotoGenerate = ()=>{
-    modal.hideModal({id:'wallet/unlock'})
+    modal.hideModal({id:'wallet/unlock'});
     modal.showModal({id:'wallet/generate'})
-  }
+  };
   const footer = (
     <div className="fs14 mt20 pt20 color-grey-900 zb-b-t text-left">
       {intl.get('wallet.no_wallet')}
@@ -22,7 +22,7 @@ function UnlockWallet({form,modal,account}) {
         {intl.get('wallet.generate_one')} !
       </a>
     </div>
-  )
+  );
   return (
     <Card title={<div className="fs1">{intl.get('wallet.unlock_tip')}?</div>}>
         <div>

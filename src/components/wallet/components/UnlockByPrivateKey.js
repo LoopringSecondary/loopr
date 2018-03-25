@@ -13,8 +13,7 @@ class UnlockByPrivateKey extends React.Component {
   };
 
   setPrivateKey = (e) => {
-    this.setState({privateKey: e.target.value,valid:this.isValidPrivateKey(e.target.value)})
-    console.log(this.state);
+    this.setState({privateKey: e.target.value, valid: this.isValidPrivateKey(e.target.value)})
   };
 
   isValidPrivateKey = (key) => {
@@ -23,6 +22,23 @@ class UnlockByPrivateKey extends React.Component {
       return true;
     } catch (e) {
       return false;
+    }
+  };
+
+  bindEnter = (e) => {
+    if (e.keyCode === 13) {
+      try{
+        e.preventDefault();
+        const {form,modal, account, pageFrom} = this.props;
+        const privateKey = form.getFieldValue('privatekey');
+        validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+        account.setPrivateKey({privateKey});
+        this.setState({privateKey: null});
+        modal.hideModal({id: 'wallet/unlock'});
+        unlockRedirection(pageFrom)
+      }catch (e){
+        message.error(e.message)
+      }
     }
   };
 
@@ -43,7 +59,8 @@ class UnlockByPrivateKey extends React.Component {
     return (
       <div className="">
         <Alert
-          message={<div className="color-red-600"><Icon type="exclamation-circle"/> {intl.get('wallet.not_recommended')}</div>}
+          message={<div className="color-red-600"><Icon type="exclamation-circle"/> {intl.get('wallet.not_recommended')}
+          </div>}
           description={<div className="color-red-600">{intl.get('wallet.not_recommended_tip')}</div>}
           type="error"
           showIcon={false}
@@ -55,11 +72,11 @@ class UnlockByPrivateKey extends React.Component {
               initialValue: '',
               rules: [{
                 required: true,
-                message: "Please input valid private key",
+                message: intl.get('wallet.invalid_privateKey'),
                 validator: (rule, value, cb) => this.isValidPrivateKey(value) ? cb() : cb(true)
               }]
             })(
-              <Input.TextArea size="large" autosize={{minRows: 3, maxRows: 6}} onChange={this.setPrivateKey}/>
+              <Input.TextArea size="large" autosize={{minRows: 3, maxRows: 6}} onChange={this.setPrivateKey} onKeyDown={this.bindEnter}/>
             )}
           </Form.Item>
         </Form>
