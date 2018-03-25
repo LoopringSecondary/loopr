@@ -1,12 +1,19 @@
-const getSelected = ()=>{
+const getCurrent = ()=>{
   if(localStorage.tokens){
     let tokens = JSON.parse(localStorage.tokens)
-    return tokens.current
+    let selected = tokens.selected || {}
+    let current
+    for(let key in selected){
+      if(selected[key]){
+        current = key
+      }
+    }
+    return current
   }else{
-    return 'LRC-WETH'
+    return 'ETH'
   }
-
 }
+
 const getFavored = (market)=>{
   if(localStorage.tokens){
     let tokens = JSON.parse(localStorage.tokens)
@@ -25,7 +32,6 @@ const getTokens = (market)=>{
 }
 
 const update = (tokens)=>{
-  console.log('update tokens',tokens)
   if(
     localStorage.tokens &&
     localStorage.tokens !== 'undefined' &&
@@ -44,7 +50,7 @@ const update = (tokens)=>{
 
 
 export default {
-  getSelected,
+  getCurrent,
   getFavored,
   getTokens,
   update,
