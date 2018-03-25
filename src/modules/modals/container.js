@@ -14,7 +14,7 @@ export default class ModalContainer extends React.Component {
     }
   }
   render() {
-  	const {dispatch,modals,id,width,apisOnly=false,...rest} = this.props
+  	const {dispatch,modals,id,width,apisOnly=false,closable=true,maskClosable=false,...rest} = this.props
   	let thisModal = modals[id] || {}
     // console.log('modal container render',id)
   	const hideModal = (payload)=>{
@@ -68,8 +68,8 @@ export default class ModalContainer extends React.Component {
       destroyOnClose:true,
   		title:null,
   		footer:null,
-  		closable:true,
-  		maskClosable:true,
+  		closable,
+      maskClosable,
       // wrapClassName:"rs", // reset modal
   		className:"rs", // reset modal
   		onCancel:hideModal.bind(this,{id}),

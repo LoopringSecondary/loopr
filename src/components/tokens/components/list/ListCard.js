@@ -22,9 +22,12 @@ function ListBlock({LIST={},actions,prices,modal}) {
 
   let sorter = (tokenA,tokenB)=>{
     if(tokenA.percentage === tokenB.percentage){
-      return tokenA.token
+      return tokenA.token > tokenB.token
+    }else{
+      return tokenA.percentage < tokenB.percentage
     }
   }
+  items.sort(sorter)
 
   const TokenItem = ({item,index})=>{
     const fm = new window.uiFormatter.TokenFormatter({symbol:item.token})
@@ -35,11 +38,11 @@ function ListBlock({LIST={},actions,prices,modal}) {
         <div className="col-auto">
           {
             item.icon &&
-            <CoinIcon symbol={item.token} size="32" className="mr5" />
+            <CoinIcon symbol={item.token} size="20" className="mr5" />
           }
           {
             !item.icon &&
-            <i className="mr5 icon-loopring icon-loopring-EMPTY fs32 color-black-7" />
+            <i className="mr5 icon-loopring icon-loopring-EMPTY fs20 color-black-7" />
           }
         </div>
         <div className="col">
@@ -55,7 +58,10 @@ function ListBlock({LIST={},actions,prices,modal}) {
     )
     return (
       <Card bordered title={header} className="token-list-card text-left">
-        <div className="fs20 color-black-1 mb5"><Currency /> {Number(fm.getAmountValue(item.amount,priceToken.price)).toFixed(2)}</div>
+        <div className="fs1 color-black-1 mb5 font-weight-bold">
+          <Currency />
+          {Number(fm.getAmountValue(item.amount,priceToken.price)).toFixed(2)}
+        </div>
         <div className="row align-items-center">
           <div className="col-auto">
             <div className="fs14 color-black-3">{Number(fm.getAmount(item.amount)).toFixed(5)}</div>

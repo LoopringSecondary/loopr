@@ -24,25 +24,25 @@ function UnlockWallet({form,modal,account}) {
     </div>
   )
   return (
-    <Card title={<div className="fs18">{intl.get('wallet.unlock_tip')}?</div>}>
+    <Card title={<div className="fs1">{intl.get('wallet.unlock_tip')}?</div>}>
         <div>
           <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true} style={{marginTop:'15px'}}>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">{intl.get('wallet.metamask')}</div>} key="metamask">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.metamask')}</div>} key="metamask">
               <UnlockByMetaMask modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">{intl.get('wallet.trezor')}</div>} key="trezor">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.trezor')}</div>} key="trezor">
               <UnlockByTrezor modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">{intl.get('wallet.ledger')}</div>} key="ledger">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.ledger')}</div>} key="ledger">
               <UnlockByLedger modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">{intl.get('wallet.keystore')}</div>} key="keystore">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.keystore')}</div>} key="keystore">
              <UnlockByKeystore modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">{intl.get('wallet.mnemonic')}</div>} key="mnemonic">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.mnemonic')}</div>} key="mnemonic">
               <UnlockByMnemonic modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5'}} className="fs14 text-left">{intl.get('wallet.privateKey')}</div>} key="privatekey">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.privateKey')}</div>} key="privatekey">
              <UnlockByPrivateKey modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
           </Tabs>
