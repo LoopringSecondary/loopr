@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form,Avatar,Input,Button,Card} from 'antd';
-import wrapArrow from '../../../assets/images/wrap-arrow.png';
 import WETH from '../../../common/Loopring/ethereum/weth'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
 import * as fm from '../../../common/Loopring/common/formatter'
@@ -122,22 +121,20 @@ class Convert extends React.Component {
 
     return (
       <Card title={intl.get('token.convert_title')}>
-        <div className="row justify-content-center align-items-center mb15">
+        <div className="row justify-content-center align-items-center">
           <div className="col text-right">
-            <div className="text-center d-inline-block">
-               <CoinIcon size="60" symbol={selectedToken.symbol === "ETH" ? 'ETH' :'WETH' } />
-                <br/>
-                <span className="fs12">{selectedToken.symbol === "ETH" ? 'ETH' :'WETH' }</span>
+            <div className="text-center d-inline-block mb25" style={{position:'relative'}}>
+               <CoinIcon size="60" symbol={selectedToken.symbol === "ETH" ? 'ETH' :'WETH' } color="indigo-500" />
+               <span style={{position:'absolute',bottom:"-15px",left:"0",right:"0"}} className="fs14">{selectedToken.symbol === "ETH" ? 'ETH' :'WETH' }</span>
             </div>
           </div>
           <div className="col-auto">
-            <img src={wrapArrow} alt="" style={{height: '14px'}}/>
+            <i className="icon-loopring icon-loopring-arrow-right color-black-1 fs20"></i>
           </div>
           <div className="col text-left">
-            <div className="text-center d-inline-block">
-              <CoinIcon size="60" symbol={selectedToken.symbol === "ETH" ? 'WETH' :'ETH' } />
-              <br/>
-              <span className="fs12 ">{selectedToken.symbol === "ETH" ? 'WETH' :'ETH' }</span>
+            <div className="text-center d-inline-block mb25" style={{position:'relative'}}>
+              <CoinIcon size="60" symbol={selectedToken.symbol === "ETH" ? 'WETH' :'ETH' } color="pink-500" />
+              <span style={{position:'absolute',bottom:"-15px",left:"0",right:"0"}} className="fs14">{selectedToken.symbol === "ETH" ? 'WETH' :'ETH' }</span>
             </div>
           </div>
         </div>
@@ -175,7 +172,7 @@ class Convert extends React.Component {
             }
             <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">{intl.get('token.convert_confirm')}</Button>
             {this.state.errorMsg &&
-              <div className="fs12 color-red-500 text-center mb5">
+              <div className="fs14 color-red-500 text-center mt10">
                 {this.state.errorMsg}
               </div>
             }

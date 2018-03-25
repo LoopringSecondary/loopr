@@ -72,7 +72,6 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
-                <div className="fs16 color-grey-900">{intl.get('navbar.subs.address')}</div>
                 <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
               </div>
               <div className="col-auto">

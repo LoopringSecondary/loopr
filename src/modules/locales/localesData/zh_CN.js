@@ -17,8 +17,8 @@ export default {
       help: '帮助',
       tools: '工具',
       qrcode: '二维码',
-      receive: '接收',
-      send: '发送',
+      receive: '收款',
+      send: '转账',
       airdrop: '空投',
       quit: '退出',
       address:'地址'

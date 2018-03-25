@@ -230,15 +230,16 @@ class ListBlock extends React.Component {
             </div>
           }
           {balance && needed.gt(toBig(balance)) && <Alert type="warning" showIcon closable
+
                   description={
-                    <div className="text-center">
-                      <div className="fs16 ">
-                        {intl.get('txs.balance_not_enough')}
+                    <div className="text-left">
+                      <div className="fs16 color-orange-600">
+                        {filters.token || 'ETH'} {intl.get('txs.balance_not_enough')}
                       </div>
                       <div>
-                        <Button onClick={gotoReceive} className="m5 color-blue-500">{intl.get('txs.type_receive')}</Button>
+                        <Button onClick={gotoReceive} className="color-blue-500">{intl.get('txs.type_receive')}</Button>
                         {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500">{intl.get('txs.buy')}</Button>}
-                        {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 color-blue-500">{intl.get('txs.type_convert')}</Button>}
+                        {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 color-blue-500">{intl.get('txs.type_convert_title_eth')}</Button>}
                       </div>
                     </div>}/>
           }
