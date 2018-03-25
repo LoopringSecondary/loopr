@@ -24,18 +24,6 @@ export default function Home(props){
   let pair = match.params.pair || window.STORAGE.markets.getCurrent() || 'LRC-WETH'
   if(pair.indexOf('-') < 0){ }
   // TODO if market is not support or goto some route
-  const handleTabChange = (key) => {
-    switch (key) {
-      case 'orders':
-        window.routeActions.gotoPath(`${match.url}/orders`);
-        break;
-      case 'trades':
-        window.routeActions.gotoPath(`${match.url}/trades`);
-        break;
-      default:
-        break;
-    }
-  };
   const tabChange = (key) => {
     if(window.WALLET && window.WALLET.getAddress()) {
       switch(key) {
