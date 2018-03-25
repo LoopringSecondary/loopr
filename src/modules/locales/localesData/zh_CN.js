@@ -17,6 +17,8 @@ export default {
       help: '帮助',
       tools: '工具',
       qrcode: '二维码',
+      receive: '接收',
+      send: '发送',
       airdrop: '空投',
       quit: '退出',
       address:'地址'
@@ -208,7 +210,10 @@ export default {
     ring:"环哈希",
     tips_time_to_live: "您希望订单持续有效时间是多久？</br>设置大的有效时间可以让订单在比较长时间内被矿工寻找可匹配订单，提高撮合成功概率。</br>如果设置很小，有可能无法完成撮合。</br>推荐设置大于1小时。",
     tips_lrc_fee: "您订单撮合成功后愿意付给矿工的手续费，按您提交订单规模的千分比计算。</br>由于矿工撮合订单需要发送以太坊交易花费gas，只有当您订单设置一个合理的比例才会有矿工愿意帮您撮合订单。</br>我们不推荐您修改这个值，除非您充分理解这个值的含义。",
-    tips_margin_split: "当您没有足够的LRC支付手续费时，您可以设置分润比例来支付手续费。</br>分润和LRC手续费只能被撮合者取其一，您不需要担心会支付两次手续费。</br>我们不推荐您修改这个值，除非您充分理解这个值的含义。"
+    tips_margin_split: "当您没有足够的LRC支付手续费时，您可以设置分润比例来支付手续费。</br>分润和LRC手续费只能被撮合者取其一，您不需要担心会支付两次手续费。</br>我们不推荐您修改这个值，除非您充分理解这个值的含义。",
+    confirm_warn_ledger: "请在您的Ledger设备上确认签名信息, 之后再回来提交订单",
+    confirm_warn_trezor: "请在您的Trezor设备上确认签名信息, 之后再回来提交订单",
+    confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单"
   },
   token: {
     convert_title: "转换",
@@ -249,6 +254,8 @@ export default {
     transfer_send: "是的，马上发送",
     to_confirm_title: "待确认",
     to_confirm_ledger_content: "请在您的Ledger设备上确认交易信息",
+    select_token: "选择币种",
+    token_select_verification_message: "请选择要发送的币种"
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
@@ -290,6 +297,7 @@ export default {
     content_metamask_install: "您可能需要在浏览器安装MetaMask插件，安装完成后请刷新页面",
     content_metamask_locked: "与MetaMask连接失败, 请解锁后使用",
     get_metamask: "下载MetaMask Chrome插件 (适合Chrome Firefox Opera)",
+    get_metamask_for_others: '下载MetaMask（其他浏览器）',
     connect_to_metamask: "连接您的MetaMask钱包",
     recommended_tip: "我们推荐您采用这种方式使用钱包。",
     not_recommended: "不推荐",
@@ -361,6 +369,10 @@ export default {
     "options_convert": "转换",
     "options_trade": "买卖",
     "options_edit": "修改",
+  },
+  portfolio: {
+    total_value: "总市值",
+    asset_currency_ratio: "资产比重"
   }
 }
 

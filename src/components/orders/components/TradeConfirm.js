@@ -53,13 +53,13 @@ class TradeConfirm extends React.Component {
     order.authPrivateKey = authAccount.privateKey;
     let toConfirmWarn = ''
     if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
-      toConfirmWarn = "Please confirm transaction on your Ledger device, then come back to continue"
+      toConfirmWarn = intl.get('trade.confirm_warn_ledger')
     }
     if(window.WALLET_UNLOCK_TYPE === 'MetaMask') {
-      toConfirmWarn = "Please confirm transaction on your MetaMask browser extension, then come back to continue"
+      toConfirmWarn = intl.get('trade.confirm_warn_metamask')
     }
     if(window.WALLET_UNLOCK_TYPE === 'Trezor') {
-      toConfirmWarn = "Please confirm transaction on your Trezor device , then come back to continue"
+      toConfirmWarn = intl.get('trade.confirm_warn_trezor')
     }
 
     if(toConfirmWarn) {

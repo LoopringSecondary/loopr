@@ -10,6 +10,7 @@ import * as fm from '../../common/Loopring/common/formatter'
 import circleChart from '../../assets/images/portfolio-circle-chart.png'
 import Currency from '../../modules/settings/CurrencyContainer'
 import {accAdd, accSub, accMul, accDiv} from '../../common/Loopring/common/math'
+import intl from 'react-intl-universal'
 
 class AssetsPieChart extends React.Component{
   sortAssetsByWorth(portfolio, prices) {
@@ -159,7 +160,7 @@ const Portfolio = (props) => {
               </Sockets.Prices>
             </div>
             <div className="fs18 color-black-3">
-              Total Value
+              {intl.get('portfolio.total_value')}
             </div>
           </div>
 
