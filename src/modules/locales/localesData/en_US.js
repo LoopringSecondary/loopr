@@ -338,7 +338,13 @@ export default {
     info_title: "Notice",
     content_metamask_account_change: "We detected your just changed account on MetaMask, please notice your assets change",
     old_weth_detect:"We detected you have outdated WETH token, we strongly suggest you to withdraw all of them. ",
-    to_convert:"To convert"
+    to_convert:"To convert",
+    instruction_metamask: '',
+    instruction_keystore: '',
+    instruction_ledger: '',
+    instruction_mnemonic: '',
+    instruction_privatekey: '',
+    instruction_trezor: '',
   },
   tokens: {
     "hide_small_balances": " Hide Small Balances",

@@ -117,8 +117,8 @@ class UnlockByKeyStore extends React.Component {
     return (
       <div className="">
         <Alert
-          message={<div className="color-red-600"><Icon type="exclamation-circle"/>{intl.get('wallet.not_recommended')}</div>}
-          description={<div className="color-red-600">{intl.get('wallet.not_recommended_tip')}</div>}
+          message={<div className="color-red-600"><Icon type="exclamation-circle"/> {intl.get('wallet.not_recommended')}</div>}
+          description={<div className="color-red-600"><div className="fs10">{intl.getHTML('wallet.instruction_keystore')}</div></div>}
           type="error"
           showIcon={false}
           className="mb15"
