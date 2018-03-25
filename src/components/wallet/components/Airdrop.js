@@ -56,13 +56,13 @@ class Airdrop extends React.Component {
             </div>
             {!this.findBindAddress(project) && <div className="col-auto pr5">
               <div className="f2 color-black-3">
-                <a onClick={this.showDetailModal.bind(this, project)}>{intl.get('wallet.to_bind_address')}</a>
+                <a className="color-primary-1" onClick={this.showDetailModal.bind(this, project)}>{intl.get('wallet.to_bind_address')}</a>
               </div>
             </div>
             }
             {this.findBindAddress(project) && <div className="col-auto pl0 pr5">
               <div className="f2 ">
-                <a onClick={this.showDetailModal.bind(this, project)}>{intl.get('wallet.to_edit')}</a>
+                <a className="color-primary-1" onClick={this.showDetailModal.bind(this, project)}>{intl.get('wallet.to_edit')}</a>
               </div>
             </div>
             }

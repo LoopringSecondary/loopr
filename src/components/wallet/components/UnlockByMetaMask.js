@@ -89,10 +89,10 @@ class UnlockByMetaMask extends React.Component {
     return (
       <div className="text-left">
         <Alert
-          message={<div className="color-green-600"><Icon type="like"/> {intl.get('wallet.recommended')}</div>}
+          message={<div className="color-green-600 fs18"><Icon type="like"/> {intl.get('wallet.recommended')}</div>}
           description={
-            <div className="color-green-600">
-              <div className="fs10">{intl.getHTML('wallet.instruction_metamask')}</div>
+            <div className="color-green-600 fs14">
+              {intl.getHTML('wallet.instruction_metamask')}
             </div>
           }
           type="success"
@@ -102,7 +102,7 @@ class UnlockByMetaMask extends React.Component {
           <a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
         </div>
         {false &&
-        <div className="color-grey-500 fs12 mb10">
+        <div className="color-grey-500 fs14 mb10">
           Download MetaMask For Other Browser
         </div>
         }
