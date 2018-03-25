@@ -537,7 +537,7 @@ class TradeForm extends React.Component {
                     <div className="row">
                       <div className="col-auto">{intl.get('trade.time_to_live')}</div>
                       <div className="col">
-                        <Tooltip title={intl.get('trade.tips_time_to_live')}>
+                        <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
                           <Icon className="color-gray-500 mr10" type="question-circle"/>
                         </Tooltip>
                       </div>
@@ -560,7 +560,7 @@ class TradeForm extends React.Component {
                         {intl.get('trade.time_to_live')}
                       </div>
                       <div className="col">
-                        <Tooltip title={intl.get('trade.tips_time_to_live')}>
+                        <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
                           <Icon className="color-gray-500 mr10" type="question-circle"/>
                         </Tooltip>
                       </div>
@@ -584,7 +584,7 @@ class TradeForm extends React.Component {
                         {intl.get('trade.lrc_fee')}
                       </div>
                       <div className="col">
-                        <Tooltip title={intl.get('trade.tips_lrc_fee')}>
+                        <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
                           <Icon className="color-gray-500 mr10" type="question-circle"/>
                         </Tooltip>
                       </div>
@@ -607,7 +607,7 @@ class TradeForm extends React.Component {
                         {intl.get('trade.margin_split')}
                       </div>
                       <div className="col">
-                        <Tooltip title={intl.get('trade.tips_margin_split')}>
+                        <Tooltip title={intl.getHTML('trade.tips_margin_split')}>
                           <Icon className="color-gray-500 mr10" type="question-circle"/>
                         </Tooltip>
                       </div>
