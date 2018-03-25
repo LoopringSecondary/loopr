@@ -225,7 +225,7 @@ export default {
     convert_confirm: "是的，马上转换！",
     send_title: "发送",
     result_failed: "您{do} {amount} {token} 失败, 原因:{reason}",
-    completed: "完成",
+    completed: "成功",
     result_success: "您{do} {amount} {token} 成功",
     view_transaction: '通过Etherscan查看交易',
     send_again: '继续转账',

@@ -80,27 +80,48 @@ let Preview = ({
           }
           {!result.error &&
             <div>
-              <Icon className="fs60" type="check-circle"></Icon>
-              <div className="fs20 color-grey-900">
+              <Icon className="fs60" type="check-circle color-green-1 mb15"></Icon>
+              <div className="fs20 color-black-2 font-weight-bold">
                 {t} {intl.get('token.completed')}
               </div>
-              <div className="fs14 color-grey-900">
+              <div className="fs14 color-black-3">
                 {intl.get('token.result_success', {do:t, amount:result.extraData.amount, token:result.extraData.tokenSymbol})} ({priceValue})
               </div>
-              <div>
-                <a href={`https://etherscan.io/tx/${result.extraData.txHash}`} target="_blank">{intl.get('token.view_transaction')}</a>
-              </div>
+              <TipsContainer>
+                <TipsTitle>Tips</TipsTitle>
+                <TipItem>
+                  <Icon type="exclamation-circle-o mr5 color-primary-1" />
+                  <span className="fs14 color-black-1 fs14 ">If you want to go on do this</span>
+                  <a className="fs14 ml15 color-primary-1">
+                    Go to send
+                    <Icon type="right" />
+                  </a>
+                </TipItem>
+                <TipItem>
+                  <Icon type="close-circle-o" className="color-red-500 mr5" />
+                  <span className="fs14 color-black-1 fs14">Some errors happened for </span>
+                  <a className="fs14 ml15 color-primary-1">
+                    Do someting
+                    <Icon type="right" />
+                    {
+                      false &&
+                      <a href={`https://etherscan.io/tx/${result.extraData.txHash}`} target="_blank">{intl.get('token.view_transaction')}</a>
+                    }
+                  </a>
+                </TipItem>
+
+              </TipsContainer>
             </div>
           }
           <div className="row pt20 pb20">
             <div className="col">
               {
                 result.extraData.pageFrom && result.extraData.pageFrom === 'Transfer' &&
-                <Button className="d-block w-100" type="primary" size="large" onClick={sendAgain}>{intl.get('token.send_again')}</Button>
+                <Button className="d-block w-100" type="primary" size="large" onClick={sendAgain}>OK</Button>
               }
               {
                 result.extraData.pageFrom && result.extraData.pageFrom === 'Convert' &&
-                <Button className="d-block w-100" type="primary" size="large" onClick={convertAgain}>{intl.get('token.convert_again')}</Button>
+                <Button className="d-block w-100" type="primary" size="large" onClick={convertAgain}>OK</Button>
               }
             </div>
           </div>

@@ -225,7 +225,7 @@ export default {
     convert_confirm: "Yes, Convert Now!",
     send_title: "Send",
     result_failed: "Your have failed {do} {amount} {token}, cause:{reason}",
-    completed: "Completed",
+    completed: "Success",
     result_success: "You have successfully {do} {amount} {token}",
     view_transaction: 'View Transaction In Etherscan',
     send_again: 'Send Again',

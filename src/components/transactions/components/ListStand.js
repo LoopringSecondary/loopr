@@ -229,17 +229,17 @@ class ListBlock extends React.Component {
               <Spin/>
             </div>
           }
-          {balance && needed.gt(toBig(balance)) && <Alert type="warning" showIcon closable
+          {balance && needed.gt(toBig(balance)) && <Alert style={{border:'0px'}} type="warning" showIcon closable
 
                   description={
                     <div className="text-left">
-                      <div className="fs16 color-orange-600">
-                        {filters.token || 'ETH'} {intl.get('txs.balance_not_enough')}
+                      <div className="fs18 color-warning-1">
+                        {token} {intl.get('txs.balance_not_enough')}
                       </div>
                       <div>
-                        <Button onClick={gotoReceive} className="color-blue-500">{intl.get('txs.type_receive')}</Button>
-                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500">{intl.get('txs.buy')}</Button>}
-                        {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 color-blue-500">{intl.get('txs.type_convert_title_eth')}</Button>}
+                        <Button onClick={gotoReceive} className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
+                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)} className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
+                        {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 border-none color-white bg-warning-1">{intl.get('txs.type_convert_title_eth')}</Button>}
                       </div>
                     </div>}/>
           }
