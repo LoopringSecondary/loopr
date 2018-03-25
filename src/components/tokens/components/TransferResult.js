@@ -35,7 +35,11 @@ let Preview = ({
           {result.error &&
             <div>
               <div className="fs14 color-grey-900">
-                {intl.get('token.result_failed', {do:t, amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error})}
+                <Icon className="fs60 color-red-500" type="close-circle"></Icon>
+                <div className="fs20 color-black-1 mt15">Send Failed</div>
+                <div className="fs14 color-black-3 mt10">
+                  {intl.get('token.result_failed', {do:t, amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error})}
+                </div>
               </div>
             </div>
           }
@@ -54,8 +58,8 @@ let Preview = ({
             </div>
           }
         </div>
-        <div className="row pt40">
-          <div className="col pr0">
+        <div className="row pt20 pb20">
+          <div className="col">
             {
               result.extraData.pageFrom && result.extraData.pageFrom === 'Transfer' &&
               <Button className="d-block w-100" type="primary" size="large" onClick={sendAgain}>{intl.get('token.send_again')}</Button>
