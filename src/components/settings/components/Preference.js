@@ -35,8 +35,8 @@ const Perference = ({
     });
   }
   function handleReset() {
-    form.setFieldsValue({language:'en_US', currency:'USD', timezone:'UTC+00:00'})
-    handleChange('language', 'en_US')
+    form.setFieldsValue({language:'en-US', currency:'USD', timezone:'UTC+00:00'})
+    handleChange('language', 'en-US')
     handleChange('currency', 'USD')
     handleChange('timezone', 'UTC+00:00')
   }
