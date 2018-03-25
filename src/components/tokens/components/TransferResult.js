@@ -29,6 +29,21 @@ let Preview = ({
   } else if(result.extraData.pageFrom === "Convert") {
     t = intl.get('token.convert_title')
   }
+  const TipsContainer = (props)=>(
+    <div className="p15 bg-grey-50 mt15" style={{borderRadius:'4px'}}>
+      {props.children}
+    </div>
+  )
+  const TipsTitle = (props)=>(
+    <div className="fs14 color-black-2 text-left mb5">
+      {props.children}
+    </div>
+  )
+  const TipItem = (props)=>(
+    <div className="fs14 color-black-2 text-left mb5">
+      {props.children}
+    </div>
+  )
   return (
       <Card title="Result">
         <div className="p25 text-center">
@@ -36,10 +51,30 @@ let Preview = ({
             <div>
               <div className="fs14 color-grey-900">
                 <Icon className="fs60 color-red-500" type="close-circle"></Icon>
-                <div className="fs20 color-black-1 mt15">Send Failed</div>
-                <div className="fs14 color-black-3 mt10">
+                <div className="fs24 color-black-1 mt15">Send Failed</div>
+                <div className="fs14 color-black-2 mt10">
                   {intl.get('token.result_failed', {do:t, amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error})}
                 </div>
+                <TipsContainer>
+                  <TipsTitle>Tips</TipsTitle>
+                  <TipItem>
+                    <Icon type="exclamation-circle-o mr5 color-primary-1" />
+                    <span className="fs14 color-black-1 fs14 ">If you want to go on do this</span>
+                    <a className="fs14 ml15 color-primary-1">
+                      Go to send
+                      <Icon type="right" />
+                    </a>
+                  </TipItem>
+                  <TipItem>
+                    <Icon type="close-circle-o" className="color-red-500 mr5" />
+                    <span className="fs14 color-black-1 fs14">Some errors happened for </span>
+                    <a className="fs14 ml15 color-primary-1">
+                      Do someting
+                      <Icon type="right" />
+                    </a>
+                  </TipItem>
+
+                </TipsContainer>
               </div>
             </div>
           }
@@ -57,19 +92,20 @@ let Preview = ({
               </div>
             </div>
           }
-        </div>
-        <div className="row pt20 pb20">
-          <div className="col">
-            {
-              result.extraData.pageFrom && result.extraData.pageFrom === 'Transfer' &&
-              <Button className="d-block w-100" type="primary" size="large" onClick={sendAgain}>{intl.get('token.send_again')}</Button>
-            }
-            {
-              result.extraData.pageFrom && result.extraData.pageFrom === 'Convert' &&
-              <Button className="d-block w-100" type="primary" size="large" onClick={convertAgain}>{intl.get('token.convert_again')}</Button>
-            }
+          <div className="row pt20 pb20">
+            <div className="col">
+              {
+                result.extraData.pageFrom && result.extraData.pageFrom === 'Transfer' &&
+                <Button className="d-block w-100" type="primary" size="large" onClick={sendAgain}>{intl.get('token.send_again')}</Button>
+              }
+              {
+                result.extraData.pageFrom && result.extraData.pageFrom === 'Convert' &&
+                <Button className="d-block w-100" type="primary" size="large" onClick={convertAgain}>{intl.get('token.convert_again')}</Button>
+              }
+            </div>
           </div>
         </div>
+
       </Card>
   );
 };
