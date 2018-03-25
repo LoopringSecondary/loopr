@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon,Popover,Tabs,Card,Steps,Button } from 'antd'
+import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/containers'
 import Layout from '../../layout/Layout'
@@ -7,7 +8,6 @@ import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import ModalContainer from '../../modules/modals/container'
 import intl from 'react-intl-universal'
-import {Redirect, Route, Switch} from 'dva/router'
 
 const ToLogin = ({modal})=>{
   return (
@@ -20,7 +20,7 @@ const ToLogin = ({modal})=>{
   )
 }
 export default function Home(props){
-  const { children, match, location } = props
+  const { children, match } = props
   let pair = match.params.pair || window.STORAGE.markets.getCurrent() || 'LRC-WETH'
   if(pair.indexOf('-') < 0){ }
   // TODO if market is not support or goto some route
