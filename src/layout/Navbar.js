@@ -14,7 +14,7 @@ function Navbar(props){
     let route = props.match.path
     let url = props.location.pathname
     if(url.indexOf(route)>-1){
-      selectedKeys.push(props.location.pathname)
+      selectedKeys.push(route)
     }
   }
   if(props.match){

@@ -83,13 +83,13 @@ class Home extends React.Component{
             }
             />
             <Route path={`${match.url}/orders`} exact render={() =>
-              <div className="pb0 bg-white" style={{borderRadius: '4px', border: '1px solid #dadada'}}>
+              <div className="pb0 bg-white"style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
                 <Order.List id="orders/wallet"/>
               </div>
             }
             />
             <Route path={`${match.url}/trades`} render={() =>
-              <div className="pb0 bg-white" style={{borderRadius: '4px', border: '1px solid #dadada'}}>
+              <div className="pb0 bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
                 <Trade.List/>
               </div>
             }

@@ -13,6 +13,18 @@ function ListBlock({LIST={},actions,prices,modal}) {
       // page={}
   } = LIST
   // const items = tokens.slice(0,6)
+  items.forEach(item=>{
+    let token = tokens.find(token=>token.symbol === item.token)
+    if(token){
+      item.icon = token.icon
+    }
+  })
+
+  let sorter = (tokenA,tokenB)=>{
+    if(tokenA.percentage === tokenB.percentage){
+      return tokenA.token
+    }
+  }
 
   const TokenItem = ({item,index})=>{
     const fm = new window.uiFormatter.TokenFormatter({symbol:item.token})
@@ -21,25 +33,32 @@ function ListBlock({LIST={},actions,prices,modal}) {
     const header = (
       <div className="row justify-content-center align-items-center no-gutters">
         <div className="col-auto">
-        <CoinIcon symbol={item.token} size="32" className="mr5" />
+          {
+            item.icon &&
+            <CoinIcon symbol={item.token} size="32" className="mr5" />
+          }
+          {
+            !item.icon &&
+            <i className="mr5 icon-loopring icon-loopring-EMPTY fs32 color-black-7" />
+          }
         </div>
         <div className="col">
-          <span className="color-grey-900 fs16">{item.token}</span>
+          <span className="color-black-1 fs1">{item.token}</span>
         </div>
         <div className="col-auto">
-            <span className="color-grey-400 fs14 mr5">{item.percentage}</span>
+            <span className="color-black-1 fs14 mr5">{item.percentage}</span>
             <Tooltip title="Asset Currency Ratio">
-              <span className="color-grey-400 fs12"><Icon type="question-circle" /></span>
+              <span className="color-black-1 fs12"><Icon type="question-circle" /></span>
             </Tooltip>
         </div>
       </div>
     )
     return (
       <Card bordered title={header} className="token-list-card text-left">
-        <div className="fs20 color-grey-900 mb5"><Currency /> {Number(fm.getAmountValue(item.amount,priceToken.price)).toFixed(2)}</div>
+        <div className="fs20 color-black-1 mb5"><Currency /> {Number(fm.getAmountValue(item.amount,priceToken.price)).toFixed(2)}</div>
         <div className="row align-items-center">
           <div className="col-auto">
-            <div className="fs14 color-grey-400">Amount: {Number(fm.getAmount(item.amount)).toFixed(5)}</div>
+            <div className="fs14 color-black-3">{Number(fm.getAmount(item.amount)).toFixed(5)}</div>
           </div>
           <div className="col"></div>
           {

@@ -1,16 +1,12 @@
 export default {
 	"extraBabelPlugins": [
-    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }],
 	],
   disableCSSModules: true,
-  // "extraBabelPresets":[
-  //   "es2015"
-  // ],
+  hash:true,
 	"alias":{
 		"Loopring":`${__dirname}/src/common/Loopring`
 	},
-	// "extraBabelPlugins":["transform-remove-console"],
-	// "theme": `${__dirname}/theme.js`,
   "theme": {
     "@font-family-no-number"  : "DIN-Light, PingFang SC Light",
     "@font-family"            : "@font-family-no-number",
@@ -18,6 +14,12 @@ export default {
     "@link-color": "#0077FF",
     "@border-radius-base": "4px",
     "@line-height-base" : 1.6,
+  },
+  "html": { "template": "./public/index.ejs" },
+  env: {
+    development: {
+      extraBabelPlugins: ['dva-hmr'],
+    },
   },
 
 }
