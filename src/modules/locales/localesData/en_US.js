@@ -204,9 +204,9 @@ export default {
     to_buy: 'Buy',
     time_to_live_input_place_holder: 'How long should the order last?',
     ring:"Ring",
-    tips_time_to_live: "How long would you like the order to last? Setting a large time allows the order to be matched by the miners for a long time and increase the probability of matching success. If small, your order may not be able to be matched.We Recommend this value larger than 1 hour.",
-    tips_lrc_fee: "lrc",
-    tips_margin_split: "margin"
+    tips_time_to_live: "How long would you like the order to last?</br> Setting a large time allows the order to be matched by the miners for a long time and increase the probability of matching success. </br>If small, your order may not be able to be matched.</br>We Recommend this value larger than 1 hour.",
+    tips_lrc_fee: "LRC Fee instruction in english",
+    tips_margin_split: "Margin Split instruction in english"
   },
   token: {
     convert_title: "Convert",
@@ -342,7 +342,13 @@ export default {
     info_title: "Notice",
     content_metamask_account_change: "We detected your just changed account on MetaMask, please notice your assets change",
     old_weth_detect:"We detected you have outdated WETH token, we strongly suggest you to withdraw all of them. ",
-    to_convert:"To convert"
+    to_convert:"To convert",
+    instruction_metamask: 'This is a recommended way to access your wallet.</br>MetaMask is a browser extension that allows you to access your wallet quickly, safely & easily. It is more secure because you never enter your private key on a website. It protects you from phishing & malicious websites.',
+    instruction_keystore: 'This is not a recommended way to access your wallet. </br>Entering your private key on a website dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. ',
+    instruction_ledger: 'This is a recommended way to access your wallet. </br>A hardware wallet is a small USB device that allows you to access your wallet quickly, safely & easily. It is more secure because your private key never leaves the hardware wallet. It protects you from phishing, malware, and more.',
+    instruction_mnemonic: 'This is not a recommended way to access your wallet.</br>Entering your private key on a website dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. ',
+    instruction_privatekey: 'This is not a recommended way to access your wallet. </br>Entering your private key on a website dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen.',
+    instruction_trezor: 'This is a recommended way to access your wallet. </br>A hardware wallet is a small USB device that allows you to access your wallet quickly, safely & easily. It is more secure because your private key never leaves the hardware wallet. It protects you from phishing, malware, and more.',
   },
   tokens: {
     "hide_small_balances": " Hide Small Balances",

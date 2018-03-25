@@ -46,85 +46,52 @@ let Preview = ({
       modal.hideLoading({id:'token/transfer/preview'})
     })
   }
-
   const handelCancel = ()=>{
     modal.hideModal({id:'token/transfer/preview'})
   }
-
   const MetaItem = (props)=>{
     const {label,value} = props
     return (
-      <div className="row pt10 pb10 zb-b-b">
+      <div className="row pt10 pb10 zb-b-b align-items-center">
         <div className="col">
-          <div className="fs14 color-grey-600">{label}</div>
+          <div className="fs14 color-black-1">{label}</div>
         </div>
         <div className="col-auto">
-          <div className="fs14 color-grey-900">{value}</div>
+          <div className="fs14 color-black-1">{value}</div>
         </div>
       </div>
     )
   }
-  const ArrowDivider = (
-      <div className="row no-gutters align-items-center">
-        <div className="col">
-          <hr className="w-100 bg-grey-900"/>
-        </div>
-        <div className="col-auto">
-          <Icon type="right" className="color-grey-900" style={{marginLeft:'-9px'}}></Icon>
-        </div>
-      </div>
-  )
   const priceValue = (
-    <span className="fs12">
-      ≈
+    <span className="">
       <Currency />
       {accMul(extraData.amount, extraData.price).toFixed(2)}
     </span>
   )
   return (
       <Card title={intl.get('token.transfer_preview_title')}>
-
-        <div className="row flex-nowrap pb30">
+        <div className="row flex-nowrap pb30 zb-b-b">
           <div className="col">
             <div className="text-center">
               <CoinIcon size="60" symbol={extraData.tokenSymbol} />
-              <div className="fs20 color-grey-900">{`${extraData.amount} ${extraData.tokenSymbol} `}{priceValue}</div>
+              <div className="fs20 color-black font-weight-bold">{`${extraData.amount} ${extraData.tokenSymbol} `}</div>
+              <div className="fs14 color-black-3">{priceValue}</div>
             </div>
           </div>
         </div>
-        {
-          false &&
-          <div className="row flex-nowrap zb-b-b">
-            <div className="col-auto">
-              <div className="text-center">
-                <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-              </div>
-            </div>
-            <div className="col">
-              <div className="text-center">
-                {ArrowDivider}
-              </div>
-            </div>
-            <div className="col-auto">
-              <div className="text-center">
-                <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-              </div>
-            </div>
-          </div>
-        }
         <MetaItem label={intl.get('token.from')} value={extraData.from} />
         <MetaItem label={intl.get('token.to')} value={tx.to} />
         <MetaItem label={intl.get('token.gas')} value={
           <div className="mr15">
             <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
-            <div className="row justify-content-end fs10 color-dark-text-disabled">{`≈ Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
+            <div className="row justify-content-end fs14 color-black-3">{`Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
           </div>
         }/>
-        <div className="row pt40">
-          <div className="col pl0">
+        <div className="row pt30 pb10">
+          <div className="col pl15">
             <Button onClick={handelCancel} className="d-block w-100" type="" size="large">{intl.get('token.transfer_cancel')}</Button>
           </div>
-          <div className="col pr0">
+          <div className="col pr15">
             <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">{intl.get('token.transfer_send')}</Button>
           </div>
         </div>
