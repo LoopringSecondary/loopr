@@ -6,6 +6,8 @@ import schema from '../../../../modules/tokens/schema';
 import { tokens } from '../../../../common/config/data';
 import Currency from '../../../../modules/settings/CurrencyContainer';
 import CoinIcon from '../../../common/CoinIcon'
+import intl from 'react-intl-universal'
+
 function ListBlock({LIST={},actions,prices,modal}) {
   const {
       items=[],
@@ -50,7 +52,7 @@ function ListBlock({LIST={},actions,prices,modal}) {
         </div>
         <div className="col-auto">
             <span className="color-black-1 fs14 mr5">{item.percentage}</span>
-            <Tooltip title="Asset Currency Ratio">
+            <Tooltip title={intl.get('portfolio.asset_currency_ratio')}>
               <span className="color-black-1 fs12"><Icon type="question-circle" /></span>
             </Tooltip>
         </div>

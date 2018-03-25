@@ -364,7 +364,8 @@ export default {
     "options_edit": "修改",
   },
   portfolio: {
-    total_value: "总市值"
+    total_value: "总市值",
+    asset_currency_ratio: "资产比重"
   }
 }
 

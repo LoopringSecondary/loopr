@@ -364,6 +364,7 @@ export default {
     "options_edit": "Edit",
   },
   portfolio: {
-    total_value: "Total Value"
+    total_value: "Total Value",
+    asset_currency_ratio: "Asset Currency Ratio"
   }
 }
