@@ -59,8 +59,8 @@ export default {
   ticker: {
     last: '最新价',
     change: '涨跌',
-    low: '最高价',
-    high: '最低价',
+    low: '最低价',
+    high: '最高价',
     vol: '成交量',
     market: '市场',
     favorites: '自选',
