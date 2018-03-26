@@ -72,28 +72,12 @@ class ExportKeystore extends React.Component {
       <div className="text-left">
         <img hidden src={icon} className="mt25 mb25" style={{width: '100px'}}/>
         <Alert
-          message={intl.get('wallet.backup.not_lose') + " !"}
-          description={intl.get('wallet.backup.not_recover')+ "."}
+        //  message={intl.get('wallet.backup.not_lose') + " !"}
+          description={intl.get('wallet.backup.backup_tip')}
           type="error"
           iconType="exclamation-circle"
           showIcon
           className="mb15 mt15"
-        />
-        <Alert
-          message={intl.get('wallet.backup.not_share')+" !!"}
-          description={intl.get('wallet.backup.stolen')+"."}
-          type="error"
-          iconType="exclamation-circle"
-          showIcon
-          className="mb15"
-        />
-        <Alert
-          message={intl.get('wallet.backup.backup'+ "!!!")}
-          description={intl.get('wallet.backup.secure')+ "."}
-          type="error"
-          iconType="exclamation-circle"
-          showIcon
-          className="mb15"
         />
       </div>
     );
