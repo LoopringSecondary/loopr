@@ -117,7 +117,7 @@ class ListSidebar extends React.Component {
       e.stopPropagation()
       actions.favoredChange({
         favored: {
-          [item.symbol]: !favored[item.symbol],
+          [item.symbol]: !favored[item.symbol], // TODO address
         }
       })
     }
@@ -129,7 +129,7 @@ class ListSidebar extends React.Component {
       actions.selectedChange({
         selected: {
           ...new_selected,
-          [item.symbol]: true,
+          [item.symbol]: true, // TODO address
         }
       })
       updateTransations(item.symbol)
@@ -143,26 +143,28 @@ class ListSidebar extends React.Component {
       })
     }
     const TokenListAcionsBar = (
-      <div className="row zb-b-b p15 pl10 pr10 no-gutters">
+      <div className="row zb-b-b p15 pl10 pr10 no-gutters align-items-center" >
         <div className="col mr5">
           <Input
             placeholder=""
             prefix={<Icon type="search" className="color-grey-600"/>}
             className="d-block w-100"
             onChange={searchToken.bind(this)}
+            value={filters.keywords}
+            addonAfter={null}
           />
         </div>
-        <div className="col-auto mr5">
+        <div className="col-auto">
           <Tooltip title={intl.get('tokens.only_show_favorites')}>
             {
               filters.ifOnlyShowMyFavorite &&
-              <Button onClick={toggleMyFavorite.bind(this)} className="color-white border-blue-600 bg-blue-600"
-                      icon="star-o" shape="circle"/>
+              <Icon type="star" onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-primary-1 border-none pointer"
+              />
             }
             {
               !filters.ifOnlyShowMyFavorite &&
-              <Button onClick={toggleMyFavorite.bind(this)} className="color-grey-600" icon="star-o"
-                      shape="circle"/>
+              <Icon onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-black-2 pointer"
+              type="star-o"/>
             }
           </Tooltip>
         </div>
@@ -170,45 +172,17 @@ class ListSidebar extends React.Component {
           <Tooltip title={intl.get('tokens.hide_small_balances')}>
             {
               filters.ifHideSmallBalance &&
-              <Button onClick={toggleSmallBalance.bind(this)} className="color-white border-blue-600 bg-blue-600"
-                      icon="eye-o" shape="circle"/>
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-primary-1 pointer" style={{position:'relative',marginTop:'2px'}}
+              type="eye" />
             }
             {
               !filters.ifHideSmallBalance &&
-              <Button onClick={toggleSmallBalance.bind(this)} className="color-grey-600" icon="eye-o"
-                      shape="circle"/>
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-black-2 pointer" style={{position:'relative',marginTop:'2px'}}
+              type="eye-o" />
             }
           </Tooltip>
         </div>
-        {
-          false &&
-          <div className="col-auto">
-            <Tooltip title="Add Custom Token">
-              <Button onClick={gotoAdd.bind(this)} className="color-grey-600" icon="plus" shape="circle"/>
-            </Tooltip>
-          </div>
-        }
 
-        <div className="col-auto" hidden>
-          <Tooltip title="">
-            <Popover
-              title="Sort"
-              placement="bottom"
-              arrowPointAtCenter
-              content={
-                <div>
-                  <div className="fs12 pb10 zb-b-b">Sort By Name</div>
-                  <div className="fs12 pt10 pb10 zb-b-b">Sort By Balance</div>
-                  <div className="fs12 pt10 ">Sort By Amount</div>
-                </div>
-              }
-            >
-              <Button className="color-grey-600" shape="circle">
-                <i className="fa fa-sort"/>
-              </Button>
-            </Popover>
-          </Tooltip>
-        </div>
       </div>
     )
     const TokenItemActions = (token) => (
@@ -307,7 +281,6 @@ class ListSidebar extends React.Component {
               {!selected[item.symbol] && !item.icon &&
               <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
               }
-
             </div>
             <div className="col pr10">
               <div className="">
@@ -337,17 +310,6 @@ class ListSidebar extends React.Component {
                 </Popover>
               </div>
             }
-            {false &&
-            <div className="col-auto pr5">
-              <Tooltip title="Send/Transfer">
-                <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
-                        className="bg-none color-grey-500 border-grey-400">
-                  <Icon type="retweet"/>
-                </Button>
-              </Tooltip>
-            </div>
-            }
-            {true &&
             <div className="col-auto" onClick={(e) => {
               e.stopPropagation();
               e.preventDefault()
@@ -361,16 +323,6 @@ class ListSidebar extends React.Component {
                 <i className="icon-loopring icon-loopring-right color-black-3 d-block"></i>
               </Popover>
             </div>
-            }
-            {
-              false &&
-              <div className="col-auto">
-                <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
-                  <Icon type="ellipsis"/>
-                </Button>
-              </div>
-            }
-
           </div>
         </div>
       )
@@ -409,7 +361,6 @@ class ListSidebar extends React.Component {
               {!selected[item.symbol] && !item.icon &&
               <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
               }
-
             </div>
             <div className="col pr10">
               <div className="">
@@ -440,8 +391,8 @@ class ListSidebar extends React.Component {
         </div>
       )
     }
-
-    let results = [...items]
+    let customs =  window.STORAGE.tokens.getCustomTokens()
+    let results = [...items,...customs]
     let keys = Object.keys(filters)
     keys.map(key => {
       const value = filters[key]
@@ -475,20 +426,26 @@ class ListSidebar extends React.Component {
         {TokenListAcionsBar}
         <div className="token-list-sidebar">
           {
-            results.map((item, index) => (
-              <TokenItem key={index} index={index} item={item}/>
-            ))
+            results.map((item, index) => {
+              if(!item.custom){
+                return <TokenItem key={index} index={index} item={item}/>
+              }else{
+                return <CustomTokenItem key={index} index={index}item={item}/>
+              }
+            })
           }
           {
-            window.STORAGE.tokens.getCustomTokens().map((item, index) => <CustomTokenItem key={index} index={index}
-                                                                                          item={item}/>)
+            (filters.keywords || filters.ifOnlyShowMyFavorite || filters.ifHideSmallBalance) &&
+            <div className='zb-b-b token-item-sidebar text-center pt10 pb10'>
+              Find {results.length} Tokens
+            </div>
           }
-          <div className='zb-b-b cursor-pointer token-item-sidebar text-center'
+          <div className='zb-b-b cursor-pointer token-item-sidebar text-center pt10 pb10'
                onClick={showModal.bind(this, {id: "token/add"})}>
+               <Icon type="plus" />
             {intl.get('tokens.add_token')}
           </div>
         </div>
-
       </div>
     )
 
