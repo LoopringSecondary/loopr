@@ -117,7 +117,7 @@ class ListSidebar extends React.Component {
       e.stopPropagation()
       actions.favoredChange({
         favored: {
-          [item.symbol]: !favored[item.symbol],
+          [item.symbol]: !favored[item.symbol], // TODO address
         }
       })
     }
@@ -129,7 +129,7 @@ class ListSidebar extends React.Component {
       actions.selectedChange({
         selected: {
           ...new_selected,
-          [item.symbol]: true,
+          [item.symbol]: true, // TODO address
         }
       })
       updateTransations(item.symbol)
@@ -281,7 +281,6 @@ class ListSidebar extends React.Component {
               {!selected[item.symbol] && !item.icon &&
               <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
               }
-
             </div>
             <div className="col pr10">
               <div className="">
@@ -311,17 +310,6 @@ class ListSidebar extends React.Component {
                 </Popover>
               </div>
             }
-            {false &&
-            <div className="col-auto pr5">
-              <Tooltip title="Send/Transfer">
-                <Button onClick={gotoTransfer.bind(this, item)} shape="circle"
-                        className="bg-none color-grey-500 border-grey-400">
-                  <Icon type="retweet"/>
-                </Button>
-              </Tooltip>
-            </div>
-            }
-            {true &&
             <div className="col-auto" onClick={(e) => {
               e.stopPropagation();
               e.preventDefault()
@@ -335,16 +323,6 @@ class ListSidebar extends React.Component {
                 <i className="icon-loopring icon-loopring-right color-black-3 d-block"></i>
               </Popover>
             </div>
-            }
-            {
-              false &&
-              <div className="col-auto">
-                <Button shape="circle" className="bg-none color-grey-500 border-grey-400">
-                  <Icon type="ellipsis"/>
-                </Button>
-              </div>
-            }
-
           </div>
         </div>
       )

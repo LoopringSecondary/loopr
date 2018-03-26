@@ -1,14 +1,7 @@
 import namespace from '../namespace'
 import * as apis from '../apis'
 const {MODULES} = namespace
-const initTokens = window.STORAGE.tokens.getTokens() || {}
-const selectTokens = initTokens.selected || {}
-let currentToken = 'ETH'
-for(let key in selectTokens){
-  if(selectTokens[key]){
-    currentToken = key
-  }
-}
+const currentToken = window.STORAGE.tokens.getCurrent()
 export default {
   namespace: MODULES,
   state: {
