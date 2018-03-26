@@ -16,29 +16,46 @@ class ListBlock extends React.Component {
     needed: toBig(0),
     token: null
   };
-  shouldComponentUpdate(nextProps){
-    if(nextProps.LIST.filters.token && nextProps.LIST.filters.token !== this.props.LIST.filters.token){
+
+  componentDidMount() {
+    const {LIST} = this.props;
+    const {filters} = LIST;
+    const {token} = filters;
+    if (token) {
+      this.getNeeded(token)
+    }
+  }
+
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.LIST.filters.token && nextProps.LIST.filters.token !== this.props.LIST.filters.token) {
       const currentToken = nextProps.LIST.filters.token.toUpperCase();
-      getEstimatedAllocatedAllowance(window.WALLET.getAddress(), currentToken).then(res => {
-        if (!res.error) {
-          const orderAmount = toBig(res.result);
-          if (currentToken === 'LRC') {
-            getFrozenLrcFee(window.WALLET.getAddress()).then(res => {
-              if (!res.error) {
-                const lrcFee = toBig(res.result);
-                this.setState({needed: orderAmount.plus(lrcFee), token: currentToken});
-              } else {
-                this.setState({needed: orderAmount, token: currentToken});
-              }
-            })
-          } else {
-            this.setState({needed: orderAmount, token: currentToken});
-          }
-        }
-      })
+      this.getNeeded(currentToken)
     }
     return true
   }
+
+  getNeeded = (currentToken) => {
+
+    getEstimatedAllocatedAllowance(window.WALLET.getAddress(), currentToken).then(res => {
+      if (!res.error) {
+        const orderAmount = toBig(res.result);
+        if (currentToken === 'LRC') {
+          getFrozenLrcFee(window.WALLET.getAddress()).then(res => {
+            if (!res.error) {
+              const lrcFee = toBig(res.result);
+              this.setState({needed: orderAmount.plus(lrcFee), token: currentToken});
+            } else {
+              this.setState({needed: orderAmount, token: currentToken});
+            }
+          })
+        } else {
+          this.setState({needed: orderAmount, token: currentToken});
+        }
+      }
+    })
+
+  };
 
   render() {
     const {LIST, actions, prices, assets} = this.props;
@@ -135,7 +152,7 @@ class ListBlock extends React.Component {
             <span className="mr15">
               {uiFormatter.getFormatTime(item.createTime * 1000)}
             </span>
-              <a href={`https://etherscan.io/tx/${item.from}`} target="_blank"
+              <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
                  className="color-black-3 mr15  d-inline-block">
                 {uiFormatter.getShortAddress(item.txHash)}
               </a>
@@ -229,20 +246,23 @@ class ListBlock extends React.Component {
             </div>
           }
           {!!balance && !!needed.gt(toBig(balance)) &&
-            <Alert style={{border:'0px'}} type="warning" showIcon closable
-              description={
-                <div className="text-left">
-                  <div className="fs18 color-warning-1">
-                    {token} {intl.get('txs.balance_not_enough')}
-                  </div>
-                  <div>
-                    <Button onClick={gotoReceive} className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
-                    {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)} className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
-                    {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 border-none color-white bg-warning-1">{intl.get('txs.type_convert_title_eth')}</Button>}
-                  </div>
-                </div>
-              }
-            />
+          <Alert style={{border: '0px'}} type="warning" showIcon closable
+                 description={
+                   <div className="text-left">
+                     <div className="fs18 color-warning-1">
+                       {token} {intl.get('txs.balance_not_enough')}
+                     </div>
+                     <div>
+                       <Button onClick={gotoReceive}
+                               className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
+                       {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
+                                                    className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
+                       {token === 'WETH' && <Button onClick={gotoConvert}
+                                                    className="m5 border-none color-white bg-warning-1">{intl.get('txs.type_convert_title_eth')}</Button>}
+                     </div>
+                   </div>
+                 }
+          />
           }
           {
             items.map((item, index) =>

@@ -60,6 +60,16 @@ class AirdropBind extends React.Component {
     });
   };
 
+  bindEnter = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      const address = e.target.value;
+      const project = this.state.project;
+      this.showConfirm(address,project);
+    }
+  };
+
+
   addressChange = (e) => {
     this.setState({address: e.target.value})
   };
@@ -81,6 +91,7 @@ class AirdropBind extends React.Component {
               placeholder={intl.get('wallet.address_tip')}
               onChange={this.addressChange}
               value={address}
+              onKeyDown={this.bindEnter}
             />
           </Form.Item>
         </Form>

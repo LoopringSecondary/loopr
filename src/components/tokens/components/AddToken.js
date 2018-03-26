@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Card, Form, Input,message} from 'antd';
 import Token from 'Loopring/ethereum/token'
 import validator from 'Loopring/ethereum/validator';
+import intl from 'react-intl-universal';
 
 
 class AddCustomToken extends React.Component {
@@ -17,7 +18,6 @@ class AddCustomToken extends React.Component {
     const { address, name, symbol, digits} = this.state;
 
     function handleSubmit() {
-      //TODO
       resetForm();
       this.setState({
         address:null,
@@ -31,9 +31,9 @@ class AddCustomToken extends React.Component {
     }
 
     return (
-      <Card title="Add Custom Token" className="">
+      <Card title={intl.get('tokens.add_token')} className="">
         <Form layout="horizontal" className="">
-          <Form.Item label="Token Contract Address" colon={false}>
+          <Form.Item label={intl.get('tokens.token_address')} colon={false}>
             {form.getFieldDecorator('address', {
               initialValue: '',
               rules: [{
@@ -45,7 +45,7 @@ class AddCustomToken extends React.Component {
             )}
           </Form.Item>
           {name &&
-          <Form.Item label="Token Name" colon={false}>
+          <Form.Item label={intl.get('tokens.token_name')} colon={false}>
             {form.getFieldDecorator('name', {
               initialValue: '',
               rules: []
@@ -55,7 +55,7 @@ class AddCustomToken extends React.Component {
           </Form.Item>
           }
           {symbol &&
-          <Form.Item label="Token Symbol" colon={false}>
+          <Form.Item label={intl.get('tokens.token_symbol')} colon={false}>
             {form.getFieldDecorator('symbol', {
               initialValue: '',
               rules: []
@@ -65,7 +65,7 @@ class AddCustomToken extends React.Component {
           </Form.Item>
           }
           {digits &&
-          <Form.Item label="Token Digits" colon={false}>
+          <Form.Item label={intl.get('tokens.token_digits')} colon={false}>
             {form.getFieldDecorator('digits', {
               initialValue: '',
               rules: []
@@ -79,7 +79,7 @@ class AddCustomToken extends React.Component {
               <div className="col">
                 <Button onClick={handleSubmit} type="primary" className="d-block w-100" size="large"
                         disabled={!(address && name && digits && symbol)}>
-                  Confirm && Save
+                  {intl.get('tokens.confirm_save')}
                 </Button>
               </div>
             </div>

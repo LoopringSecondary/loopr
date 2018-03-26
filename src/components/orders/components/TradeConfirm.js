@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Collapse, Input, Modal} from 'antd';
+import {Button, Card, Collapse, Input, Modal,message} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
@@ -79,8 +79,75 @@ class TradeConfirm extends React.Component {
       })
     }.bind(this)).catch(err=>{
       console.log('signOrder error',err)
-    })
+    });
+
   }
+
+  handelSubmit = async () => {
+    const {modals,assets={},tradingConfig} = this.props;
+    const modal = modals['trade/confirm'] || {};
+    let {warn} = modal;
+    let {signedOrder,tokenS} = this.state;
+    const _this = this;
+    modals.hideModal({id: 'trade/confirm'});
+    placeOrder(signedOrder).then(async (res) => {
+      if (res.error) {
+        modals.showModal({id: 'trade/place-order-error', errors: [{type: 'unknown', message: res.error.message}]});
+      } else {
+        if(warn){
+          const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
+          const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
+          const delegateAddress = configs.delegateAddress;
+          let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
+          const txs = [];
+          const approveWarn = warn.filter(item => item.type === "AllowanceNotEnough");
+          approveWarn.forEach(item => {
+            const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
+            const token = new Token({address: tokenConfig.address});
+            console.log('Allowance',item.value.allowance);
+            if(item.value.allowance > 0){
+              console.log('Approve to 0',item.value.symbol);
+              txs.push(token.generateApproveTx({
+                spender: delegateAddress,
+                amount: '0x0',
+                gasPrice,
+                gasLimit,
+                nonce: toHex(nonce),
+              }));
+              nonce = nonce + 1;
+            }
+            console.log('Enable',item.value.symbol);
+            txs.push(token.generateApproveTx(({
+              spender: delegateAddress,
+              amount: toHex(toBig('9223372036854775806').times('1e'+ tokenConfig.digits||18)),
+              gasPrice,
+              gasLimit,
+              nonce: toHex(nonce),
+            })));
+            nonce = nonce + 1;
+          });
+
+          eachLimit(txs, 1, async function (tx, callback) {
+            const res = await window.WALLET.sendTransaction(tx);
+            if (res.error) {
+              callback(res.error.message)
+            } else {
+              window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
+              window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
+              notifyTransactionSubmitted(res.result);
+              callback()
+            }
+          }, function (error) {
+
+          });
+        }
+        const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
+        modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
+        _this.updateOrders();
+      }
+    });
+  };
+
   updateOrders(){
     const {dispatch} = this.props;
     dispatch({
@@ -154,70 +221,7 @@ class TradeConfirm extends React.Component {
     </Card>)
   }
 
-  handelSubmit = async () => {
-    const {modals,assets={},tradingConfig} = this.props;
-    const modal = modals['trade/confirm'] || {};
-    let {warn} = modal;
-    let {signedOrder,tokenS} = this.state;
-    const _this = this
-    modals.hideModal({id: 'trade/confirm'});
-    placeOrder(signedOrder).then(async (res) => {
-      if (res.error) {
-        modals.showModal({id: 'trade/place-order-error', errors: [{type: 'unknown', message: res.error.message}]});
-      } else {
-        if(warn){
-          const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
-          const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
-          const delegateAddress = configs.delegateAddress;
-          let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
-          const txs = [];
-          const approveWarn = warn.filter(item => item.type === "AllowanceNotEnough");
-          approveWarn.forEach(item => {
-            const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
-            const token = new Token({address: tokenConfig.address});
-            console.log('Allowance',item.value.allowance);
-            if(item.value.allowance > 0){
-              console.log('Approve to 0',item.value.symbol);
-              txs.push(token.generateApproveTx({
-                spender: delegateAddress,
-                amount: '0x0',
-                gasPrice,
-                gasLimit,
-                nonce: toHex(nonce),
-              }));
-              nonce = nonce + 1;
-            }
-            console.log('Enable',item.value.symbol);
-            txs.push(token.generateApproveTx(({
-              spender: delegateAddress,
-              amount: toHex(toBig('9223372036854775806').times('1e'+ tokenConfig.digits||18)),
-              gasPrice,
-              gasLimit,
-              nonce: toHex(nonce),
-            })));
-            nonce = nonce + 1;
-          });
 
-          eachLimit(txs, 1, async function (tx, callback) {
-            const res = await window.WALLET.sendTransaction(tx);
-            if (res.error) {
-              callback(res.error.message)
-            } else {
-              window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
-              window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
-              notifyTransactionSubmitted(res.result);
-              callback()
-            }
-          }, function (error) {
-
-          });
-        }
-        const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
-        modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
-        _this.updateOrders();
-      }
-    });
-  };
 }
 
 function mapStateToProps(state) {
