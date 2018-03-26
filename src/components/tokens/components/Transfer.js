@@ -151,6 +151,7 @@ class Transfer extends React.Component {
     }
 
     function validateTokenSelect(value) {
+      const result = form.validateFields(["amount"], {force:true})
       if(value) {
         return true
       } else {
@@ -168,8 +169,9 @@ class Transfer extends React.Component {
     }
 
     function validateAmount(value) {
+      const tokenSymbol = form.getFieldValue("token")
       if(isNumber(value)) {
-        const token = getToken(this.state.tokenSymbol)
+        const token = getToken(tokenSymbol)
         return value && value <= token.balance
       } else {
         return false
