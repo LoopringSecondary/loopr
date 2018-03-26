@@ -159,8 +159,6 @@ export default {
         ...page,...action.payload.page
       }}
     },
-
-    // filters 变化时 page.current也必须变化
     filtersChangeStart(state,action){
       let filters = state.filters;
       let page = state.page;
@@ -202,11 +200,11 @@ export default {
       }
     },
     itemsChange(state,action){
-      console.log('itemsChange',action)
       let items = action.payload.items || [];
       return {
         ...state,
-        items:[ ...items ]
+        items:[ ...items ],
+        loading:false, // fix bug for loading
       }
     },
   },
