@@ -382,7 +382,9 @@ export default {
     token_symbol:"Token Symbol",
     token_digits:"Token Digits",
     confirm_save:"Confirm && Save",
-    save_successfully:"Save successfully"
+    save_successfully:"Save successfully",
+    supportToken:"We already support this token! ",
+    add_token_failed:"Failed to get token config, maybe the contract address you provided is not a ERC20 token contract address"
   },
   portfolio: {
     total_value: "Total Value",

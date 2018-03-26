@@ -3,7 +3,8 @@ import {Button, Card, Form, Input, message} from 'antd';
 import Token from 'Loopring/ethereum/token'
 import validator from 'Loopring/ethereum/validator';
 import intl from 'react-intl-universal';
-
+import {configs} from '../../../common/config/data'
+const {tokens} = configs;
 
 class AddCustomToken extends React.Component {
 
@@ -111,11 +112,17 @@ class AddCustomToken extends React.Component {
     const {form} = this.props;
     const address = e.target.value;
     if (this.isValidAddress(address)) {
+      const result = tokens.find(token => token.address.toUpperCase() === address.toUpperCase())
+      if(result){
+        message.warning(intl.get('tokens.supportToken'));
+        return
+      }
+
       this.setState({address});
       const token = new Token({address});
       await token.complete();
       if (!token.symbol || token.digits === -1) {
-        message.error('Failed to get token config, maybe the contract address you provided is not a ERC20 token contract address');
+        message.error(intl.get('tokens.add_token_failed'));
         return;
       }
       this.setState({name: token.name, symbol: token.symbol, digits: token.digits})
