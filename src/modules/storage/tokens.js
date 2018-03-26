@@ -67,11 +67,22 @@ const addCustomToken = (token) => {
   }
 };
 
+const getCustomTokens = () => {
+  if(localStorage.tokens){
+    let tokens = JSON.parse(localStorage.tokens);
+    return tokens.customTokens ? tokens.customTokens :[]
+  }else{
+    return []
+  }
+
+};
+
 
 export default {
   getCurrent,
   getFavored,
   getTokens,
+  getCustomTokens,
   update,
   addCustomToken
 }

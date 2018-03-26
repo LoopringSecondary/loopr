@@ -4,6 +4,7 @@ import Token from 'Loopring/ethereum/token'
 import validator from 'Loopring/ethereum/validator';
 import intl from 'react-intl-universal';
 import {configs} from '../../../common/config/data'
+
 const {tokens} = configs;
 
 class AddCustomToken extends React.Component {
@@ -113,11 +114,17 @@ class AddCustomToken extends React.Component {
     const address = e.target.value;
     if (this.isValidAddress(address)) {
       const result = tokens.find(token => token.address.toUpperCase() === address.toUpperCase())
-      if(result){
+      if (result) {
         message.warning(intl.get('tokens.supportToken'));
         return
       }
+      const customTokens = window.STORE.tokens.getCustomTokens();
 
+      const custom_history = customTokens.find(token => token.address.toUpperCase() === address.toUpperCase())
+      if (custom_history){
+        message.warning(intl.get('tokens.already_add'));
+        return
+      }
       this.setState({address});
       const token = new Token({address});
       await token.complete();

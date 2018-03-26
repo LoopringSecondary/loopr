@@ -384,7 +384,8 @@ export default {
     confirm_save:"Confirm && Save",
     save_successfully:"Save successfully",
     supportToken:"We already support this token! ",
-    add_token_failed:"Failed to get token config, maybe the contract address you provided is not a ERC20 token contract address"
+    add_token_failed:"Failed to get token config, maybe the contract address you provided is not a ERC20 token contract address",
+    already_add:"You have already add this token!"
   },
   portfolio: {
     total_value: "Total Value",
