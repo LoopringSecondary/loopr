@@ -208,7 +208,7 @@ export default {
     to_buy: 'Buy',
     time_to_live_input_place_holder: 'How long should the order last?',
     ring:"Ring",
-    tips_time_to_live: "How long would you like the order to last?</br> Setting a large time allows the order to be matched by the miners for a long time and increase the probability of matching success. </br>If small, your order may not be able to be matched.</br>We Recommend this value larger than 1 hour.",
+    tips_time_to_live: "How long would you like the order to last?</br> Setting a large time allows the order to be matched by the miners for a long time and increase the probability of matching success. </br>If too small, your order may not be able to be matched.</br>We Recommend this value larger than 1 hour.",
     tips_lrc_fee: "LRC Fee instruction in english",
     tips_margin_split: "Margin Split instruction in english",
     confirm_warn_ledger: "Please confirm transaction on your Ledger device, then come back to continue",
