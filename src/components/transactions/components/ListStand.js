@@ -97,29 +97,64 @@ class ListBlock extends React.Component {
       item.value = tokenFm.getAmount(origin.value)
       let change
       let icon
+      let title
       switch (item.type) {
         case 'approve':
           change = '+'
           icon = <CoinIcon symbol={item.symbol} size="30"/>
+          title = intl.get('txs.type_enable_title', {symbol: item.symbol})
           break;
         case 'send':
           change = '-';
           icon = <i className="icon icon-loopring icon-loopring-transfer fs30"/>
+          title = intl.get('txs.type_transfer_title', {symbol: item.symbol})
           break;
         case 'receive':
           change = '+';
           icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
+          title = intl.get('txs.type_receive_title', {symbol: item.symbol})
           break;
         case 'convert_income':
           change = '+';
-          icon = <CoinIcon symbol={item.symbol} size="30"/>
+          icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
+          if(item.symbol === 'WETH'){
+            title = intl.get('txs.type_convert_title_weth')
+          }else{
+            title = intl.get('txs.type_convert_title_eth')
+          }
           break;
         case 'convert_outcome':
           change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
+          if(item.symbol === 'WETH'){
+            title = intl.get('txs.type_convert_title_weth')
+          }else{
+            title = intl.get('txs.type_convert_title_eth')
+          }
+          break;
+        case 'cancel_order':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
+          title = intl.get('txs.cancel_order')
+          break;
+        case 'cutoff':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
+          title = intl.get('txs.cutoff')
+          break;
+        case 'cutoff_trading_pair':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
+          title = intl.get('txs.cutoff_trading_pair')
+          break;
+        case 'others':
+          change = '-';
           icon = <CoinIcon symbol={item.symbol} size="30"/>
+          title = intl.get('txs.unsupported_contract') // TODO
           break;
         default:
           icon = <CoinIcon symbol={item.symbol} size="30"/>
+          title = intl.get('txs.unsupported_contract') // TODO
           break;
       }
       const statusCol = (
@@ -132,55 +167,19 @@ class ListBlock extends React.Component {
       const caption = (
         <div className="">
           <a className="fs2 color-black-1 mb5 d-block pointer">
-            {item.type === 'approve' && intl.get('txs.type_enable_title', {symbol: item.symbol})}
-            {item.type === 'send' && intl.get('txs.type_transfer_title', {symbol: item.symbol})}
-            {item.type === 'receive' && intl.get('txs.type_receive_title', {symbol: item.symbol})}
-            {item.type === 'convert_outcome' && item.symbol === 'WETH' && intl.get('txs.type_convert_title_weth')}
-            {item.type === 'convert_outcome' && item.symbol === 'ETH' && intl.get('txs.type_convert_title_eth')}
-            {item.type === 'convert_income' && item.symbol === 'WETH' && intl.get('txs.type_convert_title_eth')}
-            {item.type === 'convert_income' && item.symbol === 'ETH' && intl.get('txs.type_convert_title_weth')}
-            {item.type === 'cancel_order' && intl.get('txs.cancel_order')}
-            {item.type === 'cutoff' && intl.get('txs.cancel_all')}
-            {item.type === 'cutoff_trading_pair' && intl.get('txs.cancel_pair_order', {pair: item.content.market})}
-            {item.type === 'unsupported_contract' && intl.get('txs.unsupported_contract')}
-            <span className="ml10">{statusCol}</span>
+            {title} <span className="ml10">{statusCol}</span>
           </a>
-          {
-            <div className="fs3 color-black-3">
-            <span className="mr15">
-              {uiFormatter.getFormatTime(item.createTime * 1000)}
-            </span>
-              <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
-                 className="color-black-3 mr15  d-inline-block">
-                {uiFormatter.getShortAddress(item.txHash)}
-              </a>
-              {
-                false &&
-                <span className="mr15 d-inline-block">
-                {item.txHash && <span>TxHash: <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
-                                                 className="color-blue-500">{uiFormatter.getShortAddress(item.txHash)}</a></span>}
-              </span>
-              }
-
-              {
-                false && item.type === 'send' &&
-                <span className="mr15  d-inline-block">
-                {item.to && <span>To: <a href={`https://etherscan.io/tx/${item.to}`} target="_blank"
-                                         className="color-blue-500">{uiFormatter.getShortAddress(item.to)}</a></span>}
-              </span>
-              }
-              {
-                false && item.type === 'receive' &&
-                <span className="mr15  d-inline-block">
-                {item.from && <span>From: <a href={`https://etherscan.io/tx/${item.from}`} target="_blank"
-                                             className="color-blue-500">{uiFormatter.getShortAddress(item.from)}</a></span>}
-              </span>
-              }
-            </div>
-          }
+          <div className="fs3 color-black-3">
+          <span className="mr15">
+            {uiFormatter.getFormatTime(item.createTime * 1000)}
+          </span>
+            <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
+               className="color-black-3 mr15  d-inline-block">
+              {uiFormatter.getShortAddress(item.txHash)}
+            </a>
+          </div>
         </div>
       )
-
       return (
         <div className="ml15 mr15 mt15 pb15 zb-b-b">
           <div className="row align-items-center no-gutters flex-nowrap" key={index}>

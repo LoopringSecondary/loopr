@@ -172,12 +172,12 @@ class ListSidebar extends React.Component {
           <Tooltip title={intl.get('tokens.hide_small_balances')}>
             {
               filters.ifHideSmallBalance &&
-              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-primary-1" style={{position:'relative',marginTop:'2px'}}
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-primary-1 pointer" style={{position:'relative',marginTop:'2px'}}
               type="eye" />
             }
             {
               !filters.ifHideSmallBalance &&
-              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-black-2" style={{position:'relative',marginTop:'2px'}}
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-black-2 pointer" style={{position:'relative',marginTop:'2px'}}
               type="eye-o" />
             }
           </Tooltip>
