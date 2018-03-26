@@ -85,9 +85,9 @@ function ListActionsBar(props) {
         <div className="col">
 
         </div>
-        <div className="col-auto pr0">
+        {false && <div className="col-auto pr0">
           <Button type="default" onClick={refresh}>{intl.get('order.refresh')}</Button>
-        </div>
+        </div>}
         <div className="col-auto">
           <Button type="primary" onClick={cancelAll}>{intl.get('order.cancel_all')}</Button>
         </div>
