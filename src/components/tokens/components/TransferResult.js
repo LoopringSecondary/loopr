@@ -22,6 +22,9 @@ let Preview = ({
     modal.hideModal({id:'token/transfer/result'})
     modal.showModal({id:'token/convert'})
   }
+  const close = () => {
+    modal.hideModal({id:'token/transfer/result'})
+  }
   let t = ""
   if(result.extraData.pageFrom === "Transfer") {
     t = intl.get('token.send_title')
@@ -74,9 +77,9 @@ let Preview = ({
                     <Icon type="close-circle-o" className="color-error-1 mr5" />
                   }
                   <Icon type="exclamation-circle-o mr5 color-primary-1" />
-                  <span className="fs14 color-black-1 fs14 ">Check transaction status. </span>
-                  <a className="fs14 ml15 color-primary-1">
-                    View detail
+                  <span className="fs14 color-black-1 fs14 ">{intl.get('token.transfer_result_title')}</span>
+                  <a className="fs14 ml15 color-primary-1" target="_blank" href={`https://etherscan.io/tx/${result.extraData.txHash}`}>
+                    {intl.get('token.transfer_result_etherscan')}
                     <Icon type="right" />
                   </a>
                 </div>
@@ -86,11 +89,15 @@ let Preview = ({
                     <Icon type="close-circle-o" className="color-error-1 mr5" />
                   }
                   <Icon type="exclamation-circle-o mr5 color-primary-1" />
-                  <span className="fs14 color-black-1 fs14">Go on to send. </span>
-                  <a className="fs14 ml15 color-primary-1">
-                    Send again
-                    <Icon type="right" />
-                  </a>
+                  <span className="fs14 color-black-1 fs14">{intl.get('token.transfer_again_title')}</span>
+                  {
+                    result.extraData.pageFrom && result.extraData.pageFrom === 'Transfer' &&
+                    <a className="fs14 ml15 color-primary-1" onClick={sendAgain}>{intl.get('token.transfer_again_send')}<Icon type="right" /></a>
+                  }
+                  {
+                    result.extraData.pageFrom && result.extraData.pageFrom === 'Convert' &&
+                    <a className="fs14 ml15 color-primary-1" onClick={convertAgain}>{intl.get('token.transfer_again_convert')}<Icon type="right" /></a>
+                  }
                 </div>
               </TipsContainer>
 
@@ -98,14 +105,7 @@ let Preview = ({
           }
           <div className="row pt20">
             <div className="col">
-              {
-                result.extraData.pageFrom && result.extraData.pageFrom === 'Transfer' &&
-                <Button className="d-block w-100" type="primary" size="large" onClick={sendAgain}>OK</Button>
-              }
-              {
-                result.extraData.pageFrom && result.extraData.pageFrom === 'Convert' &&
-                <Button className="d-block w-100" type="primary" size="large" onClick={convertAgain}>OK</Button>
-              }
+              <Button className="d-block w-100" type="primary" size="large" onClick={close}>OK</Button>
             </div>
           </div>
         </div>
