@@ -258,7 +258,7 @@ export default {
     token_select_verification_message: "请选择要发送的币种",
     transfer_result_title: "关心以太坊交易结果 ? ",
     transfer_result_etherscan: "在EtherScan查看",
-    transfer_again_title: "希望继续操作 ? ",
+    transfer_again_title: "想要继续操作 ? ",
     transfer_again_send: "继续发送",
     transfer_again_convert: "继续转换",
   },
