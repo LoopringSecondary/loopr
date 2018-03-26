@@ -299,6 +299,8 @@ export default {
     get_metamask: "下载MetaMask Chrome插件 (适合Chrome Firefox Opera)",
     get_metamask_for_others: '下载MetaMask（其他浏览器）',
     connect_to_metamask: "连接您的MetaMask钱包",
+    connect_to_metamask_not_supported_browser: "您的浏览器不支持MetaMask解锁，推荐您使用Chrome",
+    download_chrome: "下载Chrome浏览器",
     recommended_tip: "我们推荐您采用这种方式使用钱包。",
     not_recommended: "不推荐",
     not_recommended_tip: "我们不推荐您采用这种方式使用钱包。",
