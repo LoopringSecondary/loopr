@@ -217,6 +217,11 @@ export default {
     confirm_warn_trezor: "请在您的Trezor设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单"
   },
+  trades:{
+    side: '方向',
+    side_sell: '卖出',
+    side_buy: '买入',
+  },
   token: {
     convert_title: "转换",
     amount: "数量",

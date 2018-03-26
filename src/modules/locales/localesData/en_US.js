@@ -216,6 +216,11 @@ export default {
     confirm_warn_trezor: "Please confirm transaction on your Trezor device , then come back to continue",
     confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue"
   },
+  trades:{
+    side: 'Side',
+    side_sell: 'Sell',
+    side_buy: 'Buy',
+  },
   token: {
     convert_title: "Convert",
     amount: "Amount",

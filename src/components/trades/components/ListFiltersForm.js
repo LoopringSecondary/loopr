@@ -2,7 +2,7 @@ import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
 import SelectContainer from '../../common/SelectContainer';
 import {getSupportedMarket} from 'Loopring/relay/market';
-
+import intl from 'react-intl-universal'
 let FiltersForm = ({
   form,
   actions,
@@ -33,7 +33,7 @@ let FiltersForm = ({
   return (
       <div className="">
         <Form layout="inline">
-          <Form.Item label="Market" >
+          <Form.Item label={intl.get('global.market')} >
             {form.getFieldDecorator('market', {
               initialValue:filters.pair || '',
               rules:[]
@@ -43,37 +43,31 @@ let FiltersForm = ({
                 transform={(res)=>{
                   let options = res.result.map(item=>({label:item,value:item}))
                   return [
-                    {label:'All',value:''},
+                    {label:intl.get('global.all'),value:''},
                     ...options,
                   ]
                 }}
                 style={{width:'120px'}}
                 onChange={handleChange}
-                placeholder="Search/Select"
+                placeholder={intl.get('global.all')}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               >
               </SelectContainer>
             )}
           </Form.Item>
-          <Form.Item label="Side" >
+          <Form.Item label={intl.get('trades.side')} >
             {form.getFieldDecorator('side', {
               initialValue:filters.side || '',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>
-                <Radio.Button value="">All</Radio.Button>
-                <Radio.Button value="sell">Sell</Radio.Button>
-                <Radio.Button value="buy">Buy</Radio.Button>
+                <Radio.Button value="">{intl.get('global.all')}</Radio.Button>
+                <Radio.Button value="sell">{intl.get('trades.side_sell')}</Radio.Button>
+                <Radio.Button value="buy">{intl.get('trades.side_buy')}</Radio.Button>
               </Radio.Group>
             )}
 
           </Form.Item>
-          {
-            false &&
-            <Form.Item>
-              <Button onClick={handleReset} type="default">Reset</Button>
-            </Form.Item>
-          }
         </Form>
       </div>
   );
