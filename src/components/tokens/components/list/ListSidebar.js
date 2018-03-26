@@ -143,7 +143,7 @@ class ListSidebar extends React.Component {
       })
     }
     const TokenListAcionsBar = (
-      <div className="row zb-b-b p15 pl10 pr10 no-gutters">
+      <div className="row zb-b-b p15 pl10 pr10 no-gutters align-items-center" >
         <div className="col mr5">
           <Input
             placeholder=""
@@ -151,19 +151,20 @@ class ListSidebar extends React.Component {
             className="d-block w-100"
             onChange={searchToken.bind(this)}
             value={filters.keywords}
+            addonAfter={null}
           />
         </div>
-        <div className="col-auto mr5">
+        <div className="col-auto">
           <Tooltip title={intl.get('tokens.only_show_favorites')}>
             {
               filters.ifOnlyShowMyFavorite &&
-              <Button onClick={toggleMyFavorite.bind(this)} className="color-white border-blue-600 bg-blue-600"
-                      icon="star-o" shape="circle"/>
+              <Icon type="star" onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-primary-1 border-none pointer"
+              />
             }
             {
               !filters.ifOnlyShowMyFavorite &&
-              <Button onClick={toggleMyFavorite.bind(this)} className="color-grey-600" icon="star-o"
-                      shape="circle"/>
+              <Icon onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-grey-600 pointer"
+              type="star-o"/>
             }
           </Tooltip>
         </div>
@@ -171,45 +172,17 @@ class ListSidebar extends React.Component {
           <Tooltip title={intl.get('tokens.hide_small_balances')}>
             {
               filters.ifHideSmallBalance &&
-              <Button onClick={toggleSmallBalance.bind(this)} className="color-white border-blue-600 bg-blue-600"
-                      icon="eye-o" shape="circle"/>
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-primary-1" style={{position:'relative',marginTop:'2px'}}
+              type="eye" />
             }
             {
               !filters.ifHideSmallBalance &&
-              <Button onClick={toggleSmallBalance.bind(this)} className="color-grey-600" icon="eye-o"
-                      shape="circle"/>
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-grey-600" style={{position:'relative',marginTop:'2px'}}
+              type="eye-o" />
             }
           </Tooltip>
         </div>
-        {
-          false &&
-          <div className="col-auto">
-            <Tooltip title="Add Custom Token">
-              <Button onClick={gotoAdd.bind(this)} className="color-grey-600" icon="plus" shape="circle"/>
-            </Tooltip>
-          </div>
-        }
 
-        <div className="col-auto" hidden>
-          <Tooltip title="">
-            <Popover
-              title="Sort"
-              placement="bottom"
-              arrowPointAtCenter
-              content={
-                <div>
-                  <div className="fs12 pb10 zb-b-b">Sort By Name</div>
-                  <div className="fs12 pt10 pb10 zb-b-b">Sort By Balance</div>
-                  <div className="fs12 pt10 ">Sort By Amount</div>
-                </div>
-              }
-            >
-              <Button className="color-grey-600" shape="circle">
-                <i className="fa fa-sort"/>
-              </Button>
-            </Popover>
-          </Tooltip>
-        </div>
       </div>
     )
     const TokenItemActions = (token) => (
