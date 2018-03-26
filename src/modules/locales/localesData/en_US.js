@@ -299,6 +299,8 @@ export default {
     get_metamask: "Get MetaMask Chrome extension (for Chrome Firefox Opera)",
     get_metamask_for_others: 'Download MetaMask For Other Browser',
     connect_to_metamask: "Connect To MetaMask",
+    connect_to_metamask_not_supported_browser: "Your Browser do not support MetaMask, try Chrome instead",
+    download_chrome: "Download Chrome",
     recommend_tip: "This is a recommended way to access your wallet.",
     not_recommended: "Not Recommended",
     not_recommended_tip: "This is a NOT recommended way to access your wallet.",
