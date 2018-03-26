@@ -374,7 +374,8 @@ export default {
     token_name:"Token Name",
     token_symbol:"Token Symbol",
     token_digits:"Token Digits",
-    confirm_save:"Confirm && Save"
+    confirm_save:"Confirm && Save",
+    save_successfully:"Save successfully"
   },
   portfolio: {
     total_value: "Total Value",

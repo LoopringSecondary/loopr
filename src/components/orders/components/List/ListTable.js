@@ -96,6 +96,9 @@ function ListBlock(props) {
       if (item.status === 'ORDER_CANCELLED') {
         status = <Badge className="fs12" status="default" text={intl.get('orders.status_canceled')}/>
       }
+      if (item.status === 'ORDER_CUTOFF') {
+        status = <Badge className="fs12" status="default" text={intl.get('orders.status_canceled')}/>
+      }
       if (item.status === 'ORDER_EXPIRE') {
         status = <Badge className="fs12" status="default" text={intl.get('orders.status_expired')}/>
       }

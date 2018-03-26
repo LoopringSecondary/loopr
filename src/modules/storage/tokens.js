@@ -37,16 +37,35 @@ const update = (tokens)=>{
     localStorage.tokens !== 'undefined' &&
     localStorage.tokens !== 'null'
   ){
-    let orgin_tokens = JSON.parse(localStorage.tokens)
+    let orgin_tokens = JSON.parse(localStorage.tokens);
     let new_tokens = {
       ...orgin_tokens,
       ...tokens,
-    }
+    };
     localStorage.tokens = JSON.stringify(new_tokens)
   }else{
     localStorage.tokens = JSON.stringify(tokens)
   }
-}
+};
+
+
+const addCustomToken = (token) => {
+
+  if(
+    localStorage.tokens &&
+    localStorage.tokens !== 'undefined' &&
+    localStorage.tokens !== 'null'
+  ){
+    let orgin_tokens = JSON.parse(localStorage.tokens);
+    let orign_customTokens = orgin_tokens.customTokens ?  orgin_tokens.customTokens : [];
+    const filterTokens =  orign_customTokens.filter(t => t.address !== token.address);
+    filterTokens.push(token);
+    orgin_tokens.customTokens = filterTokens;
+    localStorage.tokens = JSON.stringify(orgin_tokens);
+  }else{
+    localStorage.tokens = JSON.stringify({customTokens:[token]})
+  }
+};
 
 
 export default {
@@ -54,5 +73,6 @@ export default {
   getFavored,
   getTokens,
   update,
+  addCustomToken
 }
 

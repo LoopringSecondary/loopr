@@ -374,7 +374,8 @@ export default {
     token_name:"代币名称",
     token_symbol:"代币 Symbol",
     token_digits:"代币 Digits",
-    confirm_save:"确认并保存"
+    confirm_save:"确认并保存",
+    save_successfully:"保存成功"
   },
   portfolio: {
     total_value: "总市值",
