@@ -163,7 +163,7 @@ class ListSidebar extends React.Component {
             }
             {
               !filters.ifOnlyShowMyFavorite &&
-              <Icon onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-grey-600 pointer"
+              <Icon onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-black-2 pointer"
               type="star-o"/>
             }
           </Tooltip>
@@ -177,7 +177,7 @@ class ListSidebar extends React.Component {
             }
             {
               !filters.ifHideSmallBalance &&
-              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-grey-600" style={{position:'relative',marginTop:'2px'}}
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-black-2" style={{position:'relative',marginTop:'2px'}}
               type="eye-o" />
             }
           </Tooltip>

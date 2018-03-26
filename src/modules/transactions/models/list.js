@@ -79,8 +79,7 @@ export default {
                   ...page,
                 },
                 items:res.data.data,
-                loading: false,
-                loaded:true
+                loading:false,
               },
             });
           }
@@ -111,7 +110,6 @@ export default {
             },
             items:res.items,
             loading: false,
-            loaded:true
           },
         });
       }
@@ -168,13 +166,15 @@ export default {
       let page = state.page;
       return {
         ...state,
+        loading:true,
         filters:{
           ...filters,...action.payload.filters
         },
         page:{
           ...page,
           current:1,
-        }
+        },
+        items:[]
       }
     },
     columnsChangeStart(state,action){
