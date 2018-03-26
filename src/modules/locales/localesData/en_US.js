@@ -341,6 +341,7 @@ export default {
       not_recover: 'It cannot be recovered if you lose it',
       stolen: "Your funds will be stolen if you use this file on a malicious/phishing site.",
       backup: "Make a backup",
+      backup_tip:'路印钱包不会保存用户的私钥、Keystore、助记词，强烈建议您在线下备份这些信息（不联网的USB硬盘或纸质存储）。一旦私钥、Keystore、助记词丢失将无法恢复，我们无法访问您的账户，为您找回私钥或重置密码，更不能回滚交易！切记不要在可疑或钓鱼网站上共享该文件，否则您的数字资产将面临极大的被盗风险！',
       secure: "Secure it like the millions of dollars it may one day be worth.",
       download: "I Understand, Download Wallet File",
       copy_mnemonic: "I Understand, Copy Mnemonic",
