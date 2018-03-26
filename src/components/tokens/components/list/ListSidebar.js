@@ -150,6 +150,7 @@ class ListSidebar extends React.Component {
             prefix={<Icon type="search" className="color-grey-600"/>}
             className="d-block w-100"
             onChange={searchToken.bind(this)}
+            value={filters.keywords}
           />
         </div>
         <div className="col-auto mr5">
@@ -409,7 +410,6 @@ class ListSidebar extends React.Component {
               {!selected[item.symbol] && !item.icon &&
               <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
               }
-
             </div>
             <div className="col pr10">
               <div className="">
@@ -440,8 +440,8 @@ class ListSidebar extends React.Component {
         </div>
       )
     }
-
-    let results = [...items]
+    let customs =  window.STORAGE.tokens.getCustomTokens()
+    let results = [...items,...customs]
     let keys = Object.keys(filters)
     keys.map(key => {
       const value = filters[key]
@@ -475,20 +475,26 @@ class ListSidebar extends React.Component {
         {TokenListAcionsBar}
         <div className="token-list-sidebar">
           {
-            results.map((item, index) => (
-              <TokenItem key={index} index={index} item={item}/>
-            ))
+            results.map((item, index) => {
+              if(!item.custom){
+                return <TokenItem key={index} index={index} item={item}/>
+              }else{
+                return <CustomTokenItem key={index} index={index}item={item}/>
+              }
+            })
           }
           {
-            window.STORAGE.tokens.getCustomTokens().map((item, index) => <CustomTokenItem key={index} index={index}
-                                                                                          item={item}/>)
+            (filters.keywords || filters.ifOnlyShowMyFavorite || filters.ifHideSmallBalance) &&
+            <div className='zb-b-b token-item-sidebar text-center pt10 pb10'>
+              Find {results.length} Tokens
+            </div>
           }
-          <div className='zb-b-b cursor-pointer token-item-sidebar text-center'
+          <div className='zb-b-b cursor-pointer token-item-sidebar text-center pt10 pb10'
                onClick={showModal.bind(this, {id: "token/add"})}>
+               <Icon type="plus" />
             {intl.get('tokens.add_token')}
           </div>
         </div>
-
       </div>
     )
 
