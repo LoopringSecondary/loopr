@@ -59,6 +59,7 @@ class Transfer extends React.Component {
       selectedToken.balance = balance
       return selectedToken
     }
+    const _this = this
     const {form, modal, account, settings, assets, prices} = this.props
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
@@ -67,15 +68,15 @@ class Transfer extends React.Component {
       form.validateFields((err, values) => {
         if (!err) {
           const tx = {};
-          if(this.state.advanced) {
-            tx.gasPrice = fm.toHex(fm.toBig(this.state.selectedGasPrice).times(1e9))
-            tx.gasLimit = fm.toHex(this.state.selectedGasLimit)
+          if(_this.state.advanced) {
+            tx.gasPrice = fm.toHex(fm.toBig(_this.state.selectedGasPrice).times(1e9))
+            tx.gasLimit = fm.toHex(_this.state.selectedGasLimit)
           } else {
-            const gasPrice = fm.toBig(this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
+            const gasPrice = fm.toBig(_this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
             tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
           }
-          let tokenSymbol = this.state.tokenSymbol
-          if(this.state.showTokenSelector) {
+          let tokenSymbol = _this.state.tokenSymbol
+          if(_this.state.showTokenSelector) {
             tokenSymbol = form.getFieldValue("token")
           }
           if(tokenSymbol === "ETH") {
@@ -233,7 +234,7 @@ class Transfer extends React.Component {
     function toContinue(e) {
       if(e.keyCode === 13) {
         e.preventDefault();
-        handleSubmit.call(this)
+        handleSubmit()
       }
     }
 
@@ -286,7 +287,7 @@ class Transfer extends React.Component {
                 }
               ]
             })(
-              <Input placeholder="" size="large" onKeyDown={toContinue}/>
+              <Input placeholder="" size="large" onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>
           <Form.Item label={intl.get("token.amount")} {...formItemLayout} colon={false} extra={
