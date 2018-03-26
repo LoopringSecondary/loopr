@@ -18,7 +18,7 @@ class AddCustomToken extends React.Component {
 
   handleSubmit = () => {
     try {
-      window.STORAGE.tokens.addCustomToken(this.state);
+      window.STORAGE.tokens.addCustomToken({...this.state,custom:true});
       this.resetForm();
       this.setState({
         address: null,
@@ -114,11 +114,11 @@ class AddCustomToken extends React.Component {
     const address = e.target.value;
     if (this.isValidAddress(address)) {
       const result = tokens.find(token => token.address.toUpperCase() === address.toUpperCase())
-      if (result) {
-        message.warning(intl.get('tokens.supportToken'));
-        return
-      }
-      const customTokens = window.STORE.tokens.getCustomTokens();
+      // if (result) {
+      //   message.warning(intl.get('tokens.supportToken'));
+      //   return
+      // }
+      const customTokens = window.STORAGE.tokens.getCustomTokens();
 
       const custom_history = customTokens.find(token => token.address.toUpperCase() === address.toUpperCase())
       if (custom_history){
