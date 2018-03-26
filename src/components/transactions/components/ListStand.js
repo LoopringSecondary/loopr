@@ -211,9 +211,8 @@ class ListBlock extends React.Component {
 
       )
     }
-    // background:"rgba(0,0,0,0.02)"
     return (
-      <div className="" style={{}}>
+      <div className="">
         <div className="row zb-b-b p15 no-gutters align-items-center">
           <div className="col">
             <div className="fs2 color-black-1">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
@@ -222,25 +221,28 @@ class ListBlock extends React.Component {
             <ListFiltersFormSimple actions={actions} LIST={LIST}/>
           </div>
         </div>
-        <div style={{}}>
+        <div>
           {
             loading &&
             <div className="p50 text-center">
               <Spin/>
             </div>
           }
-          {balance && needed.gt(toBig(balance)) && <Alert type="warning" showIcon closable
-                  description={
-                    <div className="text-center">
-                      <div className="fs16 ">
-                        {intl.get('txs.balance_not_enough')}
-                      </div>
-                      <div>
-                        <Button onClick={gotoReceive} className="m5 color-blue-500">{intl.get('txs.type_receive')}</Button>
-                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500">{intl.get('txs.buy')}</Button>}
-                        {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 color-blue-500">{intl.get('txs.type_convert')}</Button>}
-                      </div>
-                    </div>}/>
+          {!!balance && !!needed.gt(toBig(balance)) &&
+            <Alert style={{border:'0px'}} type="warning" showIcon closable
+              description={
+                <div className="text-left">
+                  <div className="fs18 color-warning-1">
+                    {token} {intl.get('txs.balance_not_enough')}
+                  </div>
+                  <div>
+                    <Button onClick={gotoReceive} className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
+                    {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)} className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
+                    {token === 'WETH' &&<Button onClick={gotoConvert} className="m5 border-none color-white bg-warning-1">{intl.get('txs.type_convert_title_eth')}</Button>}
+                  </div>
+                </div>
+              }
+            />
           }
           {
             items.map((item, index) =>
@@ -253,7 +255,6 @@ class ListBlock extends React.Component {
               No Transactions
             </div>
           }
-
         </div>
 
       </div>
