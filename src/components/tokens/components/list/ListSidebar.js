@@ -398,8 +398,8 @@ function ListSidebar({LIST, actions, dispatch,assets={},prices={}}) {
               <TokenItem key={index} index={index} item={item}/>
           ))
         }
-        <div className='zb-b-b cursor-pointer token-item-sidebar'>
-          Add Custom Token
+        <div className='zb-b-b cursor-pointer token-item-sidebar text-center' onClick={showModal.bind(this,{id:"token/add"})}>
+          {intl.get('tokens.add_token')}
         </div>
       </div>
 
