@@ -33,6 +33,9 @@ class Home extends React.Component{
         case 'assets':
           window.routeActions.gotoPath(`${match.url}/assets`);
           break;
+        case 'assets2':
+          window.routeActions.gotoPath(`${match.url}/assets2`);
+          break;
         case 'orders':
           window.routeActions.gotoPath(`${match.url}/orders`);
           break;
@@ -69,6 +72,9 @@ class Home extends React.Component{
                           key="orders"/>
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_trades")}</div>}
                           key="trades"/>
+            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_assets")}2</div>}
+                          key="assets2"/>
+
           </Tabs>
           <Switch>
             <Route path={`${match.url}/assets`} exact render={() =>
@@ -82,6 +88,18 @@ class Home extends React.Component{
               </div>
             }
             />
+            <Route path={`${match.url}/assets2`} exact render={() =>
+              <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
+                <div className="col-4 zb-b-r">
+                  <Token.ListSidebar/>
+                </div>
+                <div className="col-8 pb15">
+                  <Transaction.ListStand2 />
+                </div>
+              </div>
+            }
+            />
+
             <Route path={`${match.url}/orders`} exact render={() =>
               <div className="pb0 bg-white"style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
                 <Order.List id="orders/wallet"/>
