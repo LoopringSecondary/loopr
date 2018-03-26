@@ -9,8 +9,18 @@ const walletType = "MetaMask"
 
 class UnlockByMetaMask extends React.Component {
   state = {
-    loading: false
+    loading: false,
+    browserSupported: false
   };
+
+  componentDidMount() {
+    var u = navigator.userAgent, app = navigator.appVersion;
+    if(u.indexOf('Chrome') > -1) {
+      this.setState({browserSupported: true})
+    } else if(u.indexOf('Firefox') > -1) {
+      this.setState({browserSupported: true})
+    }
+  }
 
   connectToMetamask = () => {
     const {modal, account, pageFrom} = this.props
@@ -98,13 +108,27 @@ class UnlockByMetaMask extends React.Component {
           type="success"
           showIcon={false}
         />
-        <div className="color-grey-500 fs14 mb10 mt15">
-          <Icon type="export" className="mr5 fs14" /><a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
-        </div>
-        <div className="color-grey-500 fs14 mb10">
-          <Icon type="export" className="mr5 fs14" /><a href="https://metamask.io/" target="_blank">{intl.get('wallet.get_metamask_for_others')}</a>
-        </div>
-        <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_to_metamask')}</Button>
+        {this.state.browserSupported &&
+          <div className="color-grey-500 fs14 mb10 mt15">
+            <Icon type="export" className="mr5 fs14" /><a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
+          </div>
+        }
+        {this.state.browserSupported &&
+          <div className="color-grey-500 fs14 mb10">
+            <Icon type="export" className="mr5 fs14" /><a href="https://metamask.io/" target="_blank">{intl.get('wallet.get_metamask_for_others')}</a>
+          </div>
+        }
+        {!this.state.browserSupported &&
+          <div className="color-grey-500 fs14 mb10 mt15">
+            <Icon type="export" className="mr5 fs14" /><a href="https://www.google.com/chrome/" target="_blank">{intl.get('wallet.download_chrome')}</a>
+          </div>
+        }
+        {this.state.browserSupported &&
+          <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_to_metamask')}</Button>
+        }
+        {!this.state.browserSupported &&
+          <Button type="primary" className="d-block w-100" size="large" disabled>{intl.get('wallet.connect_to_metamask_not_supported_browser')}</Button>
+        }
       </div>
     )
   }
