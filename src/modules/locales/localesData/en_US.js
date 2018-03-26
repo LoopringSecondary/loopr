@@ -255,7 +255,12 @@ export default {
     to_confirm_title: "To Confirm",
     to_confirm_ledger_content: "Please confirm transaction on your Ledger device",
     select_token: "Select Token",
-    token_select_verification_message: "Please select token to send"
+    token_select_verification_message: "Please select token to send",
+    transfer_result_title: "Care the Ethereum transaction result ? ",
+    transfer_result_etherscan: "View in EtherScan",
+    transfer_again_title: "Want to do again ? ",
+    transfer_again_send: "Send again",
+    transfer_again_convert: "Convert again",
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
