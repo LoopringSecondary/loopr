@@ -209,8 +209,8 @@ export default {
     time_to_live_input_place_holder: 'How long should the order last?',
     ring:"Ring",
     tips_time_to_live: "How long would you like the order to last?</br> Setting a large time allows the order to be matched by the miners for a long time and increase the probability of matching success. </br>If too small, your order may not be able to be matched.</br>We Recommend this value larger than 1 hour.",
-    tips_lrc_fee: "LRC Fee instruction in english",
-    tips_margin_split: "Margin Split instruction in english",
+    tips_lrc_fee: "The Fee you are willing to pay the miner when your order was filled, it will be calculated with the scale of your order.</br> Since miner need to sent Ethereum transaction to fill orders which will cost gas, this value is not recommend to modify, unless you fully understand the meaning",
+    tips_margin_split: "You can set this value to pay LRC Fee When you do not have enough LRC.</br>\"Margin Split\" or \"LRC Fee\" can be chose only one by miner, You don't have to worry about paying twice. </br> This value is not recommend to modify, unless you fully understand the meaning",
     confirm_warn_ledger: "Please confirm transaction on your Ledger device, then come back to continue",
     confirm_warn_trezor: "Please confirm transaction on your Trezor device , then come back to continue",
     confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue"
