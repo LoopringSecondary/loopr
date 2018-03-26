@@ -95,42 +95,40 @@ class ListBlock extends React.Component {
       const priceToken = prices.getTokenBySymbol(item.symbol)
       item.guzhi = tokenFm.getAmountValue(origin.value, priceToken.price)
       item.value = tokenFm.getAmount(origin.value)
-      let change = '';
+      let change
+      let icon
       switch (item.type) {
         case 'approve':
-          change = '+';
+          change = '+'
+          icon = <CoinIcon symbol={item.symbol} size="30"/>
           break;
         case 'send':
           change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-transfer fs30"/>
           break;
         case 'receive':
           change = '+';
+          icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
           break;
         case 'convert_income':
           change = '+';
+          icon = <CoinIcon symbol={item.symbol} size="30"/>
           break;
         case 'convert_outcome':
           change = '-';
+          icon = <CoinIcon symbol={item.symbol} size="30"/>
           break;
         default:
+          icon = <CoinIcon symbol={item.symbol} size="30"/>
           break;
       }
       const statusCol = (
         <span className="text-left">
         {item.status === 'pending' && <Badge status="warning" text={intl.get('txs.status_pending')}/>}
-          {item.status === 'success' && <Badge status="success" text={intl.get('txs.status_success')}/>}
-          {item.status === 'failed' && <Badge status="error" text={intl.get('txs.status_failed')}/>}
+        {item.status === 'success' && <Badge status="success" text={intl.get('txs.status_success')}/>}
+        {item.status === 'failed' && <Badge status="error" text={intl.get('txs.status_failed')}/>}
       </span>
       )
-      const iconCol = (
-        <div className="text-center">
-          {item.type === 'approve' && <CoinIcon symbol={item.symbol} size="30"/>}
-          {item.type === 'send' && <i className="icon icon-loopring icon-loopring-transfer fs30"/>}
-          {item.type === 'receive' && <i className="icon icon-loopring icon-loopring-receive fs30"/>}
-          {item.type.startsWith('convert') && <CoinIcon symbol={item.symbol} size="30"/>}
-        </div>
-      );
-
       const caption = (
         <div className="">
           <a className="fs2 color-black-1 mb5 d-block pointer">
@@ -187,7 +185,9 @@ class ListBlock extends React.Component {
         <div className="ml15 mr15 mt15 pb15 zb-b-b">
           <div className="row align-items-center no-gutters flex-nowrap" key={index}>
             <div className="col-auto pr15">
-              {iconCol}
+              <div className="text-center">
+                {icon}
+              </div>
             </div>
             <div className="col pr10">
               {caption}
