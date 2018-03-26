@@ -89,7 +89,7 @@ export default class Token {
         throw new Error('Invalid tag, must be one of latest, pending,earliest')
       }
     }
-    const params = [this.address, tag];
+    const params = [tx, tag];
     const body = {};
     body.method = 'eth_call';
     body.params = params;

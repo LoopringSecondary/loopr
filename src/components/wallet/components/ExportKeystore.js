@@ -96,7 +96,7 @@ class ExportKeystore extends React.Component {
           className="mb15"
         />
       </div>
-    )
+    );
     return (
       <Card title={intl.get('navbar.subs.export')}>
           {!content && <div className="pt15">
@@ -126,7 +126,6 @@ class ExportKeystore extends React.Component {
                 value={JSON.stringify(content)}
                 size="large"
                 rows={4}
-                auto={true}
               />
               <Button size="large" type="primary" className="d-block w-100 mt25" onClick={this.copyToClipboard.bind(this)}>
                 {intl.get('wallet.backup.copy_keystore')}
