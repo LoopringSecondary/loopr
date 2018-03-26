@@ -16,7 +16,6 @@ class UnlockByMetaMask extends React.Component {
 
   componentDidMount() {
     var u = navigator.userAgent, app = navigator.appVersion;
-    console.log(u)
     if(u.indexOf('OPR') > -1) {
       this.setState({browserType:'Opera', browserSupported: true})
     } else if (u.indexOf('Chrome') > -1) {
