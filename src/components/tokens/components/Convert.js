@@ -25,9 +25,9 @@ class Convert extends React.Component {
     const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
     selectedToken.balance = balance
     const price = prices.getTokenBySymbol(selectedToken.symbol)
+    const _this = this
 
     function handleSubmit() {
-      const _this = this
       form.validateFields((err, values) => {
         if (!err) {
           let nonce = 0
@@ -106,6 +106,13 @@ class Convert extends React.Component {
       }
     }
 
+    function toContinue(e) {
+      if(e.keyCode === 13) {
+        e.preventDefault();
+        handleSubmit()
+      }
+    }
+
     const formItemLayout = {
       labelCol: {span: 7},
       wrapperCol: {span: 17},
@@ -155,7 +162,8 @@ class Convert extends React.Component {
                 }
               ]
             })(
-              <Input placeholder={intl.get('token.amount')} size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}/>
+              <Input placeholder={intl.get('token.amount')} size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}
+                     onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>
 
