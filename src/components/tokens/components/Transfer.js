@@ -74,20 +74,21 @@ class Transfer extends React.Component {
             const gasPrice = fm.toBig(this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
             tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
           }
-          if(this.state.tokenSymbol === "ETH") {
+          const tokenSymbol = form.getFieldValue("token")
+          if(tokenSymbol === "ETH") {
             tx.to = values.to;
             tx.value = fm.toHex(fm.toBig(values.amount).times(1e18))
             tx.data = values.data || '0x';
             tx.gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
           } else {
-            const tokenConfig = window.CONFIG.getTokenBySymbol(this.state.tokenSymbol)
+            const tokenConfig = window.CONFIG.getTokenBySymbol(tokenSymbol)
             tx.to = tokenConfig.address;
             tx.value = "0x0";
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
             tx.gasLimit = config.getGasLimitByType('token_transfer').gasLimit
           }
-          const extraData = {from:account.address, tokenSymbol:this.state.tokenSymbol, amount:values.amount, price:prices.getTokenBySymbol(this.state.tokenSymbol).price}
+          const extraData = {from:account.address, tokenSymbol:tokenSymbol, amount:values.amount, price:prices.getTokenBySymbol(tokenSymbol).price}
           modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', tx, extraData})
         }
@@ -145,12 +146,14 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      const token = getToken(this.state.tokenSymbol)
+      const tokenSymbol = form.getFieldValue("token")
+      const token = getToken(tokenSymbol)
       this.setState({value: token.balance})
       form.setFieldsValue({"amount": token.balance})
     }
 
     function validateTokenSelect(value) {
+      const result = form.validateFields(["amount"], {force:true})
       if(value) {
         return true
       } else {
@@ -168,8 +171,9 @@ class Transfer extends React.Component {
     }
 
     function validateAmount(value) {
+      const tokenSymbol = form.getFieldValue("token")
       if(isNumber(value)) {
-        const token = getToken(this.state.tokenSymbol)
+        const token = getToken(tokenSymbol)
         return value && value <= token.balance
       } else {
         return false
