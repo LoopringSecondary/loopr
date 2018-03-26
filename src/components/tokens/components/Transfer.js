@@ -74,7 +74,10 @@ class Transfer extends React.Component {
             const gasPrice = fm.toBig(this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
             tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
           }
-          const tokenSymbol = form.getFieldValue("token")
+          let tokenSymbol = this.state.tokenSymbol
+          if(this.state.showTokenSelector) {
+            tokenSymbol = form.getFieldValue("token")
+          }
           if(tokenSymbol === "ETH") {
             tx.to = values.to;
             tx.value = fm.toHex(fm.toBig(values.amount).times(1e18))
@@ -146,8 +149,7 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      const tokenSymbol = form.getFieldValue("token")
-      const token = getToken(tokenSymbol)
+      const token = getToken(this.state.tokenSymbol)
       this.setState({value: token.balance})
       form.setFieldsValue({"amount": token.balance})
     }
@@ -171,7 +173,10 @@ class Transfer extends React.Component {
     }
 
     function validateAmount(value) {
-      const tokenSymbol = form.getFieldValue("token")
+      let tokenSymbol = this.state.tokenSymbol
+      if(this.state.showTokenSelector) {
+        tokenSymbol = form.getFieldValue("token")
+      }
       if(isNumber(value)) {
         const token = getToken(tokenSymbol)
         return value && value <= token.balance
