@@ -114,7 +114,7 @@ export default {
     time: "时间",
     market: '市场',
     status: '状态',
-    status_opened: '当前订单',
+    status_opened: '有效订单',
     status_completed: '已成交订单',
     status_canceled: '已取消订单',
     status_expired: '已过期订单',

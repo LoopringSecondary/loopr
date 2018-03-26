@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Collapse, Input, Modal,message} from 'antd';
+import {Button, Card, Collapse, Input, Modal} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
@@ -51,7 +51,7 @@ class TradeConfirm extends React.Component {
     const authAccount = create('');
     order.authAddr = authAccount.address;
     order.authPrivateKey = authAccount.privateKey;
-    let toConfirmWarn = ''
+    let toConfirmWarn = '';
     if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
       toConfirmWarn = intl.get('trade.confirm_warn_ledger')
     }
