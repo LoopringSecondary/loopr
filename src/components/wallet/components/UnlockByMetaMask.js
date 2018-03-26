@@ -89,20 +89,20 @@ class UnlockByMetaMask extends React.Component {
     return (
       <div className="text-left">
         <Alert
-          message={<div className="color-green-600"><Icon type="like"/> {intl.get('wallet.recommended')}</div>}
+          message={<div className="color-green-600 fs18"><Icon type="like"/> {intl.get('wallet.recommended')}</div>}
           description={
-            <div className="color-green-600">
-              <div className="fs10">{intl.getHTML('wallet.instruction_metamask')}</div>
+            <div className="color-green-600 fs14">
+              {intl.getHTML('wallet.instruction_metamask')}
             </div>
           }
           type="success"
           showIcon={false}
         />
-        <div className="color-grey-500 fs12 mb10 mt15">
-          <Icon type="export" className="mr5 fs12" /><a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
+        <div className="color-grey-500 fs14 mb10 mt15">
+          <Icon type="export" className="mr5 fs14" /><a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
         </div>
-        <div className="color-grey-500 fs12 mb10">
-          <Icon type="export" className="mr5 fs12" /><a href="https://metamask.io/">{intl.get('wallet.get_metamask_for_others')}</a>
+        <div className="color-grey-500 fs14 mb10">
+          <Icon type="export" className="mr5 fs14" /><a href="https://metamask.io/" target="_blank">{intl.get('wallet.get_metamask_for_others')}</a>
         </div>
         <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_to_metamask')}</Button>
       </div>

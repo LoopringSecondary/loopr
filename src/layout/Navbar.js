@@ -72,7 +72,6 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
-                <div className="fs16 color-grey-900">{intl.get('navbar.subs.address')}</div>
                 <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
               </div>
               <div className="col-auto">
@@ -167,16 +166,20 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
-              <Menu.Item key="/trade">
-                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
-              </Menu.Item>
+              {
+                !(window.WALLET && window.WALLET.getAddress()) &&
+                <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
+              }
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet/portfolio" >
                   <Link className="fs16" to="/wallet/portfolio">{intl.get("navbar.portfolio")}</Link>
                 </Menu.Item>
               }
+              <Menu.Item key="/trade">
+                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
+              </Menu.Item>
+
               {
                 (!window.WALLET || !window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
@@ -194,7 +197,7 @@ function Navbar(props){
           </div>
           <div className="col-auto">
             <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,{id:'settings'})}>{intl.get('navbar.settings')}</span>
-            <Select value={props.locales.locale || 'en_US'} onChange={localeChange} className="navbar-language mr5 fs16">
+            <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
             <Popover content={accountMenus} title={null}>

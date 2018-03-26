@@ -4,7 +4,7 @@ let language = window.STORAGE.settings.get().preference.language;
 export default {
   namespace: 'locales',
   state: {
-    locale: language || 'en_US',
+    locale: language || 'en-US',
   },
   reducers: {
     localeChange(state, { payload }) {

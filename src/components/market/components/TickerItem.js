@@ -142,7 +142,7 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     const priceValue = (
-      <span className="fs14 color-white-3">
+      <span className="fs14 color-black-1">
         <Currency />{(price*ticker.last).toFixed(3)}
       </span>
     )

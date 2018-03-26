@@ -23,10 +23,12 @@ function ListBlock({LIST={},actions,prices,modal}) {
   })
 
   let sorter = (tokenA,tokenB)=>{
-    if(tokenA.percentage === tokenB.percentage){
+    const pa = Number(tokenA.percentage.replace('%',''))
+    const pb = Number(tokenB.percentage.replace('%',''))
+    if(pa === pb){
       return tokenA.token > tokenB.token
     }else{
-      return tokenA.percentage < tokenB.percentage
+      return pa < pb
     }
   }
   items.sort(sorter)
