@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Input, Radio} from 'antd';
+import {Button, Card, Input, Radio,Icon} from 'antd';
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
 const RadioGroup = Radio.Group;
@@ -46,21 +46,27 @@ export default class SelectAccount extends React.Component {
     const radios = [];
     const addresses = window.WALLET.getAddresses(pageSize, pageNum);
     addresses.forEach((address, index) => {
-      radios.push(<Radio value={index} key={index} className="mb10 fs16">{address}</Radio>)
+      radios.push(<Radio value={index} key={index} className="mb10 fs16 color-black-2">{address}</Radio>)
     });
     return (
       <Card title={intl.get('wallet.select_account')}>
         <RadioGroup onChange={this.onChange} value={index}>
           {radios}
         </RadioGroup>
-        <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-          {pageNum >0 && <a onClick={this.previousPage}>{intl.get('wallet.pre_page')}
-          </a>}
-          <a onClick={this.nextPage}>{intl.get('wallet.next_page')}
+        <div className="fs14 color-grey-900 pb15 pt5">
+          {pageNum >0 &&
+            <a className="color-primary-1 mr15" onClick={this.previousPage}>
+              <Icon type="left" />
+              {intl.get('wallet.pre_page')}
+            </a>
+          }
+          <a className="color-primary-1" onClick={this.nextPage}>
+            {intl.get('wallet.next_page')}
+            <Icon type="right" />
           </a>
         </div>
-        <div>
-          <Button type='primary' className='mr20' onClick={this.cancel}>{intl.get('wallet.cancel')}</Button>
+        <div className="pt15 d-flex justify-content-between zb-b-t">
+          <Button type='default' className='' onClick={this.cancel}>{intl.get('wallet.cancel')}</Button>
           <Button type='primary'  onClick={this.confirm}>{intl.get('wallet.confirm')}</Button>
         </div>
       </Card>

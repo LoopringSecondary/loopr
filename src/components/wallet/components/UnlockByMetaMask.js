@@ -10,15 +10,21 @@ const walletType = "MetaMask"
 class UnlockByMetaMask extends React.Component {
   state = {
     loading: false,
+    browserType: '',
     browserSupported: false
   };
 
   componentDidMount() {
     var u = navigator.userAgent, app = navigator.appVersion;
-    if(u.indexOf('Chrome') > -1) {
-      this.setState({browserSupported: true})
+    console.log(u)
+    if(u.indexOf('OPR') > -1) {
+      this.setState({browserType:'Opera', browserSupported: true})
+    } else if (u.indexOf('Chrome') > -1) {
+      this.setState({browserType:'Chrome', browserSupported: true})
     } else if(u.indexOf('Firefox') > -1) {
-      this.setState({browserSupported: true})
+      this.setState({browserType:'Firefox', browserSupported: true})
+    } else {
+      this.setState({browserType:'Others'})
     }
   }
 
@@ -108,15 +114,35 @@ class UnlockByMetaMask extends React.Component {
           type="success"
           showIcon={false}
         />
-        {this.state.browserSupported &&
-          <div className="color-grey-500 fs14 mb10 mt15">
-            <Icon type="export" className="mr5 fs14" /><a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask')}</a>
+        {this.state.browserSupported && this.state.browserType === "Chrome" &&
+          <div>
+            <div className="color-grey-500 fs14 mb10 mt15">
+              <Icon type="export" className="mr5 fs14" /><a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">{intl.get('wallet.get_metamask', {browser: 'Chrome'})}</a>
+            </div>
+            <div className="color-grey-500 fs14 mb10">
+              <Icon type="export" className="mr5 fs14" /><a href="https://metamask.io/" target="_blank">{intl.get('wallet.get_metamask_visit')}</a>
+          </div>
           </div>
         }
-        {this.state.browserSupported &&
-          <div className="color-grey-500 fs14 mb10">
-            <Icon type="export" className="mr5 fs14" /><a href="https://metamask.io/" target="_blank">{intl.get('wallet.get_metamask_for_others')}</a>
+        {this.state.browserSupported && this.state.browserType === "Firefox" &&
+        <div>
+          <div className="color-grey-500 fs14 mb10 mt15">
+            <Icon type="export" className="mr5 fs14" /><a href="https://addons.mozilla.org/firefox/addon/ether-metamask/" target="_blank">{intl.get('wallet.get_metamask', {browser: 'Firefox'})}</a>
           </div>
+          <div className="color-grey-500 fs14 mb10">
+            <Icon type="export" className="mr5 fs14" /><a href="https://metamask.io/" target="_blank">{intl.get('wallet.get_metamask_visit')}</a>
+          </div>
+        </div>
+        }
+        {this.state.browserSupported && this.state.browserType === "Opera" &&
+        <div>
+          <div className="color-grey-500 fs14 mb10 mt15">
+            <Icon type="export" className="mr5 fs14" /><a href="https://addons.opera.com/extensions/details/metamask/" target="_blank">{intl.get('wallet.get_metamask', {browser: 'Opera'})}</a>
+          </div>
+          <div className="color-grey-500 fs14 mb10">
+            <Icon type="export" className="mr5 fs14" /><a href="https://metamask.io/" target="_blank">{intl.get('wallet.get_metamask_visit')}</a>
+          </div>
+        </div>
         }
         {!this.state.browserSupported &&
           <div className="color-grey-500 fs14 mb10 mt15">
