@@ -230,6 +230,13 @@ class Transfer extends React.Component {
       </span>
     )
 
+    function toContinue(e) {
+      if(e.keyCode === 13) {
+        e.preventDefault();
+        handleSubmit.call(this)
+      }
+    }
+
     function handleChange(v) {
       if(v) {
         this.setState({tokenSymbol : v})
@@ -279,7 +286,7 @@ class Transfer extends React.Component {
                 }
               ]
             })(
-              <Input placeholder="" size="large"/>
+              <Input placeholder="" size="large" onKeyDown={toContinue}/>
             )}
           </Form.Item>
           <Form.Item label={intl.get("token.amount")} {...formItemLayout} colon={false} extra={
@@ -299,7 +306,8 @@ class Transfer extends React.Component {
               ]
             })(
               <Input className="d-block w-100" placeholder="" size="large" suffix={this.state.tokenSymbol}
-                     onChange={amountChange.bind(this)} onFocus={() => {
+                     onChange={amountChange.bind(this)} onKeyDown={toContinue.bind(this)}
+                     onFocus={() => {
                 const amount = form.getFieldValue("amount")
                 if (amount === 0) {
                   form.setFieldsValue({"amount": ''})

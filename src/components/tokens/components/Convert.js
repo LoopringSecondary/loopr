@@ -106,6 +106,13 @@ class Convert extends React.Component {
       }
     }
 
+    function toContinue(e) {
+      if(e.keyCode === 13) {
+        e.preventDefault();
+        handleSubmit.call(this)
+      }
+    }
+
     const formItemLayout = {
       labelCol: {span: 7},
       wrapperCol: {span: 17},
@@ -155,7 +162,8 @@ class Convert extends React.Component {
                 }
               ]
             })(
-              <Input placeholder={intl.get('token.amount')} size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}/>
+              <Input placeholder={intl.get('token.amount')} size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}
+                     onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>
 
