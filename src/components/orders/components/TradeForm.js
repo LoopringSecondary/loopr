@@ -16,15 +16,6 @@ class TradeForm extends React.Component {
     timeToLivePopularSetting: true
   }
 
-  componentDidMount() {
-    const {side, pair, assets} = this.props
-    if (side === 'sell') {
-      const tokenL = pair.split('-')[0].toUpperCase()
-      const tokenLBalance = {...window.CONFIG.getTokenBySymbol(tokenL), ...assets.getTokenBySymbol(tokenL)}
-      this.setState({availableAmount: tokenLBalance.balance})
-    }
-  }
-
   render() {
     const tokenDivDigist = (token) => {
       const tokenCopy = {...token}
@@ -59,6 +50,7 @@ class TradeForm extends React.Component {
         displayPrice = 0
       }
     }
+    let initAvailableAmount = side === 'sell' ? initAvailableAmount = Math.floor(tokenLBalance.balance * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision) : 0
 
     const showModal = (payload)=>{
       dispatch({
@@ -396,8 +388,9 @@ class TradeForm extends React.Component {
     }
 
     function amountSliderChange(e) {
-      if(this.state.availableAmount > 0) {
-        const amount = accMul(this.state.availableAmount, Number(e)) / 100
+      const value = Math.max(initAvailableAmount, this.state.availableAmount)
+      if(value > 0) {
+        const amount = accMul(value, Number(e)) / 100
         form.setFieldsValue({"amount": amount})
         const price = Number(form.getFieldValue("price"))
         const total = accMul(price, amount)
@@ -440,7 +433,7 @@ class TradeForm extends React.Component {
       initialValue: 0,
       rules: []
     })(
-      <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={this.state.availableAmount <= 0}/>
+      <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={initAvailableAmount === 0 && this.state.availableAmount <= 0}/>
     )
     const priceValue = (
       <span className="fs10">
@@ -493,7 +486,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item label={intl.get('trade.amount')} {...formItemLayout} colon={false} extra={
             <div>
-              <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount}`}</div>
+              <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : initAvailableAmount}`}</div>
               <div className="fs10">{amountSlider}</div>
             </div>
           }>
