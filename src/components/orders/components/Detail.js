@@ -51,46 +51,34 @@ function DetailBlock({modal = {}}) {
     return (
       <div className="row pt10 pb10 pl0 pr0 zb-b-b">
         <div className="col">
-          <div className="fs14 color-grey-600">{label}</div>
+          <div className="fs14 color-black-2">{label}</div>
         </div>
         <div className="col-8 text-right">
-          <div className="fs12 color-grey-900 text-wrap">{value}</div>
-        </div>
-      </div>
-    )
-  }
-  const ArrowDivider = (props) => {
-    return (
-      <div className="row no-gutters align-items-center fs12" style={{marginTop: '-20px'}}>
-        <div className="col">
-          <hr className="w-100 bg-grey-900"/>
-        </div>
-        <div className="col-auto">
-          <Icon type="right" className="color-grey-900" style={{marginLeft: '-8px'}}></Icon>
+          <div className="fs14 color-black-1 text-wrap">{value}</div>
         </div>
       </div>
     )
   }
   return (
     <Card title={intl.get('orders.order_detail')}>
-      <div className="row flex-nowrap zb-b-b pb30 justify-content-center align-items-center">
+      <div className="row flex-nowrap zb-b-b pb40 justify-content-center align-items-center">
         <div className="col-auto">
-          <div className="text-center">
+          <div className="text-center position-relative">
             <CoinIcon size="50" symbol={tokenS}/>
-            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth: '180px'}}>
+            <div  className="fs12 color-grey-900 text-wrap position-absolute mx-auto" style={{left:'0',right:'0'}}>
               {tokenS}
             </div>
           </div>
         </div>
         <div className="col-2">
-          <div className="text-center">
-            <ArrowDivider/>
+          <div className="text-center ">
+            <i className="icon-loopring icon-loopring-arrow-right color-black-1 "></i>
           </div>
         </div>
         <div className="col-auto">
-          <div className="text-center">
+          <div className="text-center position-relative">
             <CoinIcon size="50" symbol={tokenB}/>
-            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth: '180px'}}>
+            <div className="fs12 color-grey-900 text-wrap position-absolute mx-auto" style={{left:'0',right:'0'}}>
               {tokenB}
             </div>
           </div>
