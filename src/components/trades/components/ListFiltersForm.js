@@ -33,9 +33,9 @@ let FiltersForm = ({
   return (
       <div className="">
         <Form layout="inline">
-          <Form.Item label={intl.get('global.market')} >
+          <Form.Item label={null} >
             {form.getFieldDecorator('market', {
-              initialValue:filters.pair || '',
+              initialValue:filters.pair,
               rules:[]
             })(
               <SelectContainer
@@ -43,19 +43,18 @@ let FiltersForm = ({
                 transform={(res)=>{
                   let options = res.result.map(item=>({label:item,value:item}))
                   return [
-                    {label:intl.get('global.all'),value:''},
                     ...options,
                   ]
                 }}
                 style={{width:'120px'}}
                 onChange={handleChange}
-                placeholder={intl.get('global.all')}
+                placeholder={intl.get('global.market')}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
               >
               </SelectContainer>
             )}
           </Form.Item>
-          <Form.Item label={intl.get('trades.side')} >
+          <Form.Item label={null && intl.get('trades.side')} >
             {form.getFieldDecorator('side', {
               initialValue:filters.side || '',
               rules:[]

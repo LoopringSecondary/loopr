@@ -62,7 +62,6 @@ class ListBlock extends React.Component {
     const {items = [], loading, page = {}, filters} = LIST;
     const {token, needed} = this.state;
     const balance = token && assets.getTokenBySymbol(token).balance;
-
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',
@@ -78,12 +77,19 @@ class ListBlock extends React.Component {
         id: 'token/receive',
       })
     };
-    const gotoConvert = (item) => {
+    const gotoConvert = () => {
       showModal({
         id: 'token/convert',
         item: {symbol: 'ETH'}
       })
     };
+    const gotoTransfer = () => {
+      showModal({
+        id: 'token/transfer',
+        item: {symbol: token}
+      })
+    };
+
     const gotoTrade = (token) => {
       window.routeActions.gotoPath(`/trade/${token}-WETH`)
     };
@@ -234,18 +240,19 @@ class ListBlock extends React.Component {
             <div className="fs20 color-black-1 font-weight-bold ml15">{filters.token}</div>
           </div>
           <div className="col text-right pl0 pr0">
-            <Button className="mr5" type="primary">
-            <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-              Buy/Sell {filters.token}
+            <Button onClick={gotoTransfer} className="mr5" type="primary">
+              <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
+              <span style={{position:"relative",top:'-2px'}}>Send {filters.token}</span>
             </Button>
-            <Button className="mr5" type="primary">
+            <Button onClick={gotoReceive} className="mr5" type="primary">
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
-              Receive {filters.token}
+              <span style={{position:"relative",top:'-2px'}}>Receive {filters.token}</span>
             </Button>
-            <Button className="mr15" type="primary">
-            <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
-            Send {filters.token}
+            <Button onClick={gotoTrade} className="mr15" type="primary">
+              <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+               <span style={{position:"relative",top:'-2px'}}>Buy/Sell {filters.token}</span>
             </Button>
+
           </div>
         </div>
         <div className="pl15 pr15">

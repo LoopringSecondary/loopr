@@ -211,21 +211,21 @@ class ListSidebar extends React.Component {
         <div className="row no-gutters p5">
           <div className="col-12 p5">
             <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary">
-              <i className="icon icon-loopring icon-loopring-send fs12 color-white mr5"/>
+              <i className="icon icon-loopring icon-loopring-transfer fs12 color-white mr5"/>
               {intl.get('tokens.options_transfer')} {token.symbol}
             </Button>
           </div>
           <div className="col-12 p5">
-            <Button onClick={gotoReceive.bind(this, token)} className="d-block w-100 text-left" type="primary"
-                    icon="qrcode">
+            <Button onClick={gotoReceive.bind(this, token)} className="d-block w-100 text-left" type="primary">
+              <i className="icon icon-loopring icon-loopring-receive fs16 mr5"/>
               {intl.get('tokens.options_receive')} {token.symbol}
             </Button>
           </div>
           {
             (token.symbol === 'ETH') &&
             <div className="col-12 p5">
-              <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary"
-                      icon="retweet">
+              <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary">
+                <i className="icon icon-loopring icon-loopring-trade fs16 mr5"/>
                 {intl.get('tokens.options_convert')} {token.symbol} To WETH
               </Button>
             </div>
