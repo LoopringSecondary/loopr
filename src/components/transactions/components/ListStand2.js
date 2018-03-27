@@ -90,8 +90,13 @@ class ListBlock extends React.Component {
       })
     };
 
-    const gotoTrade = (token) => {
-      window.routeActions.gotoPath(`/trade/${token}-WETH`)
+    const gotoTrade = () => {
+      if(token === 'WETH' || token === 'ETH'){
+        window.routeActions.gotoPath(`/trade/LRC-WETH`)
+      }else{
+        window.routeActions.gotoPath(`/trade/${token}-WETH`)
+      }
+
     };
 
     const TxItem = ({item: origin, index}) => {
