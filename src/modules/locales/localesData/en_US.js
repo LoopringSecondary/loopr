@@ -359,7 +359,7 @@ export default {
       not_recover: 'It cannot be recovered if you lose it',
       stolen: "Your funds will be stolen if you use this file on a malicious/phishing site.",
       backup: "Make a backup",
-      backup_tip: 'Loopring wallet never keeps your private key/keystore file/ mnemonic words, It is strongly recommended that you back up these information offline (with USB or physical paper). Once your private key/keystore file/mnemonic word get lost, it can never be recovered.Remember not to share these information on any suspicious website, otherwise your digital assets will get stolen！',
+      backup_tip: 'Loopring wallet never keeps your private key/keystore file/ mnemonic words, It is strongly recommended that you back up these information offline (with USB or physical paper). Once your private key/keystore file/mnemonic words get lost, it can never be recovered.',
       secure: "Secure it like the millions of dollars it may one day be worth.",
       download: "I Understand, Download Wallet File",
       copy_mnemonic: "I Understand, Copy Mnemonic",
