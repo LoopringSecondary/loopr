@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'dva';
 import {Menu,Select,Popover,Button,Icon,message,Alert} from 'antd';
 import {Link} from 'dva/router';
-import logo from '../assets/images/logo-blue@2x.png'
+import logo from '../assets/images/logo-new.png'
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
 import {locales} from '../common/config/data'
@@ -72,22 +72,27 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
-                <div className="fs12 color-grey-500 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
+                <div className="fs14 color-black-1 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
               </div>
               <div className="col-auto">
-                <Button className="fs12" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
+                <Button className="fs14" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
               </div>
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,{id:'token/receive'})}>
-              <i className="icon-loopring icon-loopring-receive fs13 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
+              <i className="icon-loopring icon-loopring-receive fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
             </a>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
-              <i className="icon-loopring icon-loopring-transfer fs13 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
+              <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
             </a>
+          </div>
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <Link to="/trade" className='color-grey-900'>
+              <i className="icon-loopring icon-loopring-trade fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.trade')}
+            </Link>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,{id:'wallet/airdrop'})} className="color-grey-900">
@@ -155,7 +160,7 @@ function Navbar(props){
         <div className="row align-items-stretch justify-content-between ml0">
           <div className="col-auto pl0 pr0">
             <Link to="/" className="d-block" >
-              <img src={logo} alt="" style={{height:'38px'}} />
+              <img src={logo} alt="" style={{height:'38px',top:'-3px',position:'relative'}} />
             </Link>
           </div>
           <div className="col-auto">
@@ -166,10 +171,7 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              {
-                !(window.WALLET && window.WALLET.getAddress()) &&
-                <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
-              }
+              <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
               {
                 (!window.WALLET || !window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >

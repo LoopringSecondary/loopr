@@ -4,7 +4,6 @@ import ListContainer from '../../../modules/tokens/models/ListContainer';
 import Sockets from '../../../modules/socket/containers'
 
 function Page(props){
-  console.log('list sidebar ',props)
   return (
     <div className="">
       <ListContainer {...props}>

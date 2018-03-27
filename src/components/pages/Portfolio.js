@@ -139,7 +139,7 @@ class AssetsWorth extends React.Component{
 
 const Portfolio = (props) => {
   return (
-    <div className="pt50 container">
+    <div className="p30 container">
       <div style={{textAlign:"center",position:'relative'}}>
         {
           false &&

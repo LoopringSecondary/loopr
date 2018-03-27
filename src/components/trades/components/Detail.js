@@ -11,10 +11,10 @@ const MetaItem = (props) => {
   return (
     <div className="row pt10 pb10 zb-b-b">
       <div className="col">
-        <div className="fs14 color-grey-600">{label}</div>
+        <div className="fs14 color-black-2">{label}</div>
       </div>
       <div className="col-8 text-right ">
-        <div className="fs12 color-grey-900 text-wrap">{render ? render(value) : value}</div>
+        <div className="fs14 color-black-1 text-wrap">{render ? render(value) : value}</div>
       </div>
     </div>
   )

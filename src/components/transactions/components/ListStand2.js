@@ -90,8 +90,13 @@ class ListBlock extends React.Component {
       })
     };
 
-    const gotoTrade = (token) => {
-      window.routeActions.gotoPath(`/trade/${token}-WETH`)
+    const gotoTrade = () => {
+      if(token === 'WETH' || token === 'ETH'){
+        window.routeActions.gotoPath(`/trade/LRC-WETH`)
+      }else{
+        window.routeActions.gotoPath(`/trade/${token}-WETH`)
+      }
+
     };
 
     const TxItem = ({item: origin, index}) => {
@@ -172,17 +177,17 @@ class ListBlock extends React.Component {
       )
       const caption = (
         <div className="">
-          <a className="fs2 color-black-1 mb5 d-block pointer">
+          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5 d-block pointer">
             {title} <span className="ml10">{statusCol}</span>
           </a>
           <div className="fs3 color-black-3">
           <span className="mr15">
             {uiFormatter.getFormatTime(item.createTime * 1000)}
           </span>
-            <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
-               className="color-black-3 mr15  d-inline-block">
-              {uiFormatter.getShortAddress(item.txHash)}
-            </a>
+          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
+             className="color-black-3 mr15  d-inline-block">
+            TxHash: {uiFormatter.getShortAddress(item.txHash)}
+          </a>
           </div>
         </div>
       )

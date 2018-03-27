@@ -60,10 +60,10 @@ export default function Home(props){
       <div className="container">
         <Card style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <div className="row justify-content-around">
-            <div className="col-sm-6 zb-b-r pl25 pr25 mt25 mb25">
+            <div className="col-sm-6 zb-b-r pl25 pr25 mt25">
               <Order.TradeForm side="buy" pair={pair} />
             </div>
-            <div className="col-sm-6 pl25 pr25 mt25 mb25">
+            <div className="col-sm-6 pl25 pr25 mt25">
               <Order.TradeForm side="sell" pair={pair} />
             </div>
           </div>

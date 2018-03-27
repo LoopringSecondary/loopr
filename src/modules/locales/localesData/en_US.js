@@ -4,6 +4,7 @@ export default {
     home: "Home",
     trade: "Trade",
     wallet: "Wallet",
+    dex: "DEX",
     settings: "Settings",
     portfolio: "Portfolio",
     account: "Account",
@@ -19,6 +20,7 @@ export default {
       qrcode: 'QR Code',
       receive: 'Receive',
       send: 'Send',
+      trade: 'Trade',
       airdrop: 'Airdrop',
       quit: 'Quit',
       address: 'Address'

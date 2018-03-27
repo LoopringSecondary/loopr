@@ -30,7 +30,7 @@ export default {
   effects: {
     *pageChange({payload},{call, select,put}){
       yield put({type:'pageChangeStart',payload});
-      // yield put({type:'fetch'});
+      yield put({type:'emit'});
     },
     *filtersChange({payload},{call, select,put}){
       yield put({type:'filtersChangeStart',payload});
@@ -198,6 +198,10 @@ export default {
         ...state,
         items:[ ...items ],
         loading:false, // fix bug for loading
+        page:{
+          ...state.page,
+          total:action.payload.page.total
+        }
       }
     },
   },
