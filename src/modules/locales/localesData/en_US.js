@@ -213,7 +213,7 @@ export default {
     placing_order: 'Placing Order',
     place_order_failed: "Place Order Failed !",
     you_should_do_things: "You should do things followed",
-    failed_reasons: "Failed reasons as foloows:",
+    failed_reasons: "Failed reasons as follow:",
     why: "Why",
     balance_not_enough: '{token} is not enough, required {required}.',
     receive: 'Receive',

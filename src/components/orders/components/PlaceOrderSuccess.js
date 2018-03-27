@@ -37,7 +37,7 @@ class PlaceOrderSuccess extends React.Component {
           {warn && warn.length > 0 &&
           <div className="p10 bg-grey-50" style={{borderRadius: '4px'}}>
             <div className="fs14 m5 color-black-2">
-              {intl.get('order.failed_reasons')}
+              {intl.get('order.you_should_do_things')}
               <Icon className="ml5" type="question-circle"/>
             </div>
 
