@@ -10,18 +10,13 @@ import config from "../../../../common/config";
 import intl from 'react-intl-universal';
 
 function ListActionsBar(props) {
-  const {actions = {}, LIST = {}, className, account, gasPrice, contractAddress,id} = props;
-  const {dispatch} = props;
+  const {actions = {}, LIST = {}, className,id} = props;
+  const state = window.STORE.getState() || {}
+  const account = state.account
+  const gasPrice = state.settings.trading.gasPrice
+  const contractAddress = state.settings.trading.contract.address
   const {filters = {}} = LIST[id] || {}
   const tokenPair = filters.market;
-  const refresh = ()=>{
-    dispatch({
-      type:'orders/filtersChange',
-      payload:{
-        id:'orders/trade',
-      }
-    })
-  }
   const cancelAll = () => {
     Modal.confirm({
       title: intl.get('order.confirm_cancel_all',{pair:tokenPair}),
@@ -83,10 +78,6 @@ function ListActionsBar(props) {
           <ListFiltersForm actions={actions} LIST={LIST[id]} id={id} />
         </div>
         <div className="col">
-
-        </div>
-        <div className="col-auto pr0">
-          <Button type="default" onClick={refresh}>{intl.get('order.refresh')}</Button>
         </div>
         <div className="col-auto">
           <Button type="primary" onClick={cancelAll}>{intl.get('order.cancel_all')}</Button>
@@ -95,13 +86,4 @@ function ListActionsBar(props) {
     </div>
   )
 }
-
-function mapStateToProps(state) {
-  return {
-    account: state.account,
-    gasPrice: state.settings.trading.gasPrice,
-    contractAddress: state.settings.trading.contract.address
-  };
-}
-
-export default connect(mapStateToProps)(ListActionsBar)
+export default ListActionsBar

@@ -181,7 +181,7 @@ class ListBlock extends React.Component {
         </div>
       )
       return (
-        <div className="ml15 mr15 mt15 pb15 zb-b-b">
+        <div className="mt15 pb15 zb-b-b">
           <div className="row align-items-center no-gutters flex-nowrap" key={index}>
             <div className="col-auto pr15">
               <div className="text-center">
@@ -228,13 +228,27 @@ class ListBlock extends React.Component {
       )
     }
     return (
-      <div className="">
-        <div className="row zb-b-b p15 no-gutters align-items-center">
+      <div className="pl15 pr15">
+        <div className="zb-b-b p15">
+          <div className="text-center">
+            <CoinIcon symbol={filters.token} size="60" />
+            <div className="fs24 color-black-1 font-weight-bold">{filters.token}</div>
+          </div>
+          <div className="text-center pt50 pb50">
+            <Button className="m5" type="primary">Buy {filters.token}</Button>
+            <Button className="m5" type="primary">Sell {filters.token}</Button>
+            <Button className="m5" type="primary">Receive {filters.token}</Button>
+            <Button className="m5" type="primary">Send {filters.token}</Button>
+          </div>
+        </div>
+
+
+        <div className="zb-b-b row pl0 pr0 pt15 pb15 no-gutters align-items-center">
           <div className="col">
-            <div className="fs2 color-black-1">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
+            <div className="fs2 color-black-1">{intl.get('txs.title')}</div>
           </div>
           <div className="col-auto" style={{height: '32px'}}>
-            <ListFiltersFormSimple actions={actions} LIST={LIST}/>
+            <ListFiltersFormSimple actions={actions} LIST={LIST} style={{marginTop:'-3px'}}/>
           </div>
         </div>
         <div>

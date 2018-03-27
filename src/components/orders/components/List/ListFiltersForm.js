@@ -48,7 +48,7 @@ let FiltersForm = ({
                 transform={(res)=>{
                   let options = res.result.map(item=>({label:item,value:item}))
                   return [
-                    {label:intl.get('global.all'),value:'',},
+                    {label:intl.get('global.all'),value:''},
                     ...options,
                   ]
                 }}

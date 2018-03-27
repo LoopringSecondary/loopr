@@ -1,14 +1,7 @@
 import namespace from '../namespace'
 import * as apis from '../apis'
 const {MODULES} = namespace
-const initTokens = window.STORAGE.tokens.getTokens() || {}
-const selectTokens = initTokens.selected || {}
-let currentToken = 'ETH'
-for(let key in selectTokens){
-  if(selectTokens[key]){
-    currentToken = key
-  }
-}
+const currentToken = window.STORAGE.tokens.getCurrent()
 export default {
   namespace: MODULES,
   state: {
@@ -79,8 +72,7 @@ export default {
                   ...page,
                 },
                 items:res.data.data,
-                loading: false,
-                loaded:true
+                loading:false,
               },
             });
           }
@@ -111,7 +103,6 @@ export default {
             },
             items:res.items,
             loading: false,
-            loaded:true
           },
         });
       }
@@ -161,20 +152,20 @@ export default {
         ...page,...action.payload.page
       }}
     },
-
-    // filters 变化时 page.current也必须变化
     filtersChangeStart(state,action){
       let filters = state.filters;
       let page = state.page;
       return {
         ...state,
+        loading:true,
         filters:{
           ...filters,...action.payload.filters
         },
         page:{
           ...page,
           current:1,
-        }
+        },
+        items:[]
       }
     },
     columnsChangeStart(state,action){
@@ -202,11 +193,11 @@ export default {
       }
     },
     itemsChange(state,action){
-      console.log('itemsChange',action)
       let items = action.payload.items || [];
       return {
         ...state,
-        items:[ ...items ]
+        items:[ ...items ],
+        loading:false, // fix bug for loading
       }
     },
   },

@@ -15,6 +15,8 @@ window.uiFormatter = uiFormatter
 window.routeActions = routeActions
 window.CONFIG = CONFIG
 window.STORAGE = STORAGE
+window.WALLET_UNLOCK_TYPE = ''
+window.WALLET = null
 
 setLocale(window.STORAGE.settings.get().preference.language);
 

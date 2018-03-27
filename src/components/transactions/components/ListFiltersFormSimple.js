@@ -6,6 +6,7 @@ let FiltersForm = ({
   LIST,
   actions,
   form,
+  style={},
   }) => {
   const {filters} = LIST
   function handleSubmit() {
@@ -32,7 +33,7 @@ let FiltersForm = ({
     {label:intl.get(`txs.type_convert`),value:'convert'},
   ]
   return (
-      <div>
+      <div style={style}>
         <Form layout="inline">
           <Form.Item label={intl.get('txs.status')} >
             {form.getFieldDecorator('status', {
