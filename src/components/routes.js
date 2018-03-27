@@ -28,7 +28,10 @@ const Logged = ()=>{
   if(isLogged){
     return (
       <Switch>
-        <Route path={`/wallet/portfolio`} exact component={Pages.Portfolio}/>
+        {
+          false &&
+          <Route path={`/wallet/portfolio`} exact component={Pages.Portfolio}/>
+        }
         <Route path={`/wallet`} component={Pages.Wallet} />
       </Switch>
     )

@@ -82,6 +82,7 @@ export default {
   tabs: {
     my_open_orders: 'My Open Orders',
     my_recent_trades: 'My Recent Trades',
+    my_portfolio: 'Portfolio',
     my_assets: 'My Assets',
     my_orders: 'My Orders',
     my_trades: 'My Trades',

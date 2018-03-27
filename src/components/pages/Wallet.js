@@ -6,6 +6,7 @@ import Trade from '../trades/pages'
 import Order from '../orders/containers'
 import Token from '../tokens/pages'
 import Transaction from '../transactions/pages'
+import Portfolio from './Portfolio'
 import Layout from '../../layout/Layout'
 import intl from 'react-intl-universal';
 import {connect} from 'dva';
@@ -30,9 +31,13 @@ class Home extends React.Component{
     const {match, location} = this.props;
     const handleTabChange = (key) => {
       switch (key) {
+        case 'portfolio':
+          window.routeActions.gotoPath(`${match.url}/portfolio`);
+          break;
         case 'assets':
           window.routeActions.gotoPath(`${match.url}/assets`);
           break;
+
         case 'assets2':
           window.routeActions.gotoPath(`${match.url}/assets2`);
           break;
@@ -66,6 +71,8 @@ class Home extends React.Component{
           }
           <Tabs className="rs no-ink-bar" onChange={handleTabChange}
                 activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
+            <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_portfolio")}</div>}
+                          key="portfolio"/>
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_assets")}</div>}
                           key="assets"/>
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_orders")}</div>}
@@ -79,13 +86,19 @@ class Home extends React.Component{
             }
           </Tabs>
           <Switch>
+            <Route path={`${match.url}/portfolio`} exact render={() =>
+              <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
+                <Portfolio  />
+              </div>
+            }
+            />
             <Route path={`${match.url}/assets`} exact render={() =>
               <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar/>
                 </div>
                 <div className="col-8 pb15">
-                  <Transaction.ListStand/>
+                  <Transaction.ListStand2/>
                 </div>
               </div>
             }
@@ -107,7 +120,7 @@ class Home extends React.Component{
                   <Token.ListSidebar/>
                 </div>
                 <div className="col-8 pb15">
-                  <Transaction.ListStand2 />
+                  <Transaction.ListStand />
                 </div>
               </div>
             }

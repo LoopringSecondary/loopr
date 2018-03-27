@@ -139,64 +139,62 @@ class AssetsWorth extends React.Component{
 
 const Portfolio = (props) => {
   return (
-    <Layout {...props}>
-      <div className="pt50 container">
-        <div style={{textAlign:"center",position:'relative'}}>
-          {
-            false &&
-            <Sockets.Portfolio>
-              <Sockets.Prices>
-                <AssetsPieChart/>
-              </Sockets.Prices>
-            </Sockets.Portfolio>
-          }
-          <img src={circleChart} alt="" style={{width:'320px'}}/>
-          <div style={{position:'absolute','top':'115px',textAlign:'center',width:'100%'}}>
-            <div className="color-grey-900 mt10">
-              <Sockets.Prices>
-                <Sockets.Assets>
-                  <AssetsWorth/>
-                </Sockets.Assets>
-              </Sockets.Prices>
-            </div>
-            <div className="fs18 color-black-3">
-              {intl.get('portfolio.total_value')}
-            </div>
-          </div>
-
-        </div>
-        <div className="pt30 pb20">
-          <Sockets.Portfolio>
-            <Sockets.Prices>
-              <TokensComp.ListCard />
-            </Sockets.Prices>
-          </Sockets.Portfolio>
-        </div>
+    <div className="pt50 container">
+      <div style={{textAlign:"center",position:'relative'}}>
         {
           false &&
-          <Tabs defaultActiveKey="assets" animated={false} className="rs nobar noline text-right">
-            <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="appstore-o" /></div>} key="assets" >
-              <div className="mb10"></div>
-              <Sockets.Portfolio>
-                <Sockets.Prices>
-                  <TokensComp.ListCard />
-                </Sockets.Prices>
-              </Sockets.Portfolio>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="bars" /></div>} key="orders" >
-              <div className="mb10"></div>
-              <Sockets.Portfolio>
-                <Sockets.Prices>
-                  <Tokens.List />
-                </Sockets.Prices>
-              </Sockets.Portfolio>
-            </Tabs.TabPane>
-          </Tabs>
-
+          <Sockets.Portfolio>
+            <Sockets.Prices>
+              <AssetsPieChart/>
+            </Sockets.Prices>
+          </Sockets.Portfolio>
         }
+        <img src={circleChart} alt="" style={{width:'320px'}}/>
+        <div style={{position:'absolute','top':'115px',textAlign:'center',width:'100%'}}>
+          <div className="color-grey-900 mt10">
+            <Sockets.Prices>
+              <Sockets.Assets>
+                <AssetsWorth/>
+              </Sockets.Assets>
+            </Sockets.Prices>
+          </div>
+          <div className="fs18 color-black-3">
+            {intl.get('portfolio.total_value')}
+          </div>
+        </div>
 
       </div>
-    </Layout>
+      <div className="pt30 pb20">
+        <Sockets.Portfolio>
+          <Sockets.Prices>
+            <TokensComp.ListCard />
+          </Sockets.Prices>
+        </Sockets.Portfolio>
+      </div>
+      {
+        false &&
+        <Tabs defaultActiveKey="assets" animated={false} className="rs nobar noline text-right">
+          <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="appstore-o" /></div>} key="assets" >
+            <div className="mb10"></div>
+            <Sockets.Portfolio>
+              <Sockets.Prices>
+                <TokensComp.ListCard />
+              </Sockets.Prices>
+            </Sockets.Portfolio>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab={<div className="fs18 p5 text-center"><Icon type="bars" /></div>} key="orders" >
+            <div className="mb10"></div>
+            <Sockets.Portfolio>
+              <Sockets.Prices>
+                <Tokens.List />
+              </Sockets.Prices>
+            </Sockets.Portfolio>
+          </Tabs.TabPane>
+        </Tabs>
+
+      }
+
+    </div>
   )
 };
 

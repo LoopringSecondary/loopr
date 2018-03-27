@@ -171,16 +171,6 @@ function Navbar(props){
                 <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
               }
               {
-                window.WALLET && window.WALLET.getAddress() &&
-                <Menu.Item key="/wallet/portfolio" >
-                  <Link className="fs16" to="/wallet/portfolio">{intl.get("navbar.portfolio")}</Link>
-                </Menu.Item>
-              }
-              <Menu.Item key="/trade">
-                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
-              </Menu.Item>
-
-              {
                 (!window.WALLET || !window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
                   <a className="fs16" onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Wallet'})}>{intl.get('navbar.wallet')}</a>
@@ -192,7 +182,9 @@ function Navbar(props){
                   <Link className="fs16" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
-
+              <Menu.Item key="/trade">
+                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
+              </Menu.Item>
             </Menu>
           </div>
           <div className="col-auto">
