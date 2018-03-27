@@ -106,8 +106,17 @@ export default {
     cancel_order:'Cancel Order',
     cancel_all:'Cancel All Orders',
     cancel_pair_order:"Cancel {pair} Orders",
-    unsupported_contract:" Call Unsupported Contract",
-    balance_not_enough:"Balance is not enough for orders"
+    others:"Others",
+    balance_not_enough:"Balance is not enough for orders",
+    value:"Value",
+    tx_hash:"Tx Hash",
+    block_num:"Block Number",
+    to:"To",
+    confirm_time:"Confirm Time",
+    tx_detail:"Transaction Detail",
+    success:"Success",
+    failed:"Failed",
+    pending:"Pending"
   },
   orders: {
     order: "Order Hash",
@@ -137,7 +146,9 @@ export default {
     buy:"Buy {token}",
     convert:"Convert ETH to WETH",
     token_not_enough:"Token Amount is not enough",
-
+    sell_amount:'Sell Amount',
+    buy_amount:'Buy Amount',
+    order_detail:"Order Detail"
   },
   global: {
     all: 'All',
@@ -214,7 +225,9 @@ export default {
     tips_margin_split: "If your account does not have enough LRC to pay miners, you can choose margin split to pay LRC Fee.</br>You can only choose either Margin Split or LRC Fee to pay the miners, so do not worry about double spending.</br>We do not recommend you modify this value unless you have fully understood its mechanism.",
     confirm_warn_ledger: "Please confirm transaction on your Ledger device, then come back to continue",
     confirm_warn_trezor: "Please confirm transaction on your Trezor device , then come back to continue",
-    confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue"
+    confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue",
+    place_order_trezor_unsupport: 'Could not place order',
+    place_order_trezor_unsupport_tips: 'When you place order we will send your order with signature to relay, but Trezor temporarily does not support sign messages, so when you unlock with Trezor is unable to place an order, but wallet operations(transfer, etc.) is not affected'
   },
   trades:{
     side: 'Side',
@@ -373,6 +386,7 @@ export default {
     instruction_mnemonic: 'We strongly advise you not to access your wallet in this way. There may be a potential safety hazard.</br>Uploading your mnemonic phrase on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before uploading your keystore file. ',
     instruction_privatekey: 'We strongly advise you not to access your wallet in this way. There may be a potential safety hazard.</br>Uploading your private key on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before uploading your keystore file.',
     instruction_trezor: 'This is the recommended way to access your wallet and can be used with confidence.</br>Trezor Hardware Wallet is a USB device that can generate private keys randomly and store them safely offline. It can perform signature authorization without sending your private key to any computers, which protects your asset and transaction from various security risks.',
+    nonce:'Nonce'
   },
   tokens: {
     hide_small_balances: " Hide Small Balances",

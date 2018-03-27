@@ -1,10 +1,12 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Link } from 'dva/router';
-import { Card,ListItem,Button } from 'antd';
-import schema from '../../../modules/trades/schema';
-const MetaItem = (props)=>{
-  const {label,value} = props
+import {Link} from 'dva/router';
+import {Button, Card, ListItem} from 'antd';
+import {getRings} from 'Loopring/relay/ring'
+import {toNumber} from "Loopring/common/formatter";
+
+
+const MetaItem = (props) => {
+  const {label, value} = props
   return (
     <div className="row pt10 pb10 zb-b-b">
       <div className="col">
@@ -16,29 +18,51 @@ const MetaItem = (props)=>{
     </div>
   )
 }
-// <MetaItem label= value={renders.status(null,item)} />
-function DetailBlock({modal={}}) {
-  let item = modal.item || {}
-  const renders = {
-      ringHash:(value,item,index)=><Link className="text-truncate d-block" style={{}} to={`/rings/detail/${value}`}>{value}</Link>,
-      miner:(value,item,index)=> <Link className="text-truncate d-block" style={{}} to={`/miner/detail/${value}`}>{value}</Link>,
-      feeRecipient:(value,item,index)=> <a className="text-truncate d-block" style={{}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
-      txHash:(value,item,index)=> <a className="text-truncate d-block" style={{}} target="_blank" href={`https://etherscan.io/tx/${value}`}>{value}</a>,
-      blockNumber:(value,item,index)=> <a className="text-truncate d-block" style={{}} target="_blank" href={`https://etherscan.io/block/${value}`}>{value}</a>,
-      protocol:(value,item,index)=> <a className="text-truncate d-block" style={{}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
+
+class DetailBlock extends React.Component {
+
+  state={
+    ring:null
+  };
+  componentDidMount() {
+    const {settings, modal} = this.props;
+    const _this = this;
+    getRings({ringHash: modal.item.ringHash, contractVersion: settings.trading.contract.version}).then(res => {
+      if (!res.error) {
+        const rings = res.result.data;
+        if (rings.length > 0) {
+          _this.setState({ring: rings[0]});
+          console.log('Ring',_this.state.ring)
+        }
+      }
+    })
   }
-  return (
-    <div className="">
-      <Card title="Ring Infomation" loading={false}>
-        <MetaItem label="RingHash" value={item.ringHash} />
-        <MetaItem label="Field" value="value" />
-        <MetaItem label="Field" value="value" />
-        <MetaItem label="Field" value="value" />
-        <div className="mb30"></div>
-        <Button type="default" className="d-block w-100" size="large"> More Detail About Ring, Goto Ringinfo</Button>
-      </Card>
-    </div>
-  );
+
+  render() {
+    const {ring} = this.state;
+
+    return (
+      <div className="">
+        {!ring && "Can't get this ring from relay"}
+        { false &&<Card title="Ring Infomation" loading={false}>
+          <MetaItem label="RingHash" value={ring.ringHash}/>
+          <MetaItem label="Miner" value={ring.miner}/>
+          <MetaItem label="txHash" value={ring.txHash}/>
+          <MetaItem label="BlockNumber" value={ring.blockNumber}/>
+          <MetaItem label="FeeRecepient" value={ring.feeRecepient}/>
+          <MetaItem label="totalLrcFee" value={ring.totalLrcFee}/>
+          <MetaItem label="timestamp" value={window.uiFormatter.getFormatTime(toNumber(ring.timeStamp)*1e3)}/>
+          <div className="mb30"></div>
+          <Button type="default" className="d-block w-100" size="large"> More Detail About Ring, Goto Ringinfo</Button>
+        </Card>
+        }
+      </div>
+    );
+
+
+  }
+
+
 }
 
 export default DetailBlock;
