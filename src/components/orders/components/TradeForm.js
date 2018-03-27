@@ -657,7 +657,6 @@ class TradeForm extends React.Component {
             <a className="color-blue-500" onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom'})}>{intl.get('trade.unlock_your_wallet')}</a> {intl.get('trade.to_trade')}
           </div>
           }
-
         </Form>
       </div>
     );
