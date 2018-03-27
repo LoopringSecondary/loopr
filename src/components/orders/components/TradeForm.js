@@ -50,7 +50,14 @@ class TradeForm extends React.Component {
         displayPrice = 0
       }
     }
-    let initAvailableAmount = side === 'sell' ? initAvailableAmount = Math.floor(tokenLBalance.balance * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision) : 0
+    let availableAmount = 0
+    if(side === 'sell') {
+      availableAmount = Math.floor(tokenLBalance.balance * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
+    } else {
+      if(displayPrice >0) {
+        availableAmount = Math.floor(tokenRBalance.balance / Number(displayPrice) * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
+      }
+    }
 
     const showModal = (payload)=>{
       dispatch({
@@ -388,7 +395,7 @@ class TradeForm extends React.Component {
     }
 
     function amountSliderChange(e) {
-      const value = Math.max(initAvailableAmount, this.state.availableAmount)
+      const value = this.state.availableAmount ? this.state.availableAmount : availableAmount
       if(value > 0) {
         const amount = accMul(value, Number(e)) / 100
         form.setFieldsValue({"amount": amount})
@@ -433,7 +440,7 @@ class TradeForm extends React.Component {
       initialValue: 0,
       rules: []
     })(
-      <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={initAvailableAmount === 0 && this.state.availableAmount <= 0}/>
+      <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
     )
     const priceValue = (
       <span className="fs10">
@@ -486,7 +493,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item label={intl.get('trade.amount')} {...formItemLayout} colon={false} extra={
             <div>
-              <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : initAvailableAmount}`}</div>
+              <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
               <div className="fs10">{amountSlider}</div>
             </div>
           }>
