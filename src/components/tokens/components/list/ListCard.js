@@ -33,32 +33,38 @@ function ListBlock({LIST={},actions,prices,modal}) {
   }
   items.sort(sorter)
 
+  const location = (token) => {
+    window.routeActions.gotoPath(`/wallet/assets/${token}`);
+  }
+
   const TokenItem = ({item,index})=>{
     const fm = new window.uiFormatter.TokenFormatter({symbol:item.token})
     const priceToken = prices.getTokenBySymbol(item.token)
 
     const header = (
-      <div className="row justify-content-center align-items-center no-gutters">
-        <div className="col-auto">
-          {
-            item.icon &&
-            <CoinIcon symbol={item.token} size="20" className="mr5" />
-          }
-          {
-            !item.icon &&
-            <i className="mr5 icon-loopring icon-loopring-EMPTY fs20 color-black-7" />
-          }
+      <a onClick={location.bind(this, item.token)}>
+        <div className="row justify-content-center align-items-center no-gutters">
+          <div className="col-auto">
+            {
+              item.icon &&
+              <CoinIcon symbol={item.token} size="20" className="mr5" />
+            }
+            {
+              !item.icon &&
+              <i className="mr5 icon-loopring icon-loopring-EMPTY fs20 color-black-7" />
+            }
+          </div>
+          <div className="col">
+            <span className="color-black-1 fs1">{item.token}</span>
+          </div>
+          <div className="col-auto">
+              <span className="color-black-1 fs14 mr5">{item.percentage}</span>
+              <Tooltip title={intl.get('portfolio.asset_currency_ratio')}>
+                <span className="color-black-1 fs12"><Icon type="question-circle" /></span>
+              </Tooltip>
+          </div>
         </div>
-        <div className="col">
-          <span className="color-black-1 fs1">{item.token}</span>
-        </div>
-        <div className="col-auto">
-            <span className="color-black-1 fs14 mr5">{item.percentage}</span>
-            <Tooltip title={intl.get('portfolio.asset_currency_ratio')}>
-              <span className="color-black-1 fs12"><Icon type="question-circle" /></span>
-            </Tooltip>
-        </div>
-      </div>
+      </a>
     )
     return (
       <Card bordered title={header} className="token-list-card text-left">

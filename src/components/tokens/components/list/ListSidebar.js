@@ -12,7 +12,6 @@ import Token from 'Loopring/ethereum/token'
 
 class ListSidebar extends React.Component {
 
-
   state={
     customTokens:[]
   };
@@ -33,6 +32,28 @@ class ListSidebar extends React.Component {
    return this.state.customTokens.find(ele => ele.address === item.address)
   };
 
+  componentDidMount() {
+    const {selectedToken, LIST, actions, dispatch} = this.props;
+    let {selected = {}} = LIST
+    if(selectedToken) {
+      let new_selected = {}
+      for (let key in selected) {
+        new_selected[key] = false
+      }
+      actions.selectedChange({
+        selected: {
+          ...new_selected,
+          [selectedToken]: true,
+        }
+      })
+      dispatch({
+        type: 'transactions/filtersChange',
+        payload: {
+          filters: {token:selectedToken}
+        }
+      })
+    }
+  }
 
   render() {
     const {LIST, actions, dispatch, assets = {}, prices = {}} = this.props;
