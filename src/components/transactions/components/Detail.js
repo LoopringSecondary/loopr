@@ -11,10 +11,10 @@ const MetaItem = (props) => {
   return (
     <div className="row pt10 pb10 zb-b-b">
       <div className="col">
-        <div className="fs14 color-grey-600">{label}</div>
+        <div className="fs14 color-black-2">{label}</div>
       </div>
       <div className="col-8 text-right">
-        <div className="fs12 color-grey-900 text-wrap">{render ? render(value) : value}</div>
+        <div className="fs14 color-black-1 text-wrap">{render ? render(value) : value}</div>
       </div>
     </div>
   )
@@ -82,6 +82,8 @@ class DetailBlock extends React.Component {
     };
     return (
       <Card title={intl.get('txs.tx_detail')}>
+        <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
+        <MetaItem label={intl.get('txs.to')} value={item.to} render={renders.address}/>
         <MetaItem label={intl.get('txs.block_num')} value={item.blockNumber} render={renders.blockNumber}/>
         <MetaItem label={intl.get('txs.status')} value={intl.get('txs.' + item.status)}/>
         <MetaItem label={intl.get('txs.confirm_time')}
@@ -92,8 +94,6 @@ class DetailBlock extends React.Component {
                   value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>
         <MetaItem label={intl.get('wallet.nonce')} value={ethTx && toNumber(ethTx.nonce)}/>
         <MetaItem label={intl.get('txs.value')} value={ethTx && toNumber(ethTx.value) + ' ETH'}/>
-        <MetaItem label={intl.get('txs.to')} value={item.to} render={renders.address}/>
-        <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
       </Card>
     );
   }
