@@ -82,6 +82,7 @@ export default {
   tabs: {
     my_open_orders: '我的当前订单',
     my_recent_trades: '我的历史成交',
+    my_portfolio: '投资分析',
     my_assets: '我的资产',
     my_orders: '我的订单',
     my_trades: '历史成交',
