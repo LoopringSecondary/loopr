@@ -229,9 +229,9 @@ class ListBlock extends React.Component {
     }
     return (
       <div className="">
-        <div className="row zb-b-b pt15 pb10 ml0 mr0">
+        <div className="row zb-b-b pt15 pb15 ml0 mr0">
           <div className="col-auto pl0 pr0">
-            <div className="fs22 color-black-1 font-weight-bold ml15">{filters.token}</div>
+            <div className="fs20 color-black-1 font-weight-bold ml15">{filters.token}</div>
           </div>
           <div className="col text-right pl0 pr0">
             <Button className="mr5" type="primary">
@@ -248,14 +248,12 @@ class ListBlock extends React.Component {
             </Button>
           </div>
         </div>
-
-
         <div className="pl15 pr15">
           <div className="zb-b-b row pt10 pb10 no-gutters align-items-center">
             <div className="col">
               <div className="fs2 color-black-1">{intl.get('txs.title')}</div>
             </div>
-            <div className="col-auto" style={{height: '32px'}}>
+            <div className="col-auto">
               <ListFiltersFormSimple actions={actions} LIST={LIST} style={{marginTop:'-3px'}}/>
             </div>
           </div>
