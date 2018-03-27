@@ -137,7 +137,9 @@ export default {
     buy:"Buy {token}",
     convert:"Convert ETH to WETH",
     token_not_enough:"Token Amount is not enough",
-
+    sell_amount:'Sell Amount',
+    buy_amount:'Buy Amount',
+    order_detail:"Order Detail"
   },
   global: {
     all: 'All',

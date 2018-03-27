@@ -150,10 +150,20 @@ class ListBlock extends React.Component {
             <span className="mr15">
               {uiFormatter.getFormatTime(item.createTime * 1000)}
             </span>
-              <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
+              <span className="mr15 d-inline-block">
+              <a onClick={showModal.bind(this,{id:"transaction/detail",item})} target="_blank"
                  className="color-black-3 mr15  d-inline-block">
                 {uiFormatter.getShortAddress(item.txHash)}
               </a>
+              </span>
+              {
+                false &&
+                <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
+                   className="color-black-3 mr15  d-inline-block">
+                  {uiFormatter.getShortAddress(item.txHash)}
+                </a>
+              }
+
               {
                 false &&
                 <span className="mr15 d-inline-block">

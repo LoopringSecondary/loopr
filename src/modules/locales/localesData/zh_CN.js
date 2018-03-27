@@ -137,7 +137,10 @@ export default {
     buy: "买 {token}",
     convert: "转ETH到WETH",
     token_not_enough: "代币数量不足",
-    already_add:"您已经添加过该代币!"
+    already_add:"您已经添加过该代币!",
+    sell_amount:'卖出数量',
+    buy_amount:'买入数量',
+    order_detail:"订单详情"
   },
   global: {
     all: '全部',

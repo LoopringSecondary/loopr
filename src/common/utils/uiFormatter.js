@@ -14,7 +14,7 @@ export function getShortAddress(address) {
 
 export function getFormatTime(seconds, style) {
   style = style || "LLL";
-  return moment(seconds).format(style);
+  return moment(toNumber(seconds)).format(style);
 }
 
 export function getSeconds(value, unit) {
