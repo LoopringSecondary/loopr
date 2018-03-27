@@ -1,68 +1,94 @@
 import React from 'react';
 import {Link} from 'dva/router';
 import {Button, Card, ListItem} from 'antd';
-import {getRings} from 'Loopring/relay/ring'
-import {toNumber} from "Loopring/common/formatter";
+import {getRingByHash} from 'Loopring/relay/ring'
+import {toNumber, toBig} from "Loopring/common/formatter";
+import intl from 'react-intl-universal'
 
 
 const MetaItem = (props) => {
-  const {label, value} = props
+  const {label, value, render} = props;
   return (
     <div className="row pt10 pb10 zb-b-b">
       <div className="col">
         <div className="fs14 color-grey-600">{label}</div>
       </div>
-      <div className="col-8 text-right">
-        <div className="fs12 color-grey-900 text-wrap">{value}</div>
+      <div className="col-8 text-right ">
+        <div className="fs12 color-grey-900 text-wrap">{render ? render(value) : value}</div>
       </div>
     </div>
   )
-}
+};
 
 class DetailBlock extends React.Component {
 
-  state={
-    ring:null
+  state = {
+    ring: null
   };
+
   componentDidMount() {
-    const {settings, modal} = this.props;
+    const {modal} = this.props;
     const _this = this;
-    getRings({ringHash: modal.item.ringHash, contractVersion: settings.trading.contract.version}).then(res => {
+    getRingByHash(modal.item.ringHash).then(res => {
       if (!res.error) {
-        const rings = res.result.data;
-        if (rings.length > 0) {
-          _this.setState({ring: rings[0]});
-          console.log('Ring',_this.state.ring)
-        }
+        _this.setState({ring: res.result});
       }
-    })
+    });
   }
+
+
+  getSplitFee = (splitFee) => {
+    let totalSplitFee = '';
+    if (splitFee) {
+      for (let key in splitFee) {
+        const token = window.CONFIG.getTokenBySymbol(key);
+        totalSplitFee = totalSplitFee !== '' ? totalSplitFee + " + " : totalSplitFee;
+        const digits = '1e' + (!!token ? token.digits : '18');
+        totalSplitFee = totalSplitFee + window.uiFormatter.getFormatNum((toBig(splitFee[key]).div(digits)).toFixed(token ? token.precision : 6)).concat(' ' + key)
+      }
+    }
+    return totalSplitFee
+  };
 
   render() {
     const {ring} = this.state;
+    const renders = {
+      txHash: (value) => <a className="text-truncate d-block" target="_blank"
+                            href={`https://etherscan.io/tx/${value}`}>{value}</a>,
+      blockNumber: (value) => <a className="text-truncate d-block" target="_blank"
+                                 href={`https://etherscan.io/block/${value}`}>{value}</a>,
+      address: (value) => <a className="text-truncate d-block" target="_blank"
+                             href={`https://etherscan.io/address/${value}`}>{value}</a>,
+    };
 
     return (
       <div className="">
-        {!ring && "Can't get this ring from relay"}
-        { false &&<Card title="Ring Infomation" loading={false}>
-          <MetaItem label="RingHash" value={ring.ringHash}/>
-          <MetaItem label="Miner" value={ring.miner}/>
-          <MetaItem label="txHash" value={ring.txHash}/>
-          <MetaItem label="BlockNumber" value={ring.blockNumber}/>
-          <MetaItem label="FeeRecepient" value={ring.feeRecepient}/>
-          <MetaItem label="totalLrcFee" value={ring.totalLrcFee}/>
-          <MetaItem label="timestamp" value={window.uiFormatter.getFormatTime(toNumber(ring.timeStamp)*1e3)}/>
+        {ring &&
+        <Card title={intl.get('ring.ring_info')}>
+          <MetaItem label={intl.get('ring.ring_hash')} value={ring && ring.ringInfo.ringHash}/>
+          <MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
+          <MetaItem label={intl.get('txs.tx_hash')} value={ring && ring.ringInfo.txHash} render={renders.txHash}/>
+          <MetaItem label={intl.get('txs.block_num')}
+                    value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.blockNumber)}
+                    render={renders.blockNumber}/>
+          <MetaItem label={intl.get('ring.fee_recipient')} value={ring && ring.ringInfo.feeRecipient}
+                    render={renders.address}/>
+          <MetaItem label={intl.get('ring.total_lrc_fee')}
+                    value={ring && (window.uiFormatter.getFormatNum((toNumber(ring.ringInfo.totalLrcFee)/1e18).toFixed(6)) + ' LRC')}/>
+          <MetaItem label={intl.get('ring.total_split_fee')}
+                    value={ring && this.getSplitFee(ring.ringInfo.totalSplitFee)}/>
+          <MetaItem label={intl.get('ring.time')}
+                    value={ring && window.uiFormatter.getFormatTime(toNumber(ring.ringInfo.timestamp) * 1e3)}/>
+          <MetaItem label={intl.get('ring.trade_amount')}
+                    value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.tradeAmount)}/>
           <div className="mb30"></div>
-          <Button type="default" className="d-block w-100" size="large"> More Detail About Ring, Goto Ringinfo</Button>
+          <Button type="default" className="d-block w-100" size="large"> {intl.get('ring.ring_more_info')}</Button>
         </Card>
+
         }
       </div>
     );
-
-
   }
-
-
 }
 
 export default DetailBlock;
