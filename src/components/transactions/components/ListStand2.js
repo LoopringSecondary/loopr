@@ -140,21 +140,21 @@ class ListBlock extends React.Component {
         case 'cutoff':
           change = '-';
           icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
-          title = intl.get('txs.cutoff')
+          title = intl.get('txs.cancel_all')
           break;
         case 'cutoff_trading_pair':
           change = '-';
           icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
-          title = intl.get('txs.cutoff_trading_pair')
+          title = intl.get('txs.cancel_pair_order',{pair: item.content.market})
           break;
         case 'others':
           change = '-';
           icon = <CoinIcon symbol={item.symbol} size="30"/>
-          title = intl.get('txs.unsupported_contract') // TODO
+          title = intl.get('txs.others') // TODO
           break;
         default:
           icon = <CoinIcon symbol={item.symbol} size="30"/>
-          title = intl.get('txs.unsupported_contract') // TODO
+          title = intl.get('txs.others') // TODO
           break;
       }
       const statusCol = (
@@ -228,30 +228,37 @@ class ListBlock extends React.Component {
       )
     }
     return (
-      <div className="pl15 pr15">
-        <div className="zb-b-b p15">
-          <div className="text-center">
-            <CoinIcon symbol={filters.token} size="60" />
-            <div className="fs24 color-black-1 font-weight-bold">{filters.token}</div>
+      <div className="">
+        <div className="row zb-b-b pt15 pb10 ml0 mr0">
+          <div className="col-auto pl0 pr0">
+            <div className="fs22 color-black-1 font-weight-bold ml15">{filters.token}</div>
           </div>
-          <div className="text-center pt50 pb50">
-            <Button className="m5" type="primary">Buy {filters.token}</Button>
-            <Button className="m5" type="primary">Sell {filters.token}</Button>
-            <Button className="m5" type="primary">Receive {filters.token}</Button>
-            <Button className="m5" type="primary">Send {filters.token}</Button>
+          <div className="col text-right pl0 pr0">
+            <Button className="mr5" type="primary">
+            <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+              Buy/Sell {filters.token}
+            </Button>
+            <Button className="mr5" type="primary">
+              <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
+              Receive {filters.token}
+            </Button>
+            <Button className="mr15" type="primary">
+            <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
+            Send {filters.token}
+            </Button>
           </div>
         </div>
 
 
-        <div className="zb-b-b row pl0 pr0 pt15 pb15 no-gutters align-items-center">
-          <div className="col">
-            <div className="fs2 color-black-1">{intl.get('txs.title')}</div>
+        <div className="pl15 pr15">
+          <div className="zb-b-b row pt10 pb10 no-gutters align-items-center">
+            <div className="col">
+              <div className="fs2 color-black-1">{intl.get('txs.title')}</div>
+            </div>
+            <div className="col-auto" style={{height: '32px'}}>
+              <ListFiltersFormSimple actions={actions} LIST={LIST} style={{marginTop:'-3px'}}/>
+            </div>
           </div>
-          <div className="col-auto" style={{height: '32px'}}>
-            <ListFiltersFormSimple actions={actions} LIST={LIST} style={{marginTop:'-3px'}}/>
-          </div>
-        </div>
-        <div>
           {
             loading &&
             <div className="p50 text-center">
