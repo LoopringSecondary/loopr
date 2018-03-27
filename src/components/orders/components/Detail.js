@@ -1,22 +1,53 @@
 import React from 'react'
-import { connect } from 'dva'
-import { Link } from 'dva/router'
-import { Card,ListItem,Avatar,Icon,Button } from 'antd'
+import {connect} from 'dva'
+import {Link} from 'dva/router'
+import {Card, ListItem, Avatar, Icon, Button} from 'antd'
 import renders from './List/renders'
 import CoinIcon from '../../common/CoinIcon'
-function DetailBlock({modal={}}) {
-  const item = modal.item
+import {toNumber} from "Loopring/common/formatter";
+import intl from 'react-intl-universal';
+
+function DetailBlock({modal = {}}) {
+  const item = modal.item;
   const tokenS = item.originalOrder.tokenS
   const tokenB = item.originalOrder.tokenB
   const amountB = item.originalOrder.amountB
   const amountS = item.originalOrder.amountS
   const amountLrc = item.originalOrder.lrcFee
   const fm = window.uiFormatter.TokenFormatter
-  let fmS = new fm({symbol:tokenS})
-  let fmB = new fm({symbol:tokenB})
-  let fmLrc = new fm({symbol:'LRC'})
-  const MetaItem = (props)=>{
-    const {label,value} = props
+  let fmS = new fm({symbol: tokenS})
+  let fmB = new fm({symbol: tokenB})
+  let fmLrc = new fm({symbol: 'LRC'})
+
+  const getPrice = () => {
+
+    if (item.originalOrder.side.toLowerCase() === 'buy') {
+      return (<div>
+        <span className="mr5">{(amountS / amountB).toFixed(8)} </span>
+        {tokenS}/{tokenB}
+      </div>)
+    } else {
+      return (<div>
+        <span className="mr5">{(amountB / amountS).toFixed(8)} </span>
+        {tokenB}/{tokenS}
+      </div>)
+    }
+
+  };
+
+ const getFilledPercent = () => {
+    let percent = 0;
+    if (item.originalOrder.side.toLowerCase() === 'sell') {
+      percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
+    } else {
+      percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
+    }
+    return percent.toString().concat('%')
+  };
+
+
+  const MetaItem = (props) => {
+    const {label, value} = props
     return (
       <div className="row pt10 pb10 pl0 pr0 zb-b-b">
         <div className="col">
@@ -28,69 +59,87 @@ function DetailBlock({modal={}}) {
       </div>
     )
   }
-  const ArrowDivider = (props)=>{
+  const ArrowDivider = (props) => {
     return (
-      <div className="row no-gutters align-items-center fs12" style={{marginTop:'-20px'}}>
+      <div className="row no-gutters align-items-center fs12" style={{marginTop: '-20px'}}>
         <div className="col">
           <hr className="w-100 bg-grey-900"/>
         </div>
         <div className="col-auto">
-          <Icon type="right" className="color-grey-900" style={{marginLeft:'-8px'}}></Icon>
+          <Icon type="right" className="color-grey-900" style={{marginLeft: '-8px'}}></Icon>
         </div>
       </div>
     )
   }
   return (
-    <Card title="Order Detail">
+    <Card title={intl.get('orders.order_detail')}>
       <div className="row flex-nowrap zb-b-b pb30 justify-content-center align-items-center">
         <div className="col-auto">
           <div className="text-center">
-            <CoinIcon size="50" symbol={tokenS} />
-            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth:'180px'}}>
+            <CoinIcon size="50" symbol={tokenS}/>
+            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth: '180px'}}>
               {tokenS}
             </div>
           </div>
         </div>
         <div className="col-2">
           <div className="text-center">
-            <ArrowDivider />
+            <ArrowDivider/>
           </div>
         </div>
         <div className="col-auto">
           <div className="text-center">
-            <CoinIcon size="50" symbol={tokenB} />
-            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth:'180px'}}>
+            <CoinIcon size="50" symbol={tokenB}/>
+            <div className="fs12 color-grey-900 text-wrap" style={{maxWidth: '180px'}}>
               {tokenB}
             </div>
           </div>
         </div>
       </div>
-      <MetaItem label="OrderHash" value={item.originalOrder.hash} />
-      <MetaItem label="Status" value={renders.status(null,item)} />
-      <MetaItem label="Sell Amount" value={
+      <MetaItem label={intl.get('orders.order')} value={item.originalOrder.hash}/>
+      <MetaItem label={intl.get('orders.status')} value={renders.status(null, item)}/>
+      <MetaItem label={intl.get('orders.sell_amount')} value={
         <div>
-          <span className="mr5">{fmS.getAmount(amountS)}</span>
+          <span className="mr5">{window.uiFormatter.getFormatNum(fmS.getAmount(amountS))}</span>
           {tokenS}
         </div>
-      } />
-      <MetaItem label="Buy Amount" value={
+      }/>
+      <MetaItem label={intl.get('orders.buy_amount')} value={
         <div>
-          <span className="mr5">{fmB.getAmount(amountB)}</span>
+          <span className="mr5">{window.uiFormatter.getFormatNum(fmB.getAmount(amountB))}</span>
           {tokenB}
         </div>
-      } />
-      <MetaItem label="Price" value={
+      }/>
+      <MetaItem label={intl.get('orders.price')} value={
+        getPrice()
+      }/>
+      <MetaItem label={intl.get('orders.LrcFee')} value={
         <div>
-          <span className="mr5">{(amountB/amountS).toFixed(3)} </span>
-          {tokenB}/{tokenS}
-        </div>
-      } />
-      <MetaItem label="Lrc Fee" value={
-        <div>
-          <span className="mr5">{fmLrc.getAmount(amountLrc)}</span>
+          <span className="mr5">{window.uiFormatter.getFormatNum(fmLrc.getAmount(amountLrc))}</span>
           {'LRC'}
         </div>
-      } />
+      }/>
+      <MetaItem label={intl.get('order.margin')} value={
+        <div>
+          <span className="mr5">{toNumber(item.originalOrder.marginSplitPercentage)}%</span>
+        </div>
+      }/>
+      <MetaItem label={intl.get('orders.filled')} value={
+        <div>
+          <span className="mr5">{getFilledPercent()}</span>
+        </div>
+      }/>
+      <MetaItem label={intl.get('order.since')} value={
+        <div>
+          <span className="mr5">{window.uiFormatter.getFormatTime(toNumber(item.originalOrder.validSince)*1e3)}</span>
+        </div>
+      }/>
+      <MetaItem label={intl.get('order.till')} value={
+        <div>
+          <span className="mr5">{window.uiFormatter.getFormatTime(toNumber(item.originalOrder.validUntil)*1e3)}</span>
+        </div>
+      }/>
+
 
     </Card>
 

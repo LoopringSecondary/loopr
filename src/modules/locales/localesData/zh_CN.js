@@ -106,8 +106,17 @@ export default {
     cancel_order: '取消订单',
     cancel_all: '取消全部订单',
     cancel_pair_order: "取消{pair}订单",
-    unsupported_contract: "调用不支持的合约",
-    balance_not_enough: "余额不足以支持您所有有效的订单完全成交"
+    others: "其他",
+    balance_not_enough: "余额不足以支持您所有有效的订单完全成交",
+    value:"金额",
+    tx_hash:"交易Hash",
+    block_num:"块高度",
+    to:"接收地址",
+    confirm_time:"确认时间",
+    tx_detail:"交易详情",
+    success:"成功",
+    failed:"失败",
+    pending:"进行中"
   },
   orders: {
     order: "订单哈希",
@@ -137,7 +146,10 @@ export default {
     buy: "买 {token}",
     convert: "转ETH到WETH",
     token_not_enough: "代币数量不足",
-    already_add:"您已经添加过该代币!"
+    already_add:"您已经添加过该代币!",
+    sell_amount:'卖出数量',
+    buy_amount:'买入数量',
+    order_detail:"订单详情"
   },
   global: {
     all: '全部',
@@ -376,6 +388,7 @@ export default {
     instruction_mnemonic: '我们不推荐您使用这种方式解锁钱包，可能存在安全隐患。</br>在网站上上传助记词非常危险，如果网站被黑客攻击或您不小心访问了钓鱼网站，您钱包内的资产将面临巨大的安全风险。建议您使用硬钱包或在上传助记词前仔细确认URL & SSL 证书正确无误。',
     instruction_privatekey: '我们不推荐您使用这种方式解锁钱包，可能存在安全隐患。</br>在网站上上传私钥非常危险，如果网站被黑客攻击或您不小心访问了钓鱼网站，您钱包内的资产将面临巨大的安全风险。建议您使用硬钱包或在上传私钥前仔细确认URL & SSL 证书正确无误。',
     instruction_trezor: '这是推荐的解锁方式，可以放心使用。</br>Trezor硬件钱包可以物理随机产生私钥、存储私钥、独立完成签名运算而不发送私钥到计算机，安全地存储用户的数字资产，杜绝数字资产存储和交易的各种安全风险。',
+    nonce:'随机数'
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",
