@@ -5,6 +5,7 @@ import {Card, ListItem} from 'antd';
 import {toNumber} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
 import {getTransactionByhash} from 'Loopring/ethereum/utils'
+
 const MetaItem = (props) => {
   const {label, value, render} = props
   return (
@@ -33,11 +34,11 @@ class DetailBlock extends React.Component {
     const item = modal.item;
     const _this = this;
     getTransactionByhash(item.txHash).then(res => {
-      if(!res.error){
+      if (!res.error) {
         const ethTx = res.result;
-          _this.setState({loading:false,ethTx})
-      }else {
-        _this.setState({loading:false})
+        _this.setState({loading: false, ethTx})
+      } else {
+        _this.setState({loading: false})
       }
     })
   }
@@ -57,61 +58,43 @@ class DetailBlock extends React.Component {
                              href={`https://etherscan.io/address/${value}`}>{value}</a>,
     };
     const getType = () => {
-      return (
-        <div>
-          {
-            item.type === 'approve' && intl.get('txs.type_enable_title', {symbol: item.symbol})
-          }
-          {
-            item.type === 'send' && intl.get('txs.type_transfer_title', {symbol: item.symbol})
-          }
-          {
-            item.type === 'receive' && intl.get('txs.type_receive_title', {symbol: item.symbol})
-          }
-          {
-            item.type === 'convert_outcome' && item.symbol === 'WETH' && intl.get('txs.type_convert_title_weth')
-          }
-          {
-            item.type === 'convert_outcome' && item.symbol === 'ETH' && intl.get('txs.type_convert_title_eth')
-          }
-          {
-            item.type === 'convert_income' && item.symbol === 'WETH' && intl.get('txs.type_convert_title_eth')
-          }
-          {
-            item.type === 'convert_income' && item.symbol === 'ETH' && intl.get('txs.type_convert_title_weth')
-          }
-          {
-            item.type === 'cancel_order' && intl.get('txs.cancel_order')
-          }
-          {
-            item.type === 'cutoff' && intl.get('txs.cancel_all')
-          }
-          {
-            item.type === 'cutoff_trading_pair' && intl.get('txs.cancel_pair_order', {pair: item.content.market})
-          }
-          {
-            item.type === 'unsupported_contract' && intl.get('txs.unsupported_contract')
-          }
-        </div>
-      )
-    };
-    const test = () => {
-      console.log('Item:', JSON.stringify(item))
-    };
 
+      switch (item.type) {
+        case 'approve':
+          return intl.get('txs.type_enable_title', {symbol: item.symbol});
+        case 'send':
+          return intl.get('txs.type_transfer_title', {symbol: item.symbol});
+        case 'receive':
+          return intl.get('txs.type_receive_title', {symbol: item.symbol});
+        case 'convert_outcome':
+          return item.symbol === 'ETH' ? intl.get('txs.type_convert_title_eth') : intl.get('txs.type_convert_title_weth');
+        case 'convert_income':
+          return item.symbol === 'WETH' ? intl.get('txs.type_convert_title_eth'): intl.get('txs.type_convert_title_weth');
+        case 'cancel_order':
+          return intl.get('txs.cancel_order')
+        case 'cutoff':
+          return intl.get('txs.cancel_all');
+        case 'cutoff_trading_pair':
+          return intl.get('txs.cancel_pair_order', {pair: item.content.market});
+        default:
+          return intl.get('txs.others')
+      }
+    };
     return (
-        <Card title="Transaction Detail" loading={this.state.loading} >
-          <MetaItem label="Block Number" value={item.blockNumber} render={renders.blockNumber}/>
-          <MetaItem label="Status" value={item.status}/>
-          <MetaItem label="Confirm Time" value={window.uiFormatter.getFormatTime(toNumber(item.updateTime) * 1e3)}/>
-          <MetaItem label="Type" value={getType()}/>
-          <MetaItem label="Gas" value={ethTx && window.uiFormatter.getFormatNum(ethTx.gas)}/>
-          <MetaItem label="Gas Price" value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice)/1e9) + " Gwei"}/>
-          <MetaItem label="Nonce" value={ethTx && toNumber(ethTx.nonce)}/>
-          <MetaItem label="value" value={ethTx && toNumber(ethTx.value) + ' ETH'}/>
-          <MetaItem label="To" value={item.to} render={renders.address}/>
-          <MetaItem label="Tx Hash" value={item.txHash} render={renders.txHash}/>
-        </Card>
+      <Card title={intl.get('txs.tx_detail')}>
+        <MetaItem label={intl.get('txs.block_num')} value={item.blockNumber} render={renders.blockNumber}/>
+        <MetaItem label={intl.get('txs.status')} value={intl.get('txs.' + item.status)}/>
+        <MetaItem label={intl.get('txs.confirm_time')}
+                  value={window.uiFormatter.getFormatTime(toNumber(item.updateTime) * 1e3)}/>
+        <MetaItem label={intl.get('txs.type')} value={getType()}/>
+        <MetaItem label={intl.get('token.gas_limit')} value={ethTx && window.uiFormatter.getFormatNum(ethTx.gas)}/>
+        <MetaItem label={intl.get('token.gas_price')}
+                  value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>
+        <MetaItem label={intl.get('wallet.nonce')} value={ethTx && toNumber(ethTx.nonce)}/>
+        <MetaItem label={intl.get('txs.value')} value={ethTx && toNumber(ethTx.value) + ' ETH'}/>
+        <MetaItem label={intl.get('txs.to')} value={item.to} render={renders.address}/>
+        <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
+      </Card>
     );
   }
 
