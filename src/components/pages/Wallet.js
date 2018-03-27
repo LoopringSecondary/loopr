@@ -77,8 +77,6 @@ class Home extends React.Component{
               <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_assets")}2</div>}
                             key="assets2"/>
             }
-
-
           </Tabs>
           <Switch>
             <Route path={`${match.url}/assets`} exact render={() =>
@@ -92,7 +90,18 @@ class Home extends React.Component{
               </div>
             }
             />
-            <Route path={`${match.url}/assets2`} exact render={() =>
+            <Route path={`${match.url}/assets/:token`} exact render={() =>
+              <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
+                <div className="col-4 zb-b-r">
+                  <Token.ListSidebar selectedToken={location.pathname.replace(`/wallet/assets/`, '')}/>
+                </div>
+                <div className="col-8 pb15">
+                  <Transaction.ListStand/>
+                </div>
+              </div>
+            }
+            />
+            <Route path={`${match.url}/assets2`} render={() =>
               <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar/>
