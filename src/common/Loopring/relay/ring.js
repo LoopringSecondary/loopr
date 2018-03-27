@@ -26,4 +26,17 @@ export async function getRings(filter){
   })
 }
 
+export async function getRingByHash(ringHash) {
+
+  let body = {};
+  body.method = 'loopring_getRingMinedDetail';
+  body.params = [{ringHash}];
+  return request({
+    method:'post',
+    headers,
+    body,
+  })
+
+}
+
 

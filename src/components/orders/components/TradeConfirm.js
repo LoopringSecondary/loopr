@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Collapse, Input, Modal} from 'antd';
+import {Button, Card, Collapse, Input, Modal,notification} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
@@ -83,6 +83,17 @@ class TradeConfirm extends React.Component {
 
   }
 
+  openNotification = () => {
+
+    const args = {
+      message: intl.get('order.placing_order'),
+      description:  intl.get('order.place_success_tip'),
+      duration: 3,
+    };
+    notification.open(args);
+
+  };
+
   handelSubmit = async () => {
     const {modals,assets={},tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
@@ -142,7 +153,12 @@ class TradeConfirm extends React.Component {
           });
         }
         const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
-        modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
+
+        if(balanceWarn.length ===0){
+          this.openNotification()
+        }else{
+          modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
+        }
         _this.updateOrders();
       }
     });
