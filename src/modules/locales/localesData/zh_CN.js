@@ -215,7 +215,9 @@ export default {
     tips_margin_split: "当您没有足够的LRC支付撮合手续费时，可以设置分润比例来支付手续费。</br>分润和LRC手续费只能取其一，所以不用担心会支付两次手续费。</br>我们不推荐您修改这个值，除非您已经充分理解它的含义。",
     confirm_warn_ledger: "请在您的Ledger设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_trezor: "请在您的Trezor设备上确认签名信息, 之后再回来提交订单",
-    confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单"
+    confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单",
+    place_order_trezor_unsupport: 'Trezor暂不支持签名交易无法下单',
+    place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响'
   },
   trades:{
     side: '方向',
