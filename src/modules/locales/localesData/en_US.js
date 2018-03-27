@@ -214,7 +214,9 @@ export default {
     tips_margin_split: "If your account does not have enough LRC to pay miners, you can choose margin split to pay LRC Fee.</br>You can only choose either Margin Split or LRC Fee to pay the miners, so do not worry about double spending.</br>We do not recommend you modify this value unless you have fully understood its mechanism.",
     confirm_warn_ledger: "Please confirm transaction on your Ledger device, then come back to continue",
     confirm_warn_trezor: "Please confirm transaction on your Trezor device , then come back to continue",
-    confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue"
+    confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue",
+    place_order_trezor_unsupport: 'Could not place order',
+    place_order_trezor_unsupport_tips: 'When you place order we will send your order with signature to relay, but Trezor temporarily does not support sign messages, so when you unlock with Trezor is unable to place an order, but wallet operations(transfer, etc.) is not affected'
   },
   token: {
     convert_title: "Convert",

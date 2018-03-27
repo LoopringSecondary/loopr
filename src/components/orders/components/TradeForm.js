@@ -626,7 +626,15 @@ class TradeForm extends React.Component {
               </div>
             </Collapse.Panel>
           </Collapse>
-          {account && account.isUnlocked &&
+          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
+            <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
+              {intl.get('trade.place_order_trezor_unsupport') }
+              <Tooltip title={intl.getHTML('trade.place_order_trezor_unsupport_tips')}>
+                <Icon className="color-gray-500 mr10" type="question-circle"/>
+              </Tooltip>
+            </div>
+          }
+          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' &&
           <Form.Item>
             {
               side == 'buy' &&
@@ -649,6 +657,7 @@ class TradeForm extends React.Component {
             <a className="color-blue-500" onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom'})}>{intl.get('trade.unlock_your_wallet')}</a> {intl.get('trade.to_trade')}
           </div>
           }
+
         </Form>
       </div>
     );
