@@ -20,6 +20,7 @@ export default {
       qrcode: '二维码',
       receive: '收款',
       send: '转账',
+      trade: '交易',
       airdrop: '空投',
       quit: '退出',
       address: '地址'

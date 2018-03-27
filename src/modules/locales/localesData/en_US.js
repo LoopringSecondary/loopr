@@ -20,6 +20,7 @@ export default {
       qrcode: 'QR Code',
       receive: 'Receive',
       send: 'Send',
+      trade: 'Trade',
       airdrop: 'Airdrop',
       quit: 'Quit',
       address: 'Address'

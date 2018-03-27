@@ -8,10 +8,10 @@ function Page(props){
     <div className="">
       <Sockets.Transactions {...props}>
         <Sockets.Prices>
-        <Sockets.Assets>
-          <Components.ListStand2 />
-          <Common.ListPagination className="mt25 ml15" />
-        </Sockets.Assets>
+          <Sockets.Assets>
+            <Components.ListStand2 />
+            <Common.ListPagination className="mt25 ml15" />
+          </Sockets.Assets>
         </Sockets.Prices>
       </Sockets.Transactions>
     </div>

@@ -198,6 +198,10 @@ export default {
         ...state,
         items:[ ...items ],
         loading:false, // fix bug for loading
+        page:{
+          ...state.page,
+          ...action.payload.page,
+        }
       }
     },
   },

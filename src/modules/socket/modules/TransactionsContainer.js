@@ -31,14 +31,18 @@ class TransactionsContainer extends React.Component {
       pageIndex:page.current,
       pageSize:page.size || 10,
     }
-    console.log('transaction_req',query)
     socket.emit('transaction_req',JSON.stringify(query))
     socket.on('transaction_res', (res)=>{
       res = JSON.parse(res)
       console.log('transaction_res',res)
-      if(!res.error){
+      if(!res.error && res.data ){
         this.actions.itemsChange({
-          items:res.data.data
+          items:res.data.data,
+          page:{
+            total:res.data.total,
+            current:res.data.pageIndex,
+            size:res.data.pageSize,
+          }
         })
       }
     })
