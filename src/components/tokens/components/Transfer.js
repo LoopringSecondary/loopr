@@ -215,8 +215,8 @@ class Transfer extends React.Component {
     resetForm()
 
     const formItemLayout = {
-      labelCol: {span: 7},
-      wrapperCol: {span: 17},
+      labelCol: {span: 4},
+      wrapperCol: {span: 20},
     }
 
     const formatGas = (value) => {
@@ -325,7 +325,7 @@ class Transfer extends React.Component {
 
           {!this.state.advanced &&
             <div>
-              <div style={{height:"253px"}}>
+              <div style={{height:""}}>
                 <Form.Item className="mb0" label={`${intl.get('token.transaction_fee')} ${formatGas(this.state.gasValueInSlider)}`} colon={false}>
                   {form.getFieldDecorator('transactionFee', {
                     initialValue: this.state.gasValueInSlider,
