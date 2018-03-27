@@ -43,38 +43,6 @@ class TransactionsContainer extends React.Component {
       }
     })
   }
-  // filtersChange({filters={},page={}}){
-  //   const { socket } = this.context
-  //   const { LIST } = this.props
-  //   this.actions.filtersChange({filters,socket})
-  //   const owner = window.WALLET && window.WALLET.getAddress()
-  //   const new_filters = {
-  //       ...LIST.filters,
-  //       ...filters,
-  //   }
-  //   const new_page = {
-  //       ...LIST.page,
-  //       current:1,
-  //   }
-  //   const query = {
-  //     owner,
-  //     symbol:new_filters.token,
-  //     status:new_filters.status,
-  //     type:new_filters.type,
-  //     pageIndex:new_page.current,
-  //     pageSize:new_page.size,
-  //   }
-  //   console.log('transaction_req',query)
-  //   socket.emit('transaction_req',JSON.stringify(query),(res)=>{
-  //     res = JSON.parse(res)
-  //     console.log('transaction_req res',res)
-  //     if(!res.error){
-  //       this.actions.itemsChange({
-  //         items:res.data.data
-  //       })
-  //     }
-  //   })
-  // }
   componentWillUnmount() {
     const { socket } = this.context
     if (!socket) {

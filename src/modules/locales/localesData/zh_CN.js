@@ -219,6 +219,11 @@ export default {
     place_order_trezor_unsupport: 'Trezor暂不支持签名交易无法下单',
     place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响'
   },
+  trades:{
+    side: '方向',
+    side_sell: '卖出',
+    side_buy: '买入',
+  },
   token: {
     convert_title: "转换",
     amount: "数量",
@@ -344,6 +349,7 @@ export default {
       not_recover: '一旦丢失将无法恢复',
       stolen: "不要在钓鱼网站使用该文件，否则您的数字资产存在巨大的被盗风险",
       backup: "请一定做好备份",
+      backup_tip:'路印钱包不会保存用户的私钥、Keystore、助记词，强烈建议您在线下备份这些信息（不联网的USB硬盘或纸质存储）。一旦私钥、Keystore、助记词丢失将无法恢复，我们无法访问您的账户，为您找回私钥或重置密码，更不能回滚交易！切记不要在可疑或钓鱼网站上共享该文件，否则您的数字资产将面临极大的被盗风险！',
       secure: "一定刚好好保管好它们，说不定哪天就价值连城",
       download: "我已经明白，下载钱包文件",
       copy_mnemonic: "我已经我明白，复制助记词",
