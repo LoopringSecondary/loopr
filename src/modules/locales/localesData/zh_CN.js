@@ -3,6 +3,7 @@ export default {
   navbar: {
     home: "首页",
     trade: "交易",
+    dex: "去中心交易",
     wallet: "钱包",
     settings: "设置",
     portfolio: "投资组合",

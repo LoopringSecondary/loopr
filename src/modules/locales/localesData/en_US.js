@@ -4,6 +4,7 @@ export default {
     home: "Home",
     trade: "Trade",
     wallet: "Wallet",
+    dex: "DEX",
     settings: "Settings",
     portfolio: "Portfolio",
     account: "Account",
