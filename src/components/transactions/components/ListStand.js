@@ -140,21 +140,21 @@ class ListBlock extends React.Component {
         case 'cutoff':
           change = '-';
           icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
-          title = intl.get('txs.cutoff')
+          title = intl.get('txs.cancel_all')
           break;
         case 'cutoff_trading_pair':
           change = '-';
           icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
-          title = intl.get('txs.cutoff_trading_pair')
+          title = intl.get('txs.cancel_pair_order',{pair: item.content.market})
           break;
         case 'others':
           change = '-';
           icon = <CoinIcon symbol={item.symbol} size="30"/>
-          title = intl.get('txs.unsupported_contract') // TODO
+          title = intl.get('txs.others') // TODO
           break;
         default:
           icon = <CoinIcon symbol={item.symbol} size="30"/>
-          title = intl.get('txs.unsupported_contract') // TODO
+          title = intl.get('txs.others') // TODO
           break;
       }
       const statusCol = (
@@ -173,10 +173,16 @@ class ListBlock extends React.Component {
           <span className="mr15">
             {uiFormatter.getFormatTime(item.createTime * 1000)}
           </span>
-            <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
+            {
+              <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
+                 className="color-black-3 mr15  d-inline-block">
+                {uiFormatter.getShortAddress(item.txHash)}
+              </a>
+            }
+            {false && <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
                className="color-black-3 mr15  d-inline-block">
               {uiFormatter.getShortAddress(item.txHash)}
-            </a>
+            </a>}
           </div>
         </div>
       )
