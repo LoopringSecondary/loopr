@@ -150,9 +150,11 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      const token = getToken(this.state.tokenSymbol)
-      this.setState({value: token.balance})
-      form.setFieldsValue({"amount": token.balance})
+      if(this.state.tokenSymbol) {
+        const token = getToken(this.state.tokenSymbol)
+        this.setState({value: token.balance})
+        form.setFieldsValue({"amount": token.balance})
+      }
     }
 
     function validateTokenSelect(value) {
