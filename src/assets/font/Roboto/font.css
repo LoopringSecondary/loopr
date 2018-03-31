@@ -1,0 +1,16 @@
+
+@font-face {
+  font-family: "Roboto";
+  src: url('Roboto-Regular.ttf'); /* IE9*/
+  src: url('Roboto-Regular.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+       url('Roboto-Regular.ttf') format('svg'); /* iOS 4.1- */
+}
+@font-face {
+  font-family: "Roboto-Light";
+  src: url('Roboto-Light.ttf'); /* IE9*/
+  src: url('Roboto-Light.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+       url('Roboto-Light.ttf') format('svg'); /* iOS 4.1- */
+}
+
+
+

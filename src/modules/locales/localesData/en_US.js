@@ -2,7 +2,7 @@ export default {
   amount: "{amount,number}",
   navbar: {
     home: "Home",
-    trade: "Trade",
+    trade: "DEX",
     wallet: "Wallet",
     dex: "DEX",
     settings: "Settings",
