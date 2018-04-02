@@ -133,6 +133,20 @@ function register(key) {
   return '0x' + method + data;
 }
 
+function registerName(name) {
+  const method = methodID('registerName',['string']).toString('hex');
+  const data = rawEncode(['string'],[name]).toString('hex');
+  return '0x' + method + data;
+}
+
+function addParticipant(feeRecipient,signer) {
+  validator.validate({value: feeRecipient, type: 'ADDRESS'});
+  validator.validate({value: signer, type: 'ADDRESS'});
+  const method = methodID('addParticipant',['address','address']).toString('hex');
+  const data = rawEncode(['address','address'],[feeRecipient,signer]).toString('hex');
+  return '0x' + method + data;
+}
+
 function keys(address) {
   validator.validate({value: address, type: 'ADDRESS'});
   const method = methodID('keys',['address']).toString('hex');
@@ -162,7 +176,7 @@ export function isValidSig(message, sig, address) {
   return addHexPrefix(recoveredAddress) === address.toLowerCase();
 }
 
-export function generateAbiData({method, timestamp, address, amount, order, owner, spender, projectId, tokenA, tokenB, key}) {
+export function generateAbiData({method, timestamp, address, amount, order, owner, spender, projectId, tokenA, tokenB, key,name,signer,feeRecipient}) {
   validator.validate({value: method, type: 'ABI_METHOD'});
   if (method === 'cancelOrder') {
     return generateCancelOrderData(order);
@@ -221,6 +235,14 @@ export function generateAbiData({method, timestamp, address, amount, order, owne
 
   if(method === 'keys'){
     return keys(address)
+  }
+
+  if(method === 'registerName'){
+    return registerName(name)
+  }
+
+  if(method === 'addParticipant'){
+    return addParticipant(feeRecipient,signer)
   }
 }
 

@@ -93,7 +93,7 @@ export async function getTransactionByhash(hash) {
 
 }
 
-export  function generateBindAddressTx({projectId, address, gasPrice, gasLimit, nonce, chainId}) {
+export function generateBindAddressTx({projectId, address, gasPrice, gasLimit, nonce, chainId}) {
 
   const tx = {};
   tx.to = configs.bindContractAddress;
@@ -115,9 +115,9 @@ export  function generateBindAddressTx({projectId, address, gasPrice, gasLimit, 
 }
 
 
-export function eosRegisterTx({key,gasPrice, gasLimit, nonce, chainId}) {
+export function eosRegisterTx({key,to, gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
-  tx.to = configs.bindContractAddress;
+  tx.to = to;
   tx.value = "0x0";
   tx.data = generateAbiData({method: "register", key});
   if (gasPrice) {
@@ -135,15 +135,15 @@ export function eosRegisterTx({key,gasPrice, gasLimit, nonce, chainId}) {
   return tx
 }
 
-export async function getEosKey({address}) {
+export async function getEosKey({address,to}) {
   const tx = {};
   tx.data = generateAbiData({method: "keys", address});
-  tx.to = configs.bindContractAddress;
-  const params = [tx,"latest"];
+  tx.to = to;
+  const params = [tx, "latest"];
   const body = {};
   body.method = 'eth_call';
   body.params = params;
-  const response  = await request({
+  const response = await request({
     method: 'post',
     body,
   });
@@ -151,19 +151,64 @@ export async function getEosKey({address}) {
   return results.length > 0 ? results[0] : '';
 }
 
-export async function getBindAddress(owner,projectId) {
+export async function getBindAddress(owner, projectId) {
   const tx = {};
   tx.data = generateAbiData({method: "getBindingAddress", owner, projectId});
   tx.to = configs.bindContractAddress;
-  const params = [tx,"latest"];
+  const params = [tx, "latest"];
   const body = {};
   body.method = 'eth_call';
   body.params = params;
-  const response  = await request({
+  const response = await request({
     method: 'post',
     body,
   });
   const results = rawDecode(['string'], toBuffer(response.result));
   return results.length > 0 ? results[0] : '';
+}
+
+
+export function generateRegisterNameTx({name, to,gasPrice, gasLimit, nonce, chainId}) {
+  const tx = {};
+  tx.to = to;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "registerName", name});
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  return tx
+}
+
+
+export function addParticipant({feeRecipient,signer, to,gasPrice, gasLimit, nonce, chainId}) {
+
+  const tx = {};
+  tx.to = to;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "addParticipant", feeRecipient,signer});
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  return tx
+
+
 }
 
