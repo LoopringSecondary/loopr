@@ -122,7 +122,7 @@ export default {
     pending:"进行中"
   },
   orders: {
-    order: "订单哈希",
+    order: "订单",
     time: "时间",
     market: '市场',
     status: '状态',
@@ -152,7 +152,9 @@ export default {
     already_add:"您已经添加过该代币!",
     sell_amount:'卖出数量',
     buy_amount:'买入数量',
-    order_detail:"订单详情"
+    order_detail:"订单详情",
+    basic_detail:"基础详情",
+    fill_detail:"撮合详情"
   },
   global: {
     all: '全部',

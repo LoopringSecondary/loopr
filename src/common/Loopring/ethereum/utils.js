@@ -114,6 +114,43 @@ export  function generateBindAddressTx({projectId, address, gasPrice, gasLimit, 
   return tx
 }
 
+
+export function eosRegisterTx({key,gasPrice, gasLimit, nonce, chainId}) {
+  const tx = {};
+  tx.to = configs.bindContractAddress;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "register", key});
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  return tx
+}
+
+export async function getEosKey({address}) {
+  const tx = {};
+  tx.data = generateAbiData({method: "keys", address});
+  tx.to = configs.bindContractAddress;
+  const params = [tx,"latest"];
+  const body = {};
+  body.method = 'eth_call';
+  body.params = params;
+  const response  = await request({
+    method: 'post',
+    body,
+  });
+  const results = rawDecode(['string'], toBuffer(response.result));
+  return results.length > 0 ? results[0] : '';
+}
+
 export async function getBindAddress(owner,projectId) {
   const tx = {};
   tx.data = generateAbiData({method: "getBindingAddress", owner, projectId});

@@ -127,6 +127,20 @@ function generateGetBindingAddress(owner, projectId) {
   return '0x' + method + data;
 }
 
+function register(key) {
+  const method = methodID('register',['string']).toString('hex');
+  const data = rawEncode(['string'],[key]).toString('hex');
+  return '0x' + method + data;
+}
+
+function keys(address) {
+  validator.validate({value: address, type: 'ADDRESS'});
+  const method = methodID('keys',['address']).toString('hex');
+  const data = rawEncode(['address'],[address]).toString('hex');
+  return '0x' + method + data;
+}
+
+
 export function sign(message, privateKey) {
   const hash = sha3(message);
   const sig = ecsign(hash, toBuffer(privateKey));
@@ -148,7 +162,7 @@ export function isValidSig(message, sig, address) {
   return addHexPrefix(recoveredAddress) === address.toLowerCase();
 }
 
-export function generateAbiData({method, timestamp, address, amount, order, owner, spender, projectId, tokenA, tokenB}) {
+export function generateAbiData({method, timestamp, address, amount, order, owner, spender, projectId, tokenA, tokenB, key}) {
   validator.validate({value: method, type: 'ABI_METHOD'});
   if (method === 'cancelOrder') {
     return generateCancelOrderData(order);
@@ -201,7 +215,13 @@ export function generateAbiData({method, timestamp, address, amount, order, owne
     return generateGetBindingAddress(owner, projectId)
   }
 
+  if(method === 'register'){
+    return register(key)
+  }
 
+  if(method === 'keys'){
+    return keys(address)
+  }
 }
 
 
