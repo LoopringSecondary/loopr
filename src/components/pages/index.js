@@ -7,6 +7,7 @@ import Settings from "./Settings"
 import Portfolio from './Portfolio'
 import Test from './Test'
 import Unload from './Unload'
+import Doc from './Doc'
 
 export default {
   Home,
@@ -17,4 +18,5 @@ export default {
   Portfolio,
   Test,
   Unload,
+  Doc
 }
