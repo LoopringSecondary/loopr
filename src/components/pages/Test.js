@@ -6,7 +6,7 @@ import PagesExample from 'Loopr/PagesExample'
 function Test(props){
   const notifySuccess = ()=>{
     Notification.open({
-      duration:null,
+      duration:4.5,
       message:'Place Order Success !',
       description:'Your order has been submited !',
       type:'success',
@@ -14,7 +14,7 @@ function Test(props){
   }
   const notifyInfo = ()=>{
     Notification.open({
-      duration:null,
+      duration:0,
       message:"Order can not be fully filled !",
       description:'WETH balance is not enough for your order .',
       type:'info',
@@ -29,7 +29,7 @@ function Test(props){
   }
   const notifyWarning = ()=>{
     Notification.open({
-      duration:null,
+      duration:0,
       message:"Order can not be fully filled !",
       description:'ETH balance is not enough for your order .',
       type:'warning',
@@ -44,7 +44,7 @@ function Test(props){
   }
   const notifyError = ()=>{
     Notification.open({
-      duration:null,
+      duration:0,
       message:"Order can not be fully filled !",
       description:'LRC balance is not enough for your order .',
       type:'error',
