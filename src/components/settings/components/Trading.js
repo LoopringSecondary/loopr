@@ -93,10 +93,11 @@ const TradingSettingForm = ({
     rules:[]
   })(
     <Select style={{ width: 90 }} onChange={handleChange.bind(this, "timeToLiveUnit")}>
-      <Option value="second">Second</Option>
       <Option value="minute">Minute</Option>
       <Option value="hour">Hour</Option>
       <Option value="day">Day</Option>
+      <Option value="week">Week</Option>
+      <Option value="month">Month</Option>
     </Select>
   )
 
