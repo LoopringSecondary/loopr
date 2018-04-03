@@ -1,13 +1,27 @@
 import React, { PropTypes } from 'react';
 import {Button,notification} from 'antd';
 
-const Alert = ({title,description})=>{
+const Alert = ({title,description,type='info',theme='light',actions})=>{
   return (
-    <div className="p15 loopring-alert t-light t-success">
+    <div className={`p15 loopring-alert t-${type} t-${theme}`}>
       <div className="row align-items-center">
-        <div className="col-auto pr0 pr15">
-          <i className="icon-loopring icon-loopring-success fs35 alert-icon"  />
-        </div>
+        {
+          type &&
+          <div className="col-auto pr0 pr15">
+            {
+              type === 'success' &&
+              <i className="icon-loopring icon-loopring-success fs35 alert-icon"  />
+            }
+            {
+              type === 'info' &&
+              <i className="icon-loopring icon-loopring-success fs35 alert-icon"  />
+            }
+            {
+              type === 'error' &&
+              <i className="icon-loopring icon-loopring-close fs35 alert-icon"  />
+            }
+          </div>
+        }
         <div className="col pl0 pr15">
           <div className="fs18 font-weight-bold alert-title">{title}</div>
           {
@@ -15,8 +29,8 @@ const Alert = ({title,description})=>{
             <div className="fs14 mt5 alert-description" style={{lineHeight:'1.4'}}>{description}</div>
           }
           {
-            false &&
-            <Button size='' className="fs14 mt5 alert-btn">Close</Button>
+            actions &&
+            <div className="alert-actions">{actions}</div>
           }
         </div>
       </div>
@@ -26,10 +40,12 @@ const Alert = ({title,description})=>{
 }
 
 export default {
-  success:(config)=>{
+  open:(config)=>{
     let className = 'loopring-notify'
-    let {message:title,description} = config
-    let alertProps = {title,description}
+    let {message:title,description,type,theme,actions} = config
+    let alertProps = {
+      title,description,type,theme,actions,
+    }
     notification.success({
       ...config,
       className,

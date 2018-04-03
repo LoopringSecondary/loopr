@@ -380,6 +380,9 @@
     }
   }
   .loopring-alert{
+    .alert-actions{
+      margin-top: 8px
+    }
     &.t-dark{
       .alert-icon{
         color:rgba(255,255,255,1)
@@ -407,14 +410,24 @@
     }
     &.t-light{
       &.t-error{
-        background:#f5222d;
+        background: #fff1f0;
+        .alert-icon{
+          color:#f5222d
+        }
+        .alert-title{
+          color:#f5222d
+        }
+        .alert-description{
+          color:#f5222d;
+          opacity:'0.85';
+        }
         .alert-btn{
           color:#f5222d;
           background:rgba(255,255,255,1)
         }
       }
       &.t-success{
-        // background:#52c41a;
+        background: #f6ffed;
         .alert-icon{
           color:#52c41a
         }
@@ -430,6 +443,31 @@
           background:rgba(255,255,255,1)
         }
       }
+      &.t-info{
+        background:#e6f7ff;
+        .alert-icon{
+          color:#1890ff
+        }
+        .alert-title{
+          color:#1890ff
+        }
+        .alert-description{
+          color:#1890ff;
+          opacity:'0.85';
+        }
+        .ant-btn-primary{
+          background: transparent !important;
+          border: 1px solid #1890ff !important;
+          color:#1890ff;
+          padding:0px 10px !important;
+          height:28px !important;
+          &:hover{
+            background: #1890ff !important;
+            color: white;
+          }
+        }
+      }
+
     }
 
 
