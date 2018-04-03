@@ -17,6 +17,11 @@ const Alert = ({title,description,type='info',theme='light',actions})=>{
               <i className="icon-loopring icon-loopring-success fs35 alert-icon"  />
             }
             {
+              type === 'warning' &&
+              <i className="icon-loopring icon-loopring-qustion fs35 alert-icon"  />
+            }
+
+            {
               type === 'error' &&
               <i className="icon-loopring icon-loopring-close fs35 alert-icon"  />
             }
