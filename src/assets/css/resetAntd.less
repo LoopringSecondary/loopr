@@ -379,6 +379,61 @@
       }
     }
   }
+  .loopring-alert{
+    &.t-dark{
+      .alert-icon{
+        color:rgba(255,255,255,1)
+      }
+      .alert-title{
+        color:rgba(255,255,255,1)
+      }
+      .alert-description{
+        color:rgba(255,255,255,0.85)
+      }
+      &.t-error{
+        background:#f5222d;
+        .alert-btn{
+          color:#f5222d;
+          background:rgba(255,255,255,1)
+        }
+      }
+      &.t-success{
+        background:#52c41a;
+        .alert-btn{
+          color:#52c41a;
+          background:rgba(255,255,255,1)
+        }
+      }
+    }
+    &.t-light{
+      &.t-error{
+        background:#f5222d;
+        .alert-btn{
+          color:#f5222d;
+          background:rgba(255,255,255,1)
+        }
+      }
+      &.t-success{
+        // background:#52c41a;
+        .alert-icon{
+          color:#52c41a
+        }
+        .alert-title{
+          color:#52c41a
+        }
+        .alert-description{
+          color:#52c41a;
+          opacity:'0.85';
+        }
+        .alert-btn{
+          color:#52c41a;
+          background:rgba(255,255,255,1)
+        }
+      }
+    }
+
+
+  }
 
 
 }

@@ -7,8 +7,9 @@ function Test(props){
   const notify = ()=>{
     Notification.success({
       duration:null,
-      message:'This is Title',
-      description:'This is Description',
+      message:'Place Order Success !',
+      description:'Congradualations! Your order has been submited! ',
+      icon:'',
     })
   }
   return (
