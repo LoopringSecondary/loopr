@@ -384,32 +384,43 @@
   }
   .loopring-alert{
     .alert-actions{
-      margin-top: 8px
+      margin-top: 8px;
     }
-
+    .alert-btn{
+      padding:0px 10px !important;
+      height:28px !important;
+      font-size:13px;
+      border:none;
+    }
     &.t-dark{
       .alert-icon{
-        color:rgba(255,255,255,1)
+        color:rgba(255,255,255,1);
       }
       .alert-title{
-        color:rgba(255,255,255,1)
+        color:rgba(255,255,255,1);
       }
       .alert-description{
-        color:rgba(255,255,255,0.85)
+        color:rgba(255,255,255,0.85);
+      }
+      .alert-btn{
+        color:rgba(255,255,255,0.8);
+        background:rgba(0,0,0,0.1);
+        &:hover{
+          background: #fff;
+          color:#333;
+        }
       }
       &.t-error{
         background:#f5222d;
-        .alert-btn{
-          color:#f5222d;
-          background:rgba(255,255,255,1)
-        }
       }
       &.t-success{
         background:#52c41a;
-        .alert-btn{
-          color:#52c41a;
-          background:rgba(255,255,255,1)
-        }
+      }
+      &.t-warning{
+        background:#faad14;
+      }
+      &.t-info{
+        background:#1890ff;
       }
     }
     &.t-light{
@@ -430,8 +441,6 @@
             background: transparent !important;
             border: 1px solid #f5222d !important;
             color:#f5222d;
-            padding:0px 10px !important;
-            height:28px !important;
             &:hover{
               background: #f5222d !important;
               color: white;
@@ -439,7 +448,6 @@
           }
         }
         .alert-btn{
-          border:none;
           background: #f5222d !important;
           color:white;
           padding:0px 10px !important;
@@ -464,8 +472,6 @@
             background: transparent !important;
             border: 1px solid #52c41a !important;
             color:#52c41a;
-            padding:0px 10px !important;
-            height:28px !important;
             &:hover{
               background: #52c41a !important;
               color: white;
@@ -473,7 +479,6 @@
           }
         }
         .alert-btn{
-          border:none;
           background: #52c41a !important;
           color:white;
           padding:0px 10px !important;
@@ -497,8 +502,6 @@
             background: transparent !important;
             border: 1px solid #faad14 !important;
             color:#faad14;
-            padding:0px 10px !important;
-            height:28px !important;
             &:hover{
               background: #faad14 !important;
               color: white;
@@ -506,7 +509,6 @@
           }
         }
         .alert-btn{
-          border:none;
           background: #faad14 !important;
           color:white;
           padding:0px 10px !important;
@@ -530,8 +532,6 @@
             background: transparent !important;
             border: 1px solid #1890ff !important;
             color:#1890ff;
-            padding:0px 10px !important;
-            height:28px !important;
             &:hover{
               background: #1890ff !important;
               color: white;
@@ -539,7 +539,6 @@
           }
         }
         .alert-btn{
-          border:none;
           background: #1890ff !important;
           color:white;
           padding:0px 10px !important;
