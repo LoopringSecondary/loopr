@@ -20,8 +20,8 @@ function Test(props){
       type:'info',
       actions:(
         <div>
-          <Button className="alert-btn mr5">Convert</Button>
-          <Button className="alert-btn mr5">Receive</Button>
+          <Button className="alert-btn mr5">Convert WETH To ETH</Button>
+          <Button className="alert-btn mr5">Receive WETH</Button>
         </div>
       )
 
@@ -31,12 +31,12 @@ function Test(props){
     Notification.open({
       duration:null,
       message:"Order can not be fully filled !",
-      description:'WETH balance is not enough for your order .',
+      description:'ETH balance is not enough for your order .',
       type:'warning',
       actions:(
         <div>
-          <Button className="alert-btn mr5">Convert</Button>
-          <Button className="alert-btn mr5">Receive</Button>
+          <Button className="alert-btn mr5">Buy ETH</Button>
+          <Button className="alert-btn mr5">Receive ETH</Button>
         </div>
       )
 
@@ -46,12 +46,12 @@ function Test(props){
     Notification.open({
       duration:null,
       message:"Order can not be fully filled !",
-      description:'WETH balance is not enough for your order .',
+      description:'LRC balance is not enough for your order .',
       type:'error',
       actions:(
         <div>
-          <Button className="alert-btn mr5">Convert</Button>
-          <Button className="alert-btn mr5">Receive</Button>
+          <Button className="alert-btn mr5">Buy LRC</Button>
+          <Button className="alert-btn mr5">Receive LRC</Button>
         </div>
       )
 
