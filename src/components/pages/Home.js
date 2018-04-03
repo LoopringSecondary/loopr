@@ -6,7 +6,7 @@ import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import intl from 'react-intl-universal'
-import {Pages,Page} from '../common/Pages'
+import {Pages,Page} from 'Loopr/Pages'
 
 function Home(props){
   const { children,dispatch } = props

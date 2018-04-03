@@ -16,6 +16,14 @@ class Pages extends React.Component {
       }
     })
   }
+  loadingChange(payload){
+    this.setState({
+      [payload.id]:{
+        ...this.state[payload.id],
+        ...payload,
+      }
+    })
+  }
   render() {
     let props = this.props;
     return (
@@ -45,6 +53,7 @@ class Pages extends React.Component {
                   page:{
                     ...page,
                     gotoPage:this.gotoPage.bind(this),
+                    loadingChange:this.loadingChange.bind(this),
                   }
                 }
                 return React.cloneElement(child, {...childProps})
@@ -58,14 +67,29 @@ class Pages extends React.Component {
   }
 }
 const Page = (props)=>{
-  const {style,className,visible,transition,render,...rest} = props;
+  const {style,className,visible,transition,render,id,loadingChange,...rest} = props;
+  const showLoading = ()=>{
+    loadingChange({
+      id,
+      loading:true,
+    })
+  }
+  const hideLoading = ()=>{
+    loadingChange({
+      id,
+      loading:false,
+    })
+  }
+
   const childProps ={
     ...rest,
+    showLoading:showLoading.bind(this),
+    hideLoading:hideLoading.bind(this),
   }
   if(typeof render === 'function'){
     return (
       <div className={className} style={style}>
-        {render.call(this,childProps)}
+        {render.call(this,{...childProps})}
       </div>
     )
   }
@@ -79,6 +103,6 @@ const Page = (props)=>{
     </div>
   )
 }
-export { Page };
-export { Pages };
-export default Pages;
+export { Page }
+export { Pages }
+export default Pages
