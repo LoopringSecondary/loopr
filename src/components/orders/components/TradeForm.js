@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip} from 'antd';
+import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip,Popconfirm} from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
@@ -12,8 +12,12 @@ import intl from 'react-intl-universal';
 class TradeForm extends React.Component {
   state = {
     priceInput: 0,
+    amountInput:0,
     availableAmount: 0,
-    timeToLivePopularSetting: true
+    timeToLivePopularSetting: true,
+    sliderMilliLrcFee:0,
+    timeToLive:0,
+    timeToLiveUnit:''
   }
 
   render() {
@@ -23,6 +27,7 @@ class TradeForm extends React.Component {
       tokenCopy.allowance = tokenCopy.allowance > 0 ? fm.toBig(tokenCopy.allowance).div("1e"+tokenCopy.digits) : fm.toBig(0)
       return tokenCopy
     }
+    const _this = this
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;
     const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account,settings} = this.props
@@ -57,6 +62,20 @@ class TradeForm extends React.Component {
       if(displayPrice >0) {
         availableAmount = Math.floor(tokenRBalance.balance / Number(displayPrice) * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
       }
+    }
+    let sliderMilliLrcFee = this.state.sliderMilliLrcFee || settings.trading.lrcFee || configs.defaultLrcFeePermillage
+    const total = accMul(this.state.priceInput > 0 ? this.state.priceInput : displayPrice, this.state.amountInput)
+    let calculatedLrcFee = 0
+    calculateLrcFee(total, sliderMilliLrcFee)
+    let ttlInSecond = 0, ttlShow = ''
+    const ttl = this.state.timeToLive ? Number(this.state.timeToLive) : Number(settings.trading.timeToLive)
+    const unit = this.state.timeToLiveUnit ? this.state.timeToLiveUnit : settings.trading.timeToLiveUnit
+    switch(unit){
+      case 'minute': ttlInSecond = ttl * 60 ; ttlShow = `${ttl} ${intl.get('trade.minute')}`; break;
+      case 'hour': ttlInSecond = ttl * 3600 ; ttlShow = `${ttl} ${intl.get('trade.hour')}`; break;
+      case 'day': ttlInSecond = ttl * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.day')}`; break;
+      case 'week': ttlInSecond = ttl * 7 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.week')}`; break;
+      case 'month': ttlInSecond = ttl * 30 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
     }
 
     const showModal = (payload)=>{
@@ -100,31 +119,7 @@ class TradeForm extends React.Component {
           tradeInfo.amount = Number(values.amount)
           tradeInfo.price = Number(values.price)
           tradeInfo.total = accMul(tradeInfo.amount, tradeInfo.price)
-          if(this.state.timeToLivePopularSetting && values.timeToLivePopularSetting) {
-            let timeToLive = 0
-            switch(values.timeToLivePopularSetting){
-              case '1hour': timeToLive = 3600; break;
-              case '1day': timeToLive = 24 * 86400; break;
-              case '1week': timeToLive = 7 * 24 * 86400; break;
-              case '1month': timeToLive = 30 * 24 * 86400; break;
-              default :
-                console.error("invalid timeToLivePopularSetting:", values.timeToLivePopularSetting)
-                return
-            }
-            tradeInfo.timeToLive = timeToLive
-          } else if (values.timeToLiveUnit && values.timeToLive) {
-            let timeToLive = Number(values.timeToLive)
-            switch(values.timeToLiveUnit) {
-              case 'second': break;
-              case 'minute': timeToLive = timeToLive * 60; break;
-              case 'hour': timeToLive = timeToLive * 3600; break;
-              case 'day': timeToLive = timeToLive * 86400; break;
-              default :
-                console.error("invalid timeToLiveUnit:", values.timeToLiveUnit)
-                return
-            }
-            tradeInfo.timeToLive = timeToLive
-          }
+          tradeInfo.timeToLive = ttlInSecond
           if (values.marginSplit) {
             tradeInfo.marginSplit = Number(values.marginSplit)
           }
@@ -136,23 +131,9 @@ class TradeForm extends React.Component {
             });
             return
           }
-          let milliLrcFee = 0
-          if (values.lrcFee) {
-            milliLrcFee = Number(values.lrcFee)
-            tradeInfo.milliLrcFee = milliLrcFee
-          } else {
-            milliLrcFee = Number(configs.defaultLrcFeePermillage)
-          }
-          let userSetLrcFeeInEth = calculateLrcFeeInEth(totalWorth, milliLrcFee)
-          const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
-          if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
-            tradeInfo.lrcFee = calculateLrcFeeByEth(userSetLrcFeeInEth)
-            toConfirm(tradeInfo)
-          } else {
-            tradeInfo.lrcFee = calculateLrcFeeByEth(minimumLrcfeeInEth)
-            const content = intl.get('trade.lrcFee_increased', {userSet:calculateLrcFeeByEth(userSetLrcFeeInEth), increased:tradeInfo.lrcFee})
-            showConfirm(content, tradeInfo)
-          }
+          tradeInfo.milliLrcFee = sliderMilliLrcFee
+          tradeInfo.lrcFee = calculatedLrcFee
+          toConfirm(tradeInfo)
         }
       });
     }
@@ -339,6 +320,24 @@ class TradeForm extends React.Component {
       }
     }
 
+    function calculateLrcFee(total, milliLrcFee) {
+      const totalWorth = calculateWorthInLegalCurrency(tokenR, total)
+      if(totalWorth <= 0) {
+        calculatedLrcFee = 0
+        return
+      }
+      if (!milliLrcFee) {
+        milliLrcFee = Number(configs.defaultLrcFeePermillage)
+      }
+      let userSetLrcFeeInEth = calculateLrcFeeInEth(totalWorth, milliLrcFee)
+      const minimumLrcfeeInEth = configs.minimumLrcfeeInEth
+      if(userSetLrcFeeInEth >= minimumLrcfeeInEth){
+        calculatedLrcFee = calculateLrcFeeByEth(userSetLrcFeeInEth)
+      } else {
+        calculatedLrcFee = calculateLrcFeeByEth(minimumLrcfeeInEth)
+      }
+    }
+
     function inputChange(type, e) {
       let price = 0, amount = 0
       if (type === 'price') {
@@ -383,10 +382,13 @@ class TradeForm extends React.Component {
           amount = Math.floor(amount)
         }
         e.target.value = amount
+        this.setState({amountInput: amount})
         price = Number(form.getFieldValue("price"))
       }
       const total = accMul(price, amount)
       form.setFieldsValue({"total": total})
+      //LRC Fee
+      calculateLrcFee(total, sliderMilliLrcFee)
     }
 
     function timeToLiveChange(e) {
@@ -405,6 +407,31 @@ class TradeForm extends React.Component {
       }
     }
 
+    function lrcFeeChange(v) {
+
+    }
+
+    function lrcFeeConfirm() {
+      const milliLrcFee = form.getFieldValue('lrcFeeSlider')
+      _this.setState({sliderMilliLrcFee : milliLrcFee})
+      const amount = Number(form.getFieldValue("amount"))
+      const price = Number(form.getFieldValue("price"))
+      if(amount && price) {
+        const total = accMul(price, amount)
+        calculateLrcFee(total, milliLrcFee)
+      }
+    }
+
+    function ttlConfirm() {
+      const ttl = form.getFieldValue('timeToLiveEdit')
+      switch(ttl){
+        case '1hour': _this.setState({timeToLive: 1, timeToLiveUnit: 'hour'}); break;
+        case '1day': _this.setState({timeToLive: 1, timeToLiveUnit: 'day'});  break;
+        case '1week': _this.setState({timeToLive: 1, timeToLiveUnit: 'week'}); break;
+        case '1month': _this.setState({timeToLive: 1, timeToLiveUnit: 'month'}); break;
+      }
+    }
+
     const formItemLayout = {
       labelCol: {
         xs: {span: 24},
@@ -417,11 +444,10 @@ class TradeForm extends React.Component {
     };
     const Option = Select.Option;
     const timeToLiveSelectAfter = form.getFieldDecorator('timeToLiveUnit', {
-      initialValue: "second",
+      initialValue: "minute",
       rules: []
     })(
       <Select style={{width: 90}}>
-        <Option value="second">{intl.get('trade.second')}</Option>
         <Option value="minute">{intl.get('trade.minute')}</Option>
         <Option value="hour">{intl.get('trade.hour')}</Option>
         <Option value="day">{intl.get('trade.day')}</Option>
@@ -448,6 +474,48 @@ class TradeForm extends React.Component {
         <Currency />
         {this.state.priceInput >0 ? accMul(this.state.priceInput, tokenRPrice.price).toFixed(2) : accMul(displayPrice, tokenRPrice.price).toFixed(2)}
       </span>
+    )
+    const editLRCFee = (
+      <Popconfirm title={
+        <div>
+          <div>{intl.get('trade.custom_lrc_fee')}</div>
+          <div>
+            {form.getFieldDecorator('lrcFeeSlider', {
+              initialValue: configs.defaultLrcFeePermillage,
+              rules: []
+              })(
+                <Slider min={1} max={50} step={1}
+                    marks={{
+                      1: intl.get('token.slow'),
+                      50: intl.get('token.fast')
+                    }}
+                    onChange={lrcFeeChange.bind(this)}
+                />
+            )}
+          </div>
+        </div>
+      } okText="Yes" cancelText="No" onConfirm={lrcFeeConfirm.bind(this)}>
+        <a href="#"><Icon type="edit" /></a>
+      </Popconfirm>
+    )
+    const editOrderTTL = (
+      <Popconfirm title={
+        <div>
+          <div>{intl.get('trade.custom_time_to_live')}</div>
+          <div>
+            {form.getFieldDecorator('timeToLiveEdit')(
+              <RadioGroup>
+                <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
+                <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
+                <RadioButton value="1week">1 {intl.get('trade.week')}</RadioButton>
+                <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
+              </RadioGroup>
+            )}
+          </div>
+        </div>
+      } okText="Yes" cancelText="No" onConfirm={ttlConfirm.bind(this)}>
+        <a href="#"><Icon type="edit" /></a>
+      </Popconfirm>
     )
 
     return (
@@ -528,7 +596,7 @@ class TradeForm extends React.Component {
               <Input disabled className="d-block w-100" placeholder="" size="large" suffix={<span className="fs14 color-black-4">{tokenR}</span>}/>
             )}
           </Form.Item>
-          <Collapse bordered={false} defaultActiveKey={[]}>
+          {false && <Collapse bordered={false} defaultActiveKey={[]}>
             <Collapse.Panel className="" style={{border: 'none', margin: '0px -15px', padding: '0px -15px'}}
                             header={<div style={{}}>{intl.get('trade.advanced')}</div>} key="1">
               <div className="row">
@@ -600,7 +668,7 @@ class TradeForm extends React.Component {
                     )}
                   </Form.Item>
                 </div>
-                <div className="col">
+                {false && <div className="col">
                   <Form.Item className="mb5 ttl" colon={false} label={
                     <div className="row">
                       <div className="col-auto">
@@ -622,10 +690,42 @@ class TradeForm extends React.Component {
                       <Input className="d-block w-100" placeholder="" size="large" suffix='％'/>
                     )}
                   </Form.Item>
-                </div>
+                </div>}
               </div>
             </Collapse.Panel>
-          </Collapse>
+          </Collapse>}
+          <Form.Item className="mb5" {...formItemLayout} colon={false} label={
+            <div className="row">
+              <div className="col-auto">
+                {intl.get('trade.lrc_fee')}
+                <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
+                  <Icon className="color-gray-500 ml5" type="question-circle"/>
+                </Tooltip>
+              </div>
+            </div>
+          }>
+            <div className="row align-items-center">
+              <div className="col"></div>
+              <div className="col-auto">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
+              <div className="col-auto">{editLRCFee}</div>
+            </div>
+          </Form.Item>
+          <Form.Item className="mb5" {...formItemLayout} colon={false} label={
+            <div className="row">
+              <div className="col-auto">
+                {intl.get('trade.time_to_live')}
+                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
+                  <Icon className="color-gray-500 ml5" type="question-circle"/>
+                </Tooltip>
+              </div>
+            </div>
+          }>
+            <div className="row align-items-center">
+              <div className="col"></div>
+              <div className="col-auto">{ttlShow}</div>
+              <div className="col-auto">{editOrderTTL}</div>
+            </div>
+          </Form.Item>
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
             <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
               {intl.get('trade.place_order_trezor_unsupport') }

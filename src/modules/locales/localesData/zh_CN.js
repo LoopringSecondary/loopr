@@ -172,7 +172,7 @@ export default {
     contract: "合约版本",
     ttl: "有效期",
     ttl_tip: "请输入合法的整数",
-    lrcfee: "订单费",
+    lrcfee: "LRC 手续费",
     margin: "分润比例",
     gasPrice: "Gas价格",
     slow: "慢",
@@ -200,7 +200,7 @@ export default {
     available_amount: "有效数量",
     total: "总计",
     advanced: "高级选项",
-    time_to_live: "订单有效时间",
+    time_to_live: "有效时间",
     more: "更多",
     popular_option: "常用选项",
     integer_verification_message: "请输入数字类型",
@@ -210,7 +210,7 @@ export default {
     day: "天",
     week: "周",
     month: "月",
-    lrc_fee: "LRC 手续费",
+    lrc_fee: "手续费",
     margin_split: "分润比例",
     place_order: "提交订单",
     unlock_your_wallet: "解锁你的钱包",
@@ -234,7 +234,9 @@ export default {
     confirm_warn_trezor: "请在您的Trezor设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单",
     place_order_trezor_unsupport: 'Trezor暂不支持签名交易无法下单',
-    place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响'
+    place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响',
+    custom_lrc_fee:'设置本订单有效的LRC手续费',
+    custom_time_to_live:'设置本订单有效的过期时间'
   },
   trades:{
     side: '方向',

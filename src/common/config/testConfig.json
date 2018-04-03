@@ -5,7 +5,7 @@
   "defaultGasPrice": 21,
   "defaultMarginSplitPercentage": 50,
   "defaultGasLimit": "0x15f90",
-  "defaultExpireTime": 30,
+  "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
   "delegateAddress": "0x4e9d4d3b7db4973c91b23a634eb9f675d0e19f79",
   "chainId": 7107171,

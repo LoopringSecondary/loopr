@@ -1,26 +1,15 @@
 import {configs} from '../../common/config/data'
-const selectedContract = configs.contracts[configs.contracts.length-1]
-//TODO read(may update) selected contract from localStorage
-const relays = configs.relays
-//TODO mock custom relay
-const localRelay = [
-  {
-    "value": "https://relay.my.1.io",
-    "name": "My Relay1",
-    "custom": true
-  },
-  {
-    "value": "https://relay.my.2.io",
-    "name": "My Relay2",
-    "custom": true
-  }
-]
-let concatRelays = new Array();
-[...relays, ...localRelay].forEach((item, i) => {
+
+const preference = window.STORAGE.settings.get().preference
+const trading = window.STORAGE.settings.get().trading
+const relay = window.STORAGE.settings.get().relay
+const selectedContract = trading ? trading.contract : configs.contracts[configs.contracts.length-1]
+const relays = relay ? relay.nodes : configs.relays
+let sortedRelays = relays.map((item, i) => {
   item.id = i;
-  concatRelays.push(item)
+  return item
 })
-const selectedRelay = concatRelays[0]
+const selectedRelay = relay ? relay.selected : sortedRelays[0].value
 
 const setRelayIds = (relays) => {
   relays.forEach((item, i) => {
@@ -32,24 +21,24 @@ export default {
   namespace: 'settings',
   state: {
     preference: {
-      language: "en-US",
-      currency: "USD",
-      timezone: "UTC+00:00"
+      language: preference ? preference.language : "en-US",
+      currency: preference ? preference.currency : "USD",
+      timezone: preference ? preference.timezone : "UTC+00:00"
     },
     trading: {
       contract: {
         version: selectedContract.version,
         address: selectedContract.address
       },
-      timeToLive: configs.defaultExpireTime,
-      timeToLiveUnit: configs.defaultExpireTimeUnit,
-      lrcFee: configs.defaultLrcFeePermillage,
-      marginSplit: configs.defaultMarginSplitPercentage,
-      gasPrice: configs.defaultGasPrice
+      timeToLive: trading ? trading.timeToLive : configs.defaultExpireTime,
+      timeToLiveUnit: trading ? trading.timeToLiveUnit : configs.defaultExpireTimeUnit,
+      lrcFee: trading ? trading.lrcFee : configs.defaultLrcFeePermillage,
+      marginSplit: trading ? trading.marginSplit : configs.defaultMarginSplitPercentage,
+      gasPrice: trading ? trading.gasPrice : configs.defaultGasPrice
     },
     relay: {
-      selected: selectedRelay.value,
-      nodes: concatRelays
+      selected: selectedRelay,
+      nodes: sortedRelays
     }
   },
   reducers: {
