@@ -20,8 +20,8 @@ function Test(props){
       type:'info',
       actions:(
         <div>
-          <Button className="mr5" type="primary">Convert</Button>
-          <Button className="mr5" type="primary">Receive</Button>
+          <Button className="alert-btn mr5">Convert</Button>
+          <Button className="alert-btn mr5">Receive</Button>
         </div>
       )
 
@@ -35,8 +35,8 @@ function Test(props){
       type:'warning',
       actions:(
         <div>
-          <Button className="mr5" type="primary">Convert</Button>
-          <Button className="mr5" type="primary">Receive</Button>
+          <Button className="alert-btn mr5">Convert</Button>
+          <Button className="alert-btn mr5">Receive</Button>
         </div>
       )
 
@@ -50,8 +50,8 @@ function Test(props){
       type:'error',
       actions:(
         <div>
-          <Button className="mr5" type="primary">Convert</Button>
-          <Button className="mr5" type="primary">Receive</Button>
+          <Button className="alert-btn mr5">Convert</Button>
+          <Button className="alert-btn mr5">Receive</Button>
         </div>
       )
 
