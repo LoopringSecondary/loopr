@@ -1,26 +1,22 @@
 import React from 'react';
 import { Button } from 'antd'
-import { connect } from 'dva'
+import Notification from 'Loopr/Notification'
+import PagesExample from 'Loopr/PagesExample'
 
 function Test(props){
-  const { dispatch } = props
-  let bool = false
-  const toggleCurrency = ()=>{
-    bool = !bool
-    // console.log('bool',bool)
-    dispatch({
-      type:'global/currencyChange',
-      payload:{
-        currency:'USD'
-      }
+  const notify = ()=>{
+    Notification.success({
+      duration:null,
+      message:'This is Title',
+      description:'This is Description',
     })
   }
   return (
     <div className="container p30">
-      <Button onClick={toggleCurrency}>Change Currency</Button>
+      <Button onClick={notify}>Notify</Button>
+      <PagesExample />
     </div>
-    
   )
 }
 
-export default connect()(Test)
+export default Test

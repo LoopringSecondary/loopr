@@ -6,8 +6,6 @@ import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import intl from 'react-intl-universal'
-import PagesExample from 'Loopr/PagesExample'
-
 function Home(props){
   const { children,dispatch } = props
   const showModal = (id)=>{
@@ -34,7 +32,6 @@ function Home(props){
             <Button onClick={showModal.bind(this,'wallet/generate')} className="m15" style={{width:'255px'}} type="" size="large">{intl.get('buttons.generate_wallet')}</Button>
           </div>
         }
-        <PagesExample />
        </div>
        <div className="position-absolute w-100" style={{bottom:'0px'}}>
         <Sockets.TickersByLoopring>
