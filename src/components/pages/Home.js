@@ -6,7 +6,7 @@ import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import intl from 'react-intl-universal'
-import {Pages,Page} from 'Loopr/Pages'
+import PagesExample from 'Loopr/PagesExample'
 
 function Home(props){
   const { children,dispatch } = props
@@ -34,34 +34,7 @@ function Home(props){
             <Button onClick={showModal.bind(this,'wallet/generate')} className="m15" style={{width:'255px'}} type="" size="large">{intl.get('buttons.generate_wallet')}</Button>
           </div>
         }
-        <Pages active="1">
-          <Page id="1" render={({page})=>{
-            return (
-              <div className="fs14">
-                First Page
-                <Button onClick={page.gotoPage.bind(this,{id:'2'})} className="m15" type="" size="small">Go To 2</Button>
-              </div>
-            )
-          }} />
-          <Page id="2" render={({page})=>{
-            return (
-              <div className="fs14">
-                Second Page
-                <Button onClick={page.gotoPage.bind(this,{id:'3'})} className="m15" type="" size="small">Go To 3</Button>
-              </div>
-            )
-          }} />
-          <Page id="3" render={({page})=>{
-            return (
-              <div className="fs14">
-                Third Page
-                <Button onClick={page.gotoPage.bind(this,{id:'1'})} className="m15" type="" size="small">Go To 1</Button>
-              </div>
-            )
-          }} />
-
-
-        </Pages>
+        <PagesExample />
        </div>
        <div className="position-absolute w-100" style={{bottom:'0px'}}>
         <Sockets.TickersByLoopring>
