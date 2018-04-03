@@ -122,7 +122,7 @@ export default {
     pending:"进行中"
   },
   orders: {
-    order: "订单哈希",
+    order: "订单",
     time: "时间",
     market: '市场',
     status: '状态',
@@ -152,7 +152,9 @@ export default {
     already_add:"您已经添加过该代币!",
     sell_amount:'卖出数量',
     buy_amount:'买入数量',
-    order_detail:"订单详情"
+    order_detail:"订单详情",
+    basic_detail:"基础详情",
+    fill_detail:"撮合详情"
   },
   global: {
     all: '全部',
@@ -232,7 +234,9 @@ export default {
     confirm_warn_trezor: "请在您的Trezor设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单",
     place_order_trezor_unsupport: 'Trezor暂不支持签名交易无法下单',
-    place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响'
+    place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响',
+    custom_lrc_fee:'设置本订单有效的LRC手续费',
+    custom_time_to_live:'设置本订单有效的过期时间'
   },
   trades:{
     side: '方向',

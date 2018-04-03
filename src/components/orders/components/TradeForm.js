@@ -71,11 +71,11 @@ class TradeForm extends React.Component {
     const ttl = this.state.timeToLive ? Number(this.state.timeToLive) : Number(settings.trading.timeToLive)
     const unit = this.state.timeToLiveUnit ? this.state.timeToLiveUnit : settings.trading.timeToLiveUnit
     switch(unit){
-      case 'minute': ttlInSecond = ttl * 60 ; ttlShow = `${ttl} Minute`; break;
-      case 'hour': ttlInSecond = ttl * 3600 ; ttlShow = `${ttl} Hour`; break;
-      case 'day': ttlInSecond = ttl * 24 * 86400; ttlShow = `${ttl} Day`; break;
-      case 'week': ttlInSecond = ttl * 7 * 24 * 86400; ttlShow = `${ttl} Week`; break;
-      case 'month': ttlInSecond = ttl * 30 * 24 * 86400; ttlShow = `${ttl} Month`; break;
+      case 'minute': ttlInSecond = ttl * 60 ; ttlShow = `${ttl} ${intl.get('trade.minute')}`; break;
+      case 'hour': ttlInSecond = ttl * 3600 ; ttlShow = `${ttl} ${intl.get('trade.hour')}`; break;
+      case 'day': ttlInSecond = ttl * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.day')}`; break;
+      case 'week': ttlInSecond = ttl * 7 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.week')}`; break;
+      case 'month': ttlInSecond = ttl * 30 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
     }
 
     const showModal = (payload)=>{
@@ -478,7 +478,7 @@ class TradeForm extends React.Component {
     const editLRCFee = (
       <Popconfirm title={
         <div>
-          <div>Custom LRC Fee for this order</div>
+          <div>{intl.get('trade.custom_lrc_fee')}</div>
           <div>
             {form.getFieldDecorator('lrcFeeSlider', {
               initialValue: configs.defaultLrcFeePermillage,
@@ -501,7 +501,7 @@ class TradeForm extends React.Component {
     const editOrderTTL = (
       <Popconfirm title={
         <div>
-          <div>Custom time to live for this order</div>
+          <div>{intl.get('trade.custom_time_to_live')}</div>
           <div>
             {form.getFieldDecorator('timeToLiveEdit')(
               <RadioGroup>

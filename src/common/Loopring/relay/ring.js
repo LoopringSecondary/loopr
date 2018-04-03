@@ -40,3 +40,16 @@ export async function getRingByHash(ringHash) {
 }
 
 
+export async function getFills(filter) {
+
+  let body = {};
+  body.method = 'loopring_getFills';
+  body.params = [filter];
+  return request({
+    method:'post',
+    headers,
+    body,
+  })
+}
+
+
