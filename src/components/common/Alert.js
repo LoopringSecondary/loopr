@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import {Button,Icon} from 'antd';
 
-const Alert = ({title,description,type='info',theme='dark',actions})=>{
+const Alert = ({title,description,type='info',theme='light',actions})=>{
   return (
     <div className={`p15 loopring-alert t-${type} t-${theme}`}>
       <div className="row align-items-center">
