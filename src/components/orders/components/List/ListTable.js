@@ -123,7 +123,7 @@ function ListBlock(props) {
       } else {
         percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
       }
-      return <Progress type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/>
+      return <a onClick={showModal.bind(this,{id:'order/detail/fills',item:item,title:intl.get('orders.fill_detail')})}><Progress type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/> </a>
     },
     action: (value, item, index) => {
       const tokenS = item.originalOrder.tokenS
