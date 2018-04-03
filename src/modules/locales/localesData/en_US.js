@@ -122,7 +122,7 @@ export default {
     pending: "Pending"
   },
   orders: {
-    order: "Order Hash",
+    order: "Order",
     time: "Time",
     market: 'Market',
     status: 'Status',
@@ -151,7 +151,9 @@ export default {
     token_not_enough: "Token Amount is not enough",
     sell_amount: 'Sell Amount',
     buy_amount: 'Buy Amount',
-    order_detail: "Order Detail"
+    order_detail: "Order Detail",
+    basic_detail:"Basic Detail",
+    fill_detail:"Fills Detail"
   },
   global: {
     all: 'All',

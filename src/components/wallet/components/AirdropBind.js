@@ -21,8 +21,6 @@ class AirdropBind extends React.Component {
       address,
       project
     });
-    console.log('address:',this.state.address);
-    console.log('project:',this.state.project)
   }
   showConfirm = (address, project) => {
     const _this = this;
