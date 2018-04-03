@@ -9,7 +9,7 @@ function Test(props){
       // duration:4.5,
       duration:0,
       message:'Place Order Success !',
-      description:'Your order has been submited !',
+      description:'Your order will be filled from now on !',
       type:'success',
     })
   }
