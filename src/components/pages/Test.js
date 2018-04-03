@@ -6,7 +6,8 @@ import PagesExample from 'Loopr/PagesExample'
 function Test(props){
   const notifySuccess = ()=>{
     Notification.open({
-      duration:4.5,
+      // duration:4.5,
+      duration:0,
       message:'Place Order Success !',
       description:'Your order has been submited !',
       type:'success',
