@@ -285,6 +285,7 @@ export default {
     transfer_again_title: "Want to do again ? ",
     transfer_again_send: "Send again",
     transfer_again_convert: "Convert again",
+    add_custom_token_tip:"Please input valid address "
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
