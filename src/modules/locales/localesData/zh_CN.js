@@ -287,7 +287,8 @@ export default {
     transfer_again_title: "想要继续操作 ? ",
     transfer_again_send: "继续发送",
     transfer_again_convert: "继续转换",
-    add_custom_token_tip:"请输入合法的地址"
+    add_custom_token_tip:"请输入合法的地址",
+    send_failed: '发送失败！'
   },
   wallet: {
     bind_tip: "绑定空投接收地址",

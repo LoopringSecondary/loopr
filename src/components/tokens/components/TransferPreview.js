@@ -6,6 +6,7 @@ import {accDiv, accMul} from '../../../common/Loopring/common/math'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
 import CoinIcon from '../../common/CoinIcon'
+import Notification from 'Loopr/Notification'
 
 let Preview = ({
   modal, account
@@ -35,15 +36,35 @@ let Preview = ({
         notifyTransactionSubmitted(res.result);
       }
       extraData.txHash = res.result
-      modal.hideModal({id:'token/transfer/preview'})
-      modal.showModal({id:'token/transfer/result', result})
       modal.hideLoading({id:'token/transfer/preview'})
+      modal.hideModal({id:'token/transfer/preview'})
+      // modal.showModal({id:'token/transfer/result', result})
+      const priceValue = (
+        <span className="">
+          <Currency />
+          {accMul(result.extraData.amount, result.extraData.price).toFixed(2)}
+        </span>
+      )
+      const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().trading.currency)}`
+      console.log('11111111:', priceValue)
+      Notification.open({
+        duration:4.5,
+        message:`${intl.get('token.send_title')} ${intl.get('token.completed')}`,
+        description:`${intl.get('token.result_success', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol})} (${priceValue})`,
+        type:'success',
+      })
     }).catch(e=>{
       console.error(e)
       result = {...result, error:e.message}
-      modal.hideModal({id:'token/transfer/preview'})
-      modal.showModal({id:'token/transfer/result', result})
       modal.hideLoading({id:'token/transfer/preview'})
+      modal.hideModal({id:'token/transfer/preview'})
+      // modal.showModal({id:'token/transfer/result', result})
+      Notification.open({
+        duration:0,
+        message:intl.get('token.send_failed'),
+        description:intl.get('token.result_failed', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error}),
+        type:'error'
+      })
     })
   }
   const handelCancel = ()=>{
