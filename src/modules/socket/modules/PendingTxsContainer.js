@@ -65,7 +65,6 @@ class PendingTxsContainer extends React.Component {
     }
 
     if (orderHash) {
-      debugger;
       const cancelOrderTx = txs.find(tx => tx.type === 'cancel_order' && tx.content.orderHash.toLowerCase() === orderHash.toLowerCase())
       return !!cancelOrderTx
     }
