@@ -170,19 +170,13 @@ class ListBlock extends React.Component {
             {title} <span className="ml10">{statusCol}</span>
           </a>
           <div className="fs3 color-black-3">
-          <span className="mr15">
-            {uiFormatter.getFormatTime(item.createTime * 1000)}
-          </span>
-            {
-              <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
-                 className="color-black-3 mr15  d-inline-block">
-                {uiFormatter.getShortAddress(item.txHash)}
-              </a>
-            }
-            {false && <a href={`https://etherscan.io/tx/${item.txHash}`} target="_blank"
-               className="color-black-3 mr15  d-inline-block">
-              {uiFormatter.getShortAddress(item.txHash)}
-            </a>}
+            <span className="mr15">
+              {uiFormatter.getFormatTime(item.createTime * 1000)}
+            </span>
+            <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
+               className="color-black-3 mr15  d-inline-block text-truncate text-nowrap" style={{width:'100px'}}>
+              item.txHash
+            </a>
           </div>
         </div>
       )

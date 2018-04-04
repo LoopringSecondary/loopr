@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import {Button} from 'antd';
+import {Button,Icon} from 'antd';
 
 const Alert = ({title,description,type='info',theme='light',actions})=>{
   return (
@@ -11,14 +11,20 @@ const Alert = ({title,description,type='info',theme='light',actions})=>{
             {
               type === 'success' &&
               <i className="icon-loopring icon-loopring-success fs35 alert-icon"  />
+              &&
+              <Icon type="check-circle-o" className="fs35 alert-icon" />
             }
             {
               type === 'info' &&
               <i className="icon-loopring icon-loopring-success fs35 alert-icon"  />
+              &&
+              <Icon type="info-circle-o" className="fs35 alert-icon" />
             }
             {
               type === 'warning' &&
               <i className="icon-loopring icon-loopring-qustion fs35 alert-icon"  />
+              &&
+              <Icon type="exclamation-circle-o" className="fs35 alert-icon" />
             }
 
             {
