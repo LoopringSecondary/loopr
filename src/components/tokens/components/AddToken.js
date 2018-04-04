@@ -4,6 +4,7 @@ import Token from 'Loopring/ethereum/token'
 import validator from 'Loopring/ethereum/validator';
 import intl from 'react-intl-universal';
 import {configs} from '../../../common/config/data'
+import Notification from 'Loopr/Notification'
 
 const {tokens} = configs;
 
@@ -27,9 +28,9 @@ class AddCustomToken extends React.Component {
         digits: null
       });
       this.props.modal.hideModal({id: 'token/add'});
-      message.success(intl.get('tokens.save_successfully'));
+      Notification.open({message:intl.get('tokens.save_successfully'),type:"success",size:'small'});
     } catch (e) {
-      message.error(e.message)
+      Notification.open({message:e.message,type:"error",size:'small'})
     }
   };
 
@@ -48,7 +49,7 @@ class AddCustomToken extends React.Component {
             {form.getFieldDecorator('address', {
               initialValue: '',
               rules: [{
-                required: true, message: "Please input valid address",
+                required: true, message: intl.get('token.add_custom_token_tip'),
                 validator: (rule, value, cb) => this.isValidAddress(value) ? cb() : cb(true)
               }]
             })(
@@ -114,22 +115,22 @@ class AddCustomToken extends React.Component {
     const address = e.target.value;
     if (this.isValidAddress(address)) {
       const result = tokens.find(token => token.address.toUpperCase() === address.toUpperCase())
-      // if (result) {
-      //   message.warning(intl.get('tokens.supportToken'));
-      //   return
-      // }
+      if (result) {
+        Notification.open({message:intl.get('tokens.supportToken'),type:"warning",size:'small'});
+        return
+      }
       const customTokens = window.STORAGE.tokens.getCustomTokens();
 
-      const custom_history = customTokens.find(token => token.address.toUpperCase() === address.toUpperCase())
+      const custom_history = customTokens.find(token => token.address.toUpperCase() === address.toUpperCase());
       if (custom_history){
-        message.warning(intl.get('tokens.already_add'));
+        Notification.open({message:intl.get('tokens.already_add'),type:"warning",size:'small'});
         return
       }
       this.setState({address});
       const token = new Token({address});
       await token.complete();
       if (!token.symbol || token.digits === -1) {
-        message.error(intl.get('tokens.add_token_failed'));
+        Notification.open({message:intl.get('tokens.add_token_failed'),type:'error',size:'small'});
         return;
       }
       this.setState({name: token.name, symbol: token.symbol, digits: token.digits})
