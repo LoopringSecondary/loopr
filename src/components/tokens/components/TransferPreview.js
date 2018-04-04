@@ -12,6 +12,9 @@ let Preview = ({
   modal, account
   }) => {
   const {tx,extraData} = modal
+  const viewInEtherscan = (txHash) => {
+    window.open(`https://etherscan.io/tx/${txHash}`,'_blank')
+  }
   const handelSubmit = ()=>{
     modal.showLoading({id:'token/transfer/preview'})
     extraData.pageFrom = "Transfer"
@@ -30,29 +33,31 @@ let Preview = ({
     }).then(res=>{
       if(res.error) {
         result = {...result, error:res.error.message}
+        Notification.open({
+          message:intl.get('token.send_failed'),
+          description:intl.get('token.result_failed', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error}),
+          type:'error'
+        })
       } else {
+        extraData.txHash = res.result
         window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
         window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
         notifyTransactionSubmitted(res.result);
+        const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${accMul(result.extraData.amount, result.extraData.price).toFixed(2)}`
+        Notification.open({
+          message:`${intl.get('token.send_title')} ${intl.get('token.completed')}`,
+          description:`${intl.get('token.result_success', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol})} (${worth})`,
+          type:'success',
+          actions:(
+            <div>
+              <Button className="alert-btn mr5" onClick={viewInEtherscan.bind(this, extraData.txHash)}>{intl.get('token.transfer_result_etherscan')}</Button>
+            </div>
+          )
+        })
       }
-      extraData.txHash = res.result
       modal.hideLoading({id:'token/transfer/preview'})
       modal.hideModal({id:'token/transfer/preview'})
       // modal.showModal({id:'token/transfer/result', result})
-      const priceValue = (
-        <span className="">
-          <Currency />
-          {accMul(result.extraData.amount, result.extraData.price).toFixed(2)}
-        </span>
-      )
-      const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().trading.currency)}`
-      console.log('11111111:', priceValue)
-      Notification.open({
-        duration:4.5,
-        message:`${intl.get('token.send_title')} ${intl.get('token.completed')}`,
-        description:`${intl.get('token.result_success', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol})} (${priceValue})`,
-        type:'success',
-      })
     }).catch(e=>{
       console.error(e)
       result = {...result, error:e.message}
@@ -60,7 +65,6 @@ let Preview = ({
       modal.hideModal({id:'token/transfer/preview'})
       // modal.showModal({id:'token/transfer/result', result})
       Notification.open({
-        duration:0,
         message:intl.get('token.send_failed'),
         description:intl.get('token.result_failed', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error}),
         type:'error'
@@ -90,33 +94,33 @@ let Preview = ({
     </span>
   )
   return (
-      <Card title={intl.get('token.transfer_preview_title')}>
-        <div className="row flex-nowrap pb30 zb-b-b">
-          <div className="col">
-            <div className="text-center">
-              <CoinIcon size="60" symbol={extraData.tokenSymbol} />
-              <div className="fs20 color-black font-weight-bold">{`${extraData.amount} ${extraData.tokenSymbol} `}</div>
-              <div className="fs14 color-black-3">{priceValue}</div>
-            </div>
+    <Card title={intl.get('token.transfer_preview_title')}>
+      <div className="row flex-nowrap pb30 zb-b-b">
+        <div className="col">
+          <div className="text-center">
+            <CoinIcon size="60" symbol={extraData.tokenSymbol} />
+            <div className="fs20 color-black font-weight-bold">{`${extraData.amount} ${extraData.tokenSymbol} `}</div>
+            <div className="fs14 color-black-3">{priceValue}</div>
           </div>
         </div>
-        <MetaItem label={intl.get('token.from')} value={extraData.from} />
-        <MetaItem label={intl.get('token.to')} value={tx.to} />
-        <MetaItem label={intl.get('token.gas')} value={
-          <div className="mr15">
-            <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
-            <div className="row justify-content-end fs14 color-black-3">{`Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
-          </div>
-        }/>
-        <div className="row pt30 pb10">
-          <div className="col pl15">
-            <Button onClick={handelCancel} className="d-block w-100" type="" size="large">{intl.get('token.transfer_cancel')}</Button>
-          </div>
-          <div className="col pr15">
-            <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">{intl.get('token.transfer_send')}</Button>
-          </div>
+      </div>
+      <MetaItem label={intl.get('token.from')} value={extraData.from} />
+      <MetaItem label={intl.get('token.to')} value={tx.to} />
+      <MetaItem label={intl.get('token.gas')} value={
+        <div className="mr15">
+          <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
+          <div className="row justify-content-end fs14 color-black-3">{`Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
         </div>
-      </Card>
+      }/>
+      <div className="row pt30 pb10">
+        <div className="col pl15">
+          <Button onClick={handelCancel} className="d-block w-100" type="" size="large">{intl.get('token.transfer_cancel')}</Button>
+        </div>
+        <div className="col pr15">
+          <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">{intl.get('token.transfer_send')}</Button>
+        </div>
+      </div>
+    </Card>
   );
 };
 
