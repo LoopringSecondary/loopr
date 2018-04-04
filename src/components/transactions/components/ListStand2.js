@@ -181,13 +181,13 @@ class ListBlock extends React.Component {
             {title} <span className="ml10">{statusCol}</span>
           </a>
           <div className="fs3 color-black-3">
-          <span className="mr15">
-            {uiFormatter.getFormatTime(item.createTime * 1000)}
-          </span>
-          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
-             className="color-black-3 mr15  d-inline-block">
-            TxHash: {uiFormatter.getShortAddress(item.txHash)}
-          </a>
+            <span className="d-inline-block  text-truncate text-nowrap mr15">
+              {uiFormatter.getFormatTime(item.createTime * 1000)}
+            </span>
+            <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
+               className="d-inline-block text-truncate text-nowrap" style={{width:'180px'}}>
+              TxHash: {item.txHash}
+            </a>
           </div>
         </div>
       )

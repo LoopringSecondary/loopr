@@ -306,7 +306,7 @@ class ListSidebar extends React.Component {
             <div className="col pr10">
               <div className="">
                 <span className="fs2 color-black-1">{item.symbol}</span>
-                <span className="fs3 ml5 color-black-3 ">
+                <span className="fs2 ml5 color-black-3 ">
                 {item.title}
               </span>
               </div>
