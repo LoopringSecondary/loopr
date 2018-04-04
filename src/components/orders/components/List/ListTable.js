@@ -9,6 +9,8 @@ import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
 import intl from 'react-intl-universal';
+import Sockets from '../../../../modules/socket/containers';
+
 
 const uiFormatter = window.uiFormatter;
 const fm = window.uiFormatter.TokenFormatter;
@@ -171,8 +173,14 @@ function ListBlock(props) {
       return (
         <span className="text-nowrap">
           {item.status === 'ORDER_OPENED' &&
-          <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300"
-             style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px'}}>Cancel</a>
+          <Sockets.PendingTxs render={({txs})=>{
+            return (<Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} >Cancel</Button>)
+          }}>
+          </Sockets.PendingTxs>
+
+
+      // <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300"
+      //                   style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px'}} >Cancel</a>
           }
           {notEnough &&
           <Popover arrowPointAtCenter placement="topRight" content={content}

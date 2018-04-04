@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import config from '../../../common/config'
-import {toBig,toNumber} from "Loopring/common/formatter";
+import {toBig, toNumber} from "Loopring/common/formatter";
 
 
 class PendingTxsContainer extends React.Component {
@@ -20,9 +20,9 @@ class PendingTxsContainer extends React.Component {
       const owner = window.WALLET && window.WALLET.getAddress()
       const options = {
         owner
-      }
-      socket.emit('pendingTxs_req', JSON.stringify(options))
-      socket.on('pendingTxs_res', (res) => {
+      };
+      socket.emit('pendingTx_req', JSON.stringify(options))
+      socket.on('pendingTx_res', (res) => {
         console.log('pendingTxs_res')
         res = JSON.parse(res)
         if (!res.error) {
@@ -48,25 +48,28 @@ class PendingTxsContainer extends React.Component {
 
   isOrderCanceling({validSince, tokenPair, orderHash}) {
     const txs = this.state.pendingTxs;
+    console.log('Txs: ', txs.length);
     const cancelAllTxs = txs.filter(tx => tx.type === 'cutoff');
-    let isCanceling = false;
     cancelAllTxs.sort(function (a, b) {
       return toNumber(b.value) - toNumber(a.value)
     });
     if (cancelAllTxs.length > 0 && validSince && toNumber(cancelAllTxs[0].value) > toNumber(validSince)) {
-      isCanceling = true;
+      return true;
     }
 
     if (tokenPair) {
       const cancelMarketTx = txs.find(tx => tx.type === 'cutoff_trading_pair' && tx.content.market.toLowerCase() === tokenPair.toLowerCase());
-      isCanceling = !!cancelMarketTx
+      if (cancelMarketTx) {
+        return true
+      }
     }
 
     if (orderHash) {
+      debugger;
       const cancelOrderTx = txs.find(tx => tx.type === 'cancel_order' && tx.content.orderHash.toLowerCase() === orderHash.toLowerCase())
-      isCanceling = !!cancelOrderTx
+      return !!cancelOrderTx
     }
-    return isCanceling;
+    return false;
   }
 
   isApproving(symbol) {
@@ -105,7 +108,7 @@ class PendingTxsContainer extends React.Component {
         isOrderCanceling: this.isOrderCanceling.bind(this),
         isApproving: this.isApproving.bind(this),
         isWithdrawOldWeth: this.isWithdrawOldWeth.bind(this),
-        isDepositWeth:this.isDepositWeth.bind(this)
+        isDepositWeth: this.isDepositWeth.bind(this)
       }
     }
     const {render} = this.props
