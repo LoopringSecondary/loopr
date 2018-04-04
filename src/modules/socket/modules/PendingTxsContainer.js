@@ -80,7 +80,6 @@ class PendingTxsContainer extends React.Component {
         return toBig(approveTxs[0].value);
       }
     }
-    return -1;
   }
 
   isWithdrawOldWeth() {
