@@ -48,6 +48,7 @@ export default (
         <Route path="/trade"  exact component={Pages.Trade} />
         <Route path="/auth" render={UnLogged} />
         <Route path="/wallet" render={Logged} />
+        <Route path="/test" render={Pages.Test} />
         {RingsRoutes}
       </Switch>
       <Pages.Unload />
