@@ -10,6 +10,7 @@ import {configs} from "../../../common/config/data";
 import config from "../../../common/config";
 import eachLimit from 'async/eachLimit';
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 class TradeConfirm extends React.Component {
 
