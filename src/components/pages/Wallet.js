@@ -12,22 +12,24 @@ import intl from 'react-intl-universal';
 import {connect} from 'dva';
 import {getOldWethBalance} from 'Loopring/relay/utils';
 import {toBig} from "Loopring/common/formatter";
+import Sockets from '../../modules/socket/containers';
 
-class Home extends React.Component{
+class Home extends React.Component {
 
-  state={
-    oldWeth:0
+  state = {
+    oldWeth: 0
   };
 
-  componentDidMount(){
+  componentDidMount() {
     getOldWethBalance(window.WALLET.getAddress()).then(res => {
-      if(!res.error){
-        console.log('Balance',res.result);
-        this.setState({oldWeth:res.result})
+      if (!res.error) {
+        console.log('Balance', res.result);
+        this.setState({oldWeth: res.result})
       }
     })
   }
-  render(){
+
+  render() {
     const {match, location} = this.props;
     const handleTabChange = (key) => {
       switch (key) {
@@ -52,7 +54,10 @@ class Home extends React.Component{
       }
     };
     const showWithDrawAll = () => {
-      this.props.dispatch({type: 'modals/modalChange', payload: {id: "token/withdrawall", visible: true,item:{symbol:"WETH_OLD",balance:this.state.oldWeth}}})
+      this.props.dispatch({
+        type: 'modals/modalChange',
+        payload: {id: "token/withdrawall", visible: true, item: {symbol: "WETH_OLD", balance: this.state.oldWeth}}
+      })
     };
 
     return (
@@ -60,14 +65,19 @@ class Home extends React.Component{
         <div className="container">
           {
             toBig(this.state.oldWeth).gt(1e16) &&
-            <Alert type="warning" showIcon closable className="mt15"
-            description={
-              <div>
-                {intl.get('wallet.old_weth_detect')} (<a className='color-blue-500 pointer'>Why?</a>)
-                  <a className='color-blue-500 ml5' onClick={showWithDrawAll}>{intl.get('wallet.to_convert')}</a>
-              </div>
-            }
-            />
+            <Sockets.PendingTxs render={({txs}) => {
+              return (!txs.isWithdrawOldWeth() && <Alert type="warning" showIcon closable className="mt15"
+                       description={
+                         <div>
+                           {intl.get('wallet.old_weth_detect')} (<a className='color-blue-500 pointer'>Why?</a>)
+                           <a className='color-blue-500 ml5' onClick={showWithDrawAll}>{intl.get('wallet.to_convert')}</a>
+                         </div>
+                       }
+                />
+              )
+            }}>
+
+            </Sockets.PendingTxs>
           }
           <Tabs className="rs no-ink-bar" onChange={handleTabChange}
                 activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
@@ -82,13 +92,15 @@ class Home extends React.Component{
           </Tabs>
           <Switch>
             <Route path={`${match.url}/portfolio`} exact render={() =>
-              <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
-                <Portfolio  />
+              <div className="row no-gutters bg-white"
+                   style={{borderRadius: '4px', border: '1px solid rgba(0,0,0,0.08)'}}>
+                <Portfolio/>
               </div>
             }
             />
             <Route path={`${match.url}/assets`} exact render={() =>
-              <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
+              <div className="row no-gutters bg-white"
+                   style={{borderRadius: '4px', border: '1px solid rgba(0,0,0,0.08)'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar/>
                 </div>
@@ -99,7 +111,8 @@ class Home extends React.Component{
             }
             />
             <Route path={`${match.url}/assets/:token`} exact render={() =>
-              <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
+              <div className="row no-gutters bg-white"
+                   style={{borderRadius: '4px', border: '1px solid rgba(0,0,0,0.08)'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar selectedToken={location.pathname.replace(`/wallet/assets/`, '')}/>
                 </div>
@@ -110,25 +123,26 @@ class Home extends React.Component{
             }
             />
             <Route path={`${match.url}/assets2`} render={() =>
-              <div className="row no-gutters bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
+              <div className="row no-gutters bg-white"
+                   style={{borderRadius: '4px', border: '1px solid rgba(0,0,0,0.08)'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar/>
                 </div>
                 <div className="col-8 pb15">
-                  <Transaction.ListStand />
+                  <Transaction.ListStand/>
                 </div>
               </div>
             }
             />
 
             <Route path={`${match.url}/orders`} exact render={() =>
-              <div className="pb0 bg-white"style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
+              <div className="pb0 bg-white" style={{borderRadius: '4px', border: '1px solid rgba(0,0,0,0.08)'}}>
                 <Order.List id="orders/wallet"/>
               </div>
             }
             />
             <Route path={`${match.url}/trades`} render={() =>
-              <div className="pb0 bg-white" style={{borderRadius: '4px',border:'1px solid rgba(0,0,0,0.08)'}}>
+              <div className="pb0 bg-white" style={{borderRadius: '4px', border: '1px solid rgba(0,0,0,0.08)'}}>
                 <Trade.List/>
               </div>
             }

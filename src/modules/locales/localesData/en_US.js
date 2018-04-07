@@ -234,7 +234,11 @@ export default {
     place_order_trezor_unsupport: 'Could not place order',
     place_order_trezor_unsupport_tips: 'When you place order we will send your order with signature to relay, but Trezor temporarily does not support sign messages, so when you unlock with Trezor is unable to place an order, but wallet operations(transfer, etc.) is not affected',
     custom_lrc_fee:'Custom LRC-Fee for this order',
-    custom_time_to_live:'Custom Time-To-Live for this order'
+    custom_time_to_live:'Custom Time-To-Live for this order',
+    send_failed: 'Failed',
+    failed_fetch_data:'Failed fetch data from server, you could wait a moment and come back later',
+    eth_is_required:'ETH is required to pay Ethereun transaction fees',
+    lrcfee_is_required:'LRC is required to pay trade fees',
   },
   trades: {
     side: 'Side',
@@ -283,10 +287,13 @@ export default {
     select_token: "Select Token",
     token_select_verification_message: "Please select token to send",
     transfer_result_title: "Care about the result ? ",
-    transfer_result_etherscan: "View in EtherScan",
+    transfer_result_etherscan: "View transaction in EtherScan",
     transfer_again_title: "Want to do again ? ",
     transfer_again_send: "Send again",
     transfer_again_convert: "Convert again",
+    add_custom_token_tip:"Please input valid address ",
+    send_failed: 'Send failed!',
+    convert_failed: 'Convert failed'
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",

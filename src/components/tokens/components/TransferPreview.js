@@ -6,11 +6,15 @@ import {accDiv, accMul} from '../../../common/Loopring/common/math'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
 import CoinIcon from '../../common/CoinIcon'
+import Notification from 'Loopr/Notification'
 
 let Preview = ({
   modal, account
   }) => {
   const {tx,extraData} = modal
+  const viewInEtherscan = (txHash) => {
+    window.open(`https://etherscan.io/tx/${txHash}`,'_blank')
+  }
   const handelSubmit = ()=>{
     modal.showLoading({id:'token/transfer/preview'})
     extraData.pageFrom = "Transfer"
@@ -29,21 +33,42 @@ let Preview = ({
     }).then(res=>{
       if(res.error) {
         result = {...result, error:res.error.message}
+        Notification.open({
+          message:intl.get('token.send_failed'),
+          description:intl.get('token.result_failed', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error}),
+          type:'error'
+        })
       } else {
+        extraData.txHash = res.result
         window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
         window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
         notifyTransactionSubmitted(res.result);
+        const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${accMul(result.extraData.amount, result.extraData.price).toFixed(2)}`
+        Notification.open({
+          message:`${intl.get('token.send_title')} ${intl.get('token.completed')}`,
+          description:`${intl.get('token.result_success', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol})} (${worth})`,
+          type:'success',
+          actions:(
+            <div>
+              <Button className="alert-btn mr5" onClick={viewInEtherscan.bind(this, extraData.txHash)}>{intl.get('token.transfer_result_etherscan')}</Button>
+            </div>
+          )
+        })
       }
-      extraData.txHash = res.result
-      modal.hideModal({id:'token/transfer/preview'})
-      modal.showModal({id:'token/transfer/result', result})
       modal.hideLoading({id:'token/transfer/preview'})
+      modal.hideModal({id:'token/transfer/preview'})
+      // modal.showModal({id:'token/transfer/result', result})
     }).catch(e=>{
       console.error(e)
       result = {...result, error:e.message}
-      modal.hideModal({id:'token/transfer/preview'})
-      modal.showModal({id:'token/transfer/result', result})
       modal.hideLoading({id:'token/transfer/preview'})
+      modal.hideModal({id:'token/transfer/preview'})
+      // modal.showModal({id:'token/transfer/result', result})
+      Notification.open({
+        message:intl.get('token.send_failed'),
+        description:intl.get('token.result_failed', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error}),
+        type:'error'
+      })
     })
   }
   const handelCancel = ()=>{
@@ -69,14 +94,13 @@ let Preview = ({
     </span>
   )
   return (
-      <Card title={intl.get('token.transfer_preview_title')}>
-        <div className="row flex-nowrap pb30 zb-b-b">
-          <div className="col">
-            <div className="text-center">
-              <CoinIcon size="60" symbol={extraData.tokenSymbol} />
-              <div className="fs20 color-black font-weight-bold">{`${extraData.amount} ${extraData.tokenSymbol} `}</div>
-              <div className="fs14 color-black-3">{priceValue}</div>
-            </div>
+    <Card title={intl.get('token.transfer_preview_title')}>
+      <div className="row flex-nowrap pb30 zb-b-b">
+        <div className="col">
+          <div className="text-center">
+            <CoinIcon size="60" symbol={extraData.tokenSymbol} />
+            <div className="fs20 color-black font-weight-bold">{`${extraData.amount} ${extraData.tokenSymbol} `}</div>
+            <div className="fs14 color-black-3">{priceValue}</div>
           </div>
         </div>
         <MetaItem label={intl.get('token.from')} value={extraData.from} />
@@ -95,7 +119,8 @@ let Preview = ({
             <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">{intl.get('token.transfer_send')}</Button>
           </div>
         </div>
-      </Card>
+      </div>
+    </Card>
   );
 };
 

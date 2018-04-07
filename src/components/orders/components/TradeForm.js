@@ -8,6 +8,7 @@ import config from '../../../common/config'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from '../../../common/Loopring/relay/utils'
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 class TradeForm extends React.Component {
   state = {
@@ -17,7 +18,8 @@ class TradeForm extends React.Component {
     timeToLivePopularSetting: true,
     sliderMilliLrcFee:0,
     timeToLive:0,
-    timeToLiveUnit:''
+    timeToLiveUnit:'',
+    total:0
   }
 
   render() {
@@ -125,10 +127,11 @@ class TradeForm extends React.Component {
           }
           const totalWorth = calculateWorthInLegalCurrency(tokenR, tradeInfo.total)
           if(totalWorth <= 0) {
-            Modal.error({
-              title: 'Error',
-              content: "Failed fetch data from server",
-            });
+            Notification.open({
+              message:intl.get('trade.send_failed'),
+              description:intl.get('trade.failed_fetch_data'),
+              type:'error'
+            })
             return
           }
           tradeInfo.milliLrcFee = sliderMilliLrcFee
@@ -189,20 +192,41 @@ class TradeForm extends React.Component {
         }
         const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9).times(approveCount)
         if(ethBalance.lessThan(gas)){
-          const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
-          gotoError(errors)
+          // const errors = new Array()
+          // errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
+          // gotoError(errors)
+          Notification.open({
+            message: intl.get('trade.send_failed'),
+            description: `${intl.get('trade.eth_is_required')}, ${intl.get('trade.balance_not_enough', {token:'ETH',required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)})}`,
+            type:'error',
+            actions:(
+              <div>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} ETH`}</Button>
+              </div>
+            )
+          })
           return
         }
       } else {
         //lrc balance not enough, lrcNeed = frozenLrc + lrcFee
         const frozenLrcFee = await getFrozenLrcFee(window.WALLET.getAddress())
         let frozenLrc = fm.toBig(frozenLrcFee.result).div(1e18).add(fm.toBig(tradeInfo.lrcFee))
+        let failed = false
         if(lrcBalance.balance.lessThan(frozenLrc)){
-          const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:cutDecimal(lrcBalance.balance.toNumber(), 6), required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}})
-          gotoError(errors)
-          return
+          // const errors = new Array()
+          // errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:cutDecimal(lrcBalance.balance.toNumber(), 6), required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}})
+          // gotoError(errors)
+          Notification.open({
+            message: intl.get('trade.send_failed'),
+            description: `${intl.get('trade.lrcfee_is_required')}, ${intl.get('trade.balance_not_enough', {token:'LRC',required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)})}`,
+            type:'error',
+            actions:(
+              <div>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} LRC`}</Button>
+              </div>
+            )
+          })
+          failed = true
         }
         const frozenLrcInOrderResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), "LRC")
         frozenLrc = frozenLrc.add(fm.toBig(frozenLrcInOrderResult.result).div(1e18))
@@ -230,11 +254,24 @@ class TradeForm extends React.Component {
           approveCount += 1
           if(lrcBalance.allowance.greaterThan(0)) approveCount += 1
         }
-        const gas = fm.toBig(settings.trading.gasPrice).times(approveGasLimit).div(1e9).times(approveCount).toNumber()
+        const gas = fm.toBig(settings.trading.gasPrice).times(approveGasLimit).div(1e9).times(approveCount)
         if(ethBalance.lessThan(gas)){
-          const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
-          gotoError(errors)
+          // const errors = new Array()
+          // errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
+          // gotoError(errors)
+          Notification.open({
+            message: intl.get('trade.send_failed'),
+            description: `${intl.get('trade.eth_is_required')}, ${intl.get('trade.balance_not_enough', {token:'ETH',required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)})}`,
+            type:'error',
+            actions:(
+              <div>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} ETH`}</Button>
+              </div>
+            )
+          })
+          failed = true
+        }
+        if(failed) {
           return
         }
       }
@@ -386,7 +423,8 @@ class TradeForm extends React.Component {
         price = Number(form.getFieldValue("price"))
       }
       const total = accMul(price, amount)
-      form.setFieldsValue({"total": total})
+      // form.setFieldsValue({"total": total})
+      this.setState({total: total})
       //LRC Fee
       calculateLrcFee(total, sliderMilliLrcFee)
     }
@@ -403,7 +441,8 @@ class TradeForm extends React.Component {
         form.setFieldsValue({"amount": amount})
         const price = Number(form.getFieldValue("price"))
         const total = accMul(price, amount)
-        form.setFieldsValue({"total": total})
+        // form.setFieldsValue({"total": total})
+        this.setState({total: total})
       }
     }
 
@@ -442,6 +481,18 @@ class TradeForm extends React.Component {
         sm: {span: 20},
       },
     };
+
+    const contentItemLayout = {
+      labelCol: {
+        xs: {span: 24},
+        sm: {span: 8},
+      },
+      wrapperCol: {
+        xs: {span: 24},
+        sm: {span: 16},
+      },
+    };
+
     const Option = Select.Option;
     const timeToLiveSelectAfter = form.getFieldDecorator('timeToLiveUnit', {
       initialValue: "minute",
@@ -588,14 +639,16 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item className="mb5" label={intl.get('trade.total')} {...formItemLayout} colon={false}>
+          {false && <Form.Item className="mb5" label={intl.get('trade.total')} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('total', {
               initialValue: 0,
               rules: []
             })(
-              <Input disabled className="d-block w-100" placeholder="" size="large" suffix={<span className="fs14 color-black-4">{tokenR}</span>}/>
+              <Input disabled className="d-block w-100" placeholder="" size="large"
+                     suffix={<span className="fs14 color-black-4">{tokenR}</span>}/>
             )}
           </Form.Item>
+          }
           {false && <Collapse bordered={false} defaultActiveKey={[]}>
             <Collapse.Panel className="" style={{border: 'none', margin: '0px -15px', padding: '0px -15px'}}
                             header={<div style={{}}>{intl.get('trade.advanced')}</div>} key="1">
@@ -693,8 +746,15 @@ class TradeForm extends React.Component {
                 </div>}
               </div>
             </Collapse.Panel>
-          </Collapse>}
-          <Form.Item className="mb5" {...formItemLayout} colon={false} label={
+          </Collapse>
+          }
+          <Form.Item className="mb5" {...contentItemLayout} colon={false} label={intl.get('trade.total')}>
+            <div className="row align-items-center">
+              <div className="col"></div>
+              <div className="col-auto">{`${this.state.total} ${tokenR}`}</div>
+            </div>
+          </Form.Item>
+          <Form.Item className="mb5" {...contentItemLayout} colon={false} label={
             <div className="row">
               <div className="col-auto">
                 {intl.get('trade.lrc_fee')}
@@ -706,11 +766,11 @@ class TradeForm extends React.Component {
           }>
             <div className="row align-items-center">
               <div className="col"></div>
-              <div className="col-auto">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
               <div className="col-auto">{editLRCFee}</div>
+              <div className="col-auto">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
             </div>
           </Form.Item>
-          <Form.Item className="mb5" {...formItemLayout} colon={false} label={
+          <Form.Item className="mb5" {...contentItemLayout} colon={false} label={
             <div className="row">
               <div className="col-auto">
                 {intl.get('trade.time_to_live')}
@@ -722,8 +782,8 @@ class TradeForm extends React.Component {
           }>
             <div className="row align-items-center">
               <div className="col"></div>
-              <div className="col-auto">{ttlShow}</div>
               <div className="col-auto">{editOrderTTL}</div>
+              <div className="col-auto">{ttlShow}</div>
             </div>
           </Form.Item>
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
