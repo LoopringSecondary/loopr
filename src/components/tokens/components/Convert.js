@@ -43,7 +43,12 @@ class Convert extends React.Component {
             }
           }).then(res=>{
             if (res.error) {
-              _this.setState({errorMsg: res.error.message})
+              Notification.open({
+                message:intl.get('token.convert_failed'),
+                description:res.error.message,
+                type:'error'
+              })
+              // _this.setState({errorMsg: res.error.message})
             } else {
               window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce})
@@ -65,7 +70,12 @@ class Convert extends React.Component {
             }
           }).catch(error=>{
             console.error(error)
-            _this.setState({errorMsg: error.message})
+            Notification.open({
+              message:intl.get('token.convert_failed'),
+              description:error.message,
+              type:'error'
+            })
+            // _this.setState({errorMsg: error.message})
           })
         }
       });
