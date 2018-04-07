@@ -462,12 +462,18 @@ class TradeForm extends React.Component {
     }
 
     function ttlConfirm() {
-      const ttl = form.getFieldValue('timeToLiveEdit')
-      switch(ttl){
-        case '1hour': _this.setState({timeToLive: 1, timeToLiveUnit: 'hour'}); break;
-        case '1day': _this.setState({timeToLive: 1, timeToLiveUnit: 'day'});  break;
-        case '1week': _this.setState({timeToLive: 1, timeToLiveUnit: 'week'}); break;
-        case '1month': _this.setState({timeToLive: 1, timeToLiveUnit: 'month'}); break;
+      if(this.state.timeToLivePopularSetting) {
+        const ttl = form.getFieldValue('timeToLivePopularSetting')
+        switch(ttl){
+          case '1hour': _this.setState({timeToLive: 1, timeToLiveUnit: 'hour'}); break;
+          case '1day': _this.setState({timeToLive: 1, timeToLiveUnit: 'day'});  break;
+          case '1week': _this.setState({timeToLive: 1, timeToLiveUnit: 'week'}); break;
+          case '1month': _this.setState({timeToLive: 1, timeToLiveUnit: 'month'}); break;
+        }
+      } else {
+        const ttl = form.getFieldValue('timeToLive')
+        const unit = form.getFieldValue('timeToLiveUnit')
+        _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
       }
     }
 
@@ -552,9 +558,20 @@ class TradeForm extends React.Component {
     const editOrderTTL = (
       <Popconfirm title={
         <div>
-          <div>{intl.get('trade.custom_time_to_live')}</div>
-          <div>
-            {form.getFieldDecorator('timeToLiveEdit')(
+          {this.state.timeToLivePopularSetting &&
+          <Form.Item className="ttl" colon={false} label={
+            <div className="row">
+              <div className="col-auto">
+                {intl.get('trade.time_to_live')}
+                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
+                  <Icon className="color-gray-500 ml5" type="question-circle"/>
+                </Tooltip>
+              </div>
+              <div className="col"></div>
+              <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
+            </div>
+          }>
+            {form.getFieldDecorator('timeToLivePopularSetting')(
               <RadioGroup>
                 <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
                 <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
@@ -562,7 +579,29 @@ class TradeForm extends React.Component {
                 <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
               </RadioGroup>
             )}
-          </div>
+          </Form.Item>}
+          {!this.state.timeToLivePopularSetting &&
+          <Form.Item className="mb5 ttl" colon={false} label={
+            <div className="row">
+              <div className="col-auto">
+                {intl.get('trade.time_to_live')}
+                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
+                  <Icon className="color-gray-500 ml5" type="question-circle"/>
+                </Tooltip>
+              </div>
+              <div className="col"></div>
+              <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
+            </div>
+          }>
+            {form.getFieldDecorator('timeToLive', {
+              rules: [{
+                message: intl.get('trade.integer_verification_message'),
+                validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
+              }]
+            })(
+              <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}/>
+            )}
+          </Form.Item>}
         </div>
       } okText="Yes" cancelText="No" onConfirm={ttlConfirm.bind(this)}>
         <a href="#"><Icon type="edit" /></a>
