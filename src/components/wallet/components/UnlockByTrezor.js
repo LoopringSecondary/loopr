@@ -14,7 +14,7 @@ class UnlockByTrezor extends React.Component {
         window.WALLET = new TrezorUnlockAccount({...result,path});
         window.WALLET_UNLOCK_TYPE = 'Trezor';
         modal.showModal({
-          id: 'wallet/selectAccount',
+          id: 'wallet/determineWallet',
           setWallet: this.setWallet,
           handlePathChange: this.handlePathChange,
           pageFrom: pageFrom
@@ -27,14 +27,7 @@ class UnlockByTrezor extends React.Component {
 
   setWallet = (index) => {
     const {account} = this.props;
-    // console.log("");
-    // window.STORE.dispatch({
-    //   type:'account/connectToTrezor',
-    //   payload:{
-    //     index
-    //   }
-    // })
-  account.connectToTrezor({index})
+    account.connectToTrezor({index})
   };
 
   handlePathChange = async (path,callback) => {
