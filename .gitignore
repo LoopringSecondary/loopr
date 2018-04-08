@@ -1,0 +1,7 @@
+
+
+# misc
+.DS_Store
+nginx.conf
+sftp-config.json
+npm-debug.log*
