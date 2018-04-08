@@ -404,7 +404,7 @@ export default {
     instruction_trezor: 'This is the recommended way to access your wallet and can be used with confidence.</br>Trezor Hardware Wallet is a USB device that can generate private keys randomly and store them safely offline. It can perform signature authorization without sending your private key to any computers, which protects your asset and transaction from various security risks.',
     instruction_address: 'This is the recommended way to access your wallet and can be used with confidence.</br>You can only view your balance via this option. Please use another option in order to send.',
     nonce: 'Nonce',
-    address: 'Address Only',
+    watch_only: 'Watch Only',
     address_input_placeholder: 'Your address',
     unlock_by_address: 'Unlock with your address',
     invalid_eth_address: 'Invalid Ethereum address'

@@ -408,7 +408,7 @@ export default {
     instruction_trezor: '这是推荐的解锁方式，可以放心使用。</br>Trezor硬件钱包可以物理随机产生私钥、存储私钥、独立完成签名运算而不发送私钥到计算机，安全地存储用户的数字资产，杜绝数字资产存储和交易的各种安全风险。',
     instruction_address: '这是推荐的解锁方式，可以放心使用。</br>在这种模式下您可以查看余额变动，但如果想转账或提交订单，请使用其他方式解锁',
     nonce:'随机数',
-    address: '地址',
+    watch_only: '观察模式',
     address_input_placeholder: '您的钱包地址',
     unlock_by_address: '用您的地址解锁',
     invalid_eth_address: '错误的以太坊地址'

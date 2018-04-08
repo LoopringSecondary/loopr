@@ -28,7 +28,7 @@ function UnlockWallet({form,modal,account}) {
     <Card title={<div className="fs1">{intl.get('wallet.unlock_tip')}?</div>}>
         <div>
           <Tabs defaultActiveKey="address" tabPosition="left" animated={true} style={{marginTop:'15px'}}>
-            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.address')}</div>} key="address">
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.watch_only')}</div>} key="address">
               <UnlockByAddress modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
             <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.metamask')}</div>} key="metamask">
