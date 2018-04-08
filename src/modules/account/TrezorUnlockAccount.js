@@ -14,8 +14,7 @@ export default class TrezorUnlockAccount extends Account {
 
   constructor(input) {
     super({unlockType: 'trezor'});
-    const wallet = wallets.find(wallet => wallet.name.toUpperCase() === 'TREZOR (ETH)');
-    this.dpath = wallet.dpath;
+    this.dpath = input.path;
     this.publicKey = input.publicKey;
     this.chainCode = input.chainCode
   }
@@ -52,7 +51,7 @@ export default class TrezorUnlockAccount extends Account {
         return item
       })
       window.TrezorConnect.ethereumSignTx(
-        this.path,
+        this.dpath.concat(`/${this.index}`),
         ...tx,
         rawTx.chainId,
         function (response) {

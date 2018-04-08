@@ -11,9 +11,14 @@ class UnlockByTrezor extends React.Component {
     window.TrezorConnect.setCurrency('BTC');
     window.TrezorConnect.getXPubKey(path, function (result) {
       if (result.success) {
-        window.WALLET = new TrezorUnlockAccount(result);
+        window.WALLET = new TrezorUnlockAccount({...result,path});
         window.WALLET_UNLOCK_TYPE = 'Trezor';
-        modal.showModal({id: 'wallet/selectAccount', setWallet: this.setWallet, pageFrom: pageFrom})
+        modal.showModal({
+          id: 'wallet/selectAccount',
+          setWallet: this.setWallet,
+          handlePathChange: this.handlePathChange,
+          pageFrom: pageFrom
+        })
       } else {
         console.error('Error:', result.error);
       }
@@ -22,7 +27,26 @@ class UnlockByTrezor extends React.Component {
 
   setWallet = (index) => {
     const {account} = this.props;
-    account.connectToTrezor({index})
+    // console.log("");
+    // window.STORE.dispatch({
+    //   type:'account/connectToTrezor',
+    //   payload:{
+    //     index
+    //   }
+    // })
+  account.connectToTrezor({index})
+  };
+
+  handlePathChange = async (path,callback) => {
+    window.TrezorConnect.setCurrency('BTC');
+    window.TrezorConnect.getXPubKey(path, function (result) {
+      if (result.success) {
+        window.WALLET = new TrezorUnlockAccount({...result,path});
+        callback()
+      } else {
+        console.error('Error:', result.error);
+      }
+    });
   };
 
   render() {
@@ -30,7 +54,9 @@ class UnlockByTrezor extends React.Component {
       <div className="text-left">
         <Alert
           message={<div className="color-green-600 fs18"><Icon type="like"/> {intl.get('wallet.recommended')}</div>}
-          description={<div className="color-green-600"><div className="fs14">{intl.getHTML('wallet.instruction_trezor')}</div></div>}
+          description={<div className="color-green-600">
+            <div className="fs14">{intl.getHTML('wallet.instruction_trezor')}</div>
+          </div>}
           type="success"
           showIcon={false}
         />
