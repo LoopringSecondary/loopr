@@ -56,7 +56,7 @@ export default {
     yes: "确认",
     no: "取消",
     cancel_all: "取消全部",
-    refresh: "刷新",
+    refresh: "刷新"
   },
   ticker: {
     last: '最新价',
@@ -234,7 +234,11 @@ export default {
     confirm_warn_trezor: "请在您的Trezor设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单",
     place_order_trezor_unsupport: 'Trezor暂不支持签名交易无法下单',
-    place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响'
+    place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响',
+    send_failed: '失败',
+    failed_fetch_data:'从服务器获取数据失败, 请稍后在尝试',
+    eth_is_required:'由于需要ETH支付油费',
+    lrcfee_is_required:'由于需要支付LRC手续费'
   },
   trades:{
     side: '方向',
@@ -283,11 +287,13 @@ export default {
     select_token: "选择币种",
     token_select_verification_message: "请选择要发送的币种",
     transfer_result_title: "关心以太坊交易结果 ? ",
-    transfer_result_etherscan: "在EtherScan查看",
+    transfer_result_etherscan: "在EtherScan查看结果",
     transfer_again_title: "想要继续操作 ? ",
     transfer_again_send: "继续发送",
     transfer_again_convert: "继续转换",
-    add_custom_token_tip:"请输入合法的地址"
+    add_custom_token_tip:"请输入合法的地址",
+    send_failed: '发送失败！',
+    convert_failed: '转换失败'
   },
   wallet: {
     bind_tip: "绑定空投接收地址",

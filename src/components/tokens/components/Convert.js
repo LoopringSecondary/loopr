@@ -9,6 +9,7 @@ import Currency from '../../../modules/settings/CurrencyContainer'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
 import CoinIcon from '../../common/CoinIcon';
+import Notification from 'Loopr/Notification'
 
 class Convert extends React.Component {
   state = {
@@ -26,7 +27,9 @@ class Convert extends React.Component {
     selectedToken.balance = balance
     const price = prices.getTokenBySymbol(selectedToken.symbol)
     const _this = this
-
+    const viewInEtherscan = (txHash) => {
+      window.open(`https://etherscan.io/tx/${txHash}`,'_blank')
+    }
     function handleSubmit() {
       form.validateFields((err, values) => {
         if (!err) {
@@ -40,18 +43,39 @@ class Convert extends React.Component {
             }
           }).then(res=>{
             if (res.error) {
-              _this.setState({errorMsg: res.error.message})
+              Notification.open({
+                message:intl.get('token.convert_failed'),
+                description:res.error.message,
+                type:'error'
+              })
+              // _this.setState({errorMsg: res.error.message})
             } else {
               window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce})
               notifyTransactionSubmitted(res.result);
               modal.hideModal({id:'token/convert'})
               const result = {extraData:{txHash:res.result, amount:values.amount, price:price.price, tokenSymbol:selectedToken.symbol, pageFrom:'Convert'}}
-              modal.showModal({id:'token/transfer/result', result})
+              //modal.showModal({id:'token/transfer/result', result})
+              const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${math.accMul(result.extraData.amount, result.extraData.price).toFixed(2)}`
+              Notification.open({
+                message:`${intl.get('token.convert_title')} ${intl.get('token.completed')}`,
+                description:`${intl.get('token.result_success', {do:intl.get('token.convert_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol})} (${worth})`,
+                type:'success',
+                actions:(
+                  <div>
+                    <Button className="alert-btn mr5" onClick={viewInEtherscan.bind(this, result.extraData.txHash)}>{intl.get('token.transfer_result_etherscan')}</Button>
+                  </div>
+                )
+              })
             }
           }).catch(error=>{
             console.error(error)
-            _this.setState({errorMsg: error.message})
+            Notification.open({
+              message:intl.get('token.convert_failed'),
+              description:error.message,
+              type:'error'
+            })
+            // _this.setState({errorMsg: error.message})
           })
         }
       });
