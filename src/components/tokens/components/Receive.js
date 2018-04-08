@@ -1,8 +1,9 @@
 import React from 'react';
-import {Card, Input, message} from 'antd';
+import {Card, Input} from 'antd';
 import QRCode from 'qrcode.react';
 import copy from 'copy-to-clipboard';
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 const Search = Input.Search;
 
@@ -16,7 +17,8 @@ let Receive = (props) => {
     )
   }
   function copyToClipboard(value) {
-    copy(value) ? message.success(intl.get('token.copy_success')) :  message.error(intl.get('token.copy_failed'))
+    copy(value) ? Notification.open({ message:intl.get('navbar.subs.copy_success'),
+      type:'success',size:'small'}) :  Notification.open({message:intl.get('navbar.subs.copy_failed'),type:"error",size:'small'})
   }
   return (
     <Card title={intl.get('token.ethereum_address')}>

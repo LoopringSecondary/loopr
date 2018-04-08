@@ -1,5 +1,5 @@
 //const config = require('./config.json');
-const config = require('./testConfig.json');
+const config = require('./config.json');
 let tokens = config.tokens || []
 const markets = config.markets
 const txs = config.txs;
@@ -37,9 +37,9 @@ const localTokens = [
 ]
 tokens = tokens.concat(localTokens)
 
-function getTokenBySymbol(value){
-  if(!value){ return {} }
-  return tokens.find(token=>token.symbol.toLowerCase()===value.toLowerCase())
+function getTokenBySymbol(symbol){
+  if(!symbol){ return {} }
+  return tokens.find(token=>token.symbol.toLowerCase()===symbol.toLowerCase()) || {}
 }
 
 function getTokenByAddress(address){

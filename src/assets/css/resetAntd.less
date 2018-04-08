@@ -383,15 +383,64 @@
     }
   }
   .loopring-alert{
-    .alert-actions{
-      margin-top: 8px;
-    }
+
     .alert-btn{
-      padding:0px 10px !important;
-      height:28px !important;
-      font-size:13px;
       border:none;
     }
+    &.s-medium{
+      padding:15px;
+      .alert-gutter{
+        padding:0px
+      }
+      .alert-icon{
+        font-size:32px;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      .alert-title{
+        font-size:18px;
+        font-weight: bold;
+        padding-right: 15px;
+      }
+      .alert-description{
+        font-size:14px;
+        line-height: 1.6;
+        padding-right: 15px;
+      }
+      .alert-actions{
+        margin-top: 5px;
+        padding-right: 15px;
+      }
+
+      .alert-btn{
+        font-size:14px;
+        padding:0px 10px !important;
+        height:28px !important;
+      }
+    }
+    &.s-small{
+      padding:10px;
+      .alert-icon{
+        font-size:14px;
+      }
+      .alert-title{
+        font-size:14px;
+      }
+      .alert-description{
+        font-size:14px;
+        margin-top: 5px;
+        line-height: 1.5;
+      }
+      .alert-actions{
+        margin-top: 5px;
+      }
+      .alert-btn{
+        font-size:14px;
+        padding:0px 10px !important;
+        height:28px !important;
+      }
+    }
+
     &.t-dark{
       .alert-icon{
         color:rgba(255,255,255,1);
@@ -400,10 +449,10 @@
         color:rgba(255,255,255,1);
       }
       .alert-description{
-        color:rgba(255,255,255,0.85);
+        color:rgba(255,255,255,0.95);
       }
       .alert-btn{
-        color:rgba(255,255,255,0.85);
+        color:rgba(255,255,255,0.95);
         background:rgba(0,0,0,0.07);
         &:hover{
           background: #fff;

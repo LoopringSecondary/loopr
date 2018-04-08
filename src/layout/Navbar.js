@@ -1,12 +1,13 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Menu,Select,Popover,Button,Icon,message,Alert} from 'antd';
+import {Button, Icon, Menu, message, Popover, Select} from 'antd';
 import {Link} from 'dva/router';
 import logo from '../assets/images/logo-new.png'
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
 import {locales} from '../common/config/data'
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 function Navbar(props){
   let selectedKeys = []
@@ -59,7 +60,11 @@ function Navbar(props){
   function copyToClipboard() {
 
     if(account.isUnlocked ){
-      copy(account.address) ? message.success(intl.get('navbar.subs.copy_success')) :  message.error(intl.get('navbar.subs.copy_failed'))
+   //   copy(account.address) ? message.success(intl.get('navbar.subs.copy_success')) :  message.error(intl.get('navbar.subs.copy_failed'))
+
+      copy(account.address) ? Notification.open({ message:intl.get('navbar.subs.copy_success'),
+        type:'success',size:'small'}) :  Notification.open({message:intl.get('navbar.subs.copy_failed'),type:"error",size:'small'})
+
     }else{
       message.warning(intl.get('navbar.subs.copy'))
     }

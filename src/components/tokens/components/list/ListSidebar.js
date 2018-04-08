@@ -414,6 +414,7 @@ class ListSidebar extends React.Component {
     }
     let customs =  window.STORAGE.tokens.getCustomTokens()
     let results = [...items,...customs]
+    results = results.filter(token => token.symbol !== 'WETH_OLD')
     let keys = Object.keys(filters)
     keys.map(key => {
       const value = filters[key]
