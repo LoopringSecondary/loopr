@@ -212,3 +212,12 @@ export function addParticipant({feeRecipient,signer, to,gasPrice, gasLimit, nonc
 
 }
 
+export function isValidEthAddress(address) {
+  try {
+    validator.validate({value: address, type: "ADDRESS"})
+    return true
+  } catch (e) {
+    return false
+  }
+}
+

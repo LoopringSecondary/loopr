@@ -1,10 +1,12 @@
 import React from 'react';
-import {Button, Card, Form, Input, message, Modal} from 'antd';
+import {Button, Card, Form, Input, Modal} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {connect} from 'dva';
 import {toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification';
+import {Page} from 'Loopr/Pages';
 
 class AirdropBind extends React.Component {
 
@@ -13,15 +15,39 @@ class AirdropBind extends React.Component {
     project: null,
   };
 
-  componentDidMount(){
-    const {modals} = this.props;
-    const modal = modals['wallet/bind'];
-    const {project,address} = modal;
-    this.setState({
-      address,
-      project
-    });
+  componentDidMount() {
+   // const {modals} = this.props;
+  //  const modal = modals['wallet/bind'];
+    const {page} = this.props;
+    const {project} = page;
+    if(project && project.address){
+      this.setState({
+        address:project.address,
+        project
+      });
+    }
   }
+  shouldComponentUpdate(nextProps){
+    console.log('Update State');
+    if(nextProps.page !== this.props.page){
+      const {page} = nextProps;
+      const {project} = page;
+      if(project && project.address){
+        this.setState({
+          address:project.address,
+          project
+        });
+      }
+    }
+    return true
+  }
+
+  cancel = () => {
+    const {page} = this.props;
+    this.setState({address: null, project: null});
+    page.onClose();
+  };
+
   showConfirm = (address, project) => {
     const _this = this;
     Modal.confirm({
@@ -38,15 +64,21 @@ class AirdropBind extends React.Component {
         });
         window.WALLET.sendTransaction(tx).then(response => {
           if (response.error) {
-            message.error(response.error.message)
+            Notification.open({
+              message: intl.get('wallet.bind_success'),
+              type: 'error', size: 'small', description: response.error.message
+            })
           } else {
-            message.info('bind success');
+            Notification.open({
+              message: intl.get('wallet.bind_success'),
+              type: 'success', size: 'small'
+            })
             //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
             window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
             notifyTransactionSubmitted(response.result);
             _this.setState({address: null, project: null});
             modal.hideModal({id: 'wallet/bind'});
-          //  modal.hideModal({id: 'wallet/airdrop'});
+            //  modal.hideModal({id: 'wallet/airdrop'});
           }
         });
       },
@@ -58,12 +90,43 @@ class AirdropBind extends React.Component {
     });
   };
 
+  bindAddress = async (address, project) => {
+    const {tradingConfig, page} = this.props;
+    const nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
+    const tx = generateBindAddressTx({
+      projectId: project.projectId,
+      address,
+      gasPrice: toHex(tradingConfig.gasPrice * 1e9),
+      nonce: toHex(nonce)
+    });
+    window.WALLET.sendTransaction(tx).then(response => {
+      if (response.error) {
+        Notification.open({
+          message: intl.get('wallet.bind_success'),
+          type: 'error', size: 'small', description: response.error.message
+        })
+      } else {
+        Notification.open({
+          message: intl.get('wallet.bind_success'),
+          type: 'success', size: 'small'
+        });
+        //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
+        window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
+        notifyTransactionSubmitted(response.result);
+        this.setState({address: null, project: null});
+        page.onClose();
+       // modal.hideModal({id: 'wallet/bind'});
+        // modal.hideModal({id: 'wallet/airdrop'});
+      }
+    });
+
+  };
   bindEnter = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault();
       const address = e.target.value;
       const project = this.state.project;
-      this.showConfirm(address,project);
+      this.bindAddress(address, project);
     }
   };
 
@@ -73,7 +136,7 @@ class AirdropBind extends React.Component {
   };
 
   render() {
-    const {project, address} = this.state;
+    const {project,address} = this.state;
     return (
       <Card title={intl.get('wallet.bind_tip')}>
         <Form>
@@ -94,10 +157,10 @@ class AirdropBind extends React.Component {
           </Form.Item>
         </Form>
         <div className="mb25"></div>
-        <Button onClick={this.showConfirm.bind(this, this.state.address, this.state.project)}
-                className="w-100 d-block mt15" type="primary" size="large" disabled={!project || !address}>
-          {intl.get('wallet.bind_address')}
-        </Button>
+        <div className="pt15 d-flex float-right ">
+          <Button type='default' className='mr30' onClick={this.cancel}>{intl.get('wallet.cancel')}</Button>
+          <Button type='primary' onClick={this.bindAddress.bind(this, this.state.address, this.state.project)} disabled={!project || !address}>   {intl.get('wallet.bind_address')}</Button>
+        </div>
       </Card>
     );
   }

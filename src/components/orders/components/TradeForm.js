@@ -18,7 +18,8 @@ class TradeForm extends React.Component {
     timeToLivePopularSetting: true,
     sliderMilliLrcFee:0,
     timeToLive:0,
-    timeToLiveUnit:''
+    timeToLiveUnit:'',
+    total:0
   }
 
   render() {
@@ -78,6 +79,7 @@ class TradeForm extends React.Component {
       case 'week': ttlInSecond = ttl * 7 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.week')}`; break;
       case 'month': ttlInSecond = ttl * 30 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
     }
+    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
 
     const showModal = (payload)=>{
       dispatch({
@@ -422,7 +424,8 @@ class TradeForm extends React.Component {
         price = Number(form.getFieldValue("price"))
       }
       const total = accMul(price, amount)
-      form.setFieldsValue({"total": total})
+      // form.setFieldsValue({"total": total})
+      this.setState({total: total})
       //LRC Fee
       calculateLrcFee(total, sliderMilliLrcFee)
     }
@@ -435,11 +438,26 @@ class TradeForm extends React.Component {
     function amountSliderChange(e) {
       const value = this.state.availableAmount ? this.state.availableAmount : availableAmount
       if(value > 0) {
-        const amount = accMul(value, Number(e)) / 100
+        let amount = accMul(value, Number(e)) / 100
+        const amountPrecision = tokenRBalance.precision - marketConfig.pricePrecision
+        if (amountPrecision > 0) {
+          const amountArr = amount.split(".")
+          if (amountArr[1] && amountArr[1].length > amountPrecision) {
+            try {
+              amount = Number(amountArr[0] + "." + amountArr[1].substring(0, amountPrecision))
+            } catch (e) {
+              console.error(e)
+              amount = 0
+            }
+          }
+        } else {
+          amount = Math.floor(amount)
+        }
         form.setFieldsValue({"amount": amount})
         const price = Number(form.getFieldValue("price"))
         const total = accMul(price, amount)
-        form.setFieldsValue({"total": total})
+        // form.setFieldsValue({"total": total})
+        this.setState({priceInput: price, amountInput: amount, total: total})
       }
     }
 
@@ -459,12 +477,18 @@ class TradeForm extends React.Component {
     }
 
     function ttlConfirm() {
-      const ttl = form.getFieldValue('timeToLiveEdit')
-      switch(ttl){
-        case '1hour': _this.setState({timeToLive: 1, timeToLiveUnit: 'hour'}); break;
-        case '1day': _this.setState({timeToLive: 1, timeToLiveUnit: 'day'});  break;
-        case '1week': _this.setState({timeToLive: 1, timeToLiveUnit: 'week'}); break;
-        case '1month': _this.setState({timeToLive: 1, timeToLiveUnit: 'month'}); break;
+      if(this.state.timeToLivePopularSetting) {
+        const ttl = form.getFieldValue('timeToLivePopularSetting')
+        switch(ttl){
+          case '1hour': _this.setState({timeToLive: 1, timeToLiveUnit: 'hour'}); break;
+          case '1day': _this.setState({timeToLive: 1, timeToLiveUnit: 'day'});  break;
+          case '1week': _this.setState({timeToLive: 1, timeToLiveUnit: 'week'}); break;
+          case '1month': _this.setState({timeToLive: 1, timeToLiveUnit: 'month'}); break;
+        }
+      } else {
+        const ttl = form.getFieldValue('timeToLive')
+        const unit = form.getFieldValue('timeToLiveUnit')
+        _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
       }
     }
 
@@ -478,12 +502,29 @@ class TradeForm extends React.Component {
         sm: {span: 20},
       },
     };
+
+    const contentItemLayout = {
+      labelCol: {
+        xs: {span: 24},
+        sm: {span: 8},
+      },
+      wrapperCol: {
+        xs: {span: 24},
+        sm: {span: 16},
+      },
+    };
+
+    const selectChanged = (e) => {
+      console.log(e);
+      e.stopPropagation();
+    }
+
     const Option = Select.Option;
     const timeToLiveSelectAfter = form.getFieldDecorator('timeToLiveUnit', {
       initialValue: "minute",
       rules: []
     })(
-      <Select style={{width: 90}}>
+      <Select style={{width: 90}} getPopupContainer={triggerNode => triggerNode.parentNode}>
         <Option value="minute">{intl.get('trade.minute')}</Option>
         <Option value="hour">{intl.get('trade.hour')}</Option>
         <Option value="day">{intl.get('trade.day')}</Option>
@@ -514,7 +555,7 @@ class TradeForm extends React.Component {
     const editLRCFee = (
       <Popconfirm title={
         <div>
-          <div>{intl.get('trade.custom_lrc_fee')}</div>
+          <div>{intl.get('trade.custom_option_fee')}</div>
           <div>
             {form.getFieldDecorator('lrcFeeSlider', {
               initialValue: configs.defaultLrcFeePermillage,
@@ -537,9 +578,17 @@ class TradeForm extends React.Component {
     const editOrderTTL = (
       <Popconfirm title={
         <div>
-          <div>{intl.get('trade.custom_time_to_live')}</div>
-          <div>
-            {form.getFieldDecorator('timeToLiveEdit')(
+          {this.state.timeToLivePopularSetting &&
+          <Form.Item className="ttl" colon={false} label={
+            <div className="row">
+              <div className="col-auto">
+                {intl.get('trade.custom_option_fee')}
+              </div>
+              <div className="col"></div>
+              <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
+            </div>
+          }>
+            {form.getFieldDecorator('timeToLivePopularSetting')(
               <RadioGroup>
                 <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
                 <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
@@ -547,7 +596,26 @@ class TradeForm extends React.Component {
                 <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
               </RadioGroup>
             )}
-          </div>
+          </Form.Item>}
+          {!this.state.timeToLivePopularSetting &&
+          <Form.Item className="mb5 ttl" colon={false} label={
+            <div className="row">
+              <div className="col-auto">
+                {intl.get('trade.custom_option_fee')}
+              </div>
+              <div className="col"></div>
+              <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
+            </div>
+          }>
+            {form.getFieldDecorator('timeToLive', {
+              rules: [{
+                message: intl.get('trade.integer_verification_message'),
+                validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
+              }]
+            })(
+              <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}/>
+            )}
+          </Form.Item>}
         </div>
       } okText="Yes" cancelText="No" onConfirm={ttlConfirm.bind(this)}>
         <a href="#"><Icon type="edit" /></a>
@@ -598,7 +666,10 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item label={intl.get('trade.amount')} {...formItemLayout} colon={false} extra={
             <div>
-              <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
+              {
+                false &&
+                <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
+              }
               <div className="fs10" style={{marginBottom:"-10px"}}>{amountSlider}</div>
             </div>
           }>
@@ -624,142 +695,37 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item className="mb5" label={intl.get('trade.total')} {...formItemLayout} colon={false}>
-            {form.getFieldDecorator('total', {
-              initialValue: 0,
-              rules: []
-            })(
-              <Input disabled className="d-block w-100" placeholder="" size="large" suffix={<span className="fs14 color-black-4">{tokenR}</span>}/>
-            )}
+          <Form.Item className="mb10 mt10" colon={false} label={null}>
+            <div className="row align-items-center">
+              <div className="col-auto">{intl.get('trade.total')}</div>
+              <div className="col"></div>
+              <div className="col-auto">{`${this.state.total} ${tokenR}`}</div>
+            </div>
           </Form.Item>
-          {false && <Collapse bordered={false} defaultActiveKey={[]}>
-            <Collapse.Panel className="" style={{border: 'none', margin: '0px -15px', padding: '0px -15px'}}
-                            header={<div style={{}}>{intl.get('trade.advanced')}</div>} key="1">
-              <div className="row">
-                <div className="col-12">
-                  {this.state.timeToLivePopularSetting &&
-                  <Form.Item className="ttl" colon={false} label={
-                    <div className="row">
-                      <div className="col-auto">
-                        {intl.get('trade.time_to_live')}
-                        <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                          <Icon className="color-gray-500 ml5" type="question-circle"/>
-                        </Tooltip>
-                      </div>
-                      <div className="col"></div>
-                      <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-                    </div>
-                  }>
-                    {form.getFieldDecorator('timeToLivePopularSetting')(
-                      <RadioGroup>
-                        <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
-                        <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
-                        <RadioButton value="1week">1 {intl.get('trade.week')}</RadioButton>
-                        <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
-                      </RadioGroup>
-                    )}
-                  </Form.Item>}
-                  {!this.state.timeToLivePopularSetting &&
-                  <Form.Item className="mb5 ttl" colon={false} label={
-                    <div className="row">
-                      <div className="col-auto">
-                        {intl.get('trade.time_to_live')}
-                        <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                          <Icon className="color-gray-500 ml5" type="question-circle"/>
-                        </Tooltip>
-                      </div>
-                      <div className="col"></div>
-                      <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-                    </div>
-                  }>
-                    {form.getFieldDecorator('timeToLive', {
-                      rules: [{
-                        message: intl.get('trade.integer_verification_message'),
-                        validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
-                      }]
-                    })(
-                      <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}/>
-                    )}
-                  </Form.Item>}
-                </div>
-                <div className="col">
-                  <Form.Item className="mb5 ttl" colon={false} label={
-                    <div className="row">
-                      <div className="col-auto">
-                        {intl.get('trade.lrc_fee')}
-                        <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
-                          <Icon className="color-gray-500 ml5" type="question-circle"/>
-                        </Tooltip>
-                      </div>
-                      <div className="col"></div>
-                    </div>
-                  }>
-                    {form.getFieldDecorator('lrcFee', {
-                      rules: [{
-                        message: `${intl.get('trade.integer_verification_message')}(1~50)`,
-                        validator: (rule, value, cb) => validateLrcFee(value) ? cb() : cb(true)
-                      }]
-                    })(
-                      <Input className="d-block w-100" placeholder="" size="large" suffix='‰'/>
-                    )}
-                  </Form.Item>
-                </div>
-                {false && <div className="col">
-                  <Form.Item className="mb5 ttl" colon={false} label={
-                    <div className="row">
-                      <div className="col-auto">
-                        {intl.get('trade.margin_split')}
-                        <Tooltip title={intl.getHTML('trade.tips_margin_split')}>
-                          <Icon className="color-gray-500 ml5" type="question-circle"/>
-                        </Tooltip>
-                      </div>
-                      <div className="col">
-                      </div>
-                    </div>
-                  }>
-                    {form.getFieldDecorator('marginSplit', {
-                      rules: [{
-                        message: `${intl.get('trade.integer_verification_message')}(0~100)`,
-                        validator: (rule, value, cb) => validateMarginSplit(value) ? cb() : cb(true)
-                      }]
-                    })(
-                      <Input className="d-block w-100" placeholder="" size="large" suffix='％'/>
-                    )}
-                  </Form.Item>
-                </div>}
-              </div>
-            </Collapse.Panel>
-          </Collapse>}
-          <Form.Item className="mb5" {...formItemLayout} colon={false} label={
-            <div className="row">
+          <Form.Item className="mb10 mt10" colon={false} label={null}>
+            <div className="row align-items-center">
               <div className="col-auto">
                 {intl.get('trade.lrc_fee')}
                 <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
                   <Icon className="color-gray-500 ml5" type="question-circle"/>
                 </Tooltip>
               </div>
-            </div>
-          }>
-            <div className="row align-items-center">
               <div className="col"></div>
-              <div className="col-auto">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
               <div className="col-auto">{editLRCFee}</div>
+              <div className="col-auto">{calculatedLrcFee} LRC</div>
             </div>
           </Form.Item>
-          <Form.Item className="mb5" {...formItemLayout} colon={false} label={
-            <div className="row">
+          <Form.Item className="mb10 mt10" colon={false} label={null}>
+            <div className="row align-items-center">
               <div className="col-auto">
                 {intl.get('trade.time_to_live')}
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
                   <Icon className="color-gray-500 ml5" type="question-circle"/>
                 </Tooltip>
               </div>
-            </div>
-          }>
-            <div className="row align-items-center">
               <div className="col"></div>
-              <div className="col-auto">{ttlShow}</div>
               <div className="col-auto">{editOrderTTL}</div>
+              <div className="col-auto">{ttlShow}</div>
             </div>
           </Form.Item>
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
@@ -770,7 +736,15 @@ class TradeForm extends React.Component {
               </Tooltip>
             </div>
           }
-          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' &&
+          {account && account.isUnlocked && isWatchOnly &&
+          <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
+            {intl.get('trade.place_order_trezor_unsupport') }
+            <Tooltip title={intl.getHTML('trade.place_order_watch_only_tips')}>
+              <Icon className="color-gray-500 mr10" type="question-circle"/>
+            </Tooltip>
+          </div>
+          }
+          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' && !isWatchOnly &&
           <Form.Item>
             {
               side == 'buy' &&

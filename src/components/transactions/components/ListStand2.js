@@ -62,6 +62,7 @@ class ListBlock extends React.Component {
     const {items = [], loading, page = {}, filters} = LIST;
     const {token, needed} = this.state;
     const balance = token && assets.getTokenBySymbol(token).balance;
+    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',
@@ -203,7 +204,8 @@ class ListBlock extends React.Component {
               {caption}
             </div>
             {
-              item.type !== 'approve' &&
+              item.type !== 'approve' && item.type !== "cancel_order" && item.type !== "cutoff_trading_pair"
+              && item.type !== "cutoff" &&
               <div className="col-auto mr5">
                 {change === '+' &&
                 <div className="text-right">
@@ -245,7 +247,7 @@ class ListBlock extends React.Component {
             <div className="fs20 color-black-1 font-weight-bold ml15">{filters.token}</div>
           </div>
           <div className="col text-right pl0 pr0">
-            <Button onClick={gotoTransfer} className="mr5" type="primary">
+            <Button onClick={gotoTransfer} className="mr5" type="primary" disabled={isWatchOnly}>
               <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>Send {filters.token}</span>
             </Button>
@@ -253,7 +255,7 @@ class ListBlock extends React.Component {
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>Receive {filters.token}</span>
             </Button>
-            <Button onClick={gotoTrade} className="mr15" type="primary">
+            <Button onClick={gotoTrade} className="mr15" type="primary" disabled={isWatchOnly}>
               <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
                <span style={{position:"relative",top:'-2px'}}>Buy/Sell {filters.token}</span>
             </Button>
