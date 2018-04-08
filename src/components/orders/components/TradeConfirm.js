@@ -109,7 +109,7 @@ class TradeConfirm extends React.Component {
       duration: 3,
       type:'success',
       actions:
-        (<div className="p10" style={{borderRadius: '4px'}}>
+        (warn.length > 0 && <div className="p10" style={{borderRadius: '4px'}}>
           <div className="fs14 m5 color-black-2">
             {intl.get('trade.you_should_do_things')}
             <Icon className="ml5" type="question-circle"/>

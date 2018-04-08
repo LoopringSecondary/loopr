@@ -168,7 +168,7 @@ function ListBlock(props) {
         <span className="text-nowrap">
           {item.status === 'ORDER_OPENED' &&
           <Sockets.PendingTxs render={({txs})=>{
-            return (<Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} >Cancel</Button>)
+            return (<Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>Cancel</Button>)
           }}>
           </Sockets.PendingTxs>
 

@@ -307,6 +307,8 @@ export default {
     to_edit: "To Edit Binding Address",
     bind_type_address: "Bind {type} Address",
     bind_address_confirm: "Bind your {project} address: {address} to your wallet?",
+    bind_success:"Bind successfully",
+    bind_failed:"Bind failed",
     loopring_on: "Loopring token on  {project}",
     neo: "NEO",
     qutm: "QUTM",
