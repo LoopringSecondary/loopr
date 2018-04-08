@@ -5,6 +5,7 @@ import AddressUnlockAccount from '../../../modules/account/AddressUnlockAccount'
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
 import {isValidEthAddress} from 'Loopring/ethereum/utils'
+import {configs} from '../../../common/config/data'
 
 const walletType = "Address"
 
@@ -23,7 +24,7 @@ class DemoAccount extends React.Component {
     }
 
     function unlocked() {
-      const selectedAddress = '0x750ad4351bb728cec7d639a9511f9d6488f1e259'
+      const selectedAddress = configs.demoAccount
       window.WALLET = new AddressUnlockAccount({address: selectedAddress})
       window.WALLET_UNLOCK_TYPE = walletType
       account.setWallet({address:selectedAddress, walletType:walletType})

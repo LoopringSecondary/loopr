@@ -11,6 +11,7 @@
   "chainId": 7107171,
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
+  "demoAccount":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
   "contracts": [
     {
       "address": "0x03E0F73A93993E5101362656Af1162eD80FB54F2",
