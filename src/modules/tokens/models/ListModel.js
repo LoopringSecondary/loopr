@@ -1,11 +1,11 @@
 import namespace from '../namespace'
 import * as apis from '../apis'
-import { tokens } from '../../../common/config/data';
 const initTokens = window.STORAGE.tokens.getTokens()
+const configTokens = window.CONFIG.getTokens()
 export default {
   namespace: 'tokens',
   state: {
-    items: [...tokens],
+    items: [...configTokens],
     selected:initTokens.selected || {ETH:true},
     favored:initTokens.favored || {},
     loading: false,
