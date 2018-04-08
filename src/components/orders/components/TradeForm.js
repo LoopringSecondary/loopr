@@ -8,6 +8,7 @@ import config from '../../../common/config'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from '../../../common/Loopring/relay/utils'
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 class TradeForm extends React.Component {
   state = {
@@ -130,10 +131,11 @@ class TradeForm extends React.Component {
           }
           const totalWorth = calculateWorthInLegalCurrency(tokenR, tradeInfo.total)
           if(totalWorth <= 0) {
-            Modal.error({
-              title: 'Error',
-              content: "Failed fetch data from server",
-            });
+            Notification.open({
+              message:intl.get('trade.send_failed'),
+              description:intl.get('trade.failed_fetch_data'),
+              type:'error'
+            })
             return
           }
           let milliLrcFee = 0
@@ -208,20 +210,41 @@ class TradeForm extends React.Component {
         }
         const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(approveGasLimit)).div(1e9).times(approveCount)
         if(ethBalance.lessThan(gas)){
-          const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
-          gotoError(errors)
+          // const errors = new Array()
+          // errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
+          // gotoError(errors)
+          Notification.open({
+            message: intl.get('trade.send_failed'),
+            description: `${intl.get('trade.eth_is_required')}, ${intl.get('trade.balance_not_enough', {token:'ETH',required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)})}`,
+            type:'error',
+            actions:(
+              <div>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} ETH`}</Button>
+              </div>
+            )
+          })
           return
         }
       } else {
         //lrc balance not enough, lrcNeed = frozenLrc + lrcFee
         const frozenLrcFee = await getFrozenLrcFee(window.WALLET.getAddress())
         let frozenLrc = fm.toBig(frozenLrcFee.result).div(1e18).add(fm.toBig(tradeInfo.lrcFee))
+        let failed = false
         if(lrcBalance.balance.lessThan(frozenLrc)){
-          const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:cutDecimal(lrcBalance.balance.toNumber(), 6), required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}})
-          gotoError(errors)
-          return
+          // const errors = new Array()
+          // errors.push({type:"BalanceNotEnough", value:{symbol:'LRC', balance:cutDecimal(lrcBalance.balance.toNumber(), 6), required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}})
+          // gotoError(errors)
+          Notification.open({
+            message: intl.get('trade.send_failed'),
+            description: `${intl.get('trade.lrcfee_is_required')}, ${intl.get('trade.balance_not_enough', {token:'LRC',required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)})}`,
+            type:'error',
+            actions:(
+              <div>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} LRC`}</Button>
+              </div>
+            )
+          })
+          failed = true
         }
         const frozenLrcInOrderResult = await getEstimatedAllocatedAllowance(window.WALLET.getAddress(), "LRC")
         frozenLrc = frozenLrc.add(fm.toBig(frozenLrcInOrderResult.result).div(1e18))
@@ -249,11 +272,24 @@ class TradeForm extends React.Component {
           approveCount += 1
           if(lrcBalance.allowance.greaterThan(0)) approveCount += 1
         }
-        const gas = fm.toBig(settings.trading.gasPrice).times(approveGasLimit).div(1e9).times(approveCount).toNumber()
+        const gas = fm.toBig(settings.trading.gasPrice).times(approveGasLimit).div(1e9).times(approveCount)
         if(ethBalance.lessThan(gas)){
-          const errors = new Array()
-          errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
-          gotoError(errors)
+          // const errors = new Array()
+          // errors.push({type:"BalanceNotEnough", value:{symbol:'ETH', balance:cutDecimal(ethBalance.toNumber(),6), required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}})
+          // gotoError(errors)
+          Notification.open({
+            message: intl.get('trade.send_failed'),
+            description: `${intl.get('trade.eth_is_required')}, ${intl.get('trade.balance_not_enough', {token:'ETH',required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)})}`,
+            type:'error',
+            actions:(
+              <div>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} ETH`}</Button>
+              </div>
+            )
+          })
+          failed = true
+        }
+        if(failed) {
           return
         }
       }
