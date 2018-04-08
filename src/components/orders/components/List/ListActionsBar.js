@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'dva'
 import ListFiltersForm from './ListFiltersForm'
 import {Button, Modal} from 'antd'
 import {generateCancelAllOrdresTx, generateCancelOrdersByTokenPairTx} from 'Loopring/relay/order';
@@ -8,6 +7,7 @@ import {toHex} from 'Loopring/common/formatter'
 import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification';
 
 function ListActionsBar(props) {
   const {actions = {}, LIST = {}, className,id} = props;
@@ -51,15 +51,9 @@ function ListActionsBar(props) {
             window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
             window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
             notifyTransactionSubmitted(res.result);
-            Modal.success({
-              title: intl.get('order.cancel_all_success',{pair:tokenPair}),
-              content: <div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {window.uiFormatter.getShortAddress(res.result)}</a></div>
-            })
+            Notification.open({message: intl.get('order.cancel_all_success',{pair:tokenPair}), type: "success", description:(<div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {window.uiFormatter.getShortAddress(res.result)}</a></div>)});
           } else {
-            Modal.error({
-              title: intl.get('order.cancel_all_failed',{pair:tokenPair}),
-              content: res.error.message
-            })
+            Notification.open({message: intl.get('order.cancel_all_failed',{pair:tokenPair}), type: "error", description:res.error.message})
           }
         });
 

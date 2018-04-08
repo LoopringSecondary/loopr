@@ -8,9 +8,9 @@ import {toHex, toNumber, clearPrefix} from "Loopring/common/formatter";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
-import intl from 'react-intl-universal';
 import Sockets from '../../../../modules/socket/containers';
-
+import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 const uiFormatter = window.uiFormatter;
 const fm = window.uiFormatter.TokenFormatter;
@@ -56,22 +56,16 @@ function ListBlock(props) {
             window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
             window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
             notifyTransactionSubmitted(res.result);
-            Modal.success({
-              title: intl.get('order.cancel_order_success'),
-              content: <div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {window.uiFormatter.getShortAddress(res.result)}</a></div>
-            })
+            Notification.open({message: intl.get('order.cancel_order_success'), type: "success", description:(<div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {window.uiFormatter.getShortAddress(res.result)}</a></div>)});
           } else {
-            Modal.error({
-              title: intl.get('order.cancel_order_failed'),
-              content: res.error.message
-            })
+            Notification.open({message: intl.get('order.cancel_order_failed'), type: "error", description:res.error.message})
           }
         })
       },
       onCancel: () => {
       },
-      okText: 'Yes',
-      cancelText: 'No',
+      okText: intl.get('order.yes'),
+      cancelText: intl.get('order.no'),
     })
   };
   const handleCopy = (value, e) => {
@@ -174,7 +168,7 @@ function ListBlock(props) {
         <span className="text-nowrap">
           {item.status === 'ORDER_OPENED' &&
           <Sockets.PendingTxs render={({txs})=>{
-            return (<Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} >Cancel</Button>)
+            return (<Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>Cancel</Button>)
           }}>
           </Sockets.PendingTxs>
 
