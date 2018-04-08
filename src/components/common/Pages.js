@@ -67,7 +67,7 @@ class Pages extends React.Component {
   }
 }
 const Page = (props)=>{
-  const {style,className,visible,transition,render,id,loadingChange,...rest} = props;
+  const {style,className,visible,transition,render,id,loadingChange,children,...rest} = props;
   const showLoading = ()=>{
     loadingChange({
       id,

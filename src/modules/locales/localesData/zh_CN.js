@@ -309,6 +309,8 @@ export default {
     to_edit: "去修改绑定地址",
     bind_type_address: "绑定{type}地址",
     bind_address_confirm: "您确定绑定 {project} 地址: {address} 到您的钱包吗?",
+    bind_success:"绑定成功",
+    bind_failed:"绑定失败",
     loopring_on: "路印协议在{project}上的代币",
     neo: "小蚁",
     qutm: "量子",

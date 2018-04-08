@@ -203,7 +203,8 @@ class ListBlock extends React.Component {
               {caption}
             </div>
             {
-              item.type !== 'approve' &&
+              item.type !== 'approve' && item.type !== "cancel_order" && item.type !== "cutoff_trading_pair"
+              && item.type !== "cutoff" &&
               <div className="col-auto mr5">
                 {change === '+' &&
                 <div className="text-right">
