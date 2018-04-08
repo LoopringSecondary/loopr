@@ -13,7 +13,7 @@ const get = ()=>{
   }
 }
 const getRelay = ()=>{
-  const defaultHost = '//52.196.115.12'
+  const defaultHost = '//relay1.loopring.io'
   return defaultHost
   if(localStorage.settings){
      const settings = JSON.parse(localStorage.settings)
