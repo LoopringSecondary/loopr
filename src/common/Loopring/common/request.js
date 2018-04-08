@@ -17,10 +17,13 @@ window.LOOPRING_PROVIDER_HOST = `//13.112.62.24/rpc/v2`;
 window.ETH_HOST = `//13.112.62.24/eth`;
 
 let checkHost = () => {
-  if (!window.LOOPRING_PROVIDER_HOST) {
+  const relayHost = window.STORAGE.settings.getRelay()
+  const LOOPRING_PROVIDER_HOST = relayHost + '/rpc/v2'
+  const ETH_HOST = relayHost + '/eth'
+  if (!LOOPRING_PROVIDER_HOST) {
     throw new Error('host is required. Do not forget: new Loopring(host)')
   }
-  if(!window.ETH_HOST){
+  if(!ETH_HOST){
     throw new Error('host is required. Do not forget: new ETH(host)')
   }
 };
