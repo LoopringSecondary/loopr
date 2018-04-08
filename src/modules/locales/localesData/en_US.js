@@ -10,8 +10,8 @@ export default {
     account: "Account",
     subs: {
       copy: 'Copy',
-      copy_success: 'Copy Successfully!',
-      copy_failed: 'Copy Failed',
+      copy_success: 'Copy successfully!',
+      copy_failed: 'Copy failed',
       unlock: 'Unlock Wallet',
       generate: 'Generate Wallet',
       export: "Export Keystore",
