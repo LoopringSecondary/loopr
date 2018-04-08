@@ -200,7 +200,7 @@ export default {
     available_amount: "有效数量",
     total: "总计",
     advanced: "高级选项",
-    time_to_live: "有效时间",
+    time_to_live: "订单有效时间",
     more: "更多",
     popular_option: "常用选项",
     integer_verification_message: "请输入数字类型",
