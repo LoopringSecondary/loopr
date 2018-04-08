@@ -15,26 +15,21 @@ function ListBlock({LIST={},actions,prices,modal}) {
   } = LIST
   // const items = tokens.slice(0,6)
   let tokens = window.CONFIG.getTokens()
-  items.forEach(item=>{
-    let token = tokens.find(token=>token.symbol === item.token)
-    if(token){
-      item.icon = token.icon
-    }
-  })
 
   let sorter = (tokenA,tokenB)=>{
     const pa = Number(tokenA.percentage.replace('%',''))
     const pb = Number(tokenB.percentage.replace('%',''))
-    console.log(pa,pb);
-    if(pa < pb){
-      console.log('pa',pa,'pb',pb);
-      return true
-    }else{
-      return tokenA.token > tokenB.token
+    return pa < pb
 
+    if(pa === pb){
+      return tokenA.token < tokenB.token
+    }else{
+      return pa < pb
     }
   }
+  console.log('items before',items)
   items.sort(sorter)
+  console.log('items after',items)
 
   const location = (token) => {
     window.routeActions.gotoPath(`/wallet/assets/${token}`);

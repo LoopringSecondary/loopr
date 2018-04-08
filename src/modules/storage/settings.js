@@ -38,5 +38,6 @@ export default {
   set,
   get,
   getRelay,
+  getContractVersion,
 }
 
