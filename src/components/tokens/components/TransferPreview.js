@@ -103,21 +103,21 @@ let Preview = ({
             <div className="fs14 color-black-3">{priceValue}</div>
           </div>
         </div>
-        <MetaItem label={intl.get('token.from')} value={extraData.from} />
-        <MetaItem label={intl.get('token.to')} value={extraData.to} />
-        <MetaItem label={intl.get('token.gas')} value={
-          <div className="mr15">
-            <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
-            <div className="row justify-content-end fs14 color-black-3">{`Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
-          </div>
-        }/>
-        <div className="row pt30 pb10">
-          <div className="col pl15">
-            <Button onClick={handelCancel} className="d-block w-100" type="" size="large">{intl.get('token.transfer_cancel')}</Button>
-          </div>
-          <div className="col pr15">
-            <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">{intl.get('token.transfer_send')}</Button>
-          </div>
+      </div>
+      <MetaItem label={intl.get('token.from')} value={extraData.from} />
+      <MetaItem label={intl.get('token.to')} value={extraData.to} />
+      <MetaItem label={intl.get('token.gas')} value={
+        <div className="mr15">
+          <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
+          <div className="row justify-content-end fs14 color-black-3">{`Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
+        </div>
+      }/>
+      <div className="row pt30 pb10">
+        <div className="col pl15">
+          <Button onClick={handelCancel} className="d-block w-100" type="" size="large">{intl.get('token.transfer_cancel')}</Button>
+        </div>
+        <div className="col pr15">
+          <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">{intl.get('token.transfer_send')}</Button>
         </div>
       </div>
     </Card>
