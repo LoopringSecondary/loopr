@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Collapse, Input, Modal,notification} from 'antd';
+import {Button, Card, Collapse, Input, Modal,Icon} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
@@ -10,7 +10,7 @@ import {configs} from "../../../common/config/data";
 import config from "../../../common/config";
 import eachLimit from 'async/eachLimit';
 import intl from 'react-intl-universal';
-import Notification from 'Loopr/Notification'
+import Notification from 'Loopr/Notification';
 
 class TradeConfirm extends React.Component {
 
@@ -19,8 +19,8 @@ class TradeConfirm extends React.Component {
     signedOrder: '',
     since: '',
     till: '',
-    tokenB:null,
-    tokenS:null
+    tokenB: null,
+    tokenS: null
   };
 
   componentDidMount() {
@@ -53,23 +53,23 @@ class TradeConfirm extends React.Component {
     order.authAddr = authAccount.address;
     order.authPrivateKey = authAccount.privateKey;
     let toConfirmWarn = '';
-    if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
+    if (window.WALLET_UNLOCK_TYPE === 'Ledger') {
       toConfirmWarn = intl.get('trade.confirm_warn_ledger')
     }
-    if(window.WALLET_UNLOCK_TYPE === 'MetaMask') {
+    if (window.WALLET_UNLOCK_TYPE === 'MetaMask') {
       toConfirmWarn = intl.get('trade.confirm_warn_metamask')
     }
-    if(window.WALLET_UNLOCK_TYPE === 'Trezor') {
+    if (window.WALLET_UNLOCK_TYPE === 'Trezor') {
       toConfirmWarn = intl.get('trade.confirm_warn_trezor')
     }
 
-    if(toConfirmWarn) {
+    if (toConfirmWarn) {
       Modal.info({
         title: 'Waiting for your confirmation',
         content: toConfirmWarn,
       });
     }
-    window.WALLET.signOrder(order).then(function(signedOrder){
+    window.WALLET.signOrder(order).then(function (signedOrder) {
       this.setState({
         order,
         signedOrder,
@@ -78,35 +78,60 @@ class TradeConfirm extends React.Component {
         tokenB,
         tokenS
       })
-    }.bind(this)).catch(err=>{
-      console.log('signOrder error',err)
+    }.bind(this)).catch(err => {
+      console.log('signOrder error', err)
     });
 
   }
 
-  openNotification = () => {
+  ActionItem = (item, index) => {
+    const {modal} = this.props;
+    return (
+      <div className="m5 color-black-2" key={index}>
+        <Icon className="color-error-1 mr5" type="close-circle-o"/>
+        {intl.get('order.balance_not_enough', {token: item.value.symbol})}
+        <a onClick={modal.showModal.bind(this, {id: 'token/receive'})}
+           className="ml15 color-primary-1">{intl.get('order.receive')}<Icon type="right"/></a>
+        {item.value.symbol.toUpperCase() !== 'WETH' &&
+        <a onClick={window.routeActions.gotoPath.bind(this, `/trade/${item.value.symbol.toUpperCase()}-WETH`)}
+           className="ml15 color-primary-1">{intl.get('order.buy')} <Icon type="right"/></a>}
+        {item.value.symbol.toUpperCase() === 'WETH' &&
+        <a onClick={modal.showModal.bind(this, {id: 'token/convert', item: {symbol: 'ETH'}})}
+           className="ml15 color-primary-1">{intl.get('txs.type_convert')} <Icon type="right"/></a>}
+      </div>
+    )
+  };
 
+  openNotification = (warn) => {
     const args = {
       message: intl.get('order.placing_order'),
-      description:  intl.get('order.place_success_tip'),
+      description: intl.get('order.place_success_tip'),
       duration: 3,
+      type:'success',
+      actions:
+        (<div className="p10" style={{borderRadius: '4px'}}>
+          <div className="fs14 m5 color-black-2">
+            {intl.get('trade.you_should_do_things')}
+            <Icon className="ml5" type="question-circle"/>
+          </div>
+          {warn.map((item, index) => this.ActionItem(item, index))}
+        </div>)
     };
-    notification.open(args);
-
+    Notification.open(args);
   };
 
   handelSubmit = async () => {
-    const {modals,assets={},tradingConfig} = this.props;
+    const {modals, assets = {}, tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
     let {warn} = modal;
-    let {signedOrder,tokenS} = this.state;
+    let {signedOrder, tokenS} = this.state;
     const _this = this;
     modals.hideModal({id: 'trade/confirm'});
     placeOrder(signedOrder).then(async (res) => {
       if (res.error) {
-        modals.showModal({id: 'trade/place-order-error', errors: [{type: 'unknown', message: res.error.message}]});
+      Notification.open({message: intl.get('trade.place_order_failed'), type: "error", description:res.error.message})
       } else {
-        if(warn){
+        if (warn) {
           const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
           const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
           const delegateAddress = configs.delegateAddress;
@@ -116,9 +141,8 @@ class TradeConfirm extends React.Component {
           approveWarn.forEach(item => {
             const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
             const token = new Token({address: tokenConfig.address});
-            console.log('Allowance',item.value.allowance);
-            if(item.value.allowance > 0){
-              console.log('Approve to 0',item.value.symbol);
+            if (item.value.allowance > 0) {
+              console.log('Approve to 0', item.value.symbol);
               txs.push(token.generateApproveTx({
                 spender: delegateAddress,
                 amount: '0x0',
@@ -128,10 +152,10 @@ class TradeConfirm extends React.Component {
               }));
               nonce = nonce + 1;
             }
-            console.log('Enable',item.value.symbol);
+            console.log('Enable', item.value.symbol);
             txs.push(token.generateApproveTx(({
               spender: delegateAddress,
-              amount: toHex(toBig('9223372036854775806').times('1e'+ tokenConfig.digits||18)),
+              amount: toHex(toBig('9223372036854775806').times('1e' + tokenConfig.digits || 18)),
               gasPrice,
               gasLimit,
               nonce: toHex(nonce),
@@ -145,7 +169,7 @@ class TradeConfirm extends React.Component {
               callback(res.error.message)
             } else {
               window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
-              window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
+              window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
               notifyTransactionSubmitted(res.result);
               callback()
             }
@@ -154,30 +178,26 @@ class TradeConfirm extends React.Component {
           });
         }
         const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
-
-        if(balanceWarn.length ===0){
-          this.openNotification()
-        }else{
-          modals.showModal({id: 'trade/place-order-success',warn:balanceWarn});
-        }
+        this.openNotification(balanceWarn);
         _this.updateOrders();
       }
     });
   };
 
-  updateOrders(){
+  updateOrders() {
     const {dispatch} = this.props;
     dispatch({
-      type:'orders/filtersChange',
-      payload:{
-        id:'orders/trade',
+      type: 'orders/filtersChange',
+      payload: {
+        id: 'orders/trade',
       }
     })
   }
+
   render() {
-    const {modals,tradingConfig} = this.props;
+    const {modals, tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
-    let {side, amount, pair,total, marginSplit, price,lrcFee} = modal;
+    let {side, amount, pair, total, marginSplit, price, lrcFee} = modal;
     let {order, signedOrder, since, till} = this.state;
     marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
     const token = pair.split('-')[0];
@@ -199,8 +219,9 @@ class TradeConfirm extends React.Component {
     return ( <Card title={title}>
       <div className="caption zb-b-b text-center p25 pt0">
         <div className="fs16 color-grey-500 mb5">{intl.get(`order.${side === 'sell' ? 'selling' : 'buying'}`)}</div>
-        <div className="fs28 color-grey-900">{intl.get('amount',{amount})} {token}</div>
-        <div className="fs14 color-grey-500 mt5">{window.uiFormatter.getFormatNum(price)} x {intl.get('amount',{amount})} = {total} {token2} </div>
+        <div className="fs28 color-grey-900">{intl.get('amount', {amount})} {token}</div>
+        <div className="fs14 color-grey-500 mt5">{window.uiFormatter.getFormatNum(price)}
+          x {intl.get('amount', {amount})} = {total} {token2} </div>
       </div>
       <MetaItem label={intl.get('order.lrcfee')} value={`${window.uiFormatter.getFormatNum(lrcFee)} LRC`}/>
       <MetaItem label={intl.get('order.margin')} value={`${marginSplit} %`}/>
@@ -231,13 +252,13 @@ class TradeConfirm extends React.Component {
         <div className="fs12 color-grey-500 mb10">
           {intl.get('order.place_tip')}
         </div>
-        <Button onClick={this.handelSubmit} disabled={!signedOrder} type="primary" className="d-block w-100" size="large">
+        <Button onClick={this.handelSubmit} disabled={!signedOrder} type="primary" className="d-block w-100"
+                size="large">
           {intl.get('order.submit')}
         </Button>
       </div>
     </Card>)
   }
-
 
 }
 
