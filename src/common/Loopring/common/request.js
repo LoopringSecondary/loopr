@@ -10,20 +10,15 @@ function parseJSON(res) {
   return res.json();
 }
 
-//'https://relay1.loopring.io/rpc/v2'
-
-window.LOOPRING_PROVIDER_HOST = `//13.112.62.24/rpc/v2`;
-// https://relay1.loopring.io/eth
-window.ETH_HOST = `//13.112.62.24/eth`;
-
 let checkHost = () => {
   const relayHost = window.STORAGE.settings.getRelay()
-  const LOOPRING_PROVIDER_HOST = relayHost + '/rpc/v2'
-  const ETH_HOST = relayHost + '/eth'
-  if (!LOOPRING_PROVIDER_HOST) {
+  window.LOOPRING_PROVIDER_HOST = relayHost + '/rpc/v2'
+  window.ETH_HOST = relayHost + '/eth'
+
+  if (!window.LOOPRING_PROVIDER_HOST) {
     throw new Error('host is required. Do not forget: new Loopring(host)')
   }
-  if(!ETH_HOST){
+  if(!window.ETH_HOST){
     throw new Error('host is required. Do not forget: new ETH(host)')
   }
 };
