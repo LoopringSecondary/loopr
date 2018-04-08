@@ -17,6 +17,7 @@ function ListActionsBar(props) {
   const contractAddress = state.settings.trading.contract.address
   const {filters = {}} = LIST[id] || {}
   const tokenPair = filters.market;
+  const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
   const cancelAll = () => {
     Modal.confirm({
       title: intl.get('order.confirm_cancel_all',{pair:tokenPair}),
@@ -74,7 +75,7 @@ function ListActionsBar(props) {
         <div className="col">
         </div>
         <div className="col-auto">
-          <Button type="primary" onClick={cancelAll}>{intl.get('order.cancel_all')}</Button>
+          <Button type="primary" onClick={cancelAll} disabled={isWatchOnly}>{intl.get('order.cancel_all')}</Button>
         </div>
       </div>
     </div>

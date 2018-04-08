@@ -8,7 +8,7 @@ export default class MetaMaskUnlockAccount extends Account {
 
   constructor(input) {
     if(input.web3 && input.web3.eth.accounts[0]) {
-      super({unlockType: 'metamask', address: input.web3.eth.accounts[0]})
+      super({unlockType: 'MetaMask', address: input.web3.eth.accounts[0]})
       this.web3 = input.web3
       this.account = this.web3.eth.accounts[0]
       this.web3.version.getNetwork((err, netId) => {

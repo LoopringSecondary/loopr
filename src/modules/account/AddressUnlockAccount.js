@@ -3,7 +3,7 @@ import Account from "./Account";
 export default class AddressUnlockAccount extends Account {
 
   constructor(input) {
-    super({unlockType: 'address', address: input.address})
+    super({unlockType: 'Address', address: input.address})
   }
 
   async signMessage(hash){

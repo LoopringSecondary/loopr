@@ -12,7 +12,7 @@ import {getOrderHash} from "Loopring/relay/order";
 export default class LedgerUnlockAccount extends Account {
 
   constructor(input) {
-    super({unlockType: 'ledger'})
+    super({unlockType: 'Ledger'})
     this.ledger = input.ledger
   }
 

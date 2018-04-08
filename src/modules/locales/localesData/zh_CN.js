@@ -238,6 +238,7 @@ export default {
     place_order_watch_only_tips: '您当前使用地址解锁钱包，无法签名交易, 您可以切换其他方式解锁钱包后下单',
     custom_lrc_fee:'设置本订单有效的LRC手续费',
     custom_time_to_live:'设置本订单有效的过期时间',
+    custom_option_fee:'设置本订单有效的值',
     send_failed: '失败',
     failed_fetch_data:'从服务器获取数据失败, 请稍后在尝试',
     eth_is_required:'由于需要ETH支付油费',

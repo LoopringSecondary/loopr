@@ -13,7 +13,7 @@ import {getOrderHash} from "Loopring/relay/order";
 export default class TrezorUnlockAccount extends Account {
 
   constructor(input) {
-    super({unlockType: 'trezor'});
+    super({unlockType: 'Trezor'});
     const wallet = wallets.find(wallet => wallet.name.toUpperCase() === 'TREZOR (ETH)');
     this.dpath = wallet.dpath;
     this.publicKey = input.publicKey;
