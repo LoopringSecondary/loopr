@@ -79,6 +79,7 @@ class TradeForm extends React.Component {
       case 'week': ttlInSecond = ttl * 7 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.week')}`; break;
       case 'month': ttlInSecond = ttl * 30 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
     }
+    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
 
     const showModal = (payload)=>{
       dispatch({
@@ -737,7 +738,15 @@ class TradeForm extends React.Component {
               </Tooltip>
             </div>
           }
-          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' &&
+          {account && account.isUnlocked && isWatchOnly &&
+          <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
+            {intl.get('trade.place_order_trezor_unsupport') }
+            <Tooltip title={intl.getHTML('trade.place_order_watch_only_tips')}>
+              <Icon className="color-gray-500 mr10" type="question-circle"/>
+            </Tooltip>
+          </div>
+          }
+          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' && !isWatchOnly &&
           <Form.Item>
             {
               side == 'buy' &&

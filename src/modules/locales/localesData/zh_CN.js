@@ -233,8 +233,9 @@ export default {
     confirm_warn_ledger: "请在您的Ledger设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_trezor: "请在您的Trezor设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单",
-    place_order_trezor_unsupport: 'Trezor暂不支持签名交易无法下单',
+    place_order_trezor_unsupport: '无法下单',
     place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响',
+    place_order_watch_only_tips: '您当前使用地址解锁钱包，无法签名交易, 您可以切换其他方式解锁钱包后下单',
     custom_lrc_fee:'设置本订单有效的LRC手续费',
     custom_time_to_live:'设置本订单有效的过期时间',
     send_failed: '失败',
@@ -402,7 +403,12 @@ export default {
     instruction_mnemonic: '我们不推荐您使用这种方式解锁钱包，可能存在安全隐患。</br>在网站上上传助记词非常危险，如果网站被黑客攻击或您不小心访问了钓鱼网站，您钱包内的资产将面临巨大的安全风险。建议您使用硬钱包或在上传助记词前仔细确认URL & SSL 证书正确无误。',
     instruction_privatekey: '我们不推荐您使用这种方式解锁钱包，可能存在安全隐患。</br>在网站上上传私钥非常危险，如果网站被黑客攻击或您不小心访问了钓鱼网站，您钱包内的资产将面临巨大的安全风险。建议您使用硬钱包或在上传私钥前仔细确认URL & SSL 证书正确无误。',
     instruction_trezor: '这是推荐的解锁方式，可以放心使用。</br>Trezor硬件钱包可以物理随机产生私钥、存储私钥、独立完成签名运算而不发送私钥到计算机，安全地存储用户的数字资产，杜绝数字资产存储和交易的各种安全风险。',
-    nonce:'随机数'
+    instruction_address: '这是推荐的解锁方式，可以放心使用。</br>在这种模式下您可以查看余额变动，但如果想转账或提交订单，请使用其他方式解锁',
+    nonce:'随机数',
+    address: '地址',
+    address_input_placeholder: '您的钱包地址',
+    unlock_by_address: '用您的地址解锁',
+    invalid_eth_address: '错误的以太坊地址'
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",

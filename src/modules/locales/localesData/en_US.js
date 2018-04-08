@@ -232,7 +232,8 @@ export default {
     confirm_warn_trezor: "Please confirm transaction on your Trezor device , then come back to continue",
     confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue",
     place_order_trezor_unsupport: 'Could not place order',
-    place_order_trezor_unsupport_tips: 'When you place order we will send your order with signature to relay, but Trezor temporarily does not support sign messages, so when you unlock with Trezor is unable to place an order, but wallet operations(transfer, etc.) is not affected',
+    place_order_trezor_unsupport_tips: 'When you place order we will send your order to relay with signature, but Trezor temporarily does not support sign messages, so when you unlock with Trezor is unable to place an order, but wallet operations(transfer, etc.) is not affected',
+    place_order_watch_only_tips: 'You unlocked wallet with address only that could not sign orders, you could use other way to unlock and place order',
     custom_option_fee:'Custom option for this order',
     send_failed: 'Failed',
     failed_fetch_data:'Failed fetch data from server, you could wait a moment and come back later',
@@ -399,7 +400,12 @@ export default {
     instruction_mnemonic: 'We strongly advise you not to access your wallet in this way. There may be a potential safety hazard.</br>Uploading your mnemonic phrase on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before uploading your keystore file. ',
     instruction_privatekey: 'We strongly advise you not to access your wallet in this way. There may be a potential safety hazard.</br>Uploading your private key on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before uploading your keystore file.',
     instruction_trezor: 'This is the recommended way to access your wallet and can be used with confidence.</br>Trezor Hardware Wallet is a USB device that can generate private keys randomly and store them safely offline. It can perform signature authorization without sending your private key to any computers, which protects your asset and transaction from various security risks.',
-    nonce: 'Nonce'
+    instruction_address: 'This is the recommended way to access your wallet and can be used with confidence.</br>You can only view your balance via this option. Please use another option in order to send.',
+    nonce: 'Nonce',
+    address: 'Address Only',
+    address_input_placeholder: 'Your address',
+    unlock_by_address: 'Unlock with your address',
+    invalid_eth_address: 'Invalid Ethereum address'
   },
   tokens: {
     hide_small_balances: " Hide Small Balances",
