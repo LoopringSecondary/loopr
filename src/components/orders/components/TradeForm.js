@@ -543,7 +543,7 @@ class TradeForm extends React.Component {
       initialValue: 0,
       rules: []
     })(
-      <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
+      <Slider className="place-order-amount-percentage" min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
     )
     const priceValue = (
       <span className="fs10">
@@ -695,14 +695,14 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item className="mb10 mt10" colon={false} label={null}>
+          <Form.Item className="pb0 pt0" colon={false} label={null}>
             <div className="row align-items-center">
               <div className="col-auto">{intl.get('trade.total')}</div>
               <div className="col"></div>
               <div className="col-auto">{`${this.state.total} ${tokenR}`}</div>
             </div>
           </Form.Item>
-          <Form.Item className="mb10 mt10" colon={false} label={null}>
+          <Form.Item className="pb0 pt0" colon={false} label={null}>
             <div className="row align-items-center">
               <div className="col-auto">
                 {intl.get('trade.lrc_fee')}
@@ -711,11 +711,11 @@ class TradeForm extends React.Component {
                 </Tooltip>
               </div>
               <div className="col"></div>
-              <div className="col-auto">{editLRCFee}</div>
-              <div className="col-auto">{calculatedLrcFee} LRC</div>
+              <div className="col-auto pl0 pr5">{editLRCFee}</div>
+              <div className="col-auto pl0">{calculatedLrcFee} LRC</div>
             </div>
           </Form.Item>
-          <Form.Item className="mb10 mt10" colon={false} label={null}>
+          <Form.Item className="pb0 pt0" colon={false} label={null}>
             <div className="row align-items-center">
               <div className="col-auto">
                 {intl.get('trade.time_to_live')}
@@ -724,8 +724,8 @@ class TradeForm extends React.Component {
                 </Tooltip>
               </div>
               <div className="col"></div>
-              <div className="col-auto">{editOrderTTL}</div>
-              <div className="col-auto">{ttlShow}</div>
+              <div className="col-auto pl0 pr5">{editOrderTTL}</div>
+              <div className="col-auto pl0">{ttlShow}</div>
             </div>
           </Form.Item>
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
