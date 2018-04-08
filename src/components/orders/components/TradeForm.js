@@ -554,7 +554,7 @@ class TradeForm extends React.Component {
     const editLRCFee = (
       <Popconfirm title={
         <div>
-          <div>{intl.get('trade.custom_lrc_fee')}</div>
+          <div>{intl.get('trade.custom_option_fee')}</div>
           <div>
             {form.getFieldDecorator('lrcFeeSlider', {
               initialValue: configs.defaultLrcFeePermillage,
@@ -581,10 +581,7 @@ class TradeForm extends React.Component {
           <Form.Item className="ttl" colon={false} label={
             <div className="row">
               <div className="col-auto">
-                {intl.get('trade.time_to_live')}
-                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                  <Icon className="color-gray-500 ml5" type="question-circle"/>
-                </Tooltip>
+                {intl.get('trade.custom_option_fee')}
               </div>
               <div className="col"></div>
               <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
@@ -603,10 +600,7 @@ class TradeForm extends React.Component {
           <Form.Item className="mb5 ttl" colon={false} label={
             <div className="row">
               <div className="col-auto">
-                {intl.get('trade.time_to_live')}
-                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                  <Icon className="color-gray-500 ml5" type="question-circle"/>
-                </Tooltip>
+                {intl.get('trade.custom_option_fee')}
               </div>
               <div className="col"></div>
               <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
