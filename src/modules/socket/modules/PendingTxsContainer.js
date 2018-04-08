@@ -48,7 +48,6 @@ class PendingTxsContainer extends React.Component {
 
   isOrderCanceling({validSince, tokenPair, orderHash}) {
     const txs = this.state.pendingTxs;
-    console.log('Txs: ', txs.length);
     const cancelAllTxs = txs.filter(tx => tx.type === 'cutoff');
     cancelAllTxs.sort(function (a, b) {
       return toNumber(b.value) - toNumber(a.value)
