@@ -38,7 +38,6 @@ const localTokens = [
 tokens = tokens.concat(localTokens)
 
 function getTokenBySymbol(symbol){
-  console.log('symbol',symbol)
   if(!symbol){ return {} }
   return tokens.find(token=>token.symbol.toLowerCase()===symbol.toLowerCase()) || {}
 }
