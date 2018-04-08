@@ -513,12 +513,17 @@ class TradeForm extends React.Component {
       },
     };
 
+    const selectChanged = (e) => {
+      console.log(e);
+      e.stopPropagation();
+    }
+
     const Option = Select.Option;
     const timeToLiveSelectAfter = form.getFieldDecorator('timeToLiveUnit', {
       initialValue: "minute",
       rules: []
     })(
-      <Select style={{width: 90}}>
+      <Select style={{width: 90}} getPopupContainer={triggerNode => triggerNode.parentNode}>
         <Option value="minute">{intl.get('trade.minute')}</Option>
         <Option value="hour">{intl.get('trade.hour')}</Option>
         <Option value="day">{intl.get('trade.day')}</Option>
