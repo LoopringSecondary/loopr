@@ -640,6 +640,15 @@ class TradeForm extends React.Component {
       </Popconfirm>
     )
 
+    let outTokenBalance = 0
+    let outTokenSymbol
+    if(side === 'buy'){
+      outTokenBalance = fmR.getAmount(tokenRBalanceOriginal.balance)
+      outTokenSymbol = tokenR
+    }else{
+      outTokenBalance = fmL.getAmount(tokenLBalanceOriginal.balance)
+      outTokenSymbol = tokenL
+    }
     return (
       <div>
         <Form layout="horizontal">
@@ -648,7 +657,7 @@ class TradeForm extends React.Component {
               <div className="col fs22 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
               <div className="col-auto">
                 {
-                  side === 'buy' ? `${tokenR} ${intl.get('trade.balance')}: ${fmR.getAmount(tokenRBalanceOriginal.balance)}` : `${tokenL} ${intl.get('trade.balance')}: ${fmL.getAmount(tokenLBalanceOriginal.balance)}`
+                  false && `${outTokenSymbol} ${intl.get('trade.balance')}: outTokenBalance`
                 }
               </div>
             </div>
@@ -715,9 +724,16 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
+              <div className="col-auto">{intl.get('trade.balance')}</div>
+              <div className="col"></div>
+              <div className="col-auto">{`${outTokenBalance} ${outTokenSymbol}`}</div>
+            </div>
+          </Form.Item>
+          <Form.Item className="pt0 pb0" colon={false} label={null}>
+            <div className="row align-items-center">
               <div className="col-auto">{intl.get('trade.total')}</div>
               <div className="col"></div>
-              <div className="col-auto">{`${this.state.total} ${tokenR}`}</div>
+              <div className="col-auto">{`${this.state.total} ${outTokenSymbol}`}</div>
             </div>
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
