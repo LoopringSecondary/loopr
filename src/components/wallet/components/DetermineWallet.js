@@ -57,10 +57,25 @@ export default class DetermineWallet extends React.Component {
 
   isSupported = (path) => {
     const {walletType} = this.state;
+
     if(walletType === 'Ledger'){
       return !!ledgerPaths.find(dpath => dpath === path);
     }
     return true;
+  };
+
+
+  getBgcolor = (path) =>  {
+    const {selectedPath} = this.state;
+   if(!this.isSupported(path)) {
+     return 'bg-grey-200'
+   }
+
+   if(selectedPath === path){
+     return 'bg-grey-500'
+   }
+
+   return 'bg-blue-grey-200';
   };
 
   confirm = (index) => {
@@ -74,7 +89,7 @@ export default class DetermineWallet extends React.Component {
   };
 
   render() {
-    const {addresses, selectedPath, pageNum, walletType} = this.state;
+    const {addresses, selectedPath, pageNum} = this.state;
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -84,14 +99,14 @@ export default class DetermineWallet extends React.Component {
     return (
       <Card>
         <Form>
-          <Form.Item label={intl.get('wallet.select_account')}>
+          <Form.Item label={intl.get('wallet.select_account')} className='bg-grey-300'>
             <List
               grid={{column: 3}}
               dataSource={paths}
               className='mt10'
               renderItem={(item) => (
                 <List.Item style={{height: '80px'}}
-                           className={`mr10 p10  ${selectedPath === item.path && 'bg-grey-200'}`}>
+                           className={`mr10 p10  ${this.getBgcolor(item.path)}`}  >
                   <List.Item.Meta title={item.path} description={item.wallet.join(", ")}
                                   onClick={this.isSupported(item.path) ? this.handlePathChange.bind(this, item.path):() => false}/>
                 </List.Item>
