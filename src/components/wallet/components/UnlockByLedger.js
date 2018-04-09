@@ -33,11 +33,15 @@ class UnlockByLedger extends React.Component {
             this.setState({loading:false})
             if(connected){
               modal.hideModal({id: 'wallet/unlock'});
-              modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet, pageFrom:pageFrom})
+              modal.showModal({id: 'wallet/determineWallet', setWallet:this.setWallet,handlePathChange:this.handlePathChange, pageFrom:pageFrom})
             }
           })
       })
   }
+
+  handlePathChange = (path,callback)=>{
+    this.isConnected(path).then(() =>{callback();});
+  };
 
   setWallet = (index, address) => {
     const {account} = this.props;
@@ -45,10 +49,11 @@ class UnlockByLedger extends React.Component {
     account.setWallet({address:window.WALLET.getAddress(), walletType:walletType})
   };
 
-  isConnected = () => {
+  isConnected = (path) => {
     if(window.WALLET && window.WALLET_UNLOCK_TYPE === 'Ledger') {
       return new Promise((resolve, reject) => {
-        window.WALLET.getPublicKey(dpath)
+        path = path || dpath;
+        window.WALLET.getPublicKey(path)
           .then(result=>{
             if(result.error){
               //TODO got `Error: U2F not supported` when in Safari
