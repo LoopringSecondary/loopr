@@ -4,15 +4,24 @@ import Notification from 'Loopr/Notification'
 import PagesExample from 'Loopr/PagesExample'
 
 function Test(props){
+  const notifySuccess1 = ()=>{
+    Notification.open({
+      duration:0,
+      message:'Copy Success!',
+      type:'success',
+      size:'small'
+    })
+  }
   const notifySuccess = ()=>{
     Notification.open({
       // duration:4.5,
       duration:0,
-      message:'Place Order Success !',
+      message:'Place order success !',
       description:'Your order will be filled from now on !',
       type:'success',
     })
   }
+
   const notifyWarning = ()=>{
     Notification.open({
       duration:0,
@@ -46,7 +55,7 @@ function Test(props){
   const notifyError = ()=>{
     Notification.open({
       duration:0,
-      message:"Place Order Failed !",
+      message:"Place order failed !",
       description:'You need 0.45+ LRC for order fee.',
       type:'error',
       actions:(
@@ -61,7 +70,7 @@ function Test(props){
   const notifyError2 = ()=>{
     Notification.open({
       duration:0,
-      message:"Place Order Failed !",
+      message:"Place order failed !",
       description:'You need 0.003+ ETH for order gas .',
       type:'error',
       actions:(
@@ -88,6 +97,7 @@ function Test(props){
   }
   return (
     <div className="container p30">
+      <Button className="m5" onClick={notifySuccess1}>Notify Success1</Button>
       <Button className="m5" onClick={notifySuccess}>Notify Success</Button>
       <Button className="m5" onClick={notifyWarning}>Notify Waring</Button>
       <Button className="m5" onClick={notifyWarning2}>Notify Waring2</Button>

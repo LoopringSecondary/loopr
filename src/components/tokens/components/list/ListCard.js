@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import {Card,Row,Col,Icon,Tooltip } from 'antd';
 import schema from '../../../../modules/tokens/schema';
-import { tokens } from '../../../../common/config/data';
 import Currency from '../../../../modules/settings/CurrencyContainer';
 import CoinIcon from '../../../common/CoinIcon'
 import intl from 'react-intl-universal'
@@ -14,24 +13,25 @@ function ListBlock({LIST={},actions,prices,modal}) {
       // loading,
       // page={}
   } = LIST
-  // const items = tokens.slice(0,6)
+  let tokens = window.CONFIG.getTokens()
   items.forEach(item=>{
-    let token = tokens.find(token=>token.symbol === item.token)
-    if(token){
-      item.icon = token.icon
-    }
+    let token = tokens.find(token=>token.symbol === item.token) || {}
+    item.icon = token.icon
   })
+  // let sorter = (tokenA,tokenB)=>{
+  //   const pa = Number(tokenA.percentage.replace('%',''))
+  //   const pb = Number(tokenB.percentage.replace('%',''))
+  //   return pa < pb
 
-  let sorter = (tokenA,tokenB)=>{
-    const pa = Number(tokenA.percentage.replace('%',''))
-    const pb = Number(tokenB.percentage.replace('%',''))
-    if(pa === pb){
-      return tokenA.token > tokenB.token
-    }else{
-      return pa < pb
-    }
-  }
-  items.sort(sorter)
+  //   if(pa === pb){
+  //     return tokenA.token < tokenB.token
+  //   }else{
+  //     return pa < pb
+  //   }
+  // }
+  // console.log('items before',items)
+  // items.sort(sorter)
+  // console.log('items after',items)
 
   const location = (token) => {
     window.routeActions.gotoPath(`/wallet/assets/${token}`);
