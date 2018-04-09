@@ -240,6 +240,8 @@ export default {
     custom_lrc_fee:'设置本订单有效的LRC手续费',
     custom_time_to_live:'设置本订单有效的过期时间',
     custom_option_fee:'设置本订单有效的值',
+    custom_lrc_fee_title:'设置本订单生效的LRC手续费',
+    custom_time_to_live_title:'设置本订单生效的有效时间',
     send_failed: '失败',
     failed_fetch_data:'从服务器获取数据失败, 请稍后在尝试',
     eth_is_required:'由于需要ETH支付油费',

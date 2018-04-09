@@ -217,9 +217,15 @@ class Transfer extends React.Component {
     resetForm()
 
     const formItemLayout = {
-      labelCol: {span: 4},
-      wrapperCol: {span: 20},
-    }
+      labelCol: {
+        xs: {span: 24},
+        sm: {span: 4},
+      },
+      wrapperCol: {
+        xs: {span: 24},
+        sm: {span: 20},
+      },
+    };
 
     const formatGas = (value) => {
       return (value / 1e9) + " ether";

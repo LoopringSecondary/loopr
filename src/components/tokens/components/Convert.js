@@ -138,9 +138,15 @@ class Convert extends React.Component {
     }
 
     const formItemLayout = {
-      labelCol: {span: 7},
-      wrapperCol: {span: 17},
-    }
+      labelCol: {
+        xs: {span: 24},
+        sm: {span: 4},
+      },
+      wrapperCol: {
+        xs: {span: 24},
+        sm: {span: 20},
+      },
+    };
 
     const priceValue = (
       <span className="fs10">
@@ -171,7 +177,7 @@ class Convert extends React.Component {
         </div>
         <div className="pt10 pb10"></div>
         <Form layout="horizontal">
-          <Form.Item colon={false} className="mb0" extra={
+          <Form.Item colon={false} className="mb0" label={intl.get('token.amount')} {...formItemLayout} extra={
             <div className="row">
               <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
@@ -186,7 +192,7 @@ class Convert extends React.Component {
                 }
               ]
             })(
-              <Input placeholder={intl.get('token.amount')} size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}
+              <Input size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}
                      onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>

@@ -2,16 +2,16 @@ import {configs} from '../../common/config/data'
 const set = (settings)=>{
   localStorage.settings = JSON.stringify(settings)
 }
+const latestContract = configs.contracts[configs.contracts.length-1]
+const relays = configs.relays
+let sortedRelays = relays.map((item, i) => {
+  item.id = i;
+  return item
+})
 const get = ()=>{
   if(localStorage.settings){
      return JSON.parse(localStorage.settings)
   }else{
-    const latestContract = configs.contracts[configs.contracts.length-1]
-    const relays = configs.relays
-    let sortedRelays = relays.map((item, i) => {
-      item.id = i;
-      return item
-    })
     return {
       preference: {
         language: "en-US",
@@ -37,8 +37,7 @@ const get = ()=>{
   }
 }
 const getRelay = ()=>{
-  const defaultHost = '//relay1.loopring.io'
-  return defaultHost
+  const defaultHost = sortedRelays[0].value
   if(localStorage.settings){
      const settings = JSON.parse(localStorage.settings)
      return settings.relay.selected || defaultHost
@@ -47,8 +46,7 @@ const getRelay = ()=>{
   }
 }
 const getContractVersion = ()=>{
-  const defaultVersion = 'v1.3'
-  return defaultVersion
+  const defaultVersion = latestContract.version
   if(localStorage.settings){
      const settings = JSON.parse(localStorage.settings)
      return settings.trading.contract.version || defaultVersion
