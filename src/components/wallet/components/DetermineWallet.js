@@ -57,7 +57,6 @@ export default class DetermineWallet extends React.Component {
 
   isSupported = (path) => {
     const {walletType} = this.state;
-    return !!ledgerPaths.find(dpath => dpath === path);
     if(walletType === 'Ledger'){
       return !!ledgerPaths.find(dpath => dpath === path);
     }
@@ -65,12 +64,9 @@ export default class DetermineWallet extends React.Component {
   };
 
 
+
   getBgcolor = (path) =>  {
     const {selectedPath} = this.state;
-   if(!this.isSupported(path)) {
-     return 'bg-grey-50 border-grey-200 border'
-   }
-
    if(selectedPath === path){
      return 'bg-blue-100 border-blue-200 border'
    }
@@ -88,7 +84,7 @@ export default class DetermineWallet extends React.Component {
   };
 
   render() {
-    const {addresses, selectedPath, pageNum} = this.state;
+    const {addresses, pageNum} = this.state;
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -102,13 +98,13 @@ export default class DetermineWallet extends React.Component {
           <Form.Item label={null} className='bg-grey-50'>
             <List
               grid={{column: 3}}
-              dataSource={paths}
+              dataSource={paths.filter(path => this.isSupported(path.path))}
               className='p10'
               renderItem={(item) => (
                 <div
                    style={{height: '80px'}}
                    className={`ant-col-8 mt5 mb5`}
-                   onClick={this.isSupported(item.path) ? this.handlePathChange.bind(this, item.path):() => false}
+                   onClick={this.handlePathChange.bind(this, item.path)}
                 >
                     <div className={`${this.getBgcolor(item.path)} p10 ml5 mr5`}>
                       <div className="fs2 color-black-2">
