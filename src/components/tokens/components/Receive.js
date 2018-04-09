@@ -45,6 +45,42 @@ export default class Receive extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps){
+    console.log("update Props:",nextProps.modal.symbol);
+
+    if(nextProps.modal.symbol !== this.props.modal.symbol){
+      const {symbol} = nextProps.modal;
+      const _this = this;
+      if (symbol) {
+        const owner = window.WALLET.getAddress();
+        getEstimatedAllocatedAllowance(owner, symbol.toUpperCase()).then(res => {
+          if (!res.error) {
+            const token = window.CONFIG.getTokenBySymbol(symbol);
+            const orderAmount = res.result;
+            if (symbol.toUpperCase() === "LRC") {
+              getFrozenLrcFee(owner).then(response => {
+                if (!response.error) {
+                  const lrcFee = response.result;
+                  const amount = toBig(orderAmount).plus(toBig(lrcFee)).div('1e' + token.digits).toFixed(token.precision);
+                  _this.setState({symbol, amount});
+                } else {
+                  const amount = toBig(orderAmount).div('1e' + token.digits).toFixed(token.precision);
+                  _this.setState({symbol, amount});
+                }
+              })
+            } else {
+              const amount = toBig(orderAmount).div('1e' + token.digits).toFixed(token.precision);
+              _this.setState({symbol, amount});
+            }
+          }
+        });
+      }else {
+        _this.setState({ symbol: null, amount: 0})
+      }
+    }
+    return true
+  }
+
   render() {
     const address = window.WALLET.getAddress();
     const {symbol,amount} = this.state;

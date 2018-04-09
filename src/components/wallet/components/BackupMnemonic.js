@@ -3,12 +3,15 @@ import {Button, Form, Input, message} from 'antd';
 import icon from '../../../assets/images/icon-backup-wallet.png'
 import copy from 'copy-to-clipboard';
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 class BackupMnemonic extends React.Component {
 
   render(){
     const backup = () => {
-      copy(window.WALLET.getMnemonic()) ? message.success(intl.get('token.copy_success')) : message.error(intl.get('token.copy_failed'))
+      copy(window.WALLET.getMnemonic()) ?
+        Notification.open({type: 'success', size: 'small', message: intl.get('token.copy_success')}) :
+        Notification.open({message: intl.get('token.copy_failed'), type: "error", size: 'small'})
     };
 
     return (
