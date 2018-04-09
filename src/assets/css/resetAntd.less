@@ -140,12 +140,6 @@
    // .ant-table-thead > tr, .ant-table-tbody > tr{
    //  height:auto !important;
    // }
-	 .ant-popover{
-	 		.ant-popover-inner-content{
-	 			padding:0px !important;
-	 		}
-
-	 }
 	 .ant-select.navbar-language,.ant-select-focused.navbar-language{
 	 		.ant-select-selection{
 				background: transparent !important;
@@ -382,8 +376,8 @@
       }
     }
   }
-  .loopring-alert{
 
+  .loopring-alert{
     .alert-btn{
       border:none;
     }
@@ -440,7 +434,6 @@
         height:28px !important;
       }
     }
-
     &.t-dark{
       .alert-icon{
         color:rgba(255,255,255,1);
@@ -594,11 +587,50 @@
           height:28px !important;
         }
       }
-
-
     }
-
-
+  }
+  .ant-popover{
+      .ant-popover-inner-content{
+        padding:0px !important;
+      }
+  }
+  .place-order-form-popover{
+    min-width: 240px !important;
+    .ant-popover-inner-content{
+      padding:15px !important;
+    }
+    .ant-slider{
+      margin-top: 0px !important;
+      margin-bottom: 15px !important;
+    }
+  }
+  .place-order-form{
+    .addon-before{
+      width:60px;
+      display: inline-block;
+      text-align: left;
+      padding-left:5px;
+    }
+    .ant-slider.place-order-amount-percentage{
+      margin-top: 3px;
+      .ant-slider-handle{
+        width:10px;
+        height:10px;
+        margin-left:-6px;
+        margin-top:-3px;
+      }
+      .ant-slider-mark{
+        .ant-slider-mark-text:last-child{
+          margin-left:-14% !important;
+        }
+        .ant-slider-mark-text:first-child{
+          // margin-left:-16%;
+        }
+        .ant-slider-mark-text{
+          font-size:10px;
+        }
+      }
+    }
   }
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip,Popconfirm} from 'antd';
+import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip,Popconfirm,Popover} from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
@@ -557,7 +557,7 @@ class TradeForm extends React.Component {
       initialValue: 0,
       rules: []
     })(
-      <Slider min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
+      <Slider className="place-order-amount-percentage" min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
     )
     const priceValue = (
       <span className="fs10">
@@ -567,41 +567,40 @@ class TradeForm extends React.Component {
       </span>
     )
     const editLRCFee = (
-      <Popconfirm title={
+      <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('trade.custom_option_fee')}</div>} content={
         <div>
-          <div>{intl.get('trade.custom_option_fee')}</div>
-          <div>
-            {form.getFieldDecorator('lrcFeeSlider', {
-              initialValue: configs.defaultLrcFeePermillage,
-              rules: []
-              })(
-                <Slider min={1} max={50} step={1}
-                    marks={{
-                      1: intl.get('token.slow'),
-                      50: intl.get('token.fast')
-                    }}
-                    onChange={lrcFeeChange.bind(this)}
-                />
-            )}
-          </div>
+          {form.getFieldDecorator('lrcFeeSlider', {
+            initialValue: configs.defaultLrcFeePermillage,
+            rules: []
+            })(
+              <Slider min={1} max={50} step={1}
+                  marks={{
+                    1: intl.get('token.slow'),
+                    50: intl.get('token.fast')
+                  }}
+                  onChange={lrcFeeChange.bind(this)}
+              />
+          )}
         </div>
-      } okText="Yes" cancelText="No" onConfirm={lrcFeeConfirm.bind(this)}>
-        <a href="#"><Icon type="edit" /></a>
-      </Popconfirm>
+      } trigger="click">
+        <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
+      </Popover>
     )
     const editOrderTTL = (
-      <Popconfirm title={
+      <Popover overlayClassName="place-order-form-popover"
+        title={
+          <div className="row pt5 pb5">
+            <div className="col-auto">
+              {intl.get('trade.custom_option_fee')}
+            </div>
+            <div className="col"></div>
+            <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
+          </div>
+        }
+      content={
         <div>
           {this.state.timeToLivePopularSetting &&
-          <Form.Item className="ttl" colon={false} label={
-            <div className="row">
-              <div className="col-auto">
-                {intl.get('trade.custom_option_fee')}
-              </div>
-              <div className="col"></div>
-              <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-            </div>
-          }>
+          <Form.Item className="ttl mb0" colon={false} label={null}>
             {form.getFieldDecorator('timeToLivePopularSetting')(
               <RadioGroup>
                 <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
@@ -612,15 +611,7 @@ class TradeForm extends React.Component {
             )}
           </Form.Item>}
           {!this.state.timeToLivePopularSetting &&
-          <Form.Item className="mb5 ttl" colon={false} label={
-            <div className="row">
-              <div className="col-auto">
-                {intl.get('trade.custom_option_fee')}
-              </div>
-              <div className="col"></div>
-              <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-            </div>
-          }>
+          <Form.Item className="mb5 ttl" colon={false} label={null}>
             {form.getFieldDecorator('timeToLive', {
               rules: [{
                 message: intl.get('trade.integer_verification_message'),
@@ -631,25 +622,34 @@ class TradeForm extends React.Component {
             )}
           </Form.Item>}
         </div>
-      } okText="Yes" cancelText="No" onConfirm={ttlConfirm.bind(this)}>
-        <a href="#"><Icon type="edit" /></a>
-      </Popconfirm>
+      } trigger="hover">
+          <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
+      </Popover>
     )
 
+    let outTokenBalance = 0
+    let outTokenSymbol
+    if(side === 'buy'){
+      outTokenBalance = fmR.getAmount(tokenRBalanceOriginal.balance)
+      outTokenSymbol = tokenR
+    }else{
+      outTokenBalance = fmL.getAmount(tokenLBalanceOriginal.balance)
+      outTokenSymbol = tokenL
+    }
     return (
-      <div>
+      <div className="place-order-form">
         <Form layout="horizontal">
           <Form.Item>
             <div className="row mb5">
               <div className="col fs22 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
               <div className="col-auto">
                 {
-                  side === 'buy' ? `${tokenR} ${intl.get('trade.balance')}: ${fmR.getAmount(tokenRBalanceOriginal.balance)}` : `${tokenL} ${intl.get('trade.balance')}: ${fmL.getAmount(tokenLBalanceOriginal.balance)}`
+                  `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
                 }
               </div>
             </div>
           </Form.Item>
-          <Form.Item label={intl.get('trade.price')} {...formItemLayout} colon={false} extra={
+          <Form.Item label={null} colon={false} extra={
             null &&
             <div className="row">
               <div className="col fs10">{priceValue}</div>
@@ -662,7 +662,9 @@ class TradeForm extends React.Component {
                 validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
               }]
             })(
-              <Input className="d-block w-100" placeholder="" size="large" suffix={<span className="fs14 color-black-4">{tokenR}</span>}
+              <Input className="d-block w-100" placeholder="" size="large"
+                     addonBefore={<span className="addon-before">{intl.get('trade.price')}</span>}
+                     suffix={<span className="fs14 color-black-4">{tokenR}</span>}
                      onChange={inputChange.bind(this, 'price')}
                      onFocus={() => {
                        const amount = form.getFieldValue("price")
@@ -678,9 +680,12 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item label={intl.get('trade.amount')} {...formItemLayout} colon={false} extra={
+          <Form.Item label={null} colon={false} extra={
             <div>
-              <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
+              {
+                false &&
+                <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
+              }
               <div className="fs10" style={{marginBottom:"-10px"}}>{amountSlider}</div>
             </div>
           }>
@@ -691,7 +696,9 @@ class TradeForm extends React.Component {
                 validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
               }]
             })(
-              <Input placeholder="" size="large" suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
+              <Input placeholder="" size="large"
+                    addonBefore={<span className="addon-before">{intl.get('trade.amount')}</span>}
+                    suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
                      onFocus={() => {
                        const amount = Number(form.getFieldValue("amount"))
                        if (amount === 0) {
@@ -706,42 +713,47 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item className="mb5" {...contentItemLayout} colon={false} label={intl.get('trade.total')}>
+          {
+            false &&
+            <Form.Item className="pt0 pb0" colon={false} label={null}>
+              <div className="row align-items-center">
+                <div className="col-auto">{intl.get('trade.balance')}</div>
+                <div className="col"></div>
+                <div className="col-auto">{`${outTokenBalance} ${outTokenSymbol}`}</div>
+              </div>
+            </Form.Item>
+          }
+          <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
+              <div className="col-auto">{intl.get('trade.total')}</div>
               <div className="col"></div>
-              <div className="col-auto">{`${this.state.total} ${tokenR}`}</div>
+              <div className="col-auto">{`${this.state.total} ${outTokenSymbol}`}</div>
             </div>
           </Form.Item>
-          <Form.Item className="mb5" {...contentItemLayout} colon={false} label={
-            <div className="row">
+          <Form.Item className="pt0 pb0" colon={false} label={null}>
+            <div className="row align-items-center">
               <div className="col-auto">
                 {intl.get('trade.lrc_fee')}
                 <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
                   <Icon className="color-gray-500 ml5" type="question-circle"/>
                 </Tooltip>
               </div>
-            </div>
-          }>
-            <div className="row align-items-center">
               <div className="col"></div>
-              <div className="col-auto">{editLRCFee}</div>
-              <div className="col-auto">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
+              <div className="col-auto pl0 pr5">{editLRCFee}</div>
+              <div className="col-auto pl0">{calculatedLrcFee} LRC</div>
             </div>
           </Form.Item>
-          <Form.Item className="mb5" {...contentItemLayout} colon={false} label={
-            <div className="row">
+          <Form.Item className="pt0 pb0" colon={false} label={null}>
+            <div className="row align-items-center">
               <div className="col-auto">
                 {intl.get('trade.time_to_live')}
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
                   <Icon className="color-gray-500 ml5" type="question-circle"/>
                 </Tooltip>
               </div>
-            </div>
-          }>
-            <div className="row align-items-center">
               <div className="col"></div>
-              <div className="col-auto">{editOrderTTL}</div>
-              <div className="col-auto">{ttlShow}</div>
+              <div className="col-auto pl0 pr5">{editOrderTTL}</div>
+              <div className="col-auto pl0">{ttlShow}</div>
             </div>
           </Form.Item>
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
