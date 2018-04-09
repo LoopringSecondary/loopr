@@ -82,7 +82,8 @@ class ListBlock extends React.Component {
     const gotoConvert = () => {
       showModal({
         id: 'token/convert',
-        item: {symbol: 'ETH'}
+        item: {symbol: 'ETH'},
+        showFrozenAmount: true
       })
     };
     const gotoTransfer = () => {
