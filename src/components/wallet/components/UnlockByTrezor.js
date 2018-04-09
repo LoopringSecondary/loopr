@@ -30,7 +30,7 @@ class UnlockByTrezor extends React.Component {
     account.connectToTrezor({index})
   };
 
-  handlePathChange = async (path,callback) => {
+  handlePathChange = (path,callback) => {
     window.TrezorConnect.setCurrency('BTC');
     window.TrezorConnect.getXPubKey(path, function (result) {
       if (result.success) {

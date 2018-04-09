@@ -4,8 +4,8 @@ import ledger from 'ledgerco';
 import LedgerUnlockAccount from '../../../modules/account/LedgerUnlockAccount'
 import intl from 'react-intl-universal';
 
-const dpath = "m/44'/60'/0'"
-const walletType = "Ledger"
+const dpath = "m/44'/60'/0'";
+const walletType = "Ledger";
 
 class UnlockByLedger extends React.Component {
   state = {
