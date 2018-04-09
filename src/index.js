@@ -8,12 +8,19 @@ import routeActions from './common/utils/routeActions'
 import CONFIG from './common/config'
 import STORAGE from './modules/storage'
 import {setLocale} from "./common/utils/localeSetting";
+import {configs} from './common/config/data'
 
 window.CONTAINERS = containers
 window.REDUX = redux
 window.uiFormatter = uiFormatter
 window.routeActions = routeActions
 window.CONFIG = CONFIG
+const latestVersion = Number(configs.localStorageVersion)
+const oldVersion = Number(STORAGE.getLocalStorageVersion())
+if(latestVersion > oldVersion) {
+  STORAGE.clearLocalStorage()
+  STORAGE.setLocalStorageVersion(latestVersion)
+}
 window.STORAGE = STORAGE
 window.WALLET_UNLOCK_TYPE = ''
 window.WALLET = null
