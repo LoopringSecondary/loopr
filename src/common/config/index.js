@@ -1,5 +1,5 @@
 //const config = require('./config.json');
-const config = require('./config.json');
+const config = require('./testConfig.json');
 const tokensIcons = require('./tokens_icons.json');
 let tokens = config.tokens || []
 tokens.forEach(token=>{

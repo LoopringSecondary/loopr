@@ -10,6 +10,7 @@ import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
 import CoinIcon from '../../common/CoinIcon';
 import Notification from 'Loopr/Notification'
+import {getEstimatedAllocatedAllowance} from '../../../common/Loopring/relay/utils'
 
 class Convert extends React.Component {
   state = {
@@ -17,6 +18,21 @@ class Convert extends React.Component {
     selectMaxWarn: false,
     inputMaxWarn: false,
     errorMsg: ''
+  }
+
+  componentDidMount() {
+    const {modal} = this.props;
+    let selectedToken = modal.item || {}
+    let showFrozenAmount = modal.showFrozenAmount
+    if(selectedToken.symbol === 'ETH' && showFrozenAmount) {
+      const wethConfig = config.getTokenBySymbol('WETH')
+      getEstimatedAllocatedAllowance(window.WALLET.getAddress(), 'WETH').then(res=>{
+        let frozenAmount = fm.toBig(res.result).div('1e'+wethConfig.digits).toNumber()
+        if(frozenAmount >0){
+          this.setState({amount:frozenAmount})
+        }
+      })
+    }
   }
 
   render() {
@@ -185,7 +201,7 @@ class Convert extends React.Component {
             </div>
           }>
             {form.getFieldDecorator('amount', {
-              initialValue: '',
+              initialValue: this.state.amount,
               rules: [
                 {message: intl.get('token.amount_verification_message'), transform:(value)=>fm.toNumber(value),
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
@@ -193,7 +209,20 @@ class Convert extends React.Component {
               ]
             })(
               <Input size="large" addonAfter={selectedToken.symbol} onChange={amountChange.bind(this)}
-                     onKeyDown={toContinue.bind(this)}/>
+                     onKeyDown={toContinue.bind(this)}
+                     onFocus={() => {
+                       const amount = form.getFieldValue("amount")
+                       if (amount === 0) {
+                         form.setFieldsValue({"amount": ''})
+                       }
+                     }}
+                     onBlur={() => {
+                       const amount = form.getFieldValue("amount")
+                       if (amount === '') {
+                         form.setFieldsValue({"amount": 0})
+                       }
+                     }}
+              />
             )}
           </Form.Item>
 
