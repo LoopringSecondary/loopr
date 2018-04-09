@@ -89,9 +89,9 @@ class TradeForm extends React.Component {
     switch(unit){
       case 'minute': ttlInSecond = ttl * 60 ; ttlShow = `${ttl} ${intl.get('trade.minute')}`; break;
       case 'hour': ttlInSecond = ttl * 3600 ; ttlShow = `${ttl} ${intl.get('trade.hour')}`; break;
-      case 'day': ttlInSecond = ttl * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.day')}`; break;
-      case 'week': ttlInSecond = ttl * 7 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.week')}`; break;
-      case 'month': ttlInSecond = ttl * 30 * 24 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
+      case 'day': ttlInSecond = ttl * 86400; ttlShow = `${ttl} ${intl.get('trade.day')}`; break;
+      case 'week': ttlInSecond = ttl * 7 * 86400; ttlShow = `${ttl} ${intl.get('trade.week')}`; break;
+      case 'month': ttlInSecond = ttl * 30 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
     }
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
 
@@ -476,11 +476,7 @@ class TradeForm extends React.Component {
     }
 
     function lrcFeeChange(v) {
-
-    }
-
-    function lrcFeeConfirm() {
-      const milliLrcFee = form.getFieldValue('lrcFeeSlider')
+      const milliLrcFee = v
       _this.setState({sliderMilliLrcFee : milliLrcFee})
       const amount = Number(form.getFieldValue("amount"))
       const price = Number(form.getFieldValue("price"))
@@ -490,9 +486,9 @@ class TradeForm extends React.Component {
       }
     }
 
-    function ttlConfirm() {
-      if(this.state.timeToLivePopularSetting) {
-        const ttl = form.getFieldValue('timeToLivePopularSetting')
+    function timeToLiveValueChange(type, e) {
+      if(type === 'popular') {
+        const ttl = e.target.value
         switch(ttl){
           case '1hour': _this.setState({timeToLive: 1, timeToLiveUnit: 'hour'}); break;
           case '1day': _this.setState({timeToLive: 1, timeToLiveUnit: 'day'});  break;
@@ -500,9 +496,16 @@ class TradeForm extends React.Component {
           case '1month': _this.setState({timeToLive: 1, timeToLiveUnit: 'month'}); break;
         }
       } else {
-        const ttl = form.getFieldValue('timeToLive')
-        const unit = form.getFieldValue('timeToLiveUnit')
-        _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
+        if(type === 'moreUnit') {
+          const ttl = form.getFieldValue('timeToLive')
+          const unit = e
+          _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
+        }
+        if(type === 'moreValue') {
+          const ttl = e.target.value
+          const unit = form.getFieldValue('timeToLiveUnit')
+          _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
+        }
       }
     }
 
@@ -538,7 +541,7 @@ class TradeForm extends React.Component {
       initialValue: "minute",
       rules: []
     })(
-      <Select style={{width: 90}} getPopupContainer={triggerNode => triggerNode.parentNode}>
+      <Select style={{width: 90}} getPopupContainer={triggerNode => triggerNode.parentNode} onChange={timeToLiveValueChange.bind(this, 'moreUnit')}>
         <Option value="minute">{intl.get('trade.minute')}</Option>
         <Option value="hour">{intl.get('trade.hour')}</Option>
         <Option value="day">{intl.get('trade.day')}</Option>
@@ -567,7 +570,7 @@ class TradeForm extends React.Component {
       </span>
     )
     const editLRCFee = (
-      <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('trade.custom_option_fee')}</div>} content={
+      <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('trade.custom_lrc_fee_title')}</div>} content={
         <div>
           {form.getFieldDecorator('lrcFeeSlider', {
             initialValue: configs.defaultLrcFeePermillage,
@@ -591,7 +594,7 @@ class TradeForm extends React.Component {
         title={
           <div className="row pt5 pb5">
             <div className="col-auto">
-              {intl.get('trade.custom_option_fee')}
+              {intl.get('trade.custom_time_to_live_title')}
             </div>
             <div className="col"></div>
             <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
@@ -602,7 +605,7 @@ class TradeForm extends React.Component {
           {this.state.timeToLivePopularSetting &&
           <Form.Item className="ttl mb0" colon={false} label={null}>
             {form.getFieldDecorator('timeToLivePopularSetting')(
-              <RadioGroup>
+              <RadioGroup onChange={timeToLiveValueChange.bind(this, 'popular')}>
                 <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
                 <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
                 <RadioButton value="1week">1 {intl.get('trade.week')}</RadioButton>
@@ -618,11 +621,12 @@ class TradeForm extends React.Component {
                 validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
               }]
             })(
-              <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}/>
+              <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}
+                     onChange={timeToLiveValueChange.bind(this, 'moreValue')}/>
             )}
           </Form.Item>}
         </div>
-      } trigger="hover">
+      } trigger="click">
           <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
       </Popover>
     )
@@ -735,12 +739,12 @@ class TradeForm extends React.Component {
               <div className="col-auto">
                 {intl.get('trade.lrc_fee')}
                 <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
-                  <Icon className="color-gray-500 ml5" type="question-circle"/>
+                  <Icon className="color-gray-500 ml5" type="question-circle-o"/>
                 </Tooltip>
               </div>
               <div className="col"></div>
               <div className="col-auto pl0 pr5">{editLRCFee}</div>
-              <div className="col-auto pl0">{calculatedLrcFee} LRC</div>
+              <div className="col-auto pl0">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
             </div>
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
@@ -748,7 +752,7 @@ class TradeForm extends React.Component {
               <div className="col-auto">
                 {intl.get('trade.time_to_live')}
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                  <Icon className="color-gray-500 ml5" type="question-circle"/>
+                  <Icon className="color-gray-500 ml5" type="question-circle-o"/>
                 </Tooltip>
               </div>
               <div className="col"></div>

@@ -236,6 +236,8 @@ export default {
     place_order_trezor_unsupport_tips: 'When you place order we will send your order to relay with signature, but Trezor temporarily does not support sign messages, so when you unlock with Trezor is unable to place an order, but wallet operations(transfer, etc.) is not affected',
     place_order_watch_only_tips: 'You unlocked wallet with address only that could not sign orders, you could use other way to unlock and place order',
     custom_option_fee:'Custom option for this order',
+    custom_lrc_fee_title:'Custom LRC-Fee for this order',
+    custom_time_to_live_title:'Custom Time-to-live for this order',
     send_failed: 'Failed',
     failed_fetch_data:'Failed fetch data from server, you could wait a moment and come back later',
     eth_is_required:'ETH is required to pay Ethereun transaction fees',
