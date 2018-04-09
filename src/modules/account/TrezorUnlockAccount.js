@@ -13,9 +13,8 @@ import {getOrderHash} from "Loopring/relay/order";
 export default class TrezorUnlockAccount extends Account {
 
   constructor(input) {
-    super({unlockType: 'Trezor'});
-    const wallet = wallets.find(wallet => wallet.name.toUpperCase() === 'TREZOR (ETH)');
-    this.dpath = wallet.dpath;
+    super({unlockType: 'trezor'});
+    this.dpath = input.path;
     this.publicKey = input.publicKey;
     this.chainCode = input.chainCode
   }
@@ -52,7 +51,7 @@ export default class TrezorUnlockAccount extends Account {
         return item
       })
       window.TrezorConnect.ethereumSignTx(
-        this.path,
+        this.dpath.concat(`/${this.index}`),
         ...tx,
         rawTx.chainId,
         function (response) {
@@ -62,7 +61,7 @@ export default class TrezorUnlockAccount extends Account {
               v: response.v,
               s: toBuffer(addHexPrefix(response.s)),
               r: toBuffer(addHexPrefix(response.r))
-            })
+            });
             resolve({result: newTx.serialize()})
           } else {
             console.error('Error:', response.error); // error message
@@ -74,7 +73,7 @@ export default class TrezorUnlockAccount extends Account {
 
   async sendTransaction(tx) {
     let newTx = new Transaction(tx)
-    await newTx.complete()
+    await newTx.complete();
     const signed = await this.signTx(newTx.raw)
     if (signed.result) {
       return await newTx.sendRawTx(toHex(signed.result))

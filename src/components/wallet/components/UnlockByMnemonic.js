@@ -10,14 +10,14 @@ import intl from 'react-intl-universal';
 class UnlockByMnemonic extends React.Component {
 
   state = {
-    dpath: null,
     mnemonic: null,
     isMnemonicValid: false,
     password:null,
   };
-  handleWalletChange = (e)=>{
-    const dpath= wallets[e].dpath;
-    this.setState({dpath});
+  handlePathChange = (path,callback)=>{
+    const {mnemonic,password} = this.state;
+    window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:path, password:password});
+    callback();
   };
 
   handlePasswordChange =(e)=>{
@@ -30,10 +30,11 @@ class UnlockByMnemonic extends React.Component {
 
   showAddresses = () => {
     const {pageFrom} = this.props;
-    const {mnemonic,dpath,password} = this.state;
-    window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:dpath, password:password});
+    const {mnemonic,password} = this.state;
+    const path = "m/44'/60'/0'/0";
+    window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:path, password:password});
     window.WALLET_UNLOCK_TYPE = 'Mnemonic';
-    this.props.modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet, pageFrom:pageFrom})
+    this.props.modal.showModal({id: 'wallet/determineWallet',path, setWallet:this.setWallet,handlePathChange:this.handlePathChange, pageFrom:pageFrom})
   };
 
   bindShowAddress = (e) => {
@@ -41,15 +42,14 @@ class UnlockByMnemonic extends React.Component {
       try{
         e.preventDefault();
         const {form} = this.props;
-        const wallet = form.getFieldValue('wallet');
-        const dpath= wallets[wallet].dpath;
         const mnemonic = form.getFieldValue('mnemonic');
         const password  = form.getFieldValue('password');
         const {pageFrom} = this.props;
-        if(isValidateMnemonic(mnemonic) && dpath){
-          window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:dpath, password:password});
+        if(isValidateMnemonic(mnemonic)){
+          const path = "m/44'/60'/0'/0";
+          window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:path, password:password});
           window.WALLET_UNLOCK_TYPE = 'Mnemonic';
-          this.props.modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet, pageFrom:pageFrom})
+          this.props.modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet,handlePathChange:this.handlePathChange, pageFrom:pageFrom})
         }else{
           message.error(intl.get('wallet.mnemonic_tip'))
         }
@@ -64,7 +64,6 @@ class UnlockByMnemonic extends React.Component {
     const {account} = this.props;
     account.setMnemonic({...this.state,index});
     this.setState({
-      dpath: null,
       mnemonic: null,
       isMnemonicValid: false,
       password:null,
@@ -84,26 +83,6 @@ class UnlockByMnemonic extends React.Component {
           className="mb15"
         />
         <Form layout="horizontal" className="">
-          <Form.Item className="mb15" label={intl.get('wallet.select_wallet')}>
-            {form.getFieldDecorator('wallet', {
-              initialValue: '',
-              rules: [{
-                required:true,
-                message:"Please select a kind of wallet"
-              }]
-            })(
-              <Select
-                showSearch
-                optionFilterProp="children"
-                size="large"
-                onChange={this.handleWalletChange}
-              >
-                {wallets.map((item, index) =>
-                  <Select.Option key={index} >{item.name}</Select.Option>
-                )}
-              </Select>
-            )}
-          </Form.Item>
           <Form.Item className="mb15" label={intl.get('wallet.paste_mnemonic')}>
             {form.getFieldDecorator('mnemonic', {
               initialValue:'',
@@ -126,7 +105,7 @@ class UnlockByMnemonic extends React.Component {
           </Form.Item>
         </Form>
         <Button type="primary" className="d-block w-100" size="large"
-                disabled={!this.state.dpath || !this.state.mnemonic || !this.state.isMnemonicValid} onClick={this.showAddresses}>{intl.get('wallet.unlock')}</Button>
+                disabled={!this.state.mnemonic || !this.state.isMnemonicValid} onClick={this.showAddresses}>{intl.get('wallet.unlock')}</Button>
       </div>
     )
   }
