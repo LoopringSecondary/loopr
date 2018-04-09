@@ -65,6 +65,20 @@ class TradeForm extends React.Component {
         availableAmount = Math.floor(tokenRBalance.balance / Number(displayPrice) * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
       }
     }
+    const amountPrecision = tokenRBalance.precision - marketConfig.pricePrecision
+    if (amountPrecision > 0) {
+      const amountArr = availableAmount.split(".")
+      if (amountArr[1] && amountArr[1].length > amountPrecision) {
+        try {
+          availableAmount = Number(amountArr[0] + "." + amountArr[1].substring(0, amountPrecision))
+        } catch (e) {
+          console.error(e)
+          availableAmount = 0
+        }
+      }
+    } else {
+      availableAmount = Math.floor(availableAmount)
+    }
     let sliderMilliLrcFee = this.state.sliderMilliLrcFee || settings.trading.lrcFee || configs.defaultLrcFeePermillage
     const total = accMul(this.state.priceInput > 0 ? this.state.priceInput : displayPrice, this.state.amountInput)
     let calculatedLrcFee = 0

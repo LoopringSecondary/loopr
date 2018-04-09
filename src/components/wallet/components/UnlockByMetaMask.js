@@ -4,6 +4,7 @@ import { Modal, Button,Icon,Alert } from 'antd';
 import MetaMaskUnlockAccount from '../../../modules/account/MetaMaskUnlockAccount'
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
+import Notification from 'Loopr/Notification'
 
 const walletType = "MetaMask"
 
@@ -33,10 +34,11 @@ class UnlockByMetaMask extends React.Component {
     if (window.web3 && window.web3.eth.accounts[0]) {
       window.web3.version.getNetwork((err, netId) => {
         if (netId !== '1') {
-          Modal.error({
-            title: intl.get('wallet.error_title'),
-            content: intl.get('wallet.content_metamask_mainnet'),
-          });
+          Notification.open({
+            message:intl.get('wallet.error_title'),
+            description:intl.get('wallet.content_metamask_mainnet'),
+            type:'error'
+          })
           this.setState({loading:false})
           return
         }
@@ -54,10 +56,11 @@ class UnlockByMetaMask extends React.Component {
             console.log("MetaMask account locked:", selectedAccount)
             clearInterval(accountInterval)
             account.deleteAccount({})
-            Modal.warning({
-              title: intl.get('wallet.warning_title'),
-              content: intl.get('wallet.content_metamask_logout'),
-            });
+            Notification.open({
+              message:intl.get('wallet.warning_title'),
+              description:intl.get('wallet.content_metamask_logout'),
+              type:'warning'
+            })
             return
           }
           // page will be reload automatically
@@ -66,19 +69,21 @@ class UnlockByMetaMask extends React.Component {
               alert = true
               clearInterval(accountInterval)
               account.deleteAccount({})
-              Modal.error({
-                title: intl.get('wallet.error_title'),
-                content: intl.get('wallet.content_metamask_unlock_again'),
-              });
+              Notification.open({
+                message:intl.get('wallet.error_title'),
+                description:intl.get('wallet.content_metamask_unlock_again'),
+                type:'error'
+              })
               return
             }
           })
           if (window.web3.eth.accounts[0] !== selectedAccount) {
             selectedAccount = window.web3.eth.accounts[0];
-            Modal.info({
-              title: intl.get('wallet.info_title'),
-              content: intl.get('wallet.content_metamask_account_change'),
-            });
+            Notification.open({
+              message:intl.get('wallet.info_title'),
+              description:intl.get('wallet.content_metamask_account_change'),
+              type:'info'
+            })
             if(selectedAccount) {
               console.log("MetaMask account changed to:", selectedAccount)
               account.setWallet({address: selectedAccount})
@@ -91,10 +96,11 @@ class UnlockByMetaMask extends React.Component {
       if(window.web3 && !window.web3.eth.accounts[0]) { // locked
         content = intl.get('wallet.content_metamask_locked')
       }
-      Modal.error({
-        title: intl.get('wallet.error_title'),
-        content: content,
-      });
+      Notification.open({
+        message:intl.get('wallet.error_title'),
+        description:content,
+        type:'error'
+      })
       this.setState({loading:false})
     }
   }
