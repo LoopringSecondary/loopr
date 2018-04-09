@@ -1,0 +1,19 @@
+{
+  "ETH":true,
+  "WETH":true,
+  "LRC":true,
+  "EOS":true,
+  "OMG":true,
+  "REP":true,
+  "PAY":false,
+  "GNT":false,
+  "BAT":true,
+  "KNC":true,
+  "SNT":true,
+  "ZRX":true,
+  "AE":true,
+  "ATC":true,
+  "BNB":true,
+  "XRP":true,
+  "TRX":true
+}

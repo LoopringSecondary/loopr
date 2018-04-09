@@ -1,6 +1,10 @@
 //const config = require('./config.json');
 const config = require('./config.json');
+const tokensIcons = require('./tokens_icons.json');
 let tokens = config.tokens || []
+tokens.forEach(token=>{
+  token.icon = tokensIcons[token.symbol]
+})
 const markets = config.markets
 const txs = config.txs;
 const data= require('./data')
