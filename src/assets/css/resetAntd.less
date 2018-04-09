@@ -142,7 +142,7 @@
    // }
 	 .ant-popover{
 	 		.ant-popover-inner-content{
-	 			padding:0px !important;
+	 			// padding:0px !important;
 	 		}
 
 	 }
@@ -384,17 +384,34 @@
   }
   .ant-slider.place-order-amount-percentage{
     .ant-slider-mark{
-      &:last-child{
-        margin-left:-16%;
+      .ant-slider-mark-text:last-child{
+        margin-left:-15% !important;
       }
-      &:first-child{
-        margin-left:-16%;
+      .ant-slider-mark-text:first-child{
+        // margin-left:-16%;
       }
       .ant-slider-mark-text{
         font-size:10px;
       }
     }
 
+  }
+
+  .ant-popover-message{
+    padding:0px !important;
+  }
+  .ant-popover-inner-content{
+    padding:15px !important;
+  }
+  .ant-popover-message > .anticon{
+    display: none;
+  }
+  .ant-popover-message-title{
+    padding-left:0px !important;
+    // display:none;
+  }
+  .ant-popover-buttons{
+    display: none
   }
 
   .loopring-alert{

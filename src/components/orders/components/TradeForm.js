@@ -586,14 +586,16 @@ class TradeForm extends React.Component {
           </div>
         </div>
       } okText="Yes" cancelText="No" onConfirm={lrcFeeConfirm.bind(this)}>
-        <a href="#"><Icon type="edit" /></a>
+        <Tooltip title="Advance Setting">
+        <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
+        </Tooltip>
       </Popconfirm>
     )
     const editOrderTTL = (
       <Popconfirm title={
         <div>
           {this.state.timeToLivePopularSetting &&
-          <Form.Item className="ttl" colon={false} label={
+          <Form.Item className="ttl mb0" colon={false} label={
             <div className="row">
               <div className="col-auto">
                 {intl.get('trade.custom_option_fee')}
@@ -632,7 +634,9 @@ class TradeForm extends React.Component {
           </Form.Item>}
         </div>
       } okText="Yes" cancelText="No" onConfirm={ttlConfirm.bind(this)}>
-        <a href="#"><Icon type="edit" /></a>
+        <Tooltip title="Advance Setting">
+          <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
+        </Tooltip>
       </Popconfirm>
     )
 
@@ -709,14 +713,14 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item className="pb0 pt0" colon={false} label={null}>
+          <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
               <div className="col-auto">{intl.get('trade.total')}</div>
               <div className="col"></div>
               <div className="col-auto">{`${this.state.total} ${tokenR}`}</div>
             </div>
           </Form.Item>
-          <Form.Item className="pb0 pt0" colon={false} label={null}>
+          <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
               <div className="col-auto">
                 {intl.get('trade.lrc_fee')}
@@ -729,7 +733,7 @@ class TradeForm extends React.Component {
               <div className="col-auto pl0">{calculatedLrcFee} LRC</div>
             </div>
           </Form.Item>
-          <Form.Item className="pb0 pt0" colon={false} label={null}>
+          <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
               <div className="col-auto">
                 {intl.get('trade.time_to_live')}
