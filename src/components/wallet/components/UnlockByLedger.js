@@ -33,7 +33,7 @@ class UnlockByLedger extends React.Component {
             this.setState({loading:false})
             if(connected){
               modal.hideModal({id: 'wallet/unlock'});
-              modal.showModal({id: 'wallet/determineWallet', setWallet:this.setWallet,handlePathChange:this.handlePathChange, pageFrom:pageFrom})
+              modal.showModal({id: 'wallet/determineWallet',path:dpath, setWallet:this.setWallet,handlePathChange:this.handlePathChange, pageFrom:pageFrom})
             }
           })
       })

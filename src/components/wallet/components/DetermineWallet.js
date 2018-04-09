@@ -10,7 +10,7 @@ export default class DetermineWallet extends React.Component {
     pageNum: 0,
     pageSize: 5,
     customPath:"m/44'/60'/1'/0",
-    selectedPath:0,
+    selectedPath:null,
     addresses:[]
   };
   onChange = (e) => {
@@ -21,8 +21,10 @@ export default class DetermineWallet extends React.Component {
 
   componentDidMount(){
     const {pageNum,pageSize} = this.state;
+    const {modal} = this.props;
+    const {path} = modal;
     const addresses = window.WALLET.getAddresses(pageSize, pageNum);
-    this.setState({addresses})
+    this.setState({addresses,selectedPath:path})
   }
   nextPage = () => {
     const {pageNum,pageSize} = this.state;
@@ -35,13 +37,13 @@ export default class DetermineWallet extends React.Component {
     this.setState({pageNum: pageNum - 1,addresses})
   };
 
-  handlePathChange= (path,index) => {
+  handlePathChange= (path) => {
     const {modal} = this.props;
     const {handlePathChange} = modal;
     handlePathChange(path,() => {
       const pageNum=0;
       const addresses = window.WALLET.getAddresses(this.state.pageSize, pageNum);
-      this.setState({pageNum,addresses,selectedPath:index})
+      this.setState({pageNum,addresses,selectedPath:path})
     });
 
   };
@@ -75,15 +77,15 @@ export default class DetermineWallet extends React.Component {
               grid={{ column: 3}}
               dataSource={paths}
               className='mt10'
-              renderItem={(item,index) => (
-                <List.Item style={{height:'80px'}} className={`mr10 p10  ${selectedPath===index && 'bg-grey-200'}`}>
-                  <List.Item.Meta title={item.path}  description = {item.wallet.join(", ")} onClick={this.handlePathChange.bind(this,item.path,index)}/>
+              renderItem={(item) => (
+                <List.Item style={{height:'80px'}} className={`mr10 p10  ${selectedPath===item.path && 'bg-grey-200'}`}>
+                  <List.Item.Meta title={item.path}  description = {item.wallet.join(", ")} onClick={this.handlePathChange.bind(this,item.path)}/>
                 </List.Item>
               )}
             />
           </Form.Item>
           <Form.Item label={intl.get('wallet.custom_path')} className={`col-6`}>
-            <Input addonAfter={<Icon type="caret-right" onClick={this.handlePathChange.bind(this,this.state.customPath,-1)}/>}
+            <Input addonAfter={<Icon type="caret-right" onClick={this.handlePathChange.bind(this,this.state.customPath)}/>}
                    value={this.state.customPath} onChange={this.onCustomPathChange}/>
           </Form.Item>
           <Form.Item label={intl.get('wallet.select_address')} >

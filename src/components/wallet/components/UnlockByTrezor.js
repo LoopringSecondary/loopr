@@ -15,6 +15,7 @@ class UnlockByTrezor extends React.Component {
         window.WALLET_UNLOCK_TYPE = 'Trezor';
         modal.showModal({
           id: 'wallet/determineWallet',
+          path,
           setWallet: this.setWallet,
           handlePathChange: this.handlePathChange,
           pageFrom: pageFrom

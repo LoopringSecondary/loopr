@@ -34,7 +34,7 @@ class UnlockByMnemonic extends React.Component {
     const path = "m/44'/60'/0'/0";
     window.WALLET = new MnemonicUnlockAccount({mnemonic:mnemonic, dpath:path, password:password});
     window.WALLET_UNLOCK_TYPE = 'Mnemonic';
-    this.props.modal.showModal({id: 'wallet/determineWallet', setWallet:this.setWallet,handlePathChange:this.handlePathChange, pageFrom:pageFrom})
+    this.props.modal.showModal({id: 'wallet/determineWallet',path, setWallet:this.setWallet,handlePathChange:this.handlePathChange, pageFrom:pageFrom})
   };
 
   bindShowAddress = (e) => {
