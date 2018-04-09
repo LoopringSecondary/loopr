@@ -650,7 +650,7 @@ class TradeForm extends React.Component {
       outTokenSymbol = tokenL
     }
     return (
-      <div>
+      <div className="place-order-form">
         <Form layout="horizontal">
           <Form.Item>
             <div className="row mb5">
@@ -662,7 +662,7 @@ class TradeForm extends React.Component {
               </div>
             </div>
           </Form.Item>
-          <Form.Item label={intl.get('trade.price')} {...formItemLayout} colon={false} extra={
+          <Form.Item label={null} colon={false} extra={
             null &&
             <div className="row">
               <div className="col fs10">{priceValue}</div>
@@ -675,7 +675,9 @@ class TradeForm extends React.Component {
                 validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
               }]
             })(
-              <Input className="d-block w-100" placeholder="" size="large" suffix={<span className="fs14 color-black-4">{tokenR}</span>}
+              <Input className="d-block w-100" placeholder="" size="large"
+                     addonBefore={intl.get('trade.price')}
+                     suffix={<span className="fs14 color-black-4">{tokenR}</span>}
                      onChange={inputChange.bind(this, 'price')}
                      onFocus={() => {
                        const amount = form.getFieldValue("price")
@@ -691,7 +693,7 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item label={intl.get('trade.amount')} {...formItemLayout} colon={false} extra={
+          <Form.Item label={null} colon={false} extra={
             <div>
               {
                 false &&
@@ -707,7 +709,9 @@ class TradeForm extends React.Component {
                 validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
               }]
             })(
-              <Input placeholder="" size="large" suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
+              <Input placeholder="" size="large"
+                    addonBefore={intl.get('trade.amount')}
+                    suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
                      onFocus={() => {
                        const amount = Number(form.getFieldValue("amount"))
                        if (amount === 0) {
