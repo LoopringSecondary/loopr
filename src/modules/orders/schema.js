@@ -74,7 +74,7 @@ const schema = [
     },
   },
   {
-    title: <span>{intl.get('orders.LrcFee')}<a className="ml5" onClick={()=>{}}><Icon type="question-circle"/></a></span>,
+    title: <span>{intl.get('orders.LrcFee')}<a className="ml5" onClick={()=>{}}><Icon type="question-circle-o"/></a></span>,
     name: 'lrcFee',
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');
