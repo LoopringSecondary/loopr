@@ -18,32 +18,34 @@ class DemoAccount extends React.Component {
 
   render() {
     const { modal, account, pageFrom} = this.props
-
+    const selectedAddress = configs.demoAccount
     function validateAddress(address) {
       return isValidEthAddress(address)
     }
 
     function unlocked() {
-      const selectedAddress = configs.demoAccount
       window.WALLET = new AddressUnlockAccount({address: selectedAddress})
       window.WALLET_UNLOCK_TYPE = walletType
       account.setWallet({address:selectedAddress, walletType:walletType})
       modal.hideModal({id: 'wallet/demo'});
       unlockRedirection(pageFrom)
     }
-
     return (
       <Card title={<div className="fs1">{intl.get('wallet.demo_title')}</div>}>
-        <div className="text-left">
-          <Alert
-            description={
-              <div className="color-green-600 fs14">
+        <div className="">
+          <div className="p15 text-center">
+              <Icon type="user" className="fs32 border border-grey-200 p10" style={{borderRadius:'50em'}} />
+              <div className="fs14 color-black-2 mt5">
+                {selectedAddress}
+              </div>
+              <div className="fs12 color-black-3 mt5">
                 {intl.getHTML('wallet.instruction_demo')}
               </div>
-            }
-            type="success"
-            showIcon={false}
-          />
+          </div>
+          <div>
+
+          </div>
+
           <Button type="primary" className="d-block w-100 mt10" size="large" onClick={unlocked} >{intl.get('wallet.have_a_try')}</Button>
         </div>
       </Card>

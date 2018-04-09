@@ -80,7 +80,7 @@ export default {
   buttons: {
     unlock_wallet: 'Unlock Wallet',
     generate_wallet: 'Generate Wallet',
-    try_demo: 'Try demo',
+    try_demo: 'Demo Wallet',
   },
   tabs: {
     my_open_orders: 'My Open Orders',
@@ -411,9 +411,9 @@ export default {
     address_input_placeholder: 'Your address',
     unlock_by_address: 'Unlock with your address',
     invalid_eth_address: 'Invalid Ethereum address',
-    demo_title: 'Experience Loopr',
+    demo_title: 'Experience Loopr using a demo wallet',
     instruction_demo: 'You could experience Loopr Wallet in Watch Only mode, but could\'t place order, send transfer and do other operations that need private key',
-    have_a_try: 'Have a try'
+    have_a_try: "Start Demo Tour !"
   },
   tokens: {
     hide_small_balances: " Hide Small Balances",
