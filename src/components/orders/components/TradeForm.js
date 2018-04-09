@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip,Popconfirm} from 'antd';
+import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip,Popconfirm,Popover} from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
@@ -567,43 +567,40 @@ class TradeForm extends React.Component {
       </span>
     )
     const editLRCFee = (
-      <Popconfirm title={
+      <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('trade.custom_option_fee')}</div>} content={
         <div>
-          <div>{intl.get('trade.custom_option_fee')}</div>
-          <div>
-            {form.getFieldDecorator('lrcFeeSlider', {
-              initialValue: configs.defaultLrcFeePermillage,
-              rules: []
-              })(
-                <Slider min={1} max={50} step={1}
-                    marks={{
-                      1: intl.get('token.slow'),
-                      50: intl.get('token.fast')
-                    }}
-                    onChange={lrcFeeChange.bind(this)}
-                />
-            )}
-          </div>
+          {form.getFieldDecorator('lrcFeeSlider', {
+            initialValue: configs.defaultLrcFeePermillage,
+            rules: []
+            })(
+              <Slider min={1} max={50} step={1}
+                  marks={{
+                    1: intl.get('token.slow'),
+                    50: intl.get('token.fast')
+                  }}
+                  onChange={lrcFeeChange.bind(this)}
+              />
+          )}
         </div>
-      } okText="Yes" cancelText="No" onConfirm={lrcFeeConfirm.bind(this)}>
-        <Tooltip title="Advance Setting">
+      } trigger="click">
         <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
-        </Tooltip>
-      </Popconfirm>
+      </Popover>
     )
     const editOrderTTL = (
-      <Popconfirm title={
+      <Popover overlayClassName="place-order-form-popover"
+        title={
+          <div className="row">
+            <div className="col-auto">
+              {intl.get('trade.custom_option_fee')}
+            </div>
+            <div className="col"></div>
+            <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
+          </div>
+        }
+      content={
         <div>
           {this.state.timeToLivePopularSetting &&
-          <Form.Item className="ttl mb0" colon={false} label={
-            <div className="row">
-              <div className="col-auto">
-                {intl.get('trade.custom_option_fee')}
-              </div>
-              <div className="col"></div>
-              <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-            </div>
-          }>
+          <Form.Item className="ttl mb0" colon={false} label={null}>
             {form.getFieldDecorator('timeToLivePopularSetting')(
               <RadioGroup>
                 <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
@@ -614,15 +611,7 @@ class TradeForm extends React.Component {
             )}
           </Form.Item>}
           {!this.state.timeToLivePopularSetting &&
-          <Form.Item className="mb5 ttl" colon={false} label={
-            <div className="row">
-              <div className="col-auto">
-                {intl.get('trade.custom_option_fee')}
-              </div>
-              <div className="col"></div>
-              <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-            </div>
-          }>
+          <Form.Item className="mb5 ttl" colon={false} label={null}>
             {form.getFieldDecorator('timeToLive', {
               rules: [{
                 message: intl.get('trade.integer_verification_message'),
@@ -633,11 +622,9 @@ class TradeForm extends React.Component {
             )}
           </Form.Item>}
         </div>
-      } okText="Yes" cancelText="No" onConfirm={ttlConfirm.bind(this)}>
-        <Tooltip title="Advance Setting">
+      } trigger="hover">
           <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
-        </Tooltip>
-      </Popconfirm>
+      </Popover>
     )
 
     let outTokenBalance = 0
@@ -676,7 +663,7 @@ class TradeForm extends React.Component {
               }]
             })(
               <Input className="d-block w-100" placeholder="" size="large"
-                     addonBefore={intl.get('trade.price')}
+                     addonBefore={<span className="addon-before">{intl.get('trade.price')}</span>}
                      suffix={<span className="fs14 color-black-4">{tokenR}</span>}
                      onChange={inputChange.bind(this, 'price')}
                      onFocus={() => {
@@ -710,7 +697,7 @@ class TradeForm extends React.Component {
               }]
             })(
               <Input placeholder="" size="large"
-                    addonBefore={intl.get('trade.amount')}
+                    addonBefore={<span className="addon-before">{intl.get('trade.amount')}</span>}
                     suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
                      onFocus={() => {
                        const amount = Number(form.getFieldValue("amount"))
