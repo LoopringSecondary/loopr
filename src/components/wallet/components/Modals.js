@@ -9,6 +9,8 @@ import SelectAccount from './SelectAccount'
 import Airdrop from './Airdrop'
 import AirdropBind from './AirdropBind'
 import DemoAccount from './DemoAccount'
+import DetermineWallet from './DetermineWallet'
+
 
 function Modals(props){
   return (
@@ -44,6 +46,9 @@ function Modals(props){
         <AccountContainer>
           <DemoAccount />
         </AccountContainer>
+      </ModalContainer>
+      <ModalContainer id="wallet/determineWallet"  width="60%">
+        <DetermineWallet />
       </ModalContainer>
     </div>
   );

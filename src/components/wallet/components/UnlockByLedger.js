@@ -5,8 +5,8 @@ import LedgerUnlockAccount from '../../../modules/account/LedgerUnlockAccount'
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
 
-const dpath = "m/44'/60'/0'"
-const walletType = "Ledger"
+const dpath = "m/44'/60'/0'";
+const walletType = "Ledger";
 
 class UnlockByLedger extends React.Component {
   state = {
@@ -35,11 +35,15 @@ class UnlockByLedger extends React.Component {
             this.setState({loading:false})
             if(connected){
               modal.hideModal({id: 'wallet/unlock'});
-              modal.showModal({id: 'wallet/selectAccount', setWallet:this.setWallet, pageFrom:pageFrom})
+              modal.showModal({id: 'wallet/determineWallet',path:dpath, walletType,setWallet:this.setWallet,handlePathChange:this.handlePathChange, pageFrom:pageFrom})
             }
           })
       })
   }
+
+  handlePathChange = (path,callback)=>{
+    this.isConnected(path).then(() =>{callback();});
+  };
 
   setWallet = (index, address) => {
     const {account} = this.props;
@@ -47,10 +51,11 @@ class UnlockByLedger extends React.Component {
     account.setWallet({address:window.WALLET.getAddress(), walletType:walletType})
   };
 
-  isConnected = () => {
+  isConnected = (path) => {
     if(window.WALLET && window.WALLET_UNLOCK_TYPE === 'Ledger') {
       return new Promise((resolve, reject) => {
-        window.WALLET.getPublicKey(dpath)
+        path = path || dpath;
+        window.WALLET.getPublicKey(path)
           .then(result=>{
             if(result.error){
               //TODO got `Error: U2F not supported` when in Safari
