@@ -3,6 +3,7 @@ import {Button, Form, Modal, Icon, Alert} from 'antd';
 import ledger from 'ledgerco';
 import LedgerUnlockAccount from '../../../modules/account/LedgerUnlockAccount'
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 const dpath = "m/44'/60'/0'"
 const walletType = "Ledger"
@@ -15,10 +16,11 @@ class UnlockByLedger extends React.Component {
   connect = () => {
     this.setState({loading:true})
     if (window.location.protocol !== 'https:') {
-      Modal.error({
-        title: intl.get('wallet.error_title'),
-        content: intl.get('wallet.content_ledger_unlock_require_https'),
-      });
+      Notification.open({
+        message:intl.get('wallet.error_title'),
+        description:intl.get('wallet.content_ledger_unlock_require_https'),
+        type:'error'
+      })
       this.setState({loading:false})
       return
     }
@@ -52,10 +54,11 @@ class UnlockByLedger extends React.Component {
           .then(result=>{
             if(result.error){
               //TODO got `Error: U2F not supported` when in Safari
-              Modal.error({
-                title: intl.get('wallet.error_title'),
-                content: intl.get('wallet.content_ledger_connect_failed'),
-              });
+              Notification.open({
+                message:intl.get('wallet.error_title'),
+                description:intl.get('wallet.content_ledger_connect_failed'),
+                type:'error'
+              })
               resolve(false)
             } else {
               window.WALLET.setPublicKey(result)
@@ -77,10 +80,11 @@ class UnlockByLedger extends React.Component {
           case 'Invalid status 6801': content = intl.get('wallet.content_leder_locked'); break;
 
         }
-        Modal.error({
-          title: 'Error',
-          content: content,
-        });
+        Notification.open({
+          message:intl.get('wallet.error_title'),
+          description:content,
+          type:'error'
+        })
         return
       }
     })
@@ -95,10 +99,11 @@ class UnlockByLedger extends React.Component {
           case 'Invalid status 6801': content = intl.get('wallet.content_leder_locked'); break;
 
         }
-        Modal.error({
-          title: 'Error',
-          content: content,
-        });
+        Notification.open({
+          message:intl.get('wallet.error_title'),
+          description:content,
+          type:'error'
+        })
         return
       }
       account.setWallet({address:res.address})
