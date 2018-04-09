@@ -93,9 +93,9 @@ class ListSidebar extends React.Component {
       e.stopPropagation()
       showModal({
         id: 'token/receive',
-        item,
+        symbol:item.symbol.toUpperCase(),
       })
-    }
+    };
     const gotoConvert = (item) => {
       showModal({
         id: 'token/convert',

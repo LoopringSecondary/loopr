@@ -296,7 +296,8 @@ export default {
     transfer_again_convert: "Convert again",
     add_custom_token_tip:"Please input valid address ",
     send_failed: 'Send failed!',
-    convert_failed: 'Convert failed'
+    convert_failed: 'Convert failed',
+    recommended_value:"Recommended value:"
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
