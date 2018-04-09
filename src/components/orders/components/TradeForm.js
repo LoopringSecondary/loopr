@@ -589,7 +589,7 @@ class TradeForm extends React.Component {
     const editOrderTTL = (
       <Popover overlayClassName="place-order-form-popover"
         title={
-          <div className="row">
+          <div className="row pt5 pb5">
             <div className="col-auto">
               {intl.get('trade.custom_option_fee')}
             </div>
