@@ -644,7 +644,7 @@ class TradeForm extends React.Component {
               <div className="col fs22 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
               <div className="col-auto">
                 {
-                  false && `${outTokenSymbol} ${intl.get('trade.balance')}: outTokenBalance`
+                  `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
                 }
               </div>
             </div>
@@ -713,13 +713,16 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item className="pt0 pb0" colon={false} label={null}>
-            <div className="row align-items-center">
-              <div className="col-auto">{intl.get('trade.balance')}</div>
-              <div className="col"></div>
-              <div className="col-auto">{`${outTokenBalance} ${outTokenSymbol}`}</div>
-            </div>
-          </Form.Item>
+          {
+            false &&
+            <Form.Item className="pt0 pb0" colon={false} label={null}>
+              <div className="row align-items-center">
+                <div className="col-auto">{intl.get('trade.balance')}</div>
+                <div className="col"></div>
+                <div className="col-auto">{`${outTokenBalance} ${outTokenSymbol}`}</div>
+              </div>
+            </Form.Item>
+          }
           <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
               <div className="col-auto">{intl.get('trade.total')}</div>

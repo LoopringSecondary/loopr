@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card,Steps,Button } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/containers'
@@ -63,7 +63,7 @@ export default function Home(props){
             <div className="col-md-5 col-sm-6 mt20 pl40">
               <Order.TradeForm side="buy" pair={pair} />
             </div>
-            <div className="col-atuo zb-b-r" style={{width:'1px'}}>
+            <div className="col-atuo zb-b-r pl0 pr0" style={{width:'1px'}}>
 
             </div>
             <div className="col-md-5 col-sm-6 mt20 pr40">
