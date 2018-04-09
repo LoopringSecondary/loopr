@@ -26,12 +26,12 @@ export default class DetermineWallet extends React.Component {
   }
   nextPage = () => {
     const {pageNum,pageSize} = this.state;
-    const addresses = window.WALLET.getAddresses(pageSize, pageNum);
+    const addresses = window.WALLET.getAddresses(pageSize, pageNum+1);
     this.setState({pageNum: pageNum + 1,addresses})
   };
   previousPage = () => {
     const {pageNum,pageSize} = this.state;
-    const addresses = window.WALLET.getAddresses(pageSize, pageNum);
+    const addresses = window.WALLET.getAddresses(pageSize, pageNum-1);
     this.setState({pageNum: pageNum - 1,addresses})
   };
 
