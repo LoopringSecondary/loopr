@@ -73,9 +73,10 @@ class ListBlock extends React.Component {
       })
     };
 
-    const gotoReceive = () => {
+    const gotoReceive = (symbol) => {
       showModal({
         id: 'token/receive',
+        symbol
       })
     };
     const gotoConvert = () => {
@@ -251,7 +252,7 @@ class ListBlock extends React.Component {
               <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>Send {filters.token}</span>
             </Button>
-            <Button onClick={gotoReceive} className="mr5" type="primary">
+            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="primary">
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>Receive {filters.token}</span>
             </Button>
