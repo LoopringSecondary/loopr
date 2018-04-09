@@ -13,7 +13,7 @@ const get = ()=>{
   }
 }
 const getRelay = ()=>{
-  const defaultHost = '//52.196.115.12'
+  const defaultHost = '//relay1.loopring.io'
   return defaultHost
   if(localStorage.settings){
      const settings = JSON.parse(localStorage.settings)
@@ -22,10 +22,22 @@ const getRelay = ()=>{
     return defaultHost
   }
 }
+const getContractVersion = ()=>{
+  const defaultVersion = 'v1.3'
+  return defaultVersion
+  if(localStorage.settings){
+     const settings = JSON.parse(localStorage.settings)
+     return settings.trading.contract.version || defaultVersion
+  }else{
+    return defaultVersion
+  }
+}
+
 
 export default {
   set,
   get,
   getRelay,
+  getContractVersion,
 }
 

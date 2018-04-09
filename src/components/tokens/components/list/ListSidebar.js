@@ -291,24 +291,24 @@ class ListSidebar extends React.Component {
               }
             </div>
             <div className="col-auto pr10">
+              { selected[item.symbol] && !item.icon &&
+              <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
+              }
+              { !selected[item.symbol] && !item.icon &&
+              <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
+              }
               {selected[item.symbol] && item.icon &&
               <CoinIcon symbol={item.symbol} size="32" color="white"/>
               }
-              {selected[item.symbol] && !item.icon &&
-              <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
-              }
               {!selected[item.symbol] && item.icon &&
               <CoinIcon symbol={item.symbol} size="32"/>
-              }
-              {!selected[item.symbol] && !item.icon &&
-              <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
               }
             </div>
             <div className="col pr10">
               <div className="">
                 <span className="fs2 color-black-1">{item.symbol}</span>
                 <span className="fs2 ml5 color-black-3 ">
-                {item.title}
+                {item.name}
               </span>
               </div>
               <div className="">
@@ -388,7 +388,7 @@ class ListSidebar extends React.Component {
               <div className="">
                 <span className="fs2 color-black-1">{item.symbol}</span>
                 <span className="fs3 ml5 color-black-3 ">
-                {item.title || item.name}
+                {item.name}
               </span>
               </div>
               <div className="">
@@ -440,10 +440,6 @@ class ListSidebar extends React.Component {
     //   return !!a.custom < !!b.custom
     // }
     // results.sort(sorter)
-    let style = {
-      boxShadow: "3px 0px 4px rgba(0,0,0,0.05)"
-    }
-    style = {style}
     return (
       <div className="">
         {TokenListAcionsBar}
