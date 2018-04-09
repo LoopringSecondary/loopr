@@ -46,6 +46,7 @@ function Modals(props){
         <AccountContainer>
           <DemoAccount />
         </AccountContainer>
+      </ModalContainer>
       <ModalContainer id="wallet/determineWallet"  width="60%">
         <DetermineWallet />
       </ModalContainer>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, message, List, Input, Icon, Form, Button, Radio} from 'antd'
+import {Card, message, List, Input, Icon, Form, Button, Radio,Tooltip} from 'antd'
 import {paths} from '../../../common/config/data'
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
@@ -57,7 +57,7 @@ export default class DetermineWallet extends React.Component {
 
   isSupported = (path) => {
     const {walletType} = this.state;
-
+    return !!ledgerPaths.find(dpath => dpath === path);
     if(walletType === 'Ledger'){
       return !!ledgerPaths.find(dpath => dpath === path);
     }
@@ -68,14 +68,13 @@ export default class DetermineWallet extends React.Component {
   getBgcolor = (path) =>  {
     const {selectedPath} = this.state;
    if(!this.isSupported(path)) {
-     return 'bg-grey-200'
+     return 'bg-grey-50 border-grey-200 border'
    }
 
    if(selectedPath === path){
-     return 'bg-grey-500'
+     return 'bg-blue-100 border-blue-200 border'
    }
-
-   return 'bg-blue-grey-200';
+   return 'bg-grey-100 border-grey-200 border';
   };
 
   confirm = (index) => {
@@ -97,19 +96,43 @@ export default class DetermineWallet extends React.Component {
     };
 
     return (
-      <Card>
+      <Card title={<div className="fs1 color-black-1">{intl.get('wallet.select_account')}</div>}>
         <Form>
-          <Form.Item label={intl.get('wallet.select_account')} className='bg-grey-300'>
+
+          <Form.Item label={null} className='bg-grey-50'>
             <List
               grid={{column: 3}}
               dataSource={paths}
-              className='mt10'
+              className='p10'
               renderItem={(item) => (
-                <List.Item style={{height: '80px'}}
-                           className={`mr10 p10  ${this.getBgcolor(item.path)}`}  >
-                  <List.Item.Meta title={item.path} description={item.wallet.join(", ")}
-                                  onClick={this.isSupported(item.path) ? this.handlePathChange.bind(this, item.path):() => false}/>
-                </List.Item>
+                <div
+                   style={{height: '80px'}}
+                   className={`ant-col-8 mt5 mb5`}
+                   onClick={this.isSupported(item.path) ? this.handlePathChange.bind(this, item.path):() => false}
+                >
+                    <div className={`${this.getBgcolor(item.path)} p10 ml5 mr5`}>
+                      <div className="fs2 color-black-2">
+                        {item.path}
+                      </div>
+                      <div className="fs2 color-black-3">
+                        {
+                          item.wallet.join(", ").length <= 40 &&
+                          <div className="text-nowrap text-truncate">
+                            {item.wallet.join(", ")}
+                          </div>
+                        }
+                        {
+                          item.wallet.join(", ").length > 40 &&
+                          <Tooltip title={item.wallet.join(", ")}>
+                            <div className="text-truncate">
+                              {item.wallet.join(", ")}
+                            </div>
+                          </Tooltip>
+                        }
+                      </div>
+                    </div>
+
+                </div>
               )}
             />
           </Form.Item>
