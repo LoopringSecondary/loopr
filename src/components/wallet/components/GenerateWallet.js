@@ -91,20 +91,20 @@ export default class GenerateWallet extends React.Component {
           value &&
           <div className="row pt10 pb10">
             <div className="col-auto pr0">
-              <span className="fs12 color-grey-900">Password Strength</span>
+              <span className="fs12 color-grey-900">{intl.get('wallet.password_strength')}</span>
             </div>
             <div className="col-5">
               {strength === 'weak' &&
               <Progress className="d-inline-block" percent={30} strokeWidth={4} status="exception"
-                        format={() => strength}/>
+                        format={() => intl.get(`wallet.${strength}`)}/>
               }
               {strength === 'average' &&
               <Progress className="d-inline-block" percent={60} strokeWidth={4} status="active"
-                        format={() => strength}/>
+                        format={() => intl.get(`wallet.${strength}`)}/>
               }
               {strength === 'strong' &&
               <Progress className="d-inline-block" percent={90} strokeWidth={4} status="success"
-                        format={() => strength}/>
+                        format={() => intl.get(`wallet.${strength}`)}/>
               }
             </div>
           </div>

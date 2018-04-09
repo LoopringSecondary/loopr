@@ -33,7 +33,7 @@ export default class SelectAccount extends React.Component {
   confirm = () => {
     const {modals,modal} = this.props;
     const {setWallet} = modals['wallet/selectAccount'];
-    const {pageFrom} = modal
+    const {pageFrom} = modal;
     const {pageNum, index, pageSize} = this.state;
     setWallet(pageNum * pageSize + index);
     modal.hideModal({id: 'wallet/selectAccount'});
