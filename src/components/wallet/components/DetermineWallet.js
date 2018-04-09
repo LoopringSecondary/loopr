@@ -84,7 +84,7 @@ export default class DetermineWallet extends React.Component {
   };
 
   render() {
-    const {addresses, pageNum} = this.state;
+    const {addresses,selectedPath,customPath,pageNum} = this.state;
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -93,9 +93,7 @@ export default class DetermineWallet extends React.Component {
 
     return (
       <Card title={<div className="fs1 color-black-1">{intl.get('wallet.select_account')}</div>}>
-        <Form>
-
-          <Form.Item label={null} className='bg-grey-50'>
+          <div className='bg-grey-50'>
             <List
               grid={{column: 3}}
               dataSource={paths.filter(path => this.isSupported(path.path))}
@@ -131,26 +129,31 @@ export default class DetermineWallet extends React.Component {
                 </div>
               )}
             />
-          </Form.Item>
-          <Form.Item label={intl.get('wallet.custom_path')} className={`col-6`}>
+          </div>
+          <div className={`col-6 mb10 ${selectedPath === customPath && 'bg-blue-100 border-blue-200 border' }`}>
+          <div className="fs3 color-black-1 mb5">{intl.get('wallet.custom_path')}</div>
+            <div className='mb5'>
             <Input
               addonAfter={<Icon type="caret-right" onClick={this.handlePathChange.bind(this, this.state.customPath)}/>}
-              value={this.state.customPath} onChange={this.onCustomPathChange}/>
-          </Form.Item>
-          <Form.Item label={intl.get('wallet.select_address')}>
-            {addresses.length > 0 && addresses.map((address, index) => {
-              return (
-                <div key={index} className="mb10 fs16 color-black-2 d-flex justify-content-between row"
-                     style={radioStyle}>
-                  <span className='col-6'>{address}</span>
-                  <Button className='col-auto mr20' onClick={this.confirm.bind(this, index)}> Import</Button>
-                </div>)
-            })}
-            {
-              addresses.length <= 0 && <span className='col-6'>{intl.get('wallet.no_address')}</span>
-            }
-          </Form.Item>
-        </Form>
+              value={customPath} onChange={this.onCustomPathChange}/>
+            </div>
+          </div>
+          <div className='mb10 p10'>
+            <div className="fs3 color-black-1 mb5">{intl.get('wallet.select_address')}</div>
+            <div>
+              {addresses.length > 0 && addresses.map((address, index) => {
+                return (
+                  <div key={index} className="mb10 fs16 color-black-2 d-flex justify-content-between row"
+                       style={radioStyle}>
+                    <span className='col-6'>{address}</span>
+                    <Button className='col-auto mr20' onClick={this.confirm.bind(this, index)}> Import</Button>
+                  </div>)
+              })}
+              {
+                addresses.length <= 0 && <span className='col-6'>{intl.get('wallet.no_address')}</span>
+              }
+            </div>
+          </div>
         <div className="pt15 d-flex justify-content-between zb-b-t">
           <Button onClick={this.previousPage} disabled={pageNum <= 0}>{intl.get('wallet.pre_page')}</Button>
           <Button onClick={this.nextPage}> {intl.get('wallet.next_page')}</Button>
