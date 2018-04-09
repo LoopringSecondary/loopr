@@ -61,7 +61,7 @@ export default class TrezorUnlockAccount extends Account {
               v: response.v,
               s: toBuffer(addHexPrefix(response.s)),
               r: toBuffer(addHexPrefix(response.r))
-            })
+            });
             resolve({result: newTx.serialize()})
           } else {
             console.error('Error:', response.error); // error message
@@ -73,7 +73,7 @@ export default class TrezorUnlockAccount extends Account {
 
   async sendTransaction(tx) {
     let newTx = new Transaction(tx)
-    await newTx.complete()
+    await newTx.complete();
     const signed = await this.signTx(newTx.raw)
     if (signed.result) {
       return await newTx.sendRawTx(toHex(signed.result))

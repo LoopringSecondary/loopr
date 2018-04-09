@@ -11,6 +11,7 @@ export default class DetermineWallet extends React.Component {
     pageSize: 5,
     customPath:"m/44'/60'/1'/0",
     selectedPath:null,
+    walletType:null,
     addresses:[]
   };
   onChange = (e) => {
@@ -22,9 +23,9 @@ export default class DetermineWallet extends React.Component {
   componentDidMount(){
     const {pageNum,pageSize} = this.state;
     const {modal} = this.props;
-    const {path} = modal;
+    const {path,walletType} = modal;
     const addresses = window.WALLET.getAddresses(pageSize, pageNum);
-    this.setState({addresses,selectedPath:path})
+    this.setState({addresses,selectedPath:path,walletType})
   }
   nextPage = () => {
     const {pageNum,pageSize} = this.state;
@@ -62,7 +63,7 @@ export default class DetermineWallet extends React.Component {
   };
 
   render() {
-    const {addresses,selectedPath,pageNum} = this.state;
+    const {addresses,selectedPath,pageNum,walletType} = this.state;
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -78,8 +79,8 @@ export default class DetermineWallet extends React.Component {
               dataSource={paths}
               className='mt10'
               renderItem={(item) => (
-                <List.Item style={{height:'80px'}} className={`mr10 p10  ${selectedPath===item.path && 'bg-grey-200'}`}>
-                  <List.Item.Meta title={item.path}  description = {item.wallet.join(", ")} onClick={this.handlePathChange.bind(this,item.path)}/>
+                <List.Item style={{height:'80px'}}  className={`mr10 p10  ${selectedPath===item.path && 'bg-grey-200'}`}>
+                  <List.Item.Meta title={item.path}  description = {item.wallet.join(", ")}  onClick={walletType === 'Ledger' ? () => false: this.handlePathChange.bind(this,item.path)}/>
                 </List.Item>
               )}
             />
