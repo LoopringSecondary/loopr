@@ -40,7 +40,7 @@ function Modals(props){
       <ModalContainer id="wallet/bind" >
         <AirdropBind />
       </ModalContainer>
-      <ModalContainer id="wallet/determineWallet" >
+      <ModalContainer id="wallet/determineWallet"  width="60%">
         <DetermineWallet />
       </ModalContainer>
     </div>

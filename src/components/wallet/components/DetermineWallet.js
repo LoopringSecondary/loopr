@@ -10,6 +10,7 @@ export default class DetermineWallet extends React.Component {
     pageNum: 0,
     pageSize: 5,
     customPath:"m/44'/60'/1'/",
+    selectedPath:0,
     addresses:[]
   };
   onChange = (e) => {
@@ -34,14 +35,14 @@ export default class DetermineWallet extends React.Component {
     this.setState({pageNum: pageNum - 1,addresses})
   };
 
-  handlePathChange= (path) => {
+  handlePathChange= (path,index) => {
     const {modal} = this.props;
     const {handlePathChange} = modal;
   //  const {handlePathChange} =  this.props;
     handlePathChange(path,() => {
       const pageNum=0;
       const addresses = window.WALLET.getAddresses(this.state.pageSize, pageNum);
-      this.setState({pageNum,addresses})
+      this.setState({pageNum,addresses,selectedPath:index})
     });
 
   };
@@ -60,7 +61,7 @@ export default class DetermineWallet extends React.Component {
   };
 
   render() {
-    const {addresses} = this.state;
+    const {addresses,selectedPath} = this.state;
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -72,27 +73,26 @@ export default class DetermineWallet extends React.Component {
         <Form>
           <Form.Item label="选择钱包">
             <List
-              grid={{gutter: 16, column: 3}}
+              grid={{ column: 3}}
               dataSource={paths}
-              renderItem={item => (
-                <List.Item>
-                  <Card title={item.path} onClick={this.handlePathChange.bind(this,item.path)}>
-                    <div>{item.wallet.toString()}</div>
-                  </Card>
+              className='mt10'
+              renderItem={(item,index) => (
+                <List.Item style={{height:'80px'}} className={`mr10 p10  ${selectedPath===index && 'bg-grey-200'}`}>
+                  <List.Item.Meta title={item.path}  description = {item.wallet.join(", ")} onClick={this.handlePathChange.bind(this,item.path,index)}/>
                 </List.Item>
               )}
             />
           </Form.Item>
-          <Form.Item label="您自定义的路径:" className="col-6">
-            <Input addonAfter={<Icon type="caret-right" onClick={this.handlePathChange.bind(this,this.state.customPath)}/>}
+          <Form.Item label="您自定义的路径:" className={`col-6`}>
+            <Input addonAfter={<Icon type="caret-right" onClick={this.handlePathChange.bind(this,this.state.customPath,-1)}/>}
                    value={this.state.customPath} onChange={this.onCustomPathChange}/>
           </Form.Item>
-          <Form.Item label="选择您要使用的地址">
+          <Form.Item label="选择您要使用的地址" >
             {addresses.map((address, index) => {
               return (
-                <div key={index} className="mb10 fs16 color-black-2  row" style={radioStyle}>
-                  <span className='col-4'>{address}</span>
-                  <Button className='col-auto' onClick={this.confirm.bind(this,index)}> Import</Button>
+                <div key={index} className="mb10 fs16 color-black-2 d-flex justify-content-between row" style={radioStyle}>
+                  <span className='col-6'>{address}</span>
+                  <Button className='col-auto mr20' onClick={this.confirm.bind(this,index)}> Import</Button>
                 </div>)
             })}
           </Form.Item>
