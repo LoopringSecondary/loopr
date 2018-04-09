@@ -300,7 +300,8 @@ export default {
     transfer_again_convert: "继续转换",
     add_custom_token_tip:"请输入合法的地址",
     send_failed: '发送失败！',
-    convert_failed: '转换失败'
+    convert_failed: '转换失败',
+    recommended_value:"推荐值:"
   },
   wallet: {
     bind_tip: "绑定空投接收地址",

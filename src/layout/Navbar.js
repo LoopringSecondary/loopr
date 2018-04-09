@@ -86,7 +86,7 @@ function Navbar(props){
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,{id:'token/receive'})}>
+            <a onClick={showModal.bind(this,{id:'token/receive',symbol:null})}>
               <i className="icon-loopring icon-loopring-receive fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
             </a>
           </div>
