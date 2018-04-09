@@ -57,6 +57,7 @@ class ListSidebar extends React.Component {
 
   render() {
     const {LIST, actions, dispatch, assets = {}, prices = {}} = this.props;
+    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     let {
       items = [],
       selected = {},
@@ -210,7 +211,7 @@ class ListSidebar extends React.Component {
       <div style={{minWidth: '150px', maxWidth: '250px'}}>
         <div className="row no-gutters p5">
           <div className="col-12 p5">
-            <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary">
+            <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary" disabled={isWatchOnly}>
               <i className="icon icon-loopring icon-loopring-transfer fs12 color-white mr5"/>
               {intl.get('tokens.options_transfer')} {token.symbol}
             </Button>
@@ -224,7 +225,7 @@ class ListSidebar extends React.Component {
           {
             (token.symbol === 'ETH') &&
             <div className="col-12 p5">
-              <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary">
+              <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary" disabled={isWatchOnly}>
                 <i className="icon icon-loopring icon-loopring-trade fs16 mr5"/>
                 {intl.get('tokens.options_convert')} {token.symbol} To WETH
               </Button>
@@ -234,7 +235,7 @@ class ListSidebar extends React.Component {
             (token.symbol === 'WETH') && !token.custom &&
             <div className="col-12 p5">
               <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary"
-                      icon="retweet">
+                      icon="retweet"  disabled={!!isWatchOnly}>
                 {intl.get('tokens.options_convert')} {token.symbol} To ETH
               </Button>
             </div>
@@ -242,7 +243,7 @@ class ListSidebar extends React.Component {
           {
             (token.symbol !== 'ETH' && token.symbol !== 'WETH') &&
             <div className="col-12 p5">
-              <Button onClick={gotoTrade.bind(this, token)} className="d-block w-100 text-left" type="primary">
+              <Button onClick={gotoTrade.bind(this, token)} className="d-block w-100 text-left" type="primary" disabled={isWatchOnly}>
                 <i className="fa fa-line-chart mr5"/>
                 {intl.get('tokens.options_trade')} {token.symbol}
               </Button>
@@ -261,10 +262,10 @@ class ListSidebar extends React.Component {
             </div>
             <div>
               <Button onClick={gotoReceive.bind(this, token)} className="m5 color-blue-500">Receive</Button>
-              <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500">Buy</Button>
+              <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500" disabled={isWatchOnly}>Buy</Button>
               {
                 token.symbol === 'WETH' &&
-                <Button onClick={gotoConvert.bind(this, token)} className="m5 color-blue-500">Convert</Button>
+                <Button onClick={gotoConvert.bind(this, token)} className="m5 color-blue-500" disabled={isWatchOnly}>Convert</Button>
               }
             </div>
 

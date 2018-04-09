@@ -80,6 +80,7 @@ export default {
   buttons: {
     unlock_wallet: '解锁钱包',
     generate_wallet: '生成钱包',
+    try_demo: '体验一下',
   },
   tabs: {
     my_open_orders: '我的当前订单',
@@ -172,7 +173,7 @@ export default {
     contract: "合约版本",
     ttl: "有效期",
     ttl_tip: "请输入合法的整数",
-    lrcfee: "订单费",
+    lrcfee: "LRC 手续费",
     margin: "分润比例",
     gasPrice: "Gas价格",
     slow: "慢",
@@ -210,7 +211,7 @@ export default {
     day: "天",
     week: "周",
     month: "月",
-    lrc_fee: "LRC 手续费",
+    lrc_fee: "手续费",
     margin_split: "分润比例",
     place_order: "提交订单",
     unlock_your_wallet: "解锁你的钱包",
@@ -233,12 +234,16 @@ export default {
     confirm_warn_ledger: "请在您的Ledger设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_trezor: "请在您的Trezor设备上确认签名信息, 之后再回来提交订单",
     confirm_warn_metamask: "您的MetaMask浏览器插件上会提示您签名, 请确认后再回来提交订单",
-    place_order_trezor_unsupport: 'Trezor暂不支持签名交易无法下单',
+    place_order_trezor_unsupport: '无法下单',
     place_order_trezor_unsupport_tips: '在您下单时我们会将您的订单信息签名后发送给中继服务, 但Trezor暂时不支持签名操作, 所以在您用Trezor解锁钱包时无法下单，但作为钱包的功能（转账等）不受影响',
+    place_order_watch_only_tips: '您当前使用地址解锁钱包，无法签名交易, 您可以切换其他方式解锁钱包后下单',
+    custom_lrc_fee:'设置本订单有效的LRC手续费',
+    custom_time_to_live:'设置本订单有效的过期时间',
+    custom_option_fee:'设置本订单有效的值',
     send_failed: '失败',
     failed_fetch_data:'从服务器获取数据失败, 请稍后在尝试',
     eth_is_required:'由于需要ETH支付油费',
-    lrcfee_is_required:'由于需要支付LRC手续费'
+    lrcfee_is_required:'由于需要支付LRC手续费',
   },
   trades:{
     side: '方向',
@@ -402,7 +407,15 @@ export default {
     instruction_mnemonic: '我们不推荐您使用这种方式解锁钱包，可能存在安全隐患。</br>在网站上上传助记词非常危险，如果网站被黑客攻击或您不小心访问了钓鱼网站，您钱包内的资产将面临巨大的安全风险。建议您使用硬钱包或在上传助记词前仔细确认URL & SSL 证书正确无误。',
     instruction_privatekey: '我们不推荐您使用这种方式解锁钱包，可能存在安全隐患。</br>在网站上上传私钥非常危险，如果网站被黑客攻击或您不小心访问了钓鱼网站，您钱包内的资产将面临巨大的安全风险。建议您使用硬钱包或在上传私钥前仔细确认URL & SSL 证书正确无误。',
     instruction_trezor: '这是推荐的解锁方式，可以放心使用。</br>Trezor硬件钱包可以物理随机产生私钥、存储私钥、独立完成签名运算而不发送私钥到计算机，安全地存储用户的数字资产，杜绝数字资产存储和交易的各种安全风险。',
-    nonce:'随机数'
+    instruction_address: '这是推荐的解锁方式，可以放心使用。</br>在这种模式下您可以查看余额变动，但如果想转账或提交订单，请使用其他方式解锁',
+    nonce:'随机数',
+    watch_only: '观察模式',
+    address_input_placeholder: '您的钱包地址',
+    unlock_by_address: '用您的地址解锁',
+    invalid_eth_address: '错误的以太坊地址',
+    demo_title: '体验Loopr',
+    instruction_demo: '您可以使用观察模式体验Loopr钱包，但无法执行下单，转账等需要私钥的操作',
+    have_a_try: 'Let\'s have a try'
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",

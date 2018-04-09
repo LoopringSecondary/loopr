@@ -7,6 +7,7 @@ import UnlockByMnemonic from './UnlockByMnemonic'
 import UnlockByPrivateKey from './UnlockByPrivateKey'
 import UnlockByTrezor from './UnlockByTrezor'
 import UnlockByLedger from './UnlockByLedger'
+import UnlockByAddress from './UnlockByAddress'
 import intl from 'react-intl-universal';
 
 function UnlockWallet({form,modal,account}) {
@@ -26,7 +27,10 @@ function UnlockWallet({form,modal,account}) {
   return (
     <Card title={<div className="fs1">{intl.get('wallet.unlock_tip')}?</div>}>
         <div>
-          <Tabs defaultActiveKey="metamask" tabPosition="left" animated={true} style={{marginTop:'15px'}}>
+          <Tabs defaultActiveKey="address" tabPosition="left" animated={true} style={{marginTop:'15px'}}>
+            <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.watch_only')}</div>} key="address">
+              <UnlockByAddress modal={modal} account={account} pageFrom={pageFrom}/>
+            </Tabs.TabPane>
             <Tabs.TabPane className="pl10" tab={<div style={{marginLeft:'-24px',paddingBottom:'-5',minWidth:'130px'}} className="fs2 text-left">{intl.get('wallet.metamask')}</div>} key="metamask">
               <UnlockByMetaMask modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>

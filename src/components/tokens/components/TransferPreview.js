@@ -105,7 +105,7 @@ let Preview = ({
         </div>
       </div>
       <MetaItem label={intl.get('token.from')} value={extraData.from} />
-      <MetaItem label={intl.get('token.to')} value={tx.to} />
+      <MetaItem label={intl.get('token.to')} value={extraData.to} />
       <MetaItem label={intl.get('token.gas')} value={
         <div className="mr15">
           <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>

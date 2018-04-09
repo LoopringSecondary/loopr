@@ -8,7 +8,7 @@ import {sign} from 'Loopring/relay/order'
 export default class MnemonicUnlockAccount extends Account {
 
   constructor(input) {
-    super({unlockType: 'mnemonic', address: input.address, password: input.password});
+    super({unlockType: 'Mnemonic', address: input.address, password: input.password});
     this.mnemonic = input.mnemonic;
     this.dpath = input.dpath;
     this.index = input.index;

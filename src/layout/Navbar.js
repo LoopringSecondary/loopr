@@ -22,6 +22,7 @@ function Navbar(props){
 
   }
   const account = props.account;
+  const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
 
   const localeChange = (value)=>{
     props.dispatch({
@@ -89,21 +90,28 @@ function Navbar(props){
               <i className="icon-loopring icon-loopring-receive fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
             </a>
           </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
-              <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
-            </a>
-          </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Link to="/trade" className='color-grey-900'>
-              <i className="icon-loopring icon-loopring-trade fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.trade')}
-            </Link>
-          </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,{id:'wallet/airdrop'})} className="color-grey-900">
-              <Icon type="gift" className="mr5" />{intl.get('navbar.subs.airdrop')}
-            </a>
-          </div>
+          {!isWatchOnly &&
+            <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+              <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
+                <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
+              </a>
+            </div>
+          }
+          {!isWatchOnly &&
+            <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+              <Link to="/trade" className='color-grey-900'>
+                <i
+                  className="icon-loopring icon-loopring-trade fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.trade')}
+              </Link>
+            </div>
+          }
+          {!isWatchOnly &&
+            <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+              <a onClick={showModal.bind(this, {id: 'wallet/airdrop'})} className="color-grey-900">
+                <Icon type="gift" className="mr5"/>{intl.get('navbar.subs.airdrop')}
+              </a>
+            </div>
+          }
           {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,{id:'wallet/export/keystore'})}>
               <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}

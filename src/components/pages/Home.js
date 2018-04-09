@@ -29,7 +29,7 @@ function Home(props){
           !(window.WALLET && window.WALLET.getAddress()) &&
           <div className="">
             <Button onClick={showModal.bind(this,'wallet/unlock')} className="m15" style={{width:'255px'}} type="primary" size="large">{intl.get('buttons.unlock_wallet')}</Button>
-            <Button onClick={showModal.bind(this,'wallet/generate')} className="m15" style={{width:'255px'}} type="" size="large">{intl.get('buttons.generate_wallet')}</Button>
+            <Button onClick={showModal.bind(this,'wallet/demo')} className="m15" style={{width:'255px'}} type="" size="large">{intl.get('buttons.try_demo')}</Button>
           </div>
         }
        </div>
