@@ -27,9 +27,11 @@ class Convert extends React.Component {
     if(selectedToken.symbol === 'ETH' && showFrozenAmount) {
       const wethConfig = config.getTokenBySymbol('WETH')
       getEstimatedAllocatedAllowance(window.WALLET.getAddress(), 'WETH').then(res=>{
-        let frozenAmount = fm.toBig(res.result).div('1e'+wethConfig.digits).toNumber()
-        if(frozenAmount >0){
-          this.setState({amount:frozenAmount})
+        if (!res.error) {
+          let frozenAmount = fm.toBig(res.result).div('1e'+wethConfig.digits).toNumber()
+          if(frozenAmount >0){
+            this.setState({amount:frozenAmount})
+          }
         }
       })
     }
