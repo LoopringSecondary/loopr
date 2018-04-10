@@ -916,10 +916,6 @@
     {
       "value": "//relay1.loopring.io",
       "name": "Default Loopring Relay"
-    },
-    {
-      "value": "//relay2.loopring.io",
-      "name": "Backup Loopring Relay"
     }
   ],
   "markets": [

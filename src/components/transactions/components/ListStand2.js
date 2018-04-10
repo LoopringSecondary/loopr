@@ -73,15 +73,17 @@ class ListBlock extends React.Component {
       })
     };
 
-    const gotoReceive = () => {
+    const gotoReceive = (symbol) => {
       showModal({
         id: 'token/receive',
+        symbol
       })
     };
     const gotoConvert = () => {
       showModal({
         id: 'token/convert',
-        item: {symbol: 'ETH'}
+        item: {symbol: 'ETH'},
+        showFrozenAmount: true
       })
     };
     const gotoTransfer = () => {
@@ -251,7 +253,7 @@ class ListBlock extends React.Component {
               <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>Send {filters.token}</span>
             </Button>
-            <Button onClick={gotoReceive} className="mr5" type="primary">
+            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="primary">
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>Receive {filters.token}</span>
             </Button>
@@ -285,7 +287,7 @@ class ListBlock extends React.Component {
                        {token} {intl.get('txs.balance_not_enough')}
                      </div>
                      <div>
-                       <Button onClick={gotoReceive}
+                       <Button onClick={gotoReceive.bind(this, token)}
                                className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
                                                     className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}

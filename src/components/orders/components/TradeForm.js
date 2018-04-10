@@ -216,7 +216,7 @@ class TradeForm extends React.Component {
             type:'error',
             actions:(
               <div>
-                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} ETH`}</Button>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive',symbol:'ETH'})}>{`${intl.get('tokens.options_receive')} ETH`}</Button>
               </div>
             )
           })
@@ -237,7 +237,7 @@ class TradeForm extends React.Component {
             type:'error',
             actions:(
               <div>
-                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} LRC`}</Button>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive',symbol:'LRC'})}>{`${intl.get('tokens.options_receive')} LRC`}</Button>
               </div>
             )
           })
@@ -280,7 +280,7 @@ class TradeForm extends React.Component {
             type:'error',
             actions:(
               <div>
-                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive'})}>{`${intl.get('tokens.options_receive')} ETH`}</Button>
+                <Button className="alert-btn mr5" onClick={showModal.bind(this,{id:'token/receive',symbol:'ETH'})}>{`${intl.get('tokens.options_receive')} ETH`}</Button>
               </div>
             )
           })
