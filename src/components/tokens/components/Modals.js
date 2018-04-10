@@ -42,7 +42,9 @@ function Modals(props){
         <TransferResult />
       </ModalContainer>
       <ModalContainer id='token/receive'>
+        <Sockets.Assets>
         <Receive />
+        </Sockets.Assets>
       </ModalContainer>
       <ModalContainer id='token/convert'>
         <EthTxContainer id="convert">

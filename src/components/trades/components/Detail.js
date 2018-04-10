@@ -23,7 +23,8 @@ const MetaItem = (props) => {
 class DetailBlock extends React.Component {
 
   state = {
-    ring: null
+    ring: null,
+    loading:true
   };
 
   componentDidMount() {
@@ -31,7 +32,9 @@ class DetailBlock extends React.Component {
     const _this = this;
     getRingByHash(modal.item.ringHash).then(res => {
       if (!res.error) {
-        _this.setState({ring: res.result});
+        _this.setState({ring: res.result,loading:false});
+      }else{
+        _this.setState({loading:false});
       }
     });
   }
@@ -51,7 +54,7 @@ class DetailBlock extends React.Component {
   };
 
   render() {
-    const {ring} = this.state;
+    const {ring,loading} = this.state;
     const renders = {
       txHash: (value) => <a className="text-truncate d-block" target="_blank"
                             href={`https://etherscan.io/tx/${value}`}>{value}</a>,
@@ -64,7 +67,7 @@ class DetailBlock extends React.Component {
     return (
       <div className="">
 
-        <Card title={intl.get('ring.ring_info')}>
+        <Card title={intl.get('ring.ring_info')} loading={loading} >
           {ring &&
           <div>
           <MetaItem label={intl.get('ring.ring_hash')} value={ring && ring.ringInfo.ringHash}/>

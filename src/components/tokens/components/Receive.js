@@ -16,8 +16,11 @@ export default class Receive extends React.Component {
   };
 
   componentDidMount() {
-    const {modal} = this.props;
+    const {modal,assets} = this.props;
     const {symbol} = modal;
+
+    const balance  = assets.getTokenBySymbol(symbol).balance;
+
     if (symbol) {
       const _this = this;
       const owner = window.WALLET.getAddress();
@@ -27,18 +30,21 @@ export default class Receive extends React.Component {
           const orderAmount = res.result;
           if (symbol.toUpperCase() === "LRC") {
             getFrozenLrcFee(owner).then(response => {
+              let amount = 0;
               if (!response.error) {
                 const lrcFee = response.result;
-                const amount = toBig(orderAmount).plus(toBig(lrcFee)).div('1e' + token.digits).toFixed(token.precision);
-                _this.setState({symbol, amount});
+                 amount = toBig(orderAmount).plus(toBig(lrcFee)).minus(toBig(balance)).div('1e' + token.digits);
               } else {
-                const amount = toBig(orderAmount).div('1e' + token.digits).toFixed(token.precision);
-                _this.setState({symbol, amount});
+                 amount = toBig(orderAmount).minus(toBig(balance)).div('1e' + token.digits);
               }
+              amount = amount >=0 ? amount:0;
+              _this.setState({symbol, amount:amount.toFixed(token.precision)});
+
             })
           } else {
-            const amount = toBig(orderAmount).div('1e' + token.digits).toFixed(token.precision);
-            _this.setState({symbol, amount});
+            let amount = toBig(orderAmount).minus(toBig(balance)).div('1e' + token.digits);
+            amount = amount >=0 ? amount:0;
+            _this.setState({symbol, amount:amount.toFixed(token.precision)});
           }
         }
       });
@@ -93,7 +99,7 @@ export default class Receive extends React.Component {
         <div className='text-center'>
           <div className='pt30 pb30 pr20 pl20'>
             <QRCode value={address} size={240}/>
-            {symbol && <div className='fs3 color-black-1 mt10'>
+            {symbol && amount > 0  && <div className='fs3 color-black-1 mt10'>
               {intl.get('token.recommended_value')} {amount} {symbol.toUpperCase()}
             </div>}
           </div>
