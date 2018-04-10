@@ -11,260 +11,281 @@ import config from "../../../../common/config";
 import Sockets from '../../../../modules/socket/containers';
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
+import PropTypes from 'prop-types';
 
 const uiFormatter = window.uiFormatter;
 const fm = window.uiFormatter.TokenFormatter;
 
-function ListBlock(props) {
-  const {LIST, actions, className, style, account, gasPrice, contractAddress,} = props
-  const {dispatch, id} = props
-  const showModal = (payload = {}) => {
-    dispatch({
-      type: 'modals/modalChange',
-      payload: {
-        ...payload,
-        visible: true,
-      },
-    })
-  }
-  const {
-    items = [],
-    loading,
-    page = {}
-  } = LIST[id] || {};
-  const cancel = (item) => {
-    Modal.confirm({
-      title: intl.get('order.confirm_cancel_order'),
-      onOk: async () => {
-        const nonce = await window.STORAGE.wallet.getNonce(account.address);
-        const originalOrder = item.originalOrder;
-        originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
-        originalOrder.owner = originalOrder.address;
-        originalOrder.v = toNumber(originalOrder.v);
-        originalOrder.tokenB = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
-        originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
-        originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
-        const tx = generateCancelOrderTx({
-          order: originalOrder,
-          nonce: toHex(nonce),
-          gasPrice: toHex(gasPrice * 1e9),
-          gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder').gasLimit : configs['defaultGasLimit'],
-          protocolAddress: contractAddress,
-        });
-        window.WALLET.sendTransaction(tx).then((res) => {
-          if (!res.error) {
-            window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
-            window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
-            notifyTransactionSubmitted(res.result);
-            Notification.open({message: intl.get('order.cancel_order_success'), type: "success", description:(<div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {window.uiFormatter.getShortAddress(res.result)}</a></div>)});
-          } else {
-            Notification.open({message: intl.get('order.cancel_order_failed'), type: "error", description:res.error.message})
-          }
-        })
-      },
-      onCancel: () => {
-      },
-      okText: intl.get('order.yes'),
-      cancelText: intl.get('order.no'),
-    })
-  };
-  const handleCopy = (value, e) => {
-    e.preventDefault();
-    e.clipboardData.setData("text", value);
-  };
-  const renders = {
-    orderHash: (value, item, index) => (
-      <a className="text-truncate d-block color-blue-500" onCopy={handleCopy.bind(this, value)}
-         style={{maxWidth: '150px'}}
-         onClick={showModal.bind(this, {id: 'order/detail', item})}>
-        {uiFormatter.getShortAddress(value)}
-      </a>
-    ),
-    market: (value, item, index) => item.originalOrder && item.originalOrder.market,
-    status: (value, item, index) => {
-      let status
-      if (item.status === 'ORDER_OPENED') {
-        status = <Badge className="fs12" status="processing" text={intl.get('orders.status_opened')}/>
-      }
-      if (item.status === 'ORDER_FINISHED') {
-        status = <Badge className="fs12" status="success" text={intl.get('orders.status_completed')}/>
-      }
-      if (item.status === 'ORDER_CANCELLED') {
-        status = <Badge className="fs12" status="default" text={intl.get('orders.status_canceled')}/>
-      }
-      if (item.status === 'ORDER_CUTOFF') {
-        status = <Badge className="fs12" status="default" text={intl.get('orders.status_canceled')}/>
-      }
-      if (item.status === 'ORDER_EXPIRE') {
-        status = <Badge className="fs12" status="default" text={intl.get('orders.status_expired')}/>
-      }
-      return (
-        <div>
-          {status}
-        </div>
-      )
-    },
-    side: (value, item, index) => {
-      if (item.originalOrder.side === 'sell') {
-        return <div className="color-green-500">{intl.get('orders.side_sell')}</div>
-      }
-      if (item.originalOrder.side === 'buy') {
-        return <div className="color-red-500">{intl.get('orders.side_buy')}</div>
-      }
-    },
-    filled: (value, item, index) => {
-      let percent = 0;
-      if (item.originalOrder.side.toLowerCase() === 'sell') {
-        percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
-      } else {
-        percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
-      }
-      return <a onClick={showModal.bind(this,{id:'order/detail/fills',item:item,title:intl.get('orders.fill_detail')})}><Progress type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/> </a>
-    },
-    action: (value, item, index) => {
-      const tokenS = item.originalOrder.tokenS
-      const amountS = item.originalOrder.amountS
-      const fm = window.uiFormatter.TokenFormatter
-      const fmS = new fm({symbol: tokenS})
-      const balance = 100.00
-      const required = fmS.getAmount(amountS)
-      const lacked = required - balance
+class  ListBlock extends React.Component{
 
-      const content = (
-        <div className="p10">
-          <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100"
-               style={{borderRadius: '4px', border: '1px solid'}}>
-            <div className="pb5 fs16 color-red-600">
-              {intl.get('orders.balance_not_enough',{token:tokenS})}
-            </div>
-            <div className="pb5 fs12 color-red-400">
-              {intl.get('orders.balance')} : <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(balance)}</span>
-              {intl.get('orders.required')} : <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(required)}</span>
-              {intl.get('orders.lacked')}: <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(lacked)}</span>
-            </div>
-            <div className="pt5">
-              <Button onClick={showModal.bind(this, {id: 'token/receive'})} type="primary"
-                      className="bg-red-500 border-none">{intl.get('orders.receive',{token:tokenS})}</Button>
-              <span className="color-grey-500 ml5 mr5"> or </span>
-              {
-                tokenS !== 'WETH' &&
-                <Button onClick={window.routeActions.gotoPath.bind(this, `/trade/${tokenS}-WETH`)}
-                        className="bg-red-500 border-none" type="primary">{intl.get('orders.buy',{token:tokenS})}</Button>
-              }
-              {
-                tokenS === 'WETH' &&
-                <Button onClick={showModal.bind(this, {id: 'token/convert', item: {symbol: 'ETH'}})}
-                        className="bg-red-500 border-none" type="primary">{intl.get('orders.convert')} </Button>
-              }
-            </div>
+  render(){
+    const {LIST, actions, className, style, account, gasPrice, contractAddress,} = this.props;
+    const {dispatch, id} = this.props;
+    const showModal = (payload = {}) => {
+      dispatch({
+        type: 'modals/modalChange',
+        payload: {
+          ...payload,
+          visible: true,
+        },
+      })
+    }
+    const {
+      items = [],
+      loading,
+      page = {}
+    } = LIST[id] || {};
+    const cancel = (item) => {
+      Modal.confirm({
+        title: intl.get('order.confirm_cancel_order'),
+        onOk: async () => {
+          const nonce = await window.STORAGE.wallet.getNonce(account.address);
+          const originalOrder = item.originalOrder;
+          originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
+          originalOrder.owner = originalOrder.address;
+          originalOrder.v = toNumber(originalOrder.v);
+          originalOrder.tokenB = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
+          originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
+          originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
+          const tx = generateCancelOrderTx({
+            order: originalOrder,
+            nonce: toHex(nonce),
+            gasPrice: toHex(gasPrice * 1e9),
+            gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder').gasLimit : configs['defaultGasLimit'],
+            protocolAddress: contractAddress,
+          });
+          window.WALLET.sendTransaction(tx).then((res) => {
+            if (!res.error) {
+              window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
+              window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
+              notifyTransactionSubmitted(res.result).then(() => {
+                reEmitPendingTransaction()
+              });
+              Notification.open({message: intl.get('order.cancel_order_success'),size: 'small', type: "success", description:(<div>Transaction hash is : <a className='color-blue-500' href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {window.uiFormatter.getShortAddress(res.result)}</a></div>)});
+
+            } else {
+              Notification.open({message: intl.get('order.cancel_order_failed'), size: 'small', type: "error", description:res.error.message})
+            }
+          })
+        },
+        onCancel: () => {
+        },
+        okText: intl.get('order.yes'),
+        cancelText: intl.get('order.no'),
+      })
+    };
+    const handleCopy = (value, e) => {
+      e.preventDefault();
+      e.clipboardData.setData("text", value);
+    };
+    const renders = {
+      orderHash: (value, item, index) => (
+        <a className="text-truncate d-block color-blue-500" onCopy={handleCopy.bind(this, value)}
+           style={{maxWidth: '150px'}}
+           onClick={showModal.bind(this, {id: 'order/detail', item})}>
+          {uiFormatter.getShortAddress(value)}
+        </a>
+      ),
+      market: (value, item, index) => item.originalOrder && item.originalOrder.market,
+      status: (value, item, index) => {
+        let status
+        if (item.status === 'ORDER_OPENED') {
+          status = <Badge className="fs12" status="processing" text={intl.get('orders.status_opened')}/>
+        }
+        if (item.status === 'ORDER_FINISHED') {
+          status = <Badge className="fs12" status="success" text={intl.get('orders.status_completed')}/>
+        }
+        if (item.status === 'ORDER_CANCELLED') {
+          status = <Badge className="fs12" status="default" text={intl.get('orders.status_canceled')}/>
+        }
+        if (item.status === 'ORDER_CUTOFF') {
+          status = <Badge className="fs12" status="default" text={intl.get('orders.status_canceled')}/>
+        }
+        if (item.status === 'ORDER_EXPIRE') {
+          status = <Badge className="fs12" status="default" text={intl.get('orders.status_expired')}/>
+        }
+        return (
+          <div>
+            {status}
           </div>
+        )
+      },
+      side: (value, item, index) => {
+        if (item.originalOrder.side === 'sell') {
+          return <div className="color-green-500">{intl.get('orders.side_sell')}</div>
+        }
+        if (item.originalOrder.side === 'buy') {
+          return <div className="color-red-500">{intl.get('orders.side_buy')}</div>
+        }
+      },
+      filled: (value, item, index) => {
+        let percent = 0;
+        if (item.originalOrder.side.toLowerCase() === 'sell') {
+          percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
+        } else {
+          percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
+        }
+        return <a onClick={showModal.bind(this,{id:'order/detail/fills',item:item,title:intl.get('orders.fill_detail')})}><Progress type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/> </a>
+      },
+      action: (value, item, index) => {
+        const tokenS = item.originalOrder.tokenS
+        const amountS = item.originalOrder.amountS
+        const fm = window.uiFormatter.TokenFormatter
+        const fmS = new fm({symbol: tokenS})
+        const balance = 100.00
+        const required = fmS.getAmount(amountS)
+        const lacked = required - balance
+
+        const content = (
+          <div className="p10">
+            <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100"
+                 style={{borderRadius: '4px', border: '1px solid'}}>
+              <div className="pb5 fs16 color-red-600">
+                {intl.get('orders.balance_not_enough',{token:tokenS})}
+              </div>
+              <div className="pb5 fs12 color-red-400">
+                {intl.get('orders.balance')} : <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(balance)}</span>
+                {intl.get('orders.required')} : <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(required)}</span>
+                {intl.get('orders.lacked')}: <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(lacked)}</span>
+              </div>
+              <div className="pt5">
+                <Button onClick={showModal.bind(this, {id: 'token/receive'})} type="primary"
+                        className="bg-red-500 border-none">{intl.get('orders.receive',{token:tokenS})}</Button>
+                <span className="color-grey-500 ml5 mr5"> or </span>
+                {
+                  tokenS !== 'WETH' &&
+                  <Button onClick={window.routeActions.gotoPath.bind(this, `/trade/${tokenS}-WETH`)}
+                          className="bg-red-500 border-none" type="primary">{intl.get('orders.buy',{token:tokenS})}</Button>
+                }
+                {
+                  tokenS === 'WETH' &&
+                  <Button onClick={showModal.bind(this, {id: 'token/convert', item: {symbol: 'ETH'}})}
+                          className="bg-red-500 border-none" type="primary">{intl.get('orders.convert')} </Button>
+                }
+              </div>
+            </div>
 
 
-        </div>
-      );
+          </div>
+        );
 
-      let notEnough = false && (item.status === 'ORDER_OPENED')
-      const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
-      return (
-        <span className="text-nowrap">
+        let notEnough = false && (item.status === 'ORDER_OPENED')
+        const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
+        return (
+          <span className="text-nowrap">
           {item.status === 'ORDER_OPENED' &&
           <Sockets.PendingTxs render={({txs})=>{
             return (<Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {isWatchOnly || txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>Cancel</Button>)
           }}>
           </Sockets.PendingTxs>
-
-
-      // <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300"
-      //                   style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px'}} >Cancel</a>
+            // <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300"
+            //                   style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px'}} >Cancel</a>
           }
-          {notEnough &&
-          <Popover arrowPointAtCenter placement="topRight" content={content}
-                   title={
-                     <div className="pt5 pb5">
-                       <div className="row">
-                         <div className="col">
-                           {intl.get('orders.token_not_enough')} !
-                         </div>
-                         <div className="col-auto">
-                           <a className="fs12 color-blue-500">Why?</a>
+            {notEnough &&
+            <Popover arrowPointAtCenter placement="topRight" content={content}
+                     title={
+                       <div className="pt5 pb5">
+                         <div className="row">
+                           <div className="col">
+                             {intl.get('orders.token_not_enough')} !
+                           </div>
+                           <div className="col-auto">
+                             <a className="fs12 color-blue-500">Why?</a>
+                           </div>
                          </div>
                        </div>
-                     </div>
-                   }
-          >
+                     }
+            >
                 <span className="color-red-500">
                   <Icon className="mr5" type="exclamation-circle"/>
                 </span>
-          </Popover>
-          }
+            </Popover>
+            }
         </span>
-      )
+        )
 
-    },
-  }
+      },
+    }
 
-  let columns = schema.map(field => {
-    const renderGenerator = (value, item, index) => {
-      if (typeof field.formatter === 'function') {
-        value = field.formatter(item)
+    let columns = schema.map(field => {
+      const renderGenerator = (value, item, index) => {
+        if (typeof field.formatter === 'function') {
+          value = field.formatter(item)
+        }
+        const render = renders[field.name]
+        if (typeof render === 'function') {
+          return render(value, item, index)
+        } else {
+          return value
+        }
       }
-      const render = renders[field.name]
-      if (typeof render === 'function') {
-        return render(value, item, index)
-      } else {
-        return value
+      return {
+        title: field.title,
+        dataIndex: field.name,
+        render: renderGenerator,
+        className: 'text-nowrap',
+        // width:`${100/(schema.length+1)}%`,
+        width:`auto`,
+        // sorter: true,
       }
-    }
-    return {
-      title: field.title,
-      dataIndex: field.name,
-      render: renderGenerator,
-      className: 'text-nowrap',
-      // width:`${100/(schema.length+1)}%`,
-      width:`auto`,
-      // sorter: true,
-    }
-  })
-  const actionColumn = {
-    title: intl.get('orders.options'),
-    render: renders.action,
-    // width:150,
-    // fixed: 'right',
-  }
-  columns.push(actionColumn)
-
-  const tableChange = (pagination, filters, sorter) => {
-    // sorder {field,order}
-    // filters {field,field}
-    const sort = {
-      [sorter.field]: sorter.order // TODO
-    }
-    actions.queryChange({
-      sort, filters // TODO
     })
-  }
-  const tableProps = {
-    // className:className,
-    dataSource: items,
-    columns: columns,
-    pagination: false,
-    loading: loading,
-    scroll: {x: true},
-    onChange: tableChange,
-    bordered: false,
-    size: 'default',
-    rowKey: (record) => record.originalOrder.hash, // set each record PK ( primary key)
-  }
-  return (
-    <div className={className} style={{...style}}>
-      <Table {...tableProps}/>
-    </div>
+    const actionColumn = {
+      title: intl.get('orders.options'),
+      render: renders.action,
+      // width:150,
+      // fixed: 'right',
+    }
+    columns.push(actionColumn)
 
-  )
+    const tableChange = (pagination, filters, sorter) => {
+      // sorder {field,order}
+      // filters {field,field}
+      const sort = {
+        [sorter.field]: sorter.order // TODO
+      }
+      actions.queryChange({
+        sort, filters // TODO
+      })
+    }
+    const tableProps = {
+      // className:className,
+      dataSource: items,
+      columns: columns,
+      pagination: false,
+      loading: loading,
+      scroll: {x: true},
+      onChange: tableChange,
+      bordered: false,
+      size: 'default',
+      rowKey: (record) => record.originalOrder.hash, // set each record PK ( primary key)
+    }
+
+    const reEmitPendingTransaction= () => {
+      const { socket } = this.context;
+      console.log("Re emit Socket");
+      const owner = window.WALLET && window.WALLET.getAddress();
+      const options = {
+        owner
+      };
+      socket.emit('pendingTx_req', JSON.stringify(options))
+    };
+
+
+    return (
+      <div className={className} style={{...style}}>
+        <Table {...tableProps}/>
+      </div>
+
+    )
+  }
 }
 
-ListBlock.propTypes = {};
+ListBlock.propTypes = {
 
+};
+ListBlock.contextTypes = {
+  socket: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
   return {
