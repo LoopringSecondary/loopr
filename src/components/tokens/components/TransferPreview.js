@@ -24,10 +24,11 @@ let Preview = ({
     window.STORAGE.wallet.getNonce(account.address).then(nonce => {
       tx.nonce = fm.toHex(nonce)
       if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
-        Modal.info({
-          title: intl.get('token.to_confirm_title'),
-          content: intl.get('token.to_confirm_ledger_content'),
-        });
+        Notification.open({
+          message: intl.get('token.to_confirm_title'),
+          description: intl.get('token.to_confirm_ledger_content'),
+          type:'info'
+        })
       }
       return window.WALLET.sendTransaction(tx)
     }).then(res=>{
