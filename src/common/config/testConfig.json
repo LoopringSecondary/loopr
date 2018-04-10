@@ -15,12 +15,8 @@
   "localStorageVersion":20180416,
   "contracts": [
     {
-      "address": "0x03E0F73A93993E5101362656Af1162eD80FB54F2",
-      "version": "v1.0"
-    },
-    {
       "address": "0xd8516b98cfe5e33907488b144112e800632055a5",
-      "version": "v1.2"
+      "version": "v1.3"
     }
   ],
   "txs": [
