@@ -16,8 +16,6 @@ class AirdropBind extends React.Component {
   };
 
   componentDidMount() {
-   // const {modals} = this.props;
-  //  const modal = modals['wallet/bind'];
     const {page} = this.props;
     const {project} = page;
     if(project && project.address){
@@ -66,13 +64,14 @@ class AirdropBind extends React.Component {
           if (response.error) {
             Notification.open({
               message: intl.get('wallet.bind_success'),
-              type: 'error', size: 'small', description: response.error.message
+              type: 'error', description: response.error.message
             })
           } else {
             Notification.open({
               message: intl.get('wallet.bind_success'),
-              type: 'success', size: 'small'
-            })
+              type: 'success',
+              description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button>)
+            });
             //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
             window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
             notifyTransactionSubmitted(response.result);
@@ -103,12 +102,13 @@ class AirdropBind extends React.Component {
       if (response.error) {
         Notification.open({
           message: intl.get('wallet.bind_success'),
-          type: 'error', size: 'small', description: response.error.message
+          type: 'error', description: response.error.message
         })
       } else {
         Notification.open({
           message: intl.get('wallet.bind_success'),
-          type: 'success', size: 'small'
+          type: 'success',
+          description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button>)
         });
         //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
         window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});

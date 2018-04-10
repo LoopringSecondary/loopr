@@ -2,6 +2,7 @@ import request from '../common/request'
 import validator from './validator'
 import Response from '../common/response'
 import code from "../common/code"
+import {toBig,toHex} from "../common/formatter";
 
 let headers = {
   'Content-Type': 'application/json'
@@ -26,11 +27,12 @@ export async function getRings(filter){
   })
 }
 
-export async function getRingByHash(ringHash) {
+export async function getRingByHash(ringIndex) {
 
+  ringIndex = toHex(toBig(ringIndex))
   let body = {};
   body.method = 'loopring_getRingMinedDetail';
-  body.params = [{ringHash}];
+  body.params = [{ringIndex}];
   return request({
     method:'post',
     headers,

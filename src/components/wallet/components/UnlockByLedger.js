@@ -17,7 +17,7 @@ class UnlockByLedger extends React.Component {
     this.setState({loading:true})
     if (window.location.protocol !== 'https:') {
       Notification.open({
-        message:intl.get('wallet.error_title'),
+        message:intl.get('wallet.failed_connect_ledger_title'),
         description:intl.get('wallet.content_ledger_unlock_require_https'),
         type:'error'
       })
@@ -65,7 +65,7 @@ class UnlockByLedger extends React.Component {
             if(result.error){
               //TODO got `Error: U2F not supported` when in Safari
               Notification.open({
-                message:intl.get('wallet.error_title'),
+                message:intl.get('wallet.failed_connect_ledger_title'),
                 description:intl.get('wallet.content_ledger_connect_failed'),
                 type:'error'
               })
@@ -91,7 +91,7 @@ class UnlockByLedger extends React.Component {
 
         }
         Notification.open({
-          message:intl.get('wallet.error_title'),
+          message:intl.get('wallet.failed_connect_ledger_title'),
           description:content,
           type:'error'
         })
@@ -110,7 +110,7 @@ class UnlockByLedger extends React.Component {
 
         }
         Notification.open({
-          message:intl.get('wallet.error_title'),
+          message:intl.get('wallet.failed_connect_ledger_title'),
           description:content,
           type:'error'
         })

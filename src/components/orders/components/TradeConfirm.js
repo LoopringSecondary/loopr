@@ -65,10 +65,11 @@ class TradeConfirm extends React.Component {
     }
 
     if (toConfirmWarn) {
-      Modal.info({
-        title: 'Waiting for your confirmation',
-        content: toConfirmWarn,
-      });
+      Notification.open({
+        message: intl.get('trade.to_confirm_title'),
+        description: toConfirmWarn,
+        type:'info'
+      })
     }
     window.WALLET.signOrder(order).then(function (signedOrder) {
       this.setState({
@@ -105,7 +106,7 @@ class TradeConfirm extends React.Component {
 
   openNotification = (warn) => {
     const args = {
-      message: intl.get('order.placing_order'),
+      message: intl.get('order.place_success'),
       description: intl.get('order.place_success_tip'),
       duration: 3,
       type:'success',

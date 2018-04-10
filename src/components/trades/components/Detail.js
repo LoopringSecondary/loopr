@@ -30,7 +30,7 @@ class DetailBlock extends React.Component {
   componentDidMount() {
     const {modal} = this.props;
     const _this = this;
-    getRingByHash(modal.item.ringHash).then(res => {
+    getRingByHash(modal.item.ringIndex).then(res => {
       if (!res.error) {
         _this.setState({ring: res.result,loading:false});
       }else{

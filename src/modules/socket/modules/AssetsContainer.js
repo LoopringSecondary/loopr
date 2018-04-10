@@ -83,7 +83,7 @@ class AssetsContainer extends React.Component {
         }else{
            assetToken.allowance = 0
         }
-        return assetToken
+        return {...assetToken}
       }else{
         return {
           balance:0,
@@ -91,7 +91,7 @@ class AssetsContainer extends React.Component {
         }
       }
     }else{
-      return assetToken
+      return {...assetToken}
     }
   }
   render() {
