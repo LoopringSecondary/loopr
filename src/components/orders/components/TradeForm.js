@@ -667,7 +667,7 @@ class TradeForm extends React.Component {
               }]
             })(
               <Input className="d-block w-100" placeholder="" size="large"
-                     addonBefore={<span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
+                     prefix={<span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
                      suffix={<span className="fs14 color-black-4">{tokenR}</span>}
                      onChange={inputChange.bind(this, 'price')}
                      onFocus={() => {
@@ -701,7 +701,7 @@ class TradeForm extends React.Component {
               }]
             })(
               <Input placeholder="" size="large"
-                    addonBefore={<span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
+                    prefix={<span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
                     suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
                      onFocus={() => {
                        const amount = Number(form.getFieldValue("amount"))
@@ -721,7 +721,7 @@ class TradeForm extends React.Component {
             <div className="row align-items-center">
               <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
               <div className="col"></div>
-              <div className="col-auto fs3 color-black-2">{`${this.state.total} ${outTokenSymbol}`}</div>
+              <div className="col-auto fs3 color-black-2">{`${this.state.total} ${tokenR}`}</div>
             </div>
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
