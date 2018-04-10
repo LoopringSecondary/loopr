@@ -7,8 +7,8 @@
   "defaultGasLimit": "0x15f90",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
-  "delegateAddress": "0x450D10A0C61f2b007384128B626F28b757A75e49",
-  "chainId": 7107171,
+  "delegateAddress": "0x7b126ab811f278f288bf1d62d47334351dA20d1d",
+  "chainId": 1,
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0xeba7136a36da0f5e16c6bdbc739c716bb5b65a00",
@@ -30,7 +30,7 @@
   "txs": [
     {
       "type":"eth_transfer",
-      "gasLimit":"0x5dc0"
+      "gasLimit":"0x5208"
     },
     {
       "type":"token_transfer",

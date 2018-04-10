@@ -22,7 +22,7 @@
   "txs": [
     {
       "type":"eth_transfer",
-      "gasLimit":"0x5dc0"
+      "gasLimit":"0x5208"
     },
     {
       "type":"token_transfer",
