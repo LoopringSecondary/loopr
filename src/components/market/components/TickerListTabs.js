@@ -118,8 +118,11 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
   }
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
-      <div className="pr10" style={{marginTop:'3px'}}>
-       <Input.Search className="" size="small" onChange={search} value={keywords} />
+      <div className="pr10 tickers-search-input" style={{paddingTop:'3px'}}>
+       <Input
+        style={{width:'100px'}} className="" size="small" onChange={search} value={keywords}
+        prefix={<Icon type="search" />}
+       />
       </div>
   )
   const favors =  window.STORAGE.markets.getFavors()
