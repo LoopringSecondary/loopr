@@ -95,8 +95,8 @@ class Convert extends React.Component {
               //modal.showModal({id:'token/transfer/result', result})
               const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${math.accMul(result.extraData.amount, result.extraData.price).toFixed(2)}`
               Notification.open({
-                message:`${intl.get('token.convert_title')} ${intl.get('token.completed')}`,
-                description:`${intl.get('token.result_success', {do:intl.get('token.convert_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol})} (${worth})`,
+                message:intl.get('token.convert_succ_notification_title'),
+                description:`${intl.get('token.result_convert_success', {amount:result.extraData.amount, token:result.extraData.tokenSymbol})}`,
                 type:'success',
                 actions:(
                   <div>

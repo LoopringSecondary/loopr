@@ -216,7 +216,7 @@ export default {
     place_order: "提交订单",
     unlock_your_wallet: "解锁你的钱包",
     to_trade: "去交易",
-    lrcFee_increased: "通过您的设定，您当前订单需要支付的lrcFee 是 {userSet}LRC, 我们自动增加至下单允许最小的值: {increased}LRC, 您是否继续下单?",
+    lrcFee_increased: "通过您的设定，您当前订单需要支付的LRC Fee 是 {userSet}LRC, 我们自动增加至下单允许最小的值: {increased}LRC, 您是否继续下单?",
     notice: "请注意",
     placing_order: '订单提交结果',
     place_order_failed: "订单提交失败 !",
@@ -242,10 +242,10 @@ export default {
     custom_option_fee:'设置本订单有效的值',
     custom_lrc_fee_title:'设置本订单生效的LRC手续费',
     custom_time_to_live_title:'设置本订单生效的有效时间',
-    send_failed: '失败',
+    send_failed: '下单失败 !',
     failed_fetch_data:'从服务器获取数据失败, 请稍后在尝试',
-    eth_is_required:'由于需要ETH支付油费',
-    lrcfee_is_required:'由于需要支付LRC手续费',
+    eth_is_required:'由于需要ETH支付油费, 根据您当前订单需要发送的以太坊交易计算，还需要 {required} ETH',
+    lrcfee_is_required:'由于需要支付LRC手续费, 汇总您历史订单所需LRC，还需要 {required} LRC',
   },
   trades:{
     side: '方向',
@@ -264,6 +264,8 @@ export default {
     result_failed: "您{do} {amount} {token} 失败, 原因:{reason}",
     completed: "成功",
     result_success: "您{do} {amount} {token} 成功",
+    result_convert_success: "您转换 {amount} {token} 成功",
+    result_transfer_success: "您转账 {amount} {token} 成功",
     view_transaction: '通过Etherscan查看交易',
     send_again: '继续转账',
     convert_again: '继续转换',
@@ -301,7 +303,9 @@ export default {
     add_custom_token_tip:"请输入合法的地址",
     send_failed: '发送失败！',
     convert_failed: '转换失败',
-    recommended_value:"推荐值:"
+    recommended_value:"推荐值:",
+    convert_succ_notification_title: '转换成功',
+    transfer_succ_notification_title: '转账成功'
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
@@ -427,7 +431,7 @@ export default {
     instruction_demo: '您可以使用观察模式体验 Loopr 钱包，但无法执行下单，转账等需要私钥的操作',
     have_a_try: '开始体验之旅',
     unlocked_notification_title: '您已成功解锁钱包',
-    unlocked_notification_content: '现在，您可以开始您的路印之旅，希望你能喜欢'
+    unlocked_notification_content: '开始您的路印之旅，希望你能喜欢'
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",
