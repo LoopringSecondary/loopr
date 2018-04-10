@@ -2,13 +2,11 @@ import Account from "./Account";
 import {trezorSign} from "../../common/Loopring/ethereum/trezor";
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import EthTransaction from 'ethereumjs-tx'
-import {addHexPrefix, clearPrefix, toBuffer, toHex,toNumber} from '../../common/Loopring/common/formatter'
-import {wallets} from "../../common/config/data";
+import {addHexPrefix, clearPrefix, toBuffer, toHex, toNumber,toBN} from '../../common/Loopring/common/formatter'
 import HDKey from 'hdkey';
 import {publicKeytoAddress} from "Loopring/ethereum/account";
 import {getOrderHash} from "Loopring/relay/order";
-
-
+import BN from "bn.js";
 
 export default class TrezorUnlockAccount extends Account {
 
@@ -44,23 +42,25 @@ export default class TrezorUnlockAccount extends Account {
   async signTx(rawTx) {
     return new Promise((resolve) => {
       const tx = [clearPrefix(rawTx.nonce), clearPrefix(rawTx.gasPrice), clearPrefix(rawTx.gasLimit), clearPrefix(rawTx.to),
-        clearPrefix(rawTx.value) === '' ? null : clearPrefix(rawTx.value), clearPrefix(rawTx.data)].map(item => {
+        clearPrefix(rawTx.value) === '' ? '' : clearPrefix(rawTx.value), clearPrefix(rawTx.data)].map(item => {
+          item = item.toLowerCase();
         if (item && item.length % 2 === 1) {
-          return "0" + item
+          return `0${item}`
         }
         return item
-      })
+      });
+      const finalPath = `${this.dpath}/${this.index}`;
       window.TrezorConnect.ethereumSignTx(
-        this.dpath.concat(`/${this.index}`),
+        finalPath,
         ...tx,
         rawTx.chainId,
-        function (response) {
+        (response) => {
           if (response.success) {
             const newTx = new EthTransaction({
               ...rawTx,
-              v: response.v,
-              s: toBuffer(addHexPrefix(response.s)),
-              r: toBuffer(addHexPrefix(response.r))
+              v: addHexPrefix(new BN(response.v).toString(16)),
+              s: addHexPrefix(response.s),
+              r: addHexPrefix(response.r)
             });
             resolve({result: newTx.serialize()})
           } else {
@@ -68,6 +68,8 @@ export default class TrezorUnlockAccount extends Account {
             resolve({error: response.error})
           }
         });
+
+
     })
   }
 
