@@ -100,6 +100,7 @@ class ListSidebar extends React.Component {
       showModal({
         id: 'token/convert',
         item,
+        showFrozenAmount: false
       })
     }
     const gotoTrade = (item) => {
