@@ -212,7 +212,7 @@ class TradeForm extends React.Component {
           // gotoError(errors)
           Notification.open({
             message: intl.get('trade.send_failed'),
-            description: `${intl.get('trade.eth_is_required')}, ${intl.get('trade.balance_not_enough', {token:'ETH',required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)})}`,
+            description: intl.get('trade.eth_is_required', {required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}),
             type:'error',
             actions:(
               <div>
@@ -233,7 +233,7 @@ class TradeForm extends React.Component {
           // gotoError(errors)
           Notification.open({
             message: intl.get('trade.send_failed'),
-            description: `${intl.get('trade.lrcfee_is_required')}, ${intl.get('trade.balance_not_enough', {token:'LRC',required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)})}`,
+            description: intl.get('trade.lrcfee_is_required', {required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}),
             type:'error',
             actions:(
               <div>
@@ -276,7 +276,7 @@ class TradeForm extends React.Component {
           // gotoError(errors)
           Notification.open({
             message: intl.get('trade.send_failed'),
-            description: `${intl.get('trade.eth_is_required')}, ${intl.get('trade.balance_not_enough', {token:'ETH',required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)})}`,
+            description: intl.get('trade.eth_is_required', {required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}),
             type:'error',
             actions:(
               <div>
