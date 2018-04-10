@@ -106,23 +106,26 @@ const TradingSettingForm = ({
   return (
     <div className="" >
       <Form layout="horizontal" className="p15">
-        <Form.Item {...formItemLayout} label={intl.get('settings.contract')} colon={false} extra={contractVersionExtra}>
-          {form.getFieldDecorator('contractVersion', {
-            initialValue:trading.contract.version,
-            rules:[]
-          })(
-            <Select
-              placeholder="Search/Select"
-              optionFilterProp="children"
-              size="large"
-              onChange={handleChange.bind(this, "contractVersion")}
-            >
-              {configs.contracts.map((item,index)=>
-                <Select.Option key={index} value={item.version} >{item.version}</Select.Option>
+        {
+          false &&
+            <Form.Item {...formItemLayout} label={intl.get('settings.contract')} colon={false} extra={contractVersionExtra}>
+              {form.getFieldDecorator('contractVersion', {
+                initialValue:trading.contract.version,
+                rules:[]
+              })(
+                <Select
+                  placeholder="Search/Select"
+                  optionFilterProp="children"
+                  size="large"
+                  onChange={handleChange.bind(this, "contractVersion")}
+                >
+                  {configs.contracts.map((item,index)=>
+                    <Select.Option key={index} value={item.version} >{item.version}</Select.Option>
+                  )}
+                </Select>
               )}
-            </Select>
-          )}
-        </Form.Item>
+            </Form.Item>
+        }
         <Form.Item {...formItemLayout} label={intl.get('settings.ttl')} colon={false}>
           {form.getFieldDecorator('timeToLive', {
             initialValue:trading.timeToLive,
