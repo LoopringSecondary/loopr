@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tabs} from 'antd'
+import {Tabs,Card} from 'antd'
 import Settings from '../components'
 import SettingsContainer from '../../../modules/settings/container'
 import intl from 'react-intl-universal';
@@ -7,7 +7,7 @@ import intl from 'react-intl-universal';
 const SettingPage = ({modal}) => {
 
   return (
-      <div className="bg-white" style={{borderRadius:'10px'}}>
+      <Card title="Settings" className="bg-white" style={{borderRadius:'10px'}}>
           <Tabs defaultActiveKey="preference" animated={false} tabBarStyle={{marginBottom:'0px'}}>
             <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('settings.preference')}</div>} key="preference">
               <SettingsContainer>
@@ -25,7 +25,7 @@ const SettingPage = ({modal}) => {
               </SettingsContainer>
             </Tabs.TabPane>
           </Tabs>
-      </div>
+      </Card>
   )
 }
 export default SettingPage

@@ -14,9 +14,9 @@ const TickerItem = ({item})=>{
           {item.change || '0%'}
         </span>
       </div>
-      <div className="fs18">
-        <span className="color-white mr5">{Number(item.last).toFixed(6)}</span>
-        <span className="color-white fs12" style={{opacity:'0.6'}}>{item.market.split('-')[1]}</span>
+      <div className="">
+        <span className="color-white mr5 fs18">{Number(item.last).toFixed(6)}</span>
+        <span className="color-white fs16" style={{opacity:'0.6'}}>{item.market.split('-')[1]}</span>
       </div>
 
     </div>

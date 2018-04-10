@@ -41,7 +41,6 @@ export default function DefaultLayout(props){
   const { location } = props
   const pathname = location && location.pathname
   const bool =  pathname === '/home' || pathname === '/'
-  debugger
   if(bool){
     return <HomeLayout {...props} />
   }else{
