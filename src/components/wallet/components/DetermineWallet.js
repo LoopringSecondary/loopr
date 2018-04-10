@@ -146,7 +146,7 @@ export default class DetermineWallet extends React.Component {
                   <div key={index} className="mb10 fs16 color-black-2 d-flex justify-content-between row"
                        style={radioStyle}>
                     <span className='col-6'>{address}</span>
-                    <Button className='col-auto mr20' onClick={this.confirm.bind(this, index)}> Import</Button>
+                    <Button className='col-auto mr20' onClick={this.confirm.bind(this, index)}> {intl.get('wallet.import')}</Button>
                   </div>)
               })}
               {
