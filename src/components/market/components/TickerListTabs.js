@@ -118,7 +118,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
   }
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
-      <div className="pr10 tickers-search-input" style={{paddingTop:'3px'}}>
+      <div className="pr10 tickers-search-input" style={{paddingTop:'0px'}}>
        <Input
         style={{width:'100px'}} className="" size="small" onChange={search} value={keywords}
         prefix={<Icon type="search" />}
@@ -135,7 +135,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
   const activeTab = favoredNumber > 0 ? 'favorites' : 'WETH'
 
   return (
-    <Tabs className="" defaultActiveKey={activeTab} animated={false} tabBarExtraContent={SearchInput}>
+    <Tabs className="tickers-market-tabs" defaultActiveKey={activeTab} animated={false} tabBarExtraContent={SearchInput}>
       <Tabs.TabPane tab={tab(intl.get('ticker.favorites'))} key="Favorites">
         <div className="pl10 pr10">
           <TickerTable tickers={tickers} market="favorites" dispatch={dispatch} />

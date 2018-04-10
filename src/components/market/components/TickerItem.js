@@ -73,16 +73,17 @@ class TickerHeader extends React.Component {
         title={null}
         placement="bottom"
         arrowPointAtCenter={false}
-        trigger="click"
+        trigger="hover"
+        overlayClassName="tickers-list-popover"
         content={
-          <div className="" style={{minWidth:'400px'}}>
+          <div className="" style={{minWidth:'320px'}}>
             <Sockets.TickersByLoopring>
               <TickerListTabs />
             </Sockets.TickersByLoopring>
           </div>
         }
       >
-        <div className="row align-items-center pt15 pb15" style={{background:'rgba(0,0,0,0.1)'}}>
+        <div className="row align-items-center pt15 pb15 cursor-pointer" style={{background:'rgba(0,0,0,0.1)'}}>
           <div className="col-auto pr5 pl20">
             {
               favors[pair] &&
