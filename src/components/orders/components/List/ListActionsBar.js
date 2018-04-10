@@ -23,7 +23,6 @@ class ListActionsBar extends React.Component {
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address';
     const { socket } = this.context;
     const reEmitPendingTransaction= () => {
-      console.log("Re emit Socket");
       const owner = window.WALLET && window.WALLET.getAddress();
       const options = {
         owner

@@ -262,7 +262,6 @@ class  ListBlock extends React.Component{
 
     const reEmitPendingTransaction= () => {
       const { socket } = this.context;
-      console.log("Re emit Socket");
       const owner = window.WALLET && window.WALLET.getAddress();
       const options = {
         owner

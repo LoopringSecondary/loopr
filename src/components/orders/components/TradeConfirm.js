@@ -196,7 +196,6 @@ class TradeConfirm extends React.Component {
 
    reEmitPendingTransaction= () => {
     const { socket } = this.context;
-    console.log("Re emit Socket");
     const owner = window.WALLET && window.WALLET.getAddress();
     const options = {
       owner
