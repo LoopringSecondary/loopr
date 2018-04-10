@@ -1,5 +1,6 @@
 //const config = require('./config.json');
-const config = require('./config.json');
+const data = require('./data')
+const config = data.configs
 const tokensIcons = require('./tokens_icons.json');
 let tokens = config.tokens || []
 tokens.forEach(token=>{
@@ -7,7 +8,6 @@ tokens.forEach(token=>{
 })
 const markets = config.markets
 const txs = config.txs;
-const data= require('./data')
 const projects =  data.projects;
 
 // mock some tokens's data read from localstorage
