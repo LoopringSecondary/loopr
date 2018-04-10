@@ -46,8 +46,6 @@ export default class Receive extends React.Component {
   }
 
   shouldComponentUpdate(nextProps){
-    console.log("update Props:",nextProps.modal.symbol);
-
     if(nextProps.modal.symbol !== this.props.modal.symbol){
       const {symbol} = nextProps.modal;
       const _this = this;

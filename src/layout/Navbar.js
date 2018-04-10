@@ -105,6 +105,11 @@ function Navbar(props){
               </Link>
             </div>
           }
+          {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <a onClick={showModal.bind(this,{id:'wallet/export/keystore'})}>
+              <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
+            </a>
+          </div>}
           {!isWatchOnly &&
             <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
               <a onClick={showModal.bind(this, {id: 'wallet/airdrop'})} className="color-grey-900">
@@ -112,17 +117,13 @@ function Navbar(props){
               </a>
             </div>
           }
-          {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,{id:'wallet/export/keystore'})}>
-              <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
-            </a>
-          </div>}
+
+          <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
+            <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
+          </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
           </div>
-          {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            Switch Wallet
-          </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
           </div>
@@ -148,12 +149,13 @@ function Navbar(props){
               <Icon type="plus" className="mr5" />{intl.get('navbar.subs.generate')}
             </a>
           </div>
+          <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
+            <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
+          </div>
+
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
           </div>
-          {false && <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            Switch Wallet
-          </div>}
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
           </div>
@@ -184,9 +186,11 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
+              { !(window.WALLET && window.WALLET.getAddress()) &&
+                <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
+              }
               {
-                (!window.WALLET || !window.WALLET.getAddress()) &&
+                !(window.WALLET && window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
                   <a className="fs16" onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Wallet'})}>{intl.get('navbar.wallet')}</a>
                 </Menu.Item>
@@ -203,7 +207,11 @@ function Navbar(props){
             </Menu>
           </div>
           <div className="col-auto">
-            <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,{id:'settings'})}>{intl.get('navbar.settings')}</span>
+            {
+              false &&
+              <span className="fs16 mr10 color-grey-600 cursor-pointer" onClick={showModal.bind(this,{id:'settings'})}>{intl.get('navbar.settings')}</span>
+            }
+
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
