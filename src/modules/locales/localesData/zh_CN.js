@@ -427,7 +427,7 @@ export default {
     instruction_demo: '您可以使用观察模式体验 Loopr 钱包，但无法执行下单，转账等需要私钥的操作',
     have_a_try: '开始体验之旅',
     unlocked_notification_title: '您已成功解锁钱包',
-    unlocked_notification_content: '很好，您已经解锁了钱包，希望你能喜欢'
+    unlocked_notification_content: '现在，您可以开始您的路印之旅，希望你能喜欢'
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",
