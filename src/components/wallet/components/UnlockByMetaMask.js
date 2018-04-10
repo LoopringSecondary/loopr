@@ -35,7 +35,7 @@ class UnlockByMetaMask extends React.Component {
       window.web3.version.getNetwork((err, netId) => {
         if (netId !== '1') {
           Notification.open({
-            message:intl.get('wallet.error_title'),
+            message:intl.get('wallet.failed_connect_metamask_title'),
             description:intl.get('wallet.content_metamask_mainnet'),
             type:'error'
           })
@@ -62,7 +62,7 @@ class UnlockByMetaMask extends React.Component {
             clearInterval(accountInterval)
             account.deleteAccount({})
             Notification.open({
-              message:intl.get('wallet.warning_title'),
+              message:intl.get('wallet.title_metamask_logout'),
               description:intl.get('wallet.content_metamask_logout'),
               type:'warning'
             })
@@ -75,7 +75,7 @@ class UnlockByMetaMask extends React.Component {
               clearInterval(accountInterval)
               account.deleteAccount({})
               Notification.open({
-                message:intl.get('wallet.error_title'),
+                message:intl.get('wallet.failed_connect_metamask_title'),
                 description:intl.get('wallet.content_metamask_unlock_again'),
                 type:'error'
               })
@@ -85,7 +85,7 @@ class UnlockByMetaMask extends React.Component {
           if (window.web3.eth.accounts[0] !== selectedAccount) {
             selectedAccount = window.web3.eth.accounts[0];
             Notification.open({
-              message:intl.get('wallet.info_title'),
+              message:intl.get('wallet.title_metamask_account_change'),
               description:intl.get('wallet.content_metamask_account_change'),
               type:'info'
             })
@@ -102,7 +102,7 @@ class UnlockByMetaMask extends React.Component {
         content = intl.get('wallet.content_metamask_locked')
       }
       Notification.open({
-        message:intl.get('wallet.error_title'),
+        message:intl.get('wallet.failed_connect_metamask_title'),
         description:content,
         type:'error'
       })

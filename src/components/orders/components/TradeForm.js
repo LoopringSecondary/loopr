@@ -212,7 +212,7 @@ class TradeForm extends React.Component {
           // gotoError(errors)
           Notification.open({
             message: intl.get('trade.send_failed'),
-            description: `${intl.get('trade.eth_is_required')}, ${intl.get('trade.balance_not_enough', {token:'ETH',required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)})}`,
+            description: intl.get('trade.eth_is_required', {required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}),
             type:'error',
             actions:(
               <div>
@@ -233,7 +233,7 @@ class TradeForm extends React.Component {
           // gotoError(errors)
           Notification.open({
             message: intl.get('trade.send_failed'),
-            description: `${intl.get('trade.lrcfee_is_required')}, ${intl.get('trade.balance_not_enough', {token:'LRC',required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)})}`,
+            description: intl.get('trade.lrcfee_is_required', {required:ceilDecimal(frozenLrc.sub(lrcBalance.balance).toNumber(),6)}),
             type:'error',
             actions:(
               <div>
@@ -276,7 +276,7 @@ class TradeForm extends React.Component {
           // gotoError(errors)
           Notification.open({
             message: intl.get('trade.send_failed'),
-            description: `${intl.get('trade.eth_is_required')}, ${intl.get('trade.balance_not_enough', {token:'ETH',required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)})}`,
+            description: intl.get('trade.eth_is_required', {required:ceilDecimal(gas.sub(ethBalance).toNumber(),6)}),
             type:'error',
             actions:(
               <div>
@@ -438,7 +438,6 @@ class TradeForm extends React.Component {
         price = Number(form.getFieldValue("price"))
       }
       const total = accMul(price, amount)
-      // form.setFieldsValue({"total": total})
       this.setState({total: total})
       //LRC Fee
       calculateLrcFee(total, sliderMilliLrcFee)
@@ -469,8 +468,7 @@ class TradeForm extends React.Component {
         }
         form.setFieldsValue({"amount": amount})
         const price = Number(form.getFieldValue("price"))
-        const total = accMul(price, amount)
-        // form.setFieldsValue({"total": total})
+        let total = accMul(price, amount)
         this.setState({priceInput: price, amountInput: amount, total: total})
       }
     }
@@ -646,7 +644,7 @@ class TradeForm extends React.Component {
           <Form.Item>
             <div className="row mb5">
               <div className="col fs1 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
-              <div className="col-auto">
+              <div className="col-auto fs3 color-black-2">
                 {
                   `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
                 }
@@ -667,7 +665,7 @@ class TradeForm extends React.Component {
               }]
             })(
               <Input className="d-block w-100" placeholder="" size="large"
-                     addonBefore={<span className="addon-before">{intl.get('trade.price')}</span>}
+                     addonBefore={<span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
                      suffix={<span className="fs14 color-black-4">{tokenR}</span>}
                      onChange={inputChange.bind(this, 'price')}
                      onFocus={() => {
@@ -701,7 +699,7 @@ class TradeForm extends React.Component {
               }]
             })(
               <Input placeholder="" size="large"
-                    addonBefore={<span className="addon-before">{intl.get('trade.amount')}</span>}
+                    addonBefore={<span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
                     suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
                      onFocus={() => {
                        const amount = Number(form.getFieldValue("amount"))
@@ -717,54 +715,44 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          {
-            false &&
-            <Form.Item className="pt0 pb0" colon={false} label={null}>
-              <div className="row align-items-center">
-                <div className="col-auto fs2">{intl.get('trade.balance')}</div>
-                <div className="col"></div>
-                <div className="col-auto">{`${outTokenBalance} ${outTokenSymbol}`}</div>
-              </div>
-            </Form.Item>
-          }
           <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
-              <div className="col-auto">{intl.get('trade.total')}</div>
+              <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
               <div className="col"></div>
-              <div className="col-auto">{`${this.state.total} ${outTokenSymbol}`}</div>
+              <div className="col-auto fs3 color-black-2">{`${this.state.total} ${tokenR}`}</div>
             </div>
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
-              <div className="col-auto fs2">
+              <div className="col-auto fs3 color-black-2">
                 {intl.get('trade.lrc_fee')}
                 <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
-                  <Icon className="color-gray-500 ml5" type="question-circle-o"/>
+                  <Icon className="ml5 fs3" type="question-circle-o"/>
                 </Tooltip>
               </div>
               <div className="col"></div>
               <div className="col-auto pl0 pr5">{editLRCFee}</div>
-              <div className="col-auto pl0">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
+              <div className="col-auto pl0 fs3 color-black-2">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
             </div>
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
-              <div className="col-auto fs2">
+              <div className="col-auto fs3 color-black-2">
                 {intl.get('trade.time_to_live')}
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                  <Icon className="color-gray-500 ml5" type="question-circle-o"/>
+                  <Icon className="ml5 fs3 color-black-2" type="question-circle-o"/>
                 </Tooltip>
               </div>
               <div className="col"></div>
               <div className="col-auto pl0 pr5">{editOrderTTL}</div>
-              <div className="col-auto pl0">{ttlShow}</div>
+              <div className="col-auto pl0 fs3 color-black-2">{ttlShow}</div>
             </div>
           </Form.Item>
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
             <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
               {intl.get('trade.place_order_trezor_unsupport') }
               <Tooltip title={intl.getHTML('trade.place_order_trezor_unsupport_tips')}>
-                <Icon className="color-gray-500 mr10" type="question-circle"/>
+                <Icon className="color-grey-500 mr10" type="question-circle"/>
               </Tooltip>
             </div>
           }
