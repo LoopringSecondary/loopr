@@ -645,7 +645,7 @@ class TradeForm extends React.Component {
         <Form layout="horizontal">
           <Form.Item>
             <div className="row mb5">
-              <div className="col fs22 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
+              <div className="col fs1 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
               <div className="col-auto">
                 {
                   `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
@@ -721,7 +721,7 @@ class TradeForm extends React.Component {
             false &&
             <Form.Item className="pt0 pb0" colon={false} label={null}>
               <div className="row align-items-center">
-                <div className="col-auto">{intl.get('trade.balance')}</div>
+                <div className="col-auto fs2">{intl.get('trade.balance')}</div>
                 <div className="col"></div>
                 <div className="col-auto">{`${outTokenBalance} ${outTokenSymbol}`}</div>
               </div>
@@ -736,7 +736,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
-              <div className="col-auto">
+              <div className="col-auto fs2">
                 {intl.get('trade.lrc_fee')}
                 <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
                   <Icon className="color-gray-500 ml5" type="question-circle-o"/>
@@ -749,7 +749,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
             <div className="row align-items-center">
-              <div className="col-auto">
+              <div className="col-auto fs2">
                 {intl.get('trade.time_to_live')}
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
                   <Icon className="color-gray-500 ml5" type="question-circle-o"/>
@@ -772,7 +772,7 @@ class TradeForm extends React.Component {
           <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
             {intl.get('trade.place_order_trezor_unsupport') }
             <Tooltip title={intl.getHTML('trade.place_order_watch_only_tips')}>
-              <Icon className="color-gray-500 mr10" type="question-circle"/>
+              <Icon className="color-gray-500 mr10" type="question-circle-o ml5"/>
             </Tooltip>
           </div>
           }

@@ -80,7 +80,7 @@ export default {
   buttons: {
     unlock_wallet: '解锁钱包',
     generate_wallet: '生成钱包',
-    try_demo: '体验一下',
+    try_demo: '演示钱包',
   },
   tabs: {
     my_open_orders: '我的当前订单',
@@ -423,9 +423,9 @@ export default {
     address_input_placeholder: '您的钱包地址',
     unlock_by_address: '用您的地址解锁',
     invalid_eth_address: '错误的以太坊地址',
-    demo_title: '体验Loopr',
-    instruction_demo: '您可以使用观察模式体验Loopr钱包，但无法执行下单，转账等需要私钥的操作',
-    have_a_try: '开始体验'
+    demo_title: '使用演示账号体验 Loopr 钱包',
+    instruction_demo: '您可以使用观察模式体验 Loopr 钱包，但无法执行下单，转账等需要私钥的操作',
+    have_a_try: '开始体验之旅'
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",

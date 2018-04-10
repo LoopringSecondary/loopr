@@ -60,7 +60,7 @@ function ListBlock({LIST={},actions,prices,modal}) {
           <div className="col-auto">
               <span className="color-black-1 fs14 mr5">{item.percentage}</span>
               <Tooltip title={intl.get('portfolio.asset_currency_ratio')}>
-                <span className="color-black-1 fs12"><Icon type="question-circle" /></span>
+                <span className="color-black-1 fs12"><Icon type="question-circle-o" /></span>
               </Tooltip>
           </div>
         </div>

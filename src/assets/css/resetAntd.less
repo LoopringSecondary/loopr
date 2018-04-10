@@ -87,25 +87,7 @@
     .ant-input-lg{
     	// height:48px !important;
     }
-    .ant-card{
-			border-radius:4px !important;
-      .ant-card-body{
-        padding:15px !important
-      }
-    	&.token-list-card{
-    		border-color:#DADADA !important;
-				.ant-card-head{
-					padding:0px !important;
-					border-radius:6px 6px 0 0 !important;
-					.ant-card-head-title{
-						padding:10px 15px !important;
-					}
-				}
-				.ant-card-body{
-					padding:15px !important
-				}
-    	}
-   }
+
    .ant-table-bordered table{
 			border:1px solid #DADADA !important;
    }
@@ -229,6 +211,11 @@
    .ant-tabs{
     .ant-tabs-nav .ant-tabs-tab{
       margin-right:0px !important;
+    }
+    &.no-ink-bar{
+      .ant-tabs-ink-bar{
+        display: none !important;
+      }
     }
     &.rs{
       .ant-tabs-bar{
@@ -630,6 +617,44 @@
           font-size:10px;
         }
       }
+    }
+  }
+  .ant-card{
+    border-radius:4px !important;
+    .ant-card-body{
+      // padding:15px !important
+    }
+    &.token-list-card{
+      border-color:#DADADA !important;
+      .ant-card-head{
+        padding:0px !important;
+        border-radius:6px 6px 0 0 !important;
+        .ant-card-head-title{
+          padding:10px 15px !important;
+        }
+      }
+      .ant-card-body{
+        padding:15px !important
+      }
+    }
+  }
+  .settings-card{
+    .ant-card-body{
+      padding:0px !important
+    }
+    .ant-card-head{
+      padding:0px 15px!important
+    }
+
+  }
+  .unlock-wallet-tabs{
+    .ant-tabs-vertical>.ant-tabs-bar .ant-tabs-tab{
+      // margin: 0 0 16px;
+      margin: 0px;
+      margin-left:-24px;
+      margin-bottom:5px;
+      min-width:180px;
+      padding: 8px 24px;
     }
   }
 
