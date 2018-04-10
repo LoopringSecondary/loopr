@@ -32,8 +32,8 @@ class DemoAccount extends React.Component {
     }
     return (
       <Card title={<div className="fs1">{intl.get('wallet.demo_title')}</div>}>
-        <div className="">
-          <div className="p15 text-center">
+        <div className="text-center">
+          <div className="pt15 pb15 ">
               <Icon type="user" className="fs32 border border-grey-200 p10" style={{borderRadius:'50em'}} />
               <div className="fs16 color-black-1 mt5">
                 {selectedAddress}
@@ -42,11 +42,7 @@ class DemoAccount extends React.Component {
                 {intl.getHTML('wallet.instruction_demo')}
               </div>
           </div>
-          <div>
-
-          </div>
-
-          <Button type="primary" className="d-block w-100 mt10" size="large" onClick={unlocked} >{intl.get('wallet.have_a_try')}</Button>
+          <Button type="primary" className="mt10 d-block w-100" size="large" onClick={unlocked} >{intl.get('wallet.have_a_try')}</Button>
         </div>
       </Card>
     )
