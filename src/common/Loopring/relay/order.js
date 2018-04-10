@@ -169,9 +169,9 @@ export function sign(order, privateKey) {
   const v = toNumber(signature.v);
   const r = toHex(signature.r);
   const s = toHex(signature.s);
-
+  const powNonce = 100;
   return {
-    ...order, v, r, s
+    ...order, v, r, s,powNonce
   }
 }
 

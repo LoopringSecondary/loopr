@@ -11,6 +11,7 @@ import config from "../../../common/config";
 import eachLimit from 'async/eachLimit';
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification';
+import PropTypes from 'prop-types';
 
 class TradeConfirm extends React.Component {
 
@@ -142,7 +143,6 @@ class TradeConfirm extends React.Component {
             const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
             const token = new Token({address: tokenConfig.address});
             if (item.value.allowance > 0) {
-              console.log('Approve to 0', item.value.symbol);
               txs.push(token.generateApproveTx({
                 spender: delegateAddress,
                 amount: '0x0',
@@ -152,7 +152,6 @@ class TradeConfirm extends React.Component {
               }));
               nonce = nonce + 1;
             }
-            console.log('Enable', item.value.symbol);
             txs.push(token.generateApproveTx(({
               spender: delegateAddress,
               amount: toHex(toBig('9223372036854775806').times('1e' + tokenConfig.digits || 18)),
@@ -177,6 +176,7 @@ class TradeConfirm extends React.Component {
 
           });
         }
+        this.reEmitPendingTransaction();
         const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
         this.openNotification(balanceWarn);
         _this.updateOrders();
@@ -194,6 +194,15 @@ class TradeConfirm extends React.Component {
     })
   }
 
+   reEmitPendingTransaction= () => {
+    const { socket } = this.context;
+    const owner = window.WALLET && window.WALLET.getAddress();
+    const options = {
+      owner
+    };
+    socket.emit('pendingTx_req', JSON.stringify(options))
+  };
+
   render() {
     const {modals, tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
@@ -202,6 +211,7 @@ class TradeConfirm extends React.Component {
     marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
     const token = pair.split('-')[0];
     const token2 = pair.split('-')[1];
+
     const MetaItem = (props) => {
       const {label, value} = props;
       return (
@@ -267,6 +277,10 @@ function mapStateToProps(state) {
     tradingConfig: state.settings.trading,
   };
 }
+
+TradeConfirm.contextTypes = {
+  socket: PropTypes.object.isRequired
+};
 
 export default connect(mapStateToProps)(TradeConfirm)
 
