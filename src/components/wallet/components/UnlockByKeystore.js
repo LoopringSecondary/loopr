@@ -3,6 +3,7 @@ import {Button, Form, Radio, Input, Tabs, Upload, Icon, message, Alert} from 'an
 import {isKeystorePassRequired} from 'Loopring/common/keystore';
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
+import Notification from 'Loopr/Notification'
 
 class UnlockByKeyStore extends React.Component {
 
@@ -85,6 +86,11 @@ class UnlockByKeyStore extends React.Component {
             })
           }else{
             modal.hideModal({id: 'wallet/unlock'});
+            Notification.open({
+              message:intl.get('wallet.unlocked_notification_title'),
+              description:intl.get('wallet.unlocked_notification_content'),
+              type:'success'
+            })
             unlockRedirection(pageFrom);
             this.setState({
               fileList: [],

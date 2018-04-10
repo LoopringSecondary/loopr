@@ -49,6 +49,11 @@ class UnlockByLedger extends React.Component {
     const {account} = this.props;
     window.WALLET.setIndex({dpath, index})
     account.setWallet({address:window.WALLET.getAddress(), walletType:walletType})
+    Notification.open({
+      message:intl.get('wallet.unlocked_notification_title'),
+      description:intl.get('wallet.unlocked_notification_content'),
+      type:'success'
+    })
   };
 
   isConnected = (path) => {

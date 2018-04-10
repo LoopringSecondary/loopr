@@ -4,6 +4,7 @@ import {Alert, Button, Form, Icon, Input, message} from 'antd';
 import validator from 'Loopring/common/validator';
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
+import Notification from 'Loopr/Notification'
 
 class UnlockByPrivateKey extends React.Component {
 
@@ -50,6 +51,11 @@ class UnlockByPrivateKey extends React.Component {
         account.setPrivateKey({...this.state});
         this.setState({privateKey: null});
         modal.hideModal({id: 'wallet/unlock'});
+        Notification.open({
+          message:intl.get('wallet.unlocked_notification_title'),
+          description:intl.get('wallet.unlocked_notification_content'),
+          type:'success'
+        })
         unlockRedirection(pageFrom)
       } catch (e) {
         message.error(e.message)
