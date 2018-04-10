@@ -425,7 +425,7 @@ export default {
     invalid_eth_address: '错误的以太坊地址',
     demo_title: '体验Loopr',
     instruction_demo: '您可以使用观察模式体验Loopr钱包，但无法执行下单，转账等需要私钥的操作',
-    have_a_try: 'Let\'s have a try'
+    have_a_try: '开始体验'
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",
