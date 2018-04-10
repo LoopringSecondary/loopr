@@ -117,7 +117,7 @@ class Home extends React.Component {
                   <Token.ListSidebar selectedToken={location.pathname.replace(`/wallet/assets/`, '')}/>
                 </div>
                 <div className="col-8 pb15">
-                  <Transaction.ListStand/>
+                  <Transaction.ListStand2/>
                 </div>
               </div>
             }
