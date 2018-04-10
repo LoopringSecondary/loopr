@@ -9,6 +9,7 @@ import WalletModals from './wallet/components/Modals';
 import OrdersModals from './orders/components/Modals';
 import TradesModals from './trades/components/Modals';
 import TxsModals from './transactions/components/Modals';
+import forceUpdate from 'react-deep-force-update'
 
 const UnLogged = ()=>{
   const isLogged = !!window.WALLET && !!window.WALLET.getAddress()
@@ -39,29 +40,42 @@ const Logged = ()=>{
     return <Redirect to="/auth/wallet" />
   }
 }
-export default (
-  <div>
-      <Switch>
-        <Route path="/" exact component={Pages.Home} />
-        <Route path="/home" exact component={Pages.Home} />
-        <Route path="/trade/:pair" component={Pages.Trade} />
-        <Route path="/trade"  exact component={Pages.Trade} />
-        <Route path="/auth" render={UnLogged} />
-        <Route path="/wallet" render={Logged} />
-        <Route path="/test" render={Pages.Test} />
-        {RingsRoutes}
-      </Switch>
-      <Pages.Unload />
-      <TokenModals />
-      <WalletModals />
-      <SettingsModals />
-      <OrdersModals />
-      <TradesModals />
-      <TxsModals />
-  </div>
 
-)
-
+export default class PageRoutes extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    const _this = this
+    window.forceUpdate = ()=>{
+      // forceUpdate(_this)
+      _this.forceUpdate()
+    }
+  }
+  render() {
+    return (
+      <div>
+          <Switch>
+            <Route path="/" exact component={Pages.Home} />
+            <Route path="/home" exact component={Pages.Home} />
+            <Route path="/trade/:pair" component={Pages.Trade} />
+            <Route path="/trade"  exact component={Pages.Trade} />
+            <Route path="/auth" render={UnLogged} />
+            <Route path="/wallet" render={Logged} />
+            <Route path="/test" render={Pages.Test} />
+            {RingsRoutes}
+          </Switch>
+          <Pages.Unload />
+          <TokenModals />
+          <WalletModals />
+          <SettingsModals />
+          <OrdersModals />
+          <TradesModals />
+          <TxsModals />
+      </div>
+    );
+  }
+}
 
 
 

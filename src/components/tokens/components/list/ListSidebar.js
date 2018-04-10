@@ -213,7 +213,7 @@ class ListSidebar extends React.Component {
         <div className="row no-gutters p5">
           <div className="col-12 p5">
             <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary" disabled={isWatchOnly}>
-              <i className="icon icon-loopring icon-loopring-transfer fs12 color-white mr5"/>
+              <i className="icon icon-loopring icon-loopring-transfer fs16 color-white mr5"/>
               {intl.get('tokens.options_transfer')} {token.symbol}
             </Button>
           </div>

@@ -9,6 +9,9 @@ export default {
     let alertProps = {
       title,description,type,theme,actions,size,
     }
+    if(type==='error'){
+      rest.duration = 0
+    }
     notification.success({
       ...rest,
       className,
