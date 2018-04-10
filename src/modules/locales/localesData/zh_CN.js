@@ -461,6 +461,7 @@ export default {
     trade_amount:"环路中订单个数",
     fee_recipient:"费用接收地址",
     ring_more_info:"更多信息，请访问RingInfo",
+    no_ring:"没有找到符合条件的撮合环路"
   }
 }
 

@@ -458,5 +458,6 @@ export default {
     trade_amount:"Trade Amount",
     fee_recipient:"Fee Recipient",
     ring_more_info:"More Detail About Ring, Goto Ringinfo",
+    no_ring:"No ring found"
   }
 }
