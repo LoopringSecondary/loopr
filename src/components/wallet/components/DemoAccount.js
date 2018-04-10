@@ -35,10 +35,10 @@ class DemoAccount extends React.Component {
         <div className="">
           <div className="p15 text-center">
               <Icon type="user" className="fs32 border border-grey-200 p10" style={{borderRadius:'50em'}} />
-              <div className="fs14 color-black-2 mt5">
+              <div className="fs16 color-black-1 mt5">
                 {selectedAddress}
               </div>
-              <div className="fs12 color-black-3 mt5">
+              <div className="fs14 color-black-2 mt5">
                 {intl.getHTML('wallet.instruction_demo')}
               </div>
           </div>

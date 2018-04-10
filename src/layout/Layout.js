@@ -16,9 +16,6 @@ const HomeLayout = (props)=>{
           {children}
         </div>
       </Content>
-      {
-        false && <GlobalFooter />
-      }
     </Layout>
   )
 }
@@ -42,7 +39,10 @@ const MainLayout = (props)=>{
 
 export default function DefaultLayout(props){
   const { location } = props
-  if(location && location.pathname == ('/home' || '/') ){
+  const pathname = location && location.pathname
+  const bool =  pathname === '/home' || pathname === '/'
+  debugger
+  if(bool){
     return <HomeLayout {...props} />
   }else{
     return <MainLayout {...props} />
