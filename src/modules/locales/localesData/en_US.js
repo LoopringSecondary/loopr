@@ -261,7 +261,7 @@ export default {
     completed: "Success",
     result_success: "You have successfully {do} {amount} {token}",
     result_convert_success: "You have successfully convert {amount} {token}",
-    result_transfer_success: "You have successfully transfer {amount} {token}",
+    result_transfer_success: "You have successfully send {amount} {token}",
     view_transaction: 'View Transaction In Etherscan',
     send_again: 'Send Again',
     convert_again: 'Convert Again',
