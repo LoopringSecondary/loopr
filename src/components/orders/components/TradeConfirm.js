@@ -97,7 +97,7 @@ class TradeConfirm extends React.Component {
         <a onClick={window.routeActions.gotoPath.bind(this, `/trade/${item.value.symbol.toUpperCase()}-WETH`)}
            className="ml15 color-primary-1">{intl.get('order.buy')} <Icon type="right"/></a>}
         {item.value.symbol.toUpperCase() === 'WETH' &&
-        <a onClick={modal.showModal.bind(this, {id: 'token/convert', item: {symbol: 'ETH'}})}
+        <a onClick={modal.showModal.bind(this, {id: 'token/convert', item: {symbol: 'ETH'}, showFrozenAmount: true})}
            className="ml15 color-primary-1">{intl.get('txs.type_convert')} <Icon type="right"/></a>}
       </div>
     )

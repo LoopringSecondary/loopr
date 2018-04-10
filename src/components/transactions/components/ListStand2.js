@@ -82,7 +82,8 @@ class ListBlock extends React.Component {
     const gotoConvert = () => {
       showModal({
         id: 'token/convert',
-        item: {symbol: 'ETH'}
+        item: {symbol: 'ETH'},
+        showFrozenAmount: true
       })
     };
     const gotoTransfer = () => {
@@ -286,7 +287,7 @@ class ListBlock extends React.Component {
                        {token} {intl.get('txs.balance_not_enough')}
                      </div>
                      <div>
-                       <Button onClick={gotoReceive.bind(this,token)}
+                       <Button onClick={gotoReceive.bind(this, token)}
                                className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
                                                     className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}

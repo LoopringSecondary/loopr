@@ -12,7 +12,7 @@
   "bindContractAddress": "0x87ab705372cb463c967d396ee2cb2b25da0efb7e",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
-  "localStorageVersion":2,
+  "localStorageVersion":3,
   "contracts": [
     {
       "address": "0x03E0F73A93993E5101362656Af1162eD80FB54F2",
@@ -214,12 +214,8 @@
   ],
   "relays": [
     {
-      "value": "//relay1.loopring.io",
-      "name": "Default Loopring Relay"
-    },
-    {
       "value": "//13.112.62.24",
-      "name": "Backup Loopring Relay"
+      "name": "Test Relay"
     }
   ],
   "markets": [
