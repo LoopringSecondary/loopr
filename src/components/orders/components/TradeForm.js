@@ -438,7 +438,6 @@ class TradeForm extends React.Component {
         price = Number(form.getFieldValue("price"))
       }
       const total = accMul(price, amount)
-      // form.setFieldsValue({"total": total})
       this.setState({total: total})
       //LRC Fee
       calculateLrcFee(total, sliderMilliLrcFee)
@@ -469,8 +468,7 @@ class TradeForm extends React.Component {
         }
         form.setFieldsValue({"amount": amount})
         const price = Number(form.getFieldValue("price"))
-        const total = accMul(price, amount)
-        // form.setFieldsValue({"total": total})
+        let total = accMul(price, amount)
         this.setState({priceInput: price, amountInput: amount, total: total})
       }
     }
@@ -721,7 +719,7 @@ class TradeForm extends React.Component {
             <div className="row align-items-center">
               <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
               <div className="col"></div>
-              <div className="col-auto fs3 color-black-2">{`${this.state.total} ${outTokenSymbol}`}</div>
+              <div className="col-auto fs3 color-black-2">{`${this.state.total} ${tokenR}`}</div>
             </div>
           </Form.Item>
           <Form.Item className="pt0 pb0" colon={false} label={null}>
