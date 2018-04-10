@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Card, Input, Progress} from 'antd';
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 export default class GenerateWallet extends React.Component {
   constructor(props) {
@@ -53,7 +54,13 @@ export default class GenerateWallet extends React.Component {
       visible: false,
       strength: '',
       disabled: true,
-      value: '' });
+      value: ''
+    });
+    Notification.open({
+      message:intl.get('wallet.unlocked_notification_title'),
+      description:intl.get('wallet.unlocked_notification_content'),
+      type:'success'
+    })
   }
 
   gotoUnlock() {

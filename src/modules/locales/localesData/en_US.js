@@ -421,7 +421,9 @@ export default {
     invalid_eth_address: 'Invalid Ethereum address',
     demo_title: 'Experience Loopr using a demo wallet',
     instruction_demo: 'You could experience Loopr Wallet in Watch Only mode, but could\'t place order, send transfer and do other operations that need private key',
-    have_a_try: "Start Demo Tour !"
+    have_a_try: "Start Demo Tour !",
+    unlocked_notification_title: 'Successfully Unlocked your wallet',
+    unlocked_notification_content: 'Great! you have unlocked your wallet, enjoy it'
   },
   tokens: {
     hide_small_balances: " Hide Small Balances",

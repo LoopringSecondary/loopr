@@ -5,6 +5,7 @@ import AddressUnlockAccount from '../../../modules/account/AddressUnlockAccount'
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
 import {isValidEthAddress} from 'Loopring/ethereum/utils'
+import Notification from 'Loopr/Notification'
 
 const walletType = "Address"
 
@@ -14,10 +15,6 @@ class UnlockByAddress extends React.Component {
     browserType: '',
     browserSupported: false
   };
-
-  componentDidMount() {
-
-  }
 
   render() {
     const {form, modal, account, pageFrom} = this.props
@@ -34,6 +31,11 @@ class UnlockByAddress extends React.Component {
           window.WALLET_UNLOCK_TYPE = walletType
           account.setWallet({address:selectedAddress, walletType:walletType})
           modal.hideModal({id: 'wallet/unlock'});
+          Notification.open({
+            message:intl.get('wallet.unlocked_notification_title'),
+            description:intl.get('wallet.unlocked_notification_content'),
+            type:'success'
+          })
           unlockRedirection(pageFrom)
         }
       })

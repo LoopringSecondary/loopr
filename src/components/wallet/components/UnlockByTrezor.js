@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Form, Icon, Alert, message} from 'antd';
 import TrezorUnlockAccount from "../../../modules/account/TrezorUnlockAccount";
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 class UnlockByTrezor extends React.Component {
 
@@ -29,6 +30,11 @@ class UnlockByTrezor extends React.Component {
   setWallet = (index) => {
     const {account} = this.props;
     account.connectToTrezor({index})
+    Notification.open({
+      message:intl.get('wallet.unlocked_notification_title'),
+      description:intl.get('wallet.unlocked_notification_content'),
+      type:'success'
+    })
   };
 
   handlePathChange = (path,callback) => {
