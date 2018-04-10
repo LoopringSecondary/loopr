@@ -48,6 +48,11 @@ class UnlockByMetaMask extends React.Component {
         account.setWallet({address:selectedAccount, walletType:walletType})
         this.setState({loading:false})
         modal.hideModal({id: 'wallet/unlock'});
+        Notification.open({
+          message:intl.get('wallet.unlocked_notification_title'),
+          description:intl.get('wallet.unlocked_notification_content'),
+          type:'success'
+        })
         unlockRedirection(pageFrom)
         let alert = false
         var accountInterval = setInterval(function() {

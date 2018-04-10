@@ -6,6 +6,7 @@ import {isValidateMnemonic} from "Loopring/common/mnemonic"
 import {fromMnemonic} from 'Loopring/ethereum/account';
 import MnemonicUnlockAccount from '../../../modules/account/MnemonicUnlockAccount'
 import intl from 'react-intl-universal';
+import Notification from 'Loopr/Notification'
 
 class UnlockByMnemonic extends React.Component {
 
@@ -68,6 +69,11 @@ class UnlockByMnemonic extends React.Component {
       isMnemonicValid: false,
       password:null,
     });
+    Notification.open({
+      message:intl.get('wallet.unlocked_notification_title'),
+      description:intl.get('wallet.unlocked_notification_content'),
+      type:'success'
+    })
   };
 
 
