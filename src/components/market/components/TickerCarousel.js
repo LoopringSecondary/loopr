@@ -4,20 +4,22 @@ import { Icon,Carousel } from 'antd';
 const TickerItem = ({item})=>{
   return (
     <div className="p15 text-left ticker-item-carousel">
-      <div className="fs16">
-        <span className="color-white mr10">{item.market}</span>
-        <span className="" style={{color:'#00E831'}}>
-          {
-            false &&
-            <Icon type="arrow-up" />
-          }
-          {item.change || '0%'}
-        </span>
+      <div className="row align-items-center">
+        <div className="col">
+          <div className="fs2">
+            <span className="color-white mr10">{item.market}</span>
+            <span className="" style={{color:'#00E831'}}>
+              {false &&<Icon type="arrow-up" />}
+              {item.change || '0%'}
+            </span>
+          </div>
+          <div className="">
+            <span className="color-white mr5 fs3">{Number(item.last).toFixed(6)}</span>
+            <span className="color-white fs3" style={{opacity:'0.6'}}>{item.market.split('-')[1]}</span>
+          </div>
+        </div>
       </div>
-      <div className="">
-        <span className="color-white mr5 fs18">{Number(item.last).toFixed(6)}</span>
-        <span className="color-white fs16" style={{opacity:'0.6'}}>{item.market.split('-')[1]}</span>
-      </div>
+
 
     </div>
   )
