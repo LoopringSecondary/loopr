@@ -106,7 +106,7 @@ class TradeConfirm extends React.Component {
 
   openNotification = (warn) => {
     const args = {
-      message: intl.get('order.placing_order'),
+      message: intl.get('order.place_success'),
       description: intl.get('order.place_success_tip'),
       duration: 3,
       type:'success',

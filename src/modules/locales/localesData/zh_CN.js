@@ -379,6 +379,7 @@ export default {
     no_address:"没有符合条件的地址",
     pre_page: "前一页",
     next_page: "下一页",
+    import:"导入",
     confirm: "确认",
     cancel: "取消",
     generate_wallet: "创建钱包",
