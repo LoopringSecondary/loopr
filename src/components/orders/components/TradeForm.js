@@ -23,6 +23,7 @@ class TradeForm extends React.Component {
   }
 
   render() {
+    console.log('trade form render')
     const tokenDivDigist = (token) => {
       const tokenCopy = {...token}
       tokenCopy.balance = tokenCopy.balance > 0 ? fm.toBig(tokenCopy.balance).div("1e"+tokenCopy.digits) : fm.toBig(0)

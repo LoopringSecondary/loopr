@@ -24,6 +24,7 @@
     "moment": "2.20.1",
     "qrcode.react": "0.7.2",
     "react": "16.2.0",
+    "react-deep-force-update": "2.1.1",
     "react-dom": "16.2.0",
     "react-intl": "2.4.0",
     "react-intl-universal": "1.8.4",
