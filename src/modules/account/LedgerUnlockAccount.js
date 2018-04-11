@@ -136,7 +136,7 @@ export default class LedgerUnlockAccount extends Account {
           const strTx = this.getTransactionFields(t);
           const txToSerialize = {
             ...strTx,
-            v: result.v,
+            v: addHexPrefix(result.v),
             r: addHexPrefix(result.r),
             s: addHexPrefix(result.s)
           };
