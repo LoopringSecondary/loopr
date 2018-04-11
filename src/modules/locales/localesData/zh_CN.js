@@ -83,8 +83,8 @@ export default {
     try_demo: '演示钱包',
   },
   tabs: {
-    my_open_orders: '我的当前订单',
-    my_recent_trades: '我的历史成交',
+    my_open_orders: '当前订单',
+    my_recent_trades: '历史成交',
     my_portfolio: '投资分析',
     my_assets: '我的资产',
     my_orders: '我的订单',
