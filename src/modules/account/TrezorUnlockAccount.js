@@ -2,7 +2,7 @@ import Account from "./Account";
 import {trezorSign} from "../../common/Loopring/ethereum/trezor";
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import EthTransaction from 'ethereumjs-tx'
-import {addHexPrefix, clearPrefix, toBuffer, toHex, toNumber,toBN} from '../../common/Loopring/common/formatter'
+import {addHexPrefix, clearPrefix, toBuffer, toHex, toNumber, toBN} from '../../common/Loopring/common/formatter'
 import HDKey from 'hdkey';
 import {publicKeytoAddress} from "Loopring/ethereum/account";
 import {getOrderHash} from "Loopring/relay/order";
@@ -12,6 +12,9 @@ export default class TrezorUnlockAccount extends Account {
 
   constructor(input) {
     super({unlockType: 'trezor'});
+    if (input.path.substr(this.dpath.length - 1, 1) === '/') {
+      input.path = input.path.concat('0')
+    }
     this.dpath = input.path;
     this.publicKey = input.publicKey;
     this.chainCode = input.chainCode
@@ -43,7 +46,7 @@ export default class TrezorUnlockAccount extends Account {
     return new Promise((resolve) => {
       const tx = [clearPrefix(rawTx.nonce), clearPrefix(rawTx.gasPrice), clearPrefix(rawTx.gasLimit), clearPrefix(rawTx.to),
         clearPrefix(rawTx.value) === '' ? '' : clearPrefix(rawTx.value), clearPrefix(rawTx.data)].map(item => {
-          item = item.toLowerCase();
+        item = item.toLowerCase();
         if (item && item.length % 2 === 1) {
           return `0${item}`
         }
@@ -86,11 +89,11 @@ export default class TrezorUnlockAccount extends Account {
 
   async signOrder(order) {
     const hash = getOrderHash(order);
-    return trezorSign({path: this.dpath.concat(`/${this.index}`), hash: toHex(hash)}).then(signature =>{
-      const r = addHexPrefix(signature.substr(0,64));
-      const s = addHexPrefix(signature.substr(64,64));
-      const v = toNumber(addHexPrefix(signature.substr(128,2)));
-      return {...order,v,r,s};
+    return trezorSign({path: this.dpath.concat(`/${this.index}`), hash: toHex(hash)}).then(signature => {
+      const r = addHexPrefix(signature.substr(0, 64));
+      const s = addHexPrefix(signature.substr(64, 64));
+      const v = toNumber(addHexPrefix(signature.substr(128, 2)));
+      return {...order, v, r, s};
     })
 
   }
