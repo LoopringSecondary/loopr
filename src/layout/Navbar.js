@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'dva';
 import {Button, Icon, Menu, message, Popover, Select} from 'antd';
 import {Link} from 'dva/router';
-import logo from '../assets/images/logo-new.png'
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
 import {locales} from '../common/config/data'
@@ -166,16 +165,11 @@ function Navbar(props){
 
   return (
     <div className="navbar-loopring">
-      {
-        false &&
-        <TopNotification />
-      }
-
       <div className="container">
         <div className="row align-items-stretch justify-content-between ml0">
           <div className="col-auto pl0 pr0">
             <Link to="/" className="d-block" >
-              <img src={logo} alt="" style={{height:'38px',top:'-3px',position:'relative'}} />
+              <i className="icon-loopring icon-loopring-logo color-blue-500 d-block" style={{fontSize:'32px',marginTop:'-3px'}}  />
             </Link>
           </div>
           <div className="col-auto">

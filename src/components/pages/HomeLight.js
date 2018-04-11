@@ -18,10 +18,10 @@ function Home(props){
       }
     })
   }
-
+  // playbackRate="0.5"
   return (
     <Layout {...props} >
-      <video id="homeVideo" style={{position:'absolute'}} src="http://7xq5ip.com1.z0.glb.clouddn.com/5609194.mp4" width="100%" autoplay="true" loop playbackRate="0.5" />
+      <video id="homeVideo" style={{position:'absolute'}} src="http://7xq5ip.com1.z0.glb.clouddn.com/5609194.mp4" width="100%" autoPlay="true" loop />
       <div  style={{position:'absolute',width:'100vw',height:'100vh',background:'rgba(0,0,0,0)'}} />
       {
         false &&
