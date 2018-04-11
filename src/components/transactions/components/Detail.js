@@ -1,7 +1,6 @@
 import React from 'react';
-import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Card, ListItem} from 'antd';
+import {Card,Spin} from 'antd';
 import {toNumber} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
 import {getTransactionByhash} from 'Loopring/ethereum/utils'
@@ -47,7 +46,7 @@ class DetailBlock extends React.Component {
     const {modals} = this.props;
     const modal = modals['transaction/detail'];
     const item = modal.item;
-    const {ethTx} = this.state;
+    const {ethTx,loading} = this.state;
 
     const renders = {
       txHash: (value) => <a className="text-truncate d-block" target="_blank"
@@ -82,6 +81,7 @@ class DetailBlock extends React.Component {
     };
     return (
       <Card title={intl.get('txs.tx_detail')}>
+        {loading &&  <div className='m30 p20 text-center'><Spin size='large'/></div> }
         <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
         <MetaItem label={intl.get('txs.to')} value={item.to} render={renders.address}/>
         <MetaItem label={intl.get('txs.block_num')} value={item.blockNumber} render={renders.blockNumber}/>
