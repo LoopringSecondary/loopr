@@ -33,9 +33,9 @@ const TickerCarousel = (props)=>{
     autoplaySpeed: 2000,
     slidesToShow:6,
   }
-  const ifDark = window.location && window.location.href && window.location.href.indexOf('dark') > -1
+  const ifLight = window.location && window.location.href && window.location.href.indexOf('light') > -1
   return (
-    <div className={`ticker-list-carousel ${ifDark ? ' bg-black' : ' bg-blue'}`}>
+    <div className={`ticker-list-carousel ${ifLight ? ' bg-blue' : ' bg-black'}`}>
       <Carousel  {...carouselProps}>
           {
            tickers.items.map((item,index)=>

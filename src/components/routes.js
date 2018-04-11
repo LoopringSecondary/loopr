@@ -56,9 +56,9 @@ export default class PageRoutes extends React.Component {
     return (
       <div>
           <Switch>
-            <Route path="/" exact component={Pages.Home} />
-            <Route path="/home" exact component={Pages.Home} />
-            <Route path="/home/dark" exact component={Pages.HomeDark} />
+            <Route path="/" exact component={Pages.HomeDark} />
+            <Route path="/home" exact component={Pages.HomeDark} />
+            <Route path="/home/light" exact component={Pages.HomeLight} />
             <Route path="/trade/:pair" component={Pages.Trade} />
             <Route path="/trade"  exact component={Pages.Trade} />
             <Route path="/auth" render={UnLogged} />

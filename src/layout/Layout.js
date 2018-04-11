@@ -6,10 +6,10 @@ const { Header, Content, Footer } = Layout
 
 const HomeLayout = (props)=>{
   const { children,location } = props
-  const ifDark = location && location.pathname && location.pathname.indexOf('dark') > -1
+  const ifLight = location && location.pathname && location.pathname.indexOf('light') > -1
   return (
     <Layout className="layout">
-      <Header className={`${ifDark ? 'header-dark' : 'header-light'} position-fixed w-100`} style={{zIndex:'100'}}>
+      <Header className={`${ifLight ? 'header-light' : 'header-dark'} position-fixed w-100`} style={{zIndex:'100'}}>
         <Navbar {...props}/>
       </Header>
       <Content className="">
