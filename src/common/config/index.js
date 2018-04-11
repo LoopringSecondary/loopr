@@ -5,40 +5,13 @@ const tokensIcons = require('./tokens_icons.json');
 let tokens = config.tokens || []
 tokens.forEach(token=>{
   token.icon = tokensIcons[token.symbol]
-})
+});
 const markets = config.markets
 const txs = config.txs;
 const projects =  data.projects;
 
 // mock some tokens's data read from localstorage
-const localTokens = [
-  {
-    "symbol": "LOCAL-TEST1",
-    "name": "BBB",
-    "digits": 18,
-    "address": "",
-    "unit": "ETH",
-    "website": "https://ethereum.org",
-    "allowance": "1000000000000000000000",
-    "allowanceWarn": "500000000000000000000",
-    "precision": 6,
-    "minTradeValue": 0.001,
-    "custom":true
-  },
-  {
-    "symbol": "LOCAL-TEST2",
-    "name": "AAA",
-    "digits": 18,
-    "address": "",
-    "unit": "ETH",
-    "website": "https://ethereum.org",
-    "allowance": "1000000000000000000000",
-    "allowanceWarn": "500000000000000000000",
-    "precision": 6,
-    "minTradeValue": 0.001,
-    "custom":true
-  }
-]
+const localTokens = [];
 tokens = tokens.concat(localTokens)
 
 function getTokenBySymbol(symbol){
