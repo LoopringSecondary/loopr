@@ -261,7 +261,7 @@ class Transfer extends React.Component {
     }
     const transactionFee = (
       <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('token.custum_gas_title')}</div>} content={
-        <div>
+        <div style={{maxWidth:'300px',padding:'5px'}}>
           <div className="pb10">{intl.get('token.custum_gas_content', {gas: this.state.estimateGas})}</div>
           {form.getFieldDecorator('transactionFee', {
             initialValue: this.state.gasValueInSlider,
@@ -282,7 +282,7 @@ class Transfer extends React.Component {
       <Card title={`${intl.get('token.send')} ${this.state.tokenSymbol}`}>
         <Form layout="horizontal">
           {this.state.showTokenSelector &&
-          <Form.Item label={intl.get('token.select_token')} {...formItemLayout} colon={false}>
+          <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.select_token')}</div>} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('token', {
               initialValue: '',
               rules: [
@@ -311,7 +311,7 @@ class Transfer extends React.Component {
             )}
           </Form.Item>
           }
-          <Form.Item label={intl.get('token.recipient')} {...formItemLayout} colon={false}>
+          <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.recipient')}</div>} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('to', {
               initialValue: '',
               rules: [
@@ -323,7 +323,7 @@ class Transfer extends React.Component {
               <Input placeholder="" size="large" onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>
-          <Form.Item label={intl.get("token.amount")} {...formItemLayout} colon={false} extra={
+          <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.amount')}</div>} {...formItemLayout} colon={false} extra={
             <div className="row">
               <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
@@ -358,18 +358,6 @@ class Transfer extends React.Component {
           {!this.state.advanced &&
             <div>
               <div style={{height:""}}>
-                {false && <Form.Item className="mb0" label={`${intl.get('token.transaction_fee')} ${formatGas(this.state.gasValueInSlider)}`} colon={false}>
-                  {form.getFieldDecorator('transactionFee', {
-                    initialValue: this.state.gasValueInSlider,
-                    rules: []
-                  })(
-                    <Slider min={200000} max={3000000} step={10}
-                            marks={this.state.gasMark}
-                            tipFormatter={formatGas}
-                            onChange={setGas.bind(this)}
-                    />
-                  )}
-                </Form.Item>}
                 <Form.Item className="mb0 pb10" colon={false} label={null}>
                   <div className="row align-items-center">
                     <div className="col-auto fs3 color-black-2">
@@ -393,7 +381,7 @@ class Transfer extends React.Component {
           }
           {this.state.advanced &&
             <div>
-              <Form.Item label={intl.get('token.data')} {...formItemLayout} colon={false}>
+              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.data')}</div>} {...formItemLayout} colon={false}>
                 {form.getFieldDecorator('data', {
                   initialValue: '',
                   rules: []
@@ -401,7 +389,7 @@ class Transfer extends React.Component {
                   <Input className="d-block w-100" placeholder="" size="large"/>
                 )}
               </Form.Item>
-              <Form.Item label={intl.get('token.gas_limit')} {...formItemLayout} colon={false}>
+              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_limit')}</div>} {...formItemLayout} colon={false}>
                 {form.getFieldDecorator('gasLimit', {
                   initialValue: this.state.selectedGasLimit,
                   rules: [{
@@ -412,7 +400,7 @@ class Transfer extends React.Component {
                   <Input className="d-block w-100" placeholder="" size="large" onChange={gasLimitChange.bind(this)}/>
                 )}
               </Form.Item>
-              <Form.Item label={intl.get('token.gas_price')} colon={false}>
+              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_price')}</div>} colon={false}>
                 {form.getFieldDecorator('gasPrice', {
                   initialValue: fm.toNumber(configs.defaultGasPrice),
                   rules: []
