@@ -136,6 +136,7 @@ class AirdropBind extends React.Component {
 
   render() {
     const {project,address} = this.state;
+    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     return (
       <Card title={intl.get('wallet.bind_tip')}>
         <Form>
@@ -158,7 +159,7 @@ class AirdropBind extends React.Component {
         <div className="mb25"></div>
         <div className="pt15 d-flex float-right ">
           <Button type='default' className='mr30' onClick={this.cancel}>{intl.get('wallet.cancel')}</Button>
-          <Button type='primary' onClick={this.bindAddress.bind(this, this.state.address, this.state.project)} disabled={!project || !address}>   {intl.get('wallet.bind_address')}</Button>
+          <Button type='primary' onClick={this.bindAddress.bind(this, this.state.address, this.state.project)} disabled={!project || !address || isWatchOnly }>   {intl.get('wallet.bind_address')}</Button>
         </div>
       </Card>
     );

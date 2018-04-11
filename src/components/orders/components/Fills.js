@@ -20,7 +20,6 @@ export default class Fills extends React.Component {
 
   componentDidMount() {
     const {pageSize, pageIndex} = this.state;
-    console.log('OrderHash: ', this.props.modal.item.originalOrder.hash);
     getFills({pageSize, pageIndex, orderHash: this.props.modal.item.originalOrder.hash}).then(res => {
       if (!res.error) {
         this.setState({fills: res.result.data, loading: false, total: res.result.total})
