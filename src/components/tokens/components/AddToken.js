@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Form, Input, message} from 'antd';
+import {Button, Card, Form, Input, Spin} from 'antd';
 import Token from 'Loopring/ethereum/token'
 import validator from 'Loopring/ethereum/validator';
 import intl from 'react-intl-universal';
@@ -14,7 +14,8 @@ class AddCustomToken extends React.Component {
     address: null,
     name: null,
     symbol: null,
-    digits: null
+    digits: null,
+    loading:false
   };
 
   handleSubmit = () => {
@@ -25,7 +26,8 @@ class AddCustomToken extends React.Component {
         address: null,
         name: null,
         symbol: null,
-        digits: null
+        digits: null,
+        loading:false
       });
       this.props.modal.hideModal({id: 'token/add'});
       Notification.open({message:intl.get('tokens.save_successfully'),type:"success",size:'small'});
@@ -40,7 +42,7 @@ class AddCustomToken extends React.Component {
 
   render() {
     const {form} = this.props;
-    const {address, name, symbol, digits} = this.state;
+    const {address, name, symbol, digits,loading} = this.state;
 
     return (
       <Card title={intl.get('tokens.add_token')} className="">
@@ -56,6 +58,7 @@ class AddCustomToken extends React.Component {
               <Input size="large" onChange={this.handleChange}/>
             )}
           </Form.Item>
+          {loading && <div className='text-center m40 p20'><Spin  size='large'/></div>}
           {name &&
           <Form.Item label={intl.get('tokens.token_name')} colon={false}>
             {form.getFieldDecorator('name', {
@@ -115,26 +118,26 @@ class AddCustomToken extends React.Component {
     const address = e.target.value;
     if (this.isValidAddress(address)) {
       const result = tokens.find(token => token.address.toUpperCase() === address.toUpperCase())
-      if (result) {
-        Notification.open({message:intl.get('tokens.supportToken'),type:"warning",size:'small'});
-        return
-      }
-      const customTokens = window.STORAGE.tokens.getCustomTokens();
-
-      const custom_history = customTokens.find(token => token.address.toUpperCase() === address.toUpperCase());
-      if (custom_history){
-        Notification.open({message:intl.get('tokens.already_add'),type:"warning",size:'small'});
-        return
-      }
-      this.setState({address});
+      // if (result) {
+      //   Notification.open({message:intl.get('tokens.supportToken'),type:"warning",size:'small'});
+      //   return
+      // }
+      // const customTokens = window.STORAGE.tokens.getCustomTokens();
+      //
+      // const custom_history = customTokens.find(token => token.address.toUpperCase() === address.toUpperCase());
+      // if (custom_history){
+      //   Notification.open({message:intl.get('tokens.already_add'),type:"warning",size:'small'});
+      //   return
+      // }
+      this.setState({address:address,loading:true});
       const token = new Token({address});
       await token.complete();
       if (!token.symbol || token.digits === -1) {
         Notification.open({message:intl.get('tokens.add_token_failed'),type:'error',size:'small'});
         return;
       }
-      this.setState({name: token.name, symbol: token.symbol, digits: token.digits})
-      form.setFieldsValue({name: token.name, symbol: token.symbol, digits: token.digits})
+      this.setState({name: token.name, symbol: token.symbol, digits: token.digits,loading:false});
+      form.setFieldsValue({name: token.name, symbol: token.symbol, digits: token.digits,address})
     }
   }
 
