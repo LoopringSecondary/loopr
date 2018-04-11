@@ -18,16 +18,20 @@ function Home(props){
       }
     })
   }
-
   return (
     <Layout {...props}>
-      <iframe style={{position:'absolute'}} src="https://player.vimeo.com/video/264107755" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <video id="homeVideo" style={{position:'absolute'}} src="http://7xq5ip.com1.z0.glb.clouddn.com/377200.mp4" width="100%" autoplay="true" loop playbackRate="0.5" />
+      <div  style={{position:'absolute',width:'100vw',height:'100vh',background:'rgba(0,0,0,0.55)'}} />
+      {
+        false &&
+        <iframe style={{position:'absolute'}} src="http://7xq5ip.com1.z0.glb.clouddn.com/377200.mp4" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      }
       {
         true &&
         <div className="position-absolute text-center d-flex align-items-center justify-content-center" style={{height:'100vh',width:'100%'}}>
          <div className="" style={{letterSpacing:'0.1rem',wordSpacing:'0.2rem'}}>
-           <div className="fs40 color-white-1 mb10">{intl.get('home.title')}</div>
-           <div className="fs24 color-white-3 mb10">{intl.get('home.subtitle')}</div>
+           <div className="fs40 color-white mb10">{intl.get('home.title')}</div>
+           <div className="fs24 color-white-1 mb10">{intl.get('home.subtitle')}</div>
           {
             !(window.WALLET && window.WALLET.getAddress()) &&
             <div className="">

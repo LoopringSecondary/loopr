@@ -21,10 +21,17 @@ function Home(props){
 
   return (
     <Layout {...props} >
+      <video id="homeVideo" style={{position:'absolute'}} src="http://7xq5ip.com1.z0.glb.clouddn.com/5609194.mp4" width="100%" autoplay="true" loop playbackRate="0.5" />
+      <div  style={{position:'absolute',width:'100vw',height:'100vh',background:'rgba(0,0,0,0)'}} />
+      {
+        false &&
+        <iframe style={{position:'absolute'}} src="https://player.vimeo.com/video/264107864" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      }
+
       <div className="position-relative text-center d-flex align-items-center justify-content-center" style={{height:'100vh'}}>
        <div className="" style={{letterSpacing:'0.1rem',wordSpacing:'0.2rem'}}>
          <div className="fs40 color-grey-900 mb10">{intl.get('home.title')}</div>
-         <div className="fs24 color-grey-500 mb10">{intl.get('home.subtitle')}</div>
+         <div className="fs24 color-grey-800 mb10">{intl.get('home.subtitle')}</div>
         {
           !(window.WALLET && window.WALLET.getAddress()) &&
           <div className="">
