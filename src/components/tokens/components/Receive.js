@@ -5,7 +5,7 @@ import copy from 'copy-to-clipboard';
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
 import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from 'Loopring/relay/utils'
-import {toBig} from "Loopring/common/formatter";
+import {toBig,toNumber} from "Loopring/common/formatter";
 
 const Search = Input.Search;
 export default class Receive extends React.Component {
@@ -16,78 +16,48 @@ export default class Receive extends React.Component {
   };
 
   componentDidMount() {
-    const {modal,assets} = this.props;
+    const {modal} = this.props;
     const {symbol} = modal;
-
-    const balance  = assets.getTokenBySymbol(symbol).balance;
-
     if (symbol) {
       const _this = this;
       const owner = window.WALLET.getAddress();
       getEstimatedAllocatedAllowance(owner, symbol.toUpperCase()).then(res => {
         if (!res.error) {
-          const token = window.CONFIG.getTokenBySymbol(symbol);
           const orderAmount = res.result;
           if (symbol.toUpperCase() === "LRC") {
             getFrozenLrcFee(owner).then(response => {
-              let amount = 0;
+              let amount;
               if (!response.error) {
                 const lrcFee = response.result;
-                 amount = toBig(orderAmount).plus(toBig(lrcFee)).minus(toBig(balance)).div('1e' + token.digits);
+                 amount = toBig(orderAmount).plus(toBig(lrcFee));
               } else {
-                 amount = toBig(orderAmount).minus(toBig(balance)).div('1e' + token.digits);
+                 amount = toBig(orderAmount);
               }
-              amount = amount >=0 ? amount:0;
-              _this.setState({symbol, amount:amount.toFixed(token.precision)});
-
+              _this.setState({symbol, amount});
             })
           } else {
-            let amount = toBig(orderAmount).minus(toBig(balance)).div('1e' + token.digits);
-            amount = amount >=0 ? amount:0;
-            _this.setState({symbol, amount:amount.toFixed(token.precision)});
+            const amount = toBig(orderAmount);
+            _this.setState({symbol, amount});
           }
         }
       });
     }
   }
 
-  shouldComponentUpdate(nextProps){
-    if(nextProps.modal.symbol !== this.props.modal.symbol){
-      const {symbol} = nextProps.modal;
-      const _this = this;
-      if (symbol) {
-        const owner = window.WALLET.getAddress();
-        getEstimatedAllocatedAllowance(owner, symbol.toUpperCase()).then(res => {
-          if (!res.error) {
-            const token = window.CONFIG.getTokenBySymbol(symbol);
-            const orderAmount = res.result;
-            if (symbol.toUpperCase() === "LRC") {
-              getFrozenLrcFee(owner).then(response => {
-                if (!response.error) {
-                  const lrcFee = response.result;
-                  const amount = toBig(orderAmount).plus(toBig(lrcFee)).div('1e' + token.digits).toFixed(token.precision);
-                  _this.setState({symbol, amount});
-                } else {
-                  const amount = toBig(orderAmount).div('1e' + token.digits).toFixed(token.precision);
-                  _this.setState({symbol, amount});
-                }
-              })
-            } else {
-              const amount = toBig(orderAmount).div('1e' + token.digits).toFixed(token.precision);
-              _this.setState({symbol, amount});
-            }
-          }
-        });
-      }else {
-        _this.setState({ symbol: null, amount: 0})
-      }
+  getNeeded = () => {
+    const {symbol,amount} = this.state;
+    if(symbol){
+      const {assets} = this.props;
+      const balance = assets ? assets.getTokenBySymbol(symbol).balance : 0;
+      const token = window.CONFIG.getTokenBySymbol(symbol);
+      return toNumber(toBig(amount).minus(toBig(balance)).div('1e' + token.digits).toFixed(token.precision))
     }
-    return true
-  }
+    return 0;
+  };
 
   render() {
     const address = window.WALLET.getAddress();
-    const {symbol,amount} = this.state;
+    const {symbol} = this.state;
     const copyToClipboard = (value) => {
       copy(value) ? Notification.open({
         message: intl.get('navbar.subs.copy_success'),
@@ -99,8 +69,8 @@ export default class Receive extends React.Component {
         <div className='text-center'>
           <div className='pt30 pb30 pr20 pl20'>
             <QRCode value={address} size={240}/>
-            {symbol && amount > 0  && <div className='fs3 color-black-1 mt10'>
-              {intl.get('token.recommended_value')} {amount} {symbol.toUpperCase()}
+            {symbol && this.getNeeded() > 0  && <div className='fs3 color-black-1 mt10'>
+              {intl.get('token.recommended_value')} {this.getNeeded()} {symbol.toUpperCase()}
             </div>}
           </div>
           <Search enterButton={intl.get('token.copy')} value={address} disabled onSearch={copyToClipboard}/>

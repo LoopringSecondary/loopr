@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Collapse,Card} from 'antd';
+import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Collapse,Card,Popover} from 'antd';
 import validator from '../../../common/Loopring/common/validator'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 import {configs} from '../../../common/config/data'
@@ -12,9 +12,11 @@ import intl from 'react-intl-universal';
 
 class Transfer extends React.Component {
   state = {
-    selectedGasPrice: this.props.settings.trading.gasPrice,
+    selectedGasPrice: 0,
     selectedGasLimit: '',
     selectedGas: 0,
+    estimateGasPrice : 0,
+    estimateGas:0,
     gasValueInSlider:0,
     advanced: false,
     value: 0,
@@ -27,9 +29,9 @@ class Transfer extends React.Component {
   }
 
   componentDidMount() {
-    const {settings, modal, assets} = this.props
+    const {settings, modal, assets, form} = this.props
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
-    const gas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
+    const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
     this.setState({selectedGas: fm.toNumber(gas.toFixed(8)), gasValueInSlider:fm.toNumber(gas.toFixed(8)) * 1e9})
     getGasPrice().then(res=>{
       const estimateGas = fm.toBig(fm.toBig(fm.toNumber(res.result) * defaultGasLimit).div(1e18).toFixed(8))
@@ -40,8 +42,8 @@ class Transfer extends React.Component {
           [estimateGasShow]: '',
           3000000: intl.get('token.fast')
         },
-        selectedGas: estimateGas.toNumber(),
-        gasValueInSlider: estimateGasShow.toNumber()
+        estimateGasPrice:estimateGasShow.toNumber(),
+        estimateGas: estimateGas
       })
     })
     if(modal.item) {
@@ -68,14 +70,19 @@ class Transfer extends React.Component {
       form.validateFields((err, values) => {
         if (!err) {
           const tx = {};
+          let tokenSymbol = _this.state.tokenSymbol
           if(_this.state.advanced) {
             tx.gasPrice = fm.toHex(fm.toBig(_this.state.selectedGasPrice).times(1e9))
             tx.gasLimit = fm.toHex(_this.state.selectedGasLimit)
           } else {
             const gasPrice = fm.toBig(_this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
             tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
+            if(tokenSymbol === "ETH") {
+              tx.gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+            } else {
+              tx.gasLimit = config.getGasLimitByType('token_transfer').gasLimit
+            }
           }
-          let tokenSymbol = _this.state.tokenSymbol
           if(_this.state.showTokenSelector) {
             tokenSymbol = form.getFieldValue("token")
           }
@@ -83,14 +90,12 @@ class Transfer extends React.Component {
             tx.to = values.to;
             tx.value = fm.toHex(fm.toBig(values.amount).times(1e18))
             tx.data = values.data || '0x';
-            tx.gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
           } else {
             const tokenConfig = window.CONFIG.getTokenBySymbol(tokenSymbol)
             tx.to = tokenConfig.address;
             tx.value = "0x0";
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
-            tx.gasLimit = config.getGasLimitByType('token_transfer').gasLimit
           }
           const extraData = {from:account.address, to:values.to, tokenSymbol:tokenSymbol, amount:values.amount, price:prices.getTokenBySymbol(tokenSymbol).price}
           modal.hideModal({id: 'token/transfer'})
@@ -253,11 +258,30 @@ class Transfer extends React.Component {
         this.setState({tokenSymbol : ''})
       }
     }
+    const transactionFee = (
+      <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('token.custum_gas_title')}</div>} content={
+        <div style={{maxWidth:'300px',padding:'5px'}}>
+          <div className="pb10">{intl.get('token.custum_gas_content', {gas: this.state.estimateGas})}</div>
+          {form.getFieldDecorator('transactionFee', {
+            initialValue: this.state.gasValueInSlider,
+            rules: []
+          })(
+            <Slider min={200000} max={3000000} step={10}
+                    marks={this.state.gasMark}
+                    tipFormatter={formatGas}
+                    onChange={setGas.bind(this)}
+            />
+          )}
+        </div>
+      } trigger="click">
+        <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
+      </Popover>
+    )
     return (
       <Card title={`${intl.get('token.send')} ${this.state.tokenSymbol}`}>
         <Form layout="horizontal">
           {this.state.showTokenSelector &&
-          <Form.Item label={intl.get('token.select_token')} {...formItemLayout} colon={false}>
+          <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.select_token')}</div>} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('token', {
               initialValue: '',
               rules: [
@@ -286,7 +310,7 @@ class Transfer extends React.Component {
             )}
           </Form.Item>
           }
-          <Form.Item label={intl.get('token.recipient')} {...formItemLayout} colon={false}>
+          <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.recipient')}</div>} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('to', {
               initialValue: '',
               rules: [
@@ -298,7 +322,7 @@ class Transfer extends React.Component {
               <Input placeholder="" size="large" onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>
-          <Form.Item label={intl.get("token.amount")} {...formItemLayout} colon={false} extra={
+          <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.amount')}</div>} {...formItemLayout} colon={false} extra={
             <div className="row">
               <div className="col-auto">{priceValue}</div>
               <div className="col"></div>
@@ -330,21 +354,18 @@ class Transfer extends React.Component {
               }}/>
             )}
           </Form.Item>
-
           {!this.state.advanced &&
             <div>
               <div style={{height:""}}>
-                <Form.Item className="mb0" label={`${intl.get('token.transaction_fee')} ${formatGas(this.state.gasValueInSlider)}`} colon={false}>
-                  {form.getFieldDecorator('transactionFee', {
-                    initialValue: this.state.gasValueInSlider,
-                    rules: []
-                  })(
-                    <Slider min={200000} max={3000000} step={10}
-                            marks={this.state.gasMark}
-                            tipFormatter={formatGas}
-                            onChange={setGas.bind(this)}
-                    />
-                  )}
+                <Form.Item className="mb0 pb10" colon={false} label={null}>
+                  <div className="row align-items-center">
+                    <div className="col-auto fs3 color-black-2">
+                      {intl.get('token.transaction_fee')}
+                    </div>
+                    <div className="col"></div>
+                    <div className="col-auto pl0 pr5">{transactionFee}</div>
+                    <div className="col-auto pl0 fs3 color-black-2">{formatGas(this.state.gasValueInSlider)}</div>
+                  </div>
                 </Form.Item>
               </div>
               <div className="row">
@@ -359,7 +380,7 @@ class Transfer extends React.Component {
           }
           {this.state.advanced &&
             <div>
-              <Form.Item label={intl.get('token.data')} {...formItemLayout} colon={false}>
+              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.data')}</div>} {...formItemLayout} colon={false}>
                 {form.getFieldDecorator('data', {
                   initialValue: '',
                   rules: []
@@ -367,7 +388,7 @@ class Transfer extends React.Component {
                   <Input className="d-block w-100" placeholder="" size="large"/>
                 )}
               </Form.Item>
-              <Form.Item label={intl.get('token.gas_limit')} {...formItemLayout} colon={false}>
+              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_limit')}</div>} {...formItemLayout} colon={false}>
                 {form.getFieldDecorator('gasLimit', {
                   initialValue: this.state.selectedGasLimit,
                   rules: [{
@@ -378,7 +399,7 @@ class Transfer extends React.Component {
                   <Input className="d-block w-100" placeholder="" size="large" onChange={gasLimitChange.bind(this)}/>
                 )}
               </Form.Item>
-              <Form.Item label={intl.get('token.gas_price')} colon={false}>
+              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_price')}</div>} colon={false}>
                 {form.getFieldDecorator('gasPrice', {
                   initialValue: fm.toNumber(configs.defaultGasPrice),
                   rules: []
