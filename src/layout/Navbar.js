@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'dva';
 import {Button, Icon, Menu, message, Popover, Select} from 'antd';
 import {Link} from 'dva/router';
-import logo from '../assets/images/logo-new.png'
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
 import {locales} from '../common/config/data'
@@ -163,19 +162,13 @@ function Navbar(props){
       }
     </div>
   )
-
   return (
     <div className="navbar-loopring">
-      {
-        false &&
-        <TopNotification />
-      }
-
       <div className="container">
         <div className="row align-items-stretch justify-content-between ml0">
           <div className="col-auto pl0 pr0">
             <Link to="/" className="d-block" >
-              <img src={logo} alt="" style={{height:'38px',top:'-3px',position:'relative'}} />
+              <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
             </Link>
           </div>
           <div className="col-auto">
@@ -186,11 +179,11 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              { !(window.WALLET && window.WALLET.getAddress()) &&
+              { false && !(window.WALLET && window.WALLET.getAddress()) &&
                 <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
               }
               {
-                !(window.WALLET && window.WALLET.getAddress()) &&
+                false && (window.WALLET && window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
                   <a className="fs16" onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Wallet'})}>{intl.get('navbar.wallet')}</a>
                 </Menu.Item>
@@ -201,9 +194,12 @@ function Navbar(props){
                   <Link className="fs16" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
-              <Menu.Item key="/trade">
-                <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
-              </Menu.Item>
+              {
+                window.WALLET && window.WALLET.getAddress() &&
+                <Menu.Item key="/trade">
+                  <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
+                </Menu.Item>
+              }
             </Menu>
           </div>
           <div className="col-auto">
