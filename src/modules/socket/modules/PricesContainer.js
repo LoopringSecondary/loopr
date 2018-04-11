@@ -74,14 +74,14 @@ class PricesContainer extends React.Component {
         }else{
            priceToken.price = 0
         }
-        return priceToken
+        return { ...priceToken }
       }else{
         return {
           price:0,
         }
       }
     }else{
-      return priceToken
+      return { ...priceToken }
     }
   }
   render() {

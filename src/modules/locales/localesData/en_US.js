@@ -70,7 +70,7 @@ export default {
   exchanges: {
     loopr: 'Loopring DEX Price',
     binance: 'Binance Price',
-    okex: 'Okex Price',
+    okex: 'OkEX Price',
     huobi: 'Huobi Price',
   },
   home: {
