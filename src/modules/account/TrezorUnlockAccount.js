@@ -12,7 +12,7 @@ export default class TrezorUnlockAccount extends Account {
 
   constructor(input) {
     super({unlockType: 'trezor'});
-    if (input.path.substr(this.dpath.length - 1, 1) === '/') {
+    if (input.path.substr(input.path.length - 1, 1) === '/') {
       input.path = input.path.concat('0')
     }
     this.dpath = input.path;
