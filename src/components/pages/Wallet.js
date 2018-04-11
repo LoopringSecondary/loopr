@@ -23,7 +23,6 @@ class Home extends React.Component {
   componentDidMount() {
     getOldWethBalance(window.WALLET.getAddress()).then(res => {
       if (!res.error) {
-        console.log('Balance', res.result);
         this.setState({oldWeth: res.result})
       }
     })
