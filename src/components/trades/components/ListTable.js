@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Button, Progress, Table} from 'antd';
+import {Button, Table} from 'antd';
 import schema from '../../../modules/trades/schema';
 import {toNumber} from 'Loopring/common/formatter';
 import intl from 'react-intl-universal';

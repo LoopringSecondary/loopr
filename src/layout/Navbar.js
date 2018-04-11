@@ -109,14 +109,11 @@ function Navbar(props){
               <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
             </a>
           </div>}
-          {!isWatchOnly &&
             <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
               <a onClick={showModal.bind(this, {id: 'wallet/airdrop'})} className="color-grey-900">
                 <Icon type="gift" className="mr5"/>{intl.get('navbar.subs.airdrop')}
               </a>
             </div>
-          }
-
           <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
             <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
           </div>

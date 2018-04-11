@@ -237,7 +237,7 @@ export default {
     place_order_watch_only_tips: 'You unlocked wallet with address only that could not sign orders, you could use other way to unlock and place order',
     custom_option_fee:'Custom option For This Order',
     custom_lrc_fee_title:'Custom LRC-Fee For This Order',
-    custom_time_to_live_title:'Custom Time-to-live For This Order',
+    custom_time_to_live_title:'Custom Time-To-Live For This Order',
     send_failed: 'Place Order Failed !',
     failed_fetch_data:'Failed fetch data from server, you could wait a moment and come back later',
     eth_is_required:'ETH is required to pay Ethereun transaction fees, calculated with your current order cost that need to send Ethereum transactions, totally required {required} ETH.',
