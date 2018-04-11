@@ -19,7 +19,8 @@ class TradeForm extends React.Component {
     sliderMilliLrcFee:0,
     timeToLive:0,
     timeToLiveUnit:'',
-    total:0
+    total:0,
+    loading: false,
   }
 
   render() {
@@ -133,6 +134,7 @@ class TradeForm extends React.Component {
       }
       form.validateFields((err, values) => {
         if (!err) {
+          _this.setState({loading:true})
           const tradeInfo = {}
           tradeInfo.amount = Number(values.amount)
           tradeInfo.price = Number(values.price)
@@ -148,6 +150,7 @@ class TradeForm extends React.Component {
               description:intl.get('trade.failed_fetch_data'),
               type:'error'
             })
+            _this.setState({loading:false})
             return
           }
           tradeInfo.milliLrcFee = sliderMilliLrcFee
@@ -221,6 +224,7 @@ class TradeForm extends React.Component {
               </div>
             )
           })
+          _this.setState({loading:false})
           return
         }
       } else {
@@ -288,12 +292,14 @@ class TradeForm extends React.Component {
           failed = true
         }
         if(failed) {
+          _this.setState({loading:false})
           return
         }
       }
       if(warn.length >0) {
         tradeInfo.warn = warn
       }
+      _this.setState({loading:false})
       showTradeModal(tradeInfo)
     }
 
@@ -770,14 +776,14 @@ class TradeForm extends React.Component {
             {
               side == 'buy' &&
               <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
-                      size="large">
+                      size="large" loading={this.state.loading}>
                 {intl.get('trade.place_order')}
               </Button>
             }
             {
               side == 'sell' &&
               <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
-                      size="large">
+                      size="large" loading={this.state.loading}>
                 {intl.get('trade.place_order')}
               </Button>
             }
