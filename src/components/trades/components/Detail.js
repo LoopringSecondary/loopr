@@ -1,6 +1,5 @@
 import React from 'react';
-import {Link} from 'dva/router';
-import {Button, Card, ListItem} from 'antd';
+import {Button, Card, Spin} from 'antd';
 import {getRingByHash} from 'Loopring/relay/ring'
 import {toNumber, toBig} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
@@ -67,8 +66,9 @@ class DetailBlock extends React.Component {
     return (
       <div className="">
 
-        <Card title={intl.get('ring.ring_info')} loading={loading} >
-          {ring &&
+        <Card title={intl.get('ring.ring_info')} >
+          {loading && <div className='m40 p20 text-center'><Spin size='large'/></div>}
+          {!loading && ring &&
           <div>
           <MetaItem label={intl.get('ring.ring_hash')} value={ring && ring.ringInfo.ringHash}/>
           < MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
@@ -90,7 +90,7 @@ class DetailBlock extends React.Component {
             <Button type="default" className="d-block w-100" size="large"> {intl.get('ring.ring_more_info')}</Button>
           </div>
           }
-          {!ring && <div className='fs1 color-balck-1 '>
+          {!loading && !ring && <div className='fs1 color-balck-1 '>
             {intl.get('ring.no_ring')}
           </div>
           }
