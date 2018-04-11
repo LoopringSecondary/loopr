@@ -70,12 +70,12 @@ export default {
   exchanges: {
     loopr: 'Loopring DEX Price',
     binance: 'Binance Price',
-    okex: 'Okex Price',
+    okex: 'OkEX Price',
     huobi: 'Huobi Price',
   },
   home: {
     title: 'Welcome To Loopring Wallet & DEX',
-    subtitle: 'Secure token trading right from your own wallet.',
+    subtitle: 'Secure token trading right from your own wallet ',
   },
   buttons: {
     unlock_wallet: 'Unlock Wallet',
@@ -329,7 +329,7 @@ export default {
     keystore: "Keystore File",
     privateKey: "Private Key",
     mnemonic: "Mnemonic",
-    no_wallet: "Don't have a wallet? Let's",
+    no_wallet: "Don't have a wallet ? Let's",
     generate_one: "generate one",
     error_title: "Error",
     failed_connect_ledger_title: 'Failed To Connect With Ledger',
