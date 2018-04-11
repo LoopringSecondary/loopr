@@ -162,14 +162,13 @@ function Navbar(props){
       }
     </div>
   )
-
   return (
     <div className="navbar-loopring">
       <div className="container">
         <div className="row align-items-stretch justify-content-between ml0">
           <div className="col-auto pl0 pr0">
             <Link to="/" className="d-block" >
-              <i className="icon-loopring icon-loopring-logo color-blue-500 d-block" style={{fontSize:'32px',marginTop:'-3px'}}  />
+              <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
             </Link>
           </div>
           <div className="col-auto">

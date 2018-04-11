@@ -8,7 +8,7 @@ const HomeLayout = (props)=>{
   const { children,location } = props
   const ifLight = location && location.pathname && location.pathname.indexOf('light') > -1
   return (
-    <Layout className="layout">
+    <Layout className="layout home-layout">
       <Header className={`${ifLight ? 'header-light' : 'header-dark'} position-fixed w-100`} style={{zIndex:'100'}}>
         <Navbar {...props}/>
       </Header>
@@ -24,7 +24,7 @@ const HomeLayout = (props)=>{
 const MainLayout = (props)=>{
   const { children,location } = props
   return (
-    <Layout className="layout">
+    <Layout className="layout main-layout">
       <Header className="bg-white">
         <Navbar {...props} />
       </Header>
