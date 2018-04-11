@@ -8,7 +8,7 @@ const HomeLayout = (props)=>{
   const { children,location } = props
   return (
     <Layout className="layout">
-      <Header className="bg-white position-fixed w-100" style={{zIndex:'100'}}>
+      <Header className="header-dark position-fixed w-100" style={{zIndex:'100'}}>
         <Navbar {...props}/>
       </Header>
       <Content className="">
