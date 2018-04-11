@@ -380,9 +380,9 @@ export default {
     cancel: "Cancel",
     generate_wallet: "Generate Wallet",
     generate: "Generate Now",
-    have_one: "Already have a Wallet",
+    have_one: "Already have a wallet",
     to_unlock: "Click to unlock",
-    set_password: "Set A Strong Password",
+    set_password: "Set a strong password",
     backup: {
       backup_wallet: "Backup Wallet",
       keystore: "Keystore",
