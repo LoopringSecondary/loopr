@@ -72,6 +72,7 @@ class TradeConfirm extends React.Component {
       })
     }
     window.WALLET.signOrder(order).then(function (signedOrder) {
+      signedOrder.powNonce = 100;
       this.setState({
         order,
         signedOrder,
