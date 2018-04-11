@@ -9,13 +9,13 @@ const TickerItem = ({item})=>{
           <div className="fs2">
             <span className="color-white mr10">{item.market}</span>
             <span className="" style={{color:'#00E831'}}>
-              {false &&<Icon type="arrow-up" />}
+              <Icon type="arrow-up" />
               {item.change || '0%'}
             </span>
           </div>
           <div className="">
-            <span className="color-white mr5 fs3">{Number(item.last).toFixed(6)}</span>
-            <span className="color-white fs3" style={{opacity:'0.6'}}>{item.market.split('-')[1]}</span>
+            <span className="color-white-3 mr5 fs3">{Number(item.last).toFixed(6)}</span>
+            <span className="color-white-3 fs3" >{item.market.split('-')[1]}</span>
           </div>
         </div>
       </div>
@@ -30,11 +30,12 @@ const TickerCarousel = (props)=>{
     autoplay:true,
     dots:false,
     infinite:true,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 2000,
     slidesToShow:6,
   }
+  const ifLight = window.location && window.location.href && window.location.href.indexOf('light') > -1
   return (
-    <div className="ticker-list-carousel">
+    <div className={`ticker-list-carousel ${ifLight ? ' bg-blue' : ' bg-black'}`}>
       <Carousel  {...carouselProps}>
           {
            tickers.items.map((item,index)=>

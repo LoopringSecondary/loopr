@@ -37,11 +37,13 @@ class TickersSocketContainer extends React.Component {
     }
     socket.off('loopringTickers_res')
   }
-  getTickerBySymbol(symbol){
-    return this.state.tickersByLoopring.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() )
-  }
   getTickerByMarket(market){
-    return this.state.tickersByLoopring.find(item => item.market.toLowerCase() === market.toLowerCase() )
+    const ticker = this.state.tickersByLoopring.find(item => item.market.toLowerCase() === market.toLowerCase() )
+    if(ticker){
+      return {...ticker}
+    }else{
+      return null
+    }
   }
   toggleFavor(market){
     this.setState({
@@ -67,7 +69,6 @@ class TickersSocketContainer extends React.Component {
       tickersByLoopring:{
         items:this.state.tickersByLoopring,
         filters:this.state.filters,
-        getTickerBySymbol:this.getTickerBySymbol.bind(this),
         filtersChange:this.filtersChange.bind(this),
         getTickerByMarket:this.getTickerByMarket.bind(this),
         toggleFavor:this.toggleFavor.bind(this),

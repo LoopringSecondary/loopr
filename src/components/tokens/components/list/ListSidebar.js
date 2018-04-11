@@ -276,7 +276,7 @@ class ListSidebar extends React.Component {
     };
     const TokenItem = ({item, index}) => {
       const TokenFormatter = window.uiFormatter.TokenFormatter
-      let theToken = new TokenFormatter(item)
+      let tokenFm = new TokenFormatter(item)
       return (
         <div onClick={toggleSelected.bind(this, item)}
              className={`zb-b-b cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
@@ -313,11 +313,11 @@ class ListSidebar extends React.Component {
               </span>
               </div>
               <div className="">
-                <span className="fs3 color-black-1">{theToken.getBalance()}</span>
+                <span className="fs3 color-black-1">{tokenFm.getBalance()}</span>
                 <span className="fs3 ml5 color-black-3">
                 <CurrencyContainer/>
               </span>
-                <span className="fs14 color-black-3">{theToken.getBalanceValue(item.price)}</span>
+                <span className="fs14 color-black-3">{tokenFm.getBalanceValue(item.price)}</span>
               </div>
             </div>
             {
@@ -455,16 +455,19 @@ class ListSidebar extends React.Component {
             })
           }
           {
-            (filters.keywords || filters.ifOnlyShowMyFavorite || filters.ifHideSmallBalance) &&
+            false && (filters.keywords || filters.ifOnlyShowMyFavorite || filters.ifHideSmallBalance) &&
             <div className='zb-b-b token-item-sidebar text-center pt10 pb10'>
               Find {results.length} Tokens
             </div>
           }
-          <div className='zb-b-b cursor-pointer token-item-sidebar text-center pt10 pb10'
-               onClick={showModal.bind(this, {id: "token/add"})}>
-               <Icon type="plus" />
-            {intl.get('tokens.add_token')}
-          </div>
+          {
+            false &&
+            <div className='zb-b-b cursor-pointer token-item-sidebar text-center pt10 pb10'
+                 onClick={showModal.bind(this, {id: "token/add"})}>
+                 <Icon type="plus" />
+              {intl.get('tokens.add_token')}
+            </div>
+          }
         </div>
       </div>
     )
