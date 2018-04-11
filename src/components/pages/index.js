@@ -1,5 +1,6 @@
 
 import Home from './Home'
+import HomeDark from './HomeDark'
 import Wallet from './Wallet'
 import Auth from './Auth'
 import Trade from './Trade'
@@ -10,6 +11,7 @@ import Unload from './Unload'
 
 export default {
   Home,
+  HomeDark,
   Wallet,
   Auth,
   Trade,

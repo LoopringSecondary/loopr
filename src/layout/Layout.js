@@ -6,9 +6,11 @@ const { Header, Content, Footer } = Layout
 
 const HomeLayout = (props)=>{
   const { children,location } = props
+  const ifDark = location && location.pathname && location.pathname.indexOf('dark') > -1
+  debugger
   return (
     <Layout className="layout">
-      <Header className="header-dark position-fixed w-100" style={{zIndex:'100'}}>
+      <Header className={`${ifDark ? 'header-dark' : 'header-light'} position-fixed w-100`} style={{zIndex:'100'}}>
         <Navbar {...props}/>
       </Header>
       <Content className="">
@@ -40,7 +42,7 @@ const MainLayout = (props)=>{
 export default function DefaultLayout(props){
   const { location } = props
   const pathname = location && location.pathname
-  const bool =  pathname === '/home' || pathname === '/'
+  const bool = pathname.indexOf('/home') > -1  || pathname === '/'
   if(bool){
     return <HomeLayout {...props} />
   }else{
