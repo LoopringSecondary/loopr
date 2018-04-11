@@ -18,7 +18,7 @@ class AirdropBind extends React.Component {
   componentDidMount() {
     const {page} = this.props;
     const {project} = page;
-    if(project && project.address){
+    if(project){
       this.setState({
         address:project.address,
         project
@@ -26,11 +26,10 @@ class AirdropBind extends React.Component {
     }
   }
   shouldComponentUpdate(nextProps){
-    console.log('Update State');
     if(nextProps.page !== this.props.page){
       const {page} = nextProps;
       const {project} = page;
-      if(project && project.address){
+      if(project){
         this.setState({
           address:project.address,
           project
