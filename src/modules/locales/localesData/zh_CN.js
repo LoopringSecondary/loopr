@@ -305,7 +305,9 @@ export default {
     convert_failed: '转换失败',
     recommended_value:"推荐值:",
     convert_succ_notification_title: '转换成功',
-    transfer_succ_notification_title: '转账成功'
+    transfer_succ_notification_title: '转账成功',
+    custum_gas_title:'设置本订单生效的油费',
+    custum_gas_content:'根据当前以太坊Gas价格, 我们推荐您设置{gas}'
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
