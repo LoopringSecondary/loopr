@@ -12,11 +12,11 @@
   "bindContractAddress": "0x87ab705372cb463c967d396ee2cb2b25da0efb7e",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
-  "localStorageVersion":20180416,
+  "localStorageVersion":20180411,
   "contracts": [
     {
-      "address": "0xd8516b98cfe5e33907488b144112e800632055a5",
-      "version": "v1.3"
+      "address": "0x13d8d3c7318b118b28ed810e15f1a7b9bea46faa",
+      "version": "v1.4"
     }
   ],
   "txs": [

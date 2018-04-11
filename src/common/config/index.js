@@ -11,6 +11,7 @@ const txs = config.txs;
 const projects =  data.projects;
 
 // mock some tokens's data read from localstorage
+/*
 const localTokens = [
   {
     "symbol": "LOCAL-TEST1",
@@ -40,6 +41,7 @@ const localTokens = [
   }
 ]
 tokens = tokens.concat(localTokens)
+*/
 
 function getTokenBySymbol(symbol){
   if(!symbol){ return {} }
