@@ -82,9 +82,6 @@ class WithdrawAll extends React.Component {
         </Form>
       </Card>
     );
-    function viewInEtherscan (txHash){
-      window.open(`https://etherscan.io/tx/${txHash}`,'_blank')
-    }
 
     function handleSubmit() {
       const _this = this;
@@ -111,7 +108,7 @@ class WithdrawAll extends React.Component {
                 type:'success',
                 actions:(
                   <div>
-                    <Button className="alert-btn mr5" onClick={this.viewInEtherscan.bind(this, res.result)}>{intl.get('token.transfer_result_etherscan')}</Button>
+                    <Button className="alert-btn mr5" onClick={() => { window.open(`https://etherscan.io/tx/${res.result}`,'_blank')}}>{intl.get('token.transfer_result_etherscan')}</Button>
                   </div>
                 )
               })

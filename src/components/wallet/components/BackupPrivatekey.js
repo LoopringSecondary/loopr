@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Form, Input, message} from 'antd';
+import {Button, Form, Input, Alert} from 'antd';
 import icon from '../../../assets/images/icon-backup-wallet.png'
 import copy from 'copy-to-clipboard';
 import intl from 'react-intl-universal';
@@ -37,16 +37,16 @@ class BackupPrivatekey extends React.Component {
     );
     return (
       <div>
-        <div className="text-center">
-          <img src={icon} className="mt25 mb25" style={{width: '100px'}}/>
-          <div className="fs20 color-grey-900 mb5">{intl.get('wallet.backup.not_lose')}!</div>
-          <div className="fs14 color-grey-600 mb15">{intl.get('wallet.backup.not_recover')}.</div>
-          <div className="fs20 color-grey-900 mb5">{intl.get('wallet.backup.not_share')}!!</div>
-          <div className="fs14 color-grey-600 mb15">{intl.get('wallet.backup.stolen')}.
-          </div>
-          <div className="fs20 color-grey-900 mb5">{intl.get('wallet.backup.backup')}!!!</div>
-          <div className="fs14 color-grey-600 mb15">{intl.get('wallet.backup.secure')}.
-          </div>
+        <div className="text-left">
+          <img hidden src={icon} className="mt25 mb25" style={{width: '100px'}}/>
+          <Alert
+            //  message={intl.get('wallet.backup.not_lose') + " !"}
+            description={intl.get('wallet.backup.backup_tip')}
+            type="error"
+            iconType="exclamation-circle"
+            showIcon
+            className="mb15 mt15"
+          />
         </div>
         <Input
           type={visible ? 'text' : 'password'}

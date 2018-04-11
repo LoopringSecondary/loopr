@@ -1,6 +1,5 @@
 import React from 'react';
-import {Link} from 'dva/router';
-import {Button, Card, ListItem} from 'antd';
+import {Button, Card, Spin} from 'antd';
 import {getRingByHash} from 'Loopring/relay/ring'
 import {toNumber, toBig} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
@@ -67,33 +66,35 @@ class DetailBlock extends React.Component {
     return (
       <div className="">
 
-        <Card title={intl.get('ring.ring_info')} loading={loading} >
-          {ring &&
-          <div>
-          <MetaItem label={intl.get('ring.ring_hash')} value={ring && ring.ringInfo.ringHash}/>
-          < MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
-            <MetaItem label={intl.get('txs.tx_hash')} value={ring && ring.ringInfo.txHash} render={renders.txHash}/>
-            <MetaItem label={intl.get('txs.block_num')}
-            value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.blockNumber)}
-            render={renders.blockNumber}/>
-            <MetaItem label={intl.get('ring.fee_recipient')} value={ring && ring.ringInfo.feeRecipient}
-            render={renders.address}/>
-            <MetaItem label={intl.get('ring.total_lrc_fee')}
-            value={ring && (window.uiFormatter.getFormatNum((toNumber(ring.ringInfo.totalLrcFee) / 1e18).toFixed(6)) + ' LRC')}/>
-            <MetaItem label={intl.get('ring.total_split_fee')}
-            value={ring && this.getSplitFee(ring.ringInfo.totalSplitFee)}/>
-            <MetaItem label={intl.get('ring.time')}
-            value={ring && window.uiFormatter.getFormatTime(toNumber(ring.ringInfo.timestamp) * 1e3)}/>
-            <MetaItem label={intl.get('ring.trade_amount')}
-            value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.tradeAmount)}/>
-            <div className="mb30"></div>
-            <Button type="default" className="d-block w-100" size="large"> {intl.get('ring.ring_more_info')}</Button>
-          </div>
-          }
-          {!ring && <div className='fs1 color-balck-1 '>
-            {intl.get('ring.no_ring')}
-          </div>
-          }
+        <Card title={intl.get('ring.ring_info')} >
+          <Spin spinning={loading}>
+            {ring &&
+            <div>
+              <MetaItem label={intl.get('ring.ring_hash')} value={ring && ring.ringInfo.ringHash}/>
+              < MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
+              <MetaItem label={intl.get('txs.tx_hash')} value={ring && ring.ringInfo.txHash} render={renders.txHash}/>
+              <MetaItem label={intl.get('txs.block_num')}
+                        value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.blockNumber)}
+                        render={renders.blockNumber}/>
+              <MetaItem label={intl.get('ring.fee_recipient')} value={ring && ring.ringInfo.feeRecipient}
+                        render={renders.address}/>
+              <MetaItem label={intl.get('ring.total_lrc_fee')}
+                        value={ring && (window.uiFormatter.getFormatNum((toNumber(ring.ringInfo.totalLrcFee) / 1e18).toFixed(6)) + ' LRC')}/>
+              <MetaItem label={intl.get('ring.total_split_fee')}
+                        value={ring && this.getSplitFee(ring.ringInfo.totalSplitFee)}/>
+              <MetaItem label={intl.get('ring.time')}
+                        value={ring && window.uiFormatter.getFormatTime(toNumber(ring.ringInfo.timestamp) * 1e3)}/>
+              <MetaItem label={intl.get('ring.trade_amount')}
+                        value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.tradeAmount)}/>
+              <div className="mb30"></div>
+              <Button type="default" className="d-block w-100" size="large"> {intl.get('ring.ring_more_info')}</Button>
+            </div>
+            }
+            {!ring && <div className='fs1 color-balck-1 '>
+              {intl.get('ring.no_ring')}
+            </div>
+            }
+          </Spin>
         </Card>
       </div>
     );
