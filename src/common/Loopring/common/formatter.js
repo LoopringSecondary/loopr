@@ -48,6 +48,10 @@ export function toNumber(mixed) {
 
 export function toBig(mixed) {
 
+  if(mixed instanceof Big){
+    return mixed;
+  }
+
   if (typeof mixed === 'number') {
 
     return new Big(mixed.toString())

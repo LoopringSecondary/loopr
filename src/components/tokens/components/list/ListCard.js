@@ -18,21 +18,16 @@ function ListBlock({LIST={},actions,prices,modal}) {
     let token = tokens.find(token=>token.symbol === item.token) || {}
     item.icon = token.icon
   })
-  // let sorter = (tokenA,tokenB)=>{
-  //   const pa = Number(tokenA.percentage.replace('%',''))
-  //   const pb = Number(tokenB.percentage.replace('%',''))
-  //   return pa < pb
-
-  //   if(pa === pb){
-  //     return tokenA.token < tokenB.token
-  //   }else{
-  //     return pa < pb
-  //   }
-  // }
-  // console.log('items before',items)
-  // items.sort(sorter)
-  // console.log('items after',items)
-
+  let sorter = (tokenA,tokenB)=>{
+    const pa = Number(tokenA.percentage.replace('%',''));
+    const pb = Number(tokenB.percentage.replace('%',''));
+    if(pa === pb){
+      return tokenA.token.toUpperCase() < tokenB.token.toUpperCase() ? -1 : 1;
+    }else {
+      return pb - pa;
+    }
+  };
+  items.sort(sorter);
   const location = (token) => {
     window.routeActions.gotoPath(`/wallet/assets/${token}`);
   }
@@ -42,7 +37,6 @@ function ListBlock({LIST={},actions,prices,modal}) {
     const priceToken = prices.getTokenBySymbol(item.token)
 
     const header = (
-      <a onClick={location.bind(this, item.token)}>
         <div className="row justify-content-center align-items-center no-gutters">
           <div className="col-auto">
             {
@@ -64,10 +58,10 @@ function ListBlock({LIST={},actions,prices,modal}) {
               </Tooltip>
           </div>
         </div>
-      </a>
-    )
+
+    );
     return (
-      <Card bordered title={header} className="token-list-card text-left">
+      <Card bordered title={header} className="token-list-card text-left cursor-pointer" onClick={location.bind(this, item.token)}>
         <div className="fs1 color-black-1 mb5 font-weight-bold">
           <Currency />
           {Number(fm.getAmountValue(item.amount,priceToken.price)).toFixed(2)}

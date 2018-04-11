@@ -81,19 +81,20 @@ class DetailBlock extends React.Component {
     };
     return (
       <Card title={intl.get('txs.tx_detail')}>
-        {loading &&  <div className='m30 p20 text-center'><Spin size='large'/></div> }
-        <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
-        <MetaItem label={intl.get('txs.to')} value={item.to} render={renders.address}/>
-        <MetaItem label={intl.get('txs.block_num')} value={item.blockNumber} render={renders.blockNumber}/>
-        <MetaItem label={intl.get('txs.status')} value={intl.get('txs.' + item.status)}/>
-        <MetaItem label={intl.get('txs.confirm_time')}
-                  value={window.uiFormatter.getFormatTime(toNumber(item.updateTime) * 1e3)}/>
-        <MetaItem label={intl.get('txs.type')} value={getType()}/>
-        <MetaItem label={intl.get('token.gas_limit')} value={ethTx && window.uiFormatter.getFormatNum(ethTx.gas)}/>
-        <MetaItem label={intl.get('token.gas_price')}
-                  value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>
-        <MetaItem label={intl.get('wallet.nonce')} value={ethTx && toNumber(ethTx.nonce)}/>
-        <MetaItem label={intl.get('txs.value')} value={ethTx && toNumber(ethTx.value) + ' ETH'}/>
+        <Spin spinning={loading}>
+          <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
+          <MetaItem label={intl.get('txs.to')} value={item.to} render={renders.address}/>
+          <MetaItem label={intl.get('txs.block_num')} value={item.blockNumber} render={renders.blockNumber}/>
+          <MetaItem label={intl.get('txs.status')} value={intl.get('txs.' + item.status)}/>
+          <MetaItem label={intl.get('txs.confirm_time')}
+                    value={window.uiFormatter.getFormatTime(toNumber(item.updateTime) * 1e3)}/>
+          <MetaItem label={intl.get('txs.type')} value={getType()}/>
+          <MetaItem label={intl.get('token.gas_limit')} value={ethTx && window.uiFormatter.getFormatNum(ethTx.gas)}/>
+          <MetaItem label={intl.get('token.gas_price')}
+                    value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>
+          <MetaItem label={intl.get('wallet.nonce')} value={ethTx && toNumber(ethTx.nonce)}/>
+          <MetaItem label={intl.get('txs.value')} value={ethTx && toNumber(ethTx.value) + ' ETH'}/>
+        </Spin>
       </Card>
     );
   }
