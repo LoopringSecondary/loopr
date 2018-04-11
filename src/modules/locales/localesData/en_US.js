@@ -75,7 +75,7 @@ export default {
   },
   home: {
     title: 'Welcome To Loopring Wallet & DEX',
-    subtitle: 'Secure token trading right from your own wallet.',
+    subtitle: 'Secure token trading right from your own wallet ',
   },
   buttons: {
     unlock_wallet: 'Unlock Wallet',
