@@ -127,8 +127,8 @@ class LooprTicker extends React.Component {
 
       const NumberCaption = ({title,content})=>(
         <div className="pt15 pb15">
-          <div className="fs16 color-white font-weight-bold">{content}</div>
-          <div className="fs14 color-white color-white-2">{title}</div>
+          <div className="fs16 color-white ">{content}</div>
+          <div className="fs14 color-white-2">{title}</div>
         </div>
       )
       return (
@@ -159,14 +159,14 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     const priceValue = (
-      <span className="fs14 color-black-1">
+      <span className="fs14 color-black-2">
         <Currency />{(price*ticker.last).toFixed(3)}
       </span>
     )
     return (
         <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'3px'}}>
           <div className="col-auto">
-            <div className="fs16 color-black-1 font-weight-bold">
+            <div className="fs14 color-black-2">
               {fm.getPrice(ticker.last)} {priceValue}
             </div>
             <div className="fs14 color-black-3 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
@@ -174,11 +174,11 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
             </div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs16 font-weight-bold" style={{color:'#1DB427'}}>{ticker.change}</div>
+            <div className="fs14" style={{color:'#1DB427'}}>{ticker.change}</div>
             <div className="fs14 color-black-3 ">24H {intl.get('ticker.change')}</div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs16 color-black-1 font-weight-bold">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
+            <div className="fs14 color-black-2">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
             <div className="fs14 color-black-3">24H {intl.get('ticker.vol')}</div>
           </div>
         </div>
