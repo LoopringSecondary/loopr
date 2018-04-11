@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 class CurrencyContainer extends React.Component {
   shouldComponentUpdate(nextProps){
-    console.log('CurrencyContainer shouldComponentUpdate')
     if(nextProps.currency !== this.props.currency){
       return true
     }else{

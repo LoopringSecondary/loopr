@@ -23,6 +23,7 @@ class TradeForm extends React.Component {
   }
 
   render() {
+    console.log('trade form render')
     const tokenDivDigist = (token) => {
       const tokenCopy = {...token}
       tokenCopy.balance = tokenCopy.balance > 0 ? fm.toBig(tokenCopy.balance).div("1e"+tokenCopy.digits) : fm.toBig(0)
@@ -665,7 +666,7 @@ class TradeForm extends React.Component {
               }]
             })(
               <Input className="d-block w-100" placeholder="" size="large"
-                     addonBefore={<span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
+                     prefix={<span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
                      suffix={<span className="fs14 color-black-4">{tokenR}</span>}
                      onChange={inputChange.bind(this, 'price')}
                      onFocus={() => {
@@ -699,7 +700,7 @@ class TradeForm extends React.Component {
               }]
             })(
               <Input placeholder="" size="large"
-                    addonBefore={<span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
+                    prefix={<span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
                     suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
                      onFocus={() => {
                        const amount = Number(form.getFieldValue("amount"))
