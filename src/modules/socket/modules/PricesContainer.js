@@ -61,7 +61,7 @@ class PricesContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    socket.off('marketcap_res')
+    // socket.off('marketcap_res')
   }
   getTokenBySymbol(symbol,ifFormat){
     let priceToken = this.state.prices.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {price:0}

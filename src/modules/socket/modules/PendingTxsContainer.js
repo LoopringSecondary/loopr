@@ -43,7 +43,7 @@ class PendingTxsContainer extends React.Component {
       console.log('socket connection has not been established');
       return false
     }
-    socket.off('pendingTxs_res')
+    // socket.off('pendingTxs_res')
   }
 
   isOrderCanceling({validSince, tokenPair, orderHash}) {

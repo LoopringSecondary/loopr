@@ -63,8 +63,8 @@ class AssetsContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    console.log('AssetsContainer unmount')
-    socket.off('balance_res')
+    // console.log('AssetsContainer unmount')
+    // socket.off('balance_res')
   }
   getTokenBySymbol(symbol,ifFormat){
     let assetToken = this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {balance:0, allowance:0}
