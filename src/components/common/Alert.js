@@ -11,8 +11,6 @@ const Alert = ({title,description,type='info',theme='light',actions,size="medium
             {
               type === 'success' &&
               <i className="icon-loopring icon-loopring-success alert-icon"  />
-              &&
-              <Icon type="check-circle-o" className="alert-icon" />
             }
             {
               type === 'info' &&
@@ -22,9 +20,7 @@ const Alert = ({title,description,type='info',theme='light',actions,size="medium
             }
             {
               type === 'warning' &&
-              <i className="icon-loopring icon-loopring-qustion alert-icon"  />
-              &&
-              <Icon type="exclamation-circle-o" className="alert-icon" />
+              <i className="icon-loopring icon-loopring-warn alert-icon"  />
             }
 
             {
