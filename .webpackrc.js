@@ -9,7 +9,7 @@ export default {
 		"Loopr":`${__dirname}/src/components/common`
 	},
   "theme": {
-    "@font-family-no-number"  : "Roboto-Light , DIN-light, 'PingFang SC', PingHei-light",
+    "@font-family-no-number"  : "Roboto ,PingFang SC",
     "@font-family"            : "@font-family-no-number",
     "@primary-color": "#0077FF",
     "@link-color": "#0077FF",
