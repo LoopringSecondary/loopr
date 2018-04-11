@@ -210,7 +210,6 @@ class Transfer extends React.Component {
     function gasLimitChange(e) {
       if(e.target.value){
         const gasLimit = fm.toNumber(e.target.value)
-        console.log('change:', e.target.value)
         this.setState({selectedGasLimit: gasLimit})
       }
     }
