@@ -2,8 +2,8 @@ export default {
   amount: "{amount,number}",
   navbar: {
     home: "Home",
-    trade: "DEX",
-    wallet: "Wallet",
+    trade: "MARKETS",
+    wallet: "WALLET",
     dex: "DEX",
     settings: "Settings",
     portfolio: "Portfolio",
