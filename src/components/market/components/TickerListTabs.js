@@ -94,7 +94,7 @@ const TickerTable = (props)=>{
           {
             items.length == 0 &&
             <tr >
-              <td colSpan="10" className="fs12 border-0 text-center"> No Data</td>
+              <td colSpan="10" className="fs12 border-0 text-center">{intl.get('global.no_data')}</td>
             </tr>
           }
         </tbody>
