@@ -76,6 +76,8 @@ export default {
   home: {
     title: 'Welcome To Loopring Wallet & DEX',
     subtitle: 'Secure token trading right from your own wallet ',
+    beta_notification_title:'Want To Experience Early?',
+    beta_notifycation_content: 'Loopring web wallet is still in beta phase, it\'s only for the early experience.'
   },
   buttons: {
     unlock_wallet: 'Unlock Wallet',

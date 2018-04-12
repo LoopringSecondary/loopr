@@ -76,6 +76,8 @@ export default {
   home: {
     title: '路印钱包及去中心化交易所',
     subtitle: '安全高流动性的交易你的代币',
+    beta_notification_title:'想尽早体验Loopr?',
+    beta_notifycation_content: '目前Loopr钱包还未正式发布，当前版本仅供尝鲜体验'
   },
   buttons: {
     unlock_wallet: '解锁钱包',
