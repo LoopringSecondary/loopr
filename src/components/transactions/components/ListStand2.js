@@ -246,7 +246,7 @@ class ListBlock extends React.Component {
       <div className="">
         <div className="row zb-b-b pt15 pb15 ml0 mr0">
           <div className="col-auto pl0 pr0">
-            <div className="fs20 color-black-1 font-weight-bold ml15">{filters.token}</div>
+            <div className="fs1 color-black-1 ml15">{filters.token}</div>
           </div>
           <div className="col text-right pl0 pr0">
             <Button onClick={gotoTransfer} className="mr5" type="primary" disabled={isWatchOnly}>

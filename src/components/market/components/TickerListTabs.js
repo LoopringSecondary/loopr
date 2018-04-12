@@ -66,11 +66,11 @@ const TickerTable = (props)=>{
       <table className="ticker-list-table">
         <tbody>
           <tr className="">
-            <th className="fs12 border-0 "></th>
-            <th className="fs12 border-0 ">{intl.get('ticker.market')}</th>
-            <th className="fs12 border-0 ">{intl.get('ticker.last')}</th>
-            <th className="fs12 border-0 ">{intl.get('ticker.change')}</th>
-            <th className="fs12 border-0 ">{intl.get('ticker.vol')}</th>
+            <th className="fs12 border-0 color-black-2 "></th>
+            <th className="fs12 border-0 color-black-2">{intl.get('ticker.market')}</th>
+            <th className="fs12 border-0 color-black-2">{intl.get('ticker.last')}</th>
+            <th className="fs12 border-0 color-black-2">{intl.get('ticker.change')}</th>
+            <th className="fs12 border-0 color-black-2">{intl.get('ticker.vol')}</th>
           </tr>
           {
             items.length>0 && items.map((item,index)=>
@@ -90,7 +90,7 @@ const TickerTable = (props)=>{
                 <td className="fs12 border-0 "><a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a></td>
                 <td className="fs12 border-0 color-green-600">{item.last || 0}</td>
                 <td className="fs12 border-0 color-green-600">{item.change || 0}</td>
-                <td className="fs12 border-0 ">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
+                <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
               </tr>
             )
           }
