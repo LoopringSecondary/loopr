@@ -61,9 +61,9 @@ class  ListBlock extends React.Component{
               notifyTransactionSubmitted(res.result).then(() => {
                 reEmitPendingTransaction()
               });
-              Notification.open({message: intl.get('order.cancel_order_success'),size: 'small', type: "success", description:(<div><a className="color-blue-600 mr10 border-blue-300"  style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px',textDecoration:'none'}} href={`https://etherscan.io/tx/${res.result}`} target='_blank'> {intl.get('token.transfer_result_etherscan')}</a></div>)});
+              Notification.open({message: intl.get('order.cancel_order_success'), type: "success",description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${res.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
             } else {
-              Notification.open({message: intl.get('order.cancel_order_failed'), size: 'small', type: "error", description:res.error.message})
+              Notification.open({message: intl.get('order.cancel_order_failed'), type: "error", description:res.error.message})
             }
           })
         },
