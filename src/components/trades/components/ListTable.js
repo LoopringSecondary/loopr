@@ -76,7 +76,7 @@ function ListBlock(props) {
   }
   let columns = schema.map(field=>{
     return {
-        title:field.title,
+        title:field.title(),
         dataIndex:field.name,
         render:renders[field.name],
         className:'text-nowrap',
@@ -101,6 +101,7 @@ function ListBlock(props) {
     scroll:{x:true},
     onChange:tableChange,
     bordered:false,
+    locale:{emptyText:intl.get('global.no_data')}
   }
   return (
     <div className={className} style={{...style}}>
