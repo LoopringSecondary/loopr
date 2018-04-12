@@ -18,7 +18,7 @@ export default {
   },
   "html": {
     "template": "./public/index.ejs",
-    "favicon": './src/assets/images/favicon2.ico'
+    "favicon": './src/assets/images/favicon.ico'
   },
   env: {
     development: {

@@ -116,11 +116,15 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
     }
     tickers.filtersChange({filters})
   }
+  const markets = tickers.items.forEach(ticker=>{
+    let market = ticker.market.split('-')[2]
+    console.log('market',market)
+  })
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
       <div className="pr10 tickers-search-input" style={{paddingTop:'0px'}}>
        <Input
-        style={{width:'100px'}} className="" size="small" onChange={search} value={keywords}
+        style={{width:'90px'}} className="" size="small" onChange={search} value={keywords}
         prefix={<Icon type="search" />}
        />
       </div>
