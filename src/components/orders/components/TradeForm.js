@@ -132,7 +132,7 @@ class TradeForm extends React.Component {
       if(!window.WALLET_UNLOCK_TYPE) {
         return
       }
-      if(window.CONFIG.getChainId !==1 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
+      if(window.CONFIG.getChainId ===1 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
         Notification.open({
           type:'warning',
           message:intl.get('trade.not_inWhiteList'),
