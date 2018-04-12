@@ -25,7 +25,8 @@ class Transfer extends React.Component {
       3000000: intl.get('token.fast')
     },
     tokenSymbol: '',
-    showTokenSelector : false
+    showTokenSelector : false,
+    sendMax:false
   }
 
   componentDidMount() {
@@ -75,13 +76,16 @@ class Transfer extends React.Component {
             tx.gasPrice = fm.toHex(fm.toBig(_this.state.selectedGasPrice).times(1e9))
             tx.gasLimit = fm.toHex(_this.state.selectedGasLimit)
           } else {
-            const gasPrice = fm.toBig(_this.state.selectedGas).div(fm.toNumber(defaultGasLimit)).times(1e9).toFixed(2)
-            tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
+            let gasLimit = 0
             if(tokenSymbol === "ETH") {
-              tx.gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+              gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
             } else {
-              tx.gasLimit = config.getGasLimitByType('token_transfer').gasLimit
+              gasLimit = config.getGasLimitByType('token_transfer').gasLimit
             }
+            let gasPrice = fm.toBig(_this.state.selectedGas).div(fm.toNumber(gasLimit)).times(1e9).toNumber()
+            gasPrice = Math.floor(gasPrice * 100) / 100
+            tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
+            tx.gasLimit = gasLimit
           }
           if(_this.state.showTokenSelector) {
             tokenSymbol = form.getFieldValue("token")
@@ -149,6 +153,13 @@ class Transfer extends React.Component {
     function setGas(v) {
       setTimeout(()=>{
         const gas = fm.toBig(v).div(1e9)
+        if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
+          const token = getToken(this.state.tokenSymbol)
+          let balance = token.balance
+          balance = Math.max(0, balance - gas)
+          this.setState({value: balance})
+          form.setFieldsValue({"amount": balance})
+        }
         this.setState({gasValueInSlider:v, selectedGas:gas.toString(10)})
       },0)
     }
@@ -157,8 +168,19 @@ class Transfer extends React.Component {
       e.preventDefault();
       if(this.state.tokenSymbol) {
         const token = getToken(this.state.tokenSymbol)
-        this.setState({value: token.balance})
-        form.setFieldsValue({"amount": token.balance})
+        let balance = token.balance
+        if(this.state.tokenSymbol === 'ETH') {
+          if(this.state.advanced) {
+            if(this.state.selectedGasLimit && this.state.selectedGasPrice) {
+              const gas = fm.toBig(this.state.selectedGasPrice).times(this.state.selectedGasLimit).div(1e9)
+              balance = Math.max(0, balance - gas)
+            }
+          } else {
+            balance = Math.max(0, balance - this.state.selectedGas)
+          }
+        }
+        this.setState({value: balance, sendMax:true})
+        form.setFieldsValue({"amount": balance})
       }
     }
 
@@ -203,19 +225,36 @@ class Transfer extends React.Component {
     function amountChange(e) {
       if(e.target.value) {
         const v = fm.toNumber(e.target.value)
-        this.setState({value: v})
+        this.setState({value: v, sendMax:false})
       }
     }
 
     function gasLimitChange(e) {
       if(e.target.value){
         const gasLimit = fm.toNumber(e.target.value)
+        if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
+          const gas = fm.toBig(settings.trading.gasPrice).times(gasLimit).div(1e9)
+          const token = getToken(this.state.tokenSymbol)
+          let balance = token.balance
+          balance = Math.max(0, balance - gas)
+          this.setState({value: balance})
+          form.setFieldsValue({"amount": balance})
+        }
         this.setState({selectedGasLimit: gasLimit})
       }
     }
 
     function gasPriceChange(e) {
       const gasPrice = fm.toNumber(e)
+      if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
+        const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+        const gas = fm.toBig(gasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
+        const token = getToken(this.state.tokenSymbol)
+        let balance = token.balance
+        balance = Math.max(0, balance - gas)
+        this.setState({value: balance})
+        form.setFieldsValue({"amount": balance})
+      }
       this.setState({selectedGasPrice: gasPrice})
     }
 
