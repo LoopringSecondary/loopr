@@ -297,7 +297,7 @@ export default {
     transfer_send: "是的，马上发送",
     to_confirm_title: "等待您的确认",
     to_confirm_ledger_content: "请在您的Ledger设备上确认交易信息",
-    select_token: "选择币种",
+    select_token: "币种",
     token_select_verification_message: "请选择要发送的币种",
     transfer_result_title: "关心以太坊交易结果 ? ",
     transfer_result_etherscan: "在EtherScan查看结果",
