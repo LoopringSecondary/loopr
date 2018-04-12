@@ -62,7 +62,7 @@ class ListBlock extends React.Component {
     const {items = [], loading, page = {}, filters} = LIST;
     const {token, needed} = this.state;
     const balance = token && assets.getTokenBySymbol(token).balance;
-
+    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',
@@ -73,19 +73,33 @@ class ListBlock extends React.Component {
       })
     };
 
-    const gotoReceive = () => {
+    const gotoReceive = (symbol) => {
       showModal({
         id: 'token/receive',
+        symbol
       })
     };
-    const gotoConvert = (item) => {
+    const gotoConvert = () => {
       showModal({
         id: 'token/convert',
-        item: {symbol: 'ETH'}
+        item: {symbol: 'ETH'},
+        showFrozenAmount: true
       })
     };
-    const gotoTrade = (token) => {
-      window.routeActions.gotoPath(`/trade/${token}-WETH`)
+    const gotoTransfer = () => {
+      showModal({
+        id: 'token/transfer',
+        item: {symbol: token}
+      })
+    };
+
+    const gotoTrade = () => {
+      if(token === 'WETH' || token === 'ETH'){
+        window.routeActions.gotoPath(`/trade/LRC-WETH`)
+      }else{
+        window.routeActions.gotoPath(`/trade/${token}-WETH`)
+      }
+
     };
 
     const TxItem = ({item: origin, index}) => {
@@ -166,22 +180,22 @@ class ListBlock extends React.Component {
       )
       const caption = (
         <div className="">
-          <a className="fs2 color-black-1 mb5 d-block pointer">
+          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5 d-block pointer">
             {title} <span className="ml10">{statusCol}</span>
           </a>
           <div className="fs3 color-black-3">
-            <span className="mr15">
+            <span className="d-inline-block  text-truncate text-nowrap mr15">
               {uiFormatter.getFormatTime(item.createTime * 1000)}
             </span>
             <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
-               className="color-black-3 mr15  d-inline-block text-truncate text-nowrap" style={{width:'100px'}}>
-              item.txHash
+               className="d-inline-block text-truncate text-nowrap" style={{width:'180px'}}>
+              TxHash: {item.txHash}
             </a>
           </div>
         </div>
       )
       return (
-        <div className="ml15 mr15 mt15 pb15 zb-b-b">
+        <div className="mt15 pb15 zb-b-b">
           <div className="row align-items-center no-gutters flex-nowrap" key={index}>
             <div className="col-auto pr15">
               <div className="text-center">
@@ -192,7 +206,8 @@ class ListBlock extends React.Component {
               {caption}
             </div>
             {
-              item.type !== 'approve' &&
+              item.type !== 'approve' && item.type !== "cancel_order" && item.type !== "cutoff_trading_pair"
+              && item.type !== "cutoff" &&
               <div className="col-auto mr5">
                 {change === '+' &&
                 <div className="text-right">
@@ -229,15 +244,35 @@ class ListBlock extends React.Component {
     }
     return (
       <div className="">
-        <div className="row zb-b-b p15 no-gutters align-items-center">
-          <div className="col">
-            <div className="fs2 color-black-1">{filters.token || intl.get('global.all')} {intl.get('txs.title')}</div>
+        <div className="row zb-b-b pt15 pb15 ml0 mr0">
+          <div className="col-auto pl0 pr0">
+            <div className="fs1 color-black-1 ml15">{filters.token}</div>
           </div>
-          <div className="col-auto" style={{height: '32px'}}>
-            <ListFiltersFormSimple actions={actions} LIST={LIST}/>
+          <div className="col text-right pl0 pr0">
+            <Button onClick={gotoTransfer} className="mr5" type="primary" disabled={isWatchOnly}>
+              <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
+              <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_transfer')} {filters.token}</span>
+            </Button>
+            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="primary">
+              <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
+              <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
+            </Button>
+            <Button onClick={gotoTrade} className="mr15" type="primary" disabled={isWatchOnly}>
+              <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_trade')} {filters.token}</span>
+            </Button>
+
           </div>
         </div>
-        <div>
+        <div className="pl15 pr15">
+          <div className="zb-b-b row pt10 pb10 no-gutters align-items-center">
+            <div className="col">
+              <div className="fs2 color-black-1">{intl.get('txs.title')}</div>
+            </div>
+            <div className="col-auto">
+              <ListFiltersFormSimple actions={actions} LIST={LIST} style={{marginTop:'-3px'}}/>
+            </div>
+          </div>
           {
             loading &&
             <div className="p50 text-center">
@@ -252,7 +287,7 @@ class ListBlock extends React.Component {
                        {token} {intl.get('txs.balance_not_enough')}
                      </div>
                      <div>
-                       <Button onClick={gotoReceive}
+                       <Button onClick={gotoReceive.bind(this, token)}
                                className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
                                                     className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
@@ -271,7 +306,7 @@ class ListBlock extends React.Component {
           {
             items.length === 0 &&
             <div className="text-center pt25 pb25 fs-12 color-grey-400">
-              No Transactions
+              {intl.get('txs.no_txs')}
             </div>
           }
         </div>

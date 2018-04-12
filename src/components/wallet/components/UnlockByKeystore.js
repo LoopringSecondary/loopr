@@ -173,8 +173,7 @@ class UnlockByKeyStore extends React.Component {
         </div>
         {isPasswordRequired &&
         <div className='mb20'>
-          <div className="fs3 color-black-1 mb10">{intl.get('wallet.password')}</div>
-          <Input  size="large" type="password" onChange={this.setPassword.bind(this)}
+          <Input  size="large" type="password" placeholder={intl.get('wallet.password')} onChange={this.setPassword.bind(this)}
                  onKeyDown={this.bindEnter.bind(this)}/>
         </div>
         }

@@ -120,7 +120,8 @@ export default {
     tx_detail:"交易详情",
     success:"成功",
     failed:"失败",
-    pending:"进行中"
+    pending:"进行中",
+    no_txs:'暂无交易',
   },
   orders: {
     order: "订单",

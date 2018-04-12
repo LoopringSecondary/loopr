@@ -104,7 +104,7 @@ class Home extends React.Component {
                   <Token.ListSidebar/>
                 </div>
                 <div className="col-8 pb15">
-                  <Transaction.ListStand2/>
+                  <Transaction.ListStand/>
                 </div>
               </div>
             }
