@@ -6,6 +6,8 @@ import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import intl from 'react-intl-universal'
+import Notification from 'Loopr/Notification'
+
 function Home(props){
   const { children,dispatch } = props
   const showModal = (id)=>{
@@ -16,6 +18,12 @@ function Home(props){
         pageFrom:'Portfolio',
         visible:true,
       }
+    })
+    Notification.open({
+      duration:0,
+      message:intl.get('home.beta_notification_title'),
+      description:intl.get('home.beta_notifycation_content'),
+      type:'info'
     })
   }
   // playbackRate="0.5"
