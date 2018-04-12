@@ -16,7 +16,10 @@ export default {
     "@border-radius-base": "4px",
     "@line-height-base" : 1.6,
   },
-  "html": { "template": "./public/index.ejs" },
+  "html": {
+    "template": "./public/index.ejs",
+    "favicon": './src/assets/images/favicon2.ico'
+  },
   env: {
     development: {
       extraBabelPlugins: ['dva-hmr'],
