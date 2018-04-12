@@ -20,15 +20,12 @@ const TickerTable = (props)=>{
       return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
     })
   }
-
-
   const keywords = tickers.filters && tickers.filters.token
   if(keywords){
     items = items.filter(item=>{
         return item.market.toUpperCase().indexOf(keywords.toUpperCase()) > -1
     })
   }
-
   const updateOrders = (pair)=>{
     dispatch({
       type:'orders/filtersChange',
@@ -116,10 +113,15 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
     }
     tickers.filtersChange({filters})
   }
-  const markets = tickers.items.forEach(ticker=>{
-    let market = ticker.market.split('-')[2]
-    console.log('market',market)
+  let marketsMap = {}
+  tickers.items.forEach(ticker=>{
+    let market = ticker.market.split('-')[1]
+    if(!marketsMap[market]){
+      marketsMap[market] = true
+    }
   })
+  let markets = Object.keys(marketsMap)
+
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
       <div className="pr10 tickers-search-input" style={{paddingTop:'0px'}}>
@@ -145,11 +147,16 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
           <TickerTable tickers={tickers} market="favorites" dispatch={dispatch} />
         </div>
       </Tabs.TabPane>
-      <Tabs.TabPane tab={tab('WETH')} key="WETH">
-        <div className="pl10 pr10">
-          <TickerTable tickers={tickers} market="WETH" dispatch={dispatch}  />
-        </div>
-      </Tabs.TabPane>
+      {
+        markets.map((market,index)=>
+          <Tabs.TabPane tab={tab(market)} key={market}>
+            <div className="pl10 pr10">
+              <TickerTable tickers={tickers} market={market} dispatch={dispatch}  />
+            </div>
+          </Tabs.TabPane>
+        )
+      }
+
     </Tabs>
   )
 }
