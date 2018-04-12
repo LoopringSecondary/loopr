@@ -387,6 +387,7 @@ export default {
     have_one: "Already have a wallet",
     to_unlock: "Click to unlock",
     set_password: "Set a strong password",
+    parse_failed:"Parse Keystore Failed",
     decrypt_failed:"Decrypt Keystore Failed",
     backup: {
       backup_wallet: "Backup Wallet",

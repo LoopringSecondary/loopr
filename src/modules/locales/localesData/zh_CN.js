@@ -360,7 +360,7 @@ export default {
     connect_to_metamask_not_supported_browser: "您的浏览器不支持MetaMask解锁，推荐您使用Chrome",
     download_chrome: "下载Chrome浏览器",
     recommended_tip: "我们推荐您采用这种方式使用钱包。",
-    not_recommended: "不推荐",
+   not_recommended: "不推荐",
     not_recommended_tip: "我们不推荐您采用这种方式使用钱包。",
     select_keystore: "粘贴您的Keystore内容或者选择您的Keystore文件",
     select_json: "选择JSON文件",
@@ -391,6 +391,7 @@ export default {
     have_one: "已经拥有一个钱包",
     to_unlock: "去解锁",
     set_password: "设置一个安全的密码",
+    parse_failed:"解析Keystore文件失败",
     decrypt_failed:"解码Keystore失败",
     backup: {
       backup_wallet: "备份钱包",

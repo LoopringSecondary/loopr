@@ -28,9 +28,17 @@ class UnlockByKeyStore extends React.Component {
   beforeUpload = (file) => {
     const fileReader = new FileReader();
     fileReader.onload = () => {
-      const keyStore = fileReader.result;
-      const isPasswordRequired = isKeystorePassRequired(keyStore);
-      this.setState({keyStore, isPasswordRequired})
+      try{
+        const keyStore = fileReader.result;
+        const isPasswordRequired = isKeystorePassRequired(keyStore);
+        this.setState({keyStore, isPasswordRequired})
+      }catch (e){
+        Notification.open({
+          type: 'error',
+          message: intl.get('wallet.parse_failed'),
+          description: e.message
+        });
+      }
     };
     fileReader.readAsText(file, "utf-8");
     this.setState({fileList: []});
