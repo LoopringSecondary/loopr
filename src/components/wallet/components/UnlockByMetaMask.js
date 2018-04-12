@@ -12,7 +12,8 @@ class UnlockByMetaMask extends React.Component {
   state = {
     loading: false,
     browserType: '',
-    browserSupported: false
+    browserSupported: false,
+    disableContent:''
   };
 
   componentDidMount() {
@@ -26,6 +27,15 @@ class UnlockByMetaMask extends React.Component {
     } else {
       this.setState({browserType:'Others'})
     }
+    let disableContent = ''
+    if(window.web3){
+      if(!window.web3.eth.accounts[0]) { // locked
+        disableContent = intl.get('wallet.content_metamask_locked_title')
+      }
+    } else { // to install
+      disableContent = intl.get('wallet.content_metamask_install_title')
+    }
+    this.setState({disableContent: disableContent})
   }
 
   connectToMetamask = () => {
@@ -159,8 +169,11 @@ class UnlockByMetaMask extends React.Component {
             <Icon type="export" className="mr5 fs14" /><a href="https://www.google.com/chrome/" target="_blank">{intl.get('wallet.download_chrome')}</a>
           </div>
         }
-        {this.state.browserSupported &&
-          <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_to_metamask')}</Button>
+        {this.state.browserSupported && this.state.disableContent &&
+          <Button type="primary" className="d-block w-100" size="large" disabled>{this.state.disableContent}</Button>
+        }
+        {this.state.browserSupported && !this.state.disableContent &&
+        <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_to_metamask')}</Button>
         }
         {!this.state.browserSupported &&
           <Button type="primary" className="d-block w-100" size="large" disabled>{intl.get('wallet.connect_to_metamask_not_supported_browser')}</Button>

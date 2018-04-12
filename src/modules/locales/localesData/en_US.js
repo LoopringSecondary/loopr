@@ -348,6 +348,8 @@ export default {
     content_metamask_unlock_again: "You may have changed your MetaMask network, or your computer has ever been locked. For either reason, you should make sure your MetaMask is using MainNetwork and unlock your wallet again",
     content_metamask_install: "Your may need to install MetaMask extension to your browser first, please reload our page after installed",
     content_metamask_locked: "Failed to connect with MetaMask, please unlock and use",
+    content_metamask_install_title:'You should install MetaMask first',
+    content_metamask_locked_title:'You should unlock your MetaMask first',
     get_metamask: "Get MetaMask {browser} extension",
     get_metamask_visit: 'Visit MetaMask website',
     connect_to_metamask: "Connect To MetaMask",
