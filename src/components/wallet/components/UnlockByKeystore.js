@@ -153,16 +153,23 @@ class UnlockByKeyStore extends React.Component {
           showIcon={false}
           className="mb15"
         />
-        <div className="fs3 color-black-1 mb10">{intl.get('wallet.select_keystore')}</div>
-        <div className='ml5 mb20 row'>
-          <Input.TextArea rows={2} size="large" className='col-8' value={keyStore} onChange={this.handleStoreChange.bind(this)}/>
-          <div className='col-4'>
-            <Upload {...uploadProps} >
-              <Button>
-                <Icon type="upload"/> {intl.get('wallet.select_json')}
-              </Button>
-            </Upload>
+        <div className="fs3 color-black-1 mb10">
+
+          <div className="row align-items-center">
+            <div className="col">
+              {intl.get('wallet.select_keystore')}
+            </div>
+            <div className="col-auto">
+              <Upload {...uploadProps} size="small" >
+                <Button>
+                  <Icon type="upload"/> {intl.get('wallet.select_json')}
+                </Button>
+              </Upload>
+            </div>
           </div>
+        </div>
+        <div className='mb20'>
+          <Input.TextArea autosize={{ minRows: 3, maxRows: 8 }} size="large" className='d-block fs12' value={keyStore} onChange={this.handleStoreChange.bind(this)}/>
         </div>
         {isPasswordRequired &&
         <div className='mb20'>
