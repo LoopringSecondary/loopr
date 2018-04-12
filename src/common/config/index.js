@@ -1,7 +1,10 @@
 //const config = require('./config.json');
+import fetch from 'dva/fetch';
+
 const data = require('./data')
 const config = data.configs
 const tokensIcons = require('./tokens_icons.json');
+
 let tokens = config.tokens || []
 tokens.forEach(token=>{
   token.icon = tokensIcons[token.symbol]
@@ -13,6 +16,24 @@ const projects =  data.projects;
 // mock some tokens's data read from localstorage
 const localTokens = [];
 tokens = tokens.concat(localTokens)
+
+function requestWhiteList() {
+  const url = "//raw.githubusercontent.com/Loopring/mock-relay-data/master/whiteList.json";
+  return fetch(url, {method:'GET'}).then((res) => res.json())
+}
+
+async function  isinWhiteList(address) {
+ return await requestWhiteList().then(whiteList =>{
+    console.log('WhiteList:', JSON.stringify(whiteList));
+    const result = whiteList.find(add => add.toLowerCase() === address.toLowerCase());
+    return !!result;
+  });
+}
+
+function getChainId(){
+  return config.chainId
+
+}
 
 function getTokenBySymbol(symbol){
   if(!symbol){ return {} }
@@ -82,5 +103,7 @@ export default {
   getProjectByName,
   getProjectById,
   getProjectByLrx,
-  getGasLimitByType
+  getGasLimitByType,
+  isinWhiteList,
+  getChainId
 }
