@@ -163,8 +163,6 @@ class  ListBlock extends React.Component{
                 }
               </div>
             </div>
-
-
           </div>
         );
 
@@ -204,6 +202,7 @@ class  ListBlock extends React.Component{
         )
 
       },
+
     }
 
     let columns = schema.map(field => {
@@ -219,7 +218,7 @@ class  ListBlock extends React.Component{
         }
       }
       return {
-        title: field.title,
+        title: field.title(),
         dataIndex: field.name,
         render: renderGenerator,
         className: 'text-nowrap',
@@ -256,6 +255,7 @@ class  ListBlock extends React.Component{
       onChange: tableChange,
       bordered: false,
       size: 'default',
+      locale:{emptyText:intl.get('global.no_data')},
       rowKey: (record) => record.originalOrder.hash, // set each record PK ( primary key)
     }
 
