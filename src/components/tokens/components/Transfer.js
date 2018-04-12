@@ -67,6 +67,17 @@ class Transfer extends React.Component {
     const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
 
+    let sorter = (tokenA,tokenB)=>{
+      const pa = Number(tokenA.balance);
+      const pb = Number(tokenB.balance);
+      if(pa === pb){
+        return tokenA.symbol.toUpperCase() < tokenB.symbol.toUpperCase() ? -1 : 1;
+      }else {
+        return pb - pa;
+      }
+    };
+    assets.items.sort(sorter);
+
     function handleSubmit() {
       form.validateFields((err, values) => {
         if (!err) {
@@ -331,8 +342,8 @@ class Transfer extends React.Component {
             })(
               <Select
                 size="large"
-                className="d-block w-100"
-                showSeach={true}
+                className="d-block w-100 transfer-form-token-select"
+                showSearch={false}
                 allowClear
                 style={{ width: 300 }}
                 placeholder="Select Token"
@@ -343,7 +354,20 @@ class Transfer extends React.Component {
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
                 {assets.items.map((token,index) => {
                   const asset = {...config.getTokenBySymbol(token.symbol), ...assets.getTokenBySymbol(token.symbol)}
-                  return <Select.Option value={asset.symbol} key={index}>{asset.name}</Select.Option>}
+                  let balance = fm.toBig(asset.balance).div('1e'+asset.digits).toNumber()
+                  if(balance >0) {
+                    const balanceArr = balance.toString().split('.')
+                    if(balanceArr.length === 2) {
+                      balance = balanceArr[0]+"."+balanceArr[1].substring(0, Math.min(balanceArr[1].length, asset.precision))
+                    }
+                  }
+                  return <Select.Option value={asset.symbol} key={index}>
+                    <div className="row mr0">
+                      <div className="col color-black-2">{asset.symbol}</div>
+                      <div className="col-atuo color-black-3">{balance > 0 ? balance : ''}</div>
+                    </div>
+
+                    </Select.Option>}
                 )}
               </Select>
             )}
