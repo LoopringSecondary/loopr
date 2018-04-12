@@ -218,6 +218,8 @@ export default {
     notice: "Please Notice",
     placing_order: 'Placing Order',
     place_order_failed: "Place Order Failed !",
+    not_inWhiteList:"Your aren't in white list",
+    not_allow:"Loopring web wallet is still in beta phase, please wait patiently for our official release.",
     you_should_do_things: "You should do things followed",
     failed_reasons: "Failed reasons as follow:",
     why: "Why",

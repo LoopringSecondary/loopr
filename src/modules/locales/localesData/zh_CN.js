@@ -220,6 +220,8 @@ export default {
     notice: "请注意",
     placing_order: '订单提交结果',
     place_order_failed: "订单提交失败 !",
+    not_inWhiteList:"您不在白名单中",
+    not_allow:"路印钱包仍在内测阶段,请耐心等待正式版本发布!",
     you_should_do_things: "你可以按以下提示尝试",
     failed_reasons: "失败原因如下：",
     why: "为什么",

@@ -128,8 +128,16 @@ class TradeForm extends React.Component {
       })
     }
 
-    function handleSubmit() {
+    async function  handleSubmit() {
       if(!window.WALLET_UNLOCK_TYPE) {
+        return
+      }
+      if(window.CONFIG.getChainId !==1 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
+        Notification.open({
+          type:'warning',
+          message:intl.get('trade.not_inWhiteList'),
+          description:intl.get('trade.not_allow')
+        });
         return
       }
       form.validateFields((err, values) => {

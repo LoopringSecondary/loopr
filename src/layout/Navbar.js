@@ -60,8 +60,6 @@ function Navbar(props){
   function copyToClipboard() {
 
     if(account.isUnlocked ){
-   //   copy(account.address) ? message.success(intl.get('navbar.subs.copy_success')) :  message.error(intl.get('navbar.subs.copy_failed'))
-
       copy(account.address) ? Notification.open({ message:intl.get('navbar.subs.copy_success'),
         type:'success',size:'small'}) :  Notification.open({message:intl.get('navbar.subs.copy_failed'),type:"error",size:'small'})
 
