@@ -6,7 +6,7 @@ import intl from 'react-intl-universal';
 
 export function getShortAddress(address) {
   if (typeof address === 'string') {
-    return address.slice(0, 4) + '...' + address.slice(-4)
+    return address.slice(0, 8) + '...' + address.slice(-6)
   } else {
     throw new Error('address must be string')
   }
