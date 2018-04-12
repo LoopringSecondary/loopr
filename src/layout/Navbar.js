@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Button, Icon, Menu, message, Popover, Select} from 'antd';
+import {Button, Icon, Menu, message, Popover, Select,Badge} from 'antd';
 import {Link} from 'dva/router';
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
@@ -76,6 +76,7 @@ function Navbar(props){
             <div className="row align-items-center">
               <div className="col">
                 <div className="fs14 color-black-1 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
+
               </div>
               <div className="col-auto">
                 <Button className="fs14" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
@@ -83,17 +84,32 @@ function Navbar(props){
             </div>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,{id:'token/receive',symbol:null})}>
-              <i className="icon-loopring icon-loopring-receive fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
-            </a>
+             <Badge status="processing" className="ml5" />
+             Connected By Metamask
           </div>
-          {!isWatchOnly &&
-            <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-              <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
-                <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
-              </a>
+          <div className="row">
+            <div className="col-md-4">
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <a onClick={showModal.bind(this,{id:'token/receive',symbol:null})}>
+                  <i className="icon-loopring icon-loopring-receive fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
+                </a>
+              </div>
             </div>
-          }
+            {!isWatchOnly &&
+              <div className="col-md-4">
+                <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                  <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
+                    <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
+                  </a>
+                </div>
+              </div>
+            }
+
+
+          </div>
+
+
+
           {!isWatchOnly &&
             <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
               <Link to="/trade" className='color-grey-900'>
@@ -138,6 +154,7 @@ function Navbar(props){
               </div>
             </div>
           </div>
+
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
             <a onClick={showModal.bind(this,{id:'wallet/generate'})} className="color-grey-900">
               <Icon type="plus" className="mr5" />{intl.get('navbar.subs.generate')}
@@ -160,12 +177,16 @@ function Navbar(props){
   return (
     <div className="navbar-loopring">
       <div className="container">
-        <div className="row align-items-stretch justify-content-between ml0">
+        <div className="row align-items-stretch ml0">
           <div className="col-auto pl0 pr0">
             <Link to="/" className="d-block" >
-              <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
+                <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
             </Link>
           </div>
+          <div className="col-auto pl10 pr0">
+            <Badge count={"Beta"} className="mt5" style={{background:"transparent",color:"rgba(0,0,0,0.65)",border:"1px solid rgba(0,0,0,0.3)"}} />
+          </div>
+          <div className="col"></div>
           <div className="col-auto">
             <Menu
               theme="light"
@@ -174,9 +195,6 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              { false && !(window.WALLET && window.WALLET.getAddress()) &&
-                <Menu.Item key="/home" ><Link className="fs16" to="/home">{intl.get("navbar.home")}</Link></Menu.Item>
-              }
               {
                 false && (window.WALLET && window.WALLET.getAddress()) &&
                 <Menu.Item key="/wallet" >
@@ -197,6 +215,7 @@ function Navbar(props){
               }
             </Menu>
           </div>
+          <div className="col"></div>
           <div className="col-auto">
             {
               false &&
@@ -211,7 +230,9 @@ function Navbar(props){
                   account.address &&
                   <span className="fs16 color-blue-600">
                     {window.uiFormatter.getShortAddress(account.address)}
+
                     <Icon type="down" className="fs12 ml5" />
+
                   </span>
                 }
                 {
