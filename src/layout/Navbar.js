@@ -88,7 +88,7 @@ function Navbar(props){
              Connected By Metamask
           </div>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-sm-3">
               <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
                 <a onClick={showModal.bind(this,{id:'token/receive',symbol:null})}>
                   <i className="icon-loopring icon-loopring-receive fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
@@ -96,7 +96,7 @@ function Navbar(props){
               </div>
             </div>
             {!isWatchOnly &&
-              <div className="col-md-4">
+              <div className="col-sm-3">
                 <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
                   <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
                     <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
@@ -104,42 +104,56 @@ function Navbar(props){
                 </div>
               </div>
             }
-
-
-          </div>
-
-
-
-          {!isWatchOnly &&
-            <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-              <Link to="/trade" className='color-grey-900'>
-                <i
-                  className="icon-loopring icon-loopring-trade fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.trade')}
-              </Link>
+            {!isWatchOnly &&
+              <div className="col-sm-3">
+                <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                  <Link to="/trade" className='color-grey-900'>
+                    <i
+                      className="icon-loopring icon-loopring-trade fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.trade')}
+                  </Link>
+                </div>
+              </div>
+            }
+            <div className="col-sm-3">
+              {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <a onClick={showModal.bind(this,{id:'wallet/export/keystore'})}>
+                  <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
+                </a>
+              </div>}
             </div>
-          }
-          {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={showModal.bind(this,{id:'wallet/export/keystore'})}>
-              <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
-            </a>
-          </div>}
-            <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-              <a onClick={showModal.bind(this, {id: 'wallet/airdrop'})} className="color-grey-900">
-                <Icon type="gift" className="mr5"/>{intl.get('navbar.subs.airdrop')}
-              </a>
+            <div className="col-sm-3">
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <a onClick={showModal.bind(this, {id: 'wallet/airdrop'})} className="color-grey-900">
+                  <Icon type="gift" className="mr5"/>{intl.get('navbar.subs.airdrop')}
+                </a>
+              </div>
             </div>
-          <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
-            <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
-          </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
-          </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
-          </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-            <a onClick={quit}><Icon type="poweroff" className="mr5" />{intl.get('navbar.subs.quit')}
-            </a>
+            <div className="col-sm-3">
+              <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
+                <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
+              </div>
+            </div>
+            <div className="col-sm-3">
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
+              </div>
+            </div>
+            <div className="col-sm-3">
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
+              </div>
+            </div>
+            <div className="col-sm-3">
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
+              </div>
+            </div>
+            <div className="col-sm-3">
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <a onClick={quit}><Icon type="poweroff" className="mr5" />{intl.get('navbar.subs.quit')}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       }
