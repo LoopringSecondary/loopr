@@ -123,6 +123,11 @@ function Navbar(props){
               </div>
             }
             <div className="col-sm-4 text-center pl0 pr0">
+              <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
+                <Icon type="setting" className="d-block" />{intl.get('navbar.settings')}
+              </div>
+            </div>
+            <div className="col-sm-4 text-center pl0 pr0">
               <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
                 <a onClick={showModal.bind(this, {id: 'wallet/airdrop'})} className="color-grey-900">
                   <Icon type="gift" className="d-block"/>{intl.get('navbar.subs.airdrop')}
@@ -130,18 +135,13 @@ function Navbar(props){
               </div>
             </div>
             <div className="col-sm-4 text-center pl0 pr0">
-              <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
-                <Icon type="setting" className="d-block" />{intl.get('navbar.settings')}
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <Icon type="tool" className="d-block" />{intl.get('navbar.subs.tools')}
               </div>
             </div>
             <div className="col-sm-4 text-center pl0 pr0">
               <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
                 <Icon type="question-circle-o" className="d-block" />{intl.get('navbar.subs.help')}
-              </div>
-            </div>
-            <div className="col-sm-4 text-center pl0 pr0">
-              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-                <Icon type="tool" className="d-block" />{intl.get('navbar.subs.tools')}
               </div>
             </div>
           </div>
@@ -152,7 +152,7 @@ function Navbar(props){
                   Connected By MetaMask
               </div>
               <div className="col-auto pr0">
-                <Button className="fs14 border-none" type="default" size="small" onClick={copyToClipboard}>Lock</Button>
+                <Button className="fs14 border-none color-primary-1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="poweroff" onClick={copyToClipboard}></Button>
               </div>
             </div>
           </div>
