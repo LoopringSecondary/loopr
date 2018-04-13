@@ -83,7 +83,7 @@ class ListBlock extends React.Component {
       showModal({
         id: 'token/convert',
         item,
-        showFrozenAmount: false
+        showFrozenAmount: true
       })
     }
     const gotoTransfer = () => {
