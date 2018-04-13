@@ -31,7 +31,7 @@ class  Home extends React.Component {
       videoHeight: window.innerHeight,
     })
   };
-  
+
   render(){
     const {dispatch } = this.props;
     const {videoWidth,videoHeight} = this.state;
@@ -44,12 +44,6 @@ class  Home extends React.Component {
           visible:true,
         }
       });
-      Notification.open({
-        duration:0,
-        message:intl.get('home.beta_notification_title'),
-        description:intl.get('home.beta_notifycation_content'),
-        type:'info'
-      })
     };
     // playbackRate="0.5"
     return (
