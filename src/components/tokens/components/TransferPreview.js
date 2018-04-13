@@ -9,7 +9,7 @@ import CoinIcon from '../../common/CoinIcon'
 import Notification from 'Loopr/Notification'
 
 let Preview = ({
-  modal, account
+  modal, account,modals
   }) => {
   const {tx,extraData} = modal
   const viewInEtherscan = (txHash) => {
@@ -58,12 +58,14 @@ let Preview = ({
       }
       modal.hideLoading({id:'token/transfer/preview'})
       modal.hideModal({id:'token/transfer/preview'})
+      modal.hideModal({id: 'token/transfer'})
       // modal.showModal({id:'token/transfer/result', result})
     }).catch(e=>{
       console.error(e)
       result = {...result, error:e.message}
       modal.hideLoading({id:'token/transfer/preview'})
       modal.hideModal({id:'token/transfer/preview'})
+      modal.hideModal({id: 'token/transfer'})
       // modal.showModal({id:'token/transfer/result', result})
       Notification.open({
         message:intl.get('token.send_failed'),
@@ -73,8 +75,8 @@ let Preview = ({
     })
   }
   const handelCancel = ()=>{
-    modal.hideModal({id:'token/transfer/preview'})
-  }
+    modal.hideModal({id:'token/transfer/preview'});
+  };
   const MetaItem = (props)=>{
     const {label,value} = props
     return (
