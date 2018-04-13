@@ -9,6 +9,8 @@ import {toNumber,toBig} from "Loopring/common/formatter";
 import CoinIcon from '../../../common/CoinIcon'
 import intl from 'react-intl-universal'
 import Token from 'Loopring/ethereum/token'
+import config from '../../../../common/config'
+import Notification from 'Loopr/Notification'
 
 class ListSidebar extends React.Component {
 
@@ -104,7 +106,24 @@ class ListSidebar extends React.Component {
       })
     }
     const gotoTrade = (item) => {
-      window.routeActions.gotoPath('/trade')
+      const supportedToken = config.getSupportedMarketsTokenR()
+      if(supportedToken) {
+        const foundMarket = supportedToken.find((x,i) =>{
+          const market = item.symbol + "-" + x
+          if(config.isSupportedMarket(market)) {
+            return true
+          }
+        })
+        if(foundMarket) {
+          window.routeActions.gotoPath('/trade/'+item.symbol + "-" + foundMarket)
+          return
+        }
+      }
+      Notification.open({
+        type:'warning',
+        message:intl.get('trade.not_supported_token_to_trade_title', {token:item.symbol}),
+        description:intl.get('trade.not_supported_token_to_trade_content')
+      });
     }
 
     const gotoAdd = () => {

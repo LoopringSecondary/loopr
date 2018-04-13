@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import TickersByLooopringData from '../mocks/TickersByLoopring.json'
+import config from '../../../common/config'
+
 class TickersSocketContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -19,8 +21,12 @@ class TickersSocketContainer extends React.Component {
         console.log('loopringTickers_res')
         res = JSON.parse(res)
         if(!res.error && res.data){
+          // filter support market
+          const supportMarket = res.data.filter(item=>{
+            return config.isSupportedMarket(item.market)
+          })
           this.setState({
-            tickersByLoopring:res.data,
+            tickersByLoopring:supportMarket || {},
           })
         }
       })

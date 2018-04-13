@@ -76,6 +76,18 @@ function getProjectByLrx(lrx) {
   return  projects.find(project=> project.lrx.toLowerCase() === lrx.toLowerCase())
 }
 
+function getSupportedMarketsTokenR() {
+  return config.supportedTokenRInMarkets
+}
+
+function isSupportedMarket(market) {
+  if(!market) return false
+  const pair = market.split('-')
+  if(pair.length != 2) return false
+  return markets.find(m=> {
+    return (m.tokenx === pair[0].toUpperCase() && m.tokeny === pair[1].toUpperCase()) || (m.tokenx === pair[1].toUpperCase() && m.tokeny === pair[0].toUpperCase())
+  })
+}
 
 function getMarketBySymbol(tokenx, tokeny) {
   if (tokenx && tokeny) {
@@ -111,5 +123,7 @@ export default {
   getProjectByLrx,
   getGasLimitByType,
   isinWhiteList,
-  getChainId
+  getChainId,
+  isSupportedMarket,
+  getSupportedMarketsTokenR
 }
