@@ -166,11 +166,11 @@ function Navbar(props){
               <div className="col">
                 <span className="navbar-login-status-badge color-primary-1">
                   <Badge status="processing" className="" />
-                  Connected By MetaMask
+                  {intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})}
                 </span>
               </div>
               <div className="col-auto pr10">
-                <Button className="fs14 border-none color-primary-1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="poweroff" onClick={quit}></Button>
+                <Button className="border-none color-primary-1 fs1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="lock" onClick={quit}></Button>
               </div>
             </div>
           </div>
@@ -278,7 +278,7 @@ function Navbar(props){
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
-            <Popover content={accountMenus} title={null} trigger="click">
+            <Popover content={accountMenus} title={null} trigger="hover">
                 {
                   account.address &&
                   <span className="fs16 color-blue-600">

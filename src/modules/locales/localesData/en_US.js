@@ -249,7 +249,7 @@ export default {
     eth_is_required:'ETH is required to pay Ethereun transaction fees, calculated with your current order cost that need to send Ethereum transactions, totally required {required} ETH.',
     lrcfee_is_required:'LRC is required to pay trade fees, added on your history orders need LRC, totally required {required} LRC.',
     not_supported_token_to_trade_title:'{token} Is Not Supported To Trade Now',
-    not_supported_token_to_trade_content:'Please look forward to us opening more markets',
+    not_supported_token_to_trade_content:'Please look forward to opening more markets',
   },
   trades: {
     side: 'Side',
@@ -312,7 +312,8 @@ export default {
     convert_succ_notification_title: 'Convert Successfully',
     transfer_succ_notification_title: 'Transfer Successfully',
     custum_gas_title:'Custom Gas For This Order',
-    custum_gas_content:'According to Ethereum current gas price, we advice you to set {gas}'
+    custum_gas_content:'According to Ethereum current gas price, we advice you to set {gas}',
+    token_convert:'Convert {from} To {to}'
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
@@ -445,7 +446,8 @@ export default {
     instruction_demo: 'You could experience Loopr Wallet in Watch Only mode, but could\'t place order, send transfer and do other operations that need private key',
     have_a_try: "Start Demo Tour !",
     unlocked_notification_title: 'Successfully Unlock Your Wallet',
-    unlocked_notification_content: 'Great! Start your Loopr tour, enjoy it'
+    unlocked_notification_content: 'Great! Start your Loopr tour, enjoy it',
+    unlocked_by:'Unlocked By {type}'
   },
   tokens: {
     hide_small_balances: " Hide Small Balances",
