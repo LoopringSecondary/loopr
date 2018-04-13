@@ -12,7 +12,7 @@
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0xeba7136a36da0f5e16c6bdbc739c716bb5b65a00",
-  "localStorageVersion":201804111644,
+  "localStorageVersion":201804122127,
   "contracts": [
     {
       "address": "0x4019440BBe5882915db9F2cAe972a518DB346C62",
@@ -102,6 +102,30 @@
       "allowanceWarn": "50000000000000000000",
       "precision": 6,
       "minTradeValue": 0.001
+    },
+    {
+        "name": "FooToken",
+        "symbol": "FOO",
+        "digits": 8,
+        "decimals": "8",
+        "unit": "FOO",
+        "address": "0x682162Cb3bF24925499516594B4A4985b36f7f3a",
+        "allowance": "1000000000000000000000",
+        "allowanceWarn": "50000000000000000000",
+        "precision": 6,
+        "minTradeValue": 0.001
+    },
+    {
+        "name": "BarToken",
+        "symbol": "BAR",
+        "digits": 18,
+        "decimals": "18",
+        "unit": "BAR",
+        "address": "0xE09F1e1C7638661D85bc4CDF4D82E3c734203ba7",
+        "allowance": "1000000000000000000000",
+        "allowanceWarn": "50000000000000000000",
+        "precision": 6,
+        "minTradeValue": 0.001
     },
     {
       "symbol": "EOS",

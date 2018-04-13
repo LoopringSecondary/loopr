@@ -82,7 +82,13 @@ function getMarketBySymbol(tokenx, tokeny) {
     return markets.find(market=> {
         return (market.tokenx === tokenx && market.tokeny === tokeny) || (market.tokenx === tokeny && market.tokeny === tokenx)
       }
-    )
+    ) || {
+      "pricePrecision": 8
+    }
+  }else{
+    return {
+      "pricePrecision": 8
+    }
   }
 }
 
