@@ -438,10 +438,10 @@ class Transfer extends React.Component {
                   </div>
                 </Form.Item>
               </div>
-              <div className="row">
+              <div className="row mt5">
                 <div className="col"></div>
                 <div className="col-auto">
-                  <Form.Item className="mb0 text-right d-flex align-items-center" label={intl.get('token.advanced')} colon={false}>
+                  <Form.Item className="mb0 text-right d-flex align-items-center" label={<div className="mr5">{intl.get('token.advanced')}</div>} colon={false}>
                     <Switch onChange={setAdvance.bind(this)}/>
                   </Form.Item>
                 </div>
@@ -483,10 +483,10 @@ class Transfer extends React.Component {
                   />
                 )}
               </Form.Item>
-              <div className="row">
+              <div className="row mt5">
                 <div className="col"></div>
                 <div className="col-auto">
-                  <Form.Item className="mb0 text-right d-flex align-items-center" label={intl.get('token.advanced')} colon={false}>
+                  <Form.Item className="mb0 text-right d-flex align-items-center" label={<div className="mr5">{intl.get('token.advanced')}</div>} colon={false}>
                     <Switch defaultChecked onChange={setAdvance.bind(this)}/>
                   </Form.Item>
                 </div>
