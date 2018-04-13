@@ -287,7 +287,7 @@ export default {
     send_max: "最大数量",
     transaction_fee: "矿工费",
     advanced: "高级",
-    data: "二级制数据",
+    data: "二进制数据",
     gas_limit: "Gas数量",
     gas_price: "Gas价格",
     continue: "继续",
