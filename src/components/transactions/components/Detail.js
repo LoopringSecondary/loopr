@@ -47,13 +47,16 @@ class DetailBlock extends React.Component {
     const modal = modals['transaction/detail'];
     const item = modal.item;
     const {ethTx,loading} = this.state;
-
+    const handleCopy = (value, e) => {
+      e.preventDefault();
+      e.clipboardData.setData("text", value);
+    };
     const renders = {
-      txHash: (value) => <a className="text-truncate d-block" target="_blank"
+      txHash: (value) => <a className="text-truncate d-block" target="_blank" onCopy={handleCopy.bind(this,value)}
                             href={`https://etherscan.io/tx/${value}`}>{value}</a>,
       blockNumber: (value) => <a className="text-truncate d-block" target="_blank"
                                  href={`https://etherscan.io/block/${value}`}>{value}</a>,
-      address: (value) => <a className="text-truncate d-block" target="_blank"
+      address: (value) => <a className="text-truncate d-block" target="_blank" onCopy={handleCopy.bind(this,value)}
                              href={`https://etherscan.io/address/${value}`}>{value}</a>,
     };
     const getType = () => {
