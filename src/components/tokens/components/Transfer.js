@@ -51,7 +51,7 @@ class Transfer extends React.Component {
         estimateGasPrice:estimateGasShow.toNumber(),
         estimateGas: estimateGas
       })
-    })
+    });
     if(modal.item) {
       const currentToken = modal.item
       this.setState({tokenSymbol: currentToken.symbol})

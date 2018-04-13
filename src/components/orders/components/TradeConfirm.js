@@ -141,6 +141,7 @@ class TradeConfirm extends React.Component {
           let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
           const txs = [];
           const approveWarn = warn.filter(item => item.type === "AllowanceNotEnough");
+          console.log("approveWarn",approveWarn);
           approveWarn.forEach(item => {
             const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
             const token = new Token({address: tokenConfig.address});
