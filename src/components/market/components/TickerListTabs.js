@@ -113,16 +113,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
     }
     tickers.filtersChange({filters})
   }
-  let marketsMap = {}
-  tickers.items.forEach(ticker=>{
-    let market = ticker.market.split('-')[1]
-    if(!marketsMap[market]){
-      marketsMap[market] = true
-    }
-  })
-  let markets = Object.keys(marketsMap)
-  markets=['WETH']
-
+  let markets = window.CONFIG.getSupportedMarketsTokenR()
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
       <div className="pr10 tickers-search-input" style={{paddingTop:'0px'}}>
