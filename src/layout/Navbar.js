@@ -146,12 +146,14 @@ function Navbar(props){
           </div>
           <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
             <div className="row align-items-center ">
-              <div className="col color-primary-1">
-                <Badge status="processing" className="" />
+              <div className="col">
+                <span className="navbar-login-status-badge color-primary-1">
+                  <Badge status="processing" className="" />
                   Connected By MetaMask
+                </span>
               </div>
               <div className="col-auto pr10">
-                <Button className="fs14 border-none color-primary-1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="poweroff" onClick={copyToClipboard}></Button>
+                <Button className="fs14 border-none color-primary-1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="poweroff" onClick={quit}></Button>
               </div>
             </div>
           </div>
@@ -219,7 +221,6 @@ function Navbar(props){
           </div>
           <div className="col-auto pl10 pr0">
             <Popover content={VersionTip} title={null}>
-
               <span className="navbar-version-badge">
                 <Badge status="processing" className="" />
                 Beta
