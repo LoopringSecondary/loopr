@@ -191,17 +191,17 @@ function Navbar(props){
   const VersionTip = (
     <div className="" style={{maxWidth:'280px'}}>
       <div className="p15">
-        <div className="fs16 color-black-1">A Demo Version For Experience</div>
+        <div className="fs16 color-primary-1">A Demo Version For Experience</div>
         <div className="fs12 color-black-1">Loopring web wallet is still in beta phase, please wait patiently for our official release.</div>
       </div>
       <div className="zb-b-t">
-        <div className="row pt5 pb5 pl10 pr10">
+        <div className="row pt10 pb10 pl10 pr10">
           <div className="col fs12 color-black-2">Version</div>
-          <div className="col-auto fs12 color-black-3">V2 Demo</div>
+          <div className="col-auto fs12 color-black-3">2.0 Demo</div>
         </div>
       </div>
       <div className="zb-b-t">
-        <div className="row pt5 pb5 pl10 pr10">
+        <div className="row pt10 pb10 pl10 pr10">
           <div className="col fs12 color-black-2">Last Update</div>
           <div className="col-auto fs12 color-black-3">20180413</div>
         </div>
@@ -218,8 +218,12 @@ function Navbar(props){
             </Link>
           </div>
           <div className="col-auto pl10 pr0">
-            <Popover content={VersionTip} title={null} trigger="click">
-              <Badge count={"Beta"} className="mt5" style={{background:"transparent",color:"rgba(0,0,0,0.65)",border:"1px solid rgba(0,0,0,0.3)"}} />
+            <Popover content={VersionTip} title={null}>
+
+              <span className="navbar-version-badge">
+                <Badge status="processing" className="" />
+                Beta
+              </span>
             </Popover>
           </div>
           <div className="col"></div>

@@ -134,16 +134,7 @@
    // .ant-table-thead > tr, .ant-table-tbody > tr{
    //  height:auto !important;
    // }
-	 .ant-select.navbar-language,.ant-select-focused.navbar-language{
-	 		.ant-select-selection{
-				background: transparent !important;
-				&:focus{
-					border:none !important;
-					outline:none !important;
-					box-shadow:none !important;
-				}
-	 		}
-	 }
+
 	 .ant-modal{
 	 	&.rs-body{
 	 		.ant-modal-body{
@@ -330,6 +321,58 @@
       .ant-select{
         color:rgba(0,0,0,0.85) !important;
       }
+   }
+   .navbar-version-badge{
+     // border:1px solid rgba(0,0,0,0.15);
+     border-radius:50em;
+     background:#f9f9f9;
+     color:rgba(0,0,0,0.45) !important;
+     font-size:1rem;
+     padding:3px 10px;
+     margin-top:5px;
+     height:20px;
+     top:5px;
+     position:relative;
+   }
+   .ant-select.navbar-language,.ant-select-focused.navbar-language{
+      .ant-select-selection{
+        background: transparent !important;
+        &:focus{
+          border:none !important;
+          outline:none !important;
+          box-shadow:none !important;
+        }
+      }
+   }
+   .ant-layout-header.header-dark{
+     &.ant-layout-header{
+       background: transparent;
+     }
+     .navbar-loopring *{
+       color:rgba(255,255,255,0.85) !important;
+     }
+   }
+   .ant-layout-header.header-light{
+     &.ant-layout-header{
+       background: transparent;
+     }
+     .navbar-loopring *{
+       color:rgba(0,0,0,0.85) !important;
+     }
+   }
+   .home-layout{
+     .navbar-loopring{
+       .icon-loopring-logo{
+         color:#fff !important;
+       }
+     }
+   }
+   .main-layout{
+     .navbar-loopring{
+       .icon-loopring-logo{
+         color:#0077FF !important;
+       }
+     }
    }
    .ant-tabs{
      color:rgba(0,0,0,0.85) !important;
@@ -681,40 +724,11 @@
         // padding-top:0px;
       }
   }
-  .ant-layout-header.header-dark{
-    &.ant-layout-header{
-      background: transparent;
-    }
-    .navbar-loopring *{
-      color:rgba(255,255,255,0.85) !important;
-    }
-  }
-  .ant-layout-header.header-light{
-    &.ant-layout-header{
-      background: transparent;
-    }
-    .navbar-loopring *{
-      color:rgba(0,0,0,0.85) !important;
-    }
-  }
-  .home-layout{
-    .navbar-loopring{
-      .icon-loopring-logo{
-        color:#fff !important;
-      }
-    }
-  }
-  .main-layout{
-    .navbar-loopring{
-      .icon-loopring-logo{
-        color:#0077FF !important;
-      }
-    }
-  }
   .transfer-form-token-select{
     .ant-select-selection-selected-value{
       width:100%;
     }
   }
+
 
 }
