@@ -1,5 +1,12 @@
 export default {
-  amount: "{amount,number}",
+
+  global: {
+    all: 'All',
+    market: 'Market',
+    options: 'Options',
+    amount: "{amount,number}",
+    no_data:"No data"
+  },
   navbar: {
     home: "Home",
     trade: "MARKETS",
@@ -157,11 +164,6 @@ export default {
     order_detail: "Order Detail",
     basic_detail:"Basic Detail",
     fill_detail:"Fills Detail"
-  },
-  global: {
-    all: 'All',
-    market: 'Market',
-    options: 'Options',
   },
   settings: {
     preference: "Preference",

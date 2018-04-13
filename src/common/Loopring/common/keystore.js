@@ -208,12 +208,6 @@ export function decryptMewV1ToPrivKey(keystore, password) {
   const json = JSON.parse(keystore);
   let privkey;
 
-  if (typeof password !== 'string') {
-    throw new Error('Password required');
-  }
-  if (password.length < 9) {
-    throw new Error('Password must be at least 9 characters');
-  }
   let cipher = json.encrypted ? json.private.slice(0, 128) : json.private;
   cipher = decodeCryptojsSalt(cipher);
   const evp = evp_kdf(Buffer.from(password), cipher.salt, {

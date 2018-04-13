@@ -1,5 +1,11 @@
 export default {
-  amount: "{amount,number}",
+  global: {
+    all: '全部',
+    market: '市场',
+    options: '操作',
+    amount: "{amount,number}",
+    no_data:"暂时没有数据",
+  },
   navbar: {
     home: "首页",
     trade: "交易",
@@ -158,11 +164,6 @@ export default {
     order_detail:"订单详情",
     basic_detail:"基础详情",
     fill_detail:"撮合详情"
-  },
-  global: {
-    all: '全部',
-    market: '市场',
-    options: '操作',
   },
   settings: {
     preference: "偏好",

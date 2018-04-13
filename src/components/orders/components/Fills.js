@@ -3,6 +3,7 @@ import {getFills} from "Loopring/relay/ring";
 import schema from '../../../modules/trades/schema';
 import {Table, Pagination, Card} from 'antd';
 import {toNumber} from "Loopring/common/formatter";
+import intl from 'react-intl-universal';
 
 const uiFormatter = window.uiFormatter
 const fm = window.uiFormatter.TokenFormatter
@@ -81,7 +82,7 @@ export default class Fills extends React.Component {
 
     let columns = fillSchema.map(field => {
       return {
-        title: field.title,
+        title: field.title(),
         dataIndex: field.name,
         render: renders[field.name],
         className: 'text-nowrap',
@@ -109,6 +110,7 @@ export default class Fills extends React.Component {
       loading: loading,
       scroll: {x: true},
       bordered: false,
+      locale:{emptyText:intl.get('global.no_data')}
     };
     return (
       <div>
