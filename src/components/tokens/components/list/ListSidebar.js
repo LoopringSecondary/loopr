@@ -105,6 +105,21 @@ class ListSidebar extends React.Component {
         showFrozenAmount: false
       })
     }
+    const isSupportToTrade = (token) => {
+      const supportedToken = config.getSupportedMarketsTokenR()
+      if(supportedToken) {
+        const foundMarket = supportedToken.find((x,i) =>{
+          const market = token + "-" + x
+          if(config.isSupportedMarket(market)) {
+            return true
+          }
+        })
+        if(foundMarket) {
+          return true
+        }
+      }
+      return false
+    }
     const gotoTrade = (item) => {
       const supportedToken = config.getSupportedMarketsTokenR()
       if(supportedToken) {
@@ -247,7 +262,7 @@ class ListSidebar extends React.Component {
             <div className="col-12 p5">
               <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary" disabled={isWatchOnly}>
                 <i className="icon icon-loopring icon-loopring-trade fs16 mr5"/>
-                {intl.get('tokens.options_convert')} {token.symbol} To WETH
+                {intl.get('token.token_convert', {from:token.symbol, to:'WETH'})}
               </Button>
             </div>
           }
@@ -256,7 +271,7 @@ class ListSidebar extends React.Component {
             <div className="col-12 p5">
               <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary"
                       icon="retweet"  disabled={!!isWatchOnly}>
-                {intl.get('tokens.options_convert')} {token.symbol} To ETH
+                {intl.get('token.token_convert', {from:token.symbol, to:'ETH'})}
               </Button>
             </div>
           }
