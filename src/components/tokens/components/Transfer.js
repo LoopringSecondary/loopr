@@ -122,7 +122,7 @@ class Transfer extends React.Component {
             tx.data = generateAbiData({method: "transfer", address:values.to, amount});
           }
           const extraData = {from:account.address, to:values.to, tokenSymbol:tokenSymbol, amount:values.amount, price:prices.getTokenBySymbol(tokenSymbol).price}
-          modal.hideModal({id: 'token/transfer'})
+         // modal.hideModal({id: 'token/transfer'})
           modal.showModal({id: 'token/transfer/preview', tx, extraData})
         }
       });
