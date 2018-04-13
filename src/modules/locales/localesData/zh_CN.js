@@ -5,9 +5,19 @@ export default {
     options: '操作',
     amount: "{amount,number}",
     no_data:"暂时没有数据",
-    version:'版本号',
+    version:'版本',
     update_time:'更新时间',
-    beta:"测试版"
+    beta:"体验版"
+  },
+  version:{
+    badge:'体验版',
+    title:'路印钱包体验版',
+    description:'当前版本并非正式发布版本，仅供用户体验。',
+    extra:'体验版在持续优化完善，更新发布比较频繁，遇到各种问题，请大家体谅',
+    roadmap:'路印钱包2018路线图',
+    feedback:'问题反馈',
+    version:'版本',
+    update_time:'最近更新',
   },
   navbar: {
     home: "首页",
