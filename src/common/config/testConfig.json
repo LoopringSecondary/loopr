@@ -7,7 +7,7 @@
   "defaultGasLimit": "0x15f90",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
-  "delegateAddress": "0x4e9d4d3b7db4973c91b23a634eb9f675d0e19f79",
+  "delegateAddress": "0x2d29a61ab2448a14739131b4d556f5d405024f1b",
   "chainId": 7107171,
   "bindContractAddress": "0x87ab705372cb463c967d396ee2cb2b25da0efb7e",
   "minimumLrcfeeInEth":0.00045,

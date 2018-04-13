@@ -316,7 +316,8 @@ export default {
     convert_succ_notification_title: '转换成功',
     transfer_succ_notification_title: '转账成功',
     custum_gas_title:'设置本订单生效的油费',
-    custum_gas_content:'根据当前以太坊Gas价格, 我们推荐您设置{gas}'
+    custum_gas_content:'根据当前以太坊Gas价格, 我们推荐您设置{gas}',
+    token_convert:'转换{from}到{to}'
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
@@ -369,7 +370,7 @@ export default {
     connect_to_metamask_not_supported_browser: "您的浏览器不支持MetaMask解锁，推荐您使用Chrome",
     download_chrome: "下载Chrome浏览器",
     recommended_tip: "我们推荐您采用这种方式使用钱包。",
-   not_recommended: "不推荐",
+    not_recommended: "不推荐",
     not_recommended_tip: "我们不推荐您采用这种方式使用钱包。",
     select_keystore: "粘贴您的Keystore内容或者选择您的Keystore文件",
     select_json: "选择JSON文件",
@@ -449,7 +450,8 @@ export default {
     instruction_demo: '您可以使用观察模式体验 Loopr 钱包，但无法执行下单，转账等需要私钥的操作',
     have_a_try: '开始体验之旅',
     unlocked_notification_title: '您已成功解锁钱包',
-    unlocked_notification_content: '开始您的路印之旅，希望你能喜欢'
+    unlocked_notification_content: '开始您的路印之旅，希望你能喜欢',
+    unlocked_by:'已用{type}解锁'
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",

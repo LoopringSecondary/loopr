@@ -7,6 +7,8 @@ import intl from 'react-intl-universal'
 import CoinIcon from '../../common/CoinIcon'
 import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from "Loopring/relay/utils";
 import {toBig} from "Loopring/common/formatter";
+import config from '../../../common/config'
+import Notification from 'Loopr/Notification'
 
 const uiFormatter = window.uiFormatter;
 
@@ -25,7 +27,6 @@ class ListBlock extends React.Component {
       this.getNeeded(token)
     }
   }
-
 
   shouldComponentUpdate(nextProps) {
     if (nextProps.LIST.filters.token && nextProps.LIST.filters.token !== this.props.LIST.filters.token) {
@@ -54,7 +55,6 @@ class ListBlock extends React.Component {
         }
       }
     })
-
   };
 
   render() {
@@ -79,13 +79,13 @@ class ListBlock extends React.Component {
         symbol
       })
     };
-    const gotoConvert = () => {
+    const gotoConvert = (item) => {
       showModal({
         id: 'token/convert',
-        item: {symbol: 'ETH'},
+        item,
         showFrozenAmount: true
       })
-    };
+    }
     const gotoTransfer = () => {
       showModal({
         id: 'token/transfer',
@@ -94,12 +94,25 @@ class ListBlock extends React.Component {
     };
 
     const gotoTrade = () => {
-      if(token === 'WETH' || token === 'ETH'){
-        window.routeActions.gotoPath(`/trade/LRC-WETH`)
-      }else{
-        window.routeActions.gotoPath(`/trade/${token}-WETH`)
+      const supportedToken = config.getSupportedMarketsTokenR()
+      if(supportedToken) {
+        const foundMarket = supportedToken.find((x,i) =>{
+          const market = token + "-" + x
+          if(config.isSupportedMarket(market)) {
+            return true
+            }
+          }
+        )
+        if(foundMarket) {
+          window.routeActions.gotoPath('/trade/'+token + "-" + foundMarket)
+          return
+        }
       }
-
+      Notification.open({
+        type:'warning',
+        message:intl.get('trade.not_supported_token_to_trade_title', {token:token}),
+        description:intl.get('trade.not_supported_token_to_trade_content')
+      });
     };
 
     const TxItem = ({item: origin, index}) => {
@@ -257,11 +270,26 @@ class ListBlock extends React.Component {
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
             </Button>
-            <Button onClick={gotoTrade} className="mr15" type="primary" disabled={isWatchOnly}>
-              <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_trade')} {filters.token}</span>
-            </Button>
-
+            {filters.token !== 'ETH' && filters.token !== 'WETH' &&
+              <Button onClick={gotoTrade} className="mr15" type="primary" disabled={isWatchOnly}>
+                <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+                <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_trade')} {filters.token}</span>
+              </Button>
+            }
+            {
+              (filters.token === 'ETH') &&
+              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
+                <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
+                {intl.get('token.token_convert', {from:filters.token, to:'WETH'})}
+              </Button>
+            }
+            {
+              (filters.token === 'WETH') &&
+              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
+                <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
+                {intl.get('token.token_convert', {from:filters.token, to:'ETH'})}
+              </Button>
+            }
           </div>
         </div>
         <div className="pl15 pr15">
@@ -291,7 +319,7 @@ class ListBlock extends React.Component {
                                className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
                                                     className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
-                       {token === 'WETH' && <Button onClick={gotoConvert}
+                       {token === 'WETH' && <Button onClick={gotoConvert.bind(this, {symbol:token})}
                                                     className="m5 border-none color-white bg-warning-1">{intl.get('txs.type_convert_title_eth')}</Button>}
                      </div>
                    </div>
