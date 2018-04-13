@@ -121,6 +121,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
     }
   })
   let markets = Object.keys(marketsMap)
+  markets=['WETH']
 
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
