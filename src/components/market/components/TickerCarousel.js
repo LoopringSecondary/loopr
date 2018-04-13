@@ -8,10 +8,16 @@ const TickerItem = ({item})=>{
         <div className="col">
           <div className="fs2">
             <span className="color-white mr10">{item.market}</span>
-            <span className="" style={{color:'#00E831'}}>
-              <Icon type="arrow-up" />
-              {item.change || '0%'}
-            </span>
+            {
+              item.change || true &&
+              <span className="" style={{color:'#00E831'}}>
+                {
+                  item.change &&
+                  <Icon type="arrow-up" />
+                }
+                {item.change || '0%'}
+              </span>
+            }
           </div>
           <div className="">
             <span className="color-white-3 mr5 fs3">{Number(item.last).toFixed(6)}</span>
@@ -38,7 +44,7 @@ const TickerCarousel = (props)=>{
     <div className={`ticker-list-carousel ${ifLight ? ' bg-blue' : ' bg-black'}`}>
       <Carousel  {...carouselProps}>
           {
-           tickers.items.map((item,index)=>
+           tickers.originItems.map((item,index)=>
              <div className="" key={index}>
                <TickerItem key={index} item={item} />
              </div>
