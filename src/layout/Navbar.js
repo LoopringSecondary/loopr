@@ -72,13 +72,12 @@ function Navbar(props){
       {
         account.isUnlocked &&
         <div>
-
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
                 <div className="fs14 color-black-1 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
               </div>
-              <div className="col-auto pr0">
+              <div className="col-auto pr10">
                 <Button className="fs14" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
               </div>
             </div>
@@ -151,7 +150,7 @@ function Navbar(props){
                 <Badge status="processing" className="" />
                   Connected By MetaMask
               </div>
-              <div className="col-auto pr0">
+              <div className="col-auto pr10">
                 <Button className="fs14 border-none color-primary-1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="poweroff" onClick={copyToClipboard}></Button>
               </div>
             </div>
@@ -189,6 +188,26 @@ function Navbar(props){
       }
     </div>
   )
+  const VersionTip = (
+    <div className="" style={{maxWidth:'280px'}}>
+      <div className="p15">
+        <div className="fs16 color-black-1">A Demo Version For Experience</div>
+        <div className="fs12 color-black-1">Loopring web wallet is still in beta phase, please wait patiently for our official release.</div>
+      </div>
+      <div className="zb-b-t">
+        <div className="row pt5 pb5 pl10 pr10">
+          <div className="col fs12 color-black-2">Version</div>
+          <div className="col-auto fs12 color-black-3">V2 Demo</div>
+        </div>
+      </div>
+      <div className="zb-b-t">
+        <div className="row pt5 pb5 pl10 pr10">
+          <div className="col fs12 color-black-2">Last Update</div>
+          <div className="col-auto fs12 color-black-3">20180413</div>
+        </div>
+      </div>
+    </div>
+  )
   return (
     <div className="navbar-loopring">
       <div className="container">
@@ -199,7 +218,9 @@ function Navbar(props){
             </Link>
           </div>
           <div className="col-auto pl10 pr0">
-            <Badge count={"Beta"} className="mt5" style={{background:"transparent",color:"rgba(0,0,0,0.65)",border:"1px solid rgba(0,0,0,0.3)"}} />
+            <Popover content={VersionTip} title={null} trigger="click">
+              <Badge count={"Beta"} className="mt5" style={{background:"transparent",color:"rgba(0,0,0,0.65)",border:"1px solid rgba(0,0,0,0.3)"}} />
+            </Popover>
           </div>
           <div className="col"></div>
           <div className="col-auto">
