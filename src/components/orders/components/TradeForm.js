@@ -68,8 +68,8 @@ class TradeForm extends React.Component {
       }
     }
     const amountPrecision = tokenRBalance.precision - marketConfig.pricePrecision
-    if (amountPrecision > 0) {
-      const amountArr = availableAmount.split(".")
+    if (amountPrecision > 0 && availableAmount > 0) {
+      const amountArr = availableAmount.toString().split(".")
       if (amountArr[1] && amountArr[1].length > amountPrecision) {
         try {
           availableAmount = Number(amountArr[0] + "." + amountArr[1].substring(0, amountPrecision))
@@ -470,7 +470,7 @@ class TradeForm extends React.Component {
         let amount = accMul(value, Number(e)) / 100
         const amountPrecision = tokenRBalance.precision - marketConfig.pricePrecision
         if (amountPrecision > 0) {
-          const amountArr = amount.split(".")
+          const amountArr = amount.toString().split(".")
           if (amountArr[1] && amountArr[1].length > amountPrecision) {
             try {
               amount = Number(amountArr[0] + "." + amountArr[1].substring(0, amountPrecision))
