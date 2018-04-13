@@ -390,6 +390,13 @@ class Transfer extends React.Component {
               <Input placeholder="" size="large" onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>
+          {false && <Tooltip
+            trigger={['focus']}
+            title={priceValue}
+            placement="topLeft"
+            overlayClassName="numeric-input">
+            </Tooltip>
+          }
           <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.amount')}</div>} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('amount', {
               initialValue: 0,
@@ -400,27 +407,20 @@ class Transfer extends React.Component {
                 }
               ]
             })(
-              <Tooltip
-                trigger={['focus','click','hover']}
-                title={priceValue}
-                placement="topLeft"
-                overlayClassName="numeric-input"
-              >
-                <Input className="d-block w-100" placeholder="" size="large" suffix={amountAfter}
-                       onChange={amountChange.bind(this)} onKeyDown={toContinue.bind(this)}
-                       onFocus={() => {
-                         const amount = form.getFieldValue("amount")
-                         if (amount === 0) {
-                           form.setFieldsValue({"amount": ''})
-                         }
-                       }}
-                       onBlur={() => {
-                         const amount = form.getFieldValue("amount")
-                         if(amount === '') {
-                           form.setFieldsValue({"amount": 0})
-                         }
-                       }}/>
-              </Tooltip>
+              <Input className="d-block w-100" placeholder="" size="large" suffix={amountAfter}
+                     onChange={amountChange.bind(this)} onKeyDown={toContinue.bind(this)}
+                     onFocus={() => {
+                       const amount = form.getFieldValue("amount")
+                       if (amount === 0) {
+                         form.setFieldsValue({"amount": ''})
+                       }
+                     }}
+                     onBlur={() => {
+                       const amount = form.getFieldValue("amount")
+                       if(amount === '') {
+                         form.setFieldsValue({"amount": 0})
+                       }
+                     }}/>
             )}
           </Form.Item>
 
