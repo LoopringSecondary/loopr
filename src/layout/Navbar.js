@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Button, Icon, Menu, message, Popover, Select,Badge} from 'antd';
+import {Button, Icon, Menu, message, Popover, Select,Badge,Row} from 'antd';
 import {Link} from 'dva/router';
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
@@ -68,90 +68,91 @@ function Navbar(props){
     }
   }
   const accountMenus = (
-    <div className="fs18">
+    <div className="fs18" style={{maxWidth:'280px'}}>
       {
         account.isUnlocked &&
         <div>
+
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
                 <div className="fs14 color-black-1 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
-
               </div>
-              <div className="col-auto">
+              <div className="col-auto pr0">
                 <Button className="fs14" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
               </div>
             </div>
           </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-             <Badge status="processing" className="ml5" />
-             Connected By Metamask
-          </div>
-          <div className="row">
-            <div className="col-sm-3">
+          <div className="row ml0 mr0">
+            <div className="col-sm-4 text-center pl0 pr0">
               <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
                 <a onClick={showModal.bind(this,{id:'token/receive',symbol:null})}>
-                  <i className="icon-loopring icon-loopring-receive fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.receive')}
+                  <i className="icon-loopring icon-loopring-receive fs16 color-grey-900 d-block"></i>{intl.get('navbar.subs.receive')}
                 </a>
               </div>
             </div>
-            {!isWatchOnly &&
-              <div className="col-sm-3">
-                <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+            <div className="col-sm-4 text-center pl0 pr0">
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                {!isWatchOnly &&
                   <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
-                    <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.send')}
+                    <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 d-block"></i>{intl.get('navbar.subs.send')}
                   </a>
-                </div>
-              </div>
-            }
-            {!isWatchOnly &&
-              <div className="col-sm-3">
-                <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-                  <Link to="/trade" className='color-grey-900'>
-                    <i
-                      className="icon-loopring icon-loopring-trade fs16 color-grey-900 mr5"></i>{intl.get('navbar.subs.trade')}
-                  </Link>
-                </div>
-              </div>
-            }
-            <div className="col-sm-3">
-              {(account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-                <a onClick={showModal.bind(this,{id:'wallet/export/keystore'})}>
-                  <Icon type="export" className="mr5" />{intl.get('navbar.subs.export')}
+                }
+                { isWatchOnly &&
+                  <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
+                    <i className="icon-loopring icon-loopring-transfer fs16 color-grey-900 d-block"></i>{intl.get('navbar.subs.send')}
                 </a>
-              </div>}
+                }
+              </div>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4 text-center pl0 pr0">
+              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                <Link to="/trade" className='color-grey-900'>
+                  <i className="icon-loopring icon-loopring-trade fs16 color-grey-900 d-block"></i>{intl.get('navbar.subs.trade')}
+                </Link>
+              </div>
+            </div>
+            {
+              (account.walletType === 'KeyStore'|| account.walletType === 'Mnemonic' || account.walletType === 'PrivateKey') &&
+              <div className="col-sm-4 text-center pl0 pr0">
+                  <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+                    <a onClick={showModal.bind(this,{id:'wallet/export/keystore'})}>
+                      <Icon type="export" className="d-block" />{intl.get('navbar.subs.export')}
+                    </a>
+                  </div>
+              </div>
+            }
+            <div className="col-sm-4 text-center pl0 pr0">
               <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
                 <a onClick={showModal.bind(this, {id: 'wallet/airdrop'})} className="color-grey-900">
-                  <Icon type="gift" className="mr5"/>{intl.get('navbar.subs.airdrop')}
+                  <Icon type="gift" className="d-block"/>{intl.get('navbar.subs.airdrop')}
                 </a>
               </div>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4 text-center pl0 pr0">
               <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
-                <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
+                <Icon type="setting" className="d-block" />{intl.get('navbar.settings')}
               </div>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4 text-center pl0 pr0">
               <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-                <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
+                <Icon type="question-circle-o" className="d-block" />{intl.get('navbar.subs.help')}
               </div>
             </div>
-            <div className="col-sm-3">
+            <div className="col-sm-4 text-center pl0 pr0">
               <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-                <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
+                <Icon type="tool" className="d-block" />{intl.get('navbar.subs.tools')}
               </div>
             </div>
-            <div className="col-sm-3">
-              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-                <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
+          </div>
+          <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
+            <div className="row align-items-center ">
+              <div className="col color-primary-1">
+                <Badge status="processing" className="" />
+                  Connected By MetaMask
               </div>
-            </div>
-            <div className="col-sm-3">
-              <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
-                <a onClick={quit}><Icon type="poweroff" className="mr5" />{intl.get('navbar.subs.quit')}
-                </a>
+              <div className="col-auto pr0">
+                <Button className="fs14 border-none" type="default" size="small" onClick={copyToClipboard}>Lock</Button>
               </div>
             </div>
           </div>
@@ -239,7 +240,7 @@ function Navbar(props){
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
-            <Popover content={accountMenus} title={null}>
+            <Popover content={accountMenus} title={null} trigger="click">
                 {
                   account.address &&
                   <span className="fs16 color-blue-600">
