@@ -17,17 +17,15 @@ const ChangeContainer = (props)=>{
 }
 class Transfer extends React.Component {
   state = {
-    selectedGasPrice: 0,
+    selectedGasPrice: fm.toNumber(configs.defaultGasPrice),
     selectedGasLimit: '',
-    selectedGas: 0,
+    sliderGasPrice:0,
     estimateGasPrice : 0,
-    estimateGas:0,
-    gasValueInSlider:0,
     advanced: false,
     value: 0,
     gasMark: {
-      200000: intl.get('token.slow'),
-      3000000: intl.get('token.fast')
+      1: intl.get('token.slow'),
+      99: intl.get('token.fast')
     },
     tokenSymbol: '',
     showTokenSelector : false,
@@ -36,24 +34,22 @@ class Transfer extends React.Component {
 
   componentDidMount() {
     const {settings, modal, assets, form} = this.props
-    const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
-    const gas = fm.toBig(settings.trading.gasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
-    this.setState({selectedGas: fm.toNumber(gas.toFixed(8)), gasValueInSlider:fm.toNumber(gas.toFixed(8)) * 1e9})
+    const currentToken = modal.item
+    this.setState({sliderGasPrice:settings.trading.gasPrice})
     getGasPrice().then(res=>{
-      const estimateGas = fm.toBig(fm.toBig(fm.toNumber(res.result) * defaultGasLimit).div(1e18).toFixed(8))
-      const estimateGasShow = estimateGas.times(1e9)
-      this.setState({
-        gasMark: {
-          200000: intl.get('token.slow'),
-          [estimateGasShow]: '',
-          3000000: intl.get('token.fast')
-        },
-        estimateGasPrice:estimateGasShow.toNumber(),
-        estimateGas: estimateGas
-      })
-    });
+      const gasPrice = fm.toBig(res.result).div(1e9).toNumber()
+      if(gasPrice >= 1 && gasPrice <= 99) {
+        this.setState({
+          gasMark: {
+            1: intl.get('token.slow'),
+            [gasPrice]: '',
+            99: intl.get('token.fast')
+          },
+          estimateGasPrice:gasPrice,
+        })
+      }
+    })
     if(modal.item) {
-      const currentToken = modal.item
       this.setState({tokenSymbol: currentToken.symbol})
     } else {
       this.setState({showTokenSelector: true})
@@ -69,8 +65,17 @@ class Transfer extends React.Component {
     }
     const _this = this
     const {form, modal, account, settings, assets, prices} = this.props
-    const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+    const currentToken = modal.item
+    let GasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+    if(currentToken && currentToken.symbol !== "ETH") {
+      GasLimit = config.getGasLimitByType('token_transfer').gasLimit
+    }
+    const defaultGas = fm.toBig(this.state.sliderGasPrice).times(GasLimit).div(1e9).toNumber()
+    let estimateGas = 0
+    if(this.state.estimateGasPrice > 0){
+      estimateGas = fm.toBig(this.state.estimateGasPrice).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
+    }
 
     let sorter = (tokenA,tokenB)=>{
       const pa = Number(tokenA.balance);
@@ -88,21 +93,20 @@ class Transfer extends React.Component {
         if (!err) {
           const tx = {};
           let tokenSymbol = _this.state.tokenSymbol
+          let gasPrice = settings.trading.gasPrice
+          let gasLimit = GasLimit
           if(_this.state.advanced) {
-            tx.gasPrice = fm.toHex(fm.toBig(_this.state.selectedGasPrice).times(1e9))
-            tx.gasLimit = fm.toHex(_this.state.selectedGasLimit)
-          } else {
-            let gasLimit = 0
-            if(tokenSymbol === "ETH") {
-              gasLimit = config.getGasLimitByType('eth_transfer').gasLimit
-            } else {
-              gasLimit = config.getGasLimitByType('token_transfer').gasLimit
+            if(_this.state.selectedGasPrice) {
+              gasPrice = _this.state.selectedGasPrice
             }
-            let gasPrice = fm.toBig(_this.state.selectedGas).div(fm.toNumber(gasLimit)).times(1e9).toNumber()
-            gasPrice = Math.floor(gasPrice * 100) / 100
-            tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
-            tx.gasLimit = gasLimit
+            if(_this.state.selectedGasLimit) {
+              gasLimit = _this.state.selectedGasLimit
+            }
+          } else {
+            gasPrice = _this.state.sliderGasPrice
           }
+          tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
+          tx.gasLimit = fm.toHex(gasLimit)
           if(_this.state.showTokenSelector) {
             tokenSymbol = form.getFieldValue("token")
           }
@@ -168,7 +172,7 @@ class Transfer extends React.Component {
 
     function setGas(v) {
       setTimeout(()=>{
-        const gas = fm.toBig(v).div(1e9)
+        const gas = fm.toBig(v).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
         if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
           const token = getToken(this.state.tokenSymbol)
           let balance = token.balance
@@ -176,7 +180,7 @@ class Transfer extends React.Component {
           this.setState({value: balance})
           form.setFieldsValue({"amount": balance})
         }
-        this.setState({gasValueInSlider:v, selectedGas:gas.toString(10)})
+        this.setState({sliderGasPrice: v, selectedGasLimit:GasLimit, selectedGas: gas.toString(10)})
       },0)
     }
 
@@ -186,14 +190,20 @@ class Transfer extends React.Component {
         const token = getToken(_this.state.tokenSymbol)
         let balance = token.balance
         if(_this.state.tokenSymbol === 'ETH') {
+          let gasPrice = settings.trading.gasPrice
+          let gasLimit = GasLimit
           if(_this.state.advanced) {
-            if(_this.state.selectedGasLimit && _this.state.selectedGasPrice) {
-              const gas = fm.toBig(_this.state.selectedGasPrice).times(_this.state.selectedGasLimit).div(1e9)
-              balance = Math.max(0, balance - gas)
+            if(_this.state.selectedGasPrice) {
+              gasPrice = _this.state.selectedGasPrice
+            }
+            if(_this.state.selectedGasLimit) {
+              gasLimit = _this.state.selectedGasLimit
             }
           } else {
-            balance = Math.max(0, balance - _this.state.selectedGas)
+            gasPrice = _this.state.sliderGasPrice
           }
+          const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9).toNumber()
+          balance = Math.max(0, balance - gas)
         }
         _this.setState({value: balance, sendMax:true})
         form.setFieldsValue({"amount": balance})
@@ -249,7 +259,11 @@ class Transfer extends React.Component {
       if(e.target.value){
         const gasLimit = fm.toNumber(e.target.value)
         if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
-          const gas = fm.toBig(settings.trading.gasPrice).times(gasLimit).div(1e9)
+          let gasPrice = settings.trading.gasPrice
+          if(this.state.selectedGasPrice) {
+            gasPrice = this.state.selectedGasPrice
+          }
+          const gas = fm.toBig(gasPrice).times(gasLimit).div(1e9).toNumber()
           const token = getToken(this.state.tokenSymbol)
           let balance = token.balance
           balance = Math.max(0, balance - gas)
@@ -263,8 +277,11 @@ class Transfer extends React.Component {
     function gasPriceChange(e) {
       const gasPrice = fm.toNumber(e)
       if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
-        const defaultGasLimit = config.getGasLimitByType('eth_transfer').gasLimit
-        const gas = fm.toBig(gasPrice).times(fm.toNumber(defaultGasLimit)).div(1e9)
+        let gasLimit = GasLimit
+        if(this.state.selectedGasLimit){
+          gasLimit = this.state.selectedGasLimit
+        }
+        const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9).toNumber()
         const token = getToken(this.state.tokenSymbol)
         let balance = token.balance
         balance = Math.max(0, balance - gas)
@@ -288,7 +305,8 @@ class Transfer extends React.Component {
     };
 
     const formatGas = (value) => {
-      return (value / 1e9) + " ether";
+      const gas = fm.toBig(value).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
+      return gas + " ether";
     }
 
     const priceValue = (
@@ -316,15 +334,15 @@ class Transfer extends React.Component {
     const transactionFee = (
       <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('token.custum_gas_title')}</div>} content={
         <div style={{maxWidth:'300px',padding:'5px'}}>
-          <div className="pb10">{intl.get('token.custum_gas_content', {gas: this.state.estimateGas})}</div>
+          <div className="pb10">{intl.get('token.custum_gas_content', {gas: estimateGas})}</div>
           {form.getFieldDecorator('transactionFee', {
-            initialValue: this.state.gasValueInSlider,
+            initialValue: settings.trading.gasPrice,
             rules: []
           })(
-            <Slider min={200000} max={3000000} step={10}
-                    marks={this.state.gasMark}
-                    tipFormatter={formatGas}
-                    onChange={setGas.bind(this)}
+            <Slider min={1} max={99} step={0.01}
+              marks={this.state.gasMark}
+              tipFormatter={formatGas}
+              onChange={setGas.bind(this)}
             />
           )}
         </div>
@@ -423,7 +441,6 @@ class Transfer extends React.Component {
                      }}/>
             )}
           </Form.Item>
-
           {!this.state.advanced &&
             <div>
               <div style={{height:""}}>
@@ -434,7 +451,7 @@ class Transfer extends React.Component {
                     </div>
                     <div className="col"></div>
                     <div className="col-auto pl0 pr5">{transactionFee}</div>
-                    <div className="col-auto pl0 fs3 color-black-2">{formatGas(this.state.gasValueInSlider)}</div>
+                    <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ether</div>
                   </div>
                 </Form.Item>
               </div>
@@ -471,7 +488,7 @@ class Transfer extends React.Component {
               </Form.Item>
               <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_price')}</div>} colon={false}>
                 {form.getFieldDecorator('gasPrice', {
-                  initialValue: fm.toNumber(configs.defaultGasPrice),
+                  initialValue: this.state.selectedGasPrice,
                   rules: []
                 })(
                   <Slider min={1} max={99} step={1}
