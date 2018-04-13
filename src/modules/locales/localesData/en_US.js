@@ -296,6 +296,7 @@ export default {
     to_confirm_title: "Waiting For Your Confirmation",
     to_confirm_ledger_content: "Please confirm transaction on your Ledger device",
     select_token: "Token",
+    token_selector_placeholder: 'Select Token',
     token_select_verification_message: "Please select token to send",
     transfer_result_title: "Care about the result ? ",
     transfer_result_etherscan: "View transaction in Etherscan",
