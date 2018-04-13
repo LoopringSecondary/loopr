@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import colors from '../../common/config/tokens_colors.json'
+import colors from '../../common/config/tokens_colors.json';
+import icons from '../../common/config/tokens_icons.json';
 const CoinIcon = (props)=>{
   let {symbol='LRC',size='50',color='',className="",style={} } = props
   symbol = symbol.toUpperCase()
@@ -10,7 +11,7 @@ const CoinIcon = (props)=>{
     color = 'color-'+ color
   }
   return (
-    <i className={`icon icon-loopring icon-loopring-${symbol} fs${size} ${color} ${className}`} ></i>
+    <i className={`icon icon-loopring icon-loopring-${icons[symbol.toUpperCase()] ? symbol : 'EMPTY'} fs${size} ${color} ${className}`} />
   )
 }
 export default CoinIcon
