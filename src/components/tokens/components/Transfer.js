@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Collapse,Card,Popover} from 'antd';
+import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Collapse,Card,Popover,Tooltip} from 'antd';
 import validator from '../../../common/Loopring/common/validator'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 import {configs} from '../../../common/config/data'
@@ -10,6 +10,11 @@ import Currency from '../../../modules/settings/CurrencyContainer'
 import {getGasPrice} from '../../../common/Loopring/relay/utils'
 import intl from 'react-intl-universal';
 
+const ChangeContainer = (props)=>{
+  const {render,...rest} = props
+  const childProps = {...rest}
+  return render.call(this,childProps)
+}
 class Transfer extends React.Component {
   state = {
     selectedGasPrice: 0,
@@ -177,20 +182,20 @@ class Transfer extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      if(this.state.tokenSymbol) {
-        const token = getToken(this.state.tokenSymbol)
+      if(_this.state.tokenSymbol) {
+        const token = getToken(_this.state.tokenSymbol)
         let balance = token.balance
-        if(this.state.tokenSymbol === 'ETH') {
-          if(this.state.advanced) {
-            if(this.state.selectedGasLimit && this.state.selectedGasPrice) {
-              const gas = fm.toBig(this.state.selectedGasPrice).times(this.state.selectedGasLimit).div(1e9)
+        if(_this.state.tokenSymbol === 'ETH') {
+          if(_this.state.advanced) {
+            if(_this.state.selectedGasLimit && _this.state.selectedGasPrice) {
+              const gas = fm.toBig(_this.state.selectedGasPrice).times(_this.state.selectedGasLimit).div(1e9)
               balance = Math.max(0, balance - gas)
             }
           } else {
-            balance = Math.max(0, balance - this.state.selectedGas)
+            balance = Math.max(0, balance - _this.state.selectedGas)
           }
         }
-        this.setState({value: balance, sendMax:true})
+        _this.setState({value: balance, sendMax:true})
         form.setFieldsValue({"amount": balance})
       }
     }
@@ -327,6 +332,7 @@ class Transfer extends React.Component {
         <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
       </Popover>
     )
+    const amountAfter = (<a href="" onClick={selectMax.bind(this)}>{intl.get("token.send_max")}</a>)
     return (
       <Card title={`${intl.get('token.send')} ${this.state.tokenSymbol}`}>
         <Form layout="horizontal">
@@ -366,7 +372,6 @@ class Transfer extends React.Component {
                       <div className="col color-black-2">{asset.symbol}</div>
                       <div className="col-atuo color-black-3">{balance > 0 ? balance : ''}</div>
                     </div>
-
                     </Select.Option>}
                 )}
               </Select>
@@ -385,13 +390,14 @@ class Transfer extends React.Component {
               <Input placeholder="" size="large" onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>
-          <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.amount')}</div>} {...formItemLayout} colon={false} extra={
-            <div className="row">
-              <div className="col-auto">{priceValue}</div>
-              <div className="col"></div>
-              <div className="col-auto"><a href="" onClick={selectMax.bind(this)}>{intl.get("token.send_max")}</a></div>
-            </div>
-          }>
+          {false && <Tooltip
+            trigger={['focus']}
+            title={priceValue}
+            placement="topLeft"
+            overlayClassName="numeric-input">
+            </Tooltip>
+          }
+          <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.amount')}</div>} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('amount', {
               initialValue: 0,
               rules: [
@@ -401,22 +407,23 @@ class Transfer extends React.Component {
                 }
               ]
             })(
-              <Input className="d-block w-100" placeholder="" size="large" suffix={this.state.tokenSymbol}
+              <Input className="d-block w-100" placeholder="" size="large" suffix={amountAfter}
                      onChange={amountChange.bind(this)} onKeyDown={toContinue.bind(this)}
                      onFocus={() => {
-                const amount = form.getFieldValue("amount")
-                if (amount === 0) {
-                  form.setFieldsValue({"amount": ''})
-                }
-              }}
+                       const amount = form.getFieldValue("amount")
+                       if (amount === 0) {
+                         form.setFieldsValue({"amount": ''})
+                       }
+                     }}
                      onBlur={() => {
-                 const amount = form.getFieldValue("amount")
-                 if(amount === '') {
-                   form.setFieldsValue({"amount": 0})
-                 }
-              }}/>
+                       const amount = form.getFieldValue("amount")
+                       if(amount === '') {
+                         form.setFieldsValue({"amount": 0})
+                       }
+                     }}/>
             )}
           </Form.Item>
+
           {!this.state.advanced &&
             <div>
               <div style={{height:""}}>
@@ -486,7 +493,7 @@ class Transfer extends React.Component {
               </div>
             </div>
           }
-          <Form.Item>
+          <Form.Item className="mb0">
             <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">{intl.get('token.continue')}</Button>
           </Form.Item>
         </Form>
