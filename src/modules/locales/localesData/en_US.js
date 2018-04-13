@@ -322,7 +322,7 @@ export default {
     address_tip: "Paste corresponding address here",
     address: "Address",
     bind_address: "Bind Address",
-    to_bind_address: "To Bind Address",
+    to_bind_address: "Bind Address",
     to_edit: "To Edit Binding Address",
     bind_type_address: "Bind {type} Address",
     bind_address_confirm: "Bind your {project} address: {address} to your wallet?",
