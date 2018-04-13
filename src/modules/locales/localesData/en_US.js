@@ -248,6 +248,8 @@ export default {
     failed_fetch_data:'Failed fetch data from server, you could wait a moment and come back later',
     eth_is_required:'ETH is required to pay Ethereun transaction fees, calculated with your current order cost that need to send Ethereum transactions, totally required {required} ETH.',
     lrcfee_is_required:'LRC is required to pay trade fees, added on your history orders need LRC, totally required {required} LRC.',
+    not_supported_token_to_trade_title:'{token} Is Not Supported To Trade Now',
+    not_supported_token_to_trade_content:'Please look forward to us opening more markets',
   },
   trades: {
     side: 'Side',

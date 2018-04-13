@@ -252,6 +252,8 @@ export default {
     failed_fetch_data:'从服务器获取数据失败, 请稍后在尝试',
     eth_is_required:'由于需要ETH支付油费, 根据您当前订单需要发送的以太坊交易计算，还需要 {required} ETH',
     lrcfee_is_required:'由于需要支付LRC手续费, 汇总您历史订单所需LRC，还需要 {required} LRC',
+    not_supported_token_to_trade_title:'我们暂时未支持{token}交易',
+    not_supported_token_to_trade_content:'敬请期待我们开放更多市场',
   },
   trades:{
     side: '方向',
