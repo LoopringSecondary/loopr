@@ -223,7 +223,7 @@ class Transfer extends React.Component {
       if(this.state.showTokenSelector) {
         tokenSymbol = form.getFieldValue("token")
       }
-      if(isNumber(value)) {
+      if(tokenSymbol && isNumber(value)) {
         const token = getToken(tokenSymbol)
         return value && value <= token.balance
       } else {
@@ -352,7 +352,7 @@ class Transfer extends React.Component {
                 showSearch={false}
                 allowClear
                 style={{ width: 300 }}
-                placeholder="Select Token"
+                placeholder={intl.get('token.token_selector_placeholder')}
                 optionFilterProp="children"
                 onChange={handleChange.bind(this)}
                 onFocus={()=>{}}
