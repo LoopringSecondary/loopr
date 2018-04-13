@@ -451,7 +451,7 @@ class Transfer extends React.Component {
                     </div>
                     <div className="col"></div>
                     <div className="col-auto pl0 pr5">{transactionFee}</div>
-                    <div className="col-auto pl0 fs3 color-black-2">{defaultGas}</div>
+                    <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ether</div>
                   </div>
                 </Form.Item>
               </div>
