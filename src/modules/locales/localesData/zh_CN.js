@@ -5,6 +5,9 @@ export default {
     options: '操作',
     amount: "{amount,number}",
     no_data:"暂时没有数据",
+    version:'版本号',
+    update_time:'更新时间',
+    beta:"测试版"
   },
   navbar: {
     home: "首页",

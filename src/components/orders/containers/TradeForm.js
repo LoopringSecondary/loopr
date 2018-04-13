@@ -15,7 +15,9 @@ function TradeFormContainer(props){
             <SettingsContainer>
               <PlaceOrderContainer id="sell">
                 <AccountContainer>
+                  <Sockets.PendingTxs>
                   <Components.TradeForm side={side} pair={pair} />
+                  </Sockets.PendingTxs>
                 </AccountContainer>
               </PlaceOrderContainer>
             </SettingsContainer>

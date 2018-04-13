@@ -73,9 +73,11 @@ class PendingTxsContainer extends React.Component {
   isApproving(symbol) {
     if (symbol) {
       const txs = this.state.pendingTxs;
-      const approveTxs = txs.find(tx => tx.type === 'approve' && tx.symbol.toLowerCase() === symbol.toLowerCase());
+      const approveTxs = txs.filter(tx => tx.type === 'approve' && tx.symbol.toLowerCase() === symbol.toLowerCase());
+      console.log('Approve TXs:',approveTxs);
       approveTxs.sort((a, b) => b.nonce - a.nonce);
       if (approveTxs.length > 0) {
+        console.log('Approve Value:',approveTxs[0].value);
         return toBig(approveTxs[0].value);
       }
     }

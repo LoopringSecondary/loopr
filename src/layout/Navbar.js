@@ -210,18 +210,18 @@ function Navbar(props){
   const VersionTip = (
     <div className="" style={{maxWidth:'280px'}}>
       <div className="p15">
-        <div className="fs16 color-primary-1">A Demo Version For Experience</div>
-        <div className="fs12 color-black-1">Loopring web wallet is still in beta phase, please wait patiently for our official release.</div>
+        <div className="fs16 color-primary-1">{intl.get('home.beta_notification_title')}</div>
+        <div className="fs12 color-black-1">{intl.get('home.beta_notifycation_content')}</div>
       </div>
       <div className="zb-b-t">
         <div className="row pt10 pb10 pl10 pr10">
-          <div className="col fs12 color-black-2">Version</div>
+          <div className="col fs12 color-black-2">{intl.get('global.version')}</div>
           <div className="col-auto fs12 color-black-3">2.0 Demo</div>
         </div>
       </div>
       <div className="zb-b-t">
         <div className="row pt10 pb10 pl10 pr10">
-          <div className="col fs12 color-black-2">Last Update</div>
+          <div className="col fs12 color-black-2">{intl.get('global.update_time')}</div>
           <div className="col-auto fs12 color-black-3">20180413</div>
         </div>
       </div>
@@ -240,7 +240,7 @@ function Navbar(props){
             <Popover content={VersionTip} title={null}>
               <span className="navbar-version-badge">
                 <Badge status="processing" className="" />
-                Beta
+                {intl.get('global.beta')}
               </span>
             </Popover>
           </div>

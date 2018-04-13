@@ -1,11 +1,13 @@
 export default {
-
   global: {
     all: 'All',
     market: 'Market',
     options: 'Options',
     amount: "{amount,number}",
-    no_data:"No data"
+    no_data:"No data",
+    version:'Version',
+    update_time:'Last Update',
+    beta:"Beta"
   },
   navbar: {
     home: "Home",
