@@ -17,7 +17,7 @@ const ChangeContainer = (props)=>{
 }
 class Transfer extends React.Component {
   state = {
-    selectedGasPrice: 0,
+    selectedGasPrice: fm.toNumber(configs.defaultGasPrice),
     selectedGasLimit: '',
     sliderGasPrice:0,
     estimateGasPrice : 0,
@@ -93,13 +93,20 @@ class Transfer extends React.Component {
         if (!err) {
           const tx = {};
           let tokenSymbol = _this.state.tokenSymbol
+          let gasPrice = settings.trading.gasPrice
+          let gasLimit = GasLimit
           if(_this.state.advanced) {
-            tx.gasPrice = fm.toHex(fm.toBig(_this.state.selectedGasPrice).times(1e9))
-            tx.gasLimit = fm.toHex(_this.state.selectedGasLimit)
+            if(_this.state.selectedGasPrice) {
+              gasPrice = _this.state.selectedGasPrice
+            }
+            if(_this.state.selectedGasLimit) {
+              gasLimit = _this.state.selectedGasLimit
+            }
           } else {
-            tx.gasPrice = fm.toHex(fm.toBig(_this.state.sliderGasPrice).times(1e9))
-            tx.gasLimit = GasLimit
+            gasPrice = _this.state.sliderGasPrice
           }
+          tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
+          tx.gasLimit = fm.toHex(gasLimit)
           if(_this.state.showTokenSelector) {
             tokenSymbol = form.getFieldValue("token")
           }
@@ -183,15 +190,20 @@ class Transfer extends React.Component {
         const token = getToken(_this.state.tokenSymbol)
         let balance = token.balance
         if(_this.state.tokenSymbol === 'ETH') {
+          let gasPrice = settings.trading.gasPrice
+          let gasLimit = GasLimit
           if(_this.state.advanced) {
-            if(_this.state.selectedGasLimit && _this.state.selectedGasPrice) {
-              const gas = fm.toBig(_this.state.selectedGasPrice).times(_this.state.selectedGasLimit).div(1e9)
-              balance = Math.max(0, balance - gas)
+            if(_this.state.selectedGasPrice) {
+              gasPrice = _this.state.selectedGasPrice
+            }
+            if(_this.state.selectedGasLimit) {
+              gasLimit = _this.state.selectedGasLimit
             }
           } else {
-            const gas = fm.toBig(_this.state.sliderGasPrice).times(GasLimit).div(1e9)
-            balance = Math.max(0, balance - gas)
+            gasPrice = _this.state.sliderGasPrice
           }
+          const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9).toNumber()
+          balance = Math.max(0, balance - gas)
         }
         _this.setState({value: balance, sendMax:true})
         form.setFieldsValue({"amount": balance})
@@ -247,7 +259,11 @@ class Transfer extends React.Component {
       if(e.target.value){
         const gasLimit = fm.toNumber(e.target.value)
         if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
-          const gas = fm.toBig(settings.trading.gasPrice).times(gasLimit).div(1e9)
+          let gasPrice = settings.trading.gasPrice
+          if(this.state.selectedGasPrice) {
+            gasPrice = this.state.selectedGasPrice
+          }
+          const gas = fm.toBig(gasPrice).times(gasLimit).div(1e9).toNumber()
           const token = getToken(this.state.tokenSymbol)
           let balance = token.balance
           balance = Math.max(0, balance - gas)
@@ -261,7 +277,11 @@ class Transfer extends React.Component {
     function gasPriceChange(e) {
       const gasPrice = fm.toNumber(e)
       if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
-        const gas = fm.toBig(gasPrice).times(fm.toNumber(GasLimit)).div(1e9)
+        let gasLimit = GasLimit
+        if(this.state.selectedGasLimit){
+          gasLimit = this.state.selectedGasLimit
+        }
+        const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9).toNumber()
         const token = getToken(this.state.tokenSymbol)
         let balance = token.balance
         balance = Math.max(0, balance - gas)
@@ -468,7 +488,7 @@ class Transfer extends React.Component {
               </Form.Item>
               <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_price')}</div>} colon={false}>
                 {form.getFieldDecorator('gasPrice', {
-                  initialValue: fm.toNumber(configs.defaultGasPrice),
+                  initialValue: this.state.selectedGasPrice,
                   rules: []
                 })(
                   <Slider min={1} max={99} step={1}
