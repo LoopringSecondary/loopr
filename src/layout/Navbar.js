@@ -181,7 +181,7 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col-auto">
-                <a  onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Portfolio'})} className="color-black-2">
+                <a  onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Portfolio'})} className="color-grey-900">
                 <Icon type="unlock" className="mr5" />{intl.get('navbar.subs.unlock')}
                 </a>
               </div>
