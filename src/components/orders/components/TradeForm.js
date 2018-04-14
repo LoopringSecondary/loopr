@@ -128,11 +128,10 @@ class TradeForm extends React.Component {
       })
     }
 
-    async function  handleSubmit() {
+    async function handleSubmit() {
       if(!window.WALLET_UNLOCK_TYPE) {
         return
       }
-
       if(window.CONFIG.getChainId() !== 7107171 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
         Notification.open({
           type:'warning',
@@ -157,6 +156,28 @@ class TradeForm extends React.Component {
             Notification.open({
               message:intl.get('trade.send_failed'),
               description:intl.get('trade.failed_fetch_data'),
+              type:'error'
+            })
+            _this.setState({loading:false})
+            return
+          }
+          let allowed = false
+          let priceSymbol = fm.getDisplaySymbol(settings.preference.currency)
+          if(settings.preference.currency === 'USD') {
+            priceSymbol = '1' + priceSymbol
+            if(totalWorth > 1) {
+              allowed = true
+            }
+          } else {
+            priceSymbol = '10' + priceSymbol
+            if(totalWorth > 10) {
+              allowed = true
+            }
+          }
+          if(!allowed) {
+            Notification.open({
+              message:intl.get('trade.not_allowed_place_order_worth_title'),
+              description:intl.get('trade.not_allowed_place_order_worth_content', {worth: priceSymbol}),
               type:'error'
             })
             _this.setState({loading:false})
@@ -238,8 +259,7 @@ class TradeForm extends React.Component {
           _this.setState({loading:false})
           return
         }
-      }
-      else {
+      } else {
         //lrc balance not enough, lrcNeed = frozenLrc + lrcFee
         const frozenLrcFee = await getFrozenLrcFee(window.WALLET.getAddress())
         let frozenLrc = fm.toBig(frozenLrcFee.result).div(1e18).add(fm.toBig(tradeInfo.lrcFee))
@@ -310,8 +330,7 @@ class TradeForm extends React.Component {
           return
         }
       }
-
-        tradeInfo.warn = warn
+      tradeInfo.warn = warn
       _this.setState({loading:false});
       showTradeModal(tradeInfo)
     }
@@ -582,9 +601,14 @@ class TradeForm extends React.Component {
     )
     const priceValue = (
       <span className="fs10">
-        ≈
         <Currency />
         {this.state.priceInput >0 ? accMul(this.state.priceInput, tokenRPrice.price).toFixed(2) : accMul(displayPrice, tokenRPrice.price).toFixed(2)}
+      </span>
+    )
+    const totalPrice = (
+      <span className="fs10">
+        <Currency />
+        {this.state.total >0 ? accMul(this.state.total, tokenRPrice.price).toFixed(2) : 0}
       </span>
     )
     const editLRCFee = (
@@ -743,7 +767,7 @@ class TradeForm extends React.Component {
                 <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
                 <div className="col"></div>
                 <div className="col-auto fs3 color-black-3">
-                {`${this.state.total} ${tokenR}`}
+                {`${this.state.total} ${tokenR}`} ({totalPrice})
                 </div>
               </div>
             </Form.Item>
