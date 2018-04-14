@@ -29,11 +29,9 @@ const Logged = ()=>{
   if(isLogged){
     return (
       <Switch>
-        {
-          false &&
-          <Route path={`/wallet/portfolio`} exact component={Pages.Portfolio}/>
-        }
         <Route path={`/wallet`} component={Pages.Wallet} />
+        <Route path="/trade/:pair" component={Pages.Trade} />
+        <Route path="/trade"  exact component={Pages.Trade} />
       </Switch>
     )
   }else{
@@ -59,10 +57,9 @@ export default class PageRoutes extends React.Component {
             <Route path="/" exact component={Pages.HomeDark} />
             <Route path="/home" exact component={Pages.HomeDark} />
             <Route path="/home/light" exact component={Pages.HomeLight} />
-            <Route path="/trade/:pair" component={Pages.Trade} />
-            <Route path="/trade"  exact component={Pages.Trade} />
             <Route path="/auth" render={UnLogged} />
             <Route path="/wallet" render={Logged} />
+            <Route path="/trade" render={Logged} />
             <Route path="/test" render={Pages.Test} />
             {RingsRoutes}
           </Switch>

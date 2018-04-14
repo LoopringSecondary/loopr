@@ -5,9 +5,18 @@ export default {
     options: '操作',
     amount: "{amount,number}",
     no_data:"暂时没有数据",
-    version:'版本号',
-    update_time:'更新时间',
-    beta:"测试版"
+  },
+  version:{
+    label:'体验版',
+    title:'抢先体验版（非正式版）',
+    description:'感谢您对路印钱包的提前关注和体验，钱包的进步离不开您的支持和帮助。',
+    extra:'体验版在持续优化完善，更新发布比较频繁，遇到各种问题，请大家体谅',
+    feedback:'问题反馈',
+    feedback_submit:'提交问题',
+    roadmap_label:'了解详情',
+    roadmap_title:'路印钱包2018路线图',
+    version:'当前版本',
+    update_time:'最近更新',
   },
   navbar: {
     home: "首页",
@@ -32,7 +41,8 @@ export default {
       trade: '交易',
       airdrop: '空投',
       quit: '退出',
-      address: '地址'
+      address: '地址',
+      feedback: '问题反馈',
     },
   },
   order: {
@@ -325,6 +335,10 @@ export default {
     gas_fast_setting: '快速设置',
     gas_custom_setting: '自定义设置'
   },
+  airdrop:{
+    cost_eth_gas:"绑定地址需要支付ETH油费",
+    goback:"返回",
+  },
   wallet: {
     bind_tip: "绑定空投接收地址",
     cu_bind_address: "当前绑定的地址",
@@ -337,8 +351,8 @@ export default {
     get_address:"如何获取 {project} 账户",
     go_to:"访问 {project} 官方网站",
     bind_address: "绑定地址",
-    to_bind_address: "去绑定地址",
-    to_edit: "去修改绑定地址",
+    to_bind_address: "绑定地址",
+    to_edit: "修改绑定地址",
     bind_type_address: "绑定{type}地址",
     bind_address_confirm: "您确定绑定 {project} 地址: {address} 到您的钱包吗?",
     bind_success:"绑定成功",
