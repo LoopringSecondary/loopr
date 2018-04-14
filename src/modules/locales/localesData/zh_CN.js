@@ -5,12 +5,9 @@ export default {
     options: '操作',
     amount: "{amount,number}",
     no_data:"暂时没有数据",
-    version:'版本',
-    update_time:'更新时间',
-    beta:"体验版"
   },
   version:{
-    badge:'体验版',
+    label:'体验版',
     title:'抢先体验版（非正式版）',
     description:'感谢您对路印钱包的提前关注和体验，钱包的进步离不开您的支持和帮助。',
     extra:'体验版在持续优化完善，更新发布比较频繁，遇到各种问题，请大家体谅',
@@ -44,7 +41,8 @@ export default {
       trade: '交易',
       airdrop: '空投',
       quit: '退出',
-      address: '地址'
+      address: '地址',
+      feedback: '问题反馈',
     },
   },
   order: {

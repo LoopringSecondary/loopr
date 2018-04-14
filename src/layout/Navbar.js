@@ -145,17 +145,24 @@ function Navbar(props){
                 </div>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              <div className="fs14 color-black-2 navbar-account-grid">
-                <Icon type="tool" className="d-block grid-icon" />
+              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
+                <Icon type="tool" className="d-block grid-icon " />
                 <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.tools')}</div>
               </div>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              <div className="fs14 color-black-2 navbar-account-grid">
+              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
                 <Icon type="question-circle-o" className="d-block grid-icon" />
                 <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.help')}</div>
               </div>
             </div>
+            <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
+              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
+                <Icon type="form" className="d-block grid-icon" />
+                <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.feedback')}</div>
+              </div>
+            </div>
+
           </div>
           <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
             <div className="row align-items-center ">
@@ -170,6 +177,8 @@ function Navbar(props){
               </div>
             </div>
           </div>
+
+
         </div>
       }
       {!account.isUnlocked &&
@@ -252,10 +261,10 @@ function Navbar(props){
             </Link>
           </div>
           <div className="col-auto pl10 pr0">
-            <Popover content={VersionTip} title={null} trigger="click">
+            <Popover content={VersionTip} title={null} trigger="hover">
               <span className="navbar-version-badge">
                 <Badge status="processing" className="" />
-                {intl.get('global.beta')}
+                {intl.get('version.label')}
               </span>
             </Popover>
           </div>
