@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
+import moment from 'moment';
 import {Button, Icon, Menu, message, Popover, Select,Badge,Row} from 'antd';
 import {Link} from 'dva/router';
 import copy from 'copy-to-clipboard';
@@ -67,10 +68,6 @@ function Navbar(props){
       message.warning(intl.get('navbar.subs.copy'))
     }
   }
-  const gridStyle = {
-    width: '25%',
-    textAlign: 'center',
-  }
   const accountMenus = (
     <div className="fs18" style={{maxWidth:'280px'}}>
       {
@@ -107,7 +104,7 @@ function Navbar(props){
               }
               {isWatchOnly &&
                 <div className="fs14 color-black-3 navbar-account-grid cursor-not-allowed">
-                  <i className="grid-icon icon-loopring icon-loopring-transfer fs16 color-black-3 d-block"></i>
+                  <i className="grid-icon icon-loopring icon-loopring-transfer fs16 color-black-2 d-block"></i>
                   <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.send')}</div>
                 </div>
               }
@@ -149,17 +146,24 @@ function Navbar(props){
                 </div>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              <div className="fs14 color-black-2 navbar-account-grid">
-                <Icon type="tool" className="d-block grid-icon" />
+              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
+                <Icon type="tool" className="d-block grid-icon " />
                 <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.tools')}</div>
               </div>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              <div className="fs14 color-black-2 navbar-account-grid">
+              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
                 <Icon type="question-circle-o" className="d-block grid-icon" />
                 <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.help')}</div>
               </div>
             </div>
+            <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
+              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
+                <Icon type="form" className="d-block grid-icon" />
+                <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.feedback')}</div>
+              </div>
+            </div>
+
           </div>
           <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
             <div className="row align-items-center ">
@@ -174,6 +178,8 @@ function Navbar(props){
               </div>
             </div>
           </div>
+
+
         </div>
       }
       {!account.isUnlocked &&
@@ -181,7 +187,7 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col-auto">
-                <a  onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Portfolio'})} className="color-black-2">
+                <a  onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Portfolio'})} className="color-grey-900">
                 <Icon type="unlock" className="mr5" />{intl.get('navbar.subs.unlock')}
                 </a>
               </div>
@@ -197,10 +203,10 @@ function Navbar(props){
             <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
           </div>
 
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15 cursor-not-allowed">
             <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
           </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15 cursor-not-allowed">
             <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
           </div>
         </div>
@@ -210,21 +216,40 @@ function Navbar(props){
   const VersionTip = (
     <div className="" style={{maxWidth:'280px'}}>
       <div className="p15">
-        <div className="fs16 color-primary-1">{intl.get('home.beta_notification_title')}</div>
-        <div className="fs12 color-black-1">{intl.get('home.beta_notifycation_content')}</div>
+        <div className="fs16 color-primary-1">{intl.get('version.title')}</div>
+        <div className="fs12 color-black-1 mt5">{intl.get('version.description')}</div>
       </div>
       <div className="zb-b-t">
-        <div className="row pt10 pb10 pl10 pr10">
-          <div className="col fs12 color-black-2">{intl.get('global.version')}</div>
-          <div className="col-auto fs12 color-black-3">2.0 Demo</div>
+        <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
+          <div className="col fs12 color-black-2">{intl.get('version.version')}</div>
+          <div className="col-auto fs12 color-black-3">2.0 Trial</div>
         </div>
       </div>
       <div className="zb-b-t">
-        <div className="row pt10 pb10 pl10 pr10">
-          <div className="col fs12 color-black-2">{intl.get('global.update_time')}</div>
-          <div className="col-auto fs12 color-black-3">20180413</div>
+        <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
+          <div className="col fs12 color-black-2">{intl.get('version.update_time')}</div>
+          <div className="col-auto fs12 color-black-3">{window.uiFormatter.getFormatTime(moment().format('x'),'YYYYMMDD')}</div>
         </div>
       </div>
+      <div className="zb-b-t">
+        <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
+          <div className="col fs12 color-black-2">{intl.get('version.feedback')}</div>
+          <div className="col-auto fs12 color-black-3 cursor-not-allowed">
+            {intl.get('version.feedback_submit')}
+            <Icon type="right" />
+          </div>
+        </div>
+      </div>
+      <div className="zb-b-t">
+        <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
+          <div className="col fs12 color-black-2">{intl.get('version.roadmap_label')}</div>
+          <div className="col-auto fs12 color-black-3 cursor-not-allowed">
+            {intl.get('version.roadmap_title')}
+            <Icon type="right" />
+          </div>
+        </div>
+      </div>
+
     </div>
   )
   return (
@@ -237,10 +262,10 @@ function Navbar(props){
             </Link>
           </div>
           <div className="col-auto pl10 pr0">
-            <Popover content={VersionTip} title={null}>
+            <Popover content={VersionTip} title={null} trigger="hover">
               <span className="navbar-version-badge">
                 <Badge status="processing" className="" />
-                {intl.get('global.beta')}
+                {intl.get('version.label')}
               </span>
             </Popover>
           </div>
@@ -253,12 +278,6 @@ function Navbar(props){
               style={{ lineHeight: '64px' }}
               selectedKeys={selectedKeys}
             >
-              {
-                false && (window.WALLET && window.WALLET.getAddress()) &&
-                <Menu.Item key="/wallet" >
-                  <a className="fs16" onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Wallet'})}>{intl.get('navbar.wallet')}</a>
-                </Menu.Item>
-              }
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
@@ -278,14 +297,12 @@ function Navbar(props){
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
-            <Popover content={accountMenus} title={null} trigger="hover">
+            <Popover content={accountMenus} title={null} trigger="click">
                 {
                   account.address &&
                   <span className="fs16 color-blue-600">
                     {window.uiFormatter.getShortAddress(account.address)}
-
                     <Icon type="down" className="fs12 ml5" />
-
                   </span>
                 }
                 {

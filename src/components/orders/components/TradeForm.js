@@ -590,6 +590,8 @@ class TradeForm extends React.Component {
     const editLRCFee = (
       <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('trade.custom_lrc_fee_title')}</div>} content={
         <div>
+          <div className="pb5 fs12">Current LRC Fee Pecentage: {sliderMilliLrcFee}‰</div>
+          <div className="pb15 fs12">Current LRC Fee : {calculatedLrcFee} LRC</div>
           {form.getFieldDecorator('lrcFeeSlider', {
             initialValue: configs.defaultLrcFeePermillage,
             rules: []
@@ -735,39 +737,44 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <Form.Item className="pt0 pb0" colon={false} label={null}>
-            <div className="row align-items-center">
-              <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
-              <div className="col"></div>
-              <div className="col-auto fs3 color-black-2">{`${this.state.total} ${tokenR}`}</div>
-            </div>
-          </Form.Item>
-          <Form.Item className="pt0 pb0" colon={false} label={null}>
-            <div className="row align-items-center">
-              <div className="col-auto fs3 color-black-2">
-                {intl.get('trade.lrc_fee')}
-                <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
-                  <Icon className="ml5 fs3" type="question-circle-o"/>
-                </Tooltip>
+          <div className="mb15">
+            <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
+              <div className="row align-items-center">
+                <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
+                <div className="col"></div>
+                <div className="col-auto fs3 color-black-3">
+                {`${this.state.total} ${tokenR}`}
+                </div>
               </div>
-              <div className="col"></div>
-              <div className="col-auto pl0 pr5">{editLRCFee}</div>
-              <div className="col-auto pl0 fs3 color-black-2">{calculatedLrcFee} LRC ({sliderMilliLrcFee}‰)</div>
-            </div>
-          </Form.Item>
-          <Form.Item className="pt0 pb0" colon={false} label={null}>
-            <div className="row align-items-center">
-              <div className="col-auto fs3 color-black-2">
-                {intl.get('trade.time_to_live')}
-                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                  <Icon className="ml5 fs3 color-black-2" type="question-circle-o"/>
-                </Tooltip>
+            </Form.Item>
+            <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
+              <div className="row align-items-center">
+                <div className="col-auto fs3 color-black-2">
+                  {intl.get('trade.lrc_fee')}
+                  <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
+                    <Icon className="ml5 fs4" type="question-circle-o"/>
+                  </Tooltip>
+                </div>
+                <div className="col"></div>
+                <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
+                <div className="col-auto pl0 fs3 color-black-3">{calculatedLrcFee} LRC</div>
               </div>
-              <div className="col"></div>
-              <div className="col-auto pl0 pr5">{editOrderTTL}</div>
-              <div className="col-auto pl0 fs3 color-black-2">{ttlShow}</div>
-            </div>
-          </Form.Item>
+            </Form.Item>
+            <Form.Item className="mb0" style={{padding:'8px 0px'}} colon={false} label={null}>
+              <div className="row align-items-center">
+                <div className="col-auto fs3 color-black-2">
+                  {intl.get('trade.time_to_live')}
+                  <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
+                    <Icon className="ml5 fs4 color-black-2" type="question-circle-o"/>
+                  </Tooltip>
+                </div>
+                <div className="col"></div>
+                <div className="col-auto pl0 pr5">{true && editOrderTTL}</div>
+                <div className="col-auto pl0 fs3 color-black-3">{ttlShow}</div>
+              </div>
+            </Form.Item>
+          </div>
+
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
             <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
               {intl.get('trade.place_order_trezor_unsupport') }

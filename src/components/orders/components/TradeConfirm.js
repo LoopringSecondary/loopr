@@ -36,7 +36,6 @@ class TradeConfirm extends React.Component {
     const since = window.uiFormatter.getFormatTime(start);
     const till = window.uiFormatter.getFormatTime(start + Number(timeToLive) * 1000);
     let order = {};
-    debugger;
     order.protocol = tradingConfig.contract.address;
     order.owner = window.WALLET.getAddress();
     const tokenB = side.toLowerCase() === "buy" ? window.CONFIG.getTokenBySymbol(token) : window.CONFIG.getTokenBySymbol(token2);

@@ -9,6 +9,7 @@ class TickersSocketContainer extends React.Component {
     super(props, context)
     this.state = {
       tickersByLoopring:[],
+      tickersOrigin:[],
       favors:{},
       fitlers:{},
     }
@@ -26,7 +27,8 @@ class TickersSocketContainer extends React.Component {
             return config.isSupportedMarket(item.market)
           })
           this.setState({
-            tickersByLoopring:supportMarket || {},
+            tickersByLoopring:supportMarket || [],
+            tickersOrigin:res.data,
           })
         }
       })
@@ -74,6 +76,7 @@ class TickersSocketContainer extends React.Component {
       ...rest,
       tickersByLoopring:{
         items:this.state.tickersByLoopring,
+        originItems:this.state.tickersOrigin,
         filters:this.state.filters,
         filtersChange:this.filtersChange.bind(this),
         getTickerByMarket:this.getTickerByMarket.bind(this),

@@ -5,9 +5,18 @@ export default {
     options: 'Options',
     amount: "{amount,number}",
     no_data:"No data",
-    version:'Version',
+  },
+  version:{
+    label:'Trial',
+    title:'Trial Version for Early Experience',
+    description:'Thanks for your experience, wallet will better with your early support. ',
+    extra:'体验版在持续优化完善，更新发布比较频繁，遇到各种问题，请大家体谅',
+    feedback:'Feedback',
+    feedback_submit:'Report issue',
+    roadmap_label:'View More',
+    roadmap_title:'Wallet roadmap of 2018',
+    version:'Current Version',
     update_time:'Last Update',
-    beta:"Beta"
   },
   navbar: {
     home: "Home",
@@ -32,7 +41,8 @@ export default {
       trade: 'Trade',
       airdrop: 'Airdrop',
       quit: 'Quit',
-      address: 'Address'
+      address: 'Address',
+      feedback: 'Feedback',
     },
   },
   order: {
@@ -320,6 +330,10 @@ export default {
     gas_fast_setting: 'Fast Setting',
     gas_custom_setting: 'Custom Setting'
   },
+  airdrop:{
+    cost_eth_gas:"Bind address will cost ETH gas for transaction .",
+    goback:"Go Back",
+  },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
     cu_bind_address: "Current Bind Address",
@@ -333,7 +347,7 @@ export default {
     address: "Address",
     bind_address: "Bind Address",
     to_bind_address: "Bind Address",
-    to_edit: "To Edit Binding Address",
+    to_edit: "Edit Binding Address",
     bind_type_address: "Bind {type} Address",
     bind_address_confirm: "Bind your {project} address: {address} to your wallet?",
     bind_success:"Bind Successfully",

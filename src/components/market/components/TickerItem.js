@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Icon,Popover } from 'antd';
+import { Icon,Popover,Row,Col } from 'antd';
 import TickerListTabs from './TickerListTabs'
 import Sockets from '../../../modules/socket/containers'
 import Currency from '../../../modules/settings/CurrencyContainer'
@@ -194,6 +194,17 @@ class Ticker extends React.Component {
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     const token = prices.getTokenBySymbol(tokenR,true)
+    let length = 0
+    if(tickers.binance){
+        length += 1
+    }
+    if(tickers.okex){
+        length += 1
+    }
+    if(tickers.huobi){
+        length += 1
+    }
+    const colSpan = 24 / length
     return (
       <div>
         <div className="" style={{background:'#0077FF'}}>
@@ -202,27 +213,27 @@ class Ticker extends React.Component {
           </div>
         </div>
         <div className="container">
-          <div className="row ml0 mr0 mt15 mb15">
+          <Row className="mt5 mb5" gutter="10">
              {
               tickers.binance &&
-              <div className="col pl0">
+              <Col span={colSpan} className="mt5 mb5">
                 <ExchangeItem pair={pair} ticker={tickers.binance} price={token.price} />
-              </div>
+              </Col>
              }
              {
               tickers.okex &&
-              <div className="col pr0">
+              <Col span={colSpan} className="mt5 mb5">
                 <ExchangeItem pair={pair} ticker={tickers.okex} price={token.price} />
-              </div>
+              </Col>
              }
              {
               tickers.huobi &&
-              <div className="col pr0">
+              <Col span={colSpan} className="mt5 mb5">
                 <ExchangeItem pair={pair} ticker={tickers.huobi} price={token.price} />
-              </div>
+              </Col>
              }
 
-          </div>
+          </Row>
         </div>
       </div>
 
