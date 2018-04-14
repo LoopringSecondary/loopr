@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'dva/router'
 import renders from './List/renders'
 import CoinIcon from '../../common/CoinIcon'
-import {toNumber} from "Loopring/common/formatter";
+import {toNumber,toBig} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
 
 
@@ -22,12 +22,12 @@ function DetailBlock({modal = {}}) {
 
     if (item.originalOrder.side.toLowerCase() === 'buy') {
       return (<div>
-        <span className="mr5">{(fmS.getAmount(amountS) / fmB.getAmount(amountB)).toFixed(8)} </span>
+        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(fmS.getAmount(amountS)).div(toBig(fmB.getAmount(amountB))).toFixed(8))} </span>
         {tokenS}/{tokenB}
       </div>)
     } else {
       return (<div>
-        <span className="mr5">{(fmB.getAmount(amountB) / fmS.getAmount(amountS)).toFixed(8)} </span>
+        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(fmB.getAmount(amountB)).div(toBig(fmS.getAmount(amountS))).toFixed(8))} </span>
         {tokenB}/{tokenS}
       </div>)
     }

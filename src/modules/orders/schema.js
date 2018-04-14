@@ -55,9 +55,9 @@ const schema = [
       const tokenB = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB)|| {digits: 18, precision: 6};
       const tokenS = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS)||{digits: 18, precision: 6};
       const price =  item.originalOrder.side.toLowerCase() === 'buy' ?
-        toBig(item.originalOrder.amountS).div('1e'+tokenS.digits).div(toBig(item.originalOrder.amountB)).times('1e'+tokenB.digits).toFixed(5) :
-        toBig(item.originalOrder.amountB).div('1e'+tokenB.digits).div(toBig(item.originalOrder.amountS)).times('1e'+tokenS.digits).toFixed(5);
-      return window.uiFormatter.getFormatNum(toNumber(price))
+        toBig(item.originalOrder.amountS).div('1e'+tokenS.digits).div(toBig(item.originalOrder.amountB)).times('1e'+tokenB.digits).toFixed(8) :
+        toBig(item.originalOrder.amountB).div('1e'+tokenB.digits).div(toBig(item.originalOrder.amountS)).times('1e'+tokenS.digits).toFixed(8);
+      return window.uiFormatter.getFormatNum(price)
     }
   },
   {
