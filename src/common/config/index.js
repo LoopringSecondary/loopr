@@ -104,6 +104,32 @@ function getMarketBySymbol(tokenx, tokeny) {
   }
 }
 
+function getMarketsByTokenR(token) {
+  return config.markets.filter(item=>item.tokeny === token)
+}
+
+function getTokenSupportedMarket(token) {
+  const supportedToken = getSupportedMarketsTokenR()
+  let foundMarket = ''
+  if(supportedToken) {
+    if(supportedToken.includes(token)) {
+      const markets = getMarketsByTokenR(token)
+      if(markets) {
+        foundMarket = markets[0].tokenx + "-" + markets[0].tokeny
+      }
+    } else {
+      const tokenR = supportedToken.find((x,i) =>{
+        const market = token + "-" + x
+        if(isSupportedMarket(market)) {
+          return true
+        }
+      })
+      if(tokenR) foundMarket = token + "-" + tokenR
+    }
+  }
+  return foundMarket
+}
+
 function getGasLimitByType(type) {
   if(type){
     return txs.find(tx => type === tx.type)
@@ -125,5 +151,7 @@ export default {
   isinWhiteList,
   getChainId,
   isSupportedMarket,
-  getSupportedMarketsTokenR
+  getSupportedMarketsTokenR,
+  getMarketsByTokenR,
+  getTokenSupportedMarket
 }
