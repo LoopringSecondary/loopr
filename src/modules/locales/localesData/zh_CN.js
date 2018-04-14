@@ -11,12 +11,14 @@ export default {
   },
   version:{
     badge:'体验版',
-    title:'路印钱包体验版',
-    description:'当前版本并非正式发布版本，仅供用户体验。',
+    title:'抢先体验版（非正式版）',
+    description:'感谢您对路印钱包的提前关注和体验，钱包的进步离不开您的支持和帮助。',
     extra:'体验版在持续优化完善，更新发布比较频繁，遇到各种问题，请大家体谅',
-    roadmap:'路印钱包2018路线图',
     feedback:'问题反馈',
-    version:'版本',
+    feedback_submit:'提交问题',
+    roadmap_label:'了解详情',
+    roadmap_title:'路印钱包2018路线图',
+    version:'当前版本',
     update_time:'最近更新',
   },
   navbar: {

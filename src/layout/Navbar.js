@@ -67,10 +67,6 @@ function Navbar(props){
       message.warning(intl.get('navbar.subs.copy'))
     }
   }
-  const gridStyle = {
-    width: '25%',
-    textAlign: 'center',
-  }
   const accountMenus = (
     <div className="fs18" style={{maxWidth:'280px'}}>
       {
@@ -210,21 +206,40 @@ function Navbar(props){
   const VersionTip = (
     <div className="" style={{maxWidth:'280px'}}>
       <div className="p15">
-        <div className="fs16 color-primary-1">{intl.get('home.beta_notification_title')}</div>
-        <div className="fs12 color-black-1">{intl.get('home.beta_notifycation_content')}</div>
+        <div className="fs16 color-primary-1">{intl.get('version.title')}</div>
+        <div className="fs12 color-black-1 mt5">{intl.get('version.description')}</div>
       </div>
       <div className="zb-b-t">
-        <div className="row pt10 pb10 pl10 pr10">
-          <div className="col fs12 color-black-2">{intl.get('global.version')}</div>
+        <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
+          <div className="col fs12 color-black-2">{intl.get('version.version')}</div>
           <div className="col-auto fs12 color-black-3">2.0 Demo</div>
         </div>
       </div>
       <div className="zb-b-t">
-        <div className="row pt10 pb10 pl10 pr10">
-          <div className="col fs12 color-black-2">{intl.get('global.update_time')}</div>
-          <div className="col-auto fs12 color-black-3">20180413</div>
+        <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
+          <div className="col fs12 color-black-2">{intl.get('version.update_time')}</div>
+          <div className="col-auto fs12 color-black-3">20180414</div>
         </div>
       </div>
+      <div className="zb-b-t">
+        <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
+          <div className="col fs12 color-black-2">{intl.get('version.feedback')}</div>
+          <div className="col-auto fs12 color-black-3 cursor-not-allowed">
+            {intl.get('version.feedback_submit')}
+            <Icon type="right" />
+          </div>
+        </div>
+      </div>
+      <div className="zb-b-t">
+        <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
+          <div className="col fs12 color-black-2">{intl.get('version.roadmap_label')}</div>
+          <div className="col-auto fs12 color-black-3 cursor-not-allowed">
+            {intl.get('version.roadmap_title')}
+            <Icon type="right" />
+          </div>
+        </div>
+      </div>
+
     </div>
   )
   return (
@@ -237,7 +252,7 @@ function Navbar(props){
             </Link>
           </div>
           <div className="col-auto pl10 pr0">
-            <Popover content={VersionTip} title={null}>
+            <Popover content={VersionTip} title={null} trigger="click">
               <span className="navbar-version-badge">
                 <Badge status="processing" className="" />
                 {intl.get('global.beta')}

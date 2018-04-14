@@ -9,6 +9,16 @@ export default {
     update_time:'Last Update',
     beta:"Beta"
   },
+  version:{
+    badge:'Demo',
+    title:'Demo Version Of Loopring Wallet',
+    description:'Official Release Verison is cmming soon',
+    more:'More',
+    roadmap:'Wallet Roadmap of 2018',
+    // feedback:'问题反馈',
+    version:'版本',
+    update_time:'最近更新',
+  },
   navbar: {
     home: "Home",
     trade: "MARKETS",
