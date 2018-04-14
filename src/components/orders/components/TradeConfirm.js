@@ -92,10 +92,12 @@ class TradeConfirm extends React.Component {
     return (
       <div>
         <Button className="alert-btn mr5" onClick={() => modal.showModal({id: 'token/receive', symbol: item.value.symbol.toUpperCase()})}> {intl.get('order.receive_token',{token:item.value.symbol.toUpperCase()})}</Button>
-        {item.value.symbol.toUpperCase() !== 'WETH' &&
+        {item.value.symbol.toUpperCase() !== 'WETH' && item.value.symbol.toUpperCase() !== 'BAR'  && item.value.symbol.toUpperCase() !== 'FOO' &&
         <Button className="alert-btn mr5" onClick={() => window.routeActions.gotoPath( `/trade/${item.value.symbol.toUpperCase()}-WETH`)}> {intl.get('order.buy_token',{token:item.value.symbol.toUpperCase()})}</Button>}
+        {(item.value.symbol.toUpperCase() === 'BAR'  || item.value.symbol.toUpperCase() === 'FOO') &&
+        <Button className="alert-btn mr5" onClick={() => window.routeActions.gotoPath( '/trade/FOO-BAR')}> {intl.get('order.buy_token',{token:item.value.symbol.toUpperCase()})}</Button>}
         {item.value.symbol.toUpperCase() === 'WETH' &&
-        <Button className="alert-btn mr5" onClick={() => modal.showModal( {id: 'token/convert', item: {symbol: 'ETH'}, showFrozenAmount: true})}> {intl.get('txs.convert_token',{token:item.value.symbol.toUpperCase()})}</Button>}
+        <Button className="alert-btn mr5" onClick={() => modal.showModal( {id: 'token/convert', item: {symbol: 'ETH'}, showFrozenAmount: true})}> {intl.get('order.convert_token',{token:item.value.symbol.toUpperCase()})}</Button>}
       </div>
     )
   };
