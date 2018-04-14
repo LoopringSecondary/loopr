@@ -108,12 +108,21 @@ class ListSidebar extends React.Component {
     const isSupportToTrade = (token) => {
       const supportedToken = config.getSupportedMarketsTokenR()
       if(supportedToken) {
-        const foundMarket = supportedToken.find((x,i) =>{
-          const market = token + "-" + x
-          if(config.isSupportedMarket(market)) {
-            return true
+        let foundMarket = ''
+        if(supportedToken.includes(token)) {
+          const markets = config.getMarketsByTokenR(token)
+          if(markets) {
+            foundMarket = markets[0].tokenx + "-" + markets[0].tokeny
           }
-        })
+        } else {
+          const tokenR = supportedToken.find((x,i) =>{
+            const market = token + "-" + x
+            if(config.isSupportedMarket(market)) {
+              return true
+            }
+          })
+          if(tokenR) foundMarket = token + "-" + tokenR
+        }
         if(foundMarket) {
           return true
         }
@@ -121,18 +130,10 @@ class ListSidebar extends React.Component {
       return false
     }
     const gotoTrade = (item) => {
-      const supportedToken = config.getSupportedMarketsTokenR()
-      if(supportedToken) {
-        const foundMarket = supportedToken.find((x,i) =>{
-          const market = item.symbol + "-" + x
-          if(config.isSupportedMarket(market)) {
-            return true
-          }
-        })
-        if(foundMarket) {
-          window.routeActions.gotoPath('/trade/'+item.symbol + "-" + foundMarket)
-          return
-        }
+      const foundMarket = config.getTokenSupportedMarket(item.symbol)
+      if(foundMarket) {
+        window.routeActions.gotoPath('/trade/'+foundMarket)
+        return
       }
       Notification.open({
         type:'warning',
