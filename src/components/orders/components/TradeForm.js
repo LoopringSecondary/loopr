@@ -37,7 +37,6 @@ class TradeForm extends React.Component {
     const {form, dispatch, side = 'sell', pair = 'LRC-WETH',assets,prices,tickersByLoopring,tickersByPair,account,settings} = this.props
     const tickerByLoopring = tickersByLoopring.getTickerByMarket(pair)
     if(!config.isSupportedMarket(pair)) {
-      debugger
       Notification.open({
         type:'warning',
         message:intl.get('trade.not_supported_market_title'),
