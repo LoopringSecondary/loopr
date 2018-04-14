@@ -267,6 +267,8 @@ export default {
     not_supported_token_to_trade_content:'Please look forward to opening more markets',
     not_allowed_place_order_worth_title: 'Order Amount Is Too Small',
     not_allowed_place_order_worth_content: 'Due to your total worth less than {worth}, you could not place this order',
+    not_supported_market_title: "Not Supported Market",
+    not_supported_market_content: "{market} is not supported market",
   },
   trades: {
     side: 'Side',
