@@ -94,19 +94,10 @@ class ListBlock extends React.Component {
     };
 
     const gotoTrade = () => {
-      const supportedToken = config.getSupportedMarketsTokenR()
-      if(supportedToken) {
-        const foundMarket = supportedToken.find((x,i) =>{
-          const market = token + "-" + x
-          if(config.isSupportedMarket(market)) {
-            return true
-            }
-          }
-        )
-        if(foundMarket) {
-          window.routeActions.gotoPath('/trade/'+token + "-" + foundMarket)
-          return
-        }
+      const foundMarket = config.getTokenSupportedMarket(token)
+      if(foundMarket) {
+        window.routeActions.gotoPath('/trade/'+foundMarket)
+        return
       }
       Notification.open({
         type:'warning',
