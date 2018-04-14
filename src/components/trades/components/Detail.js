@@ -90,7 +90,7 @@ class DetailBlock extends React.Component {
               <Button type="default" className="d-block w-100" size="large"> {intl.get('ring.ring_more_info')}</Button>
             </div>
             }
-            {!ring && <div className='fs1 color-balck-1 '>
+            {!loading && !ring && <div className='fs1 color-balck-1 '>
               {intl.get('ring.no_ring')}
             </div>
             }
