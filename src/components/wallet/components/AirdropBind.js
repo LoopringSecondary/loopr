@@ -172,7 +172,7 @@ class AirdropBind extends React.Component {
         <div className="fs12 color-black-2 text-center p5">{intl.get('airdrop.cost_eth_gas')}</div>
         <Button type='primary' className="d-block w-100" size="large" onClick={this.bindAddress.bind(this, this.state.address, this.state.project)}
                 disabled={!project || !address || isWatchOnly}>{intl.get('wallet.bind_address')}</Button>
-        <Button type='default' className='d-block w-100 mt10' size="large" onClick={this.cancel}>{intl.get('wallet.cancel')}</Button>
+        <Button type='default' className='d-block w-100 mt10' size="large" onClick={this.cancel}>{intl.get('airdrop.goback')}</Button>
       </Card>
     );
   }

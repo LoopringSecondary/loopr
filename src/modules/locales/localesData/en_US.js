@@ -329,6 +329,7 @@ export default {
   },
   airdrop:{
     cost_eth_gas:"Bind address will cost ETH gas for transaction .",
+    goback:"Go Back",
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
@@ -343,7 +344,7 @@ export default {
     address: "Address",
     bind_address: "Bind Address",
     to_bind_address: "Bind Address",
-    to_edit: "To Edit Binding Address",
+    to_edit: "Edit Binding Address",
     bind_type_address: "Bind {type} Address",
     bind_address_confirm: "Bind your {project} address: {address} to your wallet?",
     bind_success:"Bind Successfully",

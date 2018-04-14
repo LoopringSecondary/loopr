@@ -333,7 +333,8 @@ export default {
     token_convert:'转换{from}到{to}'
   },
   airdrop:{
-    cost_eth_gas:"绑定地址需要支付ETH油费"
+    cost_eth_gas:"绑定地址需要支付ETH油费",
+    goback:"返回",
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
@@ -347,8 +348,8 @@ export default {
     get_address:"如何获取 {project} 账户",
     go_to:"访问 {project} 官方网站",
     bind_address: "绑定地址",
-    to_bind_address: "去绑定地址",
-    to_edit: "去修改绑定地址",
+    to_bind_address: "绑定地址",
+    to_edit: "修改绑定地址",
     bind_type_address: "绑定{type}地址",
     bind_address_confirm: "您确定绑定 {project} 地址: {address} 到您的钱包吗?",
     bind_success:"绑定成功",

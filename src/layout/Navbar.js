@@ -278,12 +278,6 @@ function Navbar(props){
               selectedKeys={selectedKeys}
             >
               {
-                false && (window.WALLET && window.WALLET.getAddress()) &&
-                <Menu.Item key="/wallet" >
-                  <a className="fs16" onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Wallet'})}>{intl.get('navbar.wallet')}</a>
-                </Menu.Item>
-              }
-              {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
                   <Link className="fs16" to="/wallet">{intl.get('navbar.wallet')}</Link>
@@ -302,14 +296,12 @@ function Navbar(props){
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
-            <Popover content={accountMenus} title={null} trigger="hover">
+            <Popover content={accountMenus} title={null} trigger="click">
                 {
                   account.address &&
                   <span className="fs16 color-blue-600">
                     {window.uiFormatter.getShortAddress(account.address)}
-
                     <Icon type="down" className="fs12 ml5" />
-
                   </span>
                 }
                 {
