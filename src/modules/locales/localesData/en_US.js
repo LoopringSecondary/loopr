@@ -293,7 +293,7 @@ export default {
     recipient: "Recipient",
     eth_address_verification_message: "Invalid Ethereum address",
     send_max: "Send Max",
-    transaction_fee: "Transaction Fee",
+    transaction_fee: "Gas Fee",
     advanced: "Advanced",
     data: "Data",
     gas_limit: "Gas Limit",
@@ -324,8 +324,11 @@ export default {
     convert_succ_notification_title: 'Convert Successfully',
     transfer_succ_notification_title: 'Transfer Successfully',
     custum_gas_title:'Custom Gas For This Order',
-    custum_gas_content:'According to Ethereum current gas price, we advice you to set {gas}',
-    token_convert:'Convert {from} To {to}'
+    custum_gas_content:'If you just want to send some token, according to Ethereum current gas price, we advice you to set {gas}',
+    custum_gas_advance_content:'If you just want to send some token, according to Ethereum current gas price, we advice you to set GasLimit to {gasLimit}, set GasPrice to {gasPrice}',
+    token_convert:'Convert {from} To {to}',
+    gas_fast_setting: 'Fast Setting',
+    gas_custom_setting: 'Custom Setting'
   },
   airdrop:{
     cost_eth_gas:"Bind address will cost ETH gas for transaction .",

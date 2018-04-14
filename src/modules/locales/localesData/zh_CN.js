@@ -298,9 +298,9 @@ export default {
     recipient: "接收者",
     eth_address_verification_message: "不合法的以太坊地址",
     send_max: "最大数量",
-    transaction_fee: "矿工费",
+    transaction_fee: "油费",
     advanced: "高级",
-    data: "二进制数据",
+    data: "数据",
     gas_limit: "Gas数量",
     gas_price: "Gas价格",
     continue: "继续",
@@ -329,8 +329,11 @@ export default {
     convert_succ_notification_title: '转换成功',
     transfer_succ_notification_title: '转账成功',
     custum_gas_title:'设置本订单生效的油费',
-    custum_gas_content:'根据当前以太坊Gas价格, 我们推荐您设置{gas}',
-    token_convert:'转换{from}到{to}'
+    custum_gas_content:'如果您只是想转发一些数量的代币，根据当前以太坊Gas价格, 我们推荐您设置{gas}',
+    custum_gas_advance_content:'如果您只是想转发一些数量的代币，根据当前以太坊Gas价格, 我们推荐您设置Gas数量{gasLimit}, Gas价格{gasPrice}',
+    token_convert:'转换{from}到{to}',
+    gas_fast_setting: '快速设置',
+    gas_custom_setting: '自定义设置'
   },
   airdrop:{
     cost_eth_gas:"绑定地址需要支付ETH油费",
