@@ -36,7 +36,7 @@ export function toNumber(mixed) {
   }
 
   if (mixed instanceof Big || mixed instanceof BN) {
-    mixed.toNumber()
+   return mixed.toNumber()
   }
 
   if (typeof mixed === 'string') {

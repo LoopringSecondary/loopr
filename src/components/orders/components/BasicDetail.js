@@ -22,12 +22,12 @@ function DetailBlock({modal = {}}) {
 
     if (item.originalOrder.side.toLowerCase() === 'buy') {
       return (<div>
-        <span className="mr5">{(amountS / amountB).toFixed(8)} </span>
+        <span className="mr5">{(fmS.getAmount(amountS) / fmB.getAmount(amountB)).toFixed(8)} </span>
         {tokenS}/{tokenB}
       </div>)
     } else {
       return (<div>
-        <span className="mr5">{(amountB / amountS).toFixed(8)} </span>
+        <span className="mr5">{(fmB.getAmount(amountB) / fmS.getAmount(amountS)).toFixed(8)} </span>
         {tokenB}/{tokenS}
       </div>)
     }

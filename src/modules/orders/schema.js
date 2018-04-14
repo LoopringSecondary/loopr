@@ -69,7 +69,7 @@ const schema = [
       const tokenB = item.originalOrder.tokenB;
       const amountS = item.originalOrder.amountS;
       const amountB = item.originalOrder.amountB;
-      let token = side ? window.CONFIG.getTokenBySymbol(tokenS): window.CONFIG.getTokenBySymbol(tokenB);
+      let token = side === 'buy' ? window.CONFIG.getTokenBySymbol(tokenS): window.CONFIG.getTokenBySymbol(tokenB);
       token = token || {digits: 18, precision: 6};
       const amount = side === 'buy' ? amountS : amountB;
       const symbol = side === 'buy' ? tokenS : tokenB;
