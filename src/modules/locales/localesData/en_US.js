@@ -262,6 +262,8 @@ export default {
     lrcfee_is_required:'LRC is required to pay trade fees, added on your history orders need LRC, totally required {required} LRC.',
     not_supported_token_to_trade_title:'{token} Is Not Supported To Trade Now',
     not_supported_token_to_trade_content:'Please look forward to opening more markets',
+    not_allowed_place_order_worth_title: 'Not Allowed Place order',
+    not_allowed_place_order_worth_content: 'Due to your total worth less than {worth}, you could not place this order',
   },
   trades: {
     side: 'Side',
