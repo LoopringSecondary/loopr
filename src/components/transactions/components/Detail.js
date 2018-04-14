@@ -4,6 +4,7 @@ import {Card,Spin} from 'antd';
 import {toNumber} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
 import {getTransactionByhash} from 'Loopring/ethereum/utils'
+import {toBig} from "../../../common/Loopring/common/formatter";
 
 const MetaItem = (props) => {
   const {label, value, render} = props
@@ -96,7 +97,7 @@ class DetailBlock extends React.Component {
           <MetaItem label={intl.get('token.gas_price')}
                     value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>
           <MetaItem label={intl.get('wallet.nonce')} value={ethTx && toNumber(ethTx.nonce)}/>
-          <MetaItem label={intl.get('txs.value')} value={ethTx && toNumber(ethTx.value) + ' ETH'}/>
+          <MetaItem label={intl.get('txs.value')} value={ethTx && toBig(ethTx.value).div(1e18).toNumber()+ ' ETH'}/>
         </Spin>
       </Card>
     );

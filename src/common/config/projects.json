@@ -2,12 +2,14 @@
   {
     "name": "NEO",
     "projectId": 1,
-    "lrx": "LRN"
+    "lrx": "LRN",
+    "website":"https://neo.org/client"
   },
   {
     "name": "QUTM",
     "projectId": 2,
-    "lrx": "LRQ"
+    "lrx": "LRQ",
+    "website":"https://qtumeco.io/wallet"
   }
 ]
 
