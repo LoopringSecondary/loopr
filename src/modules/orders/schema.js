@@ -78,7 +78,7 @@ const schema = [
     },
   },
   {
-    title: () => {intl.get('orders.LrcFee')},
+    title: () => intl.get('orders.LrcFee'),
     name: 'lrcFee',
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');

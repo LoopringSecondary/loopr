@@ -4,7 +4,7 @@ import intl from 'react-intl-universal';
 
 const schema = [
   {
-    title: () => {intl.get('trade.ring')},
+    title: () => intl.get('trade.ring'),
     description: 'The ring hash',
     name: 'ringHash',
   },
@@ -32,7 +32,7 @@ const schema = [
     name: 'total',
   },
   {
-    title: () => {intl.get('orders.LrcFee')},
+    title: () => intl.get('orders.LrcFee'),
     description: 'The total lrc fee.',
     name: 'lrcFee',
   },
