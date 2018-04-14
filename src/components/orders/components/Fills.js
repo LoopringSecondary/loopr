@@ -2,7 +2,7 @@ import React from 'react'
 import {getFills} from "Loopring/relay/ring";
 import schema from '../../../modules/trades/schema';
 import {Table, Pagination, Card} from 'antd';
-import {toNumber} from "Loopring/common/formatter";
+import {toNumber, toBig} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
 
 const uiFormatter = window.uiFormatter
@@ -26,6 +26,16 @@ export default class Fills extends React.Component {
         this.setState({fills: res.result.data, loading: false, total: res.result.total})
       }
     })
+  }
+
+  computePrice(item) {
+    const fm = window.uiFormatter.TokenFormatter
+    let fmS = new fm({symbol: item.tokenS})
+    let fmB = new fm({symbol: item.tokenB})
+
+    return item.side.toLowerCase() === 'buy' ?
+      toBig(fmS.getAmount(item.amountS)).div(toBig(fmB.getAmount(item.amountB))).toFixed(8) :
+      toBig(fmB.getAmount(item.amountB)).div(toBig(fmS.getAmount(item.amountS))).toFixed(8)
   }
 
   render() {
@@ -62,7 +72,7 @@ export default class Fills extends React.Component {
         return <span> {uiFormatter.getFormatNum(amount)} {item.side === 'buy' ? item.tokenB : item.tokenS} </span>
       },
       price: (value, item, index) => {
-        const price = (item.side === 'buy' ? (item.amountS / item.amountB) : (item.amountB / item.amountS)).toFixed(5);
+        const price = this.computePrice(item);
         return <span> {uiFormatter.getFormatNum(price)} </span>
       },
       total: (value, item, index) => {
@@ -110,7 +120,7 @@ export default class Fills extends React.Component {
       loading: loading,
       scroll: {x: true},
       bordered: false,
-      locale:{emptyText:intl.get('global.no_data')}
+      locale: {emptyText: intl.get('global.no_data')}
     };
     return (
       <div>
