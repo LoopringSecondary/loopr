@@ -297,7 +297,7 @@ function Navbar(props){
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
-            <Popover content={accountMenus} title={null} trigger="click">
+            <Popover content={accountMenus} title={null} trigger="hover">
                 {
                   account.address &&
                   <span className="fs16 color-blue-600">
