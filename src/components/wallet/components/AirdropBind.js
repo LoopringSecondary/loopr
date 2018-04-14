@@ -1,11 +1,12 @@
 import React from 'react';
-import {Button, Card, Form, Input, Modal} from 'antd';
+import {Button, Card, Form, Input, Modal, Icon, Tooltip} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {connect} from 'dva';
 import {toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification';
+import Alert from 'Loopr/Alert';
 import {Page} from 'Loopr/Pages';
 
 class AirdropBind extends React.Component {
@@ -18,20 +19,21 @@ class AirdropBind extends React.Component {
   componentDidMount() {
     const {page} = this.props;
     const {project} = page;
-    if(project){
+    if (project) {
       this.setState({
-        address:project.address,
+        address: project.address,
         project
       });
     }
   }
-  shouldComponentUpdate(nextProps){
-    if(nextProps.page !== this.props.page){
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.page !== this.props.page) {
       const {page} = nextProps;
       const {project} = page;
-      if(project){
+      if (project) {
         this.setState({
-          address:project.address,
+          address: project.address,
           project
         });
       }
@@ -69,7 +71,8 @@ class AirdropBind extends React.Component {
             Notification.open({
               message: intl.get('wallet.bind_success'),
               type: 'success',
-              description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button>)
+              description: (<Button className="alert-btn mr5"
+                                    onClick={() => window.open(`https://etherscan.io/tx/${response.result}`, '_blank')}> {intl.get('token.transfer_result_etherscan')}</Button>)
             });
             //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
             window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
@@ -107,14 +110,15 @@ class AirdropBind extends React.Component {
         Notification.open({
           message: intl.get('wallet.bind_success'),
           type: 'success',
-          description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button>)
+          description: (<Button className="alert-btn mr5"
+                                onClick={() => window.open(`https://etherscan.io/tx/${response.result}`, '_blank')}> {intl.get('token.transfer_result_etherscan')}</Button>)
         });
         //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
         window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
         notifyTransactionSubmitted(response.result);
         this.setState({address: null, project: null});
         page.onClose();
-       // modal.hideModal({id: 'wallet/bind'});
+        // modal.hideModal({id: 'wallet/bind'});
         // modal.hideModal({id: 'wallet/airdrop'});
       }
     });
@@ -135,10 +139,18 @@ class AirdropBind extends React.Component {
   };
 
   render() {
-    const {project,address} = this.state;
+    const {project, address} = this.state;
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     return (
       <Card title={intl.get('wallet.bind_tip')}>
+        {/*<div className='mb10'>*/}
+          {/*<Alert*/}
+            {/*title='Bind Address tips'*/}
+            {/*description="Bind Address Will Cost Gas"*/}
+            {/*type="info"*/}
+            {/*showIcon*/}
+          {/*/>*/}
+        {/*</div>*/}
         <Form>
           <Form.Item label={intl.get('wallet.bind_type')}>
             <Input
@@ -146,10 +158,10 @@ class AirdropBind extends React.Component {
               value={project && project.lrx.toUpperCase()}
               disabled/>
           </Form.Item>
-          <Form.Item label={intl.get('wallet.address')}>
+          <Form.Item label={<div> {intl.get('wallet.address')} <Tooltip title={<div>{intl.get('wallet.get_address', {project: project ? project.name : ''})}? <a href={project && project.website} target='_blank'>{intl.get('wallet.go_to', {project: project ? project.name : ''})}</a> </div>}><Icon className="ml5 fs3" type="question-circle-o"/></Tooltip></div>}>
             <Input
               size="large"
-              placeholder={intl.get('wallet.address_tip')}
+              placeholder={intl.get('wallet.address_tip', {project: project ? project.name : ''})}
               onChange={this.addressChange}
               value={address}
               onKeyDown={this.bindEnter}
@@ -157,10 +169,10 @@ class AirdropBind extends React.Component {
           </Form.Item>
         </Form>
         <div className="mb25"></div>
-        <div className="pt15 d-flex float-right ">
-          <Button type='default' className='mr30' onClick={this.cancel}>{intl.get('wallet.cancel')}</Button>
-          <Button type='primary' onClick={this.bindAddress.bind(this, this.state.address, this.state.project)} disabled={!project || !address || isWatchOnly }>   {intl.get('wallet.bind_address')}</Button>
-        </div>
+        <div className="fs12 color-black-3 text-center p10">Bind address will cost eth gas .</div>
+        <Button type='primary' className="d-block w-100" size="large" onClick={this.bindAddress.bind(this, this.state.address, this.state.project)}
+                disabled={!project || !address || isWatchOnly}>   {intl.get('wallet.bind_address')}</Button>
+        <Button type='default' className='d-block w-100 mt20' size="large" onClick={this.cancel}>{intl.get('wallet.cancel')}</Button>
       </Card>
     );
   }
