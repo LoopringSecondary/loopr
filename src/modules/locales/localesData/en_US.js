@@ -327,6 +327,9 @@ export default {
     custum_gas_content:'According to Ethereum current gas price, we advice you to set {gas}',
     token_convert:'Convert {from} To {to}'
   },
+  airdrop:{
+    cost_eth_gas:"Bind address will cost ETH gas for transaction .",
+  },
   wallet: {
     bind_tip: "Bind Address For Airdrop",
     cu_bind_address: "Current Bind Address",

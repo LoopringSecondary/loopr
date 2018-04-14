@@ -332,6 +332,9 @@ export default {
     custum_gas_content:'根据当前以太坊Gas价格, 我们推荐您设置{gas}',
     token_convert:'转换{from}到{to}'
   },
+  airdrop:{
+    cost_eth_gas:"绑定地址需要支付ETH油费"
+  },
   wallet: {
     bind_tip: "绑定空投接收地址",
     cu_bind_address: "当前绑定的地址",
