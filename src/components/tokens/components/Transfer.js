@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Collapse,Card,Popover,Tooltip} from 'antd';
+import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Card,Popover,Tooltip} from 'antd';
 import validator from '../../../common/Loopring/common/validator'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 import {configs} from '../../../common/config/data'
@@ -29,13 +29,18 @@ class Transfer extends React.Component {
     },
     tokenSymbol: '',
     showTokenSelector : false,
-    sendMax:false
+    sendMax:false,
+    gasPopularSetting: true
   }
 
   componentDidMount() {
     const {settings, modal, assets, form} = this.props
     const currentToken = modal.item
-    this.setState({sliderGasPrice:settings.trading.gasPrice})
+    let GasLimit = config.getGasLimitByType('eth_transfer').gasLimit
+    if(currentToken && currentToken.symbol !== "ETH") {
+      GasLimit = config.getGasLimitByType('token_transfer').gasLimit
+    }
+    this.setState({sliderGasPrice:settings.trading.gasPrice, selectedGasPrice:settings.trading.gasPrice, selectedGasLimit:fm.toNumber(GasLimit)})
     getGasPrice().then(res=>{
       const gasPrice = fm.toBig(res.result).div(1e9).toNumber()
       if(gasPrice >= 1 && gasPrice <= 99) {
@@ -71,11 +76,19 @@ class Transfer extends React.Component {
     if(currentToken && currentToken.symbol !== "ETH") {
       GasLimit = config.getGasLimitByType('token_transfer').gasLimit
     }
-    const defaultGas = fm.toBig(this.state.sliderGasPrice).times(GasLimit).div(1e9).toNumber()
+    let defaultGas = 0
+    if(this.state.gasPopularSetting) {
+      defaultGas = fm.toBig(this.state.sliderGasPrice).times(GasLimit).div(1e9).toNumber()
+    } else {
+      if(this.state.selectedGasLimit >0 && this.state.selectedGasPrice >0) {
+        defaultGas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(this.state.selectedGasLimit)).div(1e9).toNumber().toFixed(8)
+      }
+    }
     let estimateGas = 0
     if(this.state.estimateGasPrice > 0){
       estimateGas = fm.toBig(this.state.estimateGasPrice).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
     }
+    const { TextArea } = Input;
 
     let sorter = (tokenA,tokenB)=>{
       const pa = Number(tokenA.balance);
@@ -95,15 +108,15 @@ class Transfer extends React.Component {
           let tokenSymbol = _this.state.tokenSymbol
           let gasPrice = settings.trading.gasPrice
           let gasLimit = GasLimit
-          if(_this.state.advanced) {
+          if(_this.state.gasPopularSetting) {
+            gasPrice = _this.state.sliderGasPrice
+          } else {
             if(_this.state.selectedGasPrice) {
               gasPrice = _this.state.selectedGasPrice
             }
             if(_this.state.selectedGasLimit) {
               gasLimit = _this.state.selectedGasLimit
             }
-          } else {
-            gasPrice = _this.state.sliderGasPrice
           }
           tx.gasPrice = fm.toHex(fm.toBig(gasPrice).times(1e9))
           tx.gasLimit = fm.toHex(gasLimit)
@@ -180,7 +193,7 @@ class Transfer extends React.Component {
           this.setState({value: balance})
           form.setFieldsValue({"amount": balance})
         }
-        this.setState({sliderGasPrice: v, selectedGasLimit:GasLimit, selectedGas: gas.toString(10)})
+        this.setState({sliderGasPrice: v, selectedGasLimit:fm.toNumber(GasLimit), selectedGas: gas.toString(10)})
       },0)
     }
 
@@ -192,7 +205,7 @@ class Transfer extends React.Component {
         if(_this.state.tokenSymbol === 'ETH') {
           let gasPrice = settings.trading.gasPrice
           let gasLimit = GasLimit
-          if(_this.state.advanced) {
+          if(_this.state.gasPopularSetting) {
             if(_this.state.selectedGasPrice) {
               gasPrice = _this.state.selectedGasPrice
             }
@@ -313,7 +326,7 @@ class Transfer extends React.Component {
       <span className="fs10">
         ≈
         <Currency />
-        {accMul(this.state.value, prices.getTokenBySymbol(this.state.tokenSymbol).price).toFixed(2)}
+        {this.state.value >=0 && this.state.tokenSymbol && accMul(this.state.value, prices.getTokenBySymbol(this.state.tokenSymbol).price).toFixed(2)}
       </span>
     )
 
@@ -331,22 +344,74 @@ class Transfer extends React.Component {
         this.setState({tokenSymbol : ''})
       }
     }
-    const transactionFee = (
-      <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('token.custum_gas_title')}</div>} content={
-        <div style={{maxWidth:'300px',padding:'5px'}}>
-          <div className="pb10">{intl.get('token.custum_gas_content', {gas: estimateGas})}</div>
-          {form.getFieldDecorator('transactionFee', {
-            initialValue: settings.trading.gasPrice,
-            rules: []
-          })(
-            <Slider min={1} max={99} step={0.01}
-              marks={this.state.gasMark}
-              tipFormatter={formatGas}
-              onChange={setGas.bind(this)}
-            />
-          )}
-        </div>
-      } trigger="click">
+
+    function gasSettingChange(e) {
+      e.preventDefault();
+      this.setState({gasPopularSetting: !this.state.gasPopularSetting})
+    }
+
+    const editGas = (
+      <Popover overlayClassName="place-order-form-popover"
+         title={
+           <div className="row pt5 pb5">
+             <div className="col-auto">
+               {intl.get('token.custum_gas_title')}
+             </div>
+             <div className="col"></div>
+             <div className="col-auto"><a href="" onClick={gasSettingChange.bind(this)}>{this.state.gasPopularSetting ? intl.get('token.gas_custom_setting') : intl.get('token.gas_fast_setting')}</a></div>
+           </div>
+         }
+         content={
+           <div style={{maxWidth:'300px',padding:'5px'}}>
+             {this.state.gasPopularSetting &&
+               <div>
+                 <div className="pb10">{intl.get('token.custum_gas_content', {gas: estimateGas})}</div>
+                 <Form.Item className="mb0 pb10" colon={false} label={<div className="fs3 color-black-2">{intl.get('token.transaction_fee')}</div>}>
+                   {form.getFieldDecorator('transactionFee', {
+                     initialValue: settings.trading.gasPrice,
+                     rules: []
+                   })(
+                     <Slider min={1} max={99} step={0.01}
+                             marks={this.state.gasMark}
+                             tipFormatter={formatGas}
+                             onChange={setGas.bind(this)}
+                     />
+                   )}
+                 </Form.Item>
+               </div>
+             }
+             {!this.state.gasPopularSetting &&
+               <div>
+                 <div className="pb10">{intl.get('token.custum_gas_advance_content', {gasLimit: fm.toNumber(GasLimit), gasPrice:this.state.estimateGasPrice})}</div>
+                 <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_limit')}</div>} colon={false}>
+                   {form.getFieldDecorator('gasLimit', {
+                     initialValue: this.state.selectedGasLimit,
+                     rules: [{
+                       message:intl.get('trade.integer_verification_message'),
+                       validator: (rule, value, cb) => isInteger(value) ? cb() : cb(true)
+                     }],
+                   })(
+                     <Input className="d-block w-100" placeholder="" size="large" onChange={gasLimitChange.bind(this)}/>
+                   )}
+                 </Form.Item>
+                 <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_price')}</div>} colon={false}>
+                   {form.getFieldDecorator('gasPrice', {
+                     initialValue: this.state.selectedGasPrice,
+                     rules: []
+                   })(
+                     <Slider min={1} max={99} step={1}
+                             marks={{
+                               1: intl.get('token.slow'),
+                               99: intl.get('token.fast')
+                             }}
+                             onChange={gasPriceChange.bind(this)}
+                     />
+                   )}
+                 </Form.Item>
+               </div>
+             }
+           </div>
+         } trigger="click">
         <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
       </Popover>
     )
@@ -441,63 +506,34 @@ class Transfer extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          {!this.state.advanced &&
-            <div>
-              <div style={{height:""}}>
-                <Form.Item className="mb0 pb10" colon={false} label={null}>
-                  <div className="row align-items-center">
-                    <div className="col-auto fs3 color-black-2">
-                      {intl.get('token.transaction_fee')}
-                    </div>
-                    <div className="col"></div>
-                    <div className="col-auto pl0 pr5">{transactionFee}</div>
-                    <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ether</div>
-                  </div>
-                </Form.Item>
+          <Form.Item colon={false} label={null}>
+            <div className="row align-items-center">
+              <div className="col-auto fs3 color-black-2">
+                {intl.get('token.transaction_fee')}
               </div>
-              <div className="row mt5">
-                <div className="col"></div>
-                <div className="col-auto">
-                  <Form.Item className="mb0 text-right d-flex align-items-center" label={<div className="mr5">{intl.get('token.advanced')}</div>} colon={false}>
-                    <Switch onChange={setAdvance.bind(this)}/>
-                  </Form.Item>
-                </div>
+              <div className="col"></div>
+              <div className="col-auto pl0 pr5">{editGas}</div>
+              <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ether</div>
+            </div>
+          </Form.Item>
+          {_this.state.tokenSymbol === 'ETH' && !this.state.advanced &&
+            <div className="row mt5">
+              <div className="col"></div>
+              <div className="col-auto">
+                <Form.Item className="mb0 text-right d-flex align-items-center" label={<div className="mr5">{intl.get('token.advanced')}</div>} colon={false}>
+                  <Switch onChange={setAdvance.bind(this)}/>
+                </Form.Item>
               </div>
             </div>
           }
-          {this.state.advanced &&
+          {_this.state.tokenSymbol === 'ETH' && this.state.advanced &&
             <div>
-              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.data')}</div>} {...formItemLayout} colon={false}>
+              <Form.Item className="mb0 pb10" label={<div className="fs3 color-black-2">{intl.get('token.data')}</div>} {...formItemLayout} colon={false}>
                 {form.getFieldDecorator('data', {
                   initialValue: '',
                   rules: []
                 })(
-                  <Input className="d-block w-100" placeholder="" size="large"/>
-                )}
-              </Form.Item>
-              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_limit')}</div>} {...formItemLayout} colon={false}>
-                {form.getFieldDecorator('gasLimit', {
-                  initialValue: this.state.selectedGasLimit,
-                  rules: [{
-                    message:intl.get('trade.integer_verification_message'),
-                    validator: (rule, value, cb) => isInteger(value) ? cb() : cb(true)
-                  }],
-                })(
-                  <Input className="d-block w-100" placeholder="" size="large" onChange={gasLimitChange.bind(this)}/>
-                )}
-              </Form.Item>
-              <Form.Item label={<div className="fs3 color-black-2">{intl.get('token.gas_price')}</div>} colon={false}>
-                {form.getFieldDecorator('gasPrice', {
-                  initialValue: this.state.selectedGasPrice,
-                  rules: []
-                })(
-                  <Slider min={1} max={99} step={1}
-                          marks={{
-                            1: intl.get('token.slow'),
-                            99: intl.get('token.fast')
-                          }}
-                          onChange={gasPriceChange.bind(this)}
-                  />
+                  <TextArea className="d-block w-100" rows={4} />
                 )}
               </Form.Item>
               <div className="row mt5">
