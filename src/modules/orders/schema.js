@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon} from 'antd';
-import {toNumber} from "Loopring/common/formatter";
+import {toNumber,toBig} from "Loopring/common/formatter";
 import {getFormatTime} from "../../common/utils/uiFormatter";
 import intl from 'react-intl-universal';
 
@@ -52,7 +52,11 @@ const schema = [
     title: () => intl.get('orders.price'),
     name: 'price',
     formatter: (item) => {
-      const price =  item.originalOrder.side.toLowerCase() === 'buy' ? Number(item.originalOrder.amountS / item.originalOrder.amountB).toFixed(5) : Number(item.originalOrder.amountB / item.originalOrder.amountS).toFixed(5)
+      const tokenB = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB)|| {digits: 18, precision: 6};
+      const tokenS = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS)||{digits: 18, precision: 6};
+      const price =  item.originalOrder.side.toLowerCase() === 'buy' ?
+        toBig(item.originalOrder.amountS).div('1e'+tokenS.digits).div(toBig(item.originalOrder.amountB)).times('1e'+tokenB.digits).toFixed(5) :
+        toBig(item.originalOrder.amountB).div('1e'+tokenB.digits).div(toBig(item.originalOrder.amountS)).times('1e'+tokenS.digits).toFixed(5);
       return window.uiFormatter.getFormatNum(toNumber(price))
     }
   },
@@ -79,7 +83,7 @@ const schema = [
     formatter: (item) => {
       let token = window.CONFIG.getTokenBySymbol('LRC');
       token = token || {digits: 18, precision: 6};
-      const total = (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision)
+      const total = (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision);
       return window.uiFormatter.getFormatNum(toNumber(total))  + ' LRC'
     }
   },
