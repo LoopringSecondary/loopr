@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Collapse, Input, Modal,Icon} from 'antd';
+import {Button, Card, Collapse, Input, Modal, Icon} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
@@ -68,7 +68,7 @@ class TradeConfirm extends React.Component {
       Notification.open({
         message: intl.get('trade.to_confirm_title'),
         description: toConfirmWarn,
-        type:'info'
+        type: 'info'
       })
     }
     window.WALLET.signOrder(order).then(function (signedOrder) {
@@ -93,7 +93,7 @@ class TradeConfirm extends React.Component {
       <div className="m5 color-black-2" key={index}>
         <Icon className="color-error-1 mr5" type="close-circle-o"/>
         {intl.get('order.balance_not_enough', {token: item.value.symbol})}
-        <a onClick={modal.showModal.bind(this, {id: 'token/receive',symbol:item.value.symbol.toUpperCase()})}
+        <a onClick={modal.showModal.bind(this, {id: 'token/receive', symbol: item.value.symbol.toUpperCase()})}
            className="ml15 color-primary-1">{intl.get('order.receive')}<Icon type="right"/></a>
         {item.value.symbol.toUpperCase() !== 'WETH' &&
         <a onClick={window.routeActions.gotoPath.bind(this, `/trade/${item.value.symbol.toUpperCase()}-WETH`)}
@@ -110,17 +110,18 @@ class TradeConfirm extends React.Component {
       message: intl.get('order.place_success'),
       description: intl.get('order.place_success_tip'),
       duration: 3,
-      type:'success',
-      actions:
-        (warn.length > 0 && <div className="p10" style={{borderRadius: '4px'}}>
-          <div className="fs14 m5 color-black-2">
-            {intl.get('trade.you_should_do_things')}
-            <Icon className="ml5" type="question-circle"/>
-          </div>
-          {warn.map((item, index) => this.ActionItem(item, index))}
-        </div>)
+      type: 'success',
     };
     Notification.open(args);
+    if (warn.length > 0) {
+      Notification.open({
+        message: intl.get('order.place_warn'),
+        type: 'warning',
+        actions: (<div className="p10" style={{borderRadius: '4px'}}>
+          {warn.map((item, index) => this.ActionItem(item, index))}
+        </div>)
+      })
+    }
   };
 
   handelSubmit = async () => {
@@ -132,7 +133,11 @@ class TradeConfirm extends React.Component {
     modals.hideModal({id: 'trade/confirm'});
     placeOrder(signedOrder).then(async (res) => {
       if (res.error) {
-      Notification.open({message: intl.get('trade.place_order_failed'), type: "error", description:res.error.message})
+        Notification.open({
+          message: intl.get('trade.place_order_failed'),
+          type: "error",
+          description: res.error.message
+        })
       } else {
         if (warn) {
           const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
@@ -141,7 +146,7 @@ class TradeConfirm extends React.Component {
           let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
           const txs = [];
           const approveWarn = warn.filter(item => item.type === "AllowanceNotEnough");
-          console.log("approveWarn",approveWarn);
+          console.log("approveWarn", approveWarn);
           approveWarn.forEach(item => {
             const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
             const token = new Token({address: tokenConfig.address});
@@ -197,8 +202,8 @@ class TradeConfirm extends React.Component {
     })
   }
 
-   reEmitPendingTransaction= () => {
-    const { socket } = this.context;
+  reEmitPendingTransaction = () => {
+    const {socket} = this.context;
     const owner = window.WALLET && window.WALLET.getAddress();
     const options = {
       owner
