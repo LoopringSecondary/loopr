@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
+import moment from 'moment';
 import {Button, Icon, Menu, message, Popover, Select,Badge,Row} from 'antd';
 import {Link} from 'dva/router';
 import copy from 'copy-to-clipboard';
@@ -227,7 +228,7 @@ function Navbar(props){
       <div className="zb-b-t">
         <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
           <div className="col fs12 color-black-2">{intl.get('version.update_time')}</div>
-          <div className="col-auto fs12 color-black-3">20180414</div>
+          <div className="col-auto fs12 color-black-3">{window.uiFormatter.getFormatTime(moment().format('x'),'YYYYMMDD')}</div>
         </div>
       </div>
       <div className="zb-b-t">
