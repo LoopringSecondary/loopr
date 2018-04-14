@@ -103,7 +103,7 @@ function Navbar(props){
                 </div>
               }
               {isWatchOnly &&
-                <div className="fs14 color-black-3 navbar-account-grid cursor-not-allowed">
+                <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
                   <i className="grid-icon icon-loopring icon-loopring-transfer fs16 color-black-2 d-block"></i>
                   <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.send')}</div>
                 </div>

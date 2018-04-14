@@ -10,8 +10,11 @@ const CoinIcon = (props)=>{
   }else{
     color = 'color-'+ color
   }
-  return (
-    <i className={`icon icon-loopring icon-loopring-${icons[symbol.toUpperCase()] ? symbol : 'EMPTY'} fs${size} ${color} ${className}`} />
-  )
+  if(icons[symbol.toUpperCase()]){
+    return <i className={`icon icon-loopring icon-loopring-${symbol} fs${size} ${color} ${className}`} />
+  }else{
+    return <i className={`icon icon-loopring icon-loopring-ETH fs${size} ${color} ${className}`} />
+  }
+
 }
 export default CoinIcon
