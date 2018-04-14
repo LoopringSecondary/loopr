@@ -103,7 +103,7 @@ function Navbar(props){
               }
               {isWatchOnly &&
                 <div className="fs14 color-black-3 navbar-account-grid cursor-not-allowed">
-                  <i className="grid-icon icon-loopring icon-loopring-transfer fs16 color-black-3 d-block"></i>
+                  <i className="grid-icon icon-loopring icon-loopring-transfer fs16 color-black-2 d-block"></i>
                   <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.send')}</div>
                 </div>
               }
@@ -202,10 +202,10 @@ function Navbar(props){
             <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
           </div>
 
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15 cursor-not-allowed">
             <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
           </div>
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
+          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15 cursor-not-allowed">
             <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
           </div>
         </div>
@@ -221,7 +221,7 @@ function Navbar(props){
       <div className="zb-b-t">
         <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
           <div className="col fs12 color-black-2">{intl.get('version.version')}</div>
-          <div className="col-auto fs12 color-black-3">2.0 Demo</div>
+          <div className="col-auto fs12 color-black-3">2.0 Trial</div>
         </div>
       </div>
       <div className="zb-b-t">
