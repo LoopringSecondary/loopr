@@ -64,7 +64,7 @@ export default {
     place_success: "Place Order Successfully",
     place_success_tip: 'Congratulation! Your order is under trading now!',
     place_warn: "Order can not be fully filled",
-    balance_not_enough: '{token} balance is not enough',
+    balance_not_enough: 'In order to be fully filled, {amount} more {token} is required',
     submit: "Submit Order",
     confirm_cancel_order: "Do you want to cancel this order ?",
     confirm_cancel_all: "Do you want to cancel all {pair} orders?",
@@ -76,6 +76,9 @@ export default {
     no: "Cancel",
     cancel_all: "Cancel all",
     refresh: "Refresh",
+    buy_token:"Buy {token}",
+    receive_token:"Receive {token}",
+    convert_token:"Convert {token}"
   },
   ticker: {
     last: 'Last Price',
@@ -262,7 +265,7 @@ export default {
     lrcfee_is_required:'LRC is required to pay trade fees, added on your history orders need LRC, totally required {required} LRC.',
     not_supported_token_to_trade_title:'{token} Is Not Supported To Trade Now',
     not_supported_token_to_trade_content:'Please look forward to opening more markets',
-    not_allowed_place_order_worth_title: 'Not Allowed Place order',
+    not_allowed_place_order_worth_title: 'Order Amount Is Too Small',
     not_allowed_place_order_worth_content: 'Due to your total worth less than {worth}, you could not place this order',
   },
   trades: {

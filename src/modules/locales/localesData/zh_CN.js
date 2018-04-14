@@ -63,8 +63,8 @@ export default {
     placing_order: "下单结果",
     place_success: "下单成功!",
     place_success_tip: '恭喜, 您的订单已经可以等待交易',
-    place_warn: '您的订单只能部分撮合：',
-    balance_not_enough: '{token} 余额不足',
+    place_warn: '您的订单只能被部分撮合',
+    balance_not_enough: '如果要完全撮合，还需要 {amount} {token} ',
     submit: "提交订单",
     confirm_cancel_order: "您确定要取消该笔订单？",
     confirm_cancel_all: "您确定要取消全部{pair}订单？",
@@ -75,7 +75,10 @@ export default {
     yes: "确认",
     no: "取消",
     cancel_all: "取消全部",
-    refresh: "刷新"
+    refresh: "刷新",
+    buy_token:"买 {token}",
+    receive_token:"接收 {token}",
+    convert_token:"转换 {token}"
   },
   ticker: {
     last: '最新价',
@@ -267,8 +270,8 @@ export default {
     lrcfee_is_required:'由于需要支付LRC手续费, 汇总您历史订单所需LRC，还需要 {required} LRC',
     not_supported_token_to_trade_title:'我们暂时未支持{token}交易',
     not_supported_token_to_trade_content:'敬请期待我们开放更多市场',
-    not_allowed_place_order_worth_title: '不允许下单',
-    not_allowed_place_order_worth_content: '由于您当前订单总价值小于{worth}, 无法的下单',
+    not_allowed_place_order_worth_title: '订单金额过小',
+    not_allowed_place_order_worth_content: '由于您当前订单总价值小于{worth}, 无法下单',
   },
   trades:{
     side: '方向',

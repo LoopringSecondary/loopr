@@ -87,20 +87,15 @@ class TradeConfirm extends React.Component {
 
   }
 
-  ActionItem = (item, index) => {
+  ActionItem = (item) => {
     const {modal} = this.props;
     return (
-      <div className="m5 color-black-2" key={index}>
-        <Icon className="color-error-1 mr5" type="close-circle-o"/>
-        {intl.get('order.balance_not_enough', {token: item.value.symbol})}
-        <a onClick={modal.showModal.bind(this, {id: 'token/receive', symbol: item.value.symbol.toUpperCase()})}
-           className="ml15 color-primary-1">{intl.get('order.receive')}<Icon type="right"/></a>
+      <div>
+        <Button className="alert-btn mr5" onClick={() => modal.showModal({id: 'token/receive', symbol: item.value.symbol.toUpperCase()})}> {intl.get('order.receive_token',{token:item.value.symbol.toUpperCase()})}</Button>
         {item.value.symbol.toUpperCase() !== 'WETH' &&
-        <a onClick={window.routeActions.gotoPath.bind(this, `/trade/${item.value.symbol.toUpperCase()}-WETH`)}
-           className="ml15 color-primary-1">{intl.get('order.buy')} <Icon type="right"/></a>}
+        <Button className="alert-btn mr5" onClick={() => window.routeActions.gotoPath( `/trade/${item.value.symbol.toUpperCase()}-WETH`)}> {intl.get('order.buy_token',{token:item.value.symbol.toUpperCase()})}</Button>}
         {item.value.symbol.toUpperCase() === 'WETH' &&
-        <a onClick={modal.showModal.bind(this, {id: 'token/convert', item: {symbol: 'ETH'}, showFrozenAmount: true})}
-           className="ml15 color-primary-1">{intl.get('txs.type_convert')} <Icon type="right"/></a>}
+        <Button className="alert-btn mr5" onClick={() => modal.showModal( {id: 'token/convert', item: {symbol: 'ETH'}, showFrozenAmount: true})}> {intl.get('txs.convert_token',{token:item.value.symbol.toUpperCase()})}</Button>}
       </div>
     )
   };
@@ -113,15 +108,14 @@ class TradeConfirm extends React.Component {
       type: 'success',
     };
     Notification.open(args);
-    if (warn.length > 0) {
+    warn.forEach((item) => {
       Notification.open({
         message: intl.get('order.place_warn'),
+        description:  intl.get('order.balance_not_enough', {token: item.value.symbol,amount:window.uiFormatter.getFormatNum(item.value.required)}),
         type: 'warning',
-        actions: (<div className="p10" style={{borderRadius: '4px'}}>
-          {warn.map((item, index) => this.ActionItem(item, index))}
-        </div>)
+        actions:this.ActionItem(item)
       })
-    }
+    })
   };
 
   handelSubmit = async () => {
