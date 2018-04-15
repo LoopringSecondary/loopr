@@ -325,7 +325,7 @@ class Transfer extends React.Component {
 
     const formatGas = (value) => {
       const gas = fm.toBig(value).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
-      return gas + " ether";
+      return gas + " ETH";
     }
 
     const priceValue = (
