@@ -99,7 +99,13 @@ class Transfer extends React.Component {
         return pb - pa;
       }
     };
-    assets.items.sort(sorter);
+    const assetsSorted = assets.items.map((token,index) => {
+      const asset = {...config.getTokenBySymbol(token.symbol), ...assets.getTokenBySymbol(token.symbol)}
+      let balance = fm.toBig(asset.balance).div('1e' + asset.digits).toNumber()
+      asset.balance = balance
+      return asset
+    })
+    assetsSorted.sort(sorter);
 
     function handleSubmit() {
       form.validateFields((err, values) => {
@@ -319,7 +325,7 @@ class Transfer extends React.Component {
 
     const formatGas = (value) => {
       const gas = fm.toBig(value).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
-      return gas + " ether";
+      return gas + " ETH";
     }
 
     const priceValue = (
@@ -441,19 +447,13 @@ class Transfer extends React.Component {
                 onFocus={()=>{}}
                 onBlur={()=>{}}
                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
-                {assets.items.map((token,index) => {
+                {assetsSorted.map((token,index) => {
                   const asset = {...config.getTokenBySymbol(token.symbol), ...assets.getTokenBySymbol(token.symbol)}
-                  let balance = fm.toBig(asset.balance).div('1e'+asset.digits).toNumber()
-                  if(balance >0) {
-                    const balanceArr = balance.toString().split('.')
-                    if(balanceArr.length === 2) {
-                      balance = balanceArr[0]+"."+balanceArr[1].substring(0, Math.min(balanceArr[1].length, asset.precision))
-                    }
-                  }
+                  let balance = fm.toFixed(fm.toBig(asset.balance).div('1e'+asset.digits).toNumber(), asset.precision)
                   return <Select.Option value={asset.symbol} key={index}>
                     <div className="row mr0">
                       <div className="col color-black-2">{asset.symbol}</div>
-                      <div className="col-atuo color-black-3">{balance > 0 ? balance : ''}</div>
+                      <div className="col-atuo color-black-3">{fm.toNumber(balance) === 0 ? '' : balance}</div>
                     </div>
                     </Select.Option>}
                 )}
@@ -513,7 +513,7 @@ class Transfer extends React.Component {
               </div>
               <div className="col"></div>
               <div className="col-auto pl0 pr5">{editGas}</div>
-              <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ether</div>
+              <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ETH</div>
             </div>
           </Form.Item>
           {_this.state.tokenSymbol === 'ETH' && !this.state.advanced &&

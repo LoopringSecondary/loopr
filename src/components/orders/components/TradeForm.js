@@ -59,34 +59,18 @@ class TradeForm extends React.Component {
     let fmL = new TokenFormatter({symbol:tokenL})
     let fmR = new TokenFormatter({symbol:tokenR})
     let displayPrice = tickerByLoopring ? tickerByLoopring.last : 0
-    const priceArr = displayPrice.toString().split(".")
-    if (priceArr.length === 2 && priceArr[1].length > marketConfig.pricePrecision) {
-      try {
-        displayPrice = Number(priceArr[0] + "." + priceArr[1].substring(0, marketConfig.pricePrecision))
-      } catch (e) {
-        console.error(e)
-        displayPrice = 0
-      }
-    }
+    displayPrice = fm.toNumber(fm.toFixed(displayPrice, marketConfig.pricePrecision))
     let availableAmount = 0
     if(side === 'sell') {
       availableAmount = Math.floor(tokenLBalance.balance * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
     } else {
       if(displayPrice >0) {
-        availableAmount = Math.floor(tokenRBalance.balance / Number(displayPrice) * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
+        availableAmount = Math.floor(tokenRBalance.balance / displayPrice * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
       }
     }
     const amountPrecision = tokenRBalance.precision - marketConfig.pricePrecision
     if (amountPrecision > 0 && availableAmount !== 0) {
-      const amountArr = availableAmount.toString().split(".")
-      if (amountArr.length === 2 && amountArr[1].length > amountPrecision) {
-        try {
-          availableAmount = Number(amountArr[0] + "." + amountArr[1].substring(0, amountPrecision))
-        } catch (e) {
-          console.error(e)
-          availableAmount = 0
-        }
-      }
+      availableAmount = fm.toNumber(fm.toFixed(availableAmount, amountPrecision))
     } else {
       availableAmount = Math.floor(availableAmount)
     }
@@ -443,16 +427,8 @@ class TradeForm extends React.Component {
       if (type === 'price') {
         price = e.target.value.toString()
         if (!amountReg.test(price)) return false
-        const priceArr = price.split(".")
-        if (priceArr.length === 2 && priceArr[1].length > marketConfig.pricePrecision) {
-          try {
-            price = Number(priceArr[0] + "." + priceArr[1].substring(0, marketConfig.pricePrecision))
-          } catch (e) {
-            console.error(e)
-            price = 0
-          }
-          e.target.value = price
-        }
+        price = fm.toNumber(fm.toFixed(fm.toNumber(price), marketConfig.pricePrecision))
+        e.target.value = price
         this.setState({priceInput: price})
         amount = Number(form.getFieldValue("amount"))
         if(side === 'buy'){
@@ -469,15 +445,7 @@ class TradeForm extends React.Component {
         if (!amountReg.test(amount)) return false
         const amountPrecision = tokenRBalance.precision - marketConfig.pricePrecision
         if (amountPrecision > 0) {
-          const amountArr = amount.split(".")
-          if (amountArr.length === 2 && amountArr[1].length > amountPrecision) {
-            try {
-              amount = Number(amountArr[0] + "." + amountArr[1].substring(0, amountPrecision))
-            } catch (e) {
-              console.error(e)
-              amount = 0
-            }
-          }
+          amount = fm.toNumber(fm.toFixed(fm.toNumber(amount), amountPrecision))
         } else {
           amount = Math.floor(amount)
         }
@@ -502,15 +470,7 @@ class TradeForm extends React.Component {
         let amount = accMul(value, Number(e)) / 100
         const amountPrecision = tokenRBalance.precision - marketConfig.pricePrecision
         if (amountPrecision > 0) {
-          const amountArr = amount.toString().split(".")
-          if (amountArr.length === 2 && amountArr[1].length > amountPrecision) {
-            try {
-              amount = Number(amountArr[0] + "." + amountArr[1].substring(0, amountPrecision))
-            } catch (e) {
-              console.error(e)
-              amount = 0
-            }
-          }
+          amount = fm.toFixed(amount, amountPrecision)
         } else {
           amount = Math.floor(amount)
         }
