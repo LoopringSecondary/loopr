@@ -270,6 +270,8 @@ export default {
     lrcfee_is_required:'由于需要支付LRC手续费, 汇总您历史订单所需LRC，还需要 {required} LRC',
     not_supported_token_to_trade_title:'我们暂时未支持{token}交易',
     not_supported_token_to_trade_content:'敬请期待我们开放更多市场',
+    not_supported_market_title: "不支持的市场",
+    not_supported_market_content: "我们暂未支持市场 {market}",
     not_allowed_place_order_worth_title: '订单金额过小',
     not_allowed_place_order_worth_content: '由于您当前订单总价值小于{worth}, 无法下单',
   },
