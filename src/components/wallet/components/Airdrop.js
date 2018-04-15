@@ -1,5 +1,5 @@
 import React from 'react';
-import {Badge, Card} from 'antd';
+import {Badge, Card,Icon,Tooltip} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {toHex} from "Loopring/common/formatter";
@@ -42,13 +42,15 @@ class Airdrop extends React.Component {
                 <CoinIcon size="32" color="grey-900"/>
               </div>
               <div className="col pl0 pr0">
-                <div className="fs2 color-black-1 font-weight-bold">
-                  {project.lrx.toUpperCase()} {this.findBindAddress(project) &&
-                <Badge className="ml5" count={intl.get('wallet.binding')} style={{backgroundColor: '#52c41a'}}/>}
+                <div className="fs2 color-black-1 font-weight-bold list-inline ">
+                  <div className='list-inline-item'>{project.lrx.toUpperCase()}</div>{this.findBindAddress(project) && <div className='list-inline-item'><Tooltip title={intl.get('wallet.binding')} ><Icon type="check-circle" /></Tooltip></div>}
                 </div>
                 <div className="fs2 color-black-3 pl0 pr0">
                   {intl.get('wallet.loopring_on', {project: intl.get(`wallet.${project.name.toLowerCase()}`)})}
                 </div>
+                {this.findBindAddress(project) && <div className='fs2'>
+                  {intl.get('wallet.bound_address',{token:intl.get(`wallet.${project.name.toLowerCase()}`)})}：{this.findBindAddress(project)}
+                </div>}
               </div>
               {!this.findBindAddress(project) && <div className="col-auto pr5">
                 <div className="f2 color-black-3">
