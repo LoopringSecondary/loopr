@@ -43,14 +43,33 @@ class Airdrop extends React.Component {
               </div>
               <div className="col pl0 pr0">
                 <div className="fs2 color-black-1 font-weight-bold list-inline ">
-                  <div className='list-inline-item'>{project.lrx.toUpperCase()}</div>{this.findBindAddress(project) && <div className='list-inline-item'><Tooltip title={intl.get('wallet.binding')} ><Icon type="check-circle" /></Tooltip></div>}
+                  <div className='list-inline-item'>
+                    {project.lrx.toUpperCase()}
+                  </div>
+                  {this.findBindAddress(project) &&
+                    <div className='list-inline-item'>
+                    <Tooltip title={intl.get('wallet.binding')} >
+
+                      <span>
+                        <Icon type="check-circle" className="color-success-1" />
+                        <span hidden className="fs12 color-success-1 ml5">绑定成功</span>
+                      </span>
+                    </Tooltip>
+                    </div>
+                  }
                 </div>
-                <div className="fs2 color-black-3 pl0 pr0">
-                  {intl.get('wallet.loopring_on', {project: intl.get(`wallet.${project.name.toLowerCase()}`)})}
+                {!this.findBindAddress(project) &&
+                  <div className="fs2 color-black-3 pl0 pr0">
+                    {intl.get('wallet.loopring_on', {project: intl.get(`wallet.${project.name.toLowerCase()}`)})}
+                  </div>
+                }
+                {this.findBindAddress(project) &&
+                  <div className='fs3 color-black-3'>
+                  <Tooltip title={intl.get('wallet.bound_address',{token:intl.get(`wallet.${project.name.toLowerCase()}`)})}>
+                    {this.findBindAddress(project)}
+                  </Tooltip>
                 </div>
-                {this.findBindAddress(project) && <div className='fs2'>
-                  {intl.get('wallet.bound_address',{token:intl.get(`wallet.${project.name.toLowerCase()}`)})}：{this.findBindAddress(project)}
-                </div>}
+                }
               </div>
               {!this.findBindAddress(project) && <div className="col-auto pr5">
                 <div className="f2 color-black-3">
