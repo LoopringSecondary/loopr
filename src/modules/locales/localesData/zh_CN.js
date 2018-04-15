@@ -5,6 +5,7 @@ export default {
     options: '操作',
     amount: "{amount,number}",
     no_data:"暂时没有数据",
+    comingsoon:"即将到来",
   },
   version:{
     label:'体验版',
@@ -231,7 +232,7 @@ export default {
     day: "天",
     week: "周",
     month: "月",
-    lrc_fee: "手续费",
+    lrc_fee: "撮合油费",
     margin_split: "分润比例",
     place_order: "提交订单",
     unlock_your_wallet: "解锁你的钱包",

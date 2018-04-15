@@ -5,6 +5,7 @@ export default {
     options: 'Options',
     amount: "{amount,number}",
     no_data:"No data",
+    comingsoon:"Coming Soon",
   },
   version:{
     label:'Trial',
