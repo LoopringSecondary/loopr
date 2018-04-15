@@ -15,7 +15,7 @@ export default {
     feedback:'问题反馈',
     feedback_submit:'提交问题',
     roadmap_label:'了解详情',
-    roadmap_title:'路印钱包2018路线图',
+    roadmap_title:'路印钱包开发路线图',
     version:'当前版本',
     update_time:'最近更新',
   },
