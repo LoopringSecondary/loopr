@@ -325,7 +325,7 @@ class Transfer extends React.Component {
 
     const formatGas = (value) => {
       const gas = fm.toBig(value).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
-      return gas + " ether";
+      return gas + " ETH";
     }
 
     const priceValue = (
@@ -513,7 +513,7 @@ class Transfer extends React.Component {
               </div>
               <div className="col"></div>
               <div className="col-auto pl0 pr5">{editGas}</div>
-              <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ether</div>
+              <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ETH</div>
             </div>
           </Form.Item>
           {_this.state.tokenSymbol === 'ETH' && !this.state.advanced &&
