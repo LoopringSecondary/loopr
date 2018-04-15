@@ -353,6 +353,7 @@ export default {
     go_to:"go to {project}",
     address: "Address",
     bind_address: "Bind Adress",
+    bound_address:"Bound {token} Address",
     to_bind_address: "Bind",
     to_edit: "Edit",
     bind_type_address: "Bind {type} Address",

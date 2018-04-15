@@ -49,7 +49,7 @@ class Airdrop extends React.Component {
                   {intl.get('wallet.loopring_on', {project: intl.get(`wallet.${project.name.toLowerCase()}`)})}
                 </div>
                 {this.findBindAddress(project) && <div className='fs2'>
-                  Bound Address：{this.findBindAddress(project)}
+                  {intl.get('wallet.bound_address',{token:intl.get(`wallet.${project.name.toLowerCase()}`)})}：{this.findBindAddress(project)}
                 </div>}
               </div>
               {!this.findBindAddress(project) && <div className="col-auto pr5">
