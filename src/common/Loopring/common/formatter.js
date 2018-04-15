@@ -123,5 +123,25 @@ export function getDisplaySymbol(settingsCurrency) {
   }
 }
 
+export function toFixed(number, precision) {
+  if(number >0 && precision >0) {
+    const numberArr = number.toFixed(16).toString().split('.')
+    if(numberArr.length === 2) {
+      const decimal = numberArr[1].substring(0, Math.min(numberArr[1].length, precision))
+      if(toNumber(decimal) === 0) {
+        if(toNumber(numberArr[0]) === 0) {
+          return "0."+'0'.repeat(precision)
+        } else {
+          return numberArr[0]+"."+'0'.repeat(precision)
+        }
+      } else {
+        return numberArr[0]+"."+decimal
+      }
+    }
+  } else {
+    return '0'
+  }
+}
+
 
 
