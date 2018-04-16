@@ -88,6 +88,8 @@ class Transfer extends React.Component {
     if(this.state.estimateGasPrice > 0){
       estimateGas = fm.toBig(this.state.estimateGasPrice).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
     }
+    const ethPrice = prices.getTokenBySymbol('ETH')
+
     const { TextArea } = Input;
 
     let sorter = (tokenA,tokenB)=>{
@@ -421,7 +423,16 @@ class Transfer extends React.Component {
         <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
       </Popover>
     )
+
+    const gasWorth = (
+      <span className="">
+        <Currency />
+        {accMul(defaultGas, ethPrice.price).toFixed(2)}
+      </span>
+    )
+
     const amountAfter = (<a href="" onClick={selectMax.bind(this)}>{intl.get("token.send_max")}</a>)
+
     return (
       <Card title={`${intl.get('token.send')} ${this.state.tokenSymbol}`}>
         <Form layout="horizontal">
@@ -513,7 +524,7 @@ class Transfer extends React.Component {
               </div>
               <div className="col"></div>
               <div className="col-auto pl0 pr5">{editGas}</div>
-              <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ETH</div>
+              <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ETH ≈ {gasWorth}</div>
             </div>
           </Form.Item>
           {_this.state.tokenSymbol === 'ETH' && !this.state.advanced &&
