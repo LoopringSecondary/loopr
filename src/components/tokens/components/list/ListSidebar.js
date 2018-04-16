@@ -327,16 +327,10 @@ class ListSidebar extends React.Component {
               }
             </div>
             <div className="col-auto pr10">
-              { selected[item.symbol] && !item.icon &&
-              <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
-              }
-              { !selected[item.symbol] && !item.icon &&
-              <i className="icon-loopring icon-loopring-EMPTY fs32 color-grey-200"/>
-              }
-              {selected[item.symbol] && item.icon &&
+              {selected[item.symbol] &&
               <CoinIcon symbol={item.symbol} size="32" color="white"/>
               }
-              {!selected[item.symbol] && item.icon &&
+              {!selected[item.symbol] &&
               <CoinIcon symbol={item.symbol} size="32"/>
               }
             </div>

@@ -575,7 +575,7 @@ class TradeForm extends React.Component {
       </span>
     )
     const totalPrice = (
-      <span className="fs10">
+      <span className="">
         <Currency />
         {this.state.total >0 ? accMul(this.state.total, tokenRPrice.price).toFixed(2) : 0}
       </span>
@@ -736,7 +736,7 @@ class TradeForm extends React.Component {
                 <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
                 <div className="col"></div>
                 <div className="col-auto fs3 color-black-3">
-                {`${this.state.total} ${tokenR}`} ({totalPrice})
+                  {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
                 </div>
               </div>
             </Form.Item>

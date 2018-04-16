@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'dva';
 import moment from 'moment';
-import {Button, Icon, Menu, message, Popover, Select,Badge,Row} from 'antd';
+import {Button, Icon, Menu, message, Popover, Select,Badge,Row,Tooltip} from 'antd';
 import {Link} from 'dva/router';
 import copy from 'copy-to-clipboard';
 import TopNotification from './TopNotification';
@@ -103,7 +103,7 @@ function Navbar(props){
                 </div>
               }
               {isWatchOnly &&
-                <div className="fs14 color-black-3 navbar-account-grid cursor-not-allowed">
+                <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
                   <i className="grid-icon icon-loopring icon-loopring-transfer fs16 color-black-2 d-block"></i>
                   <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.send')}</div>
                 </div>
@@ -146,22 +146,20 @@ function Navbar(props){
                 </div>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
-                <Icon type="tool" className="d-block grid-icon " />
-                <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.tools')}</div>
-              </div>
+              <Tooltip title={intl.get('global.comingsoon')}>
+                <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
+                    <Icon type="question-circle-o" className="d-block grid-icon" />
+                    <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.help')}</div>
+                </div>
+              </Tooltip>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
-                <Icon type="question-circle-o" className="d-block grid-icon" />
-                <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.help')}</div>
-              </div>
-            </div>
-            <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
-                <Icon type="form" className="d-block grid-icon" />
-                <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.feedback')}</div>
-              </div>
+              <Tooltip title={intl.get('global.comingsoon')}>
+                <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
+                    <Icon type="form" className="d-block grid-icon" />
+                    <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.feedback')}</div>
+                </div>
+              </Tooltip>
             </div>
 
           </div>
@@ -200,14 +198,14 @@ function Navbar(props){
             </a>
           </div>
           <div className="pointer zb-b-b fs14 color-grey-900 p10 pl15 pr15" onClick={showModal.bind(this,{id:'settings'})}>
+            <Tooltip title={intl.get('global.comingsoon')}>
             <Icon type="setting" className="mr5" />{intl.get('navbar.settings')}
-          </div>
-
-          <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15 cursor-not-allowed">
-            <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
+            </Tooltip>
           </div>
           <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15 cursor-not-allowed">
-            <Icon type="tool" className="mr5" />{intl.get('navbar.subs.tools')}
+            <Tooltip title={intl.get('global.comingsoon')}>
+              <Icon type="question-circle-o" className="mr5" />{intl.get('navbar.subs.help')}
+            </Tooltip>
           </div>
         </div>
       }

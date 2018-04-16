@@ -63,8 +63,7 @@ const TickerTable = (props)=>{
       <table className="ticker-list-table">
         <tbody>
           <tr className="">
-            <th className="fs12 border-0 color-black-2 "></th>
-            <th className="fs12 border-0 color-black-2">{intl.get('ticker.market')}</th>
+            <th className="fs12 border-0 color-black-2" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
             <th className="fs12 border-0 color-black-2">{intl.get('ticker.last')}</th>
             <th className="fs12 border-0 color-black-2">{intl.get('ticker.change')}</th>
             <th className="fs12 border-0 color-black-2">{intl.get('ticker.vol')}</th>
@@ -72,19 +71,18 @@ const TickerTable = (props)=>{
           {
             items.length>0 && items.map((item,index)=>
               <tr key={index}>
-                {
-                  favors[item.market] &&
-                  <td className="fs12 border-0 color-yellow-700">
-                    <Icon className="pointer" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
-                  </td>
-                }
-                {
-                  !favors[item.market] &&
-                  <td className="fs12 border-0 color-grey-300">
-                    <Icon className="pointer" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
-                  </td>
-                }
-                <td className="fs12 border-0 "><a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a></td>
+
+                <td className="fs12 border-0 ">
+                  {
+                    favors[item.market] &&
+                      <Icon className="pointer color-yellow-700 fs12 mr5" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
+                  }
+                  {
+                    !favors[item.market] &&
+                    <Icon className="pointer color-grey-300 fs12 mr5" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
+                  }
+                  <a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a>
+                </td>
                 <td className="fs12 border-0 color-green-600">{item.last || 0}</td>
                 <td className="fs12 border-0 color-green-600">{item.change || 0}</td>
                 <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
