@@ -89,6 +89,7 @@ class TradeForm extends React.Component {
       case 'month': ttlInSecond = ttl * 30 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
     }
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
+    const lrcPrice = prices.getTokenBySymbol('LRC')
 
     const showModal = (payload)=>{
       dispatch({
@@ -580,11 +581,17 @@ class TradeForm extends React.Component {
         {this.state.total >0 ? accMul(this.state.total, tokenRPrice.price).toFixed(2) : 0}
       </span>
     )
+    const lrcFeeWorth = (
+      <span className="">
+        <Currency />
+        {calculatedLrcFee > 0 ? accMul(calculatedLrcFee, lrcPrice.price).toFixed(2) : 0}
+      </span>
+    )
     const editLRCFee = (
       <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('trade.custom_lrc_fee_title')}</div>} content={
         <div>
-          <div className="pb5 fs12">Current LRC Fee Pecentage: {sliderMilliLrcFee}‰</div>
-          <div className="pb15 fs12">Current LRC Fee : {calculatedLrcFee} LRC</div>
+          <div className="pb5 fs12">{intl.get('trade.current_lrc_fee_ratio')} : {sliderMilliLrcFee}‰</div>
+          <div className="pb15 fs12">{intl.get('trade.current_lrc_fee')} : {calculatedLrcFee} LRC</div>
           {form.getFieldDecorator('lrcFeeSlider', {
             initialValue: configs.defaultLrcFeePermillage,
             rules: []
@@ -653,6 +660,7 @@ class TradeForm extends React.Component {
       outTokenBalance = fmL.getAmount(tokenLBalanceOriginal.balance)
       outTokenSymbol = tokenL
     }
+
     return (
       <div className="place-order-form">
         <Form layout="horizontal">
@@ -750,7 +758,7 @@ class TradeForm extends React.Component {
                 </div>
                 <div className="col"></div>
                 <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
-                <div className="col-auto pl0 fs3 color-black-3">{calculatedLrcFee} LRC</div>
+                <div className="col-auto pl0 fs3 color-black-3">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
               </div>
             </Form.Item>
             <Form.Item className="mb0" style={{padding:'8px 0px'}} colon={false} label={null}>

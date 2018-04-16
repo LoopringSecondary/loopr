@@ -275,6 +275,8 @@ export default {
     not_supported_market_content: "我们暂未支持市场 {market}",
     not_allowed_place_order_worth_title: '订单金额过小',
     not_allowed_place_order_worth_content: '由于您当前订单总价值小于{worth}, 无法下单',
+    current_lrc_fee_ratio:'当前LRC Fee比率',
+    current_lrc_fee: '当前LRC Fee'
   },
   trades:{
     side: '方向',
