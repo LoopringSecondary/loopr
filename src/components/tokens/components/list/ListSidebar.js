@@ -474,36 +474,34 @@ class ListSidebar extends React.Component {
     sortedTokens.push(lrcToken)
     sortedTokens = sortedTokens.concat(otherTokens)
 
+    let formatedTokens = [...sortedTokens]
+
     let keys = Object.keys(filters)
     keys.map(key => {
       const value = filters[key]
       if (key === 'ifOnlyShowMyFavorite') {
         if (value) {
-          results = results.filter(token => !!favored[token.symbol] === !!value)
+          formatedTokens = formatedTokens.filter(token => !!favored[token.symbol] === !!value)
         }
       }
       if (key === 'ifHideSmallBalance') {
         if (value) {
-          results = results.filter(token => fm.toNumber(token['balance']) > 0)
+          formatedTokens = formatedTokens.filter(token => fm.toNumber(token['balance']) > 0)
         }
       }
       if (key === 'keywords') {
-        results = results.filter(token => {
+        formatedTokens = formatedTokens.filter(token => {
           let text = (token.symbol + token.title).toLowerCase()
           return text.indexOf(value.toLowerCase()) > -1
         })
       }
     })
-    // let sorter = (a,b)=>{
-    //   return !!a.custom < !!b.custom
-    // }
-    // results.sort(sorter)
     return (
       <div className="">
         {TokenListAcionsBar}
         <div className="token-list-sidebar">
           {
-            sortedTokens.map((item, index) => {
+            formatedTokens.map((item, index) => {
               if(!item.custom){
                 return <TokenItem key={index} index={index} item={item}/>
               }else{
@@ -514,7 +512,7 @@ class ListSidebar extends React.Component {
           {
             false && (filters.keywords || filters.ifOnlyShowMyFavorite || filters.ifHideSmallBalance) &&
             <div className='zb-b-b token-item-sidebar text-center pt10 pb10'>
-              Find {results.length} Tokens
+              Find {formatedTokens.length} Tokens
             </div>
           }
           {
