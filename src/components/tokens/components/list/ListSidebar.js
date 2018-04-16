@@ -446,6 +446,34 @@ class ListSidebar extends React.Component {
     let customs =  window.STORAGE.tokens.getCustomTokens()
     let results = [...items,...customs]
     results = results.filter(token => token.symbol !== 'WETH_OLD')
+
+    // eth weth lrc
+    const ethToken = results.find(token => token.symbol === 'ETH')
+    const wethToken = results.find(token => token.symbol === 'WETH')
+    const lrcToken = results.find(token => token.symbol === 'LRC')
+    // other tokens
+    let otherTokens = results.filter(token => (token.symbol !== 'ETH' && token.symbol !== 'WETH' && token.symbol !== 'LRC'))
+    otherTokens = otherTokens.map((token,index) => {
+      let balance = fm.toBig(token.balance).div('1e' + token.digits).toNumber()
+      token.sortByBalance = balance
+      return token
+    })
+    const sorter = (tokenA,tokenB)=>{
+      const pa = Number(tokenA.sortByBalance);
+      const pb = Number(tokenB.sortByBalance);
+      if(pa === pb){
+        return tokenA.symbol.toUpperCase() < tokenB.symbol.toUpperCase() ? -1 : 1;
+      }else {
+        return pb - pa;
+      }
+    };
+    otherTokens.sort(sorter);
+    let sortedTokens = new Array()
+    sortedTokens.push(ethToken)
+    sortedTokens.push(wethToken)
+    sortedTokens.push(lrcToken)
+    sortedTokens = sortedTokens.concat(otherTokens)
+
     let keys = Object.keys(filters)
     keys.map(key => {
       const value = filters[key]
@@ -475,7 +503,7 @@ class ListSidebar extends React.Component {
         {TokenListAcionsBar}
         <div className="token-list-sidebar">
           {
-            results.map((item, index) => {
+            sortedTokens.map((item, index) => {
               if(!item.custom){
                 return <TokenItem key={index} index={index} item={item}/>
               }else{
