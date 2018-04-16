@@ -270,6 +270,8 @@ export default {
     not_allowed_place_order_worth_content: 'Due to your total worth less than {worth}, you could not place this order',
     not_supported_market_title: "Not Supported Market",
     not_supported_market_content: "{market} is not supported market",
+    current_lrc_fee_ratio:'Current LRC Fee ratio',
+    current_lrc_fee: 'Current LRC Fee'
   },
   trades: {
     side: 'Side',

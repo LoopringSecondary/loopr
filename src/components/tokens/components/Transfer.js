@@ -427,7 +427,7 @@ class Transfer extends React.Component {
     const gasWorth = (
       <span className="">
         <Currency />
-        {accMul(defaultGas, ethPrice.price).toFixed(2)}
+        {defaultGas > 0 ? accMul(defaultGas, ethPrice.price).toFixed(2) : 0}
       </span>
     )
 
