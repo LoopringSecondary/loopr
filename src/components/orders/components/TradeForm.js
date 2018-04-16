@@ -785,7 +785,7 @@ class TradeForm extends React.Component {
           </div>
           }
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' && !isWatchOnly &&
-          <Form.Item>
+          <Form.Item className="mb0">
             {
               side == 'buy' &&
               <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
@@ -803,7 +803,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           }
           {(!account || !account.isUnlocked) &&
-            <Form.Item>
+            <Form.Item className="mb0">
             {
               side == 'buy' &&
               <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom'})} type="" className="d-block w-100 bg-green-500 border-none color-white"
