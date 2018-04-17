@@ -213,7 +213,7 @@ class Ticker extends React.Component {
           </div>
         </div>
         <div className="container">
-          <Row className="mt5 mb5" gutter="10">
+          <Row className="mt5 mb5" gutter={10}>
              {
               tickers.binance &&
               <Col span={colSpan} className="mt5 mb5">

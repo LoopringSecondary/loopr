@@ -1,13 +1,11 @@
 import React from 'react';
-import {Button, Card, Form, Input, Modal, Icon, Tooltip} from 'antd';
+import {Button, Card, Form, Input, Modal, Icon, Tooltip,Alert} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {connect} from 'dva';
 import {toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification';
-import Alert from 'Loopr/Alert';
-import {Page} from 'Loopr/Pages';
 
 class AirdropBind extends React.Component {
 
@@ -143,24 +141,52 @@ class AirdropBind extends React.Component {
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     return (
       <Card title={intl.get('wallet.bind_tip')}>
-        {/*<div className='mb10'>*/}
-          {/*<Alert*/}
-            {/*title='Bind Address tips'*/}
-            {/*description="Bind Address Will Cost Gas"*/}
-            {/*type="info"*/}
-            {/*showIcon*/}
-          {/*/>*/}
-        {/*</div>*/}
+        <Alert className="mb15" type="info" showIcon message={
+          <div className="">{intl.get('airdrop.cost_eth_gas')}</div>
+        }
+        />
+        {
+          isWatchOnly && window.IS_DEMO_WALLET &&
+          <Alert className="mb15" type="warning" showIcon message={
+            <div>{intl.get('demo.airdrop_not_allowed')}</div>
+          }
+          />
+        }
+        {
+          isWatchOnly && !window.IS_DEMO_WALLET &&
+          <Alert className="mb15" type="warning" showIcon message={
+            <div>{intl.get('airdrop.watch_only_not_allowed')}</div>
+          }
+          />
+        }
         <Form>
-          <Form.Item label={intl.get('wallet.bind_type')}>
+          {
+            false &&
+            <Form.Item label={null}>
+              <Input
+                addonBefore={intl.get('wallet.bind_type')}
+                size="large"
+                value={project && project.lrx.toUpperCase()}
+                disabled
+              />
+            </Form.Item>
+          }
+          <Form.Item label={null}>
             <Input
+              addonBefore={'ETH ' + intl.get('wallet.address')}
               size="large"
-              value={project && project.lrx.toUpperCase()}
-              disabled/>
+              className="fs14"
+              value={window.WALLET.getAddress()}
+              disabled
+            />
           </Form.Item>
-          <Form.Item label={<div> {intl.get('wallet.address')} <Tooltip title={<div>{intl.get('wallet.get_address', {project: project ? project.name : ''})}? <a href={project && project.website} target='_blank'>{intl.get('wallet.go_to', {project: project ? project.name : ''})}</a> </div>}><Icon className="ml5 fs3" type="question-circle-o"/></Tooltip></div>}>
+
+          <Form.Item label={null}>
             <Input
+              addonBefore={<div style={{minWidth:''}}>{project && project.name} {intl.get('wallet.address')}</div> }
+              addonAfter={<Tooltip title={<div>{intl.get('wallet.get_address', {project: project ? project.name : ''})}? <a href={project && project.website} target='_blank'>{intl.get('wallet.go_to', {project: project ? project.name : ''})}</a> </div>}><Icon className="fs3" type="question-circle-o"/></Tooltip>}
               size="large"
+              className="fs14"
               placeholder={intl.get('wallet.address_tip', {project: project ? project.name : ''})}
               onChange={this.addressChange}
               value={address}
@@ -168,8 +194,9 @@ class AirdropBind extends React.Component {
             />
           </Form.Item>
         </Form>
+
+
         <div className="mb25"></div>
-        <div className="fs12 color-black-2 text-center p5">{intl.get('airdrop.cost_eth_gas')}</div>
         <Button type='primary' className="d-block w-100" size="large" onClick={this.bindAddress.bind(this, this.state.address, this.state.project)}
                 disabled={!project || !address || isWatchOnly}>{intl.get('wallet.bind_address')}</Button>
         <Button type='default' className='d-block w-100 mt10' size="large" onClick={this.cancel}>{intl.get('airdrop.goback')}</Button>

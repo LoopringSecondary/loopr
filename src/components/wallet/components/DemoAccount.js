@@ -7,8 +7,6 @@ import {unlockRedirection} from '../../../common/utils/redirection'
 import {isValidEthAddress} from 'Loopring/ethereum/utils'
 import {configs} from '../../../common/config/data'
 
-const walletType = "Address"
-
 class DemoAccount extends React.Component {
   state = {
     loading: false,
@@ -24,25 +22,27 @@ class DemoAccount extends React.Component {
     }
 
     function unlocked() {
+      const walletType = "Address"
       window.WALLET = new AddressUnlockAccount({address: selectedAddress})
       window.WALLET_UNLOCK_TYPE = walletType
+      window.IS_DEMO_WALLET = true
       account.setWallet({address:selectedAddress, walletType:walletType})
       modal.hideModal({id: 'wallet/demo'});
       unlockRedirection(pageFrom)
     }
     return (
-      <Card title={<div className="fs1">{intl.get('wallet.demo_title')}</div>}>
-        <div className="text-center">
+      <Card title={<div className="fs1">{intl.get('demo.confirm_title')}</div>}>
+        <div className="text-left">
           <div className="pt15 pb15 ">
-              <Icon type="user" className="fs32 border border-grey-200 p10" style={{borderRadius:'50em'}} />
-              <div className="fs16 color-black-1 mt5">
-                {selectedAddress}
-              </div>
-              <div className="fs14 color-black-2 mt5">
-                {intl.getHTML('wallet.instruction_demo')}
+              <div className="fs14 color-black-2 mt5 text-left">
+                <div className="row justify-content-center">
+                  <div className="col-auto text-left fs14 color-black-2" style={{lineHeight:'2em',}}>
+                    {intl.getHTML('demo.confirm_instruction')}
+                    <Button type="primary" className="mt20 d-block w-100" size="large" onClick={unlocked} >{intl.get('demo.confirm_btn')}</Button>
+                  </div>
+                </div>
               </div>
           </div>
-          <Button type="primary" className="mt10 d-block w-100" size="large" onClick={unlocked} >{intl.get('wallet.have_a_try')}</Button>
         </div>
       </Card>
     )

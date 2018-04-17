@@ -53,7 +53,7 @@ class TransactionsContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    socket.off('transaction_res')
+    // socket.off('transaction_res')
   }
   render() {
     const { children,...rest } = this.props

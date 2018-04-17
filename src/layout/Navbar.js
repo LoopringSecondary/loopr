@@ -161,23 +161,29 @@ function Navbar(props){
                 </div>
               </Tooltip>
             </div>
-
-          </div>
-          <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
-            <div className="row align-items-center ">
-              <div className="col">
-                <span className="navbar-login-status-badge color-primary-1">
-                  <Badge status="processing" className="" />
-                  {intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})}
-                </span>
-              </div>
-              <div className="col-auto pr10">
-                <Button className="border-none color-primary-1 fs1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="lock" onClick={quit}></Button>
-              </div>
+            <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
+                <div className="fs14 color-black-2 navbar-account-grid cursor-pointer" onClick={quit}>
+                    <Icon type="poweroff" className="d-block grid-icon" />
+                    <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.quit')}</div>
+                </div>
             </div>
           </div>
-
-
+          {
+            false &&
+            <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
+              <div className="row align-items-center ">
+                <div className="col">
+                  <span className="navbar-login-status-badge color-primary-1">
+                    <Badge status="processing" className="" />
+                    {intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})}
+                  </span>
+                </div>
+                <div className="col-auto pr10">
+                  <Button className="border-none color-primary-1 fs1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="lock" onClick={quit}></Button>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       }
       {!account.isUnlocked &&
@@ -279,39 +285,61 @@ function Navbar(props){
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
-                  <Link className="fs16" to="/wallet">{intl.get('navbar.wallet')}</Link>
+                  <Link className="fs16 color-black-1" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
               {
                 window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/trade">
-                  <Link to="/trade" className="fs16">{intl.get('navbar.trade')}</Link>
+                  <Link to="/trade" className="fs16 color-black-1">{intl.get('navbar.trade')}</Link>
                 </Menu.Item>
               }
             </Menu>
           </div>
           <div className="col"></div>
-          <div className="col-auto">
+          <div className="col-auto pl0">
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
+          </div>
+          <div className="col-auto d-flex align-items-center pl0 ">
             <Popover content={accountMenus} title={null} trigger="hover">
                 {
                   account.address &&
-                  <span className="fs16 color-blue-600">
-                    {window.uiFormatter.getShortAddress(account.address)}
-                    <Icon type="down" className="fs12 ml5" />
-                  </span>
+                  <div className="fs16">
+                      <div className="text-left" style={{lineHeight:'20px'}}>
+                        <div className="fs14 color-black-1">
+                          {window.uiFormatter.getShortAddress(account.address)}
+                          &nbsp;
+                          <Icon className="ml0 fs10" type="down" />
+                        </div>
+                        <div className="" style={{marginTop:'2px'}}>
+                          <span className="navbar-login-status-badge color-primary-1">
+                            <Badge status="processing" className="" />
+                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() !== 'address' &&
+                              intl.get(`wallet.type_${window.WALLET_UNLOCK_TYPE.toLowerCase()}`)
+                            }
+                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() === 'address' && window.IS_DEMO_WALLET &&
+                              intl.get(`wallet.type_demo`)
+                            }
+                            { window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() === 'address' && !window.IS_DEMO_WALLET &&
+                              intl.get(`wallet.type_${window.WALLET_UNLOCK_TYPE.toLowerCase()}`)
+                            }
+                          </span>
+                        </div>
+                      </div>
+                  </div>
                 }
                 {
                   !account.address &&
-                  <span className="fs16">
+                  <span className="fs16 color-black-1">
                     {intl.get('navbar.account')}
                     <Icon type="down" className="color-grey-400 fs12 ml5" />
                   </span>
                 }
             </Popover>
           </div>
+
         </div>
       </div>
 
