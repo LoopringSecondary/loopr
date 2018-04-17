@@ -9,10 +9,6 @@ import {hashPersonalMessage, ecsign,sha3} from "ethereumjs-util"
 import {privateKeytoAddress} from "../ethereum/account";
 
 
-let headers = {
-  'Content-Type': 'application/json'
-}
-
 export async function getOrders(filter) {
   try {
     await validator.validate({value: filter.contractVersion, type: 'STRING'})
@@ -30,7 +26,6 @@ export async function getOrders(filter) {
   body.params = [filter]
   return request({
     method: 'post',
-    headers,
     body,
   })
 }
@@ -48,7 +43,6 @@ export async function getCutoff(address, contractVersion) {
   body.params = [address, contractVersion, "latest"]
   return request({
     method: 'post',
-    headers,
     body,
   })
 }

@@ -1,4 +1,5 @@
 import {fromEthSale, fromV1, fromV3, fromPrivateKey} from 'ethereumjs-wallet';
+import {clearHexPrefix} from "../common/formatter";
 
 /**
  * Returns private key of given keystore
@@ -127,5 +128,5 @@ export function isKeystorePassRequired(keystore) {
  */
 export function getFileName(address) {
   const ts = new Date();
-  return ['UTC--', ts.toJSON().replace(/:/g, '-'), '--', clearPrefix(address), '.json'].join('')
+  return ['UTC--', ts.toJSON().replace(/:/g, '-'), '--', clearHexPrefix(address), '.json'].join('')
 }
