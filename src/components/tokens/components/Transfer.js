@@ -63,9 +63,18 @@ class Transfer extends React.Component {
 
   render() {
     function getToken(symbol) {
-      let selectedToken = {...config.getTokenBySymbol(symbol), ...assets.getTokenBySymbol(symbol)}
-      const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
-      selectedToken.balance = balance
+      const tokenConfig = config.getTokenBySymbol(symbol)
+      const tokenBalance = assets.getTokenBySymbol(symbol)
+      let selectedToken = {...tokenBalance}
+      if(tokenConfig) {
+        selectedToken = {...tokenConfig, ...selectedToken}
+        if(selectedToken && selectedToken.digits) {
+          const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
+          selectedToken.balance = balance
+        }
+      } else {
+        selectedToken.balance = 0
+      }
       return selectedToken
     }
     const _this = this
@@ -102,10 +111,7 @@ class Transfer extends React.Component {
       }
     };
     const assetsSorted = assets.items.map((token,index) => {
-      const asset = {...config.getTokenBySymbol(token.symbol), ...assets.getTokenBySymbol(token.symbol)}
-      let balance = fm.toBig(asset.balance).div('1e' + asset.digits).toNumber()
-      asset.balance = balance
-      return asset
+      return getToken(token.symbol)
     })
     assetsSorted.sort(sorter);
 
