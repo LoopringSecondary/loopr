@@ -475,8 +475,8 @@ export default {
     unlock_by_address: 'Unlock with your address',
     invalid_eth_address: 'Invalid Ethereum address',
     demo_title: 'Experience Loopr using a demo wallet',
-    instruction_demo: 'You could experience Loopr Wallet in Watch Only mode, but could\'t place order, send transfer and do other operations that need private key',
-    have_a_try: "Start Demo Tour !",
+    instruction_demo: '❌Demo Wallet is NOT your wallet<br />❌CAN NOT Bind Airdrop Address<br />❌CAN NOT Send & Receive<br />❌CAN NOT Sell & Buy <br />✅JUST Watch Only',
+    have_a_try: "Confirm",
     unlocked_notification_title: 'Successfully Unlock Your Wallet',
     unlocked_notification_content: 'Great! Start your Loopr tour, enjoy it',
     unlocked_by:'Unlocked By {type}'
