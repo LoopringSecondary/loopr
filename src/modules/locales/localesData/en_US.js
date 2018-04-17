@@ -254,7 +254,7 @@ export default {
     confirm_warn_ledger: "Please confirm transaction on your Ledger device, then come back to continue",
     confirm_warn_trezor: "Please confirm transaction on your Trezor device , then come back to continue",
     confirm_warn_metamask: "Please confirm transaction on your MetaMask browser extension, then come back to continue",
-    place_order_trezor_unsupport: 'Could not place order',
+    place_order_trezor_unsupport: 'Could Not Place Order',
     place_order_trezor_unsupport_tips: 'When you place order we will send your order to relay with signature, but Trezor temporarily does not support sign messages, so when you unlock with Trezor is unable to place an order, but wallet operations(transfer, etc.) is not affected',
     place_order_watch_only_tips: 'You unlocked wallet with address only that could not sign orders, you could use other way to unlock and place order',
     custom_option_fee:'Custom option For This Order',
