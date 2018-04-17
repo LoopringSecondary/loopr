@@ -498,6 +498,7 @@ export default {
     confirm_title: '使用演示账号体验 Loopr 钱包',
     confirm_instruction: '❌演示账号：不是你的钱包账号<br />❌演示账号：不能绑定空投地址<br />❌演示账号：不能转账收款<br />❌演示账号：不能下单交易<br />✅演示账号：仅能查看信息',
     confirm_btn: "确认",
+    airdrop_not_allowed: "演示账号无法进行空投绑定",
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",

@@ -356,7 +356,7 @@ export default {
     get_address:"How to get {project} Account",
     go_to:"go to {project}",
     address: "Address",
-    bind_address: "Bind Adress",
+    bind_address: "Bind Address",
     bound_address:"Bound {token} Address",
     to_bind_address: "Bind",
     to_edit: "Edit",
@@ -493,6 +493,7 @@ export default {
     confirm_title: 'Experience Loopr using a demo wallet',
     confirm_instruction: '❌Demo Wallet is NOT your wallet<br />❌CAN NOT Bind Airdrop Address<br />❌CAN NOT Send & Receive<br />❌CAN NOT Sell & Buy <br />✅JUST Watch Only',
     confirm_btn: "Confirm",
+    airdrop_not_allowed: "Demo wallet can not bind address for airdrop",
   },
   tokens: {
     hide_small_balances: " Hide Small Balances",

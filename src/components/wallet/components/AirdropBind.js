@@ -1,13 +1,11 @@
 import React from 'react';
-import {Button, Card, Form, Input, Modal, Icon, Tooltip} from 'antd';
+import {Button, Card, Form, Input, Modal, Icon, Tooltip,Alert} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {connect} from 'dva';
 import {toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification';
-import Alert from 'Loopr/Alert';
-import {Page} from 'Loopr/Pages';
 
 class AirdropBind extends React.Component {
 
@@ -143,7 +141,17 @@ class AirdropBind extends React.Component {
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     return (
       <Card title={intl.get('wallet.bind_tip')}>
-        <Alert className="mb15" type="info" title="Attention" description={intl.get('airdrop.cost_eth_gas')}/>
+        <Alert className="mb15" type="info" showIcon message={
+          <div className="">{intl.get('airdrop.cost_eth_gas')}</div>
+        }
+        />
+        {
+          window.IS_DEMO_WALLET &&
+          <Alert className="mb15" type="warning" showIcon message={
+            <div>{intl.get('demo.airdrop_not_allowed')}</div>
+          }
+          />
+        }
         <Form>
           {
             false &&
