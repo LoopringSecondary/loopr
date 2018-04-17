@@ -5,6 +5,12 @@ import {configs} from "../../config/data";
 import {toBuffer} from "../common/formatter";
 import {rawDecode} from 'ethereumjs-abi'
 
+/**
+ * @description Returns the number of transactions sent from an address.
+ * @param address
+ * @param tag
+ * @returns {Promise}
+ */
 export async function getTransactionCount(address, tag) {
   try {
     validator.validate({value: address, type: "ADDRESS"})
@@ -16,7 +22,7 @@ export async function getTransactionCount(address, tag) {
     try {
       validator.validate({value: tag, type: "RPC_TAG"})
     } catch (e) {
-      throw new Error('Invalid tag, must be one of latest, pending,earliest')
+      throw new Error('Invalid tag, must be one of latest, pending, earliest')
     }
   }
   const params = [address, tag];
@@ -29,6 +35,10 @@ export async function getTransactionCount(address, tag) {
   })
 }
 
+/**
+ * @description Returns the current price per gas in wei.
+ * @returns {Promise}
+ */
 export async function getGasPrice() {
   const params = [];
   const body = {};
@@ -41,6 +51,11 @@ export async function getGasPrice() {
   })
 }
 
+/**
+ * @description Generates and returns an estimate of how much gas is necessary to allow the transaction to complete.
+ * @param tx
+ * @returns {Promise}
+ */
 export async function estimateGas(tx) {
   const body = {};
   body.method = 'eth_estimateGas';
@@ -51,6 +66,12 @@ export async function estimateGas(tx) {
   })
 }
 
+/**
+ * @description Returns the ethereum balance of the account of given address.
+ * @param address
+ * @param tag
+ * @returns {Promise}
+ */
 export async function getAccountBalance(address, tag) {
   try {
     validator.validate({value: address, type: "ADDRESS"})
@@ -75,8 +96,12 @@ export async function getAccountBalance(address, tag) {
   })
 }
 
+/**
+ * @description Returns the information about a transaction requested by transaction hash.
+ * @param hash
+ * @returns {Promise}
+ */
 export async function getTransactionByhash(hash) {
-
   try {
     validator.validate({value: hash, type: "ETH_DATA"})
   } catch (e) {
@@ -113,7 +138,6 @@ export function generateBindAddressTx({projectId, address, gasPrice, gasLimit, n
   }
   return tx
 }
-
 
 export function eosRegisterTx({key,to, gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
@@ -167,7 +191,6 @@ export async function getBindAddress(owner, projectId) {
   return results.length > 0 ? results[0] : '';
 }
 
-
 export function generateRegisterNameTx({name, to,gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
   tx.to = to;
@@ -188,7 +211,6 @@ export function generateRegisterNameTx({name, to,gasPrice, gasLimit, nonce, chai
   return tx
 }
 
-
 export function addParticipant({feeRecipient,signer, to,gasPrice, gasLimit, nonce, chainId}) {
 
   const tx = {};
@@ -208,13 +230,11 @@ export function addParticipant({feeRecipient,signer, to,gasPrice, gasLimit, nonc
     tx.chainId = chainId
   }
   return tx
-
-
 }
 
 export function isValidEthAddress(address) {
   try {
-    validator.validate({value: address, type: "ADDRESS"})
+    validator.validate({value: address, type: "ADDRESS"});
     return true
   } catch (e) {
     return false

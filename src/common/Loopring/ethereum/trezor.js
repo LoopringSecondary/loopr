@@ -18,7 +18,7 @@ export async function getAddress(dpath) {
     return new Promise((resolve) => {
       TrezorConnect.ethereumGetAddress(dpath, (result) => {
         if (result.success) {
-          resolve(result.address)
+          resolve({result:result.address})
         } else {
           resolve({error: result.error});
         }
@@ -31,16 +31,16 @@ export async function getAddress(dpath) {
 
 /**
  * @description sign message, can only be verified by TREZOR.
- * @param path string
+ * @param dpath string | array,  examples: "m/44'/60'/0'/0" or [44 | 0x80000000,60 | 0x80000000,0  | 0x80000000,0 ];
  * @param message string
  * @returns {Promise}
  */
-export async function signMessage({path, message}) {
-  if (path) {
+export async function signMessage(dpath, message) {
+  if (dpath) {
     return new Promise((resolve) => {
-      TrezorConnect.ethereumSignMessage(path, message, (result) => {
+      TrezorConnect.ethereumSignMessage(dpath, message, (result) => {
         if (result.success) {
-          resolve(result.signature)
+          resolve({result:result.signature})
         } else {
           resolve({error: result.error});
         }
@@ -53,43 +53,45 @@ export async function signMessage({path, message}) {
 
 /**
  * @description  sign ethereum tx
- * @param path string | array,  examples: "m/44'/60'/0'/0" or [44 | 0x80000000,60 | 0x80000000,0  | 0x80000000,0 ];
+ * @param dpath string | array,  examples: "m/44'/60'/0'/0" or [44 | 0x80000000,60 | 0x80000000,0  | 0x80000000,0 ];
  * @param rawTx
  * @returns {Promise}
  */
-export async function signEthereumTx(path, rawTx) {
-
-
-  return new Promise((resolve) => {
-    const tx = [rawTx.nonce, rawTx.gasPrice, rawTx.gasLimit, rawTx.to, rawTx.value === '' ? '' : rawTx.value, rawTx.data].map(item => padLeftEven(clearHexPrefix(item).toLowerCase()));
-    TrezorConnect.ethereumSignTx(
-      path,
-      ...tx,
-      rawTx.chainId,
-      (result) => {
-        if (result.success) {
-          const ethTx = new EthTransaction({
-            ...rawTx,
-            v: addHexPrefix(new BN(result.v).toString(16)),
-            s: addHexPrefix(result.s),
-            r: addHexPrefix(result.r)
-          });
-          resolve({result: ethTx.serialize()})
-        } else {
-          resolve({error: result.error});
-        }
-      });
-  })
+export async function signEthereumTx(dpath, rawTx) {
+  if (dpath) {
+    return new Promise((resolve) => {
+      const tx = [rawTx.nonce, rawTx.gasPrice, rawTx.gasLimit, rawTx.to, rawTx.value === '' ? '' : rawTx.value, rawTx.data].map(item => padLeftEven(clearHexPrefix(item).toLowerCase()));
+      TrezorConnect.ethereumSignTx(
+        dpath,
+        ...tx,
+        rawTx.chainId,
+        (result) => {
+          if (result.success) {
+            const ethTx = new EthTransaction({
+              ...rawTx,
+              v: addHexPrefix(new BN(result.v).toString(16)),
+              s: addHexPrefix(result.s),
+              r: addHexPrefix(result.r)
+            });
+            resolve({result: ethTx.serialize()})
+          } else {
+            resolve({error: result.error});
+          }
+        });
+    })
+  } else {
+    throw new Error('dpath can\'t be null')
+  }
 }
 
 /**
- * Returns xpubkey and chainCode
- * @param dpath
+ * Returns publicKey and chainCode
+ * @param dpath string | array,  examples: "m/44'/60'/0'/0" or [44 | 0x80000000,60 | 0x80000000,0  | 0x80000000,0 ];
  * @returns {Promise}
  */
 export async function getXPubKey(dpath) {
   if (dpath) {
-    return new Promise((resolve)=>{
+    return new Promise((resolve) => {
       TrezorConnect.setCurrency('BTC');
       TrezorConnect.getXPubKey(dpath, (result) => {
         if (result.success) {

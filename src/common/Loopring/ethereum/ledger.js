@@ -1,6 +1,9 @@
 import ledger from 'ledgerco';
-import {getXPubKey} from "./trezor";
-
+import {addHexPrefix, toBuffer, toHex} from "../common/formatter";
+import trimStart from 'lodash/trimStart';
+import EthTransaction from 'ethereumjs-tx';
+import validator from './validator'
+import Buffer from 'Buffer'
 /**
  * @description connect to Ledger
  * @returns {Promise}
@@ -20,7 +23,7 @@ export async function connect() {
 
 /**
  * @description Returns publicKey and chainCode
- * @param dpath
+ * @param dpath string
  * @param ledgerConnect
  * @returns {Promise}
  */
@@ -39,5 +42,88 @@ export async function getXPubKey(dpath, ledgerConnect) {
   }
 }
 
+function hexEncodeQuantity(value) {
+  const trimmedValue = trimStart((value).toString('hex'), '0');
+  return addHexPrefix(trimmedValue === '' ? '0' : trimmedValue);
+}
+
+function hexEncodeData(value) {
+  return toHex(toBuffer(value));
+}
+
+getTransactionFields = (t) => {
+  const {data, gasLimit, gasPrice, to, nonce, value} = t;
+  const chainId = t.getChainId();
+  return {
+    value: hexEncodeQuantity(value),
+    data: hexEncodeData(data),
+    to: hexEncodeData(to),
+    nonce: hexEncodeQuantity(nonce),
+    gasPrice: hexEncodeQuantity(gasPrice),
+    gasLimit: hexEncodeQuantity(gasLimit),
+    chainId
+  };
+};
+
+/**
+ * @description sign message
+ * @param dpath string
+ * @param message
+ * @param ledgerConnect
+ * @returns {Promise}
+ */
+export async function signMessage(dpath, message, ledgerConnect) {
+  if (dpath) {
+    return new Promise((resolve) => {
+      ledgerConnect.signPersonalMessage_async(dpath, message).then(result => {
+        if (result.error) {
+          return resolve({error: result.error});
+        } else {
+          resolve({v: result.v, r: addHexPrefix(result.r), s: addHexPrefix(result.s)});
+        }
+      });
+    });
+  } else {
+    throw new Error('dpath can\'t be null')
+  }
+}
+
+/**
+ * @description sign ethereum tx
+ * @param dpath string
+ * @param rawTx
+ * @param ledgerConnect
+ * @returns {Promise}
+ */
+export async function signEthereumTx(dpath, rawTx, ledgerConnect) {
+  if (dpath) {
+    validator.validate({type: 'BASIC_TX', value: rawTx});
+    const t = new EthTransaction(rawTx);
+    t.v = toBuffer([t._chainId]);
+    t.r = toBuffer(0);
+    t.s = toBuffer(0);
+    return new Promise((resolve) => {
+      ledgerConnect.ledger
+        .signTransaction_async(dpath, t.serialize().toString('hex'))
+        .then(result => {
+          const strTx = getTransactionFields(t);
+          const txToSerialize = {
+            ...strTx,
+            v: addHexPrefix(result.v),
+            r: addHexPrefix(result.r),
+            s: addHexPrefix(result.s)
+          };
+          const ethTx = new EthTransaction(txToSerialize)
+          const serializedTx = ethTx.serialize();
+          resolve({result: serializedTx});
+        })
+        .catch(err => {
+          return resolve({error: (`${err.message} . Check to make sure contract data is on`)});
+        });
+    });
+  } else {
+    throw new Error('dpath can\'t be null')
+  }
+}
 
 

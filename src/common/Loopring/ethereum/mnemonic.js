@@ -5,16 +5,20 @@ import {fromMasterSeed} from 'hdkey';
  * Decrypt mnemonic into ethereum private key
  * @param mnemonic string
  * @param password string
- * @param path string
+ * @param dpath string
  */
-export function mnemonictoPrivatekey(mnemonic, password, path) {
-  mnemonic = mnemonic.trim();
-  if (!validateMnemonic(mnemonic)) {
-    throw new Error('Invalid mnemonic');
+export function mnemonictoPrivatekey(mnemonic, password, dpath) {
+  if (dpath) {
+    mnemonic = mnemonic.trim();
+    if (!validateMnemonic(mnemonic)) {
+      throw new Error('Invalid mnemonic');
+    }
+    const seed = mnemonicToSeed(mnemonic, password);
+    const derived = fromMasterSeed(seed).derive(dpath);
+    return derived.privateKey;
+  } else {
+    throw new Error('dpath can\'t be null')
   }
-  const seed = mnemonicToSeed(mnemonic, password);
-  const derived = fromMasterSeed(seed).derive(path);
-  return derived.privateKey;
 }
 
 /**
