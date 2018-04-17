@@ -497,7 +497,7 @@ export default {
     badge_title:'演示账号',
     badge_tip:'您正在使用演示钱包账号，只能查看信息，无法功能操作。',
     confirm_title: '使用演示账号体验 Loopr 钱包',
-    confirm_instruction: '❌演示账号：不是你的钱包账号<br />❌演示账号：不能绑定空投地址<br />❌演示账号：不能转账收款<br />❌演示账号：不能下单交易<br />✅演示账号：仅能查看信息',
+    confirm_instruction: '❗️演示账号：只是一个观察者模式钱包<br />❗️演示账号：不是你的钱包账号<br />🚫演示账号：不能绑定空投地址<br />🚫演示账号：不能转账收款<br />🚫演示账号：不能下单交易',
     confirm_btn: "确认",
     airdrop_not_allowed: "演示账号无法进行空投绑定",
   },

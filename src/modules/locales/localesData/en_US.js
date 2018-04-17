@@ -492,7 +492,7 @@ export default {
     badge_title:'Demo Wallet',
     badge_tip:'You are using a demo wallet with watch only mode',
     confirm_title: 'Experience Loopr using a demo wallet',
-    confirm_instruction: '❌Demo Wallet is NOT your wallet<br />❌CAN NOT Bind Airdrop Address<br />❌CAN NOT Send & Receive<br />❌CAN NOT Sell & Buy <br />✅JUST Watch Only',
+    confirm_instruction: '❗️Demo wallet is a watch only wallet <br />❗️Demo wallet is not your wallet<br />🚫Demo wallet can not bind airdrop address<br />🚫Demo wallet can not send & receive<br />🚫Demo wallet can not sell & buy',
     confirm_btn: "Confirm",
     airdrop_not_allowed: "Demo wallet can not bind address for airdrop",
   },
