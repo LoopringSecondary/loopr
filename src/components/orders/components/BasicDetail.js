@@ -8,26 +8,28 @@ import intl from 'react-intl-universal';
 
 function DetailBlock({modal = {}}) {
   const item = modal.item;
-  const tokenS = item.originalOrder.tokenS
-  const tokenB = item.originalOrder.tokenB
-  const amountB = item.originalOrder.amountB
-  const amountS = item.originalOrder.amountS
-  const amountLrc = item.originalOrder.lrcFee
-  const fm = window.uiFormatter.TokenFormatter
-  let fmS = new fm({symbol: tokenS})
-  let fmB = new fm({symbol: tokenB})
-  let fmLrc = new fm({symbol: 'LRC'})
+  const tokenS = item.originalOrder.tokenS;
+  const tokenB = item.originalOrder.tokenB;
+  const amountB = item.originalOrder.amountB;
+  const amountS = item.originalOrder.amountS;
+  const amountLrc = item.originalOrder.lrcFee;
+  const fm = window.uiFormatter.TokenFormatter;
+  const fmLrc = new fm({symbol: 'LRC'});
+  const fmS = new fm({symbol:tokenS});
+  const fmB = new fm({symbol:tokenB});
+  const tokensConfig = window.CONFIG.getTokenBySymbol(tokenS);
+  const tokenbConfig = window.CONFIG.getTokenBySymbol(tokenB);
 
   const getPrice = () => {
 
     if (item.originalOrder.side.toLowerCase() === 'buy') {
       return (<div>
-        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(fmS.getAmount(amountS)).div(toBig(fmB.getAmount(amountB))).toFixed(8))} </span>
+        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(amountS).div('1e'+tokensConfig.digits).div(toBig(amountB).div('1e'+tokenbConfig.digits)).toFixed(8))} </span>
         {tokenS}/{tokenB}
       </div>)
     } else {
       return (<div>
-        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(fmB.getAmount(amountB)).div(toBig(fmS.getAmount(amountS))).toFixed(8))} </span>
+        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(amountB).div('1e'+tokenbConfig.digits).div(toBig(amountS).div('1e'+tokensConfig.digits)).toFixed(8))} </span>
         {tokenB}/{tokenS}
       </div>)
     }
