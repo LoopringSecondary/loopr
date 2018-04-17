@@ -136,9 +136,9 @@ class ListBlock extends React.Component {
           change = '+';
           icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
           if(item.symbol === 'WETH'){
-            title = intl.get('txs.type_convert_title_weth')
-          }else{
             title = intl.get('txs.type_convert_title_eth')
+          }else{
+            title = intl.get('txs.type_convert_title_weth')
           }
           break;
         case 'convert_outcome':
