@@ -474,12 +474,16 @@ export default {
     address_input_placeholder: 'Your address',
     unlock_by_address: 'Unlock with your address',
     invalid_eth_address: 'Invalid Ethereum address',
-    demo_title: 'Experience Loopr using a demo wallet',
-    instruction_demo: '❌Demo Wallet is NOT your wallet<br />❌CAN NOT Bind Airdrop Address<br />❌CAN NOT Send & Receive<br />❌CAN NOT Sell & Buy <br />✅JUST Watch Only',
-    have_a_try: "Confirm",
     unlocked_notification_title: 'Successfully Unlock Your Wallet',
     unlocked_notification_content: 'Great! Start your Loopr tour, enjoy it',
-    unlocked_by:'Unlocked By {type}'
+    unlocked_by:'{type} Wallet'
+  },
+  demo:{
+    badge_title:'Demo Wallet',
+    badge_tip:'You are using a demo wallet with watch only mode',
+    confirm_title: 'Experience Loopr using a demo wallet',
+    confirm_instruction: '❌Demo Wallet is NOT your wallet<br />❌CAN NOT Bind Airdrop Address<br />❌CAN NOT Send & Receive<br />❌CAN NOT Sell & Buy <br />✅JUST Watch Only',
+    confirm_btn: "Confirm",
   },
   tokens: {
     hide_small_balances: " Hide Small Balances",

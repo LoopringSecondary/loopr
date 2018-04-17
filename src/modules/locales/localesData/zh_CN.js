@@ -479,12 +479,16 @@ export default {
     address_input_placeholder: '您的钱包地址',
     unlock_by_address: '用您的地址解锁',
     invalid_eth_address: '错误的以太坊地址',
-    demo_title: '使用演示账号体验 Loopr 钱包',
-    instruction_demo: '❌演示账号：不是你的钱包账号<br />❌演示账号：不能绑定空投地址<br />❌演示账号：不能转账收款<br />❌演示账号：不能下单交易<br />✅演示账号：仅能查看信息',
-    have_a_try: '确认',
     unlocked_notification_title: '您已成功解锁钱包',
     unlocked_notification_content: '开始您的路印之旅，希望你能喜欢',
-    unlocked_by:'已用{type}解锁'
+    unlocked_by:'{type} 钱包'
+  },
+  demo:{
+    badge_title:'演示账号',
+    badge_tip:'您正在使用演示钱包账号，只能查看信息，无法功能操作。',
+    confirm_title: '使用演示账号体验 Loopr 钱包',
+    confirm_instruction: '❌演示账号：不是你的钱包账号<br />❌演示账号：不能绑定空投地址<br />❌演示账号：不能转账收款<br />❌演示账号：不能下单交易<br />✅演示账号：仅能查看信息',
+    confirm_btn: "确认",
   },
   tokens: {
     hide_small_balances: "隐藏小额资产",
