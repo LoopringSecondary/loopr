@@ -3,8 +3,22 @@ import validator from './validator'
 import {addHexPrefix, toBuffer, toHex} from '../common/formatter'
 import {getGasPrice, getTransactionCount} from './utils';
 import request from '../common/request'
-import {trezorSign} from './trezor'
-import {configs} from "../../config/data";
+
+
+/**
+ * @description submit ethereum signed tx
+ * @param signedTx
+ */
+export  function send(signedTx) {
+  let body = {};
+  body.method = 'eth_sendRawTransaction';
+  body.params = [signedTx];
+  return request({
+    method: 'post',
+    body,
+  })
+}
+
 
 export default class Transaction {
   constructor(rawTx) {
@@ -12,8 +26,8 @@ export default class Transaction {
     this.raw = rawTx;
   }
 
-   setGasLimit() {
-      this.raw.gasLimit = this.raw.gasLimit || configs['defaultGasLimit']
+  setGasLimit() {
+    this.raw.gasLimit = this.raw.gasLimit || configs['defaultGasLimit']
   }
 
   async setGasPrice() {
@@ -21,7 +35,7 @@ export default class Transaction {
   }
 
   setChainId() {
-    this.raw.chainId = this.raw.chainId || configs['chainId'] || 1
+    this.raw.chainId = this.raw.chainId || 1
   }
 
   async setNonce(address, tag) {
@@ -34,68 +48,34 @@ export default class Transaction {
     return new EthTransaction(this.raw).hash()
   }
 
-  async sign({privateKey, walletType,path}) {
+  async sign(privateKey) {
     try {
       validator.validate({value: this.raw, type: "TX"});
     } catch (e) {
       await this.complete();
     }
-    const ethTx = new EthTransaction(this.raw);
-
-    let signed;
-    if (privateKey) {
-      try {
-        if (typeof privateKey === 'string') {
-          validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
-          privateKey = toBuffer(addHexPrefix(privateKey))
-        } else {
-          validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
-        }
-      } catch (e) {
-        throw new Error('Invalid private key')
+    try {
+      if (typeof privateKey === 'string') {
+        validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+        privateKey = toBuffer(addHexPrefix(privateKey))
+      } else {
+        validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
       }
-
-      ethTx.sign(privateKey);
-      signed = toHex(ethTx.serialize());
-    } else {
-      switch (walletType) {
-        case 'trezor':
-          signed  = await trezorSign({path});
-          break;
-        default:
-          throw new Error('UnSupported Type of Wallet')
-      }
+    } catch (e) {
+      throw new Error('Invalid private key')
     }
+    const ethTx = new EthTransaction(this.raw);
+    ethTx.sign(privateKey);
+    const signed = toHex(ethTx.serialize());
     this.signed = signed;
     return signed
   }
 
-  async send({privateKey, walletType,path}) {
-    if (!this.signed) {
-      await this.sign({privateKey, walletType,path})
-    }
-    let body = {};
-    body.method = 'eth_sendRawTransaction';
-    body.params = [this.signed];
-    return request({
-      method: 'post',
-      body,
-    })
-  }
 
-  async sendRawTx(signedTx) {
-    let body = {};
-    body.method = 'eth_sendRawTransaction';
-    body.params = [signedTx];
-    return request({
-      method: 'post',
-      body,
-    })
-  }
 
   async complete() {
-     this.setChainId();
-     this.setGasLimit();
+    this.setChainId();
+    this.setGasLimit();
     await this.setGasPrice();
   }
 }

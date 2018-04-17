@@ -1,12 +1,42 @@
-import basicSchemas from '../common/validator_schemas'
+import basicSchemas from '../common/schemas'
 
-let standSchemas = {
+const ethereumSchemas = {
+  ...basicSchemas,
+  ADDRESS: {
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{40}$/g,
+  },
+  VALUES: {
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{1,64}$/g,
+  },
+  PRIVATE_KEY_BUFFER: {
+    validator: (rule, value, cb) => {
+      if (value instanceof Buffer) {
+        value.length === 32 ? cb() : cb('length of private key must be 32')
+      } else {
+        cb('private key is not an instance of Buffer')
+      }
+    }
+  },
+  PRIVATE_KEY: {
+    type: 'string',
+    required: true,
+    len: 64,
+  },
+  TX_HASH: {
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{64}$/g,
+  },
   BASIC_TX: {
     to: {
       ...basicSchemas.ADDRESS
     },
     value: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     gasLimit: {
       type: "string",
@@ -35,102 +65,30 @@ let standSchemas = {
       ...basicSchemas.ADDRESS
     },
     value: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     gasLimit: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     gasPrice: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     chainId: {
       type: 'number',
       required: true
     },
     nonce: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     data: {
       type: 'string',
       required: true,
-      pattern: /^0x[0-9a-fA-F]*$/g
+      pattern: /^0x[0-9a-fA-F]{8}([0-9a-fA-F]{64})*$ |^(0x)*$/g
     },
     signed: {
       type: 'string'
     }
   },
-  BASIC_TOKEN:{
-    address:{
-      ...basicSchemas.ADDRESS
-    },
-    symbol:{
-      type:"string"
-    },
-    name:{
-      type:"string"
-    },
-    digits:{
-      type:"number"
-    },
-    unit:{
-      type:"string"
-    },
-    website:{
-      type:"url"
-    },
-    allowance:{
-      type:"number"
-    },
-    precision:{
-      type:"number"
-    },
-    minTradeValue:{
-      type:"number"
-    }
-  },
-  TOKEN:{
-    address:{
-      ...basicSchemas.ADDRESS
-    },
-    symbol:{
-      type:"string",
-      required:true
-    },
-    name:{
-      type:"string",
-      required:true
-    },
-    digits:{
-      type:"number",
-      required:true
-    },
-    unit:{
-      type:"string",
-      required:true
-    },
-    website:{
-      type:"url"
-    },
-    allowance:{
-      type:"number",
-      required:true
-    },
-    precision:{
-      type:"number",
-      required:true
-    },
-    minTradeValue:{
-      type:"number",
-      required:true
-    }
-  }
 };
 
-export default standSchemas
-
-
-
-
-
-
-
+export default ethereumSchemas;

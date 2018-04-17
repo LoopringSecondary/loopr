@@ -3,38 +3,32 @@ import validator from './validator'
 import Response from '../common/response'
 import code from "../common/code"
 
-let headers = {
-  'Content-Type': 'application/json'
-}
-
-export async function getBalance(filter) {
+export async function getBalance({contractVersion,owner}) {
   try {
-    await validator.validate({value: filter.contractVersion, type: 'STRING'})
-    await validator.validate({value: filter.owner, type: 'STRING'})
+    await validator.validate({value: contractVersion, type: 'STRING'})
+    await validator.validate({value: owner, type: 'STRING'})
   } catch (e) {
-    console.error(e)
+    console.error(e);
     return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
-  let body = {}
-  body.method = 'loopring_getBalance'
-  body.params = [filter]
+  let body = {};
+  body.method = 'loopring_getBalance';
+  body.params = [filter];
   return request({
     method: 'post',
-    headers,
     body,
   })
 }
 
 export async function getTransactionCount(add,tag){
-  validator.validate({value:add,type:'ADDRESS'})
-  validator.validate({value:tag,type:'RPC_TAG'})
+  validator.validate({value:add,type:'ADDRESS'});
+  validator.validate({value:tag,type:'RPC_TAG'});
 
-  let body = {}
-  body.method = 'eth_getTransactionCount'
-  body.params = [add,tag]
+  let body = {};
+  body.method = 'eth_getTransactionCount';
+  body.params = [add,tag];
   return request({
     method:'post',
-    headers,
     body,
   })
 }
@@ -46,7 +40,6 @@ export async function register(owner) {
   body.params = [{owner}];
   return request({
     method:'post',
-    headers,
     body,
   })
 }

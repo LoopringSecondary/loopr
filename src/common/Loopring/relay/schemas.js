@@ -1,9 +1,17 @@
-import basicSchemas from '../common/validator_schemas'
-// Schema Help： https://github.com/yiminghe/async-validator
-// required: value should be not empty eg: null, undefined, ''
+import basicSchemas from '../common/schemas'
 
-let schemas = {
-
+const loopringScheams = {
+  ...basicSchemas,
+  PROJECT_ID: {
+    type: 'number',
+    required: true,
+    min: 1
+  },
+  LOOPRING_TOKEN: {
+    type: 'enum',
+    required: true,
+    enum: ['LRC', 'LRN', 'LRQ']
+  },
   RAW_Order: {
     protocol: {
       ...basicSchemas.ADDRESS
@@ -20,26 +28,26 @@ let schemas = {
     authAddr: {
       ...basicSchemas.ADDRESS
     },
-    authPrivateKey:{
+    authPrivateKey: {
       ...basicSchemas.PRIVATE_KEY
     },
     validSince: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     validUntil: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     amountS: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     amountB: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     lrcFee: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     walletId: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -68,26 +76,26 @@ let schemas = {
     authAddr: {
       ...basicSchemas.ADDRESS
     },
-    authPrivateKey:{
+    authPrivateKey: {
       ...basicSchemas.PRIVATE_KEY
     },
     validSince: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     validUntil: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     amountS: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     amountB: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     lrcFee: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     walletId: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.VALUES
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -115,8 +123,6 @@ let schemas = {
       pattern: /^0x[0-9a-fA-F]{64}$/g
     }
   }
+};
 
-
-}
-
-export default schemas
+export default loopringScheams;

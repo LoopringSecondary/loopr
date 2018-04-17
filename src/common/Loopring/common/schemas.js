@@ -1,0 +1,51 @@
+// Schema Help： https://github.com/yiminghe/async-validator
+// required: value should be not empty eg: null, undefined, ''
+
+const basicSchemas = {
+  STRING: {
+    type: 'string',
+    required: true,
+  },
+  OPTION_NUMBER: {
+    validator: (rule, value, cb) => {
+      if (value) {
+        if (typeof(value) === 'number') {
+          cb()
+        } else {
+          cb('page number valid')
+        }
+      } else {
+        cb()
+      }
+    }
+  },
+  URL: {
+    type: 'url',
+    required: true,
+  },
+  HEX: {
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]+$/g,
+  },
+  QUANTITY: {
+    type: 'string',
+    required: true,
+  },
+  TIMESTAMP: {
+    type: 'string',
+  },
+  CURRENCY: {
+    type: 'string',
+    required: true,
+    enum: ['USD', 'CNY'],
+  },
+  RPC_TAG: {
+    type: 'enum',
+    required: true,
+    enum: ['latest', 'earliest', 'pending'],
+  },
+};
+
+export default basicSchemas;
+
