@@ -872,18 +872,6 @@
       "minTradeValue": 0.001
     },
     {
-      "symbol": "DRP",
-      "name": "DCORP",
-      "digits": 2,
-      "address": "0x621d78f2ef2fd937bfca696cabaf9a779f59b3ed",
-      "unit": "DRP",
-      "website": "",
-      "allowance": "100000",
-      "allowanceWarn": "500",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
       "symbol": "SNGLS",
       "name": "SingularDTV",
       "digits": 0,
