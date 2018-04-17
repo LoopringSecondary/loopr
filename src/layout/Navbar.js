@@ -161,23 +161,29 @@ function Navbar(props){
                 </div>
               </Tooltip>
             </div>
-
-          </div>
-          <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
-            <div className="row align-items-center ">
-              <div className="col">
-                <span className="navbar-login-status-badge color-primary-1">
-                  <Badge status="processing" className="" />
-                  {intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})}
-                </span>
-              </div>
-              <div className="col-auto pr10">
-                <Button className="border-none color-primary-1 fs1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="lock" onClick={quit}></Button>
-              </div>
+            <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
+                <div className="fs14 color-black-2 navbar-account-grid cursor-pointer" onClick={quit}>
+                    <Icon type="poweroff" className="d-block grid-icon" />
+                    <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.quit')}</div>
+                </div>
             </div>
           </div>
-
-
+          {
+            false &&
+            <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
+              <div className="row align-items-center ">
+                <div className="col">
+                  <span className="navbar-login-status-badge color-primary-1">
+                    <Badge status="processing" className="" />
+                    {intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})}
+                  </span>
+                </div>
+                <div className="col-auto pr10">
+                  <Button className="border-none color-primary-1 fs1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="lock" onClick={quit}></Button>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       }
       {!account.isUnlocked &&
@@ -310,12 +316,16 @@ function Navbar(props){
                         <div className="" style={{marginTop:'2px'}}>
                           <span className="navbar-login-status-badge color-primary-1">
                             <Badge status="processing" className="" />
-                            { !window.IS_DEMO_WALLET &&
+                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'address' &&
                               intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})
                             }
-                            { window.IS_DEMO_WALLET &&
+                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE === 'address' && window.IS_DEMO_WALLET &&
                               intl.get("wallet.unlocked_by", {type:'Demo'})
                             }
+                            { window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE === 'address' && !window.IS_DEMO_WALLET &&
+                              intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})
+                            }
+
                           </span>
                         </div>
                       </div>
