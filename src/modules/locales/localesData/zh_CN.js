@@ -349,6 +349,7 @@ export default {
   airdrop:{
     cost_eth_gas:"绑定地址需要支付ETH油费",
     goback:"返回",
+    watch_only_not_allowed:"观察者钱包无法绑定空投",
   },
   wallet: {
     bind_tip: "绑定空投接收地址",

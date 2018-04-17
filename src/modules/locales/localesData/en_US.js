@@ -344,6 +344,7 @@ export default {
   airdrop:{
     cost_eth_gas:"Bind address will cost ETH gas for transaction .",
     goback:"Go Back",
+    watch_only_not_allowed:"Watch only wallet can not bind address",
   },
   wallet: {
     bind_tip: "Bind Address For Airdrop",

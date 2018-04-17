@@ -146,9 +146,16 @@ class AirdropBind extends React.Component {
         }
         />
         {
-          window.IS_DEMO_WALLET &&
+          isWatchOnly && window.IS_DEMO_WALLET &&
           <Alert className="mb15" type="warning" showIcon message={
             <div>{intl.get('demo.airdrop_not_allowed')}</div>
+          }
+          />
+        }
+        {
+          isWatchOnly && !window.IS_DEMO_WALLET &&
+          <Alert className="mb15" type="warning" showIcon message={
+            <div>{intl.get('airdrop.watch_only_not_allowed')}</div>
           }
           />
         }
