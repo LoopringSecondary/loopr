@@ -12,7 +12,7 @@
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0xeba7136a36da0f5e16c6bdbc739c716bb5b65a00",
-  "localStorageVersion":201804132128,
+  "localStorageVersion":201804162206,
   "contracts": [
     {
       "address": "0x4019440BBe5882915db9F2cAe972a518DB346C62",
@@ -109,7 +109,7 @@
         "digits": 8,
         "decimals": "8",
         "unit": "FOO",
-        "address": "0x682162Cb3bF24925499516594B4A4985b36f7f3a",
+        "address": "0xf5B3b365FA319342e89a3Da71ba393E12D9F63c3",
         "allowance": "1000000000000000000000",
         "allowanceWarn": "50000000000000000000",
         "precision": 6,
@@ -121,7 +121,7 @@
         "digits": 18,
         "decimals": "18",
         "unit": "BAR",
-        "address": "0xE09F1e1C7638661D85bc4CDF4D82E3c734203ba7",
+        "address": "0xb5f64747127be058Ee7239b363269FC8cF3F4A87",
         "allowance": "1000000000000000000000",
         "allowanceWarn": "50000000000000000000",
         "precision": 6,

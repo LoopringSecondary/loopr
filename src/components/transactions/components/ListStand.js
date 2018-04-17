@@ -119,7 +119,7 @@ class ListBlock extends React.Component {
       switch (item.type) {
         case 'approve':
           change = '+'
-          icon = <CoinIcon symbol={item.symbol} size="30"/>
+          icon = <i className="icon icon-loopring icon-loopring-success fs30"/>
           title = intl.get('txs.type_enable_title', {symbol: item.symbol})
           break;
         case 'send':
@@ -136,9 +136,9 @@ class ListBlock extends React.Component {
           change = '+';
           icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
           if(item.symbol === 'WETH'){
-            title = intl.get('txs.type_convert_title_weth')
-          }else{
             title = intl.get('txs.type_convert_title_eth')
+          }else{
+            title = intl.get('txs.type_convert_title_weth')
           }
           break;
         case 'convert_outcome':
