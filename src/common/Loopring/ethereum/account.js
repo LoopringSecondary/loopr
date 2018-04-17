@@ -1,6 +1,6 @@
 require('babel-polyfill');
 import validator from '../common/validator'
-import {addHexPrefix, formatAddress, formatKey, toBuffer, toHex, toNumber} from '../common/formatter'
+import {addHexPrefix, clearHexPrefix, formatAddress, formatKey, toBuffer, toHex, toNumber} from '../common/formatter'
 import {decryptKeystoreToPkey, pkeyToKeystore} from './keystore'
 import {privateToAddress, privateToPublic, publicToAddress, sha3, hashPersonalMessage, ecsign} from 'ethereumjs-util'
 import {mnemonictoPrivatekey} from "./mnemonic";
@@ -9,7 +9,8 @@ import {trimAll} from "../common/utils";
 import HDKey from 'hdkey';
 import EthTransaction from 'ethereumjs-tx';
 import {getOrderHash} from "../relay/order";
-import Trezor from "./trezor";
+import * as Trezor from "./trezor";
+import * as Ledger from "./ledger";
 
 const wallets = require('../../config/wallets.json');
 const LoopringWallet = wallets.find(wallet => trimAll(wallet.name).toLowerCase() === 'loopringwallet');
@@ -327,17 +328,52 @@ export class TrezorAccount extends Account {
     } else {
       return result.result;
     }
-
-
   }
 
 }
 
 export class LedgerAccount extends Account {
 
-  constructor(ledger){
+  constructor(ledger, dpath) {
     super();
     this.ledger = ledger;
+    this.dpath = dpath;
   }
 
+  async getAddress() {
+    const result = await Ledger.getXPubKey(this.dpath, this.ledger);
+    if (result.error) {
+      throw new Error(result.error)
+    } else {
+      return result.result.address;
+    }
+  }
+
+  async signMessage(message) {
+    const result = await Ledger.signMessage(this.dpath, message, this.ledger)
+    if (result.error) {
+      throw new Error(result.error)
+    } else {
+      return result.result;
+    }
+  }
+
+  async signEthereumTx(rawTx){
+    const result = await Ledger.signEthereumTx(this.dpath, rawTx, this.ledger);
+    if (result.error) {
+      throw new Error(result.error)
+    } else {
+      return result.result;
+    }
+  }
+
+  async signOrder(order){
+    const hash = getOrderHash(order);
+    const result = await Ledger.signMessage(this.dpath, clearHexPrefix(toHex(hash)), this.ledger);
+    if (result.error) {
+      throw new Error(result.error)
+    } else {
+      return {...order,...result.result};
+    }
+  }
 }

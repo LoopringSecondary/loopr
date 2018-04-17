@@ -22,7 +22,7 @@ export async function connect() {
 }
 
 /**
- * @description Returns publicKey and chainCode
+ * @description Returns publicKey , chainCode and address
  * @param dpath string
  * @param ledgerConnect
  * @returns {Promise}
@@ -32,7 +32,7 @@ export async function getXPubKey(dpath, ledgerConnect) {
     return new Promise((resolve) => {
       ledgerConnect.getAddress_async(dpath, false, true)
         .then(res => {
-          resolve(res)
+          resolve({result:res})
         }).catch(err => {
         resolve({error: err})
       });
@@ -79,7 +79,7 @@ export async function signMessage(dpath, message, ledgerConnect) {
         if (result.error) {
           return resolve({error: result.error});
         } else {
-          resolve({v: result.v, r: addHexPrefix(result.r), s: addHexPrefix(result.s)});
+          resolve({result:{v: result.v, r: addHexPrefix(result.r), s: addHexPrefix(result.s)}});
         }
       });
     });
