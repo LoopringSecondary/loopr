@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import {Button,Icon} from 'antd';
 
-const Alert = ({title,description,type='info',theme='light',actions,size="medium"})=>{
+const Alert = ({title,description,type='info',theme='light',actions,size="medium",className="",...rest})=>{
   return (
-    <div className={`loopring-alert t-${type} t-${theme} s-${size}`}>
+    <div className={`loopring-alert t-${type} t-${theme} s-${size} ${className}`} {...rest}>
       <div className="row align-items-center">
         {
           type &&
