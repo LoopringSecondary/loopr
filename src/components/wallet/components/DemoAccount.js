@@ -7,8 +7,6 @@ import {unlockRedirection} from '../../../common/utils/redirection'
 import {isValidEthAddress} from 'Loopring/ethereum/utils'
 import {configs} from '../../../common/config/data'
 
-const walletType = "Address"
-
 class DemoAccount extends React.Component {
   state = {
     loading: false,
@@ -24,6 +22,7 @@ class DemoAccount extends React.Component {
     }
 
     function unlocked() {
+      const walletType = "Address"
       window.WALLET = new AddressUnlockAccount({address: selectedAddress})
       window.WALLET_UNLOCK_TYPE = walletType
       window.IS_DEMO_WALLET = true

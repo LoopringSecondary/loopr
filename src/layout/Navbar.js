@@ -316,16 +316,15 @@ function Navbar(props){
                         <div className="" style={{marginTop:'2px'}}>
                           <span className="navbar-login-status-badge color-primary-1">
                             <Badge status="processing" className="" />
-                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'address' &&
-                              intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})
+                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() !== 'address' &&
+                              intl.get(`wallet.type_${window.WALLET_UNLOCK_TYPE.toLowerCase()}`)
                             }
-                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE === 'address' && window.IS_DEMO_WALLET &&
-                              intl.get("wallet.unlocked_by", {type:'Demo'})
+                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() === 'address' && window.IS_DEMO_WALLET &&
+                              intl.get(`wallet.type_demo`)
                             }
-                            { window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE === 'address' && !window.IS_DEMO_WALLET &&
-                              intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})
+                            { window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() === 'address' && !window.IS_DEMO_WALLET &&
+                              intl.get(`wallet.type_${window.WALLET_UNLOCK_TYPE.toLowerCase()}`)
                             }
-
                           </span>
                         </div>
                       </div>

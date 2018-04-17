@@ -6,6 +6,7 @@ export default {
     amount: "{amount,number}",
     no_data:"No data",
     comingsoon:"Coming Soon",
+    wallet:"Wallet",
   },
   version:{
     label:'Trial',
@@ -476,7 +477,15 @@ export default {
     invalid_eth_address: 'Invalid Ethereum address',
     unlocked_notification_title: 'Successfully Unlock Your Wallet',
     unlocked_notification_content: 'Great! Start your Loopr tour, enjoy it',
-    unlocked_by:'{type} Wallet'
+    unlocked_by:'{type} Wallet',
+    type_address:'Watch Only Wallet',
+    type_metamask:'MetaMask Wallet',
+    type_trezor:'Trezor Wallet',
+    type_ledger:'Ledger Wallet',
+    type_keystore:'KeyStore Wallet',
+    type_mnemonic:'Mnemonic Wallet',
+    type_privatekey:'PrivateKey Wallet',
+    type_demo:'Demo Wallet',
   },
   demo:{
     badge_title:'Demo Wallet',

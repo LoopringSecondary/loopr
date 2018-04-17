@@ -6,6 +6,7 @@ export default {
     amount: "{amount,number}",
     no_data:"暂时没有数据",
     comingsoon:"即将到来",
+    wallet:"钱包",
   },
   version:{
     label:'体验版',
@@ -481,7 +482,15 @@ export default {
     invalid_eth_address: '错误的以太坊地址',
     unlocked_notification_title: '您已成功解锁钱包',
     unlocked_notification_content: '开始您的路印之旅，希望你能喜欢',
-    unlocked_by:'{type} 钱包'
+    unlocked_by:'{type} 钱包',
+    type_address:'观察模式',
+    type_metamask:'MetaMask钱包',
+    type_trezor:'Trezor钱包',
+    type_ledger:'Ledger钱包',
+    type_keystore:'KeyStore钱包',
+    type_mnemonic:'助记词钱包',
+    type_privateKey:'私钥钱包',
+    type_demo:'演示钱包',
   },
   demo:{
     badge_title:'演示账号',
