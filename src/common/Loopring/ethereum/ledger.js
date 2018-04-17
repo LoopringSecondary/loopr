@@ -19,7 +19,7 @@ export async function connect() {
 }
 
 /**
- * @description Returns xpubkey and chainCode
+ * @description Returns publicKey and chainCode
  * @param dpath
  * @param ledgerConnect
  * @returns {Promise}
