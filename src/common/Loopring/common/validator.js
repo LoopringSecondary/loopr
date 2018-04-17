@@ -5,7 +5,10 @@ const handleErrors = (errors, fields) => {
   let msgs = errors.map(err => err.message).join();
   throw new Error(`data type invalid: ${msgs} \n`)
 };
-
+/**
+ * validate given value with given type
+ * @param payload
+ */
 const validate = (payload) => {
   const {type, value, onError, onSuccess} = payload;
   let source = {};

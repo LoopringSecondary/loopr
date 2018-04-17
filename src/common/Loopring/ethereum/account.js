@@ -54,7 +54,6 @@ export async function getAddresses({publicKey,chainCode,pageSize, pageNum}) {
   return addresses;
 }
 
-
 /**
  * @description Returns the ethereum public key of a given private key.
  * @param privateKey Buffer | string
@@ -225,7 +224,7 @@ export class MnemonicAccount extends KeyAccount {
    * @description Returns dpath of this account
    * @returns {string}
    */
-  getPath() {
+  getDpath() {
     return this.dpath
   }
 }

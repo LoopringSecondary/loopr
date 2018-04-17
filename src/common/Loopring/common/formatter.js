@@ -153,6 +153,14 @@ export function clearHexPrefix(input) {
 }
 
 /**
+ *
+ * @param hex
+ * @returns {string}
+ */
+export function padLeftEven(hex) {
+  return hex.length % 2 !== 0 ? `0${hex}` : hex;
+}
+/**
  * Returns symbol of a given kind of currency
  * @param settingsCurrency
  * @returns {*}
