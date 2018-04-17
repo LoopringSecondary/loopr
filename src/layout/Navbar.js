@@ -297,12 +297,12 @@ function Navbar(props){
             </Menu>
           </div>
           <div className="col"></div>
-          <div className="col-auto">
+          <div className="col-auto pl0">
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
           </div>
-          <div className="col-auto d-flex align-items-center">
+          <div className="col-auto d-flex align-items-center pl0 ">
             <Popover content={accountMenus} title={null} trigger="hover">
                 {
                   account.address &&

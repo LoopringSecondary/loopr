@@ -483,7 +483,7 @@ export default {
     unlocked_notification_title: '您已成功解锁钱包',
     unlocked_notification_content: '开始您的路印之旅，希望你能喜欢',
     unlocked_by:'{type} 钱包',
-    type_address:'观察模式',
+    type_address:'观察模式钱包',
     type_metamask:'MetaMask钱包',
     type_trezor:'Trezor钱包',
     type_ledger:'Ledger钱包',
