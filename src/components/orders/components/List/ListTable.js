@@ -19,7 +19,7 @@ const fm = window.uiFormatter.TokenFormatter;
 class  ListBlock extends React.Component{
 
   render(){
-    const {LIST, actions, className, style, account, gasPrice, contractAddress,} = this.props;
+    const {LIST, actions, className, style, account, gasPrice, contractAddress,txs} = this.props;
     const {dispatch, id} = this.props;
     const showModal = (payload = {}) => {
       dispatch({
@@ -171,12 +171,7 @@ class  ListBlock extends React.Component{
         return (
           <span className="text-nowrap">
           {item.status === 'ORDER_OPENED' &&
-          <Sockets.PendingTxs render={({txs})=>{
-            return (<Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {isWatchOnly || txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>Cancel</Button>)
-          }}>
-          </Sockets.PendingTxs>
-            // <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300"
-            //                   style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px'}} >Cancel</a>
+          <Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {isWatchOnly || txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>Cancel</Button>
           }
             {notEnough &&
             <Popover arrowPointAtCenter placement="topRight" content={content}

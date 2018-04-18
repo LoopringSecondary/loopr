@@ -1,5 +1,5 @@
 import {rawEncode, methodID} from 'ethereumjs-abi';
-import {toHex} from "../../common/formatter";
+import {toHex,clearHexPrefix} from "../../common/formatter";
 import every from 'lodash/every'
 
 export default class AbiFunction {
@@ -16,18 +16,20 @@ export default class AbiFunction {
 
 
   encodeInputs(inputs) {
-    this.checkInputs(inputs);
-
-
+   const abiInputs = this.checkInputs(inputs);
+   return clearHexPrefix(toHex(rawEncode(this.inputTypes,abiInputs)))
   }
 
   checkInputs(inputs) {
-    this.inputs.forEach(({name, type}) => {
+    this.inputs.map(({name, type}) => {
       if (!inputs[name]) {
         throw new Error(`Parameter ${name} of type ${type} is required!`)
       }
+      return inputs[name];
     })
   }
+
+  
 
 }
 
