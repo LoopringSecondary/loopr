@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'dva/router';
 import {Button, Table} from 'antd';
 import schema from '../../../modules/trades/schema';
-import {toNumber} from 'Loopring/common/formatter';
+import {toNumber,toBig} from 'Loopring/common/formatter';
 import intl from 'react-intl-universal';
 
 const uiFormatter = window.uiFormatter
@@ -55,7 +55,11 @@ function ListBlock(props) {
         return <span> {uiFormatter.getFormatNum(amount)}  {item.side === 'buy'? item.tokenB : item.tokenS} </span>
       },
       price:(value,item,index)=>{
-        const price = (item.side === 'buy' ? (item.amountS/item.amountB) :(item.amountB/item.amountS)).toFixed(5);
+        const tokenB = window.CONFIG.getTokenBySymbol(item.tokenB)|| {digits: 18, precision: 6};
+        const tokenS = window.CONFIG.getTokenBySymbol(item.tokenS)||{digits: 18, precision: 6};
+        const price = (item.side === 'buy' ?
+          (toBig(item.amountS).div('1e'+tokenS.digits).div(toBig(item.amountB).div('1e'+tokenB.digits))).toFixed(8) :
+          (toBig(item.amountB).div('1e'+tokenB.digits).div(toBig(item.amountS).div('1e'+tokenS.digits)))).toFixed(8);
         return <span> {uiFormatter.getFormatNum(price)} </span>
       },
       total:(value,item,index)=>{
