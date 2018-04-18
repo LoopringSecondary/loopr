@@ -1,5 +1,5 @@
 import moment from 'moment'
-import {toNumber} from "Loopring/common/formatter";
+import {toNumber,toBig} from "Loopring/common/formatter";
 import TokenFormatter from './tokenFormatter'
 import {getPrice} from './tokenFormatter'
 import intl from 'react-intl-universal';
@@ -34,7 +34,7 @@ export function getSeconds(value, unit) {
 }
 
 export function getFormatNum(number) {
-  number = toNumber(number).toString().split('.');
+  number = toBig(number).toString(10).split('.');
   let a = number[0];
   let b = number[1];
   a = intl.get('global.amount',{amount:toNumber(a)});
