@@ -19,17 +19,18 @@ function DetailBlock({modal = {}}) {
   const fmB = new fm({symbol:tokenB});
   const tokensConfig = window.CONFIG.getTokenBySymbol(tokenS);
   const tokenbConfig = window.CONFIG.getTokenBySymbol(tokenB);
+  const market = window.CONFIG.getMarketBySymbol(tokenS,tokenB);
 
   const getPrice = () => {
 
     if (item.originalOrder.side.toLowerCase() === 'buy') {
       return (<div>
-        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(amountS).div('1e'+tokensConfig.digits).div(toBig(amountB).div('1e'+tokenbConfig.digits)).toFixed(8))} </span>
+        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(amountS).div('1e'+tokensConfig.digits).div(toBig(amountB).div('1e'+tokenbConfig.digits)).toFixed(market.pricePrecision))} </span>
         {tokenS}/{tokenB}
       </div>)
     } else {
       return (<div>
-        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(amountB).div('1e'+tokenbConfig.digits).div(toBig(amountS).div('1e'+tokensConfig.digits)).toFixed(8))} </span>
+        <span className="mr5">{window.uiFormatter.getFormatNum(toBig(amountB).div('1e'+tokenbConfig.digits).div(toBig(amountS).div('1e'+tokensConfig.digits)).toFixed(market.pricePrecision))} </span>
         {tokenB}/{tokenS}
       </div>)
     }

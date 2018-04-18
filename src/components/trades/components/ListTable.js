@@ -58,11 +58,9 @@ function ListBlock(props) {
     price: (value, item, index) => {
       const tokenB = window.CONFIG.getTokenBySymbol(item.tokenB);
       const tokenS = window.CONFIG.getTokenBySymbol(item.tokenS);
-      console.log("Item", item);
-      console.log('tokenB', tokenB);
-      console.log('tokenS', tokenS);
-      const price = item.side.toLowerCase() === 'buy' ? (toBig(item.amountS).div('1e' + tokenS.digits).div(toBig(item.amountB).div('1e' + tokenB.digits))).toFixed(8) :
-        (toBig(item.amountB).div('1e' + tokenB.digits).div(toBig(item.amountS).div('1e' + tokenS.digits))).toFixed(8);
+      const market = window.CONFIG.getMarketByPair(item.market);
+      const price = item.side.toLowerCase() === 'buy' ? (toBig(item.amountS).div('1e' + tokenS.digits).div(toBig(item.amountB).div('1e' + tokenB.digits))).toFixed(market.pricePrecision) :
+        (toBig(item.amountB).div('1e' + tokenB.digits).div(toBig(item.amountS).div('1e' + tokenS.digits))).toFixed(market.pricePrecision);
       return <span> {uiFormatter.getFormatNum(price)} </span>
     },
     total: (value, item, index) => {
