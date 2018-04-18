@@ -22,7 +22,6 @@ class SelectContainer extends React.Component {
     this.props.loadOptions()
     .then(transform)
     .then(options=>{
-      console.log('options',options)
       this.setState({
         options,
         loading:false,

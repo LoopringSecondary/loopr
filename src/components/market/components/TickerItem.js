@@ -137,16 +137,16 @@ class LooprTicker extends React.Component {
                <TickerHeader pair={pair} tickers={tickers} />
              </div>
              <div className="col-auto">
-               <NumberCaption title={`24H ${intl.get('ticker.last')}`} content={<div className="text-truncate" style={{maxWidth:'150px'}}>{fm.getPrice(ticker.last)} {priceValue}</div>} />
+               <NumberCaption title={`24H ${intl.get('ticker.last')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.last)} {priceValue}</div>} />
              </div>
              <div className="col-auto">
               <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={<span style={{fontcolor:'#00E831'}}>{fm.getChange(ticker.change)}</span>} />
              </div>
              <div className="col-auto">
-              <NumberCaption title={`24H ${intl.get('ticker.low')}`} content={<div className="text-truncate" style={{maxWidth:'150px'}}>{fm.getPrice(ticker.low)}</div>} />
+              <NumberCaption title={`24H ${intl.get('ticker.low')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.low)}</div>} />
              </div>
              <div className="col-auto">
-               <NumberCaption title={`24H ${intl.get('ticker.high')}`} content={<div className="text-truncate" style={{maxWidth:'150px'}}>{fm.getPrice(ticker.high)}</div>} />
+               <NumberCaption title={`24H ${intl.get('ticker.high')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.high)}</div>} />
              </div>
              <div className="col-sm-6 col-lg-2">
               <NumberCaption title={<div>24H {intl.get('ticker.vol')}</div>} content={<div>{`${fm.getVolume(ticker.vol)}`}  <span className="">{tokenR}</span></div>} />
