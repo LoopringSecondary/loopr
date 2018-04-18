@@ -12,7 +12,15 @@ class PendingTxsContainer extends React.Component {
       pendingTxs: [],
     }
   }
-
+  responseHandler(res){
+    console.log('pendingTxs_res')
+    res = JSON.parse(res)
+    if (!res.error) {
+      this.setState({
+        pendingTxs: res.data,
+      })
+    }
+  }
   componentDidMount() {
     const {socket} = this.context
     if (socket) {
@@ -21,16 +29,8 @@ class PendingTxsContainer extends React.Component {
       const options = {
         owner
       };
-      socket.emit('pendingTx_req', JSON.stringify(options))
-      socket.on('pendingTx_res', (res) => {
-        console.log('pendingTxs_res')
-        res = JSON.parse(res)
-        if (!res.error) {
-          _this.setState({
-            pendingTxs: res.data,
-          })
-        }
-      })
+      socket.emit('pendingTx_req', JSON.stringify(options),this.responseHandler.bind(this))
+      socket.on('pendingTx_res',this.responseHandler.bind(this))
     }
     if (!socket) {
       console.log('socket not connected')

@@ -46,7 +46,8 @@ let FiltersForm = ({
               <SelectContainer
                 loadOptions={getSupportedMarket}
                 transform={(res)=>{
-                  let options = res.result.map(item=>({label:item,value:item}))
+                  let pairs = window.CONFIG.getMarkets().map(item=>`${item.tokenx}-${item.tokeny}`)
+                  let options = res.result.filter(item=>pairs.includes(item)).map(item=>({label:item,value:item}))
                   return [
                     ...options,
                   ]

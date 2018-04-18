@@ -129,6 +129,9 @@ function getTokenSupportedMarket(token) {
   }
   return foundMarket
 }
+function getMarkets() {
+  return markets;
+}
 
 function getGasLimitByType(type) {
   if(type){
@@ -153,5 +156,6 @@ export default {
   isSupportedMarket,
   getSupportedMarketsTokenR,
   getMarketsByTokenR,
-  getTokenSupportedMarket
+  getTokenSupportedMarket,
+  getMarkets,
 }

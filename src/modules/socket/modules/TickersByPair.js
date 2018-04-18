@@ -15,9 +15,18 @@ class TickerSocketContainer extends React.Component {
         "contractVersion" : window.STORAGE.settings.getContractVersion(),
         "market":nextProps.pair,
       }
-      socket.emit('tickers_req',JSON.stringify(options))
+      socket.emit('tickers_req',JSON.stringify(options),this.responseHandler.bind(this))
     }
     return true
+  }
+  responseHandler(res){
+    console.log('ticker_res')
+    res = JSON.parse(res)
+    if(!res.error){
+      this.setState({
+        item:res.data
+      })
+    }
   }
   componentDidMount() {
     const { socket } = this.context
@@ -27,16 +36,8 @@ class TickerSocketContainer extends React.Component {
         "contractVersion" : window.STORAGE.settings.getContractVersion(),
         "market":pair,
       }
-      socket.emit('tickers_req',JSON.stringify(options))
-      socket.on('tickers_res', (res)=>{
-        console.log('ticker_res')
-        res = JSON.parse(res)
-        if(!res.error){
-          this.setState({
-            item:res.data
-          })
-        }
-      })
+      socket.emit('tickers_req',JSON.stringify(options),this.responseHandler.bind(this))
+      socket.on('tickers_res',this.responseHandler.bind(this))
     }
     if(!socket) {
       console.log('socket not connected')

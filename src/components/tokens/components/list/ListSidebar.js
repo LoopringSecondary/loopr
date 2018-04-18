@@ -362,19 +362,30 @@ class ListSidebar extends React.Component {
                 </Popover>
               </div>
             }
+            {
+              false &&
+              <div className="col-auto" onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault()
+              }}>
+                <Popover
+                  title={<div className="pt5 pb5 fs18">{item.symbol} {intl.get('tokens.options')}</div>}
+                  placement="right"
+                  arrowPointAtCenter
+                  content={TokenItemActions(item)}
+                >
+                  <i className="icon-loopring icon-loopring-right color-black-3 d-block"></i>
+                </Popover>
+              </div>
+            }
+
             <div className="col-auto" onClick={(e) => {
               e.stopPropagation();
               e.preventDefault()
             }}>
-              <Popover
-                title={<div className="pt5 pb5 fs18">{item.symbol} {intl.get('tokens.options')}</div>}
-                placement="right"
-                arrowPointAtCenter
-                content={TokenItemActions(item)}
-              >
-                <i className="icon-loopring icon-loopring-right color-black-3 d-block"></i>
-              </Popover>
+              <i className="icon-loopring icon-loopring-right color-black-3 d-block"></i>
             </div>
+
           </div>
         </div>
       )
@@ -469,9 +480,15 @@ class ListSidebar extends React.Component {
     };
     otherTokens.sort(sorter);
     let sortedTokens = new Array()
-    sortedTokens.push(ethToken)
-    sortedTokens.push(wethToken)
-    sortedTokens.push(lrcToken)
+    if(ethToken){
+      sortedTokens.push(ethToken)
+    }
+    if(wethToken){
+      sortedTokens.push(wethToken)
+    }
+    if(lrcToken){
+      sortedTokens.push(lrcToken)
+    }
     sortedTokens = sortedTokens.concat(otherTokens)
 
     let formatedTokens = [...sortedTokens]
@@ -497,7 +514,7 @@ class ListSidebar extends React.Component {
       }
     })
     return (
-      <div className="">
+      <div className="token-list-container">
         {TokenListAcionsBar}
         <div className="token-list-sidebar">
           {
