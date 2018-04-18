@@ -87,7 +87,7 @@ class DetailBlock extends React.Component {
               <MetaItem label={intl.get('ring.trade_amount')}
                         value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.tradeAmount)}/>
               <div className="mb30"></div>
-              <Button type="default" className="d-block w-100" size="large"> {intl.get('ring.ring_more_info')}</Button>
+              {false && <Button type="default" className="d-block w-100" size="large"> {intl.get('ring.ring_more_info')}</Button>}
             </div>
             }
             {!loading && !ring && <div className='fs1 color-balck-1 '>
