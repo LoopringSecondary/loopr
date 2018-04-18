@@ -17,9 +17,18 @@ class AssetsContainer extends React.Component {
         "contractVersion" :  window.STORAGE.settings.getContractVersion(),
         "owner":nextProps.address,
       }
-      socket.emit('balance_req',JSON.stringify(options))
+      socket.emit('balance_req',JSON.stringify(options),this.responseHandler.bind(this))
     }
     return true // to make sure the parent container's render
+  }
+  responseHandler(res){
+    console.log('balance_res')
+    res = JSON.parse(res)
+    if(!res.error){
+      this.setState({
+        assets:res.data.tokens,
+      })
+    }
   }
   componentDidMount() {
     const { socket } = this.context
@@ -29,32 +38,12 @@ class AssetsContainer extends React.Component {
           "contractVersion" : window.STORAGE.settings.getContractVersion(),
           "owner":this.props.address,
         }
-        socket.emit('balance_req',JSON.stringify(options),(res)=>{
-          // console.log('balance_req res')
-          // res = JSON.parse(res)
-          // if(!res.error){
-          //   this.setState({
-          //     assets:res.data.tokens,
-          //   })
-          // }
-        })
-        socket.on('balance_res', (res)=>{
-          console.log('balance_res')
-          res = JSON.parse(res)
-          if(!res.error){
-            this.setState({
-              assets:res.data.tokens,
-            })
-          }
-
-        })
+        socket.emit('balance_req',JSON.stringify(options),this.responseHandler.bind(this))
+        socket.on('balance_res', this.responseHandler.bind(this))
       }
     }
     if(!socket) {
       console.log('socket not connected')
-      // this.setState({
-      //   assets:assetsAata,
-      // })
     }
   }
   componentWillUnmount() {
