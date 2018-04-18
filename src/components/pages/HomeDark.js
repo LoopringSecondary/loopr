@@ -1,12 +1,11 @@
 import React from 'react';
-import { Button,Icon } from 'antd'
-import { connect } from 'dva'
-import { Route } from 'dva/router'
+import {Button} from 'antd'
+import {connect} from 'dva'
+import {Route} from 'dva/router'
 import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import intl from 'react-intl-universal'
-import Notification from 'Loopr/Notification'
 import VideoBackGround from 'react-background-video-player'
 
 class  Home extends React.Component {
@@ -46,9 +45,10 @@ class  Home extends React.Component {
       });
     };
     // playbackRate="0.5"
+
     return (
       <Layout {...this.props}>
-        <VideoBackGround src="http://7xq5ip.com1.z0.glb.clouddn.com/Stock%20Market_064_HD_480.mov" poster="http://7xq5ip.com1.z0.glb.clouddn.com/background_video_cover.jpg" containerWidth={videoWidth} containerHeight={videoHeight}/>
+        <VideoBackGround src= "http://7xq5ip.com1.z0.glb.clouddn.com/Stock%20Market_064_HD_480.mov"  containerWidth={videoWidth} containerHeight={videoHeight}/>
         <div style={{position:'absolute',width:'100vw',height:'100vh',background:'rgba(0,0,0,0.55)'}} />
         <div className="position-absolute text-center d-flex align-items-center justify-content-center" style={{height:'100vh',width:'100%'}}>
           <div className="" style={{letterSpacing:'0.1rem',wordSpacing:'0.2rem'}}>

@@ -1,14 +1,13 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Table, Badge, Button, Modal, Icon, Popover, Progress} from 'antd';
+import {Badge, Button, Icon, Modal, Popover, Progress, Table} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
-import {toHex, toNumber, clearPrefix} from "Loopring/common/formatter";
+import {clearPrefix, toHex, toNumber} from "Loopring/common/formatter";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {configs} from "../../../../common/config/data";
 import config from "../../../../common/config";
-import Sockets from '../../../../modules/socket/containers';
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
 import PropTypes from 'prop-types';
@@ -19,7 +18,7 @@ const fm = window.uiFormatter.TokenFormatter;
 class  ListBlock extends React.Component{
 
   render(){
-    const {LIST, actions, className, style, account, gasPrice, contractAddress,} = this.props;
+    const {LIST, actions, className, style, account, gasPrice, contractAddress,txs} = this.props;
     const {dispatch, id} = this.props;
     const showModal = (payload = {}) => {
       dispatch({
@@ -170,14 +169,7 @@ class  ListBlock extends React.Component{
         const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
         return (
           <span className="text-nowrap">
-          {item.status === 'ORDER_OPENED' &&
-          <Sockets.PendingTxs render={({txs})=>{
-            return (<Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {isWatchOnly || txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>Cancel</Button>)
-          }}>
-          </Sockets.PendingTxs>
-            // <a onClick={cancel.bind(this, value, item)} className="color-blue-600 mr10 border-blue-300"
-            //                   style={{borderRadius: '2px', border: '1px solid', padding: '2px 5px'}} >Cancel</a>
-          }
+          {item.status === 'ORDER_OPENED' && <Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {isWatchOnly || txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>{intl.get('order.no')}</Button>}
             {notEnough &&
             <Popover arrowPointAtCenter placement="topRight" content={content}
                      title={

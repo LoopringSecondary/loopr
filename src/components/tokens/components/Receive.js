@@ -57,7 +57,7 @@ export default class Receive extends React.Component {
 
   render() {
     const address = window.WALLET.getAddress();
-    const {symbol} = this.state;
+    const {symbol,amount} = this.state;
     const copyToClipboard = (value) => {
       copy(value) ? Notification.open({
         message: intl.get('navbar.subs.copy_success'),
@@ -69,7 +69,7 @@ export default class Receive extends React.Component {
         <div className='text-center'>
           <div className='pt30 pb30 pr20 pl20'>
             <QRCode value={address} size={240}/>
-            {symbol && this.getNeeded() > 0  && <div className='fs3 color-black-1 mt10'>
+            {symbol && amount > 0 && this.getNeeded() > 0  && <div className='fs3 color-black-1 mt10'>
               {intl.get('token.recommended_value')} {this.getNeeded()} {symbol.toUpperCase()}
             </div>}
           </div>
