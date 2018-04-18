@@ -14,24 +14,25 @@ class TickersSocketContainer extends React.Component {
       fitlers:{},
     }
   }
+  responseHandler(res){
+    console.log('loopringTickers_res')
+    res = JSON.parse(res)
+    if(!res.error && res.data){
+      // filter support market
+      const supportMarket = res.data.filter(item=>{
+        return config.isSupportedMarket(item.market)
+      })
+      this.setState({
+        tickersByLoopring:supportMarket || [],
+        tickersOrigin:res.data,
+      })
+    }
+  }
   componentDidMount() {
     const { socket } = this.context
     if(socket){
-      socket.emit('loopringTickers_req','')
-      socket.on('loopringTickers_res', (res)=>{
-        console.log('loopringTickers_res')
-        res = JSON.parse(res)
-        if(!res.error && res.data){
-          // filter support market
-          const supportMarket = res.data.filter(item=>{
-            return config.isSupportedMarket(item.market)
-          })
-          this.setState({
-            tickersByLoopring:supportMarket || [],
-            tickersOrigin:res.data,
-          })
-        }
-      })
+      socket.emit('loopringTickers_req','',this.responseHandler.bind(this))
+      socket.on('loopringTickers_res',this.responseHandler.bind(this))
     }
     if (!socket) {
       console.log('socket not connected')

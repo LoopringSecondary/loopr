@@ -367,7 +367,7 @@ export default {
     bind_failed:"Bind Failed",
     loopring_on: "Loopring token on  {project}",
     neo: "NEO",
-    qutm: "QUTM",
+    qtum: "QTUM",
     unlock_tip: "How would you like to access your wallet",
     metamask: "MetaMask Wallet",
     trezor: "TREZOR",
