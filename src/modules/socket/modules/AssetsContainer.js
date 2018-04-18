@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import assetsAata from '../mocks/assets.json'
+
+const configTokens = window.CONFIG.getTokens()
+const configSymbols = configTokens.map(item=>item.symbol)
 
 class AssetsContainer extends React.Component {
   constructor(props, context) {
@@ -24,9 +26,10 @@ class AssetsContainer extends React.Component {
   responseHandler(res){
     console.log('balance_res')
     res = JSON.parse(res)
-    if(!res.error){
+    if(!res.error && res.data && res.data.tokens){
       this.setState({
-        assets:res.data.tokens,
+        // get intersection of server config & client config
+        assets:res.data.tokens.filter(token=>configSymbols.includes(token.symbol))
       })
     }
   }

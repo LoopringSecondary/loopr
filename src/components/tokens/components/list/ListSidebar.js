@@ -480,9 +480,15 @@ class ListSidebar extends React.Component {
     };
     otherTokens.sort(sorter);
     let sortedTokens = new Array()
-    sortedTokens.push(ethToken)
-    sortedTokens.push(wethToken)
-    sortedTokens.push(lrcToken)
+    if(ethToken){
+      sortedTokens.push(ethToken)
+    }
+    if(wethToken){
+      sortedTokens.push(wethToken)
+    }
+    if(lrcToken){
+      sortedTokens.push(lrcToken)
+    }
     sortedTokens = sortedTokens.concat(otherTokens)
 
     let formatedTokens = [...sortedTokens]
