@@ -58,9 +58,6 @@ const schema = [
       const price =  item.originalOrder.side.toLowerCase() === 'buy' ?
         toBig(item.originalOrder.amountS).div('1e'+tokenS.digits).div(toBig(item.originalOrder.amountB).div('1e'+tokenB.digits)).toFixed(market.pricePrecision) :
         toBig(item.originalOrder.amountB).div('1e'+tokenB.digits).div(toBig(item.originalOrder.amountS).div('1e'+tokenS.digits)).toFixed(market.pricePrecision);
-
-      console.log('Price: ',price);
-
       return window.uiFormatter.getFormatNum(price)
     }
   },
