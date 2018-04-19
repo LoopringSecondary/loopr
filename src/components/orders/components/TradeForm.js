@@ -359,18 +359,19 @@ class TradeForm extends React.Component {
     }
 
     function validateAmount(value) {
-      const amount = Number(value)
-      const price = Number(form.getFieldValue("price"))
-      if (amount <= 0) return false
-      if (side === 'sell') {
-        return amount <= tokenLBalance.balance
-      } else {
-        if (price > 0) {
-          return accMul(price, amount) <= tokenRBalance.balance
-        } else {
-          return true
-        }
-      }
+      // const amount = Number(value)
+      // const price = Number(form.getFieldValue("price"))
+      // if (amount <= 0) return false
+      // if (side === 'sell') {
+      //   return amount <= tokenLBalance.balance
+      // } else {
+      //   if (price > 0) {
+      //     return accMul(price, amount) <= tokenRBalance.balance
+      //   } else {
+      //     return true
+      //   }
+      // }
+      return value > 0
     }
 
     function validatePirce(value) {
