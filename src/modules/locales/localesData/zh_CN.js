@@ -462,7 +462,9 @@ export default {
       enter_password: "请输入一个密码来保护钱包",
       file_keystore: "文件",
       text_keystore: "文本",
-      qr_keystore: "二维码"
+      qr_keystore: "二维码",
+      leave_backup_page:"进入我的钱包",
+      confirm_to_leave_backup_page:"您确定要离开备份页面 ?",
     },
     token: "代币",
     title_metamask_account_change: "您切换了MetaMask账户",
