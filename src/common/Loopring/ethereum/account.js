@@ -53,9 +53,9 @@ export function publicKeytoAddress(publicKey, sanitize) {
  * @param chainCode
  * @param pageSize
  * @param pageNum
- * @returns {Promise.<Array>}
+ * @returns {<Array>}
  */
-export async function getAddresses({publicKey, chainCode, pageSize, pageNum}) {
+export function getAddresses({publicKey, chainCode, pageSize, pageNum}) {
   const addresses = [];
   const hdk = new HDKey();
   hdk.publicKey = new Buffer(publicKey, 'hex');

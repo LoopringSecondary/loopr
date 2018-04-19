@@ -1,6 +1,6 @@
-import {rawEncode, methodID} from 'ethereumjs-abi';
-import {toHex,clearHexPrefix} from "../../common/formatter";
-import every from 'lodash/every'
+import {rawEncode, methodID, rawDecode} from 'ethereumjs-abi';
+import {toHex, clearHexPrefix, toBuffer} from "../../common/formatter";
+import BN from 'bn.js'
 
 export default class AbiFunction {
 
@@ -14,9 +14,23 @@ export default class AbiFunction {
     this.methodAbiHash = toHex(methodID(name, this.inputTypes));
   }
 
+  /**
+   * @description Returns encoded methodId and inputs
+   * @param inputs Object, examples {owner:"0x000...}
+   * @returns {string}
+   */
   encodeInputs(inputs) {
-   const abiInputs = this.parseInputs(inputs);
-   return this.methodAbiHash + clearHexPrefix(toHex(rawEncode(this.inputTypes,abiInputs)))
+    const abiInputs = this.parseInputs(inputs);
+    return this.methodAbiHash + clearHexPrefix(toHex(rawEncode(this.inputTypes, abiInputs)))
+  }
+
+  /**
+   * @description decode ethereum jsonrpc response result
+   * @param outputs
+   * @returns {*}
+   */
+  decodeOutputs(outputs) {
+    return this.parseOutputs(rawDecode(this.outputTypes, toBuffer(outputs)));
   }
 
   parseInputs(inputs) {
@@ -25,6 +39,15 @@ export default class AbiFunction {
         throw new Error(`Parameter ${name} of type ${type} is required!`)
       }
       return inputs[name];
+    })
+  }
+
+  parseOutputs(outputs) {
+    outputs.map(output => {
+      if(output instanceof BN){
+        return toHex(output)
+      }
+      return output;
     })
   }
 }
