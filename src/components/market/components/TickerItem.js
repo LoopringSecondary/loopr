@@ -6,60 +6,9 @@ import TickerListTabs from './TickerListTabs'
 import Sockets from '../../../modules/socket/containers'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
+import TickerTrend from 'Loopr/TickerTrend'
 
-let fm = {}
-fm.getVolume = (value)=>{
-  value = Number(value)
-  if(value>1000){
-    return value.toFixed(0)
-  }
-  if(value<=1000 && value>=100){
-    return value.toFixed(1)
-  }
-  if(value<=100 && value>=1){
-    return value.toFixed(2)
-  }
-  if(value<1 && value>=0.001){
-    return value.toFixed(5)
-  }
-  if(value<0.001 & value>0){
-    return value.toFixed(8)
-  }
-  if(value===0){
-    return '0.00'
-  }
-  if(!!value){
-    return '0.00'
-  }
-}
-fm.getPrice = (value)=>{
-  value = Number(value)
-  switch (true) {
-    case value>1000:
-      value = value.toFixed(2)
-      break;
-    case value<=1000 && value>=1:
-      value = value.toFixed(2)
-      break;
-    case value<1 && value>=0.01:
-      value = value.toFixed(5)
-      break;
-    case value<0.01 && value>0:
-      value = value.toFixed(8)
-      break;
-    default:
-      value = '0.00'
-      break;
-  }
-  return value
-}
-fm.getChange = (value)=>{
-  if(value){
-    return value
-  }else{
-    return '0.00%'
-  }
-}
+const fm = window.uiFormatter.TickerFormatter
 
 class TickerHeader extends React.Component {
   constructor(props) {
@@ -93,7 +42,6 @@ class TickerHeader extends React.Component {
               !favors[pair] &&
             <Icon onClick={tickers.toggleFavor} className="fs16 color-white pointer" type="star-o" />
             }
-
           </div>
           <div className="col">
             <div className="fs16 color-white">{pair}</div>
@@ -140,7 +88,11 @@ class LooprTicker extends React.Component {
                <NumberCaption title={`24H ${intl.get('ticker.last')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.last)} {priceValue}</div>} />
              </div>
              <div className="col-auto">
-              <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={<span style={{fontcolor:'#00E831'}}>{fm.getChange(ticker.change)}</span>} />
+              <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={
+                <TickerTrend side={fm.getChangeSide(ticker.change)}>
+                  {fm.getChange(ticker.change)}
+                </TickerTrend>
+              } />
              </div>
              <div className="col-auto">
               <NumberCaption title={`24H ${intl.get('ticker.low')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.low)}</div>} />
