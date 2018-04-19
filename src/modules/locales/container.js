@@ -6,9 +6,10 @@ import en_US from 'antd/lib/locale-provider/en_US';
 const antdLocales = {zh_CN,en_US}
 
 const Locales = ({ history,locales={},children})=>{
+  const antLocale  = locales.locale.replace('-',"_");
     const antdProps = {
-      locale:antdLocales[locales.locale],
-    }
+      locale:antdLocales[antLocale],
+    };
     return (
       <LocaleProvider {...antdProps}>
         {children}
