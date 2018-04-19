@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'dva/router';
-import { Modal, Button,Icon,Alert } from 'antd';
+import { Modal, Button,Icon,Alert, Steps } from 'antd';
 import MetaMaskUnlockAccount from '../../../modules/account/MetaMaskUnlockAccount'
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
@@ -13,7 +13,8 @@ class UnlockByMetaMask extends React.Component {
     loading: false,
     browserType: '',
     browserSupported: false,
-    disableContent:''
+    metamaskState:'',
+    visible:false
   };
 
   componentDidMount() {
@@ -27,15 +28,15 @@ class UnlockByMetaMask extends React.Component {
     } else {
       this.setState({browserType:'Others'})
     }
-    let disableContent = ''
+    let metamaskState = ''
     if(window.web3){
       if(!window.web3.eth.accounts[0]) { // locked
-        disableContent = intl.get('wallet.content_metamask_locked_title')
+        metamaskState = 'locked'
       }
     } else { // to install
-      disableContent = intl.get('wallet.content_metamask_install_title')
+      metamaskState = 'uninstall'
     }
-    this.setState({disableContent: disableContent})
+    this.setState({metamaskState: metamaskState})
   }
 
   connectToMetamask = () => {
@@ -122,6 +123,31 @@ class UnlockByMetaMask extends React.Component {
 
   render() {
     const {loading} = this.state;
+
+    const openToRefresh = () => {
+      if(this.state.metamaskState === 'uninstall') {
+        switch(this.state.browserType) {
+          case 'Opera': window.open("https://addons.opera.com/extensions/details/metamask/"); break;
+          case 'Chrome': window.open("https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn"); break;
+          case 'Firefox': window.open("https://addons.mozilla.org/firefox/addon/ether-metamask/"); break;
+          default: return
+        }
+      }
+      this.setState({
+        visible: true,
+      });
+    }
+
+    const hideModal = () => {
+      this.setState({
+        visible: false,
+      });
+    }
+
+    const refresh = () => {
+      window.location.reload()
+    }
+
     return (
       <div className="text-left">
         <Alert
@@ -134,6 +160,21 @@ class UnlockByMetaMask extends React.Component {
           type="success"
           showIcon={false}
         />
+        <Modal
+          title={intl.get('wallet.metamask_unlock_steps_title')}
+          visible={this.state.visible}
+          maskClosable={false}
+          onOk={refresh}
+          onCancel={hideModal}
+          okText={intl.get('wallet.metamask_unlock_refresh_button')}
+          cancelText={intl.get('wallet.metamask_unlock_cancel_button')}
+        >
+          <Steps direction="vertical">
+            {this.state.metamaskState === 'uninstall' && <Steps.Step status="process" title={intl.get('wallet.metamask_unlock_step_install_title')} description={intl.get('wallet.metamask_unlock_step_install_content')} />}
+            <Steps.Step status="process" title={intl.get('wallet.metamask_unlock_step_unlock_title')} description={intl.get('wallet.metamask_unlock_step_unlock_content')} />
+            <Steps.Step status="process" title={intl.get('wallet.metamask_unlock_step_refresh_title')} description={intl.get('wallet.metamask_unlock_step_refresh_content')} />
+          </Steps>
+        </Modal>
         {this.state.browserSupported && this.state.browserType === "Chrome" &&
           <div>
             <div className="color-grey-500 fs14 mb10 mt15">
@@ -169,10 +210,13 @@ class UnlockByMetaMask extends React.Component {
             <Icon type="export" className="mr5 fs14" /><a href="https://www.google.com/chrome/" target="_blank">{intl.get('wallet.download_chrome')}</a>
           </div>
         }
-        {this.state.browserSupported && this.state.disableContent &&
-          <Button type="primary" className="d-block w-100" size="large" disabled>{this.state.disableContent}</Button>
+        {this.state.browserSupported && this.state.metamaskState === 'locked' &&
+          <Button type="primary" className="d-block w-100" size="large" onClick={openToRefresh}>{intl.get('wallet.metamask_to_unlock')}</Button>
         }
-        {this.state.browserSupported && !this.state.disableContent &&
+        {this.state.browserSupported && this.state.metamaskState === 'uninstall' &&
+        <Button type="primary" className="d-block w-100" size="large" onClick={openToRefresh}>{intl.get('wallet.metamask_to_install')}</Button>
+        }
+        {this.state.browserSupported && !this.state.metamaskState &&
         <Button type="primary" className="d-block w-100" size="large" onClick={this.connectToMetamask} loading={loading}>{intl.get('wallet.connect_to_metamask')}</Button>
         }
         {!this.state.browserSupported &&
