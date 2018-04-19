@@ -12,17 +12,17 @@ const LoopringProtocol = new Contract(loopringProtocolAbi);
 
 const encodeCancelOrder = (signedOrder, amount) => {
   const {
-    owner, tokenS, tokenB, authAddr,
+    owner, tokenS, tokenB, walletAddress,authAddr,
     amountS, amountB, validSince, validUntil, lrcFee,
-    buyNoMoreThanAmountB, walletId,
+    buyNoMoreThanAmountB,
     marginSplitPercentage,
     v,
     r,
     s
   } = signedOrder;
-  const addresses = [owner, tokenS, tokenB, authAddr];
+  const addresses = [owner, tokenS, tokenB, walletAddress,authAddr];
   amount = amount || (buyNoMoreThanAmountB ? amountB : amountS);
-  const orderValues = [amountS, amountB, validSince, validUntil, lrcFee, walletId, amount];
+  const orderValues = [amountS, amountB, validSince, validUntil, lrcFee, amount];
   return LoopringProtocol.encodeInputs('cancelOrder',{addresses, orderValues, buyNoMoreThanAmountB, marginSplitPercentage, v, r, s});
 };
 
