@@ -12,7 +12,7 @@
   "bindContractAddress": "0x87ab705372cb463c967d396ee2cb2b25da0efb7e",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
-  "localStorageVersion":201804191645,
+  "localStorageVersion":201804191646,
   "walletAddress":"0xa44282db26ec80c6cfdd748ec09f386a64d645bd",
   "contracts": [
     {

@@ -52,8 +52,8 @@ const schema = [
     title: () => intl.get('orders.price'),
     name: 'price',
     formatter: (item) => {
-      const tokenB = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB)|| {digits: 18, precision: 6};
-      const tokenS = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS)||{digits: 18, precision: 6};
+      const tokenB = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB);
+      const tokenS = window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS);
       const market = window.CONFIG.getMarketBySymbol(item.originalOrder.tokenB,item.originalOrder.tokenS);
       const price =  item.originalOrder.side.toLowerCase() === 'buy' ?
         toBig(item.originalOrder.amountS).div('1e'+tokenS.digits).div(toBig(item.originalOrder.amountB).div('1e'+tokenB.digits)).toFixed(market.pricePrecision) :
