@@ -50,7 +50,7 @@ class TradeConfirm extends React.Component {
     order.validUntil = toHex(Math.ceil(start / 1e3) + Number(timeToLive));
     order.marginSplitPercentage = Number(marginSplit);
     order.buyNoMoreThanAmountB = side.toLowerCase() === "buy";
-    order.walletId = window.CONFIG.getWalletAddress();
+    order.walletAddress = window.CONFIG.getWalletAddress();
     const authAccount = create('');
     order.authAddr = authAccount.address;
     order.authPrivateKey = authAccount.privateKey;
