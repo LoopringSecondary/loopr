@@ -3,9 +3,8 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Card,Tabs,Icon,Popover,Input } from 'antd';
 import intl from 'react-intl-universal';
-
-// TickersTable
-// TickersTabs
+import TickerTrend from 'Loopr/TickerTrend'
+const tickerFm = window.uiFormatter.TickerFormatter
 
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
@@ -71,7 +70,6 @@ const TickerTable = (props)=>{
           {
             items.length>0 && items.map((item,index)=>
               <tr key={index}>
-
                 <td className="fs12 border-0 ">
                   {
                     favors[item.market] &&
@@ -83,8 +81,16 @@ const TickerTable = (props)=>{
                   }
                   <a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a>
                 </td>
-                <td className="fs12 border-0 color-green-600">{item.last || 0}</td>
-                <td className="fs12 border-0 color-green-600">{item.change || 0}</td>
+                <td className="fs12 border-0 ">
+                <TickerTrend side={tickerFm.getChangeSide(item.change)}>
+                  {item.last || 0.00}
+                </TickerTrend>
+                </td>
+                <td className="fs12 border-0 ">
+                  <TickerTrend side={tickerFm.getChangeSide(item.change)}>
+                    {item.change || 0}
+                  </TickerTrend>
+                </td>
                 <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
               </tr>
             )

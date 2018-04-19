@@ -53,17 +53,19 @@ fm.getChange = (value)=>{
 }
 
 fm.getChangeSide = (value)=>{
-  if(!value){
-    return 'none'
-  }
+  value = fm.getChange(value)
   const change = value.replace('%','')
 
-  if(value && Number(change)>0){
+  if(Number(change)>0){
     return 'up'
   }
-  if(value && Number(change)<0){
+  if(Number(change)<0){
     return 'down'
   }
+  if(Number(change) == 0){
+    return 'none'
+  }
+
 }
 
 export default fm

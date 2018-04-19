@@ -89,7 +89,7 @@ class LooprTicker extends React.Component {
              </div>
              <div className="col-auto">
               <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={
-                <TickerTrend side={fm.getChangeSide(ticker.change)}>
+                <TickerTrend mode="nocolor" side={fm.getChangeSide(ticker.change)}>
                   {fm.getChange(ticker.change)}
                 </TickerTrend>
               } />
@@ -126,7 +126,11 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
             </div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs14" style={{color:'#1DB427'}}>{ticker.change}</div>
+            <div className="fs14">
+              <TickerTrend side={fm.getChangeSide(ticker.change)}>
+                {fm.getChange(ticker.change)}
+              </TickerTrend>
+            </div>
             <div className="fs14 color-black-3 ">24H {intl.get('ticker.change')}</div>
           </div>
           <div className="col-auto text-right">
