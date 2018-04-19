@@ -170,9 +170,9 @@ class UnlockByMetaMask extends React.Component {
           cancelText={intl.get('wallet.metamask_unlock_cancel_button')}
         >
           <Steps direction="vertical">
-            {this.state.metamaskState === 'uninstall' && <Steps.Step title={intl.get('wallet.metamask_unlock_step_install_title')} description={intl.get('wallet.metamask_unlock_step_install_content')} />}
-            <Steps.Step title={intl.get('wallet.metamask_unlock_step_unlock_title')} description={intl.get('wallet.metamask_unlock_step_unlock_content')} />
-            <Steps.Step title={intl.get('wallet.metamask_unlock_step_refresh_title')} description={intl.get('wallet.metamask_unlock_step_refresh_content')} />
+            {this.state.metamaskState === 'uninstall' && <Steps.Step status="process" title={intl.get('wallet.metamask_unlock_step_install_title')} description={intl.get('wallet.metamask_unlock_step_install_content')} />}
+            <Steps.Step status="process" title={intl.get('wallet.metamask_unlock_step_unlock_title')} description={intl.get('wallet.metamask_unlock_step_unlock_content')} />
+            <Steps.Step status="process" title={intl.get('wallet.metamask_unlock_step_refresh_title')} description={intl.get('wallet.metamask_unlock_step_refresh_content')} />
           </Steps>
         </Modal>
         {this.state.browserSupported && this.state.browserType === "Chrome" &&
