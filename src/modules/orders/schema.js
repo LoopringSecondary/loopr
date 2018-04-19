@@ -65,7 +65,7 @@ const schema = [
     title: () => intl.get('orders.total'),
     name: 'total',
     formatter: (item) => {
-      const side = item.originalOrder.side.toLowerCase()
+      const side = item.originalOrder.side.toLowerCase();
       const tokenS = item.originalOrder.tokenS;
       const tokenB = item.originalOrder.tokenB;
       const amountS = item.originalOrder.amountS;
