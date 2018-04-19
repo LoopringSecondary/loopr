@@ -7,7 +7,7 @@
   "defaultGasLimit": "0x15f90",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
-  "delegateAddress": "0x1eb0c006f99871ef7608c5c4725b540f7923b7f5",
+  "delegateAddress": "0x768ba25e13f212a0841610b0baecffc322e6b096",
   "chainId": 7107171,
   "bindContractAddress": "0x87ab705372cb463c967d396ee2cb2b25da0efb7e",
   "minimumLrcfeeInEth":0.00045,
@@ -16,7 +16,7 @@
   "walletAddress":"0xa44282db26ec80c6cfdd748ec09f386a64d645bd",
   "contracts": [
     {
-      "address": "0x241c2021a640e6a5f7f744ba3dab4a55e041546b",
+      "address": "0x2120475fbee40e84c801aded7b26aad7ddab03df",
       "version": "v1.5"
     }
   ],
