@@ -8,7 +8,7 @@ let headers = {
 }
 export async function getFills(filter){
   try {
-    await validator.validate({value: filter.contractVersion, type: 'STRING'})
+    await validator.validate({value: filter.delegateAddress, type: 'ADDRESS'})
     await validator.validate({value: filter.pageIndex, type: 'OPTION_NUMBER'})
     await filter.market && validator.validate({value: filter.market, type: 'STRING'})
     await filter.owner && validator.validate({value: filter.owner, type: 'STRING'})
