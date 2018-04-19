@@ -24,9 +24,11 @@ function request(host, options) {
       } else {
         options.body.id =  options.body.id || id();
       }
-      options.body = JSON.stringify(options.body);
+     // options.body = JSON.stringify(options.body);
     }
-    return fetch(host, options).then(res => res.json())
+    return fetch(host, options).then(res => res.json()).catch((e)=>{
+      return {error:e.message}
+    })
   }catch(e){
     return new Promise((resolve)=>{
       resolve({"error":e.message})
