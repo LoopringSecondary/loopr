@@ -13,7 +13,7 @@
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0xeba7136a36da0f5e16c6bdbc739c716bb5b65a00",
   "localStorageVersion":201804172039,
-  "walletAddress":"",
+  "walletAddress":"0xb94065482ad64d4c2b9252358d746b39e820a582",
   "contracts": [
     {
       "address": "0xb1170dE31c7f72aB62535862C97F5209E356991b",
