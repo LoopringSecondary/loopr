@@ -371,7 +371,7 @@ export default {
     qtum: "QTUM",
     unlock_tip: "How would you like to access your wallet",
     metamask: "MetaMask Wallet",
-    trezor: "TREZOR",
+    trezor: "TREZOR Wallet",
     ledger: "Ledger Wallet",
     keystore: "Keystore File",
     privateKey: "Private Key",

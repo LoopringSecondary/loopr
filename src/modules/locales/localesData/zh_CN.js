@@ -375,7 +375,7 @@ export default {
     qtum: "QTUM",
     unlock_tip: "您将怎么样解锁使用钱包",
     metamask: "MetaMask 钱包",
-    trezor: "TREZOR",
+    trezor: "TREZOR 钱包",
     ledger: "Ledger 钱包",
     keystore: "Keystore 文件",
     privateKey: "私钥",

@@ -7,17 +7,64 @@
   "defaultGasLimit": "0x15f90",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
-  "delegateAddress": "0x7b126ab811f278f288bf1d62d47334351dA20d1d",
+  "delegateAddress": "0x5567ee920f7E62274284985D793344351A00142B",
   "chainId": 1,
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0xeba7136a36da0f5e16c6bdbc739c716bb5b65a00",
-  "localStorageVersion":201804172039,
+  "localStorageVersion":201804192345,
   "walletAddress":"0xb94065482ad64d4c2b9252358d746b39e820a582",
   "contracts": [
     {
       "address": "0xb1170dE31c7f72aB62535862C97F5209E356991b",
       "version": "v1.5"
+    }
+  ],
+  "langs": [
+    {
+      "value": "en",
+      "label": "English"
+    },
+    {
+      "value": "zh",
+      "label": "中文"
+    }
+  ],
+  "fiat": [
+    {
+      "value": "usd",
+      "label": "USD"
+    },
+    {
+      "value": "cny",
+      "label": "CNY"
+    }
+  ],
+  "relays": [
+    {
+      "value": "//relay1.loopring.io",
+      "name": "Default Loopring Relay"
+    },
+    {
+      "value": "//13.231.66.20",
+      "name": "Pre-Production"
+    },
+    {
+      "value": "//13.231.66.20",
+      "name": "Pre-Production"
+    }
+  ],
+  "supportedTokenRInMarkets":["WETH", "BAR"],
+  "markets": [
+    {
+      "tokenx": "LRC",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "FOO",
+      "tokeny": "BAR",
+      "pricePrecision": 4
     }
   ],
   "txs": [
@@ -895,49 +942,6 @@
       "allowanceWarn": "5",
       "precision": 6,
       "minTradeValue": 0.001
-    }
-  ],
-  "langs": [
-    {
-      "value": "en",
-      "label": "English"
-    },
-    {
-      "value": "zh",
-      "label": "中文"
-    }
-  ],
-  "fiat": [
-    {
-      "value": "usd",
-      "label": "USD"
-    },
-    {
-      "value": "cny",
-      "label": "CNY"
-    }
-  ],
-  "relays": [
-    {
-      "value": "//relay1.loopring.io",
-      "name": "Default Loopring Relay"
-    },
-    {
-      "value": "//13.231.66.20",
-      "name": "Developmoent"
-    }
-  ],
-  "supportedTokenRInMarkets":["WETH", "BAR"],
-  "markets": [
-    {
-      "tokenx": "LRC",
-      "tokeny": "WETH",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "FOO",
-      "tokeny": "BAR",
-      "pricePrecision": 4
     }
   ],
   "whiteList": [
