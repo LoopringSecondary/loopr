@@ -13,19 +13,25 @@ const headers = {
  * @returns {Promise}
  */
 function request(host, options) {
-  if (options.body) {
-    options.headers = options.headers || headers;
-    if (_.isArray(options.body)) {
-      options.body = options.body.map(option => {
-        option.id = option.id  || id();
-        return option;
-      });
-    } else {
-      options.body.id =  options.body.id || id();
+  try{
+    if (options.body) {
+      options.headers = options.headers || headers;
+      if (_.isArray(options.body)) {
+        options.body = options.body.map(option => {
+          option.id = option.id  || id();
+          return option;
+        });
+      } else {
+        options.body.id =  options.body.id || id();
+      }
+      options.body = JSON.stringify(options.body);
     }
-    options.body = JSON.stringify(options.body);
+    return fetch(host, options).then(res => res.json())
+  }catch(e){
+    return new Promise((resolve)=>{
+      resolve({"error":e.message})
+    })
   }
-  return fetch(host, options).then(res => res.json())
 }
 
 /**
