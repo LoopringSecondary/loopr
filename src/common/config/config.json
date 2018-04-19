@@ -4,7 +4,7 @@
   "defaultLrcFeePermillage": 2,
   "defaultGasPrice": 21,
   "defaultMarginSplitPercentage": 50,
-  "defaultGasLimit": "0x15f90",
+  "defaultGasLimit": "0x1adb0",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
   "delegateAddress": "0x5567ee920f7E62274284985D793344351A00142B",
@@ -12,7 +12,7 @@
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0xeba7136a36da0f5e16c6bdbc739c716bb5b65a00",
-  "localStorageVersion":201804192345,
+  "localStorageVersion":201804200110,
   "walletAddress":"0xb94065482ad64d4c2b9252358d746b39e820a582",
   "contracts": [
     {
@@ -90,7 +90,7 @@
     },
     {
       "type":"cancelOrder",
-      "gasLimit":"0x15f90"
+      "gasLimit":"0x1adb0"
     },
     {
       "type":"cancelAllOrder",
