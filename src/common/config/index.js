@@ -140,6 +140,14 @@ function getGasLimitByType(type) {
 
 }
 
+function getWalletAddress() {
+  return config.walletAddress
+}
+
+function getDelegateAddress() {
+  return config.delegateAddress;
+}
+
 
 export default {
   getTokenBySymbol,
@@ -158,4 +166,6 @@ export default {
   getMarketsByTokenR,
   getTokenSupportedMarket,
   getMarkets,
+  getWalletAddress,
+  getDelegateAddress
 }
