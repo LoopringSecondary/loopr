@@ -7,16 +7,17 @@
   "defaultGasLimit": "0x15f90",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
-  "delegateAddress": "0x2d29a61ab2448a14739131b4d556f5d405024f1b",
+  "delegateAddress": "0x768ba25e13f212a0841610b0baecffc322e6b096",
   "chainId": 7107171,
   "bindContractAddress": "0x87ab705372cb463c967d396ee2cb2b25da0efb7e",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
-  "localStorageVersion":201804111645,
+  "localStorageVersion":201804191646,
+  "walletAddress":"0xa44282db26ec80c6cfdd748ec09f386a64d645bd",
   "contracts": [
     {
-      "address": "0x13d8d3c7318b118b28ed810e15f1a7b9bea46faa",
-      "version": "v1.4"
+      "address": "0x2120475fbee40e84c801aded7b26aad7ddab03df",
+      "version": "v1.5"
     }
   ],
   "txs": [

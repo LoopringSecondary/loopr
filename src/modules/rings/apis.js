@@ -10,7 +10,7 @@ export async function fetchList(payload){
       filter.pageIndex = page.current
       filter.pageSize = page.size
     }
-    filter.contractVersion = window.STORAGE.settings.getContractVersion()
+    filter.delegateAddress = window.CONFIG.getDelegateAddress()
     return getRings(filter).then(res=>{
       return {
         items:res.result.data,

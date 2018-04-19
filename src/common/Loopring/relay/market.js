@@ -43,7 +43,7 @@ export async function getSupportedMarket() {
 
 export async function getDepth(filter) {
   try {
-    await validator.validate({value: filter.contractVersion, type: 'STRING'})
+    await validator.validate({value: filter.delegateAddress, type: 'ADDRESS'})
     await validator.validate({value: filter.market, type: 'STRING'})
     await validator.validate({value: filter.length, type: 'OPTION_NUMBER'})
   } catch (e) {
@@ -62,7 +62,7 @@ export async function getDepth(filter) {
 
 export async function getTicker(filter) {
   try {
-    await validator.validate({value: filter.contractVersion, type: 'STRING'});// contractVersion
+    await validator.validate({value: filter.delegateAddress, type: 'ADDRESS'});// contractVersion
   } catch (e) {
     console.error(e)
     return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)

@@ -16,9 +16,9 @@ class AssetsContainer extends React.Component {
     if(nextProps.address !== this.props.address){
       const { socket } = this.context
       const options = {
-        "contractVersion" :  window.STORAGE.settings.getContractVersion(),
+        "delegateAddress" :window.CONFIG.getDelegateAddress(),
         "owner":nextProps.address,
-      }
+      };
       socket.emit('balance_req',JSON.stringify(options),this.responseHandler.bind(this))
     }
     return true // to make sure the parent container's render
@@ -38,7 +38,7 @@ class AssetsContainer extends React.Component {
     if(socket){
       if(this.props.address){ // fix bug: trade page not unclock wallet
         const options = {
-          "contractVersion" : window.STORAGE.settings.getContractVersion(),
+          "delegateAddress" :window.CONFIG.getDelegateAddress(),
           "owner":this.props.address,
         }
         socket.emit('balance_req',JSON.stringify(options),this.responseHandler.bind(this))
