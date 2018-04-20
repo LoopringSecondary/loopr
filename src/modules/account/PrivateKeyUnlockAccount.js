@@ -24,11 +24,12 @@ export default class PrivateKeyUnlockAccount extends Account {
 
   async sendTransaction(tx) {
     let newTx = new Transaction(tx)
-    await newTx.complete()
+    await newTx.complete();
     const ethTx = new EthTransaction(newTx.raw);
     ethTx.sign(toBuffer(addHexPrefix(this.privateKey)));
     const signed = toHex(ethTx.serialize());
-    return await newTx.sendRawTx(signed)
+    const response =  await newTx.sendRawTx(signed)
+    return {response,rawTx:newTx.raw}
   }
 
   download(password,mime) {

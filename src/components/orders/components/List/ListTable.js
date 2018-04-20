@@ -53,16 +53,16 @@ class  ListBlock extends React.Component{
             gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder').gasLimit : configs['defaultGasLimit'],
             protocolAddress: contractAddress,
           });
-          window.WALLET.sendTransaction(tx).then((res) => {
-            if (!res.error) {
-             // window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
+          window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
+            if (!response.error) {
+             // window.STORAGE.transactions.addTx({hash: response.result, owner: account.address});
               window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
-              notifyTransactionSubmitted(res.result).then(() => {
+              notifyTransactionSubmitted({txHash:response.result,rawTx,from :window.WALLET.getAddress()}).then(() => {
                 reEmitPendingTransaction()
               });
-              Notification.open({message: intl.get('order.cancel_order_success'), type: "success",description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${res.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
+              Notification.open({message: intl.get('order.cancel_order_success'), type: "success",description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
             } else {
-              Notification.open({message: intl.get('order.cancel_order_failed'), type: "error", description:res.error.message})
+              Notification.open({message: intl.get('order.cancel_order_failed'), type: "error", description:response.error.message})
             }
           })
         },

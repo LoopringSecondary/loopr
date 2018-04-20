@@ -59,7 +59,7 @@ class AirdropBind extends React.Component {
           gasPrice: toHex(tradingConfig.gasPrice * 1e9),
           nonce: toHex(nonce)
         });
-        window.WALLET.sendTransaction(tx).then(response => {
+        window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
           if (response.error) {
             Notification.open({
               message: intl.get('wallet.bind_success'),
@@ -74,7 +74,7 @@ class AirdropBind extends React.Component {
             });
             //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
             window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
-            notifyTransactionSubmitted(response.result);
+            notifyTransactionSubmitted({txHash:response.result,rawTx,from:window.WALLET.getAddress()});
             _this.setState({address: null, project: null});
             modal.hideModal({id: 'wallet/bind'});
             //  modal.hideModal({id: 'wallet/airdrop'});
@@ -98,7 +98,7 @@ class AirdropBind extends React.Component {
       gasPrice: toHex(tradingConfig.gasPrice * 1e9),
       nonce: toHex(nonce)
     });
-    window.WALLET.sendTransaction(tx).then(response => {
+    window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
       if (response.error) {
         Notification.open({
           message: intl.get('wallet.bind_success'),
@@ -113,7 +113,7 @@ class AirdropBind extends React.Component {
         });
         //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
         window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
-        notifyTransactionSubmitted(response.result);
+        notifyTransactionSubmitted({txHash:response.result,rawTx,from:window.WALLET.getAddress()});
         this.setState({address: null, project: null});
         page.onClose();
         // modal.hideModal({id: 'wallet/bind'});

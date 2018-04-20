@@ -79,9 +79,10 @@ export default class TrezorUnlockAccount extends Account {
   async sendTransaction(tx) {
     let newTx = new Transaction(tx)
     await newTx.complete();
-    const signed = await this.signTx(newTx.raw)
+    const signed = await this.signTx(newTx.raw);
     if (signed.result) {
-      return await newTx.sendRawTx(toHex(signed.result))
+      const response = await newTx.sendRawTx(toHex(signed.result));
+      return {response,rawTX:newTx.raw}
     } else {
       throw new Error(signed.error)
     }

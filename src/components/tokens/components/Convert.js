@@ -78,20 +78,20 @@ class Convert extends React.Component {
             } else {
               return withdraw(values.amount, nonce)
             }
-          }).then(res=>{
-            if (res.error) {
+          }).then(({response,rawTx})=>{
+            if (response.error) {
               Notification.open({
                 message:intl.get('token.convert_failed'),
-                description:res.error.message,
+                description:response.error.message,
                 type:'error'
               })
               // _this.setState({errorMsg: res.error.message})
             } else {
-              window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+            //  window.STORAGE.transactions.addTx({hash: response.result, owner: account.address})
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce})
-              notifyTransactionSubmitted(res.result);
-              modal.hideModal({id:'token/convert'})
-              const result = {extraData:{txHash:res.result, amount:values.amount, price:price.price, tokenSymbol:selectedToken.symbol, pageFrom:'Convert'}}
+              notifyTransactionSubmitted({txHash:response.result,rawTx,from:window.WALLET.getAddress()});
+              modal.hideModal({id:'token/convert'});
+              const result = {extraData:{txHash:response.result, amount:values.amount, price:price.price, tokenSymbol:selectedToken.symbol, pageFrom:'Convert'}}
               //modal.showModal({id:'token/transfer/result', result})
               const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${math.accMul(result.extraData.amount, result.extraData.price).toFixed(2)}`
               Notification.open({
