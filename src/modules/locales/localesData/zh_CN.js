@@ -9,9 +9,9 @@ export default {
     wallet:"钱包",
   },
   version:{
-    label:'体验版',
-    title:'抢先体验版（非正式版）',
-    description:'感谢您对路印钱包的提前关注和体验，钱包的进步离不开您的支持和帮助。',
+    label:'Beta2',
+    title:'Beta2（仅对超前的测试者开放）',
+    description:'Loopr是开源的，非托管的以太坊钱包。请谨慎的测试，路印基金会不会承担您任何数字资产的损失。',
     extra:'体验版在持续优化完善，更新发布比较频繁，遇到各种问题，请大家体谅',
     feedback:'问题反馈',
     feedback_submit:'提交问题',
