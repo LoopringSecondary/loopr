@@ -3,8 +3,8 @@
     "path": "m/44'/60'/0'/0",
     "wallet": [
       "Loopring Wallet",
-      "MetaMask",
       "imtoken",
+      "MetaMask",
       "TREZOR (ETH)",
       "Digital Bitbox",
       "Exodus",
