@@ -5,17 +5,18 @@ import {Button, Icon, Input, Popover, Tooltip} from 'antd';
 import './ListSidebar.less'
 import * as fm from '../../../../common/Loopring/common/formatter'
 import CurrencyContainer from '../../../../modules/settings/CurrencyContainer';
-import {toNumber,toBig} from "Loopring/common/formatter";
+import {toNumber, toBig} from "Loopring/common/formatter";
 import CoinIcon from '../../../common/CoinIcon'
 import intl from 'react-intl-universal'
 import Token from 'Loopring/ethereum/token'
 import config from '../../../../common/config'
 import Notification from 'Loopr/Notification'
 
+
 class ListSidebar extends React.Component {
 
-  state={
-    customTokens:[]
+  state = {
+    customTokens: []
   };
 
   loadBalance = (item) => {
@@ -24,20 +25,20 @@ class ListSidebar extends React.Component {
       if (!res.error) {
         const {customTokens} = this.state;
         const filteredToken = customTokens.filter(ele => ele.address !== item.address);
-        filteredToken.push({...item,balance:toBig(res.result).div('1e'+item.digits)});
-        this.setState({customTokens:filteredToken});
+        filteredToken.push({...item, balance: toBig(res.result).div('1e' + item.digits)});
+        this.setState({customTokens: filteredToken});
       }
     })
   };
 
-  getbalance =(item) => {
-   return this.state.customTokens.find(ele => ele.address === item.address)
+  getbalance = (item) => {
+    return this.state.customTokens.find(ele => ele.address === item.address)
   };
 
   componentDidMount() {
     const {selectedToken, LIST, actions, dispatch} = this.props;
     let {selected = {}} = LIST
-    if(selectedToken) {
+    if (selectedToken) {
       let new_selected = {}
       for (let key in selected) {
         new_selected[key] = false
@@ -51,7 +52,7 @@ class ListSidebar extends React.Component {
       dispatch({
         type: 'transactions/filtersChange',
         payload: {
-          filters: {token:selectedToken}
+          filters: {token: selectedToken}
         }
       })
     }
@@ -95,7 +96,7 @@ class ListSidebar extends React.Component {
       e.stopPropagation()
       showModal({
         id: 'token/receive',
-        symbol:item.symbol.toUpperCase(),
+        symbol: item.symbol.toUpperCase(),
       })
     };
     const gotoConvert = (item) => {
@@ -107,23 +108,23 @@ class ListSidebar extends React.Component {
     }
     const isSupportToTrade = (token) => {
       const supportedToken = config.getSupportedMarketsTokenR()
-      if(supportedToken) {
+      if (supportedToken) {
         let foundMarket = ''
-        if(supportedToken.includes(token)) {
+        if (supportedToken.includes(token)) {
           const markets = config.getMarketsByTokenR(token)
-          if(markets) {
+          if (markets) {
             foundMarket = markets[0].tokenx + "-" + markets[0].tokeny
           }
         } else {
-          const tokenR = supportedToken.find((x,i) =>{
+          const tokenR = supportedToken.find((x, i) => {
             const market = token + "-" + x
-            if(config.isSupportedMarket(market)) {
+            if (config.isSupportedMarket(market)) {
               return true
             }
           })
-          if(tokenR) foundMarket = token + "-" + tokenR
+          if (tokenR) foundMarket = token + "-" + tokenR
         }
-        if(foundMarket) {
+        if (foundMarket) {
           return true
         }
       }
@@ -131,14 +132,14 @@ class ListSidebar extends React.Component {
     }
     const gotoTrade = (item) => {
       const foundMarket = config.getTokenSupportedMarket(item.symbol)
-      if(foundMarket) {
-        window.routeActions.gotoPath('/trade/'+foundMarket)
+      if (foundMarket) {
+        window.routeActions.gotoPath('/trade/' + foundMarket)
         return
       }
       Notification.open({
-        type:'warning',
-        message:intl.get('trade.not_supported_token_to_trade_title', {token:item.symbol}),
-        description:intl.get('trade.not_supported_token_to_trade_content')
+        type: 'warning',
+        message: intl.get('trade.not_supported_token_to_trade_title', {token: item.symbol}),
+        description: intl.get('trade.not_supported_token_to_trade_content')
       });
     }
 
@@ -201,7 +202,7 @@ class ListSidebar extends React.Component {
       })
     }
     const TokenListAcionsBar = (
-      <div className="row zb-b-b p15 pl10 pr10 no-gutters align-items-center" >
+      <div className="row zb-b-b p15 pl10 pr10 no-gutters align-items-center">
         <div className="col mr5">
           <Input
             placeholder=""
@@ -216,13 +217,14 @@ class ListSidebar extends React.Component {
           <Tooltip title={intl.get('tokens.only_show_favorites')}>
             {
               filters.ifOnlyShowMyFavorite &&
-              <Icon type="star" onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-primary-1 border-none pointer"
+              <Icon type="star" onClick={toggleMyFavorite.bind(this)}
+                    className="ml5 mr5 fs16 color-primary-1 border-none pointer"
               />
             }
             {
               !filters.ifOnlyShowMyFavorite &&
               <Icon onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-black-2 pointer"
-              type="star-o"/>
+                    type="star-o"/>
             }
           </Tooltip>
         </div>
@@ -230,13 +232,15 @@ class ListSidebar extends React.Component {
           <Tooltip title={intl.get('tokens.hide_small_balances')}>
             {
               filters.ifHideSmallBalance &&
-              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-primary-1 pointer" style={{position:'relative',marginTop:'2px'}}
-              type="eye" />
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-primary-1 pointer"
+                    style={{position: 'relative', marginTop: '2px'}}
+                    type="eye"/>
             }
             {
               !filters.ifHideSmallBalance &&
-              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-black-2 pointer" style={{position:'relative',marginTop:'2px'}}
-              type="eye-o" />
+              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-black-2 pointer"
+                    style={{position: 'relative', marginTop: '2px'}}
+                    type="eye-o"/>
             }
           </Tooltip>
         </div>
@@ -247,7 +251,8 @@ class ListSidebar extends React.Component {
       <div style={{minWidth: '150px', maxWidth: '250px'}}>
         <div className="row no-gutters p5">
           <div className="col-12 p5">
-            <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary" disabled={isWatchOnly}>
+            <Button onClick={gotoTransfer.bind(this, token)} className="d-block w-100 text-left" type="primary"
+                    disabled={isWatchOnly}>
               <i className="icon icon-loopring icon-loopring-transfer fs16 color-white mr5"/>
               {intl.get('tokens.options_transfer')} {token.symbol}
             </Button>
@@ -261,9 +266,10 @@ class ListSidebar extends React.Component {
           {
             (token.symbol === 'ETH') &&
             <div className="col-12 p5">
-              <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary" disabled={isWatchOnly}>
+              <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary"
+                      disabled={isWatchOnly}>
                 <i className="icon icon-loopring icon-loopring-trade fs16 mr5"/>
-                {intl.get('token.token_convert', {from:token.symbol, to:'WETH'})}
+                {intl.get('token.token_convert', {from: token.symbol, to: 'WETH'})}
               </Button>
             </div>
           }
@@ -271,15 +277,16 @@ class ListSidebar extends React.Component {
             (token.symbol === 'WETH') && !token.custom &&
             <div className="col-12 p5">
               <Button onClick={gotoConvert.bind(this, token)} className="d-block w-100 text-left" type="primary"
-                      icon="retweet"  disabled={!!isWatchOnly}>
-                {intl.get('token.token_convert', {from:token.symbol, to:'ETH'})}
+                      icon="retweet" disabled={!!isWatchOnly}>
+                {intl.get('token.token_convert', {from: token.symbol, to: 'ETH'})}
               </Button>
             </div>
           }
           {
             (token.symbol !== 'ETH' && token.symbol !== 'WETH') &&
             <div className="col-12 p5">
-              <Button onClick={gotoTrade.bind(this, token)} className="d-block w-100 text-left" type="primary" disabled={isWatchOnly}>
+              <Button onClick={gotoTrade.bind(this, token)} className="d-block w-100 text-left" type="primary"
+                      disabled={isWatchOnly}>
                 <i className="fa fa-line-chart mr5"/>
                 {intl.get('tokens.options_trade')} {token.symbol}
               </Button>
@@ -298,7 +305,8 @@ class ListSidebar extends React.Component {
             </div>
             <div>
               <Button onClick={gotoReceive.bind(this, token)} className="m5 color-blue-500">Receive</Button>
-              <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500" disabled={isWatchOnly}>Buy</Button>
+              <Button onClick={gotoTrade.bind(this, token)} className="m5 color-blue-500"
+                      disabled={isWatchOnly}>Buy</Button>
               {
                 token.symbol === 'WETH' &&
                 <Button onClick={gotoConvert.bind(this, token)} className="m5 color-blue-500" disabled={isWatchOnly}>Convert</Button>
@@ -343,10 +351,11 @@ class ListSidebar extends React.Component {
               </div>
               <div className="">
                 <span className="fs3 color-black-1">{tokenFm.getBalance()}</span>
-                <span className="fs3 ml5 color-black-3">
-                <CurrencyContainer/>
-              </span>
-                <span className="fs14 color-black-3">{tokenFm.getBalanceValue(item.price)}</span>
+                {!!toNumber(tokenFm.getBalance()) &&
+                <span>
+                  <span className="fs3 ml5 color-black-3"><CurrencyContainer/></span>
+                  <span className="fs14 color-black-3">{tokenFm.getBalanceValue(item.price)}</span>
+              </span>}
               </div>
             </div>
             {
@@ -398,8 +407,8 @@ class ListSidebar extends React.Component {
 
     const CustomTokenItem = ({item}) => {
       return (
-        <div onClick={selectCustomToken.bind(this,item)}
-          className={`zb-b-b cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
+        <div onClick={selectCustomToken.bind(this, item)}
+             className={`zb-b-b cursor-pointer token-item-sidebar ${selected[item.symbol] && 'token-item-sidebar-dark'}`}>
           <div className={`row align-items-center no-gutters p10`}>
             <div className="col-auto pr10">
               {
@@ -433,7 +442,8 @@ class ListSidebar extends React.Component {
               </span>
               </div>
               <div className="">
-                <span className="fs3 color-black-1">{this.getbalance(item) && this.getbalance(item).balance.toFixed(8)}</span>
+                <span
+                  className="fs3 color-black-1">{this.getbalance(item) && this.getbalance(item).balance.toFixed(8)}</span>
               </div>
             </div>
             <div className="col-auto" onClick={(e) => {
@@ -454,8 +464,8 @@ class ListSidebar extends React.Component {
         </div>
       )
     }
-    let customs =  window.STORAGE.tokens.getCustomTokens()
-    let results = [...items,...customs]
+    let customs = window.STORAGE.tokens.getCustomTokens()
+    let results = [...items, ...customs]
     results = results.filter(token => token.symbol !== 'WETH_OLD')
 
     // eth weth lrc
@@ -464,29 +474,29 @@ class ListSidebar extends React.Component {
     const lrcToken = results.find(token => token.symbol === 'LRC')
     // other tokens
     let otherTokens = results.filter(token => (token.symbol !== 'ETH' && token.symbol !== 'WETH' && token.symbol !== 'LRC'))
-    otherTokens = otherTokens.map((token,index) => {
+    otherTokens = otherTokens.map((token, index) => {
       let balance = fm.toBig(token.balance).div('1e' + token.digits).toNumber()
       token.sortByBalance = balance
       return token
     })
-    const sorter = (tokenA,tokenB)=>{
+    const sorter = (tokenA, tokenB) => {
       const pa = Number(tokenA.sortByBalance);
       const pb = Number(tokenB.sortByBalance);
-      if(pa === pb){
+      if (pa === pb) {
         return tokenA.symbol.toUpperCase() < tokenB.symbol.toUpperCase() ? -1 : 1;
-      }else {
+      } else {
         return pb - pa;
       }
     };
     otherTokens.sort(sorter);
     let sortedTokens = new Array()
-    if(ethToken){
+    if (ethToken) {
       sortedTokens.push(ethToken)
     }
-    if(wethToken){
+    if (wethToken) {
       sortedTokens.push(wethToken)
     }
-    if(lrcToken){
+    if (lrcToken) {
       sortedTokens.push(lrcToken)
     }
     sortedTokens = sortedTokens.concat(otherTokens)
@@ -519,10 +529,10 @@ class ListSidebar extends React.Component {
         <div className="token-list-sidebar">
           {
             formatedTokens.map((item, index) => {
-              if(!item.custom){
+              if (!item.custom) {
                 return <TokenItem key={index} index={index} item={item}/>
-              }else{
-                return <CustomTokenItem key={index} index={index}item={item}/>
+              } else {
+                return <CustomTokenItem key={index} index={index} item={item}/>
               }
             })
           }
@@ -536,7 +546,7 @@ class ListSidebar extends React.Component {
             false &&
             <div className='zb-b-b cursor-pointer token-item-sidebar text-center pt10 pb10'
                  onClick={showModal.bind(this, {id: "token/add"})}>
-                 <Icon type="plus" />
+              <Icon type="plus"/>
               {intl.get('tokens.add_token')}
             </div>
           }

@@ -271,14 +271,14 @@ class ListBlock extends React.Component {
               (filters.token === 'ETH') &&
               <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
                 <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
-                {intl.get('token.token_convert', {from:filters.token, to:'WETH'})}
+                {intl.get('token.token_convert', {from:"", to:'WETH'})}
               </Button>
             }
             {
               (filters.token === 'WETH') &&
               <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
                 <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
-                {intl.get('token.token_convert', {from:filters.token, to:'ETH'})}
+                {intl.get('token.token_convert', {from:"", to:'ETH'})}
               </Button>
             }
           </div>
