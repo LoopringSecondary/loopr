@@ -233,7 +233,7 @@ export default {
     day: "天",
     week: "周",
     month: "月",
-    lrc_fee: "撮合油费",
+    lrc_fee: "LRC油费",
     margin_split: "分润比例",
     place_order: "提交订单",
     unlock_your_wallet: "解锁你的钱包",

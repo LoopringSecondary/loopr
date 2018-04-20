@@ -226,7 +226,7 @@ function Navbar(props){
       <div className="zb-b-t">
         <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
           <div className="col fs12 color-black-2">{intl.get('version.version')}</div>
-          <div className="col-auto fs12 color-black-3">2.0 Trial</div>
+          <div className="col-auto fs12 color-black-3">{intl.get('version.label')}</div>
         </div>
       </div>
       <div className="zb-b-t">
