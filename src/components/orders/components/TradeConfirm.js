@@ -139,7 +139,6 @@ class TradeConfirm extends React.Component {
         const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
         this.openNotification(balanceWarn);
         _this.updateOrders();
-        debugger;
         if (warn) {
           const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
           const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
