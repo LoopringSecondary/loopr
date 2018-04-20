@@ -27,7 +27,7 @@ export default class Transaction {
   }
 
   setGasLimit() {
-    this.raw.gasLimit = this.raw.gasLimit || configs['defaultGasLimit']
+    this.raw.gasLimit = this.raw.gasLimit
   }
 
   async setGasPrice() {
