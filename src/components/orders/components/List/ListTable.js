@@ -39,7 +39,7 @@ class  ListBlock extends React.Component{
         title: intl.get('order.confirm_cancel_order'),
         onOk: async () => {
           const nonce = await window.STORAGE.wallet.getNonce(account.address);
-          const originalOrder = item.originalOrder;
+          const originalOrder = {...item.originalOrder};
           originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
           originalOrder.owner = originalOrder.address;
           originalOrder.v = toNumber(originalOrder.v);
@@ -55,7 +55,7 @@ class  ListBlock extends React.Component{
           });
           window.WALLET.sendTransaction(tx).then((res) => {
             if (!res.error) {
-              window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
+             // window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
               window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
               notifyTransactionSubmitted(res.result).then(() => {
                 reEmitPendingTransaction()

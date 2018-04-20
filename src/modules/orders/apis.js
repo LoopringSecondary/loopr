@@ -10,8 +10,8 @@ export async function fetchList(payload){
       filter.pageIndex = page.current
       filter.pageSize = page.size
     }
-    filter.contractVersion = window.STORAGE.settings.getContractVersion()
-    filter.owner = window.WALLET && window.WALLET.getAddress()
+    filter.delegateAddress = window.CONFIG.getDelegateAddress();
+    filter.owner = window.WALLET && window.WALLET.getAddress();
     return getOrders(filter).then(res=>{
       if(!res.error && res.result.data){
         return {

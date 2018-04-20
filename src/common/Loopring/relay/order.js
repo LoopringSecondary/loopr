@@ -1,11 +1,11 @@
 import request from '../common/request'
 import Response from '../common/response'
 import code from "../common/code"
-import {generateAbiData, solSHA3,isValidSig} from '../ethereum/abi'
+import {generateAbiData, solSHA3, isValidSig} from '../ethereum/abi'
 import validator from './validator'
 import Transaction from '../ethereum/transaction'
-import {toBN, toNumber, toHex,toBuffer, addHexPrefix, clearPrefix} from "../common/formatter";
-import {hashPersonalMessage, ecsign,sha3} from "ethereumjs-util"
+import {toBN, toNumber, toHex, toBuffer, addHexPrefix, clearPrefix} from "../common/formatter";
+import {hashPersonalMessage, ecsign, sha3} from "ethereumjs-util"
 import {privateKeytoAddress} from "../ethereum/account";
 
 
@@ -15,10 +15,10 @@ let headers = {
 
 export async function getOrders(filter) {
   try {
-    await validator.validate({value: filter.contractVersion, type: 'STRING'})
+    await validator.validate({value: filter.delegateAddress, type: 'ADDRESS'})
     await validator.validate({value: filter.pageIndex, type: 'OPTION_NUMBER'})
     await filter.market && validator.validate({value: filter.market, type: 'STRING'})
-    await filter.owner && validator.validate({value: filter.owner, type: 'STRING'})
+    await filter.owner && validator.validate({value: filter.owner, type: 'ADDRESS'})
     await filter.orderHash && validator.validate({value: filter.orderHash, type: 'STRING'})
     await filter.pageSize && validator.validate({value: filter.pageSize, type: 'OPTION_NUMBER'})
   } catch (e) {
@@ -35,17 +35,17 @@ export async function getOrders(filter) {
   })
 }
 
-export async function getCutoff(address, contractVersion) {
+export async function getCutoff(address, delegateAddress) {
   try {
-    await validator.validate({value: address, type: 'STRING'})
-    await validator.validate({value: contractVersion, type: 'STRING'})
+    await validator.validate({value: address, type: 'ADDRESS'})
+    await validator.validate({value: delegateAddress, type: 'ADDRESS'})
   } catch (e) {
     console.error(e)
     return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
   let body = {}
   body.method = 'loopring_getCutoff'
-  body.params = [address, contractVersion, "latest"]
+  body.params = [address, delegateAddress, "latest"]
   return request({
     method: 'post',
     headers,
@@ -128,7 +128,16 @@ export function cancelOrder({order, privateKey, protocolAddress, gasPrice, gasLi
 }
 
 export function cancelOrdersByTokenPair({privateKey, timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
-  const tx = generateCancelOrdersByTokenPairTx({timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId})
+  const tx = generateCancelOrdersByTokenPairTx({
+    timestamp,
+    tokenA,
+    tokenB,
+    protocolAddress,
+    gasPrice,
+    gasLimit,
+    nonce,
+    chainId
+  })
   const transaction = new Transaction(tx);
   return transaction.send({privateKey, walletType, path})
 }
@@ -165,13 +174,12 @@ export function sign(order, privateKey) {
   }
 
   const hash = getOrderHash(order);
-  const signature = ecsign(hashPersonalMessage(hash),privateKey);
+  const signature = ecsign(hashPersonalMessage(hash), privateKey);
   const v = toNumber(signature.v);
   const r = toHex(signature.r);
   const s = toHex(signature.s);
-  const powNonce = 100;
   return {
-    ...order, v, r, s,powNonce
+    ...order, v, r, s
   }
 }
 
@@ -185,20 +193,21 @@ export function getOrderHash(order) {
     'address',
     'address',
     'address',
+    'address',
     'uint',
     'uint',
     'uint',
     'uint',
     'uint',
     'bool',
-    'uint',
     'uint8'
   ];
   const orderData = [
-    order.protocol,
+    order.delegateAddress,
     order.owner,
     order.tokenS,
     order.tokenB,
+    order.walletAddress,
     order.authAddr,
     toBN(order.amountS),
     toBN(order.amountB),
@@ -206,7 +215,6 @@ export function getOrderHash(order) {
     toBN(order.validUntil),
     toBN(order.lrcFee),
     order.buyNoMoreThanAmountB,
-    toBN(order.walletId),
     order.marginSplitPercentage
   ];
 

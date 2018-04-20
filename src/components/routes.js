@@ -63,7 +63,6 @@ export default class PageRoutes extends React.Component {
             <Route path="/test" render={Pages.Test} />
             {RingsRoutes}
           </Switch>
-          <Pages.Unload />
           <TokenModals />
           <WalletModals />
           <SettingsModals />
