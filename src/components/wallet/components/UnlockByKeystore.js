@@ -109,7 +109,7 @@ class UnlockByKeyStore extends React.Component {
                 message: intl.get('wallet.unlocked_notification_title'),
                 description: intl.get('wallet.unlocked_notification_content'),
                 type: 'success'
-              })
+              });
               unlockRedirection(pageFrom);
               this.setState({
                 fileList: [],
@@ -170,7 +170,7 @@ class UnlockByKeyStore extends React.Component {
             <div className="col-auto">
               <Upload {...uploadProps} size="small" >
                 <Button>
-                  <Icon type="upload"/> {intl.get('wallet.select_json')}
+                  <Icon type="folder" /> {intl.get('wallet.select_json')}
                 </Button>
               </Upload>
             </div>
