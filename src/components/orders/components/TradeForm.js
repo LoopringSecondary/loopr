@@ -51,6 +51,8 @@ class TradeForm extends React.Component {
     const tokenLBalance = tokenDivDigist(tokenLBalanceOriginal)
     const tokenRBalanceOriginal = {...config.getTokenBySymbol(tokenR), ...assets.getTokenBySymbol(tokenR)}
     const tokenRBalance = tokenDivDigist(tokenRBalanceOriginal)
+    const LrcBalanceOriginal = {...config.getTokenBySymbol('LRC'), ...assets.getTokenBySymbol('LRC')}
+    const lrcBalance = tokenDivDigist(LrcBalanceOriginal)
     const marketConfig = window.CONFIG.getMarketBySymbol(tokenL, tokenR)
     const tokenRPrice = prices.getTokenBySymbol(tokenR)
     const integerReg = new RegExp("^[0-9]*$")
@@ -126,13 +128,15 @@ class TradeForm extends React.Component {
       if(!window.WALLET_UNLOCK_TYPE) {
         return
       }
-      if(window.CONFIG.getChainId() !== 7107171 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
-        Notification.open({
-          type:'warning',
-          message:intl.get('trade.not_inWhiteList'),
-          description:intl.get('trade.not_allow')
-        });
-        return
+      if(!lrcBalance || lrcBalance.balance.lessThan(9000)){
+        if(window.CONFIG.getChainId() !== 7107171 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
+          Notification.open({
+            type:'warning',
+            message:intl.get('trade.not_inWhiteList'),
+            description:intl.get('trade.not_allow')
+          });
+          return
+        }
       }
       form.validateFields((err, values) => {
         if (!err) {
