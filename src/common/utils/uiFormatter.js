@@ -1,6 +1,7 @@
 import moment from 'moment'
 import {toNumber,toBig} from "Loopring/common/formatter";
 import TokenFormatter from './tokenFormatter'
+import TickerFormatter from './tickerFormatter'
 import {getPrice} from './tokenFormatter'
 import intl from 'react-intl-universal';
 
@@ -33,6 +34,7 @@ export function getSeconds(value, unit) {
   }
 }
 
+// locales for number format
 export function getFormatNum(number) {
   number = toBig(number).toString(10).split('.');
   let a = number[0];
@@ -48,6 +50,7 @@ export default {
   getFormatTime,
   getSeconds,
   TokenFormatter,
+  TickerFormatter,
   getPrice,
   getFormatNum
 }

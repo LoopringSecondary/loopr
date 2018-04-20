@@ -12,7 +12,7 @@ class TickerSocketContainer extends React.Component {
     if(nextProps.pair !== this.props.pair){
       const { socket } = this.context
       const options = {
-        "contractVersion" : window.STORAGE.settings.getContractVersion(),
+        "delegateAddress" : window.CONFIG.getDelegateAddress(),
         "market":nextProps.pair,
       }
       socket.emit('tickers_req',JSON.stringify(options),this.responseHandler.bind(this))
@@ -33,7 +33,7 @@ class TickerSocketContainer extends React.Component {
     const { pair } = this.props
     if(socket){
       const options = {
-        "contractVersion" : window.STORAGE.settings.getContractVersion(),
+        "delegateAddress":window.CONFIG.getDelegateAddress(),
         "market":pair,
       }
       socket.emit('tickers_req',JSON.stringify(options),this.responseHandler.bind(this))

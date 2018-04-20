@@ -3,9 +3,8 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { Card,Tabs,Icon,Popover,Input } from 'antd';
 import intl from 'react-intl-universal';
-
-// TickersTable
-// TickersTabs
+import TickerTrend from 'Loopr/TickerTrend'
+const tickerFm = window.uiFormatter.TickerFormatter
 
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
@@ -57,34 +56,46 @@ const TickerTable = (props)=>{
     window.STORAGE.markets.setCurrent(pair)
     window.routeActions.gotoPath(`/trade/${pair}`)
   }
+  const toggleFavor= (pair,e)=>{
+    e.preventDefault()
+    e.stopPropagation()
+    tickers.toggleFavor(pair)
+  }
 
   return (
-    <div className="mb15" style={{height:'400px',overflow:'auto'}}>
+    <div className="mb15" style={{maxHeight:'400px',overflow:'auto'}}>
       <table className="ticker-list-table">
         <tbody>
           <tr className="">
-            <th className="fs12 border-0 color-black-2" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
-            <th className="fs12 border-0 color-black-2">{intl.get('ticker.last')}</th>
-            <th className="fs12 border-0 color-black-2">{intl.get('ticker.change')}</th>
-            <th className="fs12 border-0 color-black-2">{intl.get('ticker.vol')}</th>
+            <th className="fs12 border-0 color-black-3" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
+            <th className="fs12 border-0 color-black-3">{intl.get('ticker.last')}</th>
+            <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}</th>
+            <th className="fs12 border-0 color-black-3">{intl.get('ticker.vol')}</th>
           </tr>
           {
             items.length>0 && items.map((item,index)=>
-              <tr key={index}>
-
+              <tr key={index} className="cursor-pointer" onClick={gotoTrade.bind(this,item.market)}>
                 <td className="fs12 border-0 ">
                   {
                     favors[item.market] &&
-                      <Icon className="pointer color-yellow-700 fs12 mr5" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
+                      <Icon className="pointer color-yellow-700 fs12 mr5" onClick={toggleFavor.bind(this,item.market)} type="star" />
                   }
                   {
                     !favors[item.market] &&
-                    <Icon className="pointer color-grey-300 fs12 mr5" onClick={tickers.toggleFavor.bind(this,item.market)} type="star" />
+                    <Icon className="pointer color-grey-300 fs12 mr5" onClick={toggleFavor.bind(this,item.market)} type="star" />
                   }
-                  <a href="" onClick={gotoTrade.bind(this,item.market)}>{item.market}</a>
+                  {item.market}
                 </td>
-                <td className="fs12 border-0 color-green-600">{item.last || 0}</td>
-                <td className="fs12 border-0 color-green-600">{item.change || 0}</td>
+                <td className="fs12 border-0 color-balck-2">
+                  <TickerTrend side={tickerFm.getChangeSide(item.change)}>
+                    {item.last || 0.00}
+                  </TickerTrend>
+                </td>
+                <td className="fs12 border-0 color-balck-2">
+                  <TickerTrend side={tickerFm.getChangeSide(item.change)}>
+                    {item.change || 0}
+                  </TickerTrend>
+                </td>
                 <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
               </tr>
             )
@@ -92,7 +103,7 @@ const TickerTable = (props)=>{
           {
             items.length == 0 &&
             <tr >
-              <td colSpan="10" className="fs12 border-0 text-center">{intl.get('global.no_data')}</td>
+              <td colSpan="10" className="fs12 border-0 text-center color-black-3">{intl.get('global.no_data')}</td>
             </tr>
           }
         </tbody>

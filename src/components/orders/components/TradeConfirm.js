@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Collapse, Input, Modal, Icon} from 'antd';
+import {Button, Card, Collapse, Input} from 'antd';
 import {connect} from 'dva';
 import {create} from 'Loopring/ethereum/account';
 import {placeOrder, sign} from 'Loopring/relay/order';
@@ -36,6 +36,7 @@ class TradeConfirm extends React.Component {
     const since = window.uiFormatter.getFormatTime(start);
     const till = window.uiFormatter.getFormatTime(start + Number(timeToLive) * 1000);
     let order = {};
+    order.delegateAddress = window.CONFIG.getDelegateAddress();
     order.protocol = tradingConfig.contract.address;
     order.owner = window.WALLET.getAddress();
     const tokenB = side.toLowerCase() === "buy" ? window.CONFIG.getTokenBySymbol(token) : window.CONFIG.getTokenBySymbol(token2);
@@ -49,7 +50,7 @@ class TradeConfirm extends React.Component {
     order.validUntil = toHex(Math.ceil(start / 1e3) + Number(timeToLive));
     order.marginSplitPercentage = Number(marginSplit);
     order.buyNoMoreThanAmountB = side.toLowerCase() === "buy";
-    order.walletId = toHex(1);
+    order.walletAddress = window.CONFIG.getWalletAddress();
     const authAccount = create('');
     order.authAddr = authAccount.address;
     order.authPrivateKey = authAccount.privateKey;

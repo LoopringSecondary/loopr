@@ -9,8 +9,8 @@ let headers = {
 
 export async function getBalance(filter) {
   try {
-    await validator.validate({value: filter.contractVersion, type: 'STRING'})
-    await validator.validate({value: filter.owner, type: 'STRING'})
+    await validator.validate({value: filter.delegateAddress, type: 'ADDRESS'})
+    await validator.validate({value: filter.owner, type: 'ADDRESS'})
   } catch (e) {
     console.error(e)
     return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)

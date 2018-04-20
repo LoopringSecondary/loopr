@@ -7,6 +7,8 @@ export default {
     no_data:"No data",
     comingsoon:"Coming Soon",
     wallet:"Wallet",
+    yes:"Yes",
+    no:"No",
   },
   version:{
     label:'beta2',
@@ -368,8 +370,8 @@ export default {
     neo: "NEO",
     qtum: "QTUM",
     unlock_tip: "How would you like to access your wallet",
-    metamask: "MetaMask",
-    trezor: "TREZOR",
+    metamask: "MetaMask Wallet",
+    trezor: "TREZOR Wallet",
     ledger: "Ledger Wallet",
     keystore: "Keystore",
     privateKey: "PrivateKey",
@@ -467,7 +469,9 @@ export default {
       enter_password: "Enter a password to protect your wallet.",
       file_keystore: "File Keystore",
       text_keystore: "Text Keystore",
-      qr_keystore: "QRCode Keystore"
+      qr_keystore: "Qrcode Keystore",
+      leave_backup_page:"Go To My Wallet",
+      confirm_to_leave_backup_page:"Are you sure to leave backup page ?"
     },
     token: "Token",
     title_metamask_account_change: "Account changed in MetaMask",
