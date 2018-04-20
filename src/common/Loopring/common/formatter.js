@@ -125,7 +125,12 @@ export function getDisplaySymbol(settingsCurrency) {
 
 export function toFixed(number, precision) {
   if(number >0 && precision >0) {
-    const numberArr = number.toFixed(16).toString().split('.')
+    let numberArr = null
+    if(number.toString().indexOf('e-') > -1) {
+      numberArr = number.toFixed(16).toString().split('.')
+    } else {
+      numberArr = number.toString().split('.')
+    }
     if(numberArr.length === 2) {
       const decimal = numberArr[1].substring(0, Math.min(numberArr[1].length, precision))
       if(toNumber(decimal) === 0) {
@@ -137,11 +142,14 @@ export function toFixed(number, precision) {
       } else {
         return numberArr[0]+"."+decimal
       }
+    } else {
+      return numberArr[0]+"."+'0'.repeat(precision)
     }
   } else {
     return '0'
   }
 }
+
 
 
 
