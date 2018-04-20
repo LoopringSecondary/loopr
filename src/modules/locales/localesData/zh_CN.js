@@ -46,6 +46,8 @@ export default {
       address: '地址',
       feedback: '问题反馈',
     },
+    refresh_page_tip_title:"为什么刷新/关闭页面后需要重新解锁钱包？",
+    refresh_page_tip_description:"出于安全的考虑，钱包不会存储你的任何的安全信息，所以刷新或者关闭页面后，需要您重新解锁。",
   },
   order: {
     buy: '买',
@@ -233,7 +235,7 @@ export default {
     day: "天",
     week: "周",
     month: "月",
-    lrc_fee: "撮合油费",
+    lrc_fee: "LRC油费",
     margin_split: "分润比例",
     place_order: "提交订单",
     unlock_your_wallet: "解锁你的钱包",

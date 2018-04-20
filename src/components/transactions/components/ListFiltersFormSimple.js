@@ -26,6 +26,7 @@ let FiltersForm = ({
   function handleCancle() {
   }
   const types = [
+    {label:intl.get(`global.all`),value:''},
     {label:intl.get(`txs.type_transfer`),value:'send'},
     {label:intl.get(`txs.type_receive`),value:'receive'},
     {label:intl.get(`txs.type_enable`),value:'approve'},
@@ -49,6 +50,7 @@ let FiltersForm = ({
                   onBlur={()=>{}}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
+                <Select.Option value="">{intl.get('global.all')}</Select.Option>
                 <Select.Option value="pending">{intl.get('txs.status_pending')}</Select.Option>
                 <Select.Option value="success">{intl.get('txs.status_success')}</Select.Option>
                 <Select.Option value="failed">{intl.get('txs.status_failed')}</Select.Option>
