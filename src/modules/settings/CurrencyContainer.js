@@ -19,7 +19,7 @@ class CurrencyContainer extends React.Component {
         icon:'￥',
         title:'Yuan',
       };
-      return '￥'
+      return <span style={{marginRight:"-2px"}}>￥</span>
     }
   }
 }
