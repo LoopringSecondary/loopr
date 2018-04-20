@@ -47,6 +47,8 @@ export default {
       address: 'Address',
       feedback: 'Feedback',
     },
+    refresh_page_tip_title:"Why do u have to unlock wallet again after refreshing/closing the page?",
+    refresh_page_tip_description:"Under the consideration of asset safety, Loopr shall not keep any of your wallet information.",
   },
   order: {
     buy: 'Buy',

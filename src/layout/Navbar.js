@@ -172,10 +172,10 @@ function Navbar(props){
             <div className="row align-items-center ">
               <div className="col">
                 <div className="fs12 color-primary-1">
-                  为什么刷新/关闭页面后需要重新解锁钱包？
+                 {intl.get('navbar.refresh_page_tip_title')}
                 </div>
                 <div className="fs12 color-black-3 mt5">
-                  出于安全的考虑，钱包不会存储你的任何的安全信息，所以刷新或者关闭页面后，需要您重新解锁。
+                  {intl.get('navbar.refresh_page_tip_description')}
                 </div>
               </div>
             </div>
