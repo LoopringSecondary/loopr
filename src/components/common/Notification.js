@@ -12,7 +12,6 @@ export default {
     if(type==='error'){
       rest.duration = 0
     }
-    rest.duration = 0
     notification.success({
       ...rest,
       className,

@@ -69,10 +69,10 @@ function Navbar(props){
     }
   }
   const accountMenus = (
-    <div className="fs18" style={{width:'300px'}}>
+    <div className="fs18" >
       {
         account.isUnlocked &&
-        <div>
+        <div style={{width:'300px'}}>
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
