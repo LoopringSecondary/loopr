@@ -567,7 +567,8 @@ class TradeForm extends React.Component {
       initialValue: 0,
       rules: []
     })(
-      <Slider className="place-order-amount-percentage" min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
+      <Slider className="place-order-amount-percentage" min={0} max={100} marks={marks} onChange={amountSliderChange.bind(this)}
+              tipFormatter={null} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
     )
     const priceValue = (
       <span className="fs10">
