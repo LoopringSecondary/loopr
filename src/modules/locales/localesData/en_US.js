@@ -11,7 +11,7 @@ export default {
     no:"No",
   },
   version:{
-    label:'beta2',
+    label:'Beta2',
     title:'Beta2 (Brave Testers Only) ',
     description:'Loopr is an opensourced, non-custodial Ethereum wallet. Please test it with caution. Loopring Foundation will not take responsiblity for any loss of your crypto-assets.',
     feedback:'Feedback',
