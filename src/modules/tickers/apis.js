@@ -4,7 +4,7 @@ import {getTicker} from 'Loopring/relay/market'
 export async function fetchList(payload){
     let {page,filters,sort} = payload
     let filter = {
-      "contractVersion": window.STORAGE.settings.getContractVersion()
+      "delegateAddress" :window.CONFIG.getDelegateAddress()
     }
     return getTicker(filter).then(res=>{
       return {

@@ -5,6 +5,9 @@ import basicSchemas from '../common/validator_schemas'
 let schemas = {
 
   RAW_Order: {
+    delegateAddress:{
+      ...basicSchemas.ADDRESS
+    },
     protocol: {
       ...basicSchemas.ADDRESS
     },
@@ -38,8 +41,8 @@ let schemas = {
     lrcFee: {
       ...basicSchemas.ETH_DATA
     },
-    walletId: {
-      ...basicSchemas.ETH_DATA
+    walletAddress: {
+      ...basicSchemas.ADDRESS
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -53,6 +56,10 @@ let schemas = {
     }
   },
   ORDER: {
+
+    delegateAddress:{
+      ...basicSchemas.ADDRESS
+    },
     protocol: {
       ...basicSchemas.ADDRESS
     },
@@ -86,8 +93,8 @@ let schemas = {
     lrcFee: {
       ...basicSchemas.ETH_DATA
     },
-    walletId: {
-      ...basicSchemas.ETH_DATA
+    walletAddress: {
+      ...basicSchemas.ADDRESS
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',

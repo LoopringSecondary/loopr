@@ -10,7 +10,7 @@ let headers = {
 
 export async function getRings(filter){
   try {
-    await validator.validate({value: filter.contractVersion, type: 'STRING'});
+    await validator.validate({value: filter.delegateAddress, type: 'ADDRESS'});
    if(filter.pageIndex){ await validator.validate({value: filter.pageIndex, type: 'OPTION_NUMBER'})}
    if(filter.pageSize) {await validator.validate({value: filter.pageSize, type: 'OPTION_NUMBER'})}
   } catch (e) {

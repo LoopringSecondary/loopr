@@ -2,7 +2,7 @@ import Account from "./Account";
 import {trezorSign} from "../../common/Loopring/ethereum/trezor";
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import EthTransaction from 'ethereumjs-tx'
-import {addHexPrefix, clearPrefix, toBuffer, toHex, toNumber, toBN} from '../../common/Loopring/common/formatter'
+import {addHexPrefix, clearPrefix, toHex, toNumber} from '../../common/Loopring/common/formatter'
 import HDKey from 'hdkey';
 import {publicKeytoAddress} from "Loopring/ethereum/account";
 import {getOrderHash} from "Loopring/relay/order";
