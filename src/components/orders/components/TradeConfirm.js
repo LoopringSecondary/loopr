@@ -136,14 +136,17 @@ class TradeConfirm extends React.Component {
           description: res.error.message
         })
       } else {
+        const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
+        this.openNotification(balanceWarn);
+        _this.updateOrders();
+        debugger;
         if (warn) {
           const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
           const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
           const delegateAddress = configs.delegateAddress;
-          let nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
           const txs = [];
           const approveWarn = warn.filter(item => item.type === "AllowanceNotEnough");
-          console.log("approveWarn", approveWarn);
+          let nonce = approveWarn.length > 0 ? await window.STORAGE.wallet.getNonce(window.WALLET.getAddress()): 0;
           approveWarn.forEach(item => {
             const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
             const token = new Token({address: tokenConfig.address});
@@ -180,11 +183,8 @@ class TradeConfirm extends React.Component {
           }, function (error) {
 
           });
+          this.reEmitPendingTransaction();
         }
-        this.reEmitPendingTransaction();
-        const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
-        this.openNotification(balanceWarn);
-        _this.updateOrders();
       }
     });
   };
