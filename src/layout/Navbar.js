@@ -69,7 +69,7 @@ function Navbar(props){
     }
   }
   const accountMenus = (
-    <div className="fs18" style={{maxWidth:'280px'}}>
+    <div className="fs18" style={{width:'300px'}}>
       {
         account.isUnlocked &&
         <div>
@@ -83,7 +83,7 @@ function Navbar(props){
               </div>
             </div>
           </div>
-          <div className="row ml0 mr0 zb-b-b navbar-account-grids bg-grey-50">
+          <div className="row ml0 mr0 zb-b-b navbar-account-grids">
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
               <div className="fs14 color-black-2 navbar-account-grid">
                 <a onClick={showModal.bind(this,{id:'token/receive',symbol:null})}>
@@ -168,22 +168,18 @@ function Navbar(props){
                 </div>
             </div>
           </div>
-          {
-            false &&
-            <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
-              <div className="row align-items-center ">
-                <div className="col">
-                  <span className="navbar-login-status-badge color-primary-1">
-                    <Badge status="processing" className="" />
-                    {intl.get("wallet.unlocked_by", {type:window.WALLET_UNLOCK_TYPE})}
-                  </span>
+          <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
+            <div className="row align-items-center ">
+              <div className="col">
+                <div className="fs12 color-primary-1">
+                  为什么刷新/关闭页面后需要重新解锁钱包？
                 </div>
-                <div className="col-auto pr10">
-                  <Button className="border-none color-primary-1 fs1" title={intl.get('navbar.subs.quit')} type="ghost" size="small" icon="lock" onClick={quit}></Button>
+                <div className="fs12 color-black-3 mt5">
+                  出于安全的考虑，钱包不会存储你的任何的安全信息，所以刷新或者关闭页面后，需要您重新解锁。
                 </div>
               </div>
             </div>
-          }
+          </div>
         </div>
       }
       {!account.isUnlocked &&
