@@ -21,6 +21,45 @@ export default {
     version:'Current Version',
     update_time:'Last Update',
   },
+  feedback:{
+    email_to:"help@loopring.org",
+    email_subject:"Loopr Wallet Issue Report",
+    email_body:`
+#### Issue Title\n
+My issue is xxx \n
+#### Issue Type（signle）\n
+○ Unlock Wallet\n
+○ Generate Wallet\n
+○ Airdrop\n
+○ Send & Receive\n
+○ Sell & Buy\n
+○ Orders & Fills\n
+○ Others\n
+#### Wallet Type（single）\n
+○ Wallet\n
+○ Demo Wallet\n
+○ Watch Only Wallet\n
+○ MetaMask Wallet\n
+○ Trezor Wallet\n
+○ Ledger Wallet\n
+○ KeyStore Wallet\n
+○ Mnemonic Wallet\n
+○ PrivateKey Wallet\n
+#### What did u do\n
+- Step1:\n
+- Step2:\n
+- Setp3:\n
+- The result you expect:\n
+- The result you got:\n
+#### Extra Info\n
+- OS: Mac / Windows / Linux / \n
+- Browser: Chrome / IE / 360 / \n
+- Wallet Address：\n
+- Contacts：\n
+#### Images/File Upload\n
+
+`,
+  },
   navbar: {
     home: "Home",
     trade: "MARKETS",
