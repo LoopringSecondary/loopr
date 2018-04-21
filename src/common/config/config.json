@@ -42,10 +42,17 @@
   ],
   "relays": [
     {
+      "value": "//54.250.200.175",
+      "name": "Pre-Production"
+    },
+    {
       "value": "//relay1.loopring.io",
       "name": "Default Loopring Relay"
+    },
+    {
+      "value": "//13.231.66.20",
+      "name": "Test"
     }
-
   ],
   "supportedTokenRInMarkets":["WETH", "BAR"],
   "markets": [

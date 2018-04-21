@@ -20,6 +20,11 @@ export default {
     version:'当前版本',
     update_time:'最近更新',
   },
+  feedback:{
+    email_to:"help@loopring.org",
+    email_subject:"路印网页钱包问题反馈",
+    email_body:"你好1\n\n你好2\n\n你好1\n\n你好2\n\n",
+  },
   navbar: {
     home: "首页",
     trade: "交易",
