@@ -27,7 +27,7 @@ export default {
     email_body:`
 #### Issue Title\n
 My issue is xxx \n
-#### Issue Type（signle）\n
+#### Issue Type（single）\n
 ○ Unlock Wallet\n
 ○ Generate Wallet\n
 ○ Airdrop\n
@@ -188,7 +188,8 @@ My issue is xxx \n
     tx_detail: "Transaction Details",
     success: "Succeeded",
     failed: "Failed",
-    pending: "Pending"
+    pending: "Pending",
+    no_txs:'No data',
   },
   orders: {
     order: "Order",
