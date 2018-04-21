@@ -748,7 +748,7 @@ class TradeForm extends React.Component {
               <div className="row align-items-center">
                 <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
                 <div className="col"></div>
-                <div className="col-auto fs3 color-black-3">
+                <div className="col-auto fs3 color-black-2">
                   {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
                 </div>
               </div>
@@ -763,7 +763,7 @@ class TradeForm extends React.Component {
                 </div>
                 <div className="col"></div>
                 <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
-                <div className="col-auto pl0 fs3 color-black-3">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
+                <div className="col-auto pl0 fs3 color-black-2">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
               </div>
             </Form.Item>
             <Form.Item className="mb0" style={{padding:'8px 0px'}} colon={false} label={null}>
@@ -776,7 +776,7 @@ class TradeForm extends React.Component {
                 </div>
                 <div className="col"></div>
                 <div className="col-auto pl0 pr5">{true && editOrderTTL}</div>
-                <div className="col-auto pl0 fs3 color-black-3">{ttlShow}</div>
+                <div className="col-auto pl0 fs3 color-black-2">{ttlShow}</div>
               </div>
             </Form.Item>
           </div>
