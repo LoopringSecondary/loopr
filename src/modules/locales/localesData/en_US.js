@@ -21,6 +21,45 @@ export default {
     version:'Current Version',
     update_time:'Last Update',
   },
+  feedback:{
+    email_to:"help@loopring.org",
+    email_subject:"Loopr Wallet Issue Report",
+    email_body:`
+#### Issue Title\n
+My issue is xxx \n
+#### Issue Type（single）\n
+○ Unlock Wallet\n
+○ Generate Wallet\n
+○ Airdrop\n
+○ Send & Receive\n
+○ Sell & Buy\n
+○ Orders & Fills\n
+○ Others\n
+#### Wallet Type（single）\n
+○ Wallet\n
+○ Demo Wallet\n
+○ Watch Only Wallet\n
+○ MetaMask Wallet\n
+○ Trezor Wallet\n
+○ Ledger Wallet\n
+○ KeyStore Wallet\n
+○ Mnemonic Wallet\n
+○ PrivateKey Wallet\n
+#### What did u do\n
+- Step1:\n
+- Step2:\n
+- Setp3:\n
+- The result you expect:\n
+- The result you got:\n
+#### Extra Info\n
+- OS: Mac / Windows / Linux / \n
+- Browser: Chrome / IE / 360 / \n
+- Wallet Address：\n
+- Contacts：\n
+#### Images/File Upload\n
+
+`,
+  },
   navbar: {
     home: "Home",
     trade: "MARKETS",
@@ -149,7 +188,8 @@ export default {
     tx_detail: "Transaction Details",
     success: "Succeeded",
     failed: "Failed",
-    pending: "Pending"
+    pending: "Pending",
+    no_txs:'No data',
   },
   orders: {
     order: "Order",
@@ -362,6 +402,7 @@ export default {
     address: "Address",
     bind_address: "Bind Address",
     bound_address:"Bound {token} Address",
+    no_bound:"No bound address found",
     to_bind_address: "Bind",
     to_edit: "Edit",
     bind_type_address: "Bind {type} Address",

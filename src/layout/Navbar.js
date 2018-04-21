@@ -68,6 +68,9 @@ function Navbar(props){
       message.warning(intl.get('navbar.subs.copy'))
     }
   }
+  const subject = encodeURIComponent(intl.get('feedback.email_subject')).replace(/%2B/gi, '+')
+  const body =  encodeURIComponent(intl.get('feedback.email_body')).replace(/%2B/gi, '+')
+  const emailUrl = `mailto:${intl.get('feedback.email_to')}?subject=${subject}&body=${body}`
   const accountMenus = (
     <div className="fs18" >
       {
@@ -154,12 +157,12 @@ function Navbar(props){
               </Tooltip>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              <Tooltip title={intl.get('global.comingsoon')}>
-                <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
-                    <Icon type="form" className="d-block grid-icon" />
-                    <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.feedback')}</div>
+                <div className="fs14 color-black-2 navbar-account-grid">
+                    <a href={emailUrl} className="color-black-2">
+                      <Icon type="form" className="d-block grid-icon" />
+                      <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.feedback')}</div>
+                    </a>
                 </div>
-              </Tooltip>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
                 <div className="fs14 color-black-2 navbar-account-grid cursor-pointer" onClick={quit}>
@@ -234,9 +237,11 @@ function Navbar(props){
       <div className="zb-b-t">
         <div className="row pl10 pr10" style={{padding:'7px 0px'}}>
           <div className="col fs12 color-black-2">{intl.get('version.feedback')}</div>
-          <div className="col-auto fs12 color-black-3 cursor-not-allowed">
-            {intl.get('version.feedback_submit')}
-            <Icon type="right" />
+          <div className="col-auto fs12 ">
+            <a href={emailUrl} className="color-primary-1">
+              {intl.get('version.feedback_submit')}
+              <Icon type="right" />
+            </a>
           </div>
         </div>
       </div>

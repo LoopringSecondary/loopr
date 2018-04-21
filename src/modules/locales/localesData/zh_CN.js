@@ -20,6 +20,44 @@ export default {
     version:'当前版本',
     update_time:'最近更新',
   },
+  feedback:{
+    email_to:"help@loopring.org",
+    email_subject:"路印网页钱包问题反馈",
+    email_body:`
+#### 问题名称\n
+我的问题是 xxxx \n
+#### 问题分类（单选）\n
+○ 解锁钱包\n
+○ 生成钱包\n
+○ 空投绑定\n
+○ 转账收款\n
+○ 买卖交易\n
+○ 订单成交\n
+○ 其他\n
+#### 钱包类型（单选）\n
+○ 演示钱包\n
+○ 观察钱包\n
+○ MetaMask钱包\n
+○ Trezor硬件钱包\n
+○ Ledger硬件钱包\n
+○ KeyStore钱包\n
+○ 助记词钱包\n
+○ 私钥钱包\n
+#### 操作步骤\n
+- 第1步\n
+- 第2步\n
+- 第3步\n
+- 你想得到的结果是\n
+- 实际得到的结果是\n
+#### 其他补充\n
+- 电脑系统（单选）: Mac / Windows / Linux / \n
+- 浏览器（单选）：Chrome / IE / 360 / \n
+- 网络（单选）：VPN / 非VPN \n
+- 钱包地址：\n
+- 联系方式：\n
+#### 图片上传\n
+`
+  },
   navbar: {
     home: "首页",
     trade: "交易",
@@ -100,8 +138,8 @@ export default {
     huobi: '火币 市场行情',
   },
   home: {
-    title: '路印钱包及去中心化交易所',
-    subtitle: '安全高流动性的交易你的代币',
+    title: '路印钱包',
+    subtitle: '不托管资金的以太钱包和去中心化交易所',
     beta_notification_title:'想尽早体验Loopr?',
     beta_notifycation_content: '目前Loopr钱包还未正式发布，当前版本仅供尝鲜体验'
   },
@@ -366,6 +404,7 @@ export default {
     go_to:"访问 {project} 官方网站",
     bind_address: "绑定地址",
     bound_address:"已绑定的{token}地址",
+    no_bound:"没有找到已绑定的地址",
     to_bind_address: "绑定",
     to_edit: "修改",
     bind_type_address: "绑定{type}地址",
