@@ -366,6 +366,7 @@ export default {
     go_to:"访问 {project} 官方网站",
     bind_address: "绑定地址",
     bound_address:"已绑定的{token}地址",
+    no_bound:"没有找到已绑定的地址",
     to_bind_address: "绑定",
     to_edit: "修改",
     bind_type_address: "绑定{type}地址",

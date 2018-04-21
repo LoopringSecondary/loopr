@@ -362,6 +362,7 @@ export default {
     address: "Address",
     bind_address: "Bind Address",
     bound_address:"Bound {token} Address",
+    no_bound:"No bound address found",
     to_bind_address: "Bind",
     to_edit: "Edit",
     bind_type_address: "Bind {type} Address",

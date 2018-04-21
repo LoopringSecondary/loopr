@@ -31,7 +31,7 @@ let Preview = ({
         })
       }
       return window.WALLET.sendTransaction(tx)
-    }).then(({response,rawTX})=>{
+    }).then(({response,rawTx})=>{
       if(response.error) {
         result = {...result, error:response.error.message}
         Notification.open({
