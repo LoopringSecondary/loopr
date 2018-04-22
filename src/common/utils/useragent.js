@@ -1,13 +1,10 @@
 
 export default {
-  constructor(){
-    this.useragent = navigator.userAgent
-  }
-  isMobile(){
-     return !!this.useragent.match(/AppleWebKit.*Mobile.*/)
+  getDevice(){
+
   }
   getLanguage(){
-    return (navigator.browserLanguage || navigator.language).toLowerCase()
+    return (window.navigator.browserLanguage || window.navigator.language).toLowerCase()
   }
   getOS(){
     let os = ''
@@ -32,6 +29,41 @@ export default {
     }
     return os
   }
+  getBrowser(){
+    let browser = {};
+    let userAgent = navigator.userAgent.toLowerCase();
+    let s;
+    (s = userAgent.match(/msie ([\d.]+)/)) ? browser.ie = s[1] : (s = userAgent.match(/firefox\/([\d.]+)/)) ? browser.firefox = s[1] : (s = userAgent.match(/chrome\/([\d.]+)/)) ? browser.chrome = s[1] : (s = userAgent.match(/opera.([\d.]+)/)) ? browser.opera = s[1] : (s = userAgent.match(/version\/([\d.]+).*safari/)) ? browser.safari = s[1] : 0;
+    let version = "";
+    if (browser.ie) {
+      version = 'IE ' + browser.ie;
+    }
+    else {
+      if (browser.firefox) {
+        version = 'firefox ' + browser.firefox;
+      }
+      else {
+        if (browser.chrome) {
+          version = 'chrome ' + browser.chrome;
+        }
+        else {
+          if (browser.opera) {
+            version = 'opera ' + browser.opera;
+          }
+          else {
+            if (browser.safari) {
+              version = 'safari ' + browser.safari;
+            }
+            else {
+              version = '其他浏览器';
+            }
+          }
+        }
+      }
+    }
+    return version;
+  }
+
 
 
 }
