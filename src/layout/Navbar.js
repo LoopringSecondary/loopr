@@ -89,7 +89,7 @@ function Navbar(props){
     wallet:getWalletType(),
     os:ua.getOS().name,
     browser:ua.getBrowser().full,
-    address: account.isUnlocked ? account.address : '未解锁',
+    address: account.isUnlocked ? account.address : getWalletType(),
   })).replace(/%2B/gi, '+')
   const emailUrl = `mailto:${intl.get('feedback.email_to')}?subject=${subject}&body=${body}`
   const accountMenus = (
