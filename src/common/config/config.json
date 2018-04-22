@@ -83,7 +83,7 @@
     },
     {
       "type":"cancelOrder",
-      "gasLimit":"0x1adb0"
+      "gasLimit":"0x186a0"
     },
     {
       "type":"cancelAllOrder",
@@ -91,7 +91,7 @@
     },
     {
       "type":"cancelOrderByTokenPair",
-      "gasLimit":"0xc350"
+      "gasLimit":"0xea60"
     }
 
   ],
