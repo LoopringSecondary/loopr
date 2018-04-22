@@ -47,8 +47,6 @@ export default {
 钱包地址：{address}\n
 电脑系统：{os}\n
 浏览器：{browser}\n
-网络环境：\n
-
 `
   },
   navbar: {
@@ -539,6 +537,7 @@ export default {
     type_mnemonic:'助记词钱包',
     type_privateKey:'私钥钱包',
     type_demo:'演示钱包',
+    type_lock:'未解锁',
   },
   demo:{
     badge_title:'演示账号',

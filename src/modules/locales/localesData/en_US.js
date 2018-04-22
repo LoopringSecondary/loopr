@@ -544,6 +544,7 @@ My issue is xxx \n
     type_mnemonic:'Mnemonic',
     type_privatekey:'PrivateKey',
     type_demo:'Demo Wallet',
+    type_lock:'Locked Wallet',
   },
   demo:{
     badge_title:'Demo Wallet',
