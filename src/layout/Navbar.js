@@ -8,6 +8,7 @@ import TopNotification from './TopNotification';
 import {locales} from '../common/config/data'
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
+import UserAgent from '../common/utils/useragent.js'
 
 function Navbar(props){
   let selectedKeys = []
@@ -68,8 +69,28 @@ function Navbar(props){
       message.warning(intl.get('navbar.subs.copy'))
     }
   }
+  const ua = new UserAgent()
+  const getWalletType = ()=>{
+    if(!window.WALLET_UNLOCK_TYPE){
+      return intl.get(`wallet.type_lock`)
+    }
+    if(window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() !== 'address'){
+      return intl.get(`wallet.type_${window.WALLET_UNLOCK_TYPE.toLowerCase()}`)
+    }
+    if(window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() === 'address' && window.IS_DEMO_WALLET){
+      return intl.get(`wallet.type_demo`)
+    }
+    if(window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() === 'address' && !window.IS_DEMO_WALLET){
+      return intl.get(`wallet.type_${window.WALLET_UNLOCK_TYPE.toLowerCase()}`)
+    }
+  }
   const subject = encodeURIComponent(intl.get('feedback.email_subject')).replace(/%2B/gi, '+')
-  const body =  encodeURIComponent(intl.get('feedback.email_body')).replace(/%2B/gi, '+')
+  const body =  encodeURIComponent(intl.get('feedback.email_body',{
+    wallet:getWalletType(),
+    os:ua.getOS().name,
+    browser:ua.getBrowser().full,
+    address: account.isUnlocked ? account.address : getWalletType(),
+  })).replace(/%2B/gi, '+')
   const emailUrl = `mailto:${intl.get('feedback.email_to')}?subject=${subject}&body=${body}`
   const accountMenus = (
     <div className="fs18" >
@@ -317,15 +338,7 @@ function Navbar(props){
                         <div className="" style={{marginTop:'2px'}}>
                           <span className="navbar-login-status-badge color-primary-1">
                             <Badge status="processing" className="" />
-                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() !== 'address' &&
-                              intl.get(`wallet.type_${window.WALLET_UNLOCK_TYPE.toLowerCase()}`)
-                            }
-                            {  window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() === 'address' && window.IS_DEMO_WALLET &&
-                              intl.get(`wallet.type_demo`)
-                            }
-                            { window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE.toLowerCase() === 'address' && !window.IS_DEMO_WALLET &&
-                              intl.get(`wallet.type_${window.WALLET_UNLOCK_TYPE.toLowerCase()}`)
-                            }
+                            {getWalletType()}
                           </span>
                         </div>
                       </div>
