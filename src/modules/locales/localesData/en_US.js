@@ -26,21 +26,21 @@ export default {
     email_subject:"Loopr Wallet Feedback",
     email_body:`
 ## I Have An Issue To Report\n
-Feedback Title：（required）\n
-Feedback Topic：○ Unlock  ○ Generate ○ Airdrop ○ Send & Receive ○ Sell & Buy ○ Orders & Fills ○ Others (single)\n
-The Steps I Did：stpe1：      step2：      step3： \n
-The Result I Expect：\n
-The Result I Got：\n
-Attachment：\n
+Feedback Title: \n
+Feedback Topic: ○ Unlock  ○ Generate ○ Airdrop ○ Send & Receive ○ Sell & Buy ○ Orders & Fills ○ Others \n
+The Steps I Did: 1:       2:       3:  \n
+The Result I Expect: \n
+The Result I Got: \n
+Attachment: \n
 
 ## I Have An Idea To Suggest\n
-Feedback Title：（required）\n
-Feedback Topic：○ Unlock  ○ Generate ○ Airdrop ○ Send & Receive ○ Sell & Buy ○ Orders & Fills ○ Others (single)\n
-The Result I Expect：\n
-The Result I Got：\n
-Attachment：\n
+Feedback Title: \n
+Feedback Topic: ○ Unlock  ○ Generate ○ Airdrop ○ Send & Receive ○ Sell & Buy ○ Orders & Fills ○ Others \n
+The Result I Expect: \n
+The Result I Got: \n
+Attachment: \n
 
-## Test Enviroment\n
+## Test Environment\n
 Wallet Type：{wallet}\n
 Wallet Address：{address}\n
 Platform：{os}\n
