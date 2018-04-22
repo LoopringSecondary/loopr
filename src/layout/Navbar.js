@@ -69,7 +69,12 @@ function Navbar(props){
     }
   }
   const subject = encodeURIComponent(intl.get('feedback.email_subject')).replace(/%2B/gi, '+')
-  const body =  encodeURIComponent(intl.get('feedback.email_body')).replace(/%2B/gi, '+')
+  const body =  encodeURIComponent(intl.get('feedback.email_body',{
+    wallet:'演示钱包',
+    os:'Mac',
+    browser:'Chrome',
+    address: account.isUnlocked ? account.address : '未解锁',
+  })).replace(/%2B/gi, '+')
   const emailUrl = `mailto:${intl.get('feedback.email_to')}?subject=${subject}&body=${body}`
   const accountMenus = (
     <div className="fs18" >
