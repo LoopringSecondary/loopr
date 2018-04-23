@@ -10,7 +10,7 @@ import code from "../common/code"
  * @param tag
  * @returns {Promise}
  */
-export async function getTransactionCount(host, address, tag) {
+export async function getTransactionCount(host, {address, tag}) {
   tag = tag || "pending";
   try {
     validator.validate({value: address, type: "ADDRESS"});
@@ -50,7 +50,7 @@ export function getGasPrice(host) {
  * @param tx
  * @returns {Promise}
  */
-export function estimateGas(host, tx) {
+export function estimateGas(host, {tx}) {
   const body = {};
   body.method = 'eth_estimateGas';
   body.params = [tx];
@@ -67,7 +67,7 @@ export function estimateGas(host, tx) {
  * @param tag
  * @returns {Promise}
  */
-export function getAccountBalance(host, address, tag) {
+export function getAccountBalance(host, {address, tag}) {
   tag = tag || "latest";
   if (tag) {
     try {
@@ -93,7 +93,7 @@ export function getAccountBalance(host, address, tag) {
  * @param hash ethereum tx hash
  * @returns {Promise}
  */
-export function getTransactionByhash(host, hash) {
+export function getTransactionByhash(host, {hash}) {
   try {
     validator.validate({value: hash, type: "ETH_DATA"});
   } catch (e) {
@@ -116,7 +116,7 @@ export function getTransactionByhash(host, hash) {
  * @param tag
  * @returns {Promise}
  */
-export function call(host, tx, tag) {
+export function call(host, {tx, tag}) {
   tag = tag || "latest";
   if (tag) {
     try {

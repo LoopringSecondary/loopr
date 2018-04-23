@@ -59,12 +59,13 @@ export function getCutoff(host,{address, delegateAddress,blockNumber}) {
 
 /**
  * @description  Submit an order.The order is submitted to relay as a JSON object,
- * this JSON will be broadcasted into peer-to-peer network for off-chain order-book maintainance and ring-ming.
+ * this JSON will be broadcast into peer-to-peer network for off-chain order-book maintainance and ring-ming.
  * Once mined, the ring will be serialized into a transaction and submitted to Ethereum blockchain.
+ * @param host relay host
  * @param order
  * @returns {Promise.<*>}
  */
-export function placeOrder(order) {
+export function placeOrder(host,{order}) {
   try{
     validator.validate({value: order, type: "Order"});
   }catch {
@@ -73,7 +74,7 @@ export function placeOrder(order) {
   let body = {};
   body.method = 'loopring_submitOrder';
   body.params = [order];
-  return request({
+  return request(host,{
     method: 'post',
     body,
   })
