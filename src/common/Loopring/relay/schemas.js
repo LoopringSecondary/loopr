@@ -2,6 +2,16 @@ import basicSchemas from '../common/schemas'
 
 const loopringScheams = {
   ...basicSchemas,
+  INTERVAL:{
+    type: 'enum',
+    required: true,
+    enum: ['1Hr', '2Hr', '4Hr','1Day','1Week']
+  },
+  HASH:{
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{64}$/g,
+  },
   PROJECT_ID: {
     type: 'number',
     required: true,
@@ -13,6 +23,9 @@ const loopringScheams = {
     enum: ['LRC', 'LRN', 'LRQ']
   },
   RAW_Order: {
+    delegateAddress:{
+      ...basicSchemas.ADDRESS
+    },
     protocol: {
       ...basicSchemas.ADDRESS
     },
@@ -28,26 +41,26 @@ const loopringScheams = {
     authAddr: {
       ...basicSchemas.ADDRESS
     },
-    authPrivateKey: {
+    authPrivateKey:{
       ...basicSchemas.PRIVATE_KEY
     },
     validSince: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
     validUntil: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
     amountS: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
     amountB: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
     lrcFee: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
-    walletId: {
-      ...basicSchemas.VALUES
+    walletAddress: {
+      ...basicSchemas.ADDRESS
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -61,6 +74,10 @@ const loopringScheams = {
     }
   },
   ORDER: {
+
+    delegateAddress:{
+      ...basicSchemas.ADDRESS
+    },
     protocol: {
       ...basicSchemas.ADDRESS
     },
@@ -76,26 +93,26 @@ const loopringScheams = {
     authAddr: {
       ...basicSchemas.ADDRESS
     },
-    authPrivateKey: {
+    authPrivateKey:{
       ...basicSchemas.PRIVATE_KEY
     },
     validSince: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
     validUntil: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
     amountS: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
     amountB: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
     lrcFee: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_DATA
     },
-    walletId: {
-      ...basicSchemas.VALUES
+    walletAddress: {
+      ...basicSchemas.ADDRESS
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -122,7 +139,33 @@ const loopringScheams = {
       required: true,
       pattern: /^0x[0-9a-fA-F]{64}$/g
     }
-  }
+  },
+  TX: {
+    to: {
+      ...basicSchemas.ADDRESS
+    },
+    value: {
+      ...basicSchemas.ETH_DATA
+    },
+    gasLimit: {
+      ...basicSchemas.ETH_DATA
+    },
+    gasPrice: {
+      ...basicSchemas.ETH_DATA
+    },
+    chainId: {
+      type: 'number',
+      required: true
+    },
+    nonce: {
+      ...basicSchemas.ETH_DATA
+    },
+    data: {
+      type: 'string',
+      required: true,
+      pattern: /^0x[0-9a-fA-F]*$/g
+    }
+  },
 };
 
 export default loopringScheams;

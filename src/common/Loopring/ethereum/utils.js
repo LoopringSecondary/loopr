@@ -1,5 +1,7 @@
 import validator from '../common/validator'
 import request from '../common/request'
+import Response from '../common/response'
+import code from "../common/code"
 
 /**
  * @description Returns the number of transactions sent from an address.
@@ -9,22 +11,18 @@ import request from '../common/request'
  * @returns {Promise}
  */
 export async function getTransactionCount(host, address, tag) {
-  validator.validate({value: host, type: 'URL'});
-  validator.validate({value: address, type: "ADDRESS"});
   tag = tag || "pending";
-  if (tag) {
-    try {
-      validator.validate({value: tag, type: "RPC_TAG"})
-    } catch (e) {
-      throw new Error('Invalid tag, must be one of latest, pending, earliest')
-    }
+  try {
+    validator.validate({value: address, type: "ADDRESS"});
+    validator.validate({value: tag, type: "RPC_TAG"})
+  } catch (e) {
+    return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
   }
   const params = [address, tag];
   const body = {};
   body.method = 'eth_getTransactionCount';
   body.params = params;
-  return request({
-    host,
+  return request(host, {
     method: 'post',
     body,
   })
@@ -35,15 +33,12 @@ export async function getTransactionCount(host, address, tag) {
  * @param host server host
  * @returns {Promise}
  */
-export async function getGasPrice(host) {
-  validator.validate({value: host, type: 'URL'});
+export function getGasPrice(host) {
   const params = [];
   const body = {};
   body.method = 'eth_gasPrice';
   body.params = params;
-
-  return request({
-    host,
+  return request(host, {
     method: 'post',
     body,
   })
@@ -55,13 +50,11 @@ export async function getGasPrice(host) {
  * @param tx
  * @returns {Promise}
  */
-export async function estimateGas(host, tx) {
-  validator.validate({value: host, type: 'URL'});
+export function estimateGas(host, tx) {
   const body = {};
   body.method = 'eth_estimateGas';
   body.params = [tx];
-  return request({
-    host,
+  return request(host, {
     method: 'post',
     body,
   })
@@ -74,23 +67,21 @@ export async function estimateGas(host, tx) {
  * @param tag
  * @returns {Promise}
  */
-export async function getAccountBalance(host, address, tag) {
-  validator.validate({value: host, type: 'URL'});
-  validator.validate({value: address, type: "ADDRESS"});
+export function getAccountBalance(host, address, tag) {
   tag = tag || "latest";
   if (tag) {
     try {
-      validator.validate({value: tag, type: "RPC_TAG"})
+      validator.validate({value: tag, type: "RPC_TAG"});
+      validator.validate({value: address, type: "ADDRESS"});
     } catch (e) {
-      throw new Error('Invalid tag, must be one of latest, pending,earliest')
+      return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
     }
   }
   const params = [address, tag];
   const body = {};
   body.method = 'eth_getBalance';
   body.params = params;
-  return request({
-    host,
+  return request(host, {
     method: 'post',
     body,
   })
@@ -102,15 +93,17 @@ export async function getAccountBalance(host, address, tag) {
  * @param hash ethereum tx hash
  * @returns {Promise}
  */
-export async function getTransactionByhash(host, hash) {
-  validator.validate({value: host, type: 'URL'});
-  validator.validate({value: hash, type: "ETH_DATA"});
+export function getTransactionByhash(host, hash) {
+  try {
+    validator.validate({value: hash, type: "ETH_DATA"});
+  } catch (e) {
+    return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
+  }
   const params = [hash];
   const body = {};
   body.method = 'eth_getTransactionByHash';
   body.params = params;
-  return request({
-    host,
+  return request(host, {
     method: 'post',
     body,
   })
@@ -123,21 +116,20 @@ export async function getTransactionByhash(host, hash) {
  * @param tag
  * @returns {Promise}
  */
-export async function call(host, tx,tag) {
-  validator.validate({value: host, type: 'URL'});
+export function call(host, tx, tag) {
   tag = tag || "latest";
   if (tag) {
     try {
       validator.validate({value: tag, type: "RPC_TAG"})
     } catch (e) {
-      throw new Error('Invalid tag, must be one of latest, pending, earliest')
+      return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
     }
   }
   const params = [tx, tag];
   const body = {};
   body.method = 'eth_call';
   body.params = params;
-  return request({
+  return request(host, {
     method: 'post',
     body,
   });

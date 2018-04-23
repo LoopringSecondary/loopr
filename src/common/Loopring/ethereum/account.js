@@ -94,7 +94,8 @@ export function privateKeytoPublic(privateKey) {
  * @returns {Account}
  */
 export function fromMnemonic(mnemonic, dpath, password) {
-  return new MnemonicAccount({mnemonic, dpath, password})
+  const privateKey = mnemonictoPrivatekey(mnemonic, password, dpath);
+  return fromPrivateKey(privateKey)
 }
 
 /**
@@ -123,20 +124,16 @@ export function fromPrivateKey(privateKey) {
  * @returns {Account}
  */
 export function fromKeystore(keystore, password) {
-  const privateKey = decryptKeystoreToPkey(keystore, password); // privateKey
-  return new Account(privateKey)
+  const privateKey = decryptKeystoreToPkey(keystore, password);
+  return fromPrivateKey(privateKey)
 }
 
 /**
- * @description  Returns a new account with given password and dpath
- * @param password
- * @param dpath
- * @returns {MnemonicAccount}
+ * @description generate mnemonic
+ * @returns {*}
  */
-export function generateNewAccount(password, dpath) {
-  const mnemonic = generateMnemonic(256);
-  dpath = dpath || path;
-  return new MnemonicAccount({mnemonic, password, dpath})
+export function generateMnemonic() {
+  return generateMnemonic(256);
 }
 
 export class Account {
@@ -144,7 +141,6 @@ export class Account {
   getAddress() {
     throw Error('unimplemented')
   }
-
 
   /**
    * @description sign
@@ -218,14 +214,6 @@ export class KeyAccount extends Account {
     return privateKeytoPublic(this.privateKey)
   }
 
-  /**
-   * @description Returns ethereum private key of this account
-   * @returns {string}
-   */
-  getPrivateKey() {
-    return formatKey(this.privateKey)
-  }
-
   getAddress() {
     return privateKeytoAddress(this.privateKey);
   };
@@ -257,51 +245,6 @@ export class KeyAccount extends Account {
     return {
       ...order, v, r, s
     }
-  }
-}
-
-export class MnemonicAccount extends KeyAccount {
-
-  /**
-   * @property
-   * @param mnemonic string
-   * @param password string
-   * @param path string
-   */
-  constructor({mnemonic, password, dpath}) {
-    if (mnemonic && dpath) {
-      const privateKey = mnemonictoPrivatekey(mnemonic, password, dpath);
-      super(privateKey);
-      this.mnemonic = mnemonic;
-      this.password = password;
-      this.dpath = dpath;
-    } else {
-      throw new Error('mnemonic or dpath can\'t be null');
-    }
-  }
-
-  /**
-   * @description Returns mnemonic of this account
-   * @returns {string}
-   */
-  getMnemonic() {
-    return this.mnemonic;
-  }
-
-  /**
-   * @description Returns password of this account
-   * @returns {string}
-   */
-  getPassword() {
-    return this.password;
-  }
-
-  /**
-   * @description Returns dpath of this account
-   * @returns {string}
-   */
-  getDpath() {
-    return this.dpath
   }
 }
 
