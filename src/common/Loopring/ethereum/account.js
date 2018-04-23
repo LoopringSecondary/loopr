@@ -145,6 +145,15 @@ export class Account {
     throw Error('unimplemented')
   }
 
+
+  /**
+   * @description sign
+   * @param hash
+   */
+  sign(hash){
+    throw Error('unimplemented')
+  }
+
   /**
    * @description Returns serialized signed ethereum tx
    * @param rawTx
@@ -393,66 +402,68 @@ export class MetaMaskAccount extends Account {
     else return null
   }
 
+  sign(hash){
+    return new Promise((resolve) => {
+      this.web3.eth.sign(this.account, hash, function (err, result) {
+        if (!err) {
+          const r = result.slice(0, 66);
+          const s = addHexPrefix(result.slice(66, 130));
+          const v = toNumber(addHexPrefix(result.slice(130, 132)));
+          resolve({r, s, v})
+        } else {
+          console.error(err);
+          const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
+          resolve({error: {message: errorMsg}})
+        }
+      })
+    })
+  }
+
+
   async signMessage(message) {
     const hash = hashPersonalMessage(sha3(message));
-    const signMethod = () => {
-      return new Promise((resolve) => {
-        this.web3.eth.sign(this.account, hash, function (err, result) {
-          if (!err) {
-            const r = result.slice(0, 66);
-            const s = fm.addHexPrefix(result.slice(66, 130));
-            const v = fm.toNumber(fm.addHexPrefix(result.slice(130, 132)));
-            resolve({r, s, v})
-          } else {
-            console.error(err);
-            const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
-            resolve({error: {message: errorMsg}})
-          }
-        })
-      })
-    }
     if (this.web3 && this.web3.eth.accounts[0]) {
-      return await signMethod()
+      return await sign(hash)
     } else {
       throw new Error("Not found MetaMask")
     }
   }
 
-  /**
-   * Could not use `web3.eth.sign()` to get signedTx and use `sendRawTransaction(signed)` to send due to the reason below, so use `sendTransaction` supported by Metamask directly
-   * In addition to this, you can sign arbitrary data blobs using web3.eth.sign(fromAddress, data, callback), although it has protections to sign it differently than a transaction, so users aren't tricked into signing transactions using this method.
-   */
   async signEthereumTx(rawTx) {
     validator.validate({type: 'TX', value: rawTx});
     const ethTx = new EthTransaction(rawTx);
-
-
-  hash =   ethTx.hash(false);
-
-
-    const sendMethod = () => {
-      return new Promise((resolve) => {
-        this.web3.eth.sendTransaction(newTx.raw, function (err, transactionHash) {
-          if (!err) {
-            resolve({result: transactionHash})
-          } else {
-            const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
-            resolve({error: {message: errorMsg}})
-          }
-        })
-      })
-    }
-    if (this.web3 && this.web3.eth.accounts[0]) {
-      return await sendMethod()
-    } else {
-      throw new Error("Not found MetaMask")
-    }
+    const hash = toHex(ethTx.hash(false));
+    const signature = this.sign(hash);
+    signature.v += ethTx._chainId * 2 +8;
+    Object.assign(ethTx,signature);
+    return toHex(ethTx.serialize());
   }
 
   signOrder(order) {
     const hash = toHex(hashPersonalMessage(getOrderHash(order)));
     const signature = this.signMessage(hash);
     return {...order, ...signature};
+  }
+
+  async sendTransaction(tx) {
+    validator.validate({type: 'TX', value: tx});
+    const sendMethod = () => {
+      return new Promise((resolve)=>{
+        this.web3.eth.sendTransaction(tx, function(err, transactionHash) {
+          if (!err){
+            resolve({result:transactionHash})
+          } else {
+            const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
+            resolve({error:{message:errorMsg}})
+          }
+        })
+      })
+    };
+    if(this.web3 && this.web3.eth.accounts[0]) {
+      return await sendMethod()
+    } else {
+      throw new Error("Not found MetaMask")
+    }
   }
 
 }

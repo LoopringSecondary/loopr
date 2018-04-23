@@ -3,7 +3,7 @@ import {addHexPrefix, toBuffer, toHex} from "../common/formatter";
 import trimStart from 'lodash/trimStart';
 import EthTransaction from 'ethereumjs-tx';
 import validator from './validator'
-import Buffer from 'Buffer'
+
 /**
  * @description connect to Ledger
  * @returns {Promise}

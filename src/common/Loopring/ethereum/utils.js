@@ -1,22 +1,16 @@
 import validator from '../common/validator'
 import request from '../common/request'
-import {generateAbiData} from './abi';
-import {configs} from "../../config/data";
-import {toBuffer} from "../common/formatter";
-import {rawDecode} from 'ethereumjs-abi'
 
 /**
  * @description Returns the number of transactions sent from an address.
+ * @param host
  * @param address
  * @param tag
  * @returns {Promise}
  */
-export async function getTransactionCount(address, tag) {
-  try {
-    validator.validate({value: address, type: "ADDRESS"})
-  } catch (e) {
-    throw new Error('Invalid Address')
-  }
+export async function getTransactionCount(host, address, tag) {
+  validator.validate({value: host, type: 'URL'});
+  validator.validate({value: address, type: "ADDRESS"});
   tag = tag || "pending";
   if (tag) {
     try {
@@ -30,6 +24,7 @@ export async function getTransactionCount(address, tag) {
   body.method = 'eth_getTransactionCount';
   body.params = params;
   return request({
+    host,
     method: 'post',
     body,
   })
@@ -37,15 +32,18 @@ export async function getTransactionCount(address, tag) {
 
 /**
  * @description Returns the current price per gas in wei.
+ * @param host server host
  * @returns {Promise}
  */
-export async function getGasPrice() {
+export async function getGasPrice(host) {
+  validator.validate({value: host, type: 'URL'});
   const params = [];
   const body = {};
   body.method = 'eth_gasPrice';
   body.params = params;
 
   return request({
+    host,
     method: 'post',
     body,
   })
@@ -53,14 +51,17 @@ export async function getGasPrice() {
 
 /**
  * @description Generates and returns an estimate of how much gas is necessary to allow the transaction to complete.
+ * @param host server host
  * @param tx
  * @returns {Promise}
  */
-export async function estimateGas(tx) {
+export async function estimateGas(host, tx) {
+  validator.validate({value: host, type: 'URL'});
   const body = {};
   body.method = 'eth_estimateGas';
   body.params = [tx];
   return request({
+    host,
     method: 'post',
     body,
   })
@@ -68,16 +69,14 @@ export async function estimateGas(tx) {
 
 /**
  * @description Returns the ethereum balance of the account of given address.
+ * @param host
  * @param address
  * @param tag
  * @returns {Promise}
  */
-export async function getAccountBalance(address, tag) {
-  try {
-    validator.validate({value: address, type: "ADDRESS"})
-  } catch (e) {
-    throw new Error('Invalid Address')
-  }
+export async function getAccountBalance(host, address, tag) {
+  validator.validate({value: host, type: 'URL'});
+  validator.validate({value: address, type: "ADDRESS"});
   tag = tag || "latest";
   if (tag) {
     try {
@@ -91,6 +90,7 @@ export async function getAccountBalance(address, tag) {
   body.method = 'eth_getBalance';
   body.params = params;
   return request({
+    host,
     method: 'post',
     body,
   })
@@ -98,46 +98,52 @@ export async function getAccountBalance(address, tag) {
 
 /**
  * @description Returns the information about a transaction requested by transaction hash.
- * @param hash
+ * @param host server host
+ * @param hash ethereum tx hash
  * @returns {Promise}
  */
-export async function getTransactionByhash(hash) {
-  try {
-    validator.validate({value: hash, type: "ETH_DATA"})
-  } catch (e) {
-    throw new Error('Invalid Transaction Hash')
-  }
+export async function getTransactionByhash(host, hash) {
+  validator.validate({value: host, type: 'URL'});
+  validator.validate({value: hash, type: "ETH_DATA"});
   const params = [hash];
   const body = {};
   body.method = 'eth_getTransactionByHash';
   body.params = params;
   return request({
+    host,
     method: 'post',
     body,
   })
-
 }
 
-export function generateBindAddressTx({projectId, address, gasPrice, gasLimit, nonce, chainId}) {
-
-  const tx = {};
-  tx.to = configs.bindContractAddress;
-  tx.value = "0x0";
-  tx.data = generateAbiData({method: "bind", address: address, projectId});
-  if (gasPrice) {
-    tx.gasPrice = gasPrice
+/**
+ * @description Executes a new message call immediately without creating a transaction on the block chain.
+ * @param host
+ * @param tx
+ * @param tag
+ * @returns {Promise}
+ */
+export async function call(host, tx,tag) {
+  validator.validate({value: host, type: 'URL'});
+  tag = tag || "latest";
+  if (tag) {
+    try {
+      validator.validate({value: tag, type: "RPC_TAG"})
+    } catch (e) {
+      throw new Error('Invalid tag, must be one of latest, pending, earliest')
+    }
   }
-  if (gasLimit) {
-    tx.gasLimit = gasLimit
-  }
-  if (nonce) {
-    tx.nonce = nonce
-  }
-  if (chainId) {
-    tx.chainId = chainId
-  }
-  return tx
+  const params = [tx, tag];
+  const body = {};
+  body.method = 'eth_call';
+  body.params = params;
+  return request({
+    method: 'post',
+    body,
+  });
 }
+
+
 
 
 

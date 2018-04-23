@@ -1,12 +1,11 @@
 import request from '../common/request'
 import Response from '../common/response'
 import code from "../common/code"
-import {generateAbiData, solSHA3,isValidSig} from '../ethereum/abi'
+import {soliditySHA3} from 'ethereumjs-abi'
 import validator from './validator'
 import Transaction from '../ethereum/transaction'
-import {toBN, toNumber, toHex,toBuffer, addHexPrefix, clearPrefix} from "../common/formatter";
-import {hashPersonalMessage, ecsign,sha3} from "ethereumjs-util"
-import {privateKeytoAddress} from "../ethereum/account";
+import {addHexPrefix, clearPrefix, toBN, toBuffer, toHex, toNumber} from "../common/formatter";
+import {ecsign, hashPersonalMessage} from "ethereumjs-util"
 
 
 export async function getOrders(filter) {
@@ -204,5 +203,5 @@ export function getOrderHash(order) {
     order.marginSplitPercentage
   ];
 
-  return solSHA3(orderTypes, orderData);
+  return soliditySHA3(orderTypes, orderData);
 }
