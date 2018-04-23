@@ -36,6 +36,7 @@ function request(options) {
     options.body.id = id();
     options.body = JSON.stringify(options.body)
   }
+  options.credentials = 'include'
   const url =  method.startsWith('eth')? window.ETH_HOST : window.LOOPRING_PROVIDER_HOST;
 
   return fetch(url, options)
