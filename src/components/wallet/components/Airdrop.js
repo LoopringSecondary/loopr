@@ -1,13 +1,12 @@
 import React from 'react';
-import {Badge, Card,Icon,Tooltip} from 'antd';
+import {Card, Icon, Tooltip} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
-import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {toHex} from "Loopring/common/formatter";
 import CoinIcon from '../../common/CoinIcon';
 import {projects} from "../../../common/config/data";
 import mapAsync from 'async/map';
 import intl from 'react-intl-universal';
-import {Pages, Page} from 'Loopr/Pages';
+import {Page, Pages} from 'Loopr/Pages';
 import AirdropBind from './AirdropBind'
 
 class Airdrop extends React.Component {
@@ -60,7 +59,7 @@ class Airdrop extends React.Component {
                 </div>
                 {!this.findBindAddress(project) &&
                   <div className="fs2 color-black-3 pl0 pr0">
-                    {intl.get('wallet.loopring_on', {project: intl.get(`wallet.${project.name.toLowerCase()}`)})}
+                    {intl.get('wallet.no_bound')}
                   </div>
                 }
                 {this.findBindAddress(project) &&

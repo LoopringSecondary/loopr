@@ -170,13 +170,13 @@ class TradeConfirm extends React.Component {
           });
 
           eachLimit(txs, 1, async function (tx, callback) {
-            const res = await window.WALLET.sendTransaction(tx);
-            if (res.error) {
-              callback(res.error.message)
+            const {response,rawTx} = await window.WALLET.sendTransaction(tx);
+            if (response.error) {
+              callback(response.error.message)
             } else {
-              window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
+            //  window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
               window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
-              notifyTransactionSubmitted(res.result);
+              notifyTransactionSubmitted({txHash:response.result,rawTx,from:window.WALLET.getAddress()});
               callback()
             }
           }, function (error) {

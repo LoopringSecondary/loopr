@@ -90,13 +90,13 @@ class WithdrawAll extends React.Component {
           let nonce = 0;
           window.STORAGE.wallet.getNonce(window.WALLET.getAddress()).then(result => {
               return withdraw(result);
-          }).then(res=>{
-            if (res.error) {
-              _this.setState({errorMsg: res.error.message})
+          }).then(({response,rawTx})=>{
+            if (response.error) {
+              _this.setState({errorMsg: response.error.message})
             } else {
-              window.STORAGE.transactions.addTx({hash: res.result, owner: window.WALLET.getAddress()});
+             // window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce});
-              notifyTransactionSubmitted(res.result);
+              notifyTransactionSubmitted({txHash:response.result,rawTx,from:window.WALLET.getAddress()});
               modal.hideModal({id:'token/withdrawall'});
               // const result = {extraData:{txHash:res.result, amount:values.amount, price:price.price, tokenSymbol:selectedToken.symbol, pageFrom:'WithdrawAll'}};
               // modal.showModal({id:'token/transfer/result', result});
@@ -108,7 +108,7 @@ class WithdrawAll extends React.Component {
                 type:'success',
                 actions:(
                   <div>
-                    <Button className="alert-btn mr5" onClick={() => { window.open(`https://etherscan.io/tx/${res.result}`,'_blank')}}>{intl.get('token.transfer_result_etherscan')}</Button>
+                    <Button className="alert-btn mr5" onClick={() => { window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}}>{intl.get('token.transfer_result_etherscan')}</Button>
                   </div>
                 )
               })

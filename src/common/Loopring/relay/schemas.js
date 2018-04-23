@@ -121,9 +121,33 @@ let schemas = {
       required: true,
       pattern: /^0x[0-9a-fA-F]{64}$/g
     }
-  }
-
-
+  },
+  TX: {
+    to: {
+      ...basicSchemas.ADDRESS
+    },
+    value: {
+      ...basicSchemas.ETH_DATA
+    },
+    gasLimit: {
+      ...basicSchemas.ETH_DATA
+    },
+    gasPrice: {
+      ...basicSchemas.ETH_DATA
+    },
+    chainId: {
+      type: 'number',
+      required: true
+    },
+    nonce: {
+      ...basicSchemas.ETH_DATA
+    },
+    data: {
+      type: 'string',
+      required: true,
+      pattern: /^0x[0-9a-fA-F]*$/g
+    }
+  },
 }
 
 export default schemas
