@@ -54,7 +54,8 @@ export default class MnemonicUnlockAccount extends Account {
     const ethTx = new EthTransaction(newTx.raw);
     ethTx.sign(toBuffer(addHexPrefix(this.privateKey)));
     const signed = toHex(ethTx.serialize());
-    return await newTx.sendRawTx(signed)
+    const response =  await newTx.sendRawTx(signed);
+    return {response,rawTx:newTx.raw}
   }
 
   download(password,mime) {

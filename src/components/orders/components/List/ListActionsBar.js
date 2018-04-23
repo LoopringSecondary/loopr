@@ -59,14 +59,14 @@ class ListActionsBar extends React.Component {
             })
           }
 
-          window.WALLET.sendTransaction(tx).then((res) => {
-            if (!res.error) {
-              window.STORAGE.transactions.addTx({hash: res.result, owner: account.address});
+          window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
+            if (!response.error) {
+              //window.STORAGE.transactions.addTx({hash: response.result, owner: account.address});
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
-              notifyTransactionSubmitted(res.result).then(()=> reEmitPendingTransaction());
-              Notification.open({message: intl.get('order.cancel_all_success',{pair:tokenPair}), type: "success", description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${res.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
+              notifyTransactionSubmitted({txHash:response.result,rawTx,from :window.WALLET.getAddress()}).then(()=> reEmitPendingTransaction());
+              Notification.open({message: intl.get('order.cancel_all_success',{pair:tokenPair}), type: "success", description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
             } else {
-              Notification.open({message: intl.get('order.cancel_all_failed',{pair:tokenPair}), type: "error", description:res.error.message})
+              Notification.open({message: intl.get('order.cancel_all_failed',{pair:tokenPair}), type: "error", description:response.error.message})
             }
           });
 
