@@ -358,7 +358,7 @@ export class LedgerAccount extends Account {
     }
   }
 
-  async signEthereumTx(rawTx){
+  async signEthereumTx(rawTx) {
     const result = await Ledger.signEthereumTx(this.dpath, rawTx, this.ledger);
     if (result.error) {
       throw new Error(result.error)
@@ -367,13 +367,92 @@ export class LedgerAccount extends Account {
     }
   }
 
-  async signOrder(order){
+  async signOrder(order) {
     const hash = getOrderHash(order);
     const result = await Ledger.signMessage(this.dpath, clearHexPrefix(toHex(hash)), this.ledger);
     if (result.error) {
       throw new Error(result.error)
     } else {
-      return {...order,...result.result};
+      return {...order, ...result.result};
     }
   }
+}
+
+export class MetaMaskAccount extends Account {
+
+  constructor(input) {
+    if (input.web3 && input.web3.eth.accounts[0]) {
+      super();
+      this.web3 = input.web3;
+      this.account = this.web3.eth.accounts[0];
+    }
+  }
+
+  getAddress() {
+    if (this.web3 && this.web3.eth.accounts[0]) return this.web3.eth.accounts[0]
+    else return null
+  }
+
+  async signMessage(message) {
+    const hash = hashPersonalMessage(sha3(message));
+    const signMethod = () => {
+      return new Promise((resolve) => {
+        this.web3.eth.sign(this.account, hash, function (err, result) {
+          if (!err) {
+            const r = result.slice(0, 66);
+            const s = fm.addHexPrefix(result.slice(66, 130));
+            const v = fm.toNumber(fm.addHexPrefix(result.slice(130, 132)));
+            resolve({r, s, v})
+          } else {
+            console.error(err);
+            const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
+            resolve({error: {message: errorMsg}})
+          }
+        })
+      })
+    }
+    if (this.web3 && this.web3.eth.accounts[0]) {
+      return await signMethod()
+    } else {
+      throw new Error("Not found MetaMask")
+    }
+  }
+
+  /**
+   * Could not use `web3.eth.sign()` to get signedTx and use `sendRawTransaction(signed)` to send due to the reason below, so use `sendTransaction` supported by Metamask directly
+   * In addition to this, you can sign arbitrary data blobs using web3.eth.sign(fromAddress, data, callback), although it has protections to sign it differently than a transaction, so users aren't tricked into signing transactions using this method.
+   */
+  async signEthereumTx(rawTx) {
+    validator.validate({type: 'TX', value: rawTx});
+    const ethTx = new EthTransaction(rawTx);
+
+
+  hash =   ethTx.hash(false);
+
+
+    const sendMethod = () => {
+      return new Promise((resolve) => {
+        this.web3.eth.sendTransaction(newTx.raw, function (err, transactionHash) {
+          if (!err) {
+            resolve({result: transactionHash})
+          } else {
+            const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
+            resolve({error: {message: errorMsg}})
+          }
+        })
+      })
+    }
+    if (this.web3 && this.web3.eth.accounts[0]) {
+      return await sendMethod()
+    } else {
+      throw new Error("Not found MetaMask")
+    }
+  }
+
+  signOrder(order) {
+    const hash = toHex(hashPersonalMessage(getOrderHash(order)));
+    const signature = this.signMessage(hash);
+    return {...order, ...signature};
+  }
+
 }
