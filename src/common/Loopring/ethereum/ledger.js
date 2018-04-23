@@ -15,7 +15,7 @@ export async function connect() {
         try {
           resolve({result: new ledger.eth(comm)});
         } catch (e) {
-          resolve({error: e.message})
+          resolve({error: {message:e.message}})
         }
       })
   })
@@ -118,7 +118,7 @@ export async function signEthereumTx(dpath, rawTx, ledgerConnect) {
           resolve({result: serializedTx});
         })
         .catch(err => {
-          return resolve({error: (`${err.message} . Check to make sure contract data is on`)});
+          return resolve({error: {message:(`${err.message} . Check to make sure contract data is on`)}});
         });
     });
   } else {

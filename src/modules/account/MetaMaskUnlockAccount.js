@@ -64,7 +64,7 @@ export default class MetaMaskUnlockAccount extends Account {
           }
         })
       })
-    }
+    };
     if(this.web3 && this.web3.eth.accounts[0]) {
       return await sendMethod()
     } else {

@@ -11,6 +11,7 @@ import EthTransaction from 'ethereumjs-tx';
 import {getOrderHash} from "../relay/order";
 import * as Trezor from "./trezor";
 import * as Ledger from "./ledger";
+import * as MetaMask from './metaMask';
 
 const wallets = require('../../config/wallets.json');
 const LoopringWallet = wallets.find(wallet => trimAll(wallet.name).toLowerCase() === 'loopringwallet');
@@ -146,7 +147,7 @@ export class Account {
    * @description sign
    * @param hash
    */
-  sign(hash){
+  sign(hash) {
     throw Error('unimplemented')
   }
 
@@ -258,7 +259,7 @@ export class TrezorAccount extends Account {
   async getAddress() {
     const result = Trezor.getAddress(this.dpath);
     if (result.error) {
-      throw new Error(result.error)
+      throw new Error(result.error.message)
     } else {
       return result.result;
     }
@@ -267,7 +268,7 @@ export class TrezorAccount extends Account {
   async signMessage(message) {
     const result = await Trezor.signMessage(this.dpath, message)
     if (result.error) {
-      throw new Error(result.error)
+      throw new Error(result.error.message)
     } else {
       return result.result;
     }
@@ -276,7 +277,7 @@ export class TrezorAccount extends Account {
   async signEthereumTx(rawTX) {
     const result = await Trezor.signMessage(this.dpath, rawTX)
     if (result.error) {
-      throw new Error(result.error)
+      throw new Error(result.error.message)
     } else {
       return result.result;
     }
@@ -295,7 +296,7 @@ export class LedgerAccount extends Account {
   async getAddress() {
     const result = await Ledger.getXPubKey(this.dpath, this.ledger);
     if (result.error) {
-      throw new Error(result.error)
+      throw new Error(result.error.message)
     } else {
       return result.result.address;
     }
@@ -304,7 +305,7 @@ export class LedgerAccount extends Account {
   async signMessage(message) {
     const result = await Ledger.signMessage(this.dpath, message, this.ledger)
     if (result.error) {
-      throw new Error(result.error)
+      throw new Error(result.error.message)
     } else {
       return result.result;
     }
@@ -313,7 +314,7 @@ export class LedgerAccount extends Account {
   async signEthereumTx(rawTx) {
     const result = await Ledger.signEthereumTx(this.dpath, rawTx, this.ledger);
     if (result.error) {
-      throw new Error(result.error)
+      throw new Error(result.error.message)
     } else {
       return result.result;
     }
@@ -323,7 +324,7 @@ export class LedgerAccount extends Account {
     const hash = getOrderHash(order);
     const result = await Ledger.signMessage(this.dpath, clearHexPrefix(toHex(hash)), this.ledger);
     if (result.error) {
-      throw new Error(result.error)
+      throw new Error(result.error.message)
     } else {
       return {...order, ...result.result};
     }
@@ -342,71 +343,52 @@ export class MetaMaskAccount extends Account {
 
   getAddress() {
     if (this.web3 && this.web3.eth.accounts[0]) return this.web3.eth.accounts[0]
-    else return null
+    else throw  new Error('Not found MetaMask')
   }
 
-  sign(hash){
-    return new Promise((resolve) => {
-      this.web3.eth.sign(this.account, hash, function (err, result) {
-        if (!err) {
-          const r = result.slice(0, 66);
-          const s = addHexPrefix(result.slice(66, 130));
-          const v = toNumber(addHexPrefix(result.slice(130, 132)));
-          resolve({r, s, v})
-        } else {
-          console.error(err);
-          const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
-          resolve({error: {message: errorMsg}})
-        }
-      })
-    })
-  }
-
-
-  async signMessage(message) {
-    const hash = hashPersonalMessage(sha3(message));
-    if (this.web3 && this.web3.eth.accounts[0]) {
-      return await sign(hash)
+  async sign(hash) {
+    const result = MetaMask.sign(this.web3, this.account, hash);
+    if (!result.error) {
+      return result.result
     } else {
-      throw new Error("Not found MetaMask")
+      throw new Error(result.error.message)
     }
   }
 
-  async signEthereumTx(rawTx) {
-    validator.validate({type: 'TX', value: rawTx});
-    const ethTx = new EthTransaction(rawTx);
-    const hash = toHex(ethTx.hash(false));
-    const signature = this.sign(hash);
-    signature.v += ethTx._chainId * 2 +8;
-    Object.assign(ethTx,signature);
-    return toHex(ethTx.serialize());
+  signMessage(message) {
+    const result = MetaMask.signMessage(this.web3, this.account, message);
+    if (!result.error) {
+      return result.result
+    } else {
+      throw new Error(result.error.message)
+    }
   }
 
-  signOrder(order) {
+  signEthereumTx(rawTx) {
+    const result = MetaMask.signEthereumTx(this.web3, this.account, rawTx);
+    if (!result.error) {
+      return result.result
+    } else {
+      throw new Error(result.error.message)
+    }
+  }
+
+  async signOrder(order) {
     const hash = toHex(hashPersonalMessage(getOrderHash(order)));
-    const signature = this.signMessage(hash);
-    return {...order, ...signature};
-  }
-
-  async sendTransaction(tx) {
-    validator.validate({type: 'TX', value: tx});
-    const sendMethod = () => {
-      return new Promise((resolve)=>{
-        this.web3.eth.sendTransaction(tx, function(err, transactionHash) {
-          if (!err){
-            resolve({result:transactionHash})
-          } else {
-            const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
-            resolve({error:{message:errorMsg}})
-          }
-        })
-      })
-    };
-    if(this.web3 && this.web3.eth.accounts[0]) {
-      return await sendMethod()
+    const result = await MetaMask.signMessage(this.web3, this.account, hash);
+    if (!result.error) {
+      return {...order, ...result.result};
     } else {
-      throw new Error("Not found MetaMask")
+      throw new Error(result.error.message)
     }
   }
 
+  sendTransaction(tx) {
+    const result =  MetaMask.sendTransaction(this.web3, tx);
+    if (!result.error) {
+      return result.result
+    } else {
+      throw new Error(result.error.message)
+    }
+  }
 }
