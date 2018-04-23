@@ -436,15 +436,6 @@ class TradeForm extends React.Component {
         e.target.value = price
         this.setState({priceInput: price})
         amount = Number(form.getFieldValue("amount"))
-        if(side === 'buy'){
-          const precision = Math.max(0,tokenRBalance.precision - marketConfig.pricePrecision)
-          const availableAmount = Math.floor(tokenRBalance.balance / Number(price) * ("1e"+precision)) / ("1e"+precision)
-          this.setState({availableAmount: availableAmount})
-          form.setFieldsValue({"amountSlider":0})
-        } else {
-          const availableAmount = Math.floor(tokenLBalance.balance * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
-          this.setState({availableAmount: availableAmount})
-        }
       } else if (type === 'amount') {
         amount = e.target.value.toString()
         if (!amountReg.test(amount)) return false
@@ -458,6 +449,26 @@ class TradeForm extends React.Component {
         this.setState({amountInput: amount})
         price = Number(form.getFieldValue("price"))
       }
+      let avalAmount = 0
+      if(side === 'buy'){
+        if(price >0){
+          const precision = Math.max(0,tokenRBalance.precision - marketConfig.pricePrecision)
+          avalAmount = Math.floor(tokenRBalance.balance / Number(price) * ("1e"+precision)) / ("1e"+precision)
+          this.setState({availableAmount: avalAmount})
+        }
+      } else {
+        avalAmount = Math.floor(tokenLBalance.balance * ("1e"+tokenRBalance.precision)) / ("1e"+tokenRBalance.precision)
+        this.setState({availableAmount: avalAmount})
+      }
+      let ratio = 0
+      if(avalAmount > 0) {
+        if(amount >= avalAmount) {
+          ratio = 100
+        } else {
+          ratio = Math.floor(accMul(100,accDiv(amount, avalAmount)))
+        }
+      }
+      form.setFieldsValue({"amountSlider":ratio})
       const total = accMul(price, amount)
       this.setState({total: total})
       //LRC Fee
