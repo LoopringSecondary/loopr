@@ -458,6 +458,16 @@ class TradeForm extends React.Component {
         this.setState({amountInput: amount})
         price = Number(form.getFieldValue("price"))
       }
+      const avalAmount = this.state.availableAmount ? this.state.availableAmount : availableAmount
+      if(avalAmount > 0) {
+        let ratio = 0
+        if(amount >= avalAmount) {
+          ratio = 100
+        } else {
+          ratio = Math.floor(accMul(100,accDiv(amount, avalAmount)))
+        }
+        form.setFieldsValue({"amountSlider":ratio})
+      }
       const total = accMul(price, amount)
       this.setState({total: total})
       //LRC Fee
