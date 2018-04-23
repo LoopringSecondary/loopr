@@ -20,6 +20,35 @@ export default {
     version:'当前版本',
     update_time:'最近更新',
   },
+  feedback:{
+    email_to:"help@loopring.org",
+    email_subject:"路印网页钱包问题反馈",
+    email_body:`
+## 我有一个问题\n
+问题名称：（必填）\n
+问题分类：○ 解锁钱包 ○ 生成钱包 ○ 空投绑定 ○ 转账收款 ○ 买卖交易 ○ 订单成交 ○ 其他 （单选）\n
+如何重新你的问题：第1步：      第2步：      第3步： \n
+你想得到的结果是：\n
+实际得到的结果是：\n
+附件上传：\n
+
+## 我有一个优化建议\n
+建议名称：（必填）\n
+建议分类：○ 解锁钱包 ○ 生成钱包 ○ 空投绑定 ○ 转账收款 ○ 买卖交易 ○ 订单成交 ○ 其他 （单选）\n
+你希望得到的结果是：\n
+你实际得到的结果是：\n
+你认为你遇到问题是：\n
+你解决问题的建议是：（选填）\n
+附件上传：\n
+
+
+## 测试环境信息\n
+钱包类型：{wallet}\n
+钱包地址：{address}\n
+电脑系统：{os}\n
+浏览器：{browser}\n
+`
+  },
   navbar: {
     home: "首页",
     trade: "交易",
@@ -100,8 +129,8 @@ export default {
     huobi: '火币 市场行情',
   },
   home: {
-    title: '路印钱包及去中心化交易所',
-    subtitle: '安全高流动性的交易你的代币',
+    title: '路印钱包',
+    subtitle: '不托管资金的以太钱包和去中心化交易所',
     beta_notification_title:'想尽早体验Loopr?',
     beta_notifycation_content: '目前Loopr钱包还未正式发布，当前版本仅供尝鲜体验'
   },
@@ -366,6 +395,7 @@ export default {
     go_to:"访问 {project} 官方网站",
     bind_address: "绑定地址",
     bound_address:"已绑定的{token}地址",
+    no_bound:"没有找到已绑定的地址",
     to_bind_address: "绑定",
     to_edit: "修改",
     bind_type_address: "绑定{type}地址",
@@ -507,6 +537,7 @@ export default {
     type_mnemonic:'助记词钱包',
     type_privateKey:'私钥钱包',
     type_demo:'演示钱包',
+    type_lock:'未解锁',
   },
   demo:{
     badge_title:'演示账号',

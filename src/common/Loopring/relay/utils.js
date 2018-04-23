@@ -71,14 +71,17 @@ export async function getGasPrice(filter) {
 }
 
 
-export async function notifyTransactionSubmitted(txHash) {
+export async function notifyTransactionSubmitted({from, rawTx, txHash}) {
 
   try {
-    validator.validate({value: txHash, type: "TX_HASH"})
+    validator.validate({value: from, type: "ADDRESS"});
+    validator.validate({value: rawTx, type: "TX"});
+    validator.validate({value: txHash, type: "TX_HASH"});
   } catch (e) {
     throw new Error('Invalid transaction hash')
   }
-  const params = [{txHash}];
+  const {nonce, to, value, gasPrice, gasLimit, data} = rawTx;
+  const params = [{hash: txHash, nonce, to, value, gasPrice, gas: gasLimit, input: data, from,}];
   const body = {};
   body.method = 'loopring_notifyTransactionSubmitted';
   body.params = params;

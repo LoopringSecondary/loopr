@@ -154,9 +154,10 @@ export default class LedgerUnlockAccount extends Account {
   async sendTransaction(tx) {
     let newTx = new Transaction(tx)
     await newTx.complete()
-    const signed = await this.signRawTransaction(new EthTransaction(newTx.raw))
+    const signed = await this.signRawTransaction(new EthTransaction(newTx.raw));
     if(signed.result){
-      return await newTx.sendRawTx(toHex(signed.result))
+      const response =  await newTx.sendRawTx(toHex(signed.result));
+      return {response,rawTx:newTx.raw}
     } else {
       throw new Error(signed.error)
     }

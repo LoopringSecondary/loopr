@@ -21,6 +21,32 @@ export default {
     version:'Current Version',
     update_time:'Last Update',
   },
+  feedback:{
+    email_to:"help@loopring.org",
+    email_subject:"Loopr Wallet Feedback",
+    email_body:`
+## I Have An Issue To Report\n
+Feedback Title: \n
+Feedback Topic: ○ Unlock  ○ Generate ○ Airdrop ○ Send & Receive ○ Sell & Buy ○ Orders & Fills ○ Others \n
+The Steps I Did: 1:       2:       3:  \n
+The Result I Expect: \n
+The Result I Got: \n
+Attachment: \n
+
+## I Have An Idea To Suggest\n
+Feedback Title: \n
+Feedback Topic: ○ Unlock  ○ Generate ○ Airdrop ○ Send & Receive ○ Sell & Buy ○ Orders & Fills ○ Others \n
+The Result I Expect: \n
+The Result I Got: \n
+Attachment: \n
+
+## Test Environment\n
+Wallet Type：{wallet}\n
+Wallet Address：{address}\n
+Platform：{os}\n
+Browser：{browser}\n
+`,
+  },
   navbar: {
     home: "Home",
     trade: "MARKETS",
@@ -149,7 +175,8 @@ export default {
     tx_detail: "Transaction Details",
     success: "Succeeded",
     failed: "Failed",
-    pending: "Pending"
+    pending: "Pending",
+    no_txs:'No data',
   },
   orders: {
     order: "Order",
@@ -362,6 +389,7 @@ export default {
     address: "Address",
     bind_address: "Bind Address",
     bound_address:"Bound {token} Address",
+    no_bound:"No bound address found",
     to_bind_address: "Bind",
     to_edit: "Edit",
     bind_type_address: "Bind {type} Address",
@@ -503,6 +531,7 @@ export default {
     type_mnemonic:'Mnemonic',
     type_privatekey:'PrivateKey',
     type_demo:'Demo Wallet',
+    type_lock:'Locked Wallet',
   },
   demo:{
     badge_title:'Demo Wallet',

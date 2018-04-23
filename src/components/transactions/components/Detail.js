@@ -96,7 +96,7 @@ class DetailBlock extends React.Component {
           <MetaItem label={intl.get('token.gas_limit')} value={ethTx && window.uiFormatter.getFormatNum(ethTx.gas)}/>
           <MetaItem label={intl.get('token.gas_price')}
                     value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>
-          <MetaItem label={intl.get('wallet.nonce')} value={ethTx && toNumber(ethTx.nonce)}/>
+          <MetaItem label={intl.get('wallet.nonce')} value={toNumber(item.nonce)}/>
           <MetaItem label={intl.get('txs.value')} value={ethTx && toBig(ethTx.value).div(1e18).toNumber()+ ' ETH'}/>
         </Spin>
       </Card>

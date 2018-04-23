@@ -31,19 +31,19 @@ let Preview = ({
         })
       }
       return window.WALLET.sendTransaction(tx)
-    }).then(res=>{
-      if(res.error) {
-        result = {...result, error:res.error.message}
+    }).then(({response,rawTx})=>{
+      if(response.error) {
+        result = {...result, error:response.error.message}
         Notification.open({
           message:intl.get('token.send_failed'),
           description:intl.get('token.result_failed', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error}),
           type:'error'
         })
       } else {
-        extraData.txHash = res.result
-        window.STORAGE.transactions.addTx({hash: res.result, owner: account.address})
+        extraData.txHash = response.result
+      //  window.STORAGE.transactions.addTx({hash: response.result, owner: account.address})
         window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
-        notifyTransactionSubmitted(res.result);
+        notifyTransactionSubmitted({rawTx,txHash:response.result,from:window.WALLET.getAddress()});
         const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${accMul(result.extraData.amount, result.extraData.price).toFixed(2)}`
         Notification.open({
           message:intl.get('token.transfer_succ_notification_title'),
