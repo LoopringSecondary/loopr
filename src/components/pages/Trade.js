@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
+import TradeList from '../trades/components/ListSimple'
 import Order from '../orders/containers'
 import Layout from '../../layout/Layout'
 import Market from '../market/components'
@@ -59,19 +60,19 @@ export default function Home(props){
       </Sockets.TickersByPair>
       <div className="container">
           <div className="row justify-content-around">
-            <div className="col-md-3 col-sm-6 pl5 pr5">
+            <div className="col-md-3 col-sm-6 pr5">
               <Card title="Order Book" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
                 <Sockets.Depth market={pair}>
-                  <div>hahah</div>
+                  <TradeList />
                 </Sockets.Depth>
               </Card>
             </div>
             <div className="col-md-3 col-sm-6 pl5 pr5">
               <Card title="Trade History" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
-                hahahah
+                <TradeList />
               </Card>
             </div>
-            <div className="col-md-6 col-sm-6 pl5 pr5">
+            <div className="col-md-6 col-sm-6 pl5">
               <Card title="PlaceOrder Form" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
                 <Tabs forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'15px'}} onChange={tabChange}>
                   <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Sell</div>} key="sell">
