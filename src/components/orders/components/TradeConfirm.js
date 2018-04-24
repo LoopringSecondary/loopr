@@ -43,9 +43,9 @@ class TradeConfirm extends React.Component {
     const tokenS = side.toLowerCase() === "sell" ? window.CONFIG.getTokenBySymbol(token) : window.CONFIG.getTokenBySymbol(token2);
     order.tokenB = tokenB.address;
     order.tokenS = tokenS.address;
-    order.amountB = toHex((side.toLowerCase() === "buy" ? amount : total) * Number('1e' + tokenB.digits));
-    order.amountS = toHex((side.toLowerCase() === "sell" ? amount : total) * Number('1e' + tokenS.digits));
-    order.lrcFee = toHex(lrcFee * 1e18);
+    order.amountB = toHex(toBig(side.toLowerCase() === "buy" ? amount : total).times('1e' + tokenB.digits));
+    order.amountS = toHex(toBig(side.toLowerCase() === "sell" ? amount : total).times('1e' + tokenS.digits));
+    order.lrcFee = toHex(toBig(lrcFee).times(1e18));
     order.validSince = toHex(Math.ceil(start / 1e3));
     order.validUntil = toHex(Math.ceil(start / 1e3) + Number(timeToLive));
     order.marginSplitPercentage = Number(marginSplit);
