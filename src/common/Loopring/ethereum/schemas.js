@@ -2,16 +2,6 @@ import basicSchemas from '../common/schemas'
 
 const ethereumSchemas = {
   ...basicSchemas,
-  ADDRESS: {
-    type: 'string',
-    required: true,
-    pattern: /^0x[0-9a-fA-F]{40}$/g,
-  },
-  VALUES: {
-    type: 'string',
-    required: true,
-    pattern: /^0x[0-9a-fA-F]{1,64}$/g,
-  },
   PRIVATE_KEY_BUFFER: {
     validator: (rule, value, cb) => {
       if (value instanceof Buffer) {
@@ -21,11 +11,6 @@ const ethereumSchemas = {
       }
     }
   },
-  PRIVATE_KEY: {
-    type: 'string',
-    required: true,
-    len: 64,
-  },
   TX_HASH: {
     type: 'string',
     required: true,
@@ -33,10 +18,10 @@ const ethereumSchemas = {
   },
   BASIC_TX: {
     to: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     value: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_VALUES
     },
     gasLimit: {
       type: "string",
@@ -57,28 +42,28 @@ const ethereumSchemas = {
     data: {
       type: 'string',
       required: true,
-      pattern: /^0x[0-9a-fA-F]*$/g
+      pattern: /^0x[0-9a-fA-F]{8}([0-9a-fA-F]{64})*$ |^(0x)*$/g
     }
   },
   TX: {
     to: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     value: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_VALUES
     },
     gasLimit: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_VALUES
     },
     gasPrice: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_VALUES
     },
     chainId: {
       type: 'number',
       required: true
     },
     nonce: {
-      ...basicSchemas.VALUES
+      ...basicSchemas.ETH_VALUES
     },
     data: {
       type: 'string',

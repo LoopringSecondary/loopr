@@ -28,6 +28,21 @@ const basicSchemas = {
     required: true,
     pattern: /^0x[0-9a-fA-F]+$/g,
   },
+  ETH_VALUES: {
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{1,64}$/g,
+  },
+  ETH_ADDRESS:{
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{40}$/g,
+  },
+  ETH_KEY: {
+    type: 'string',
+    required: true,
+    len: 64,
+  },
   QUANTITY: {
     type: 'string',
     required: true,

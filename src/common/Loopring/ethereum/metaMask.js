@@ -14,7 +14,7 @@ import EthTransaction from 'ethereumjs-tx'
  */
 export async function sign(web3, account, hash) {
   try {
-    validator.validate({value: account, type: "ADDRESS"})
+    validator.validate({value: account, type: "ETH_ADDRESS"})
   } catch {
     return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
   }
@@ -45,8 +45,8 @@ export async function sign(web3, account, hash) {
  * @returns {Promise}
  */
 export function signMessage(web3, account, message) {
-  const hash = toHex(hashPersonalMessage(sha3(message)));
-  return sign(web3, account, hash)
+  // const hash = toHex(hashPersonalMessage(sha3(message)));
+  // return sign(web3, account, hash)
 }
 
 /**
@@ -57,22 +57,22 @@ export function signMessage(web3, account, message) {
  * @returns {Promise.<*>}
  */
 export async function signEthereumTx(web3, account, rawTx) {
-  try {
-    validator.validate({type: 'TX', value: rawTx});
-  } catch {
-    return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
-  }
-  const ethTx = new EthTransaction(rawTx);
-  const hash = toHex(ethTx.hash(false));
-  const response = await sign(web3, account, hash);
-  if(!response.error){
-    const signature = response.result;
-    signature.v += ethTx._chainId * 2 + 8;
-    Object.assign(ethTx, signature);
-    return {result:toHex(ethTx.serialize())};
-  }else {
-    return response
-  }
+  // try {
+  //   validator.validate({type: 'TX', value: rawTx});
+  // } catch {
+  //   return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
+  // }
+  // const ethTx = new EthTransaction(rawTx);
+  // const hash = toHex(ethTx.hash(false));
+  // const response = await sign(web3, account, hash);
+  // if(!response.error){
+  //   const signature = response.result;
+  //   signature.v += ethTx._chainId * 2 + 8;
+  //   Object.assign(ethTx, signature);
+  //   return {result:toHex(ethTx.serialize())};
+  // }else {
+  //   return response
+  // }
 }
 
 /**
@@ -82,23 +82,23 @@ export async function signEthereumTx(web3, account, rawTx) {
  * @returns {*}
  */
 export  function sendTransaction(web3, tx) {
-  try {
-    validator.validate({type: 'TX', value: tx});
-  } catch {
-    return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
-  }
-  if (web3 && web3.eth.accounts[0]) {
-    return new Promise((resolve) => {
-      web3.eth.sendTransaction(tx, function (err, transactionHash) {
-        if (!err) {
-          resolve({result: transactionHash})
-        } else {
-          const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
-          resolve({error: {message: errorMsg}})
-        }
-      })
-    })
-  } else {
-    throw new Error("Not found MetaMask")
-  }
+  // try {
+  //   validator.validate({type: 'TX', value: tx});
+  // } catch {
+  //   return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
+  // }
+  // if (web3 && web3.eth.accounts[0]) {
+  //   return new Promise((resolve) => {
+  //     web3.eth.sendTransaction(tx, function (err, transactionHash) {
+  //       if (!err) {
+  //         resolve({result: transactionHash})
+  //       } else {
+  //         const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
+  //         resolve({error: {message: errorMsg}})
+  //       }
+  //     })
+  //   })
+  // } else {
+  //   throw new Error("Not found MetaMask")
+  // }
 }

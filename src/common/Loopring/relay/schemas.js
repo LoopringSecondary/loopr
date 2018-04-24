@@ -24,43 +24,43 @@ const loopringScheams = {
   },
   RAW_Order: {
     delegateAddress:{
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     protocol: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     owner: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     tokenS: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     tokenB: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     authAddr: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     authPrivateKey:{
-      ...basicSchemas.PRIVATE_KEY
+      ...basicSchemas.ETH_KEY
     },
     validSince: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     validUntil: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     amountS: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     amountB: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     lrcFee: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     walletAddress: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -76,43 +76,43 @@ const loopringScheams = {
   ORDER: {
 
     delegateAddress:{
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     protocol: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     owner: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     tokenS: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     tokenB: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     authAddr: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     authPrivateKey:{
-      ...basicSchemas.PRIVATE_KEY
+      ...basicSchemas.ETH_KEY
     },
     validSince: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     validUntil: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     amountS: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     amountB: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     lrcFee: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     walletAddress: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     buyNoMoreThanAmountB: {
       type: 'boolean',
@@ -142,23 +142,23 @@ const loopringScheams = {
   },
   TX: {
     to: {
-      ...basicSchemas.ADDRESS
+      ...basicSchemas.ETH_ADDRESS
     },
     value: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     gasLimit: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     gasPrice: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     chainId: {
       type: 'number',
       required: true
     },
     nonce: {
-      ...basicSchemas.ETH_DATA
+      ...basicSchemas.ETH_VALUES
     },
     data: {
       type: 'string',
