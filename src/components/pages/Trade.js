@@ -58,16 +58,33 @@ export default function Home(props){
         </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
-        <Card style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <div className="row justify-content-around">
-            <div className="col-md-6 col-sm-6 mt10 mb10 pl40 pr50 zb-b-r">
-              <Order.TradeForm side="buy" pair={pair} />
+            <div className="col-md-3 col-sm-6 pl5 pr5">
+              <Card title="Order Book" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+                <Sockets.Depth market={pair}>
+                  <div>hahah</div>
+                </Sockets.Depth>
+              </Card>
             </div>
-            <div className="col-md-6 col-sm-6 mt10 mb10 pl50 pr40">
-              <Order.TradeForm side="sell" pair={pair} />
+            <div className="col-md-3 col-sm-6 pl5 pr5">
+              <Card title="Trade History" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+                hahahah
+              </Card>
+            </div>
+            <div className="col-md-6 col-sm-6 pl5 pr5">
+              <Card title="PlaceOrder Form" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+                <Tabs forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'15px'}} onChange={tabChange}>
+                  <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Sell</div>} key="sell">
+                    <Order.TradeForm side="sell" pair={pair} />
+                  </Tabs.TabPane>
+                  <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Buy</div>} key="Buy">
+                    <Order.TradeForm side="buy" pair={pair} />
+                  </Tabs.TabPane>
+                </Tabs>
+              </Card>
             </div>
           </div>
-        </Card>
+
         <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
           <Tabs defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
             <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_open_orders')}</div>} key="orders">

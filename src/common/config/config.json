@@ -46,12 +46,8 @@
       "name": "Default Loopring Relay"
     },
     {
-      "value": "//loopring-backend-136182499.ap-northeast-1.elb.amazonaws.com",
-      "name": "Default Loopring Relay"
-    },
-    {
-      "value": "//54.250.200.175",
-      "name": "Pre-Production"
+      "value": "//pre-relay1.loopring.io",
+      "name": "Pre-Production Relay"
     },
     {
       "value": "//13.231.66.20",
