@@ -1,4 +1,3 @@
-require('babel-polyfill');
 import validator from '../common/validator'
 import {addHexPrefix, clearHexPrefix, formatAddress, formatKey, toBuffer, toHex, toNumber} from '../common/formatter'
 import {decryptKeystoreToPkey, pkeyToKeystore} from './keystore'
@@ -8,7 +7,7 @@ import {generateMnemonic} from "bip39";
 import {trimAll} from "../common/utils";
 import HDKey from 'hdkey';
 import EthTransaction from 'ethereumjs-tx';
-import {getOrderHash} from "../relay/order";
+import {getOrderHash} from "../relay/rpc/order";
 import * as Trezor from "./trezor";
 import * as Ledger from "./ledger";
 import * as MetaMask from './metaMask';
@@ -133,7 +132,7 @@ export function fromKeystore(keystore, password) {
  * @description generate mnemonic
  * @returns {*}
  */
-export function generateMnemonic() {
+export function createMnemonic() {
   return generateMnemonic(256);
 }
 

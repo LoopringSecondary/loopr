@@ -723,8 +723,8 @@ this.TrezorConnect = (function () {
    */
 
   function ChromePopup(url, name, width, height) {
-    var left = (screen.width - width) / 2;
-    var top = (screen.height - height) / 2;
+    var left = (window.screen.width - width) / 2;
+    var top = (window.screen.height - height) / 2;
     var opts = {
       id: name,
       innerBounds: {
@@ -799,8 +799,8 @@ this.TrezorConnect = (function () {
   }
 
   function Popup(url, origin, name, width, height) {
-    var left = (screen.width - width) / 2;
-    var top = (screen.height - height) / 2;
+    var left = (window.screen.width - width) / 2;
+    var top = (window.screen.height - height) / 2;
     var opts =
       'width=' + width +
       ',height=' + height +

@@ -51,7 +51,7 @@ function hexEncodeData(value) {
   return toHex(toBuffer(value));
 }
 
-getTransactionFields = (t) => {
+function getTransactionFields (t){
   const {data, gasLimit, gasPrice, to, nonce, value} = t;
   const chainId = t.getChainId();
   return {

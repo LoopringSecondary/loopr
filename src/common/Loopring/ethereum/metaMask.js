@@ -5,6 +5,13 @@ import {addHexPrefix, toHex, toNumber} from "../common/formatter";
 import {hashPersonalMessage, sha3} from 'ethereumjs-util'
 import EthTransaction from 'ethereumjs-tx'
 
+/**
+ * @description sign hash
+ * @param web3
+ * @param account
+ * @param hash
+ * @returns {Promise.<*>}
+ */
 export async function sign(web3, account, hash) {
   try {
     validator.validate({value: account, type: "ADDRESS"})
@@ -30,12 +37,25 @@ export async function sign(web3, account, hash) {
   }
 }
 
-
+/**
+ * @description sign message
+ * @param web3
+ * @param account
+ * @param message
+ * @returns {Promise}
+ */
 export function signMessage(web3, account, message) {
   const hash = toHex(hashPersonalMessage(sha3(message)));
   return sign(web3, account, hash)
 }
 
+/**
+ * @description Signs ethereum tx
+ * @param web3
+ * @param account
+ * @param rawTx
+ * @returns {Promise.<*>}
+ */
 export async function signEthereumTx(web3, account, rawTx) {
   try {
     validator.validate({type: 'TX', value: rawTx});
@@ -55,13 +75,19 @@ export async function signEthereumTx(web3, account, rawTx) {
   }
 }
 
-export async function sendTransaction(web3, tx) {
+/**
+ * @description Sends ethereum tx through MetaMask
+ * @param web3
+ * @param tx
+ * @returns {*}
+ */
+export  function sendTransaction(web3, tx) {
   try {
     validator.validate({type: 'TX', value: tx});
   } catch {
     return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg))
   }
-  const sendMethod = () => {
+  if (web3 && web3.eth.accounts[0]) {
     return new Promise((resolve) => {
       web3.eth.sendTransaction(tx, function (err, transactionHash) {
         if (!err) {
@@ -72,10 +98,6 @@ export async function sendTransaction(web3, tx) {
         }
       })
     })
-  };
-  if (web3 && web3.eth.accounts[0]) {
-    return await
-      sendMethod()
   } else {
     throw new Error("Not found MetaMask")
   }
