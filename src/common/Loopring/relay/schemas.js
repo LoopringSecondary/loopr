@@ -165,7 +165,7 @@ const loopringScheams = {
       required: true,
       pattern: /^0x[0-9a-fA-F]*$/g
     }
-  },
+  }
 };
 
 export default loopringScheams;
