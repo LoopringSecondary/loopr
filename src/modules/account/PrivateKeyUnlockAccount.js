@@ -1,9 +1,10 @@
 import Account from "./Account";
 import EthTransaction from 'ethereumjs-tx'
-import Transaction from "../../common/Loopring/ethereum/transaction";
 import {toHex, toBuffer, addHexPrefix} from '../../common/Loopring/common/formatter'
 import {privateKeytoAddress,download} from 'Loopring/ethereum/account';
 import {sign} from 'Loopring/relay/order'
+import {sendRawTransaction} from "../../common/Loopring/ethereum/utils";
+
 
 export default class PrivateKeyUnlockAccount extends Account {
 
@@ -18,17 +19,15 @@ export default class PrivateKeyUnlockAccount extends Account {
   }
 
   signMessage(message) {
-    console.log("private key sign");
     return this.signWithPrivateKey(message, this.privateKey)
   }
 
-  async sendTransaction(tx) {
-    let newTx = new Transaction(tx)
-    await newTx.complete()
-    const ethTx = new EthTransaction(newTx.raw);
+  async sendTransaction(host,tx) {
+    tx.chainId = tx.chainId || 1;
+    const ethTx = new EthTransaction(tx);
     ethTx.sign(toBuffer(addHexPrefix(this.privateKey)));
     const signed = toHex(ethTx.serialize());
-    return await newTx.sendRawTx(signed)
+    return await sendRawTransaction(host,{signedTx:signed});
   }
 
   download(password,mime) {

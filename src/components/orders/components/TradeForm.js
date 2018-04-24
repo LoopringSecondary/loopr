@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip,Popconfirm,Popover} from 'antd';
+import {Button, Form, Icon, Input, Modal, Popover, Radio, Select, Slider, Tooltip} from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
-import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
+import {accDiv, accMul} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
 import config from '../../../common/config'
 import Currency from '../../../modules/settings/CurrencyContainer'
-import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from '../../../common/Loopring/relay/utils'
+import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from '../../../common/Loopring/relay/rpc/account'
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
 
@@ -21,16 +21,15 @@ class TradeForm extends React.Component {
     timeToLiveUnit:'',
     total:0,
     loading: false,
-  }
+  };
 
   render() {
-    console.log('trade form render')
     const tokenDivDigist = (token) => {
       const tokenCopy = {...token}
       tokenCopy.balance = tokenCopy.balance > 0 ? fm.toBig(tokenCopy.balance).div("1e"+tokenCopy.digits) : fm.toBig(0)
       tokenCopy.allowance = tokenCopy.allowance > 0 ? fm.toBig(tokenCopy.allowance).div("1e"+tokenCopy.digits) : fm.toBig(0)
       return tokenCopy
-    }
+    };
     const _this = this
     const RadioButton = Radio.Button;
     const RadioGroup = Radio.Group;

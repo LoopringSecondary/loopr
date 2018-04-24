@@ -4,13 +4,13 @@ import {accMul} from 'Loopring/common/math'
 import {toBig, toHex, toNumber,getDisplaySymbol} from "Loopring/common/formatter";
 import Currency from '../../../modules/settings/CurrencyContainer'
 import wrapArrow from '../../../assets/images/wrap-arrow.png';
-import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
 import config from '../../../common/config'
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
 import CoinIcon from '../../common/CoinIcon';
 import Notification from 'Loopr/Notification'
 import * as math from '../../../common/Loopring/common/math'
+import Contracts from "Loopring/ethereum/contracts/Contracts";
 
 
 class WithdrawAll extends React.Component {
@@ -127,7 +127,7 @@ class WithdrawAll extends React.Component {
       const tx = {};
       tx.to = wethConfig.address;
       tx.value = '0x0';
-      tx.data = generateAbiData({method: "withdraw", amount:selectedToken.balance});
+      tx.data = Contracts.WETH.encodeInputs('withdraw',{wad:selectedToken.balance});
       tx.gasPrice = toHex(toNumber(settings.trading.gasPrice) * 1e9);
       tx.nonce = toHex(nonce);
       return window.WALLET.sendTransaction(tx)

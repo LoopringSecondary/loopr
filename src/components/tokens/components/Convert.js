@@ -1,7 +1,6 @@
 import React from 'react';
-import { Form,Avatar,Input,Button,Card} from 'antd';
-import WETH from '../../../common/Loopring/ethereum/weth'
-import {generateAbiData} from '../../../common/Loopring/ethereum/abi'
+import {Button, Card, Form, Input} from 'antd';
+import Contracts from '../../../common/Loopring/ethereum/contracts/Contracts';
 import * as fm from '../../../common/Loopring/common/formatter'
 import * as math from '../../../common/Loopring/common/math'
 import config from '../../../common/config'
@@ -10,7 +9,7 @@ import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import intl from 'react-intl-universal';
 import CoinIcon from '../../common/CoinIcon';
 import Notification from 'Loopr/Notification'
-import {getEstimatedAllocatedAllowance} from '../../../common/Loopring/relay/utils'
+import {getEstimatedAllocatedAllowance} from '../../../common/Loopring/relay/rpc/account'
 
 class Convert extends React.Component {
   state = {
@@ -19,8 +18,7 @@ class Convert extends React.Component {
     selectMaxWarn: false,
     inputMaxWarn: false,
     errorMsg: ''
-  }
-
+  };
 
   componentDidMount() {
     const {modal} = this.props;
@@ -122,8 +120,8 @@ class Convert extends React.Component {
       const tx = {};
       tx.to = wethConfig.address;
       tx.value = fm.toHex(fm.toBig(amount).times(1e18));
-      tx.data = generateAbiData({method: "deposit"});
-      tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
+      tx.data = Contracts.WETH.encodeInputs('deposit',{});
+      tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9);
       tx.nonce = fm.toHex(nonce)
       return window.WALLET.sendTransaction(tx)
     }
@@ -132,8 +130,8 @@ class Convert extends React.Component {
       const tx = {};
       tx.to = wethConfig.address;
       tx.value = '0x0';
-      tx.data = generateAbiData({method: "withdraw", amount:fm.toHex(fm.toBig(amount).times(1e18))});
-      tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9)
+      tx.data = Contracts.WETH.encodeInputs('withdraw',{wad:fm.toHex(fm.toBig(amount).times(1e18))});
+      tx.gasPrice = fm.toHex(fm.toNumber(settings.trading.gasPrice) * 1e9);
       tx.nonce = fm.toHex(nonce);
       return window.WALLET.sendTransaction(tx)
     }

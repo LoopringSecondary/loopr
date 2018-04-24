@@ -1,13 +1,13 @@
 import React from 'react';
-import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Card,Popover,Tooltip} from 'antd';
+import {Button, Card, Form, Icon, Input, Popover, Select, Slider, Switch, Tooltip} from 'antd';
 import validator from '../../../common/Loopring/common/validator'
-import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
+import Contracts from 'Loopring/ethereum/contracts/Contracts';
 import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
 import config from '../../../common/config'
-import {accDiv, accMul} from '../../../common/Loopring/common/math'
+import {accMul} from '../../../common/Loopring/common/math'
 import Currency from '../../../modules/settings/CurrencyContainer'
-import {getGasPrice} from '../../../common/Loopring/relay/utils'
+import {getGasPrice} from '../../../common/Loopring/ethereum/utils'
 import intl from 'react-intl-universal';
 
 const ChangeContainer = (props)=>{
@@ -138,7 +138,7 @@ class Transfer extends React.Component {
             tx.to = tokenConfig.address;
             tx.value = "0x0";
             let amount = fm.toHex(fm.toBig(values.amount).times("1e"+tokenConfig.digits))
-            tx.data = generateAbiData({method: "transfer", address:values.to, amount});
+            tx.data = Contracts.ERC20Token.encodeInputs("transfer",{_to:values.to,_value:amount});
           }
           const extraData = {from:account.address, to:values.to, tokenSymbol:tokenSymbol, amount:values.amount, price:prices.getTokenBySymbol(tokenSymbol).price}
          // modal.hideModal({id: 'token/transfer'})

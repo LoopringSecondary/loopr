@@ -28,6 +28,23 @@ export async function getTransactionCount(host, {address, tag}) {
   })
 }
 
+
+/**
+ * @description Sends signed ethereum tx
+ * @param host
+ * @param signedTx
+ * @returns {Promise}
+ */
+export async function  sendRawTransaction(host,{signedTx}) {
+  const body = {};
+  body.method = 'eth_sendRawTransaction';
+  body.params = [signedTx];
+  return request(host,{
+    method: 'post',
+    body,
+  })
+}
+
 /**
  * @description Returns the current price per gas in wei.
  * @param host server host

@@ -32,7 +32,7 @@ export function getPriceQuote(host, {currency}) {
 export function getSupportedMarket(host) {
   const body = {};
   body.method = 'loopring_getSupportedMarket';
-  body.params = [];
+  body.params = [{}];
   return request(host, {
     method: 'post',
     body,
@@ -47,7 +47,7 @@ export function getSupportedMarket(host) {
 export function getSupportedTokens(host) {
   const body = {};
   body.method = 'loopring_getSupportedTokens';
-  body.params = [];
+  body.params = [{}];
   return request(host, {
     method: 'post',
     body,
@@ -84,7 +84,7 @@ export function getDepth(host, filter) {
 export function getTicker(host) {
   const body = {};
   body.method = 'loopring_getTicker';
-  body.params = [];
+  body.params = [{}];
   return request(host, {
     method: 'post',
     body,
