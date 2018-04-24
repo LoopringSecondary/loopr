@@ -105,7 +105,22 @@ export async function getOldWethBalance(owner) {
     method: 'post',
     body,
   })
+}
 
+export function getPendingRawTxByHash(txHash) {
+  try {
+    validator.validate({value: txHash, type: "TX_HASH"})
+  } catch (e) {
+    throw new Error('Invalid tx hash')
+  }
+  const params = [{thxHash:txHash}];
+  const body = {};
+  body.method = 'loopring_getPendingRawTxByHash';
+  body.params = params;
+  return request({
+    method: 'post',
+    body,
+  })
 }
 
 

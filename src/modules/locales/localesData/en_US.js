@@ -177,6 +177,11 @@ Browser：{browser}\n
     failed: "Failed",
     pending: "Pending",
     no_txs:'No data',
+    resend:"Resend",
+    resend_tips:"Increase gas price and resend this tx in order to make it earlier to be confirmed",
+    not_resend_tips:"Tx has already been confirmed, it doesn't need to be resent. ",
+    resend_success:"Resent Successfully",
+    resend_failed:"Resent Failed"
   },
   orders: {
     order: "Order",

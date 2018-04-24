@@ -1,11 +1,11 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Badge, Spin, Alert, Button, Icon} from 'antd';
+import {Alert, Badge, Button, Spin} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
 import CoinIcon from '../../common/CoinIcon'
-import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from "Loopring/relay/utils";
+import {getEstimatedAllocatedAllowance, getFrozenLrcFee, getPendingRawTxByHash} from "Loopring/relay/utils";
 import {toBig} from "Loopring/common/formatter";
 import config from '../../../common/config'
 import Notification from 'Loopr/Notification'
@@ -106,6 +106,7 @@ class ListBlock extends React.Component {
       });
     };
 
+
     const TxItem = ({item: origin, index}) => {
       let item = {...origin} // fix bug for update item self
       item.symbol = item.symbol || 'NO SYMBOL'
@@ -183,9 +184,9 @@ class ListBlock extends React.Component {
       </span>
       )
       const caption = (
-        <div className="">
-          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5 d-block pointer">
-            {title} <span className="ml10">{statusCol}</span>
+        <div className="d-block">
+          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5  pointer">
+            {title} <span className="ml10">{statusCol}  {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && intl.get('txs.resend') }</span>
           </a>
           <div className="fs3 color-black-3">
             <span className="d-inline-block  text-truncate text-nowrap mr15">
@@ -197,7 +198,7 @@ class ListBlock extends React.Component {
             </a>
           </div>
         </div>
-      )
+      );
       return (
         <div className="mt15 pb15 zb-b-b">
           <div className="row align-items-center no-gutters flex-nowrap" key={index}>
