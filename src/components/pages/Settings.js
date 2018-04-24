@@ -40,18 +40,22 @@ const SettingPage = (props) => {
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Trading</div>} key="trading">
               <div className="p15 pt25">
-                <Settings.Trading/>
+                <SettingsContainer>
+                  <Settings.Trading/>
+                </SettingsContainer>
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab={<div className="fs18 pb5 pt5">Relay</div>} key="relay">
               <div className="p15 pt25">
-                <Settings.Relay/>
+                <SettingsContainer>
+                  <Settings.Relay/>
+                </SettingsContainer>
               </div>
             </Tabs.TabPane>
           </Tabs>
       </div>
     </Modal>
-    
+
   )
 }
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
-
+import SelectContainer from '../../common/SelectContainer';
+import {getSupportedMarket} from 'Loopring/relay/market';
+import intl from 'react-intl-universal'
 let FiltersForm = ({
   form,
   actions,
@@ -11,7 +13,6 @@ let FiltersForm = ({
     form.validateFields((err,values) => {
       console.log('values',values)
       if(!err){
-        // TODO
         actions.filtersChange({
           filters:values
         })
@@ -19,7 +20,7 @@ let FiltersForm = ({
     })
   }
   function handleChange() {
-    setTimeout(handleSubmit, 0) 
+    setTimeout(handleSubmit, 0)
   }
   function handleCancle() {
   }
@@ -32,44 +33,40 @@ let FiltersForm = ({
   return (
       <div className="">
         <Form layout="inline">
-          <Form.Item label="Market" >
-            {form.getFieldDecorator('pair', {
-              initialValue:filters.pair || 'all',
+          <Form.Item label={null} >
+            {form.getFieldDecorator('market', {
+              initialValue:filters.pair,
               rules:[]
             })(
-              <Select
-                  showSearch
-                  allowClear
-                  style={{ width: 120 }}
-                  placeholder="Search"
-                  optionFilterProp="children"
-                  onChange={handleChange}
-                  onFocus={()=>{}}
-                  onBlur={()=>{}}
-                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                >
-                  <Select.Option value="all">All</Select.Option>
-                  <Select.Option value="jack">LRC/ETH</Select.Option>
-                  <Select.Option value="lucy">USDT/ETH</Select.Option>
-                  <Select.Option value="tom">BNB/ETH</Select.Option>
-                </Select>
+              <SelectContainer
+                loadOptions={getSupportedMarket}
+                transform={(res)=>{
+                  let pairs = window.CONFIG.getMarkets().map(item=>`${item.tokenx}-${item.tokeny}`)
+                  let options = res.result.filter(item=>pairs.includes(item)).map(item=>({label:item,value:item}))
+                  return [
+                    ...options,
+                  ]
+                }}
+                style={{width:'120px'}}
+                onChange={handleChange}
+                placeholder={intl.get('global.market')}
+                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+              </SelectContainer>
             )}
           </Form.Item>
-          <Form.Item label="Side" >
+          <Form.Item label={null && intl.get('trades.side')} >
             {form.getFieldDecorator('side', {
-              initialValue:filters.side || 'all',
+              initialValue:filters.side || '',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>
-                <Radio.Button value="all">All</Radio.Button>
-                <Radio.Button value="sell">Sell</Radio.Button>
-                <Radio.Button value="buy">Buy</Radio.Button>
+                <Radio.Button value="">{intl.get('global.all')}</Radio.Button>
+                <Radio.Button value="sell">{intl.get('trades.side_sell')}</Radio.Button>
+                <Radio.Button value="buy">{intl.get('trades.side_buy')}</Radio.Button>
               </Radio.Group>
             )}
-            
-          </Form.Item>
-          <Form.Item>
-            <Button onClick={handleReset} type="default">Reset</Button>
+
           </Form.Item>
         </Form>
       </div>
@@ -79,4 +76,4 @@ let FiltersForm = ({
 
 export default Form.create()(FiltersForm);
 
- 
+

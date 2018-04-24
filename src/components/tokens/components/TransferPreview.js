@@ -1,84 +1,133 @@
 import React from 'react';
-import { Avatar,Icon,Button,Card } from 'antd';
+import { Avatar,Icon,Button,Card,Modal } from 'antd';
+import * as fm from '../../../common/Loopring/common/formatter'
+import Currency from '../../../modules/settings/CurrencyContainer'
+import {accDiv, accMul} from '../../../common/Loopring/common/math'
+import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
+import intl from 'react-intl-universal';
+import CoinIcon from '../../common/CoinIcon'
+import Notification from 'Loopr/Notification'
 
 let Preview = ({
-  modals,
+  modal, account,modals
   }) => {
-
+  const {tx,extraData} = modal
+  const viewInEtherscan = (txHash) => {
+    window.open(`https://etherscan.io/tx/${txHash}`,'_blank')
+  }
   const handelSubmit = ()=>{
-    modals.hideModal({id:'token/transfer/preview'})
-    modals.showModal({id:'token/transfer/result'})
+    modal.showLoading({id:'token/transfer/preview'})
+    extraData.pageFrom = "Transfer"
+    let result = {...tx, extraData}
+    // To test Ledger
+    // tx.chainId = 1
+    window.STORAGE.wallet.getNonce(account.address).then(nonce => {
+      tx.nonce = fm.toHex(nonce)
+      if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
+        Notification.open({
+          message: intl.get('token.to_confirm_title'),
+          description: intl.get('token.to_confirm_ledger_content'),
+          type:'info'
+        })
+      }
+      return window.WALLET.sendTransaction(tx)
+    }).then(({response,rawTx})=>{
+      if(response.error) {
+        result = {...result, error:response.error.message}
+        Notification.open({
+          message:intl.get('token.send_failed'),
+          description:intl.get('token.result_failed', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error}),
+          type:'error'
+        })
+      } else {
+        extraData.txHash = response.result
+      //  window.STORAGE.transactions.addTx({hash: response.result, owner: account.address})
+        window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
+        notifyTransactionSubmitted({rawTx,txHash:response.result,from:window.WALLET.getAddress()});
+        const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${accMul(result.extraData.amount, result.extraData.price).toFixed(2)}`
+        Notification.open({
+          message:intl.get('token.transfer_succ_notification_title'),
+          description:intl.get('token.result_transfer_success', {amount:result.extraData.amount, token:result.extraData.tokenSymbol}),
+          type:'success',
+          actions:(
+            <div>
+              <Button className="alert-btn mr5" onClick={viewInEtherscan.bind(this, extraData.txHash)}>{intl.get('token.transfer_result_etherscan')}</Button>
+            </div>
+          )
+        })
+      }
+      modal.hideLoading({id:'token/transfer/preview'})
+      modal.hideModal({id:'token/transfer/preview'})
+      modal.hideModal({id: 'token/transfer'})
+      // modal.showModal({id:'token/transfer/result', result})
+    }).catch(e=>{
+      console.error(e)
+      result = {...result, error:e.message}
+      modal.hideLoading({id:'token/transfer/preview'})
+      modal.hideModal({id:'token/transfer/preview'})
+      modal.hideModal({id: 'token/transfer'})
+      // modal.showModal({id:'token/transfer/result', result})
+      Notification.open({
+        message:intl.get('token.send_failed'),
+        description:intl.get('token.result_failed', {do:intl.get('token.send_title'), amount:result.extraData.amount, token:result.extraData.tokenSymbol, reason:result.error}),
+        type:'error'
+      })
+    })
   }
-
   const handelCancel = ()=>{
-    modals.hideModal({id:'token/transfer/preview'})
-  }
-
-
-
+    modal.hideModal({id:'token/transfer/preview'});
+  };
   const MetaItem = (props)=>{
     const {label,value} = props
     return (
-      <div className="row pt10 pb10 zb-b-b">
+      <div className="row pt10 pb10 zb-b-b align-items-center">
         <div className="col">
-          <div className="fs14 color-grey-600">{label}</div>
+          <div className="fs14 color-black-1">{label}</div>
         </div>
         <div className="col-auto">
-          <div className="fs14 color-grey-900">{value}</div>
+          <div className="fs14 color-black-1">{value}</div>
         </div>
       </div>
     )
   }
-  const ArrowDivider = (
-      <div className="row no-gutters align-items-center">
-        <div className="col">
-          <hr className="w-100 bg-grey-900"/>
-        </div>
-        <div className="col-auto">
-          <Icon type="right" className="color-grey-900" style={{marginLeft:'-9px'}}></Icon>
-        </div>
-      </div>
+  const priceValue = (
+    <span className="">
+      <Currency />
+      {accMul(extraData.amount, extraData.price).toFixed(2)}
+    </span>
   )
   return (
-      <Card title="You are about to send">
-        <div className="row flex-nowrap zb-b-b pb30">
-          <div className="col-auto">
-            <div className="text-center">
-              <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-            </div>
-          </div>
-          <div className="col">
-            <div className="text-center">
-              <Avatar size="" className="bg-white border-grey-900" src="https://loopring.io/images/favicon.ico"></Avatar>
-              <div className="fs12 color-grey-500">LRC</div>
-              {ArrowDivider}
-              <div className="fs14 color-grey-900">-2000LRC($4000)</div>
-            </div>
-          </div>
-          <div className="col-auto">
-            <div className="text-center">
-              <Avatar size="large" className="bg-blue-500" src="">U</Avatar>
-            </div>
+    <Card title={intl.get('token.transfer_preview_title')}>
+      <div className="row flex-nowrap pb30 zb-b-b">
+        <div className="col">
+          <div className="text-center">
+            <CoinIcon size="60" symbol={extraData.tokenSymbol} />
+            <div className="fs20 color-black font-weight-bold">{`${extraData.amount} ${extraData.tokenSymbol} `}</div>
+            <div className="fs14 color-black-3">{priceValue}</div>
           </div>
         </div>
-        <MetaItem label="From" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
-        <MetaItem label="To" value="0xebA7136A36DA0F5e16c6bDBC739c716Bb5B65a00" />
-        <MetaItem label="GasLimit" value="2100" />
-        <MetaItem label="GasPrice" value="21 Gwei" />
-        <MetaItem label="Transaction Fee" value="0.00012 ETH ( USD 2.2 )" />
-        <div className="row pt40">
-          <div className="col pl0">
-            <Button onClick={handelCancel} className="d-block w-100" type="" size="large">No, Cancel It</Button>
-          </div>
-          <div className="col pr0">
-            <Button onClick={handelSubmit} className="d-block w-100" type="primary" size="large">Yes, Send Now</Button>
-          </div>
+      </div>
+      <MetaItem label={intl.get('token.from')} value={extraData.from} />
+      <MetaItem label={intl.get('token.to')} value={extraData.to} />
+      <MetaItem label={intl.get('token.gas')} value={
+        <div className="mr15">
+          <div className="row justify-content-end">{`${fm.toBig(tx.gasPrice.toString()).times(tx.gasLimit).times('1e-18').toString(10)}  ETH`}</div>
+          <div className="row justify-content-end fs14 color-black-3">{`Gas(${fm.toNumber(tx.gasLimit).toString(10)}) * Gas Price(${fm.toNumber(tx.gasPrice)/(1e9).toString(10)} gwei)`}</div>
         </div>
-      </Card>
+      }/>
+      <div className="row pt30 pb10">
+        <div className="col pl15">
+          <Button onClick={handelCancel} className="d-block w-100" type="" size="large">{intl.get('token.transfer_cancel')}</Button>
+        </div>
+        <div className="col pr15">
+          <Button loading={modal.loading} onClick={handelSubmit} className="d-block w-100" type="primary" size="large">{intl.get('token.transfer_send')}</Button>
+        </div>
+      </div>
+    </Card>
   );
 };
 
 
 export default Preview;
 
- 
+

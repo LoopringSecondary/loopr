@@ -1,6 +1,9 @@
 import validator from '../common/validator'
 import request from '../common/request'
-
+import {generateAbiData} from './abi';
+import {configs} from "../../config/data";
+import {toBuffer} from "../common/formatter";
+import {rawDecode} from 'ethereumjs-abi'
 
 export async function getTransactionCount(address, tag) {
   try {
@@ -39,18 +42,16 @@ export async function getGasPrice() {
 }
 
 export async function estimateGas(tx) {
-  const params = [JSON.stringify(tx)];
   const body = {};
   body.method = 'eth_estimateGas';
-  body.params = params;
-
+  body.params = [tx];
   return request({
     method: 'post',
     body,
   })
 }
 
-export async function getAccountBalance(address,tag) {
+export async function getAccountBalance(address, tag) {
   try {
     validator.validate({value: address, type: "ADDRESS"})
   } catch (e) {
@@ -72,5 +73,151 @@ export async function getAccountBalance(address,tag) {
     method: 'post',
     body,
   })
+}
+
+export async function getTransactionByhash(hash) {
+
+  try {
+    validator.validate({value: hash, type: "ETH_DATA"})
+  } catch (e) {
+    throw new Error('Invalid Transaction Hash')
+  }
+  const params = [hash];
+  const body = {};
+  body.method = 'eth_getTransactionByHash';
+  body.params = params;
+  return request({
+    method: 'post',
+    body,
+  })
+
+}
+
+export function generateBindAddressTx({projectId, address, gasPrice, gasLimit, nonce, chainId}) {
+
+  const tx = {};
+  tx.to = configs.bindContractAddress;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "bind", address: address, projectId});
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  return tx
+}
+
+
+export function eosRegisterTx({key,to, gasPrice, gasLimit, nonce, chainId}) {
+  const tx = {};
+  tx.to = to;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "register", key});
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  return tx
+}
+
+export async function getEosKey({address,to}) {
+  const tx = {};
+  tx.data = generateAbiData({method: "keys", address});
+  tx.to = to;
+  const params = [tx, "latest"];
+  const body = {};
+  body.method = 'eth_call';
+  body.params = params;
+  const response = await request({
+    method: 'post',
+    body,
+  });
+  const results = rawDecode(['string'], toBuffer(response.result));
+  return results.length > 0 ? results[0] : '';
+}
+
+export async function getBindAddress(owner, projectId) {
+  const tx = {};
+  tx.data = generateAbiData({method: "getBindingAddress", owner, projectId});
+  tx.to = configs.bindContractAddress;
+  const params = [tx, "latest"];
+  const body = {};
+  body.method = 'eth_call';
+  body.params = params;
+  const response = await request({
+    method: 'post',
+    body,
+  });
+  const results = rawDecode(['string'], toBuffer(response.result));
+  return results.length > 0 ? results[0] : '';
+}
+
+
+export function generateRegisterNameTx({name, to,gasPrice, gasLimit, nonce, chainId}) {
+  const tx = {};
+  tx.to = to;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "registerName", name});
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  return tx
+}
+
+
+export function addParticipant({feeRecipient,signer, to,gasPrice, gasLimit, nonce, chainId}) {
+
+  const tx = {};
+  tx.to = to;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "addParticipant", feeRecipient,signer});
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+  return tx
+
+
+}
+
+export function isValidEthAddress(address) {
+  try {
+    validator.validate({value: address, type: "ADDRESS"})
+    return true
+  } catch (e) {
+    return false
+  }
 }
 

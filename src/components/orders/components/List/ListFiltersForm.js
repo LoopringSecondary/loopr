@@ -1,97 +1,105 @@
 import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select} from 'antd';
+import SelectContainer from '../../../common/SelectContainer';
+import {getSupportedMarket} from 'Loopring/relay/market';
+import intl from 'react-intl-universal'
 
 let FiltersForm = ({
   form,
   LIST,
   actions,
+  id,
   }) => {
-  const {filters} = LIST
+  const {filters={}} = LIST || {}
   function handleSubmit() {
     form.validateFields((err,values) => {
       console.log('values',values)
       if(!err){
         // TODO
         actions.filtersChange({
+          id,
           filters:values
         })
       }
     })
   }
   function handleChange() {
-    setTimeout(handleSubmit, 0) 
+    setTimeout(handleSubmit, 0)
   }
   function handleCancle() {
 
   }
   function handleReset() {
     form.resetFields()
-    handleSubmit()
   }
+
 
   let formLayout = 'inline'
   return (
       <div className="">
         <Form layout="inline">
-          <Form.Item label="Market" >
-            {form.getFieldDecorator('pair', {
-              initialValue: filters.pair || 'all',
+          <Form.Item label={null} >
+            {form.getFieldDecorator('market', {
+              initialValue: filters.market,
               rules:[]
             })(
-              <Select
-                  showSearch
-                  allowClear
-                  style={{width:'120px'}}
-                  placeholder="Search/Select"
-                  optionFilterProp="children"
-                  onChange={handleChange}
-                  filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                >
-                  <Select.Option value="all">All</Select.Option>
-                  <Select.Option value="LRC/ETH">LRC/ETH</Select.Option>
-                  <Select.Option value="USDT/ETH">USDT/ETH</Select.Option>
-                  <Select.Option value="BNB/ETH">BNB/ETH</Select.Option>
-              </Select>
+              <SelectContainer
+                loadOptions={getSupportedMarket}
+                transform={(res)=>{
+                  let pairs = window.CONFIG.getMarkets().map(item=>`${item.tokenx}-${item.tokeny}`)
+                  let options = res.result.filter(item=>pairs.includes(item)).map(item=>({label:item,value:item}))
+                  return [
+                    ...options,
+                  ]
+                }}
+                style={{width:'120px'}}
+                onChange={handleChange}
+                placeholder={intl.get('orders.market')}
+                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+              </SelectContainer>
             )}
           </Form.Item>
-          <Form.Item label="Status" >
+          <Form.Item label={null && intl.get('orders.status')} >
             {form.getFieldDecorator('status', {
-              initialValue:filters.status || 'all',
+              initialValue:filters.status,
               rules:[]
             })(
               <Select
                   showSearch
                   allowClear
                   style={{width:'120px'}}
-                  placeholder="Search/Select"
+                  placeholder={intl.get('orders.status')}
                   optionFilterProp="children"
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="all">All</Select.Option>
-                  <Select.Option value="unenough">Unenough</Select.Option>
-                  <Select.Option value="opened">Opened</Select.Option>
-                  <Select.Option value="completed">Completed</Select.Option>
-                  <Select.Option value="cancelled">Cancelled</Select.Option>
-                  <Select.Option value="expired">Expired</Select.Option>
+                  <Select.Option value="ORDER_OPENED">{intl.get('orders.status_opened')}</Select.Option>
+                  <Select.Option value="ORDER_FINISHED">{intl.get('orders.status_completed')}</Select.Option>
+                  <Select.Option value="ORDER_CANCELLED">{intl.get('orders.status_canceled')}</Select.Option>
+                  <Select.Option value="ORDER_EXPIRE">{intl.get('orders.status_expired')}</Select.Option>
               </Select>
             )}
           </Form.Item>
-          <Form.Item label="Side" >
+          <Form.Item label={null && intl.get('orders.side')} >
             {form.getFieldDecorator('side', {
-              initialValue:filters.side || 'all',
+              initialValue:filters.side || '',
               rules:[]
             })(
               <Radio.Group onChange={handleChange}>
-                <Radio.Button value="all">All</Radio.Button>
-                <Radio.Button value="sell">Sell</Radio.Button>
-                <Radio.Button value="buy">Buy</Radio.Button>
+                <Radio.Button value="">{intl.get('global.all')}</Radio.Button>
+                <Radio.Button value="sell">{intl.get('orders.side_sell')}</Radio.Button>
+                <Radio.Button value="buy">{intl.get('orders.side_buy')}</Radio.Button>
               </Radio.Group>
             )}
           </Form.Item>
-          <Form.Item>
-            <Button onClick={handleReset} type="default">Reset</Button>
-          </Form.Item>
+          {
+            false &&
+            <Form.Item>
+              <Button onClick={handleReset} type="default">Reset</Button>
+            </Form.Item>
+          }
+
         </Form>
       </div>
   );
@@ -100,4 +108,4 @@ let FiltersForm = ({
 
 export default Form.create()(FiltersForm);
 
- 
+

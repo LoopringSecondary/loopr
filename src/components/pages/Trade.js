@@ -1,222 +1,107 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card,Steps } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import Order from '../orders/containers'
 import Layout from '../../layout/Layout'
+import Market from '../market/components'
+import Sockets from '../../modules/socket/containers'
+import ModalContainer from '../../modules/modals/container'
+import intl from 'react-intl-universal'
 
-const MarketList = (props)=>{
-  console.log('window.currency',window.currency)
+const ToLogin = ({modal})=>{
   return (
-    <table className="table table-striped">
-      <tbody>
-        <tr className="">
-          <th className="fs12 border-0 "></th>
-          <th className="fs12 border-0 ">Pair</th>
-          <th className="fs12 border-0 ">Price</th>
-          <th className="fs12 border-0 ">Change</th>
-          <th className="fs12 border-0 ">Volume</th>
-        </tr>
-        {
-          [1,1,1,1,1].map((item,index)=>
-            <tr key={index}>
-              <td className="fs12 border-0 color-yellow-600"><Icon type="star" /></td>
-              <td className="fs12 border-0 ">LRC/ETH</td>
-              <td className="fs12 border-0 color-green-600">0.00113489</td>
-              <td className="fs12 border-0 color-green-600">+6.17%</td>
-              <td className="fs12 border-0 ">6,767.31 ETH</td>
-            </tr>
-          )
-        }
-      </tbody>
-    </table>
-  )
-}
-
-const MarketTabs = (props)=>{
-  const tab = (text)=> <div className="fs14">{text}</div>
-  return (
-    <Tabs defaultActiveKey="Favorites" animated={false} >
-      <Tabs.TabPane tab={tab('Favorites')} key="Favorites">
-        <div className="pl10 pr10">
-          <MarketList />
-        </div>
-      </Tabs.TabPane>
-      <Tabs.TabPane tab={tab('ETH')} key="ETH">
-        <div className="pl10 pr10">
-          <MarketList />
-        </div>
-      </Tabs.TabPane>
-      <Tabs.TabPane tab={tab('LRC')} key="LRC">
-        <div className="pl10 pr10">
-          <MarketList />
-        </div>
-      </Tabs.TabPane>
-      <Tabs.TabPane tab={tab('BTC')} key="BTC">
-        <div className="pl10 pr10">
-          <MarketList />
-        </div>
-      </Tabs.TabPane>
-    </Tabs>
-  )
-}
-
-const MarketHeader = (props)=>{
-  return (
-    <Popover
-      title={null}
-      placement="bottom"
-      arrowPointAtCenter={false}
-      content={
-        <div className="" style={{minWidth:'420px'}}>
-          <MarketTabs />
-        </div>
-      }
-    >
-      <div className="row align-items-center">
-        <div className="col-auto pr5 pl20">
-          <Icon className="fs16 color-yellow-600" type="star" />
-        </div>
-        <div className="col">
-          <div className="fs18 color-white">LRC/ETH</div>
-          <div className="fs12 color-white opacity-70">Select Market Pair <Icon hidden className="" type="down" /></div>  
-          
-        </div>
-        <div className="col-auto">
-          <Icon type="caret-down" className="color-white" />
-        </div>
-      </div>
-    </Popover>
-    
-  )
-}
-const NumberCaption = (props)=>(
-  <div className="">
-    <div className="fs16 color-grey-900">
-      0.00107934 ETH $ 1.200
-    </div>
-    <div className="fs12 color-grey-400">
-      Latest Price
-    </div>
-  </div>
-)
-
-const numbers = [
-  {title:'Latest Price',number:'',extra:''},
-  {title:'24H Change',number:''},
-  {title:'24H High',number:''},
-  {title:'24H Low',number:''},
-  {title:'24H Volume',number:''},
-]
-const ExchangeItem = (props)=>(
-    <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 mt15 mb15 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
-      <div className="col-auto">
-        <div className="fs16 color-grey-900">0.00107934</div>
-        <div className="fs12 color-grey-400 text-truncate" style={{maxWidth:'120px'}}>Binance</div>
-      </div>
-      <div className="col-auto">
-        <div className="fs16" style={{color:'#1DB427'}}>+ 12%</div>
-        <div className="fs12 color-grey-400 ">24H Change</div>
-      </div>
-      <div className="col-auto">
-        <div className="fs16 color-grey-900">12,127.62 ETH</div>
-        <div className="fs12 color-grey-400">24H Volume</div>
+    <div>
+      <div className="text-center pt25 pb25">
+        <Button className="m15" onClick={modal.showModal.bind(this,{id:'wallet/unlock'})} style={{width:'255px'}} type="primary" size="large">{intl.get('buttons.unlock_wallet')}</Button>
+        <Button className="m15" onClick={modal.showModal.bind(this,{id:'wallet/generate'})} style={{width:'255px'}} type="default" size="large">{intl.get('buttons.generate_wallet')}</Button>
       </div>
     </div>
-)
-
+  )
+}
 export default function Home(props){
-  const { children } = props
+  const { children, match } = props
+  let pair = match.params.pair || window.STORAGE.markets.getCurrent() || 'LRC-WETH'
+  if(pair.indexOf('-') < 0){ }
+  // TODO if market is not support or goto some route
+  const tabChange = (key) => {
+    if(window.WALLET && window.WALLET.getAddress()) {
+      switch(key) {
+        case 'orders': refreshOrders(); break;
+        case 'trades': refreshTrades(); break;
+        default: break;
+      }
+    }
+  };
+  const refreshOrders = ()=>{
+    window.STORE.dispatch({
+      type:'orders/filtersChange',
+      payload:{
+        id:'orders/trade'
+      }
+    })
+  };
+  const refreshTrades = ()=>{
+    window.STORE.dispatch({
+      type:'trades/filtersChange',
+      payload:{
+        id:'orders/trade'
+      }
+    })
+  };
+
   return (
-   <Layout {...props}>
-    <div className="" style={{background:'#0077FF'}}>
+    <Layout {...props}>
+      <Sockets.TickersByPair pair={pair}>
+        <Sockets.Prices>
+          <Market.TickerItem pair={pair} />
+        </Sockets.Prices>
+      </Sockets.TickersByPair>
       <div className="container">
-        <div className="row align-items-center justify-content-between pt15 pb15">
-           <div className="col-auto">
-             <MarketHeader />
-           </div>
-           <div className="col-auto">
-             <div className="fs18 color-white">
-               0.00107934 ≈ $1.200
-             </div>
-             <div className="fs12 color-white opacity-70">
-               Latest Price
-             </div>
-           </div>
-           <div className="col-auto">
-             <div className="fs16 " style={{color:'#00E831'}}>
-              + 10%
-             </div>
-             <div className="fs12 color-white opacity-70">
-               24H Change
-             </div>
-           </div>
-           <div className="col-auto">
-             <div className="fs16 color-white">
-              0.00116918
-             </div>
-             <div className="fs12 color-white opacity-70">
-               24H High
-             </div>
-           </div>
-           <div className="col-auto">
-             <div className="fs16 color-white">
-              0.00089000
-             </div>
-             <div className="fs12 color-white opacity-70">
-               24H High
-             </div>
-           </div>
-           <div className="col-sm-6 col-lg-2">
-             <div className="fs16 color-white">
-              4,382.34 ETH
-             </div>
-             <div className="fs12 color-white opacity-70">
-               24H Volume
-             </div>
-           </div>
-        </div>
-      </div>
-    </div>
-    
-    
-    <div className="container">
-      <div className="row ml0 mr0">
-         <div className="col-sm-6 col-lg-4 pl0">
-           <ExchangeItem />
-         </div>
-         <div className="col-sm-6 col-lg-4">
-           <ExchangeItem />
-         </div>
-         <div className="col-sm-6 col-lg-4 pr0">
-           <ExchangeItem />
-         </div>
-      </div>
-       <Card title="Order Form" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
-        <div className="row justify-content-around">
-          <div className="col-sm-6 pl40 pr40 zb-b-r">
-            <Order.TradeForm side="sell" pair="LRC/ETH" />
+        <Card style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+          <div className="row justify-content-around">
+            <div className="col-md-6 col-sm-6 mt10 mb10 pl40 pr50 zb-b-r">
+              <Order.TradeForm side="buy" pair={pair} />
+            </div>
+            <div className="col-md-6 col-sm-6 mt10 mb10 pl50 pr40">
+              <Order.TradeForm side="sell" pair={pair} />
+            </div>
           </div>
-          <div className="col-sm-6 pl40 pr40">
-            <Order.TradeForm side="buy" pair="LRC/ETH" />
-          </div>
+        </Card>
+        <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+          <Tabs defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_open_orders')}</div>} key="orders">
+              <div className="">
+                {
+                  window.WALLET && window.WALLET.getAddress() &&
+                  <Order.List id="orders/trade" />
+                }
+                {
+                  !(window.WALLET && window.WALLET.getAddress()) &&
+                  <ModalContainer apisOnly={true}>
+                    <ToLogin />
+                  </ModalContainer>
+                }
+              </div>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
+              <div className="">
+                {
+                  window.WALLET && window.WALLET.getAddress() &&
+                  <Trade.List />
+                }
+                {
+                  !(window.WALLET && window.WALLET.getAddress()) &&
+                  <ModalContainer apisOnly={true}>
+                    <ToLogin />
+                  </ModalContainer>
+                }
+              </div>
+            </Tabs.TabPane>
+          </Tabs>
         </div>
-       </Card>
-       <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'6px'}}>
-         <Tabs defaultActiveKey="open" animated={false} tabBarStyle={{marginBottom:'0px'}}>
-           <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Open Orders</div>} key="open">
-             <div className="pt15">
-               <Order.List filters={{pair:'LRC/ETH',status:'all',side:'sell'}} />
-             </div>
-           </Tabs.TabPane>
-           <Tabs.TabPane tab={<div className="fs18 pb5 pt5">My Recent Trades</div>} key="trade">
-             <div className="pt15">
-               <Trade.List filters={{pair:'LRC/ETH',side:'all'}} />
-             </div>
-           </Tabs.TabPane>
-         </Tabs>
-       </div>
-    </div>
-   </Layout>
+        <div className="mb50"></div>
+      </div>
+    </Layout>
   )
 }

@@ -1,8 +1,9 @@
-import List from './List'
-import Detail from './Detail'
-
-
+import TickerListTabs from './TickerListTabs'
+import TickerItem from './TickerItem'
+import TickerCarousel from './TickerCarousel'
+import './Ticker.less'
 export default {
-  List,
-  Detail,
+  TickerListTabs,
+  TickerCarousel,
+  TickerItem,
 }

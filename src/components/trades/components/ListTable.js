@@ -1,81 +1,120 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Link } from 'dva/router';
-import { Table,Badge,Button } from 'antd';
+import {Link} from 'dva/router';
+import {Button, Table} from 'antd';
 import schema from '../../../modules/trades/schema';
+import {toNumber, toBig} from 'Loopring/common/formatter';
+import intl from 'react-intl-universal';
+
 const uiFormatter = window.uiFormatter
+const fm = window.uiFormatter.TokenFormatter
 
-function ListBlock({LIST,actions,className,style}) {
+function ListBlock(props) {
+  const {LIST, actions, className, style} = props;
   const {
-      items=[],
-      loading,
-      page={}
+    items = [],
+    loading,
+    page = {}
   } = LIST
-  const renders = {
-      ringHash:(value,item,index)=>(
-        <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/rings/detail/${value}`}>
-          {uiFormatter.getShortAddress(value)}
-        </Link>
-      ),
-      side:(value,item,index)=>{
-        if(index < 3){
-          return <div className="color-green-500">Sell</div>
-        }
-        if(index >= 3){
-          return <div className="color-red-500">Buy</div>
-        }
+  const {dispatch} = props;
+  const showModal = (payload = {}) => {
+    dispatch({
+      type: 'modals/modalChange',
+      payload: {
+        ...payload,
+        visible: true,
       },
-      miner:(value,item,index)=> <Link className="text-truncate d-block" style={{maxWidth:'150px'}} to={`/miner/detail/${value}`}>{value}</Link>,
-      feeRecipient:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>{value}</a>,
-      txHash:(value,item,index)=> 
-      <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/tx/${value}`}>
-      {uiFormatter.getShortAddress(value)}
-      </a>,
-      blockNumber:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/block/${value}`}>{value}</a>,
-      protocol:(value,item,index)=> <a className="text-truncate d-block" style={{maxWidth:'150px'}} target="_blank" href={`https://etherscan.io/address/${value}`}>
-      {uiFormatter.getShortAddress(value)}
-      </a>,
-
+    })
   }
-  const actionRender = (value,item,index)=>{
-    return <Button>Cancel</Button>
+  const handleCopy = (value, e) => {
+    e.preventDefault();
+    e.clipboardData.setData("text", value);
+  };
+  const renders = {
+    ringHash: (value, item, index) => {
+      const gapPosition = item.fillIndex === 0 ? 'top' : 'bottom';
+      return (
+        <div>
+          <a className="text-truncate text-left color-blue-500" onCopy={handleCopy.bind(this, value)}
+             style={{maxWidth: '150px'}}
+             onClick={showModal.bind(this, {id: 'trade/detail', item})}>
+            {uiFormatter.getShortAddress(value)}
+          </a>
+        </div>
+      )
+    },
+    side: (value, item, index) => {
+      if (item.side === 'sell') {
+        return <div className="color-green-500">{intl.get('orders.side_sell')}</div>
+      }
+      if (item.side === 'buy') {
+        return <div className="color-red-500">{intl.get('orders.side_buy')}</div>
+      }
+    },
+    amount: (value, item, index) => {
+      const fmS = item.side.toLowerCase() === 'buy' ? new fm({symbol: item.tokenB}) : new fm({symbol: item.tokenS});
+      const amount = item.side.toLowerCase() === 'buy' ? fmS.getAmount(item.amountB) : fmS.getAmount(item.amountS);
+      return <span> {uiFormatter.getFormatNum(amount)} {item.side === 'buy' ? item.tokenB : item.tokenS} </span>
+    },
+    price: (value, item, index) => {
+      const tokenB = window.CONFIG.getTokenBySymbol(item.tokenB);
+      const tokenS = window.CONFIG.getTokenBySymbol(item.tokenS);
+      const market = window.CONFIG.getMarketByPair(item.market);
+      const price = item.side.toLowerCase() === 'buy' ? (toBig(item.amountS).div('1e' + tokenS.digits).div(toBig(item.amountB).div('1e' + tokenB.digits))).toFixed(market.pricePrecision) :
+        (toBig(item.amountB).div('1e' + tokenB.digits).div(toBig(item.amountS).div('1e' + tokenS.digits))).toFixed(market.pricePrecision);
+      return <span> {uiFormatter.getFormatNum(price)} </span>
+    },
+    total: (value, item, index) => {
+      const fmS = item.side.toLowerCase() === 'buy' ? new fm({symbol: item.tokenS}) : new fm({symbol: item.tokenB});
+      const amount = item.side.toLowerCase() === 'buy' ? fmS.getAmount(item.amountS) : fmS.getAmount(item.amountB);
+      return <span> {uiFormatter.getFormatNum(amount)} {item.side === 'buy' ? item.tokenS : item.tokenB} </span>
+    },
+    lrcFee: (value, item, index) => {
+      const fmLrc = new fm({symbol: 'LRC'});
+      return <span> {uiFormatter.getFormatNum(fmLrc.getAmount(item.lrcFee))} {'LRC'} </span>
+    },
+    time: (value, item, index) => {
+      return uiFormatter.getFormatTime(toNumber(item.createTime) * 1e3)
+    },
   }
-  let columns = schema.map(field=>{
+  const actionRender = (value, item, index) => {
+    return <Button>{intl.get('wallet.cancel')}</Button>
+  }
+  let columns = schema.map(field => {
     return {
-        title:field.title,
-        dataIndex:field.name,
-        render:renders[field.name],
-        className:'text-nowrap',
-        sorter:true,
+      title: field.title(),
+      dataIndex: field.name,
+      render: renders[field.name],
+      className: 'text-nowrap',
+      width: `auto`,
     }
   })
-  const tableChange = (pagination, filters, sorter)=>{
+  const tableChange = (pagination, filters, sorter) => {
     // sorder {field,order}
     // filters {field,field}
     const sort = {
-      [sorter.field]:sorter.order // TODO
+      [sorter.field]: sorter.order // TODO
     }
     actions.queryChange({
-      sort,filters // TODO
-    }) 
+      sort, filters // TODO
+    })
   }
-  const tableProps={
-    dataSource:items,
-    columns:columns,
-    pagination:false,
-    loading:loading,
-    scroll:{x:1000},
-    onChange:tableChange,
-    bordered:false,
+  const tableProps = {
+    dataSource: items,
+    columns: columns,
+    pagination: false,
+    loading: loading,
+    scroll: {x: true},
+    onChange: tableChange,
+    bordered: false,
+    locale: {emptyText: intl.get('global.no_data')}
   }
   return (
-    <div className={className} style={style}>
-      <Table {...tableProps}/>  
+    <div className={className} style={{...style}}>
+      <Table {...tableProps}/>
     </div>
   )
 }
 
-ListBlock.propTypes = {
-};
+ListBlock.propTypes = {};
 
 export default ListBlock

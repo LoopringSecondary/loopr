@@ -5,6 +5,9 @@ import basicSchemas from '../common/validator_schemas'
 let schemas = {
 
   RAW_Order: {
+    delegateAddress:{
+      ...basicSchemas.ADDRESS
+    },
     protocol: {
       ...basicSchemas.ADDRESS
     },
@@ -15,6 +18,30 @@ let schemas = {
       ...basicSchemas.ADDRESS
     },
     tokenB: {
+      ...basicSchemas.ADDRESS
+    },
+    authAddr: {
+      ...basicSchemas.ADDRESS
+    },
+    authPrivateKey:{
+      ...basicSchemas.PRIVATE_KEY
+    },
+    validSince: {
+      ...basicSchemas.ETH_DATA
+    },
+    validUntil: {
+      ...basicSchemas.ETH_DATA
+    },
+    amountS: {
+      ...basicSchemas.ETH_DATA
+    },
+    amountB: {
+      ...basicSchemas.ETH_DATA
+    },
+    lrcFee: {
+      ...basicSchemas.ETH_DATA
+    },
+    walletAddress: {
       ...basicSchemas.ADDRESS
     },
     buyNoMoreThanAmountB: {
@@ -28,7 +55,11 @@ let schemas = {
       maximum: 100
     }
   },
-  ORDER:{
+  ORDER: {
+
+    delegateAddress:{
+      ...basicSchemas.ADDRESS
+    },
     protocol: {
       ...basicSchemas.ADDRESS
     },
@@ -41,6 +72,30 @@ let schemas = {
     tokenB: {
       ...basicSchemas.ADDRESS
     },
+    authAddr: {
+      ...basicSchemas.ADDRESS
+    },
+    authPrivateKey:{
+      ...basicSchemas.PRIVATE_KEY
+    },
+    validSince: {
+      ...basicSchemas.ETH_DATA
+    },
+    validUntil: {
+      ...basicSchemas.ETH_DATA
+    },
+    amountS: {
+      ...basicSchemas.ETH_DATA
+    },
+    amountB: {
+      ...basicSchemas.ETH_DATA
+    },
+    lrcFee: {
+      ...basicSchemas.ETH_DATA
+    },
+    walletAddress: {
+      ...basicSchemas.ADDRESS
+    },
     buyNoMoreThanAmountB: {
       type: 'boolean',
       required: true
@@ -51,24 +106,48 @@ let schemas = {
       minimum: 0,
       maximum: 100
     },
-    r: {
+    v: {
       type: 'integer',
-      required:true,
+      required: true,
       minimum: 0
     },
     s: {
       'type': 'string',
-      required:true,
+      required: true,
       pattern: /^0x[0-9a-fA-F]{64}$/g
     },
-    v: {
+    r: {
       'type': 'string',
-      required:true,
+      required: true,
       pattern: /^0x[0-9a-fA-F]{64}$/g
     }
-  }
-
-
+  },
+  TX: {
+    to: {
+      ...basicSchemas.ADDRESS
+    },
+    value: {
+      ...basicSchemas.ETH_DATA
+    },
+    gasLimit: {
+      ...basicSchemas.ETH_DATA
+    },
+    gasPrice: {
+      ...basicSchemas.ETH_DATA
+    },
+    chainId: {
+      type: 'number',
+      required: true
+    },
+    nonce: {
+      ...basicSchemas.ETH_DATA
+    },
+    data: {
+      type: 'string',
+      required: true,
+      pattern: /^0x[0-9a-fA-F]*$/g
+    }
+  },
 }
 
 export default schemas

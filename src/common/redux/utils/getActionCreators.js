@@ -21,10 +21,10 @@ function getActionCreators(module,keys = []) {
     }
 
     actionCreators[key]= actionCreator;
-      
+
   })
   return  actionCreators;
-  
+
 }
 
 export default getActionCreators;

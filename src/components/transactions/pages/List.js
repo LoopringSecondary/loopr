@@ -7,6 +7,7 @@ import Containers from '../../../modules/transactions/containers';
 function Page(props){
   return (
     <div className="">
+
       <Containers.StandList {...props}>
           <Components.ListActionsBar  />
           <Components.ListTable />

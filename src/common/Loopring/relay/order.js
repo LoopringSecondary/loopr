@@ -1,11 +1,13 @@
 import request from '../common/request'
 import Response from '../common/response'
 import code from "../common/code"
-import {generateAbiData, solSHA3} from '../ethereum/abi'
+import {generateAbiData, solSHA3, isValidSig} from '../ethereum/abi'
 import validator from './validator'
 import Transaction from '../ethereum/transaction'
-import {toBN, toNumber, toHex} from "../common/formatter";
-import {hashPersonalMessage, ecsign} from "ethereumjs-util"
+import {toBN, toNumber, toHex, toBuffer, addHexPrefix, clearPrefix} from "../common/formatter";
+import {hashPersonalMessage, ecsign, sha3} from "ethereumjs-util"
+import {privateKeytoAddress} from "../ethereum/account";
+
 
 let headers = {
   'Content-Type': 'application/json'
@@ -13,10 +15,10 @@ let headers = {
 
 export async function getOrders(filter) {
   try {
-    await validator.validate({value: filter.contractVersion, type: 'STRING'})
+    await validator.validate({value: filter.delegateAddress, type: 'ADDRESS'})
     await validator.validate({value: filter.pageIndex, type: 'OPTION_NUMBER'})
     await filter.market && validator.validate({value: filter.market, type: 'STRING'})
-    await filter.owner && validator.validate({value: filter.owner, type: 'STRING'})
+    await filter.owner && validator.validate({value: filter.owner, type: 'ADDRESS'})
     await filter.orderHash && validator.validate({value: filter.orderHash, type: 'STRING'})
     await filter.pageSize && validator.validate({value: filter.pageSize, type: 'OPTION_NUMBER'})
   } catch (e) {
@@ -33,17 +35,17 @@ export async function getOrders(filter) {
   })
 }
 
-export async function getCutoff(address, contractVersion) {
+export async function getCutoff(address, delegateAddress) {
   try {
-    await validator.validate({value: address, type: 'STRING'})
-    await validator.validate({value: contractVersion, type: 'STRING'})
+    await validator.validate({value: address, type: 'ADDRESS'})
+    await validator.validate({value: delegateAddress, type: 'ADDRESS'})
   } catch (e) {
     console.error(e)
     return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
   let body = {}
   body.method = 'loopring_getCutoff'
-  body.params = [address, contractVersion, "latest"]
+  body.params = [address, delegateAddress, "latest"]
   return request({
     method: 'post',
     headers,
@@ -51,11 +53,11 @@ export async function getCutoff(address, contractVersion) {
   })
 }
 
-export async function cancelOrder(order, privateKey, gasPrice, gasLimit, nonce, chainId) {
+export function generateCancelOrderTx({order, protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
 
-  // validator.validate({value:order,type:"Order"});
+  validator.validate({value: order, type: "ORDER"});
   const tx = {};
-  tx.to = this.address;
+  tx.to = protocolAddress;
   tx.value = "0x0";
   tx.data = generateAbiData({method: "cancelOrder", order});
 
@@ -71,15 +73,15 @@ export async function cancelOrder(order, privateKey, gasPrice, gasLimit, nonce, 
   if (chainId) {
     tx.chainId = chainId
   }
-  const transaction = new Transaction(tx);
-  return transaction.send(privateKey)
+
+  return tx
 }
 
-export async function cancelAllOrders(privateKey, timestamp, gasPrice, gasLimit, nonce, chainId) {
+export function generateCancelAllOrdresTx({protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId}) {
   const tx = {};
-  tx.to = this.address;
+  tx.to = protocolAddress;
   tx.value = "0x0";
-  tx.data = generateAbiData({method: "setCutoff", timestamp});
+  tx.data = generateAbiData({method: "cancelAllOrders", timestamp});
 
   if (gasPrice) {
     tx.gasPrice = gasPrice
@@ -93,13 +95,62 @@ export async function cancelAllOrders(privateKey, timestamp, gasPrice, gasLimit,
   if (chainId) {
     tx.chainId = chainId
   }
+
+  return tx
+}
+
+export function generateCancelOrdersByTokenPairTx({timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId}) {
+  const tx = {};
+  tx.to = protocolAddress;
+  tx.value = "0x0";
+  tx.data = generateAbiData({method: "cancelOrdersByTokenPairs", timestamp, tokenA, tokenB});
+
+  if (gasPrice) {
+    tx.gasPrice = gasPrice
+  }
+  if (gasLimit) {
+    tx.gasLimit = gasLimit
+  }
+  if (nonce) {
+    tx.nonce = nonce
+  }
+  if (chainId) {
+    tx.chainId = chainId
+  }
+
+  return tx
+}
+
+export function cancelOrder({order, privateKey, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, dapth}) {
+  const tx = generateCancelOrderTx({order, privateKey, protocolAddress, gasPrice, gasLimit, nonce, chainId})
   const transaction = new Transaction(tx);
-  return transaction.send(privateKey)
+  return transaction.send({privateKey, walletType, dapth})
+}
+
+export function cancelOrdersByTokenPair({privateKey, timestamp, tokenA, tokenB, protocolAddress, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
+  const tx = generateCancelOrdersByTokenPairTx({
+    timestamp,
+    tokenA,
+    tokenB,
+    protocolAddress,
+    gasPrice,
+    gasLimit,
+    nonce,
+    chainId
+  })
+  const transaction = new Transaction(tx);
+  return transaction.send({privateKey, walletType, path})
+}
+
+export function cancelAllOrders({privateKey, protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId, walletType, path}) {
+  const tx = generateCancelAllOrdresTx({protocolAddress, timestamp, gasPrice, gasLimit, nonce, chainId});
+  const transaction = new Transaction(tx);
+  return transaction.send({privateKey, walletType, path})
 }
 
 export async function placeOrder(order) {
 
-  validator.validate({value: order, type: "Order"})
+  validator.validate({value: order, type: "Order"});
   let body = {};
   body.method = 'loopring_submitOrder';
   body.params = [order];
@@ -109,10 +160,36 @@ export async function placeOrder(order) {
   })
 }
 
-export async function sign(order, privateKey) {
+export function sign(order, privateKey) {
   validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+  try {
+    if (typeof privateKey === 'string') {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY'});
+      privateKey = toBuffer(addHexPrefix(privateKey))
+    } else {
+      validator.validate({value: privateKey, type: 'PRIVATE_KEY_BUFFER'});
+    }
+  } catch (e) {
+    throw new Error('Invalid private key')
+  }
+
+  const hash = getOrderHash(order);
+  const signature = ecsign(hashPersonalMessage(hash), privateKey);
+  const v = toNumber(signature.v);
+  const r = toHex(signature.r);
+  const s = toHex(signature.s);
+  return {
+    ...order, v, r, s
+  }
+}
+
+
+export function getOrderHash(order) {
+
   validator.validate({value: order, type: 'RAW_Order'});
   const orderTypes = [
+    'address',
+    'address',
     'address',
     'address',
     'address',
@@ -125,27 +202,21 @@ export async function sign(order, privateKey) {
     'bool',
     'uint8'
   ];
-
   const orderData = [
-    order.protocol,
+    order.delegateAddress,
     order.owner,
     order.tokenS,
     order.tokenB,
+    order.walletAddress,
+    order.authAddr,
     toBN(order.amountS),
     toBN(order.amountB),
-    toBN(order.timestamp),
-    toBN(order.ttl),
+    toBN(order.validSince),
+    toBN(order.validUntil),
     toBN(order.lrcFee),
-    this.order.buyNoMoreThanAmountB,
-    this.order.marginSplitPercentage
+    order.buyNoMoreThanAmountB,
+    order.marginSplitPercentage
   ];
-  const hash = solSHA3(orderTypes, orderData);
-  const finalHash = hashPersonalMessage(hash);
-  const signature = ecsign(finalHash, privateKey);
-  const v = toNumber(signature.v);
-  const r = toHex(signature.r);
-  const s = toHex(signature.s);
-  return {
-    ...order, v, r, s
-  }
+
+  return solSHA3(orderTypes, orderData);
 }

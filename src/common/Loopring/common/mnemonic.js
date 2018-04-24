@@ -12,3 +12,7 @@ export function mnemonictoPrivatekey(phrase, pass, path) {
   return derived.privateKey;
 }
 
+
+export function isValidateMnemonic(phrase) {
+  return validateMnemonic(phrase)
+}

@@ -85,11 +85,11 @@ export function pkeyToKeystore(privateKey, password){
     Buffer.concat([derivedKey.slice(16, 32), Buffer.from(ciphertext, 'hex')])
   );
 
-  const address = '0x' + privateToAddress(privateKey).toString('hex');
+  const address = privateToAddress(privateKey).toString('hex');
 
   return {
     version: 3,
-    id: uuid({
+    id: uuid.v4({
       random: randomBytes(16)
     }),
     address,
@@ -208,12 +208,6 @@ export function decryptMewV1ToPrivKey(keystore, password) {
   const json = JSON.parse(keystore);
   let privkey;
 
-  if (typeof password !== 'string') {
-    throw new Error('Password required');
-  }
-  if (password.length < 9) {
-    throw new Error('Password must be at least 9 characters');
-  }
   let cipher = json.encrypted ? json.private.slice(0, 128) : json.private;
   cipher = decodeCryptojsSalt(cipher);
   const evp = evp_kdf(Buffer.from(password), cipher.salt, {
@@ -223,7 +217,7 @@ export function decryptMewV1ToPrivKey(keystore, password) {
   const decipher = createDecipheriv('aes-256-cbc', evp.key, evp.iv);
   privkey = decipherBuffer(decipher, Buffer.from(cipher.ciphertext));
   privkey = Buffer.from(privkey.toString(), 'hex');
-  const address = '0x' + privateToAddress(privkey).toString('hex');
+  const address =  privateToAddress(privkey).toString('hex');
 
   if (address !== json.address) {
     throw new Error('Invalid private key or address');
@@ -232,7 +226,7 @@ export function decryptMewV1ToPrivKey(keystore, password) {
 }
 
 export function isKeystorePassRequired(keystore){
-  switch (this.determineKeystoreType(keystore)) {
+  switch (determineKeystoreType(keystore)) {
     case 'presale':
       return true;
     case 'v1-unencrypted':

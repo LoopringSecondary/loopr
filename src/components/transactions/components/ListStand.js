@@ -1,107 +1,338 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Link } from 'dva/router';
-import moment from 'moment';
-import { Table,Badge,Button,List,Avatar,Icon,Switch,Tooltip,Input,Menu,Popover,Select,Spin } from 'antd';
-import schema from '../../../modules/transactions/schema';
+import {Link} from 'dva/router';
+import {Badge, Spin, Alert, Button, Icon} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
-import iconTransfer from '../../../assets/images/icon-tx-type-transfer.png'
-import iconReceive from '../../../assets/images/icon-tx-type-receive.png'
-import iconTrade from '../../../assets/images/icon-tx-type-trade.png'
-const uiFormatter = window.uiFormatter
+import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
+import intl from 'react-intl-universal'
+import CoinIcon from '../../common/CoinIcon'
+import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from "Loopring/relay/utils";
+import {toBig} from "Loopring/common/formatter";
+import config from '../../../common/config'
+import Notification from 'Loopr/Notification'
 
-function ListBlock({LIST,actions}) {
-  const {
-      items=[],
-      loading,
-      page={},
-      filters,
-  } = LIST
-  // const token = Object.keys(selected).find(key=>selected[key])
-  // console.log('token',token)
-  const TxItem = ({item,index})=>{
+const uiFormatter = window.uiFormatter;
+
+class ListBlock extends React.Component {
+
+  state = {
+    needed: toBig(0),
+    token: null
+  };
+
+  componentDidMount() {
+    const {LIST} = this.props;
+    const {filters} = LIST;
+    const {token} = filters;
+    if (token) {
+      this.getNeeded(token)
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.LIST.filters.token && nextProps.LIST.filters.token !== this.props.LIST.filters.token) {
+      const currentToken = nextProps.LIST.filters.token.toUpperCase();
+      this.getNeeded(currentToken)
+    }
+    return true
+  }
+
+  getNeeded = (currentToken) => {
+
+    getEstimatedAllocatedAllowance(window.WALLET.getAddress(), currentToken).then(res => {
+      if (!res.error) {
+        const orderAmount = toBig(res.result);
+        if (currentToken === 'LRC') {
+          getFrozenLrcFee(window.WALLET.getAddress()).then(res => {
+            if (!res.error) {
+              const lrcFee = toBig(res.result);
+              this.setState({needed: orderAmount.plus(lrcFee), token: currentToken});
+            } else {
+              this.setState({needed: orderAmount, token: currentToken});
+            }
+          })
+        } else {
+          this.setState({needed: orderAmount, token: currentToken});
+        }
+      }
+    })
+  };
+
+  render() {
+    const {LIST, actions, prices, assets} = this.props;
+    const {items = [], loading, page = {}, filters} = LIST;
+    const {token, needed} = this.state;
+    const balance = token && assets.getTokenBySymbol(token).balance;
+    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
+    const showModal = (payload) => {
+      window.STORE.dispatch({
+        type: 'modals/modalChange',
+        payload: {
+          ...payload,
+          visible: true,
+        }
+      })
+    };
+
+    const gotoReceive = (symbol) => {
+      showModal({
+        id: 'token/receive',
+        symbol
+      })
+    };
+    const gotoConvert = (item) => {
+      showModal({
+        id: 'token/convert',
+        item,
+        showFrozenAmount: true
+      })
+    }
+    const gotoTransfer = () => {
+      showModal({
+        id: 'token/transfer',
+        item: {symbol: token}
+      })
+    };
+
+    const gotoTrade = () => {
+      const foundMarket = config.getTokenSupportedMarket(token)
+      if(foundMarket) {
+        window.routeActions.gotoPath('/trade/'+foundMarket)
+        return
+      }
+      Notification.open({
+        type:'warning',
+        message:intl.get('trade.not_supported_token_to_trade_title', {token:token}),
+        description:intl.get('trade.not_supported_token_to_trade_content')
+      });
+    };
+
+    const TxItem = ({item: origin, index}) => {
+      let item = {...origin} // fix bug for update item self
+      item.symbol = item.symbol || 'NO SYMBOL'
+      const tokenFm = new uiFormatter.TokenFormatter({symbol: item.symbol})
+      const priceToken = prices.getTokenBySymbol(item.symbol)
+      item.guzhi = tokenFm.getAmountValue(origin.value, priceToken.price)
+      item.value = tokenFm.getAmount(origin.value)
+      let change
+      let icon
+      let title
+      switch (item.type) {
+        case 'approve':
+          change = '+'
+          icon = <i className="icon icon-loopring icon-loopring-success fs30"/>
+          title = intl.get('txs.type_enable_title', {symbol: item.symbol})
+          break;
+        case 'send':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-transfer fs30"/>
+          title = intl.get('txs.type_transfer_title', {symbol: item.symbol})
+          break;
+        case 'receive':
+          change = '+';
+          icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
+          title = intl.get('txs.type_receive_title', {symbol: item.symbol})
+          break;
+        case 'convert_income':
+          change = '+';
+          icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
+          if(item.symbol === 'WETH'){
+            title = intl.get('txs.type_convert_title_eth')
+          }else{
+            title = intl.get('txs.type_convert_title_weth')
+          }
+          break;
+        case 'convert_outcome':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
+          if(item.symbol === 'WETH'){
+            title = intl.get('txs.type_convert_title_weth')
+          }else{
+            title = intl.get('txs.type_convert_title_eth')
+          }
+          break;
+        case 'cancel_order':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
+          title = intl.get('txs.cancel_order')
+          break;
+        case 'cutoff':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
+          title = intl.get('txs.cancel_all')
+          break;
+        case 'cutoff_trading_pair':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
+          title = intl.get('txs.cancel_pair_order',{pair: item.content.market})
+          break;
+        case 'others':
+          change = '-';
+          icon = <CoinIcon symbol={item.symbol} size="30"/>
+          title = intl.get('txs.others') // TODO
+          break;
+        default:
+          icon = <CoinIcon symbol={item.symbol} size="30"/>
+          title = intl.get('txs.others') // TODO
+          break;
+      }
+      const statusCol = (
+        <span className="text-left">
+        {item.status === 'pending' && <Badge status="warning" text={intl.get('txs.status_pending')}/>}
+        {item.status === 'success' && <Badge status="success" text={intl.get('txs.status_success')}/>}
+        {item.status === 'failed' && <Badge status="error" text={intl.get('txs.status_failed')}/>}
+      </span>
+      )
+      const caption = (
+        <div className="">
+          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5 d-block pointer">
+            {title} <span className="ml10">{statusCol}</span>
+          </a>
+          <div className="fs3 color-black-3">
+            <span className="d-inline-block  text-truncate text-nowrap mr15">
+              {uiFormatter.getFormatTime(item.createTime * 1000)}
+            </span>
+            <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
+               className="d-inline-block text-truncate text-nowrap" style={{width:'180px'}}>
+              TxHash: {item.txHash}
+            </a>
+          </div>
+        </div>
+      )
+      return (
+        <div className="mt15 pb15 zb-b-b">
+          <div className="row align-items-center no-gutters flex-nowrap" key={index}>
+            <div className="col-auto pr15">
+              <div className="text-center">
+                {icon}
+              </div>
+            </div>
+            <div className="col pr10">
+              {caption}
+            </div>
+            {
+              item.type !== 'approve' && item.type !== "cancel_order" && item.type !== "cutoff_trading_pair"
+              && item.type !== "cutoff" &&
+              <div className="col-auto mr5">
+                {change === '+' &&
+                <div className="text-right">
+                  <div className="fs18 color-green-500 font-weight-bold">
+                    + {item.value} {item.symbol}
+                  </div>
+                  {
+                    false &&
+                    <div className="fs14 color-green-500">
+                      + <CurrencyContainer/>{item.guzhi}
+                    </div>
+                  }
+                </div>
+                }
+                {change === '-' &&
+                <div className="text-right">
+                  <div className="fs18 color-red-500 font-weight-bold">
+                    - {item.value} {item.symbol}
+                  </div>
+                  {
+                    false &&
+                    <div className="fs14 color-red-500">
+                      - <CurrencyContainer/> {item.guzhi}
+                    </div>
+                  }
+                </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+      )
+    }
     return (
-      <div className="row align-items-center no-gutters flex-nowrap zb-b-b p20" key={index}>
-        <div className="col-auto">
-          <div className="text-left" style={{width:'85px'}}>
-            { index%3 == 0 && <Badge status="warning" text="Pending" /> }
-            { index%3 == 1 && <Badge status="success" text="Success" /> }
-            { index%3 == 2 && <Badge status="error" text="Failed" /> }
+      <div className="">
+        <div className="row zb-b-b pt15 pb15 ml0 mr0">
+          <div className="col-auto pl0 pr0">
+            <div className="fs1 color-black-1 ml15">{filters.token}</div>
+          </div>
+          <div className="col text-right pl0 pr0">
+            <Button onClick={gotoTransfer} className="mr5" type="primary" disabled={isWatchOnly}>
+              <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
+              <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_transfer')} {filters.token}</span>
+            </Button>
+            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="primary">
+              <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
+              <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
+            </Button>
+            {filters.token !== 'ETH' && filters.token !== 'WETH' &&
+              <Button onClick={gotoTrade} className="mr15" type="primary" disabled={isWatchOnly}>
+                <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+                <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_trade')} {filters.token}</span>
+              </Button>
+            }
+            {
+              (filters.token === 'ETH') &&
+              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
+                <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
+                {intl.get('token.token_convert', {from:"", to:'WETH'})}
+              </Button>
+            }
+            {
+              (filters.token === 'WETH') &&
+              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
+                <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
+                {intl.get('token.token_convert', {from:"", to:'ETH'})}
+              </Button>
+            }
           </div>
         </div>
-        <div className="col-auto pr15">
-          <div className="text-center">
-            { index%3 == 0 && <img src={iconTransfer} alt="" style={{width:'30px'}} /> }
-            { index%3 == 1 && <img src={iconReceive} alt="" style={{width:'30px'}} /> }
-            { index%3 == 2 && <img src={iconTrade} alt="" style={{width:'30px'}} /> }
-            <div className="fs12 mt5" hidden>Transfer</div>
-          </div>
-        </div>
-        <div className="col pr10">
-          <div className="">
-            <div className="fs20 color-grey-900 mb5">
-            {index%8 == 0 && 'Send LRC'}  
-            {index%8 == 1 && 'Received LRC'}  
-            {index%8 == 2 && 'Approve LRC'}  
-            {index%8 == 3 && 'Sell LRC'}  
-            {index%8 == 4 && 'Buy LRC'}  
-            {index%8 == 5 && 'Convert ETH To WETH'}  
-            {index%8 == 6 && 'Convert WETH To ETH'} 
-            {index%8 == 7 && 'Cancle Orders'} 
+        <div className="pl15 pr15">
+          <div className="zb-b-b row pt10 pb10 no-gutters align-items-center">
+            <div className="col">
+              <div className="fs2 color-black-1">{intl.get('txs.title')}</div>
             </div>
-            <div className="fs14 color-grey-400 text-nowrap text-truncate">
-              To: {uiFormatter.getShortAddress('0xeae8bd296df8e90e63b14021640652045ee84d5b')}
-            </div>
-            <div className="fs14 color-grey-400 text-nowrap text-truncate">
-              3 mins ago ( 2018-01-20 10:00:00 )
+            <div className="col-auto">
+              <ListFiltersFormSimple actions={actions} LIST={LIST} style={{marginTop:'-3px'}}/>
             </div>
           </div>
-        </div>
-        <div className="col"></div>
-        <div className="col-auto mr5">
-          { index%2 == 0 && 
-            <div className="text-right">
-              <div className="fs20 color-green-500 mb10">+ 3456.78 LRC</div>
-              <div className="fs16 color-green-500">+ $ 34567.8</div>
+          {
+            loading &&
+            <div className="p50 text-center">
+              <Spin/>
             </div>
           }
-          { index%2 == 1 && 
-            <div className="text-right">
-              <div className="fs20 color-red-500 mb10">- 3456.78 LRC</div>
-              <div className="fs16 color-red-500">- $ 34567.8</div>
+          {!!balance && !!needed.gt(toBig(balance)) &&
+          <Alert style={{border: '0px'}} type="warning" showIcon closable
+                 description={
+                   <div className="text-left">
+                     <div className="fs18 color-warning-1">
+                       {token} {intl.get('txs.balance_not_enough')}
+                     </div>
+                     <div>
+                       <Button onClick={gotoReceive.bind(this, token)}
+                               className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
+                       {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
+                                                    className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
+                       {token === 'WETH' && <Button onClick={gotoConvert.bind(this, {symbol:token})}
+                                                    className="m5 border-none color-white bg-warning-1">{intl.get('txs.type_convert_title_eth')}</Button>}
+                     </div>
+                   </div>
+                 }
+          />
+          }
+          {
+            items.map((item, index) =>
+              <TxItem item={item} key={index} index={index}/>
+            )
+          }
+          {
+            items.length === 0 &&
+            <div className="text-center pt25 pb25 fs-12 color-grey-400">
+              {intl.get('txs.no_txs')}
             </div>
           }
         </div>
+
       </div>
     )
   }
-
-  return (
-    <div className="">
-      <div className="row zb-b-b p15 no-gutters align-items-center">
-        <div className="col">
-          <div className="fs20 color-grey-900">{filters.token || 'All'} Transactions</div>
-        </div>
-        <div className="col-auto" style={{height:'32px'}}>
-            <ListFiltersFormSimple actions={actions} LIST={LIST} />
-        </div>
-      </div>
-      <div style={{}}>
-        {
-          loading &&
-          <div className="p50 text-center">
-            <Spin />
-          </div>
-        }
-        {
-          items.map((item,index)=>
-            <TxItem item={item} key={index} index={index}/>
-          )
-        }
-      </div>
-      
-    </div>
-  )
 }
 
 export default ListBlock

@@ -1,62 +1,46 @@
+import React from 'react';
+import {Icon} from 'antd';
+import intl from 'react-intl-universal';
+
 const schema = [
-    {
-      title:'ID',
-      name:'id',
-    },
-    {
-      title:'Ring',
-      description:'The ring hash',
-      name:'ringHash',
-    },
-    {
-      title:'Side',
-      name:'side',
-    },
-    {
-      title:'Maket',
-      name:'market',
-    },
+  {
+    title: () => intl.get('trade.ring'),
+    description: 'The ring hash',
+    name: 'ringHash',
+  },
+  {
+    title: () => intl.get('orders.market'),
+    name: 'market',
+  },
+  {
+    title: () => intl.get('orders.side'),
+    name: 'side',
+  },
+  {
+    title: () => intl.get('orders.amount'),
+    description: 'The fills number int the ring.',
+    name: 'amount',
+  },
+  {
+    title: () => intl.get('orders.price'),
+    description: 'The fills number int the ring.',
+    name: 'price',
+  },
+  {
+    title: () => intl.get('orders.total'),
+    description: 'The fills number int the ring.',
+    name: 'total',
+  },
+  {
+    title: () => intl.get('orders.LrcFee'),
+    description: 'The total lrc fee.',
+    name: 'lrcFee',
+  },
 
-    {
-      title:'Size',
-      description:'The fills number int the ring.',
-      name:'tradeAmount',
-    },
-    {
-      title:'Miner',
-      description:'The miner that submit match orders.',
-      name:'miner',
-    },
-
-    {
-      title:'FeeRecipient',
-      description:'The fee recepient address.',
-      name:'feeRecipient',
-    },
-    {
-      title:'Transaction',
-      description:' The ring match transaction hash.',
-      name:'txHash',
-    },
-    {
-      title:'BlockNumber',
-      description:'The number of the block which contains the transaction.',
-      name:'blockNumber',
-    },
-    {
-      title:'LrcFee',
-      description:'The total lrc fee.',
-      name:'totalLrcFee',
-    },
-
-    {
-      title:'Time',
-      description:'The ring matched time',
-      name:'timestamp',
-    },
-    {
-      title:'Protocol',
-      name:'protocol',
-    },
-  ]
-  export default schema
+  {
+    title: () => intl.get('orders.time'),
+    description: 'The ring matched time',
+    name: 'time',
+  },
+];
+export default schema

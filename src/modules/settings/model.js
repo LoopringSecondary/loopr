@@ -1,55 +1,79 @@
+import {configs} from '../../common/config/data'
+
+const preference = window.STORAGE.settings.get().preference
+const trading = window.STORAGE.settings.get().trading
+const relay = window.STORAGE.settings.get().relay
+const selectedContract = trading ? trading.contract : configs.contracts[configs.contracts.length-1]
+const relays = relay ? relay.nodes : configs.relays
+let sortedRelays = relays.map((item, i) => {
+  item.id = i;
+  return item
+})
+const selectedRelay = relay ? relay.selected : sortedRelays[0].value
+
+const setRelayIds = (relays) => {
+  relays.forEach((item, i) => {
+    item.id = i;
+  })
+}
 
 export default {
   namespace: 'settings',
   state: {
     preference: {
-      language: "en",
-      currency: "USD",
-      timezone: "UTC +8:00"
+      language: preference ? preference.language : "en-US",
+      currency: preference ? preference.currency : "USD",
+      timezone: preference ? preference.timezone : "UTC+00:00"
     },
     trading: {
       contract: {
-        version: "v2.0",
-        address: "0x1111"
+        version: selectedContract.version,
+        address: selectedContract.address
       },
-      lrcFee: 0.001,
-      marginSplit: 50,
-      gasPrice: 30
+      timeToLive: trading ? trading.timeToLive : configs.defaultExpireTime,
+      timeToLiveUnit: trading ? trading.timeToLiveUnit : configs.defaultExpireTimeUnit,
+      lrcFee: trading ? trading.lrcFee : configs.defaultLrcFeePermillage,
+      marginSplit: trading ? trading.marginSplit : configs.defaultMarginSplitPercentage,
+      gasPrice: trading ? trading.gasPrice : configs.defaultGasPrice
     },
-    relay: [
-      {
-        name: "Default",
-        url: "https://relay1.loopring.io"
-      },
-      {
-        name: "Backup",
-        url: "https://relay2.loopring.io"
-      }
-    ]
+    relay: {
+      selected: selectedRelay,
+      nodes: sortedRelays
+    }
   },
   reducers: {
     preferenceChange(state, { payload }) {
-      return {
+      let newState =  {
         ...state,
-        preference:{
-          language: payload.languange,
-          currency: payload.currency,
-          timezone: payload.timezone
+        preference: {
+          ...state.preference,
+          ...payload
         }
       };
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     tradingChange(state, { payload }) {
-      return {
+      let newState =  {
         ...state,
-        // TODO
+        trading: {
+          ...state.trading,
+          ...payload
+        }
       };
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     relayChange(state,{payload}){
-      // TODO
-      return {
-        ...state
-        // TODO
+      let newState =  {
+        ...state,
+        relay: {
+          ...state.relay,
+          selected: payload.selected
+        }
       }
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     languageChange(state,{payload}){
       // TODO
@@ -73,25 +97,51 @@ export default {
       }
     },
     addRelay(state,{payload}){
-      // TODO
-      return {
-        ...state
-        // TODO
+
+      const newNodes = [...state.relay.nodes];
+      newNodes.push({value: payload.url, name : payload.name, custom: true})
+      let newState =  {
+        ...state,
+        relay:{
+          ...state.relay,
+          nodes: [ ...newNodes ]
+        }
       }
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     editRelay(state,{payload}){
-      // TODO
-      return {
-        ...state
-        // TODO
+      const newNodes = [...state.relay.nodes];
+      const index = newNodes.findIndex(item => item.id === payload.id)
+      newNodes[index] = {
+        ...newNodes[index],
+        value : payload.url,
+        name : payload.name,
       }
+      let newState =  {
+        ...state,
+        relay:{
+          ...state.relay,
+          nodes: [ ...newNodes ]
+        }
+      }
+      window.STORAGE.settings.set(newState)
+      return newState
     },
     deleteRelay(state,{payload}){
-      // TODO
-      return {
-        ...state
-        // TODO
+      const toDelete = state.relay.nodes.find(item => item.id === payload.id)
+      const newNodes = state.relay.nodes.filter(item => item.id !== payload.id)
+      setRelayIds(newNodes)
+      const selected = state.relay.selected === toDelete.value ? newNodes[0].value : state.relay.selected
+      let newState =  {
+        ...state,
+        relay:{
+          selected: selected,
+          nodes: [ ...newNodes ]
+        }
       }
+      window.STORAGE.settings.set(newState)
+      return newState
     },
   },
 };

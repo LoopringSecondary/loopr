@@ -1,69 +1,56 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Link } from 'dva/router';
-import { Button,Form,Radio,Input,Tabs,Card,Badge,Icon } from 'antd';
+import {Link} from 'dva/router';
+import {Card, Form, Tabs} from 'antd';
 import UnlockByMetaMask from './UnlockByMetaMask'
 import UnlockByKeystore from './UnlockByKeystore'
 import UnlockByMnemonic from './UnlockByMnemonic'
 import UnlockByPrivateKey from './UnlockByPrivateKey'
+import UnlockByTrezor from './UnlockByTrezor'
+import UnlockByLedger from './UnlockByLedger'
+import UnlockByAddress from './UnlockByAddress'
+import intl from 'react-intl-universal';
 
-function UnlockWallet({form,modals}) {
+function UnlockWallet({form,modal,account}) {
+  let { pageFrom } = modal;
   const gotoGenerate = ()=>{
-    modals.hideModal({id:'wallet/unlock'})
-    modals.showModal({id:'wallet/generate'})
-  }
+    modal.hideModal({id:'wallet/unlock'});
+    modal.showModal({id:'wallet/generate'})
+  };
   const footer = (
-    <div className="fs14 mt20 pt20 color-grey-900 zb-b-t text-center">
-      Don't have a Wallet? Let's 
+    <div className="fs2 mt20 pt20 color-grey-900 zb-b-t text-left">
+      {intl.get('wallet.no_wallet')}
       <a className="color-blue-600 ml5" onClick={gotoGenerate}>
-      generate one !
-      </a> 
+        {intl.get('wallet.generate_one')} !
+      </a>
     </div>
-  )
+  );
   return (
-    <Card title="Unlock Wallet">
-        <div title="UnLock Wallet">
-          <Tabs defaultActiveKey="metamask" tabPosition="" animated={true} style={{marginTop:'-10px'}}>
-            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">MetaMask</div>} key="metamask">
-              <UnlockByMetaMask modals={modals} />
+    <Card title={<div className="fs1">{intl.get('wallet.unlock_tip')}?</div>}>
+        <div className="unlock-wallet-tabs">
+          <Tabs defaultActiveKey="address" tabPosition="left" animated={true}>
+            <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.watch_only')}</div>} key="address">
+              <UnlockByAddress modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Keystore</div>} key="keystore">
-             <UnlockByKeystore modals={modals} />
+            <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.metamask')}</div>} key="metamask">
+              <UnlockByMetaMask modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Mnemonic</div>} key="mnemonic">
-              <UnlockByMnemonic modals={modals} />
+            <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.trezor')}</div>} key="trezor">
+              <UnlockByTrezor modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<div style={{marginLeft:'0px'}} className="fs16 text-center mb5">Private Key</div>} key="privatekey">
-             <UnlockByPrivateKey modals={modals} />
+            <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.ledger')}</div>} key="ledger">
+              <UnlockByLedger modal={modal} account={account} pageFrom={pageFrom}/>
+            </Tabs.TabPane>
+            <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.keystore')}</div>} key="keystore">
+             <UnlockByKeystore modal={modal} account={account} pageFrom={pageFrom}/>
+            </Tabs.TabPane>
+            <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.mnemonic')}</div>} key="mnemonic">
+              <UnlockByMnemonic modal={modal} account={account} pageFrom={pageFrom}/>
+            </Tabs.TabPane>
+            <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.privateKey')}</div>} key="privatekey">
+             <UnlockByPrivateKey modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>
           </Tabs>
           {footer}
-        </div>
-        <div hidden>
-          <Form layout="horizontal"className="d-flex flex-column preference-form">
-            <Form.Item label="How would you like to access your wallet" colon={false}>
-              {form.getFieldDecorator('way', {
-                initialValue:'metamask',
-                rules:[]
-              })(
-                <Radio.Group className="">
-                  <Radio className="d-flex align-items-center mb15 w-100" value={'metamask'}>
-                    MetaMask <Button type="primary" className="bg-green-600 border-none ml10" size="small" icon="like">Recommended</Button>
-                  </Radio>
-                  <Radio className="d-flex align-items-center mb15 w-100" value={'keystore'}>
-                     Keystore / JSON File  
-                  </Radio>
-                  <Radio className="d-flex align-items-center mb15 w-100" value={'mnemonic'}>
-                    Mnemonic
-                  </Radio>
-                  <Radio className="d-flex align-items-center mb15 w-100" value={'privatekey'}>
-                     Private Key
-                  </Radio>
-                </Radio.Group>
-              )}
-            </Form.Item>
-            {footer}
-          </Form> 
         </div>
     </Card>
   )

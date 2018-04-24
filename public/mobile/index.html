@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" >
+  <meta content="width=device-width, initial-scale=1" name="viewport" >
+  <title>Mobile Loopr Wallet & DEX </title>
+  <meta name="keywords" content="Loopring protocol Loopr Wallet & DEX LRC" >
+  <meta name="description" content="Loopring protocol Loopr Wallet & DEX LRC" >
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; padding: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #container {
+      overflow: hidden;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+    }
+    #background_video {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      height: 100%; width: 100%;
+    }
+    #video_cover {
+      position: absolute;
+      width: 100%; height: 100%;
+      background: url('./cover.png') no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    @media (min-width: 768px) {
+      #video_controls {
+        display: none;
+      }
+    }
+
+    body {
+      text-align: center;
+      font-family: 'proxima-nova', Helvetica;
+    }
+
+    #container {
+      height: 100%;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 0; right: 0; left: 0; bottom: 0;
+      background: rgba(0,0,0,0.65);
+    }
+
+    #main_content {
+      z-index: 2;
+      position: relative;
+      display: inline-block;
+
+      /* Vertical center */
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    #main_content h1 {
+      /*text-transform: uppercase;*/
+      font-weight: 600;
+      font-family: 'proxima-nova-condensed', Helvetica;
+      color: #fff;
+      font-size: 30px;
+      width:100%;
+    }
+
+    #main_content .sub_head {
+      color: rgba(255,255,255,0.8);
+      font-size: 20px;
+      margin-top:20px;
+      width:100%;
+    }
+
+    #links {
+      margin-top: 50px;
+    }
+
+    #links a {
+      border: 1px solid rgba(255,255,255,0.50);
+      border-radius: 61px;
+      font-size: 16px;
+      color: #FFFFFF;
+      letter-spacing: 1px;
+      text-decoration: none;
+      padding: 10px 25px;
+      display: inline-block;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <video id="background_video" loop muted autoplay hidden></video>
+    <div id="video_cover"></div>
+    <div id="overlay"></div>
+    <section id="main_content">
+      <div id="head">
+        <img src="./logo-white.png" style="height:40px;margin-bottom:25px" />
+        <h1>Apps is on the way</h1>
+      </div>
+      <div id="links" hidden>
+        <a href="#">
+          <i class="fa fa-apple" style="font-size:18px"></i> IOS
+        </a>
+        <a href="#">
+         <i class="fa fa-android" style="font-size:18px"></i> Android
+        </a>
+        <a href="#">
+         <i class="fa fa-desktop" style="font-size:18px"></i> PC
+        </a>
+      </div>
+      <div>
+        <div style="color:#fff;font-size:12;text-align:center; padding:5px;margin-top:15px;opacity:0.7">
+          Only PC web wallet is available for now .
+        </div>
+        <div style="color:#fff;font-size:12;text-align:center; padding:5px;opacity:0.7">
+          Please visit https://loopring.io on PC .
+        </div>
+
+      </div>
+
+    </section>
+  </div>
+
+</body>
+</html>

@@ -10,36 +10,40 @@ function parseJSON(res) {
   return res.json();
 }
 
-window.LOOPRING_PROVIDER_HOST = 'https://relay1.loopring.io/rpc'
-
 let checkHost = () => {
+  const relayHost = window.STORAGE.settings.getRelay()
+  window.LOOPRING_PROVIDER_HOST = relayHost + '/rpc/v2'
+  window.ETH_HOST = relayHost + '/eth'
+
   if (!window.LOOPRING_PROVIDER_HOST) {
     throw new Error('host is required. Do not forget: new Loopring(host)')
   }
-}
+  if(!window.ETH_HOST){
+    throw new Error('host is required. Do not forget: new ETH(host)')
+  }
+};
 
 let headers = {
   'Content-Type': 'application/json'
-}
+};
 
 function request(options) {
   checkHost();
-  let url = window.LOOPRING_PROVIDER_HOST;
   let method;
-  if (options.body) {
+    if (options.body) {
     method = options.body.method;
     options.headers = options.headers || headers;
     options.body.id = id();
     options.body = JSON.stringify(options.body)
   }
+  // options.credentials = 'include'
+  const url =  method.startsWith('eth')? window.ETH_HOST : window.LOOPRING_PROVIDER_HOST;
+
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
     .then(res => {
       console.log(`${method} response:`, res);
-      if (res.error) {
-        throw new Error('res error: ' + res.error.message)
-      }
       return res
     })
 }

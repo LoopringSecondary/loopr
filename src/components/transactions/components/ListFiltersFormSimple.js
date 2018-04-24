@@ -1,10 +1,14 @@
 import React from 'react';
 import { Form,Button,Icon,Card,Modal,Input,Radio,Select,DatePicker} from 'antd';
+import intl from 'react-intl-universal'
 
 let FiltersForm = ({
+  LIST,
   actions,
   form,
+  style={},
   }) => {
+  const {filters} = LIST
   function handleSubmit() {
     form.validateFields((err,values) => {
       console.log('values',values)
@@ -17,60 +21,54 @@ let FiltersForm = ({
     })
   }
   function handleChange() {
-    setTimeout(handleSubmit, 0) 
+    setTimeout(handleSubmit, 0)
   }
   function handleCancle() {
   }
   const types = [
-    {label:'All',value:'all'},
-    {label:'Transfer',value:'transfer'},
-    {label:'Receive',value:'receive'},
-    {label:'Sell',value:'sell'},
-    {label:'Buy',value:'buy'},
-    {label:'Approve',value:'approve'},
-    {label:'Cancel Orders',value:'cancel'},
-    {label:'Wrap',value:'wrap'},
-    {label:'Unwrap',value:'unwrap'},
-    {label:'Convert',value:'convert'},
+    {label:intl.get(`global.all`),value:''},
+    {label:intl.get(`txs.type_transfer`),value:'send'},
+    {label:intl.get(`txs.type_receive`),value:'receive'},
+    {label:intl.get(`txs.type_enable`),value:'approve'},
+    {label:intl.get(`txs.type_convert`),value:'convert'},
   ]
   return (
-      <div>
+      <div style={style}>
         <Form layout="inline">
-          <Form.Item label="Status" >
+          <Form.Item label={null && intl.get('txs.status')} >
             {form.getFieldDecorator('status', {
-              initialValue:'all',
+              initialValue:filters.status,
               rules:[]
             })(
               <Select
                   style={{ width: 120 }}
                   allowClear
-                  placeholder="All"
+                  placeholder={intl.get('txs.status')}
                   optionFilterProp="children"
                   onChange={handleChange}
                   onFocus={()=>{}}
                   onBlur={()=>{}}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                <Select.Option value="all">All</Select.Option>
-                <Select.Option value="pending">Pending</Select.Option>
-                <Select.Option value="success">Success</Select.Option>
-                <Select.Option value="failed">Failed</Select.Option>
+                <Select.Option value="">{intl.get('global.all')}</Select.Option>
+                <Select.Option value="pending">{intl.get('txs.status_pending')}</Select.Option>
+                <Select.Option value="success">{intl.get('txs.status_success')}</Select.Option>
+                <Select.Option value="failed">{intl.get('txs.status_failed')}</Select.Option>
               </Select>
             )}
           </Form.Item>
-          <Form.Item label="Type" className="mr0">
-            {form.getFieldDecorator('type', {
-              initialValue:'all',
+          <Form.Item label={null && intl.get('txs.type')} className="mr0">
+            {form.getFieldDecorator('txType', {
+              initialValue: filters.type,
               rules:[]
             })(
               <Select
                 style={{ width: 120 }}
                 allowClear
                 onChange={handleChange}
-                placeholder="All"
-
+                placeholder={intl.get('txs.type')}
               >
-                { 
+                {
                   types.map((item,index)=>
                     <Select.Option value={item.value} key={index}>{item.label}</Select.Option>
                   )
@@ -78,7 +76,7 @@ let FiltersForm = ({
               </Select>
             )}
           </Form.Item>
-          
+
         </Form>
       </div>
   );
@@ -87,4 +85,4 @@ let FiltersForm = ({
 
 export default Form.create()(FiltersForm);
 
- 
+

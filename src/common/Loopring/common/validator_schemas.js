@@ -36,7 +36,7 @@ let basicSchemas = {
   ETH_DATA: {
     type: 'string',
     required: true,
-    pattern: /^0x[0-9a-fA-F]{1，64}$/g,
+    pattern: /^0x[0-9a-fA-F]{1,64}$/g,
   },
   QUANTITY: {
     type: 'string',
@@ -45,12 +45,17 @@ let basicSchemas = {
   PRIVATE_KEY: {
     type: 'string',
     required: true,
-    length: 64,
+    len: 64,
+  },
+  TX_HASH:{
+    type: 'string',
+    required: true,
+    pattern: /^0x[0-9a-fA-F]{64}$/g,
   },
   ABI_METHOD: {
     type: 'enum',
     required: true,
-    enum: ['cancelOrder', 'setCutoff', 'approve', 'withdraw', 'transfer', 'balanceOf', 'allowance'],
+    enum: ['cancelOrder', 'cancelAllOrders', 'cancelOrdersByTokenPairs','approve', 'deposit', 'withdraw', 'transfer', 'balanceOf', 'allowance','symbol','name','decimals','bind','unbind','getBindingAddress'],
   },
   RPC_TAG: {
     type: 'enum',
@@ -59,6 +64,16 @@ let basicSchemas = {
   },
   TIMESTAMP: {
     type: 'string',
+  },
+  PROJECT_ID: {
+    type: 'number',
+    required: true,
+    min: 1
+  },
+  LOOPRING_TOKEN:{
+    type:'enum',
+    required:true,
+    enum:['LRC','LRN','LRQ']
   },
   PRIVATE_KEY_BUFFER: {
     validator: (rule, value, cb) => {
