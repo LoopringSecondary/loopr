@@ -25,7 +25,6 @@ export function toHex(mixed) {
   if (typeof mixed === 'string') {
     const regex = new RegExp(/^0x[0-9a-fA-F]*$/);
     return regex.test(mixed) ? mixed : "0x" + toBuffer(String).toString('hex')
-
   }
   throw new Error('Unsupported type')
 }

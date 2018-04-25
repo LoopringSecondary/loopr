@@ -178,10 +178,13 @@ Browser：{browser}\n
     pending: "Pending",
     no_txs:'No data',
     resend:"Resend",
-    resend_tips:"Increase gas price and resend this tx in order to make it earlier to be confirmed",
+    resend_tips:"Increase gas price and resend this tx in order to make it to be confirmed earlier",
     not_resend_tips:"Tx has already been confirmed, it doesn't need to be resent. ",
     resend_success:"Resent Successfully",
-    resend_failed:"Resent Failed"
+    resend_failed:"Resent Failed",
+    can_not_resend:"Can't not resend",
+    not_detail:"Can't get detail information of this tx.",
+    resend_title:"Gas price is too low, thus transaction hasn't been confirmed yet."
   },
   orders: {
     order: "Order",

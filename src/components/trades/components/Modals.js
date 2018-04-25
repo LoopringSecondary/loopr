@@ -5,7 +5,7 @@ import SettingsContainer from '../../../modules/settings/container'
 
 function Modals(props){
   return (
-     <ModalContainer id="trade/detail">
+     <ModalContainer id="trade/detail" width="60%">
        <SettingsContainer>
          <Detail />
        </SettingsContainer>
