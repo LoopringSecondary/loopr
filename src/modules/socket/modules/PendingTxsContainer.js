@@ -4,7 +4,9 @@ import {connect} from 'react-redux'
 import config from '../../../common/config'
 import {toBig, toNumber} from "Loopring/common/formatter";
 
-
+function isArray(obj) {
+        return Object.prototype.toString.call(obj) === '[object Array]';
+}
 class PendingTxsContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -13,9 +15,11 @@ class PendingTxsContainer extends React.Component {
     }
   }
   responseHandler(res){
+
+
     console.log('pendingTxs_res')
     res = JSON.parse(res)
-    if (!res.error) {
+    if (!res.error && res.data && isArray(res.data)) {
       this.setState({
         pendingTxs: res.data,
       })

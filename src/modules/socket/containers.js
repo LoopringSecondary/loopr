@@ -6,6 +6,7 @@ import Transactions from './modules/TransactionsContainer'
 import PendingTxs from './modules/PendingTxsContainer'
 import Portfolio from './modules/PortfolioContainer'
 import Depth from './modules/DepthContainer'
+import Trades from './modules/TradesContainer'
 
 export default {
   Assets,
@@ -16,4 +17,5 @@ export default {
   PendingTxs,
   Portfolio,
   Depth,
+  Trades,
 }

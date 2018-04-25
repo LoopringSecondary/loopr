@@ -179,6 +179,11 @@ export default {
     failed:"失败",
     pending:"进行中",
     no_txs:'暂无交易',
+    resend:"重发",
+    resend_tips:"提高gas价格，重发该交易，让该交易早一些被确认。",//需修改,
+    not_resend_tips:"该交易已经被确认，无需重新发送",
+    resend_success:"重新发送成功",
+    resend_failed:"重新发送失败"
   },
   orders: {
     order: "订单",

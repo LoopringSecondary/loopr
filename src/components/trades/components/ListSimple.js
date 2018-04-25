@@ -20,10 +20,10 @@ function ListBlock(props) {
       </div>
     )
   }
-  const ListItem = ({item})=>{
+  const ListItem = ({item,key})=>{
     return (
       <div className="row pt5 pb5 gutter-8">
-        <div className="col fs12 color-black-2 text-left">
+        <div className="col fs12 color-green-500 text-left">
           0.00118642
         </div>
         <div className="col-auto fs12 color-black-2 text-left">

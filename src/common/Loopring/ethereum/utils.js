@@ -90,7 +90,6 @@ export async function getTransactionByhash(hash) {
     method: 'post',
     body,
   })
-
 }
 
 export function generateBindAddressTx({projectId, address, gasPrice, gasLimit, nonce, chainId}) {

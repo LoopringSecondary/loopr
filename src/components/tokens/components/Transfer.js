@@ -1,11 +1,11 @@
 import React from 'react';
-import { Col,Form,InputNumber,Button,Icon,Modal,Input,Radio,Switch,Select,Checkbox,Slider,Card,Popover,Tooltip} from 'antd';
+import {Button, Card, Form, Icon, Input, Popover, Select, Slider, Switch, Tooltip} from 'antd';
 import validator from '../../../common/Loopring/common/validator'
 import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
 import config from '../../../common/config'
-import {accDiv, accMul} from '../../../common/Loopring/common/math'
+import {accMul} from '../../../common/Loopring/common/math'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {getGasPrice} from '../../../common/Loopring/relay/utils'
 import intl from 'react-intl-universal';

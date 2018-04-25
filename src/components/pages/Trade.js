@@ -70,7 +70,9 @@ export default function Home(props){
             </div>
             <div className="col-md-3 col-sm-6 pl5 pr5">
               <Card className="rs-p0" title={<div className="pl5 pr5">Trade History</div>} style={{border:'1px solid #dadada',borderRadius:'4px'}}>
-                <TradeList />
+                <Sockets.Trades market={pair}>
+                  <TradeList />
+                </Sockets.Trades>
               </Card>
             </div>
             <div className="col-md-6 col-sm-6 pl5">

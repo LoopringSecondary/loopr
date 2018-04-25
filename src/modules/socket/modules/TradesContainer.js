@@ -20,17 +20,17 @@ class TradesContainer extends React.Component {
         "market":nextProps.market,
         "length":40,
       };
-      socket.emit('depth_req',JSON.stringify(options),this.responseHandler.bind(this))
+      socket.emit('trades_req',JSON.stringify(options),this.responseHandler.bind(this))
     }
     return true // to make sure the parent container's render
   }
   responseHandler(res){
-    console.log('depth_res')
+    console.log('trades_res',res)
     res = JSON.parse(res)
-    if(!res.error && res.data && res.data.depth){
-      this.setState({
-        depth:{...res.data.depth}
-      })
+    if(!res.error && res.data ){
+      // this.setState({
+      //   depth:{...res.data.depth}
+      // })
     }
   }
   componentDidMount() {
@@ -42,8 +42,8 @@ class TradesContainer extends React.Component {
           "market":this.props.market,
           "length":40,
         }
-        socket.emit('depth_req',JSON.stringify(options),this.responseHandler.bind(this))
-        socket.on('depth_res', this.responseHandler.bind(this))
+        socket.emit('trades_req',JSON.stringify(options),this.responseHandler.bind(this))
+        socket.on('trades_res', this.responseHandler.bind(this))
       }
     }
     if(!socket) {
@@ -56,7 +56,7 @@ class TradesContainer extends React.Component {
       console.log('socket connection has not been established')
       return false
     }
-    socket.off('depth_res')
+    socket.off('trades_res')
   }
 
   render() {

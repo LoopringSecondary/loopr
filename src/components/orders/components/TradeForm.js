@@ -432,7 +432,10 @@ class TradeForm extends React.Component {
       if (type === 'price') {
         price = e.target.value.toString()
         if (!amountReg.test(price)) return false
-        price = fm.toNumber(fm.toFixed(fm.toNumber(price), marketConfig.pricePrecision))
+        const priceArr = price.split(".")
+        if(priceArr.length === 2 && priceArr[1].length > marketConfig.pricePrecision){
+          price = fm.toNumber(fm.toFixed(fm.toNumber(price), marketConfig.pricePrecision))
+        }
         e.target.value = price
         this.setState({priceInput: price})
         amount = Number(form.getFieldValue("amount"))
