@@ -62,19 +62,19 @@ export default function Home(props){
       <div className="container">
           <div className="row justify-content-around">
             <div className="col-md-3 col-sm-6 pr5">
-              <Card title="Order Book" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+              <Card className="rs-p0" title={<div className="pl5 pr5">Order Book</div>} style={{border:'1px solid #dadada',borderRadius:'4px'}}>
                 <Sockets.Depth market={pair}>
                   <ListOrderBook />
                 </Sockets.Depth>
               </Card>
             </div>
             <div className="col-md-3 col-sm-6 pl5 pr5">
-              <Card title="Trade History" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+              <Card className="rs-p0" title={<div className="pl5 pr5">Trade History</div>} style={{border:'1px solid #dadada',borderRadius:'4px'}}>
                 <TradeList />
               </Card>
             </div>
             <div className="col-md-6 col-sm-6 pl5">
-              <Card title="PlaceOrder Form" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+              <Card className="rs-p0" title="PlaceOrder Form" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
                 <Tabs forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'15px'}} onChange={tabChange}>
                   <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Sell</div>} key="sell">
                     <Order.TradeForm side="sell" pair={pair} />

@@ -7,7 +7,7 @@ function ListBlock(props) {
   const {className, style,items=[]} = props;
   const ListHeader = ({})=>{
     return (
-      <div className="row bg-grey-50 pt5 pb5">
+      <div className="row bg-grey-50 pb5 pt5 gutter-8">
         <div className="col fs12 color-black-3 text-left">
           Price
         </div>
@@ -22,7 +22,7 @@ function ListBlock(props) {
   }
   const ListItem = ({item})=>{
     return (
-      <div className="row pt5 pb5">
+      <div className="row pt5 pb5 gutter-8">
         <div className="col fs12 color-black-2 text-left">
           0.00118642
         </div>

@@ -8,12 +8,12 @@ function ListOrderBook(props) {
   console.log('depth',depth)
   const ListHeader = ({})=>{
     return (
-      <div className="row bg-grey-50 pt5 pb5">
+      <div className="row bg-grey-50 gutter-8 pt5 pb5">
         <div className="col fs12 color-black-3 text-left">
           Price(ETH)
         </div>
         <div className="col-auto fs12 color-black-3 text-left">
-          Amount(LRC)
+          Amount
         </div>
         <div className="col-auto fs12 color-black-3 text-right">
           Total(ETH)
@@ -23,24 +23,24 @@ function ListOrderBook(props) {
   }
   const ListItem = ({item,side})=>{
     return (
-      <div className="row pt5 pb5">
+      <div className="row gutter-8 pt5 pb5">
         {
           side === 'sell' &&
           <div className="col fs12 color-red-500 text-left">
-            {item[0]}
+            {Number(item[0]).toFixed(8)}
           </div>
         }
         {
           side === 'buy' &&
           <div className="col fs12 color-green-500 text-left">
-            {item[0]}
+            {Number(item[0]).toFixed(8)}
           </div>
         }
         <div className="col-auto fs12 color-black-2 text-left">
-          {item[1]}
+          {Number(item[1]).toFixed(4)}
         </div>
         <div className="col-auto fs12 color-black-2 text-right">
-          {item[2]}
+          {Number(item[2]).toFixed(4)}
         </div>
       </div>
     )
