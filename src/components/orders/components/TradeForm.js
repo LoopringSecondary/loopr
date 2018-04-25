@@ -124,9 +124,26 @@ class TradeForm extends React.Component {
       })
     }
 
+    const needUnlockCheck = () => {
+      if(isWatchOnly) {
+        dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:{},
+            visible:true
+          }
+        })
+      }
+    }
+
     async function handleSubmit() {
       if(!window.WALLET_UNLOCK_TYPE) {
         return
+      }
+      if(isWatchOnly) {
+        needUnlockCheck()
+        return;
       }
       if(!lrcBalance || lrcBalance.balance.lessThan(9000)){
         if(window.CONFIG.getChainId() !== 7107171 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
@@ -803,7 +820,7 @@ class TradeForm extends React.Component {
               </Tooltip>
             </div>
           }
-          {account && account.isUnlocked && isWatchOnly &&
+          {false && account && account.isUnlocked && isWatchOnly &&
           <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
             {intl.get('trade.place_order_trezor_unsupport') }
             <Tooltip title={intl.getHTML('trade.place_order_watch_only_tips')}>
@@ -811,7 +828,7 @@ class TradeForm extends React.Component {
             </Tooltip>
           </div>
           }
-          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' && !isWatchOnly &&
+          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' &&
           <Form.Item className="mb0">
             {
               side == 'buy' &&
@@ -833,14 +850,14 @@ class TradeForm extends React.Component {
             <Form.Item className="mb0">
             {
               side == 'buy' &&
-              <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom'})} type="" className="d-block w-100 bg-green-500 border-none color-white"
+              <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 bg-green-500 border-none color-white"
                       size="large">
                 {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
               </Button>
             }
             {
               side == 'sell' &&
-              <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom'})} type="" className="d-block w-100 bg-red-500 border-none color-white"
+              <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 bg-red-500 border-none color-white"
                       size="large">
                 {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
               </Button>

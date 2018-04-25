@@ -81,6 +81,9 @@ export default class DetermineWallet extends React.Component {
     modal.hideModal({id: 'wallet/determineWallet'});
     modal.hideModal({id: 'wallet/unlock'});
     unlockRedirection(pageFrom)
+    if(modal.targetModalData) {
+      modal.showModal({...modal.targetModalData})
+    }
   };
 
   render() {

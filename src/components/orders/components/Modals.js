@@ -21,10 +21,10 @@ function Modals(props){
      <ModalContainer id="trade/place-order-error">
          <PlaceOrderError />
      </ModalContainer>
-     <ModalContainer id="order/detail">
+     <ModalContainer id="order/detail" width="60%">
          <Detail />
      </ModalContainer>
-      <ModalContainer id="order/detail/fills">
+      <ModalContainer id="order/detail/fills" width="60%">
         <Fills />
       </ModalContainer>
     </div>

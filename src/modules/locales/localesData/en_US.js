@@ -178,10 +178,13 @@ Browser：{browser}\n
     pending: "Pending",
     no_txs:'No data',
     resend:"Resend",
-    resend_tips:"Increase gas price and resend this tx in order to make it earlier to be confirmed",
+    resend_tips:"Increase gas price and resend this tx if you want it to be confirmed earlier. Only one of the two transactions will be confirmed, and only one transaction will be charged.",
     not_resend_tips:"Tx has already been confirmed, it doesn't need to be resent. ",
     resend_success:"Resent Successfully",
-    resend_failed:"Resent Failed"
+    resend_failed:"Resent Failed",
+    can_not_resend:"Can't not resend",
+    not_detail:"Can't get detail information of this tx.",
+    resend_title:"The tx has not been confirmed for a long time."
   },
   orders: {
     order: "Order",
@@ -537,6 +540,11 @@ Browser：{browser}\n
     type_privatekey:'PrivateKey',
     type_demo:'Demo Wallet',
     type_lock:'Locked Wallet',
+    in_watch_only_mode_title:'You Are Using Watch-Only Mode',
+    unlock_by_cookie_address_notification:'We detected you have unlocked your wallet before, since you refreshed browser or open Loopr again, now you will using Loopr in Watch-Only mode(cause we didn\'t store your private key) until you unlock again',
+    in_watch_only_mode_content: 'You are now using Watch-Only mode, your operation need to unlock by other way',
+    in_demo_account_mode_content: 'You are now using demo account, your operation need to unlock except Watch-Only mode with your own address',
+    continue_watch:'Continue Watch-Only',
   },
   demo:{
     badge_title:'Demo Wallet',

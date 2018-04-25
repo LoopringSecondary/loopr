@@ -14,6 +14,7 @@ function Home(props){
       payload:{
         id:id,
         pageFrom:'Portfolio',
+        targetModalData: {},
         visible:true,
       }
     })
