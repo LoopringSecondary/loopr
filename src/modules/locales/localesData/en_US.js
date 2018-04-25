@@ -5,15 +5,15 @@ export default {
     options: 'Options',
     amount: "{amount,number}",
     no_data:"No data",
-    comingsoon:"Coming Soon",
+    comingsoon:"Coming soon",
     wallet:"Wallet",
     yes:"Yes",
     no:"No",
   },
   version:{
     label:'Beta2',
-    title:'Beta2 (Brave Testers Only) ',
-    description:'Loopr is an opensourced, non-custodial Ethereum wallet. Please test it with caution. Loopring Foundation will not take responsiblity for any loss of your crypto-assets.',
+    title:'Beta2',
+    description:'LOOPRING.IO (Loopr2) is an open-sourced reference implementeation of a web-based non-custodial Ethereum wallet that enable users to trade ERC20 tokens using the Loopring Protocol. Before proceed, you should review the codebase. Loopr2 is not for for-profit product and the Loopring Foundation will not take responsiblity for any loss of your crypto-assets.',
     feedback:'Feedback',
     feedback_submit:'Report an issue',
     roadmap_label:'More Info',
@@ -25,26 +25,18 @@ export default {
     email_to:"help@loopring.org",
     email_subject:"Loopr Wallet Feedback",
     email_body:`
-## I Have An Issue To Report\n
-Feedback Title: \n
-Feedback Topic: ○ Unlock  ○ Generate ○ Airdrop ○ Send & Receive ○ Sell & Buy ○ Orders & Fills ○ Others \n
-The Steps I Did: 1:       2:       3:  \n
-The Result I Expect: \n
-The Result I Got: \n
-Attachment: \n
-
-## I Have An Idea To Suggest\n
-Feedback Title: \n
-Feedback Topic: ○ Unlock  ○ Generate ○ Airdrop ○ Send & Receive ○ Sell & Buy ○ Orders & Fills ○ Others \n
-The Result I Expect: \n
-The Result I Got: \n
-Attachment: \n
-
-## Test Environment\n
-Wallet Type：{wallet}\n
-Wallet Address：{address}\n
-Platform：{os}\n
-Browser：{browser}\n
+## ISSUES \n
+Select Topics: Unlock Wallet | Generate Wallet | Bind Airdrop Addresses | Send/Receive | Trading | History Data | Others \n
+Browser: Chrome | Safari | Internet Explorer | Others (please specify)\n
+Operation System:\n 
+Your Ethereum address: (if applicable)\n
+I've found some issues:
+\n
+\n
+## SUGGESTIONS:\n
+I got this great idea: 
+\n
+\n
 `,
   },
   navbar: {
@@ -98,7 +90,7 @@ Browser：{browser}\n
     balance_not_enough: 'In order for your order to be fully filled, {amount} more {token} is required.',
     submit: "Submit Order",
     confirm_cancel_order: "Do you want to cancel this order?",
-    confirm_cancel_all: "Do you want to cancel all {pair} orders?",
+    confirm_cancel_all: "This operation will cancel all the {pair} orders. Do you want to proceed?",
     cancel_order_success: "Your order has been cancelled.",
     cancel_order_failed: "Woops, order cancellation somehow failed.",
     cancel_all_success: "All your {pair} orders have been cancelled.",
@@ -128,7 +120,7 @@ Browser：{browser}\n
   },
   home: {
     title: 'Loopr',
-    subtitle: 'Non-Custodial Ethereum Wallet and Loopring DEX',
+    subtitle: 'A non-custodial Ethereum wallet and Loopring DEX.',
     beta_notification_title:'Can\'t wait to trade with Loopring?',
     beta_notifycation_content: 'Loopr wallet is still in its beta. Test with great caution!'
   },
@@ -221,7 +213,7 @@ Browser：{browser}\n
     timezone: "Timezone",
     reset: "Reset",
     contract: "Protocol Version",
-    ttl: "Order time to live",
+    ttl: "Order Time-To-Live",
     ttl_tip: "Please provide an integer value",
     lrcfee: "Trading Fee (LRC)",
     margin: "Default Margin Split",
@@ -250,7 +242,7 @@ Browser：{browser}\n
     available_amount: "Available Amount",
     total: "Total",
     advanced: "Advanced",
-    time_to_live: "Time to Live",
+    time_to_live: "Expire in",
     more: "More",
     popular_option: "Less",
     integer_verification_message: "Please input an integer value",
@@ -270,17 +262,17 @@ Browser：{browser}\n
     placing_order: 'Placing Order',
     place_order_failed: "Woops, order submission somehow failed!",
     not_inWhiteList:"Woops, your account has not been whitelisted for this action!",
-    not_allow:"Loopr is still in its beta, please come back later when it's ready for more people to use.",
+    not_allow:"LOOPRING.IO (Loopr2) is still in its beta, please come back later when it's ready for more people to use.",
     you_should_do_things: "You should do things followed",
     failed_reasons: "Causes of failure:",
     why: "Why",
     balance_not_enough: 'Balance insufficient. At leaset {required} {token} is required.',
     receive: 'Receive',
-    to_buy: 'Buy',
-    time_to_live_input_place_holder: 'How long should the order last?',
+    to_buy: 'Buy',We recommend to set it between 1 hour and 1 day.
+    time_to_live_input_place_holder: '',
     ring: "Ring",
-    tips_time_to_live: "What’s your expected order validity duration?</br>If you set the order validity duration to a large value, miners shall have enough time for order matching with high filled ration.</br>If you set the order validity duration to a small value, your order may not be able to be mined.</br>It’s recommended to set the order validity value >1 hour.",
-    tips_lrc_fee: "LRC Fee is the fee you are willing to pay for the miners as your order been filled successfully. The cost is based on the amount of your order.</br>It takes gas for the miner to mine an order, so the miner will only be willing to match an order as you pay a reasonable fee.</br>We do not recommend you modify this value unless you have fully understood its mechanism.",
+    tips_time_to_live: "Your order is valid for a specified period known as Time-To-Live (TTL) and will expire automatically. Use this value to avoid canceling orders explicitly to save yourself some Ether. We recommend using amount between one hour and one day.",
+    tips_lrc_fee: "The total fee in LRC to pay ring-miners to find counterparty orders that your order can trade with. The higher the fee is, the more likely and quicker your order will be matched and filled.",
     tips_margin_split: "If your account does not have enough LRC to pay miners, you can choose margin split to pay LRC Fee.</br>You can only choose either Margin Split or LRC Fee to pay the miners, so do not worry about double spending.</br>We do not recommend you modify this value unless you have fully understood its mechanism.",
     confirm_warn_ledger: "Please confirm transaction on your Ledger device, then come back to continue",
     confirm_warn_trezor: "Please confirm transaction on your Trezor device , then come back to continue",
@@ -289,8 +281,8 @@ Browser：{browser}\n
     place_order_trezor_unsupport_tips: 'When you place order we will send your order to relay with signature, but Trezor temporarily does not support sign messages, so when you unlock with Trezor is unable to place an order, but wallet operations(transfer, etc.) is not affected',
     place_order_watch_only_tips: 'You unlocked wallet with address only that could not sign orders, you could use other way to unlock and place order',
     custom_option_fee:'Set option for This Order',
-    custom_lrc_fee_title:'Set LRC-Fee For for Order',
-    custom_time_to_live_title:'Set order\'s TTL',
+    custom_lrc_fee_title:'Adjust Trading Fee',
+    custom_time_to_live_title:'Adjust Order Time-To-Live',
     send_failed: 'Place Order Failed !',
     failed_fetch_data:'Failed fetch data from server, you could wait a moment and come back later',
     eth_is_required:'ETH is required to pay Ethereun transaction fees, calculated with your current order cost that need to send Ethereum transactions, totally required {required} ETH.',
@@ -301,8 +293,8 @@ Browser：{browser}\n
     not_allowed_place_order_worth_content: 'Due to your total worth less than {worth}, you could not place this order',
     not_supported_market_title: "Not Supported Market",
     not_supported_market_content: "{market} is not supported market",
-    current_lrc_fee_ratio:'Current LRC Fee ratio',
-    current_lrc_fee: 'Current LRC Fee'
+    current_lrc_fee_ratio:'LRC Fee Ratio',
+    current_lrc_fee: 'LRC Fee'
   },
   trades: {
     side: 'Side',
@@ -509,10 +501,10 @@ Browser：{browser}\n
     old_weth_detect: "We detected you have some outdated WETH token, we strongly suggest you to convert them back to Ether",
     to_convert: "Convert",
     instruction_metamask: 'This is a recommended way to access your wallet.</br>MetaMask is an Ethereum wallet that runs on browsers. You can easily access your Ethereum wallet by running the browser\'s extension. MetaMask includes a secure identity vault, providing a user interface to manage your identities on different sites and sign blockchain transactions. You never have to provide private keys on any website which protects you from phishing and malicious websites.',
-    instruction_keystore: 'We do NOT recommend you to access your wallet this way. There may be a potential safety hazard.</br>Uploading your keystore file on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before uploading your keystore file.',
+    instruction_keystore: 'We do NOT recommend you to access your wallet this way. There may be a potential safety hazard.</br>Unlocking your keystore file on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before unlocking your keystore file.',
     instruction_ledger: 'This is a recommended way to access your wallet.</br>Ledger Hardware Wallet is a USB device that can generate private keys randomly and store them safely offline. It can perform signature authorization without sending your private key to any computers, which protects your asset and transaction from various security risks.',
-    instruction_mnemonic: 'We do NOT recommend you to access your wallet this way. There may be a potential safety hazard.</br>Uploading your mnemonic phrase on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before uploading your keystore file. ',
-    instruction_privatekey: 'we do NOT recommend you to access your wallet this way. There may be a potential safety hazard.</br>Uploading your private key on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before uploading your keystore file.',
+    instruction_mnemonic: 'We do NOT recommend you to access your wallet this way. There may be a potential safety hazard.</br>Unlocking your mnemonic phrase on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before unlocking your keystore file. ',
+    instruction_privatekey: 'we do NOT recommend you to access your wallet this way. There may be a potential safety hazard.</br>Unlocking your private key on websites is highly dangerous. If the website is compromised or you accidentally visit a phishing website, your assets will be stolen. We strongly advise you to use a hardware wallet or double-check  URL & SSL cert. before unlocking your keystore file.',
     instruction_trezor: 'This is a recommended way to access your wallet.</br>Trezor hardware Wallet is a USB device that can generate private keys randomly and store them safely offline. It can perform signature authorization without sending your private key to any computers, which protects your asset and transaction from various security risks.',
     instruction_address: 'This is a recommended way to access your wallet.</br>You can only view your balance via this option. Please use another option in order to send or place order.',
     nonce: 'Nonce',
@@ -542,8 +534,8 @@ Browser：{browser}\n
     airdrop_not_allowed: "Demo wallet can not bind address for airdrop",
   },
   tokens: {
-    hide_small_balances: " Hide Small Balances",
-    only_show_favorites: "Only Show My Favorites",
+    hide_small_balances: " Hide tokens with small balance",
+    only_show_favorites: "Only show my favorites",
     options: "Options",
     options_transfer: "Send",
     options_receive: "Receive",

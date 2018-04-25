@@ -165,7 +165,7 @@ function Navbar(props){
                         <div className="grid-title">
                           <Icon type="gift" className="grid-icon"/>
                         </div>
-                        <div className="grid-title text-truncate text-nowrap">🔥{intl.get('navbar.subs.airdrop')}</div>
+                        <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.airdrop')}</div>
                     </a>
                 </div>
             </div>
