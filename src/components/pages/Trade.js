@@ -70,7 +70,7 @@ export default function Home(props){
               </div>
               <div style={{padding:'1px'}}>
                 <Sockets.Depth market={pair}>
-                  <ListOrderBook />
+                  <ListOrderBook market={pair} />
                 </Sockets.Depth>
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function Home(props){
               </div>
               <div style={{padding:'1px'}}>
                 <Sockets.Trades market={pair}>
-                  <TradeList />
+                  <TradeList market={pair} />
                 </Sockets.Trades>
               </div>
             </div>

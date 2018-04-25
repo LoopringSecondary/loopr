@@ -12,6 +12,7 @@ export default {
     price:'Price',
     amount:'Amount',
     total:'Total',
+    time:'Time',
   },
   version:{
     label:'Beta2',

@@ -10,6 +10,7 @@ export default {
     price:'价格',
     amount:'数量',
     total:'总计',
+    time:'时间',
   },
   version: {
     label: 'Beta2',
