@@ -80,15 +80,13 @@ class ListActionsBar extends React.Component {
               Notification.open({message: intl.get('order.cancel_all_failed',{pair:tokenPair}), type: "error", description:response.error.message})
             }
           });
-
-
         },
         onCancel: () => {
         },
         okText: intl.get('order.yes'),
         cancelText: intl.get('order.no'),
       })
-    }
+    };
     return (
       <div className={className}>
         <div className="row ml0 mr0 align-items-center">

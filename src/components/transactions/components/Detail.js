@@ -1,6 +1,6 @@
 import React from 'react';
-import {Card, Spin, Alert,Button} from 'antd';
-import {toNumber} from "Loopring/common/formatter";
+import {Card, Spin, Button} from 'antd';
+import {toNumber,toBig,toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
 import {getTransactionByhash} from 'Loopring/ethereum/utils'
 import {
@@ -9,8 +9,11 @@ import {
   getPendingRawTxByHash,
   notifyTransactionSubmitted
 } from "Loopring/relay/utils";
+import Notification from 'Loopr/Notification';
 import {getGasPrice} from '../../../common/Loopring/relay/account';
-import {toBig} from "../../../common/Loopring/common/formatter";
+import Alert from 'Loopr/Alert'
+
+
 
 const MetaItem = (props) => {
   const {label, value, render} = props
@@ -94,10 +97,11 @@ class DetailBlock extends React.Component {
       getPendingRawTxByHash(txHash).then(async (res) => {
         if (!res.error) {
           const tx = res.result;
-          console.log('Raw Tx:', JSON.stringify(tx));
-          tx.gasPrice = await getGasPrice();
+          const gasPriceRes = await getGasPrice();
+          tx.gasPrice = toHex(toBig(gasPriceRes.result));
+          tx.data = tx.input;
           window.WALLET.sendTransaction(tx).then(({response, rawTx}) => {
-            if (!res.error) {
+            if (!response.error) {
               Notification.open({message: intl.get("txs.resend_success"), type: "success", description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
               notifyTransactionSubmitted({txHash: response.result, rawTx, from: window.WALLET.getAddress()});
             } else {
@@ -107,8 +111,8 @@ class DetailBlock extends React.Component {
         } else {
           Notification.open({
             type: 'error',
-            message: 'can\'t resend  ',
-            description: "cannot get detail information of this tx."
+            message: intl.get('txs.can_not_resend'),
+            description: intl.get('txs.not_detail')
           });
         }
       })
@@ -117,16 +121,14 @@ class DetailBlock extends React.Component {
     return (
       <Card title={intl.get('txs.tx_detail')}>
         <Spin spinning={loading}>
-          {!(ethTx && ethTx.blockNumber) && !loading &&
-          <Alert className="mb15" type="info" onClick={reSendTx.bind(this, item.txHash)} showIcon message={
-            <div className="">{intl.get('txs.resend_tips')}</div>}
+          {!(ethTx && ethTx.blockNumber) && !loading && item.status === 'pending' &&
+          <Alert className="mb15" type="info"  title ={intl.get("txs.resend_title")} description={intl.get('txs.resend_tips')}
+                 actions={(<Button type='primary' onClick={reSendTx.bind(this, item.txHash)}>{intl.get("txs.resend")}</Button>)}
           />}
           {(ethTx && ethTx.blockNumber) && item.status === 'pending' && !loading &&
-          <Alert
-            className="mb15" type="info" showIcon message={
+          <Alert className="mb15" type="info" title={intl.get('txs.not_need_resend')} description={
             <div className="">{intl.get('txs.not_resend_tips')}</div>}
           />
-
           }
           <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
           <MetaItem label={intl.get('txs.to')} value={item.to} render={renders.address}/>
