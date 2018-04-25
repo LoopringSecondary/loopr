@@ -25,11 +25,11 @@ class DepthContainer extends React.Component {
     return true // to make sure the parent container's render
   }
   responseHandler(res){
-    console.log('depth_res',res)
+    console.log('depth_res')
     res = JSON.parse(res)
     if(!res.error && res.data && res.data.depth){
       this.setState({
-        depth:res.data.depth
+        depth:{...res.data.depth}
       })
     }
   }
@@ -63,7 +63,7 @@ class DepthContainer extends React.Component {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
-      depth:{}
+      depth:{...this.state.depth}
     }
     const {render} = this.props
     if(render){

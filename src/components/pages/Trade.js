@@ -4,6 +4,7 @@ import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import TradeList from '../trades/components/ListSimple'
 import Order from '../orders/containers'
+import ListOrderBook from '../orders/components/List/ListOrderBook'
 import Layout from '../../layout/Layout'
 import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
@@ -63,7 +64,7 @@ export default function Home(props){
             <div className="col-md-3 col-sm-6 pr5">
               <Card title="Order Book" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
                 <Sockets.Depth market={pair}>
-                  <TradeList />
+                  <ListOrderBook />
                 </Sockets.Depth>
               </Card>
             </div>
