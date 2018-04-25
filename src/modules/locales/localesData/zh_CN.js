@@ -180,7 +180,7 @@ export default {
     pending: "进行中",
     no_txs: '暂无交易',
     resend: "重发",
-    resend_tips: "如果希望尽快确认，建议您提高Gas价格重新发送该交易。重新发送不会重复消耗矿工费",
+    resend_tips: "如果希望尽快确认，建议您提高Gas价格重新发送该交易。两笔交易只有一笔会被最终确认，只会有一笔交易会被收取矿工费。",
     not_resend_tips: "该交易已经被确认，无需重新发送",
     resend_success: "重新发送交易成功",
     resend_failed: "重新发送交易失败",

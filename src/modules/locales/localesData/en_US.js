@@ -178,7 +178,7 @@ Browser：{browser}\n
     pending: "Pending",
     no_txs:'No data',
     resend:"Resend",
-    resend_tips:"Increase gas price and resend this tx in order to make it to be confirmed earlier",
+    resend_tips:"Increase gas price and resend this tx if you want it to be confirmed earlier. Only one of the two transactions will be confirmed, and only one transaction will be charged.",
     not_resend_tips:"Tx has already been confirmed, it doesn't need to be resent. ",
     resend_success:"Resent Successfully",
     resend_failed:"Resent Failed",
