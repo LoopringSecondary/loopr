@@ -76,7 +76,7 @@ export default function Home(props){
               </Card>
             </div>
             <div className="col-md-6 col-sm-6 pl5">
-              <Card className="rs-p0" title="PlaceOrder Form" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
+              <Card className="rs-p0" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
                 <Tabs forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'15px'}} onChange={tabChange}>
                   <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Sell</div>} key="sell">
                     <Order.TradeForm side="sell" pair={pair} />
