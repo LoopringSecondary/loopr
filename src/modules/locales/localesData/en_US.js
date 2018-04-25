@@ -184,7 +184,7 @@ Browser：{browser}\n
     resend_failed:"Resent Failed",
     can_not_resend:"Can't not resend",
     not_detail:"Can't get detail information of this tx.",
-    resend_title:"Gas price is too low, thus transaction hasn't been confirmed yet."
+    resend_title:"The tx has not been confirmed for a long time."
   },
   orders: {
     order: "Order",

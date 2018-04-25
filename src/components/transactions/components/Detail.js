@@ -121,9 +121,9 @@ class DetailBlock extends React.Component {
     return (
       <Card title={intl.get('txs.tx_detail')}>
         <Spin spinning={loading}>
-          {!(ethTx && ethTx.blockNumber) && !loading &&
+          {!(ethTx && ethTx.blockNumber) && !loading && item.status === 'pending' &&
           <Alert className="mb15" type="info"  title ={intl.get("txs.resend_title")} description={intl.get('txs.resend_tips')}
-                 actions={(<Button onClick={reSendTx.bind(this, item.txHash)}>{intl.get("txs.resend")}</Button>)}
+                 actions={(<Button type='primary' onClick={reSendTx.bind(this, item.txHash)}>{intl.get("txs.resend")}</Button>)}
           />}
           {(ethTx && ethTx.blockNumber) && item.status === 'pending' && !loading &&
           <Alert className="mb15" type="info" title={intl.get('txs.not_need_resend')} description={

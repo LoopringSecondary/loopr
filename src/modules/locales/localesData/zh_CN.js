@@ -186,7 +186,7 @@ export default {
     resend_failed: "重新发送交易失败",
     can_not_resend: "无法发送",
     not_detail: "无法获得该交易的详细信息",
-    resend_title:"Gas价格过低导致该交易长时间未被确认"
+    resend_title:"该交易长时间未被确认"
   },
   orders: {
     order: "订单",
