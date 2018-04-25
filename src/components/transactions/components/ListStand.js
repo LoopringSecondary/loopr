@@ -9,6 +9,8 @@ import {getEstimatedAllocatedAllowance, getFrozenLrcFee, getPendingRawTxByHash} 
 import {toBig} from "Loopring/common/formatter";
 import config from '../../../common/config'
 import Notification from 'Loopr/Notification'
+import moment from 'moment'
+
 
 const uiFormatter = window.uiFormatter;
 
@@ -186,7 +188,8 @@ class ListBlock extends React.Component {
       const caption = (
         <div className="d-block">
           <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5  pointer">
-            {title} <span className="ml10">{statusCol}  {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && intl.get('txs.resend') }</span>
+            {title} <span className="ml10">{statusCol}  {item.status === 'pending' && item.type !== 'receive' && item.type !== 'convert_income' &&
+          (<span className='fs3'><span className='ml10 mr10 '>{intl.get('txs.resend')}</span><span>({moment(item.createTime * 1000).fromNow()})</span> </span>)}</span>
           </a>
           <div className="fs3 color-black-3">
             <span className="d-inline-block  text-truncate text-nowrap mr15">
