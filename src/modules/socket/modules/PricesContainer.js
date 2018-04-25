@@ -100,9 +100,9 @@ class PricesContainer extends React.Component {
       }else{
        return pricex && pricey ? (pricey / pricex).toFixed(market.pricePrecision):0
       }
-    }else {
-      return  pricex && pricey ? (pricex / pricey).toFixed(market.pricePrecision):0
     }
+    return  0
+
   };
 
 
