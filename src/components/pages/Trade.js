@@ -65,8 +65,8 @@ export default function Home(props){
         <div className="zb-b">
           <div className="row align-items-stretch gutter-0 bg-white">
             <div className="col-md-3 zb-b-r pr0">
-              <div className="fs2 lh20 color-black-1 pt10 pb10 pl10 zb-b-b">
-                Order Book
+              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                {intl.get('trade.order_book')}
               </div>
               <div style={{padding:'1px'}}>
                 <Sockets.Depth market={pair}>
@@ -75,8 +75,8 @@ export default function Home(props){
               </div>
             </div>
             <div className="col-md-3 zb-b-r">
-              <div className="fs2 lh20 color-black-1 pt10 pb10 pl10 zb-b-b">
-                Trades History
+              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                {intl.get('trade.trade_history')}
               </div>
               <div style={{padding:'1px'}}>
                 <Sockets.Trades market={pair}>
@@ -86,12 +86,12 @@ export default function Home(props){
             </div>
             <div className="col-md-6">
               <Tabs className="rs no-ink-bar" forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
-                <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh20">Sell {tokenL}</div>} key="sell">
+                <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.sell')} {tokenL}</div>} key="sell">
                   <div className="p15 zb-b-t">
                     <Order.TradeForm side="sell" pair={pair} />
                   </div>
                 </Tabs.TabPane>
-                <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh20">Buy {tokenL}</div>} key="Buy">
+                <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.buy')} {tokenL}</div>} key="Buy">
                   <div className="p15 zb-b-t">
                     <Order.TradeForm side="buy" pair={pair} />
                   </div>

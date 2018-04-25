@@ -4,19 +4,20 @@ const uiFormatter = window.uiFormatter
 const fm = window.uiFormatter.TokenFormatter
 
 function ListOrderBook(props) {
-  const {className, style,depth} = props;
-  console.log('depth',depth)
+  const {className, style,depth,market=""} = props;
+  const tokenL = market.split('-')[0].toUpperCase()
+  const tokenR = market.split('-')[1].toUpperCase()
   const ListHeader = ({})=>{
     return (
       <div className="row bg-grey-50 gutter-8 pt5 pb5">
         <div className="col fs12 color-black-3 text-left">
-          Price(ETH)
+          {intl.get('global.price')} {tokenR}
         </div>
-        <div className="col-auto fs12 color-black-3 text-left">
-          Amount
+        <div className="col-auto fs12 color-black-3 text-center" style={{width:'100px'}}>
+          {intl.get('global.amount')} {tokenL}
         </div>
-        <div className="col-auto fs12 color-black-3 text-right">
-          Total(ETH)
+        <div className="col-auto fs12 color-black-3 text-center" style={{width:'80px'}}>
+          {intl.get('global.total')} {tokenR}
         </div>
       </div>
     )
@@ -36,10 +37,10 @@ function ListOrderBook(props) {
             {Number(item[0]).toFixed(8)}
           </div>
         }
-        <div className="col-auto fs12 color-black-2 text-left">
+        <div className="col-auto fs12 color-black-2 text-center" style={{width:'100px'}}>
           {Number(item[1]).toFixed(4)}
         </div>
-        <div className="col-auto fs12 color-black-2 text-right">
+        <div className="col-auto fs12 color-black-2 text-center" style={{width:'80px'}}>
           {Number(item[2]).toFixed(4)}
         </div>
       </div>

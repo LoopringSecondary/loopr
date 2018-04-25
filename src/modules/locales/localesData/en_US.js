@@ -9,6 +9,9 @@ export default {
     wallet:"Wallet",
     yes:"Yes",
     no:"No",
+    price:'Price',
+    amount:'Amount',
+    total:'Total',
   },
   version:{
     label:'Beta2',
@@ -250,6 +253,8 @@ Browser：{browser}\n
     orderForm: "Order Form",
     sell: "Sell",
     buy: "Buy",
+    order_book:'Order Book',
+    trade_history:'Trade History',
     balance: "Balance",
     price: "Price",
     price_verification_message: "Please input a valid price",
