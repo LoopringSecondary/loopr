@@ -537,6 +537,11 @@ Browser：{browser}\n
     type_privatekey:'PrivateKey',
     type_demo:'Demo Wallet',
     type_lock:'Locked Wallet',
+    in_watch_only_mode_title:'You Are Using Watch-Only Mode',
+    unlock_by_cookie_address_notification:'We detected you have unlocked your wallet before, since you refreshed browser or open Loopr again, now you will using Loopr in Watch-Only mode(cause we didn\'t store your private key) until you unlock again',
+    in_watch_only_mode_content: 'You are now using Watch-Only mode, your operation need to unlock by other way',
+    in_demo_account_mode_content: 'You are now using demo account, your operation need to unlock except Watch-Only mode with your own address',
+    continue_watch:'Continue Watch-Only',
   },
   demo:{
     badge_title:'Demo Wallet',
