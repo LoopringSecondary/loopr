@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'dva/router';
-import { Card, Button,Icon,Alert, Input, Form } from 'antd';
+import { Card, Button,Icon,Input, Form } from 'antd';
 import intl from 'react-intl-universal';
 import {isValidEthAddress} from 'Loopring/ethereum/utils'
 import {configs} from '../../../common/config/data'
+import Alert from 'Loopr/Alert'
 
 class WatchOnlyToUnlock extends React.Component {
   state = {
@@ -26,19 +27,19 @@ class WatchOnlyToUnlock extends React.Component {
     }
 
     return (
-      <Card title={<div className="fs1">{intl.get('wallet.in_watch_only_mode_title')}</div>}>
+      <Card className="rs-p0" title={null && <div className="fs1">{intl.get('wallet.in_watch_only_mode_title')}</div>}>
         <div className="text-left">
-          <div className="fs14 color-black-2 mt5 text-left">
-            <div className="row justify-content-center">
-              <div style={{lineHeight:'2em',}}>
-                <div>{demoAddress === account.address ? intl.get('wallet.in_demo_account_mode_content') : intl.get('wallet.in_watch_only_mode_content')}</div>
-                <div className="row justify-content-center mt10">
-                  <Button className="alert-btn mr5" size="large" onClick={cancel} >{intl.get('wallet.continue_watch')}</Button>
-                  <Button type="primary" className="alert-btn mr5" size="large" onClick={toUnlock.bind(this, modal.originalData)} >{intl.get('wallet.to_unlock')}</Button>
-                </div>
+          <Alert
+            type="info"
+            title={intl.get('wallet.in_watch_only_mode_title')}
+            description={demoAddress === account.address ? intl.get('wallet.in_demo_account_mode_content') : intl.get('wallet.in_watch_only_mode_content')}
+            actions={
+              <div>
+                <Button className="alert-btn mr5" size="large" onClick={cancel} >{intl.get('wallet.continue_watch')}</Button>
+                <Button type="primary" className="alert-btn mr5" size="large" onClick={toUnlock.bind(this, modal.originalData)} >{intl.get('wallet.to_unlock')}</Button>
               </div>
-            </div>
-          </div>
+            }
+           />
         </div>
       </Card>
     )

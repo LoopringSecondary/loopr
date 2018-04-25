@@ -210,7 +210,13 @@ class ListBlock extends React.Component {
       const caption = (
         <div className="d-block">
           <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5  pointer">
-            {title} <span className="ml10">{statusCol}  {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && intl.get('txs.resend') }</span>
+            {title}
+            <span className="ml10">
+              {statusCol}
+              <span className="ml10 fs12">
+                {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && intl.get('txs.resend') }
+              </span>
+            </span>
           </a>
           <div className="fs3 color-black-3">
             <span className="d-inline-block  text-truncate text-nowrap mr15">
