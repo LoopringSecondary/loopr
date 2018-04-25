@@ -48,12 +48,15 @@ function ListOrderBook(props) {
   return (
     <div className={className} style={{...style}}>
       <ListHeader/>
-      {depth && depth.sell &&
-        depth.sell.map((item,index)=><ListItem key={index} item={item} side="sell" />)
-      }
-      {depth && depth.buy &&
-        depth.buy.map((item,index)=><ListItem key={index} item={item} side="buy" />)
-      }
+      <div style={{maxHeight:'375px',overflow:'auto'}}>
+        {depth && depth.sell &&
+          depth.sell.map((item,index)=><ListItem key={index} item={item} side="sell" />)
+        }
+        {depth && depth.buy &&
+          depth.buy.map((item,index)=><ListItem key={index} item={item} side="buy" />)
+        }
+      </div>
+
 
     </div>
   )

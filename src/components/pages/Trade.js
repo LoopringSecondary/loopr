@@ -62,73 +62,77 @@ export default function Home(props){
         </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
-          <div className="row justify-content-around align-items-st gutter-0 zb-b">
-            <div className="col-md-6 col-sm-6 bg-white">
-              <div className="row gutter-0">
-                <div className="col-md-6 zb-b-r">
-                  <div className="fs2 color-black-1 pt10 pb10 pl5 zb-b-b">
-                    Order Book
-                  </div>
-                  <Sockets.Depth market={pair}>
-                    <ListOrderBook />
-                  </Sockets.Depth>
-                </div>
-                <div className="col-md-6 zb-b-r">
-                  <div className="fs2 color-black-1 pt10 pb10 pl5 zb-b-b">
-                    Trades History
-                  </div>
-                  <Sockets.Trades market={pair}>
-                    <TradeList />
-                  </Sockets.Trades>
-                </div>
+        <div className="zb-b">
+          <div className="row align-items-stretch gutter-0 bg-white">
+            <div className="col-md-3 zb-b-r pr0">
+              <div className="fs2 lh20 color-black-1 pt10 pb10 pl10 zb-b-b">
+                Order Book
+              </div>
+              <div style={{padding:'1px'}}>
+                <Sockets.Depth market={pair}>
+                  <ListOrderBook />
+                </Sockets.Depth>
               </div>
             </div>
-            <div className="col-md-6 col-sm-6 bg-white">
-              <Tabs forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
-                <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Sell {tokenL}</div>} key="sell">
-                  <div className="p15">
+            <div className="col-md-3 zb-b-r">
+              <div className="fs2 lh20 color-black-1 pt10 pb10 pl10 zb-b-b">
+                Trades History
+              </div>
+              <div style={{padding:'1px'}}>
+                <Sockets.Trades market={pair}>
+                  <TradeList />
+                </Sockets.Trades>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <Tabs className="rs no-ink-bar" forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+                <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh20">Sell {tokenL}</div>} key="sell">
+                  <div className="p15 zb-b-t">
                     <Order.TradeForm side="sell" pair={pair} />
                   </div>
                 </Tabs.TabPane>
-                <Tabs.TabPane tab={<div className="fs16 pb5 pt5">Buy {tokenL}</div>} key="Buy">
-                  <div className="p15">
+                <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh20">Buy {tokenL}</div>} key="Buy">
+                  <div className="p15 zb-b-t">
                     <Order.TradeForm side="buy" pair={pair} />
                   </div>
                 </Tabs.TabPane>
               </Tabs>
             </div>
           </div>
-        <div className="bg-white mt15" style={{border:'1px solid #dadada',borderRadius:'4px'}}>
-          <Tabs defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_open_orders')}</div>} key="orders">
-              <div className="">
-                {
-                  window.WALLET && window.WALLET.getAddress() &&
-                  <Order.List id="orders/trade" />
-                }
-                {
-                  !(window.WALLET && window.WALLET.getAddress()) &&
-                  <ModalContainer apisOnly={true}>
-                    <ToLogin />
-                  </ModalContainer>
-                }
-              </div>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab={<div className="fs16 pb5 pt5">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
-              <div className="">
-                {
-                  window.WALLET && window.WALLET.getAddress() &&
-                  <Trade.List />
-                }
-                {
-                  !(window.WALLET && window.WALLET.getAddress()) &&
-                  <ModalContainer apisOnly={true}>
-                    <ToLogin />
-                  </ModalContainer>
-                }
-              </div>
-            </Tabs.TabPane>
-          </Tabs>
+        </div>
+        <div className="zb-b">
+          <div className="bg-white mt15">
+            <Tabs defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+              <Tabs.TabPane tab={<div className="fs16 lh20">{intl.get('tabs.my_open_orders')}</div>} key="orders">
+                <div className="">
+                  {
+                    window.WALLET && window.WALLET.getAddress() &&
+                    <Order.List id="orders/trade" />
+                  }
+                  {
+                    !(window.WALLET && window.WALLET.getAddress()) &&
+                    <ModalContainer apisOnly={true}>
+                      <ToLogin />
+                    </ModalContainer>
+                  }
+                </div>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<div className="fs16 lh20">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
+                <div className="">
+                  {
+                    window.WALLET && window.WALLET.getAddress() &&
+                    <Trade.List />
+                  }
+                  {
+                    !(window.WALLET && window.WALLET.getAddress()) &&
+                    <ModalContainer apisOnly={true}>
+                      <ToLogin />
+                    </ModalContainer>
+                  }
+                </div>
+              </Tabs.TabPane>
+            </Tabs>
+          </div>
         </div>
         <div className="mb50"></div>
       </div>

@@ -778,7 +778,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           <div className="mb15">
             <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
+              <div className="row align-items-center ml0 mr0">
                 <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
                 <div className="col"></div>
                 <div className="col-auto fs3 color-black-2">
@@ -787,7 +787,7 @@ class TradeForm extends React.Component {
               </div>
             </Form.Item>
             <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
+              <div className="row align-items-center ml0 mr0">
                 <div className="col-auto fs3 color-black-2">
                   {intl.get('trade.lrc_fee')}
                   <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
@@ -800,7 +800,7 @@ class TradeForm extends React.Component {
               </div>
             </Form.Item>
             <Form.Item className="mb0" style={{padding:'8px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
+              <div className="row align-items-center ml0 mr0">
                 <div className="col-auto fs3 color-black-2">
                   {intl.get('trade.time_to_live')}
                   <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>

@@ -38,9 +38,11 @@ function ListBlock(props) {
   return (
     <div className={className} style={{...style}}>
       <ListHeader/>
-      {
-        [1,1,1,1,1,1,1,1,1,1,1,1].map((item,index)=><ListItem key={index} item={item} />)
-      }
+      <div style={{maxHeight:'375px',overflow:'auto'}}>
+        {
+          [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1].map((item,index)=><ListItem key={index} item={item} />)
+        }
+      </div>
     </div>
   )
 }
