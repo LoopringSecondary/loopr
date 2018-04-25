@@ -50,3 +50,15 @@ export async function register(owner) {
     body,
   })
 }
+
+
+export async function getGasPrice() {
+  let body = {};
+  body.method = 'loopring_getEstimateGasPrice';
+  body.params = [{}];
+  return request({
+    method:'post',
+    headers,
+    body,
+  })
+}
