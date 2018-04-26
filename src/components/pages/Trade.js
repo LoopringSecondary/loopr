@@ -76,6 +76,23 @@ export default function Home(props){
             </div>
             <div className="col-md-3 zb-b-r">
               <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                {intl.get('trade.buy')} {tokenL}
+              </div>
+              <div className="p10">
+                <Order.TradeForm side="buy" pair={pair} />
+              </div>
+            </div>
+            <div className="col-md-3 zb-b-r">
+              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                {intl.get('trade.sell')} {tokenL}
+              </div>
+              <div className="p10">
+                <Order.TradeForm side="sell" pair={pair} />
+              </div>
+            </div>
+
+            <div className="col-md-3 ">
+              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                 {intl.get('trade.trade_history')}
               </div>
               <div style={{padding:'1px'}}>
@@ -84,20 +101,25 @@ export default function Home(props){
                 </Sockets.Trades>
               </div>
             </div>
-            <div className="col-md-6">
-              <Tabs className="rs no-ink-bar" forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
-                <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.sell')} {tokenL}</div>} key="sell">
-                  <div className="p15 zb-b-t">
-                    <Order.TradeForm side="sell" pair={pair} />
-                  </div>
-                </Tabs.TabPane>
-                <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.buy')} {tokenL}</div>} key="Buy">
-                  <div className="p15 zb-b-t">
-                    <Order.TradeForm side="buy" pair={pair} />
-                  </div>
-                </Tabs.TabPane>
-              </Tabs>
-            </div>
+            {
+              false &&
+              <div className="col-md-3 zb-b-r">
+                <Tabs className="rs no-ink-bar" forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+                  <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.sell')} {tokenL}</div>} key="sell">
+                    <div className="p15 zb-b-t">
+                      <Order.TradeForm side="sell" pair={pair} />
+                    </div>
+                  </Tabs.TabPane>
+                  <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.buy')} {tokenL}</div>} key="Buy">
+                    <div className="p15 zb-b-t">
+                      <Order.TradeForm side="buy" pair={pair} />
+                    </div>
+                  </Tabs.TabPane>
+                </Tabs>
+              </div>
+
+            }
+
           </div>
         </div>
         <div className="zb-b">
