@@ -15,10 +15,12 @@ export function setLocale(value) {
       moment.locale('zh-cn');
       break;
     case "en-US":
-      moment.locale('en');
+      moment.locale('en-gb');
+      console.log(moment().format("lll"));
+      console.log('en-gb');
       break;
     default:
-      moment.locale('en');
+      moment.locale('en-gb');
   }
 
   intl.init({
