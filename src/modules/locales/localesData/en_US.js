@@ -275,7 +275,7 @@ Browser：{browser}\n
     day: "Day",
     week: "Week",
     month: "Month",
-    lrc_fee: "Trading Fee (LRC)",
+    lrc_fee: "Trading Fee",
     margin_split: "Margin Split",
     place_order: "Place Order",
     unlock_your_wallet: "Unlock a Wallet",
