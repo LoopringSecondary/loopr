@@ -14,10 +14,6 @@ class ListActionsBar extends React.Component {
 
   render(){
     const {actions = {}, LIST = {}, className,id} = this.props;
-    const state = window.STORE.getState() || {}
-    const account = state.account
-    const gasPrice = state.settings.trading.gasPrice
-    const contractAddress = state.settings.trading.contract.address
     const {filters = {}} = LIST[id] || {}
     const tokenPair = filters.market;
     const { socket } = this.context;
@@ -31,6 +27,9 @@ class ListActionsBar extends React.Component {
 
     const cancelAll = () => {
       const state = window.STORE.getState()
+      const account = state.account
+      const gasPrice = state.settings.trading.gasPrice
+      const contractAddress = state.settings.trading.contract.address
       if(state && state.account && state.account.walletType === 'Address') {
         this.props.dispatch({
           type:'modals/modalChange',

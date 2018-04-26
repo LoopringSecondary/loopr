@@ -24,7 +24,6 @@ class TradeForm extends React.Component {
   }
 
   render() {
-    console.log('trade form render')
     const tokenDivDigist = (token) => {
       const tokenCopy = {...token}
       tokenCopy.balance = tokenCopy.balance > 0 ? fm.toBig(tokenCopy.balance).div("1e"+tokenCopy.digits) : fm.toBig(0)
@@ -700,16 +699,19 @@ class TradeForm extends React.Component {
     return (
       <div className="place-order-form">
         <Form layout="horizontal">
-          <Form.Item>
-            <div className="row mb5">
-              <div className="col fs1 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
-              <div className="col-auto fs3 color-black-2">
-                {
-                  `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
-                }
+          {
+            false &&
+            <Form.Item>
+              <div className="row mb5">
+                <div className="col fs1 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
+                <div className="col-auto fs3 color-black-2">
+                  {
+                    `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
+                  }
+                </div>
               </div>
-            </div>
-          </Form.Item>
+            </Form.Item>
+          }
           <Form.Item label={null} colon={false} extra={
             null &&
             <div className="row">
@@ -776,7 +778,7 @@ class TradeForm extends React.Component {
           </Form.Item>
           <div className="mb15">
             <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
+              <div className="row align-items-center ml0 mr0">
                 <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
                 <div className="col"></div>
                 <div className="col-auto fs3 color-black-2">
@@ -785,7 +787,7 @@ class TradeForm extends React.Component {
               </div>
             </Form.Item>
             <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
+              <div className="row align-items-center ml0 mr0">
                 <div className="col-auto fs3 color-black-2">
                   {intl.get('trade.lrc_fee')}
                   <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
@@ -798,7 +800,7 @@ class TradeForm extends React.Component {
               </div>
             </Form.Item>
             <Form.Item className="mb0" style={{padding:'8px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
+              <div className="row align-items-center ml0 mr0">
                 <div className="col-auto fs3 color-black-2">
                   {intl.get('trade.time_to_live')}
                   <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>

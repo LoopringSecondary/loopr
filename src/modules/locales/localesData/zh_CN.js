@@ -7,6 +7,10 @@ export default {
     no_data: "暂时没有数据",
     comingsoon: "即将到来",
     wallet: "钱包",
+    price:'价格',
+    amount:'数量',
+    total:'总计',
+    time:'时间',
   },
   version: {
     label: 'Beta2',
@@ -206,6 +210,7 @@ export default {
     price: '价格',
     total: '金额',
     LrcFee: 'LRC撮合费',
+    LrcReward:"LRC撮合奖励",
     filled: '成交率',
     options: "动作",
     balance_not_enough: "{token} 余额不足!",
@@ -251,6 +256,8 @@ export default {
     relayUrl_tip: "请输入合法的URL地址"
   },
   trade: {
+    order_book:'最新挂单',
+    trade_history:'最新成交',
     orderForm: "订单信息",
     sell: "卖出",
     buy: "买入",
@@ -537,7 +544,7 @@ export default {
     unlocked_notification_title: '您已成功解锁钱包',
     unlocked_notification_content: '开始您的路印之旅，希望你能喜欢',
     unlocked_by: '{type} 钱包',
-    type_address: '观察模式钱包',
+    type_address: '观察模式',
     type_metamask: 'MetaMask钱包',
     type_trezor: 'Trezor钱包',
     type_ledger: 'Ledger钱包',

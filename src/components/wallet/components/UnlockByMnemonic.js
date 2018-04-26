@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Alert, Button, Form, Icon, Input, Select,message} from 'antd';
-import {wallets} from "../../../common/config/data";
+import {Alert, Button, Form, Icon, Input, message} from 'antd';
 import {isValidateMnemonic} from "Loopring/common/mnemonic"
 import {fromMnemonic} from 'Loopring/ethereum/account';
 import MnemonicUnlockAccount from '../../../modules/account/MnemonicUnlockAccount'

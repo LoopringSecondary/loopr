@@ -111,7 +111,7 @@ function Navbar(props){
     <div className="fs18" >
       {
         account.isUnlocked &&
-        <div style={{width:'300px'}}>
+        <div style={{width:'260px'}}>
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
@@ -198,18 +198,17 @@ function Navbar(props){
                 </div>
             </div>
           </div>
-          <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
-            <div className="row align-items-center ">
-              <div className="col">
-                <div className="fs12 color-primary-1">
-                 {intl.get('navbar.refresh_page_tip_title')}
-                </div>
-                <div className="fs12 color-black-3 mt5">
-                  {intl.get('navbar.refresh_page_tip_description')}
+          {
+            false &&
+            <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
+              <div className="row align-items-center ">
+                <div className="col">
+
                 </div>
               </div>
             </div>
-          </div>
+          }
+
         </div>
       }
       {!account.isUnlocked &&

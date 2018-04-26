@@ -12,7 +12,7 @@
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0x8311804426a24495bd4306daf5f595a443a52e32",
-  "localStorageVersion":201804251849,
+  "localStorageVersion":201804260055,
   "walletAddress":"0xb94065482ad64d4c2b9252358d746b39e820a582",
   "contracts": [
     {
@@ -42,23 +42,19 @@
   ],
   "relays": [
     {
+      "value": "//pre-relay1.loopring.io",
+      "name": "Pre-Production Relay"
+    },
+    {
       "value": "//relay1.loopring.io",
       "name": "Default Loopring Relay"
-    },
-    {
-      "value": "//loopring-backend-136182499.ap-northeast-1.elb.amazonaws.com",
-      "name": "Default Loopring Relay"
-    },
-    {
-      "value": "//pre-relay1.loopring.io",
-      "name": "Pre-Production"
     },
     {
       "value": "//13.231.66.20",
       "name": "Test"
     }
   ],
-  "supportedTokenRInMarkets":["WETH", "DAI", "LRC", "BAR"],
+  "supportedTokenRInMarkets":["WETH", "LRC", "BAR"],
   "markets": [
     {
       "tokenx": "LRC",
@@ -128,71 +124,6 @@
     {
       "tokenx": "ARP",
       "tokeny": "WETH",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "LRC",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "EOS",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "OMG",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "RDN",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "IOST",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "SNT",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "BAT",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "RHOC",
-      "tokeny": "DAI",
-      "pricePrecision": 3
-    },
-    {
-      "tokenx": "KNC",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "REQ",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "BNT",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "VITE",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "ARP",
-      "tokeny": "DAI",
       "pricePrecision": 8
     },
     {
