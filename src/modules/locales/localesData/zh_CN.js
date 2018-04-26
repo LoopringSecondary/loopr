@@ -8,7 +8,7 @@ export default {
     comingsoon: "即将到来",
     wallet: "钱包",
     price:'价格',
-    amount:'数量',
+    amount_label:'数量',
     total:'总计',
     time:'时间',
   },
