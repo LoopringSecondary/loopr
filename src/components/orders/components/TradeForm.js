@@ -712,6 +712,12 @@ class TradeForm extends React.Component {
               </div>
             </Form.Item>
           }
+          <div className="row ml0 mr0">
+            <div className="col">{intl.get('trade.price')}</div>
+            <div className="col-auto">
+              $0.35
+            </div>
+          </div>
           <Form.Item label={null} colon={false} extra={
             null &&
             <div className="row">
@@ -725,8 +731,8 @@ class TradeForm extends React.Component {
                 validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
               }]
             })(
-              <Input className="d-block w-100" placeholder="" size="large"
-                     prefix={<span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
+              <Input className="d-block w-100 fs3" placeholder="" size="large"
+                     prefix={null && <span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
                      suffix={<span className="fs14 color-black-4">{tokenR}</span>}
                      onChange={inputChange.bind(this, 'price')}
                      onFocus={() => {
@@ -743,6 +749,12 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
+          <div className="row ml0 mr0">
+            <div className="col">{intl.get('trade.amount')}</div>
+            <div className="col-auto">
+              1000.00
+            </div>
+          </div>
           <Form.Item label={null} colon={false} extra={
             <div>
               {
@@ -759,8 +771,8 @@ class TradeForm extends React.Component {
                 validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
               }]
             })(
-              <Input placeholder="" size="large"
-                    prefix={<span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
+              <Input  className="d-block w-100 fs3" placeholder="" size="large"
+                    prefix={null && <span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
                     suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
                      onFocus={() => {
                        const amount = Number(form.getFieldValue("amount"))
@@ -776,42 +788,36 @@ class TradeForm extends React.Component {
                      }}/>
             )}
           </Form.Item>
-          <div className="mb15">
-            <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center ml0 mr0">
-                <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
-                <div className="col"></div>
-                <div className="col-auto fs3 color-black-2">
-                  {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
-                </div>
+          <div className="mb15 zb-b-t">
+            <div className="row align-items-center ml0 mr0 pt5 pb5 zb-b-b">
+              <div className="col-auto fs12 color-black-2">{intl.get('trade.total')}</div>
+              <div className="col"></div>
+              <div className="col-auto fs12 color-black-2">
+                {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
               </div>
-            </Form.Item>
-            <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center ml0 mr0">
-                <div className="col-auto fs3 color-black-2">
-                  {intl.get('trade.lrc_fee')}
-                  <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
-                    <Icon className="ml5 fs4" type="question-circle-o"/>
-                  </Tooltip>
-                </div>
-                <div className="col"></div>
-                <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
-                <div className="col-auto pl0 fs3 color-black-2">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
+            </div>
+            <div className="row align-items-center ml0 mr0 pt5 pb5 zb-b-b">
+              <div className="col-auto fs12 color-black-2">
+                {intl.get('trade.lrc_fee')}
+                <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
+                  <Icon className="ml5 fs4" type="question-circle-o"/>
+                </Tooltip>
               </div>
-            </Form.Item>
-            <Form.Item className="mb0" style={{padding:'8px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center ml0 mr0">
-                <div className="col-auto fs3 color-black-2">
-                  {intl.get('trade.time_to_live')}
-                  <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                    <Icon className="ml5 fs4 color-black-2" type="question-circle-o"/>
-                  </Tooltip>
-                </div>
-                <div className="col"></div>
-                <div className="col-auto pl0 pr5">{true && editOrderTTL}</div>
-                <div className="col-auto pl0 fs3 color-black-2">{ttlShow}</div>
+              <div className="col"></div>
+              <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
+              <div className="col-auto pl0 fs12 color-black-2">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
+            </div>
+            <div className="row align-items-center ml0 mr0 zb-b-b pt5 pb5">
+              <div className="col-auto fs12 color-black-2">
+                {intl.get('trade.time_to_live')}
+                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
+                  <Icon className="ml5 fs4 color-black-2" type="question-circle-o"/>
+                </Tooltip>
               </div>
-            </Form.Item>
+              <div className="col"></div>
+              <div className="col-auto pl0 pr5">{true && editOrderTTL}</div>
+              <div className="col-auto pl0 fs12 color-black-2">{ttlShow}</div>
+            </div>
           </div>
 
           {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
