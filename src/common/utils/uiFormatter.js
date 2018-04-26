@@ -1,9 +1,10 @@
-import moment from 'moment'
+import * as moment from 'moment';
 import {toNumber,toBig} from "Loopring/common/formatter";
 import TokenFormatter from './tokenFormatter'
 import TickerFormatter from './tickerFormatter'
 import {getPrice} from './tokenFormatter'
 import intl from 'react-intl-universal';
+
 
 export function getShortAddress(address) {
   if (typeof address === 'string') {
