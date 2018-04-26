@@ -208,6 +208,7 @@ Browser：{browser}\n
     price: 'Price',
     total: 'Total',
     LrcFee: 'Trading Fee (LRC）',
+    LrcReward:'Trading Reward (LRC)',
     filled: 'Filled',
     options: "Options",
     balance_not_enough: "Your {token} balance is insufficient!",
