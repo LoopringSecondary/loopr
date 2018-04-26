@@ -65,20 +65,27 @@ function ListOrderBook(props) {
             )
           }
           {
-            depth && depth.buy && depth.buy.length == 0 &&
+            !(depth && depth.buy && depth.buy.length > 0) &&
             <tr >
-              <td colSpan="10" className="fs12 border-0 text-center color-black-3">{intl.get('global.no_data')}</td>
+              <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
             </tr>
           }
+          <tr className="">
+            <td colSpan="10" className="border-0 zb-b-t">
+              <div className="zb-b-b fs12 color-black-3 lh20 pl5 pr5">
+                Spread 0.1
+              </div>
+            </td>
+          </tr>
           {
             depth && depth.sell && depth.sell.map((item,index)=>
              <ListItem key={index} item={item} side="sell" />
             )
           }
           {
-            depth && depth.sell && depth.sell.length == 0 &&
+            !(depth && depth.sell && depth.sell.length > 0) &&
             <tr >
-              <td colSpan="10" className="fs12 border-0 text-center color-black-3">{intl.get('global.no_data')}</td>
+              <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
             </tr>
           }
         </tbody>

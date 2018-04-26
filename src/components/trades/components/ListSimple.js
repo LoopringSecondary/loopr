@@ -78,12 +78,12 @@ function ListBlock(props) {
                  </div>
                 </td>
                 <td className="border-0 pl5 pr5">
-                  <div className="fs12 color-black-2 text-centet lh20 p0" >
+                  <div className="fs12 color-black-2 text-center lh20 p0" >
                     10
                   </div>
                 </td>
                 <td className="border-0 pl5 pr5">
-                  <div className="fs12 color-black-2 text-centet lh20 p0">
+                  <div className="fs12 color-black-2 text-center lh20 p0">
                     21:23:55
                   </div>
                 </td>
@@ -93,7 +93,7 @@ function ListBlock(props) {
           {
             items.length == 0 &&
             <tr >
-              <td colSpan="10" className="fs12 border-0 text-center color-black-3">{intl.get('global.no_data')}</td>
+              <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
             </tr>
           }
         </tbody>
