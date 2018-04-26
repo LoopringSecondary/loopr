@@ -65,6 +65,9 @@ class UnlockByMetaMask extends React.Component {
           type:'success'
         })
         unlockRedirection(pageFrom)
+        if(modal.targetModalData) {
+          modal.showModal({...modal.targetModalData})
+        }
         let alert = false
         var accountInterval = setInterval(function() {
           if ((!window.web3 || !window.web3.eth.accounts[0]) && !alert) {

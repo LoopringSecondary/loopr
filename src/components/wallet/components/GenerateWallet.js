@@ -66,7 +66,7 @@ export default class GenerateWallet extends React.Component {
   gotoUnlock() {
     const {modal} = this.props
     modal.hideModal({id: 'wallet/generate'})
-    modal.showModal({id: 'wallet/unlock'})
+    modal.showModal({id: 'wallet/unlock',targetModalData: {}})
   }
 
   render() {

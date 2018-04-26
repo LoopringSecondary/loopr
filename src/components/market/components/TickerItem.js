@@ -116,7 +116,7 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
       </span>
     )
     return (
-        <div className="row bg-white justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0" style={{border:'1px solid #dadada',borderRadius:'3px'}}>
+        <div className="row bg-white zb-b justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0">
           <div className="col-auto">
             <div className="fs14 color-black-2">
               {fm.getPrice(ticker.last)} {priceValue}

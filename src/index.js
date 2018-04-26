@@ -60,4 +60,6 @@ app.router(require('./router').default);
 // 5. Start
 app.start('#root');
 
+// STORE is available when current route has rendered
+// Becarefull to use STORE in render funtion
 window.STORE = app._store

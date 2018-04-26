@@ -40,6 +40,7 @@ class  Home extends React.Component {
         payload:{
           id:id,
           pageFrom:'Portfolio',
+          targetModalData: {},
           visible:true,
         }
       });

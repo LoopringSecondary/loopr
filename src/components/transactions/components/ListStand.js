@@ -37,7 +37,6 @@ class ListBlock extends React.Component {
   }
 
   getNeeded = (currentToken) => {
-
     getEstimatedAllocatedAllowance(window.WALLET.getAddress(), currentToken).then(res => {
       if (!res.error) {
         const orderAmount = toBig(res.result);
@@ -45,13 +44,13 @@ class ListBlock extends React.Component {
           getFrozenLrcFee(window.WALLET.getAddress()).then(res => {
             if (!res.error) {
               const lrcFee = toBig(res.result);
-              this.setState({needed: orderAmount.plus(lrcFee), token: currentToken});
+              this.setState({needed: orderAmount.plus(lrcFee)});
             } else {
-              this.setState({needed: orderAmount, token: currentToken});
+              this.setState({needed: orderAmount});
             }
           })
         } else {
-          this.setState({needed: orderAmount, token: currentToken});
+          this.setState({needed: orderAmount});
         }
       }
     })
@@ -60,9 +59,9 @@ class ListBlock extends React.Component {
   render() {
     const {LIST, actions, prices, assets} = this.props;
     const {items = [], loading, page = {}, filters} = LIST;
-    const {token, needed} = this.state;
+    const token = filters.token
+    const {needed} = this.state;
     const balance = token && assets.getTokenBySymbol(token).balance;
-    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',
@@ -80,17 +79,43 @@ class ListBlock extends React.Component {
       })
     };
     const gotoConvert = (item) => {
-      showModal({
+      const originalData = {
         id: 'token/convert',
         item,
         showFrozenAmount: true
-      })
+      }
+      const state = window.STORE.getState()
+      if(state && state.account && state.account.walletType === 'Address') {
+        this.props.dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:originalData,
+            visible:true
+          }
+        })
+      } else {
+        showModal(originalData)
+      }
     }
     const gotoTransfer = () => {
-      showModal({
+      const originalData = {
         id: 'token/transfer',
         item: {symbol: token}
-      })
+      }
+      const state = window.STORE.getState()
+      if(state && state.account && state.account.walletType === 'Address') {
+        this.props.dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:originalData,
+            visible:true
+          }
+        })
+      } else {
+        showModal(originalData)
+      }
     };
 
     const gotoTrade = () => {
@@ -105,7 +130,6 @@ class ListBlock extends React.Component {
         description:intl.get('trade.not_supported_token_to_trade_content')
       });
     };
-
 
     const TxItem = ({item: origin, index}) => {
       let item = {...origin} // fix bug for update item self
@@ -186,7 +210,13 @@ class ListBlock extends React.Component {
       const caption = (
         <div className="d-block">
           <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5  pointer">
-            {title} <span className="ml10">{statusCol}  {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && intl.get('txs.resend') }</span>
+            {title}
+            <span className="ml10">
+              {statusCol}
+              <span className="ml10 fs12">
+                {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && intl.get('txs.resend') }
+              </span>
+            </span>
           </a>
           <div className="fs3 color-black-3">
             <span className="d-inline-block  text-truncate text-nowrap mr15">
@@ -254,7 +284,7 @@ class ListBlock extends React.Component {
             <div className="fs1 color-black-1 ml15">{filters.token}</div>
           </div>
           <div className="col text-right pl0 pr0">
-            <Button onClick={gotoTransfer} className="mr5" type="primary" disabled={isWatchOnly}>
+            <Button onClick={gotoTransfer} className="mr5" type="primary">
               <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_transfer')} {filters.token}</span>
             </Button>
@@ -263,21 +293,21 @@ class ListBlock extends React.Component {
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
             </Button>
             {filters.token !== 'ETH' && filters.token !== 'WETH' &&
-              <Button onClick={gotoTrade} className="mr15" type="primary" disabled={isWatchOnly}>
+              <Button onClick={gotoTrade} className="mr15" type="primary">
                 <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
                 <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_trade')} {filters.token}</span>
               </Button>
             }
             {
               (filters.token === 'ETH') &&
-              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
+              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary">
                 <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
                 {intl.get('token.token_convert', {from:"", to:'WETH'})}
               </Button>
             }
             {
               (filters.token === 'WETH') &&
-              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
+              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary">
                 <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
                 {intl.get('token.token_convert', {from:"", to:'ETH'})}
               </Button>

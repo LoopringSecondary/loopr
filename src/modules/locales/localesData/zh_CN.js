@@ -7,6 +7,10 @@ export default {
     no_data: "暂时没有数据",
     comingsoon: "即将到来",
     wallet: "钱包",
+    price:'价格',
+    amount:'数量',
+    total:'总计',
+    time:'时间',
   },
   version: {
     label: 'Beta2',
@@ -251,6 +255,8 @@ export default {
     relayUrl_tip: "请输入合法的URL地址"
   },
   trade: {
+    order_book:'最新挂单',
+    trade_history:'最新成交',
     orderForm: "订单信息",
     sell: "卖出",
     buy: "买入",
@@ -537,7 +543,7 @@ export default {
     unlocked_notification_title: '您已成功解锁钱包',
     unlocked_notification_content: '开始您的路印之旅，希望你能喜欢',
     unlocked_by: '{type} 钱包',
-    type_address: '观察模式钱包',
+    type_address: '观察模式',
     type_metamask: 'MetaMask钱包',
     type_trezor: 'Trezor钱包',
     type_ledger: 'Ledger钱包',
@@ -546,6 +552,11 @@ export default {
     type_privateKey: '私钥钱包',
     type_demo: '演示钱包',
     type_lock: '未解锁',
+    in_watch_only_mode_title:'您正在使用观察模式',
+    unlock_by_cookie_address_notification:'我们检测到您之前解锁过钱包，由于您刷新了浏览器或重新打开Loopr，您将使用观察模式使用Loopr(这是由于我们没有保存您的私钥)直到您再次解锁钱包',
+    in_watch_only_mode_content: '您正在使用观察模式，您之前的操作需要用其他方式解锁钱包',
+    in_demo_account_mode_content: '您正在使用演示钱包，您之前的操作需要将您自己的地址用除观察模式以外的方式解锁',
+    continue_watch:'继续使用观察模式',
   },
   demo: {
     badge_title: '演示账号',

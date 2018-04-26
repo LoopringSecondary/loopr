@@ -2,14 +2,28 @@ import {create, decrypt, fromMnemonic, fromPrivateKey} from 'Loopring/ethereum/a
 import PrivateKeyUnlockAccount from "./PrivateKeyUnlockAccount";
 import MetaMaskUnlockAccount from './MetaMaskUnlockAccount'
 import MnemonicUnlockAccount from './MnemonicUnlockAccount'
+import AddressUnlockAccount from './AddressUnlockAccount'
 import {register} from "Loopring/relay/account";
+import Notification from 'Loopr/Notification'
+import intl from 'react-intl-universal';
+
+const unlockedAddress = window.STORAGE.wallet.getUnlockedAddress()
+if(unlockedAddress) {
+  window.WALLET_UNLOCK_TYPE = 'Address'
+  window.WALLET = new AddressUnlockAccount({address: unlockedAddress})
+  Notification.open({
+    type:'warning',
+    message:intl.get('wallet.in_watch_only_mode_title'),
+    description:intl.get('wallet.unlock_by_cookie_address_notification')
+  });
+}
 
 export default {
   namespace: 'account',
   state: {
-    address: null,
-    isUnlocked: false,
-    walletType: null, //PrivateKey, KeyStore,Mnemonic, MetaMask, Trezor, LedgerHQ
+    address: unlockedAddress || null,
+    isUnlocked: unlockedAddress ? true : false,
+    walletType: unlockedAddress ? 'Address' : null, //PrivateKey, KeyStore,Mnemonic, MetaMask, Trezor, LedgerHQ
   },
   reducers: {
     setAccount(state, {payload}) {
@@ -24,6 +38,7 @@ export default {
       window.WALLET = null
       window.WALLET_UNLOCK_TYPE = null
       window.routeActions.gotoPath('/auth/wallet') // TODO
+      window.STORAGE.wallet.clearUnlockedAddress()
       return {
         ...state,
         address: null,
@@ -82,6 +97,7 @@ export default {
     },
 
     * setWallet({payload}, {put, call}) {
+      window.STORAGE.wallet.storeUnlockedAddress(payload.address)
       yield put({type: 'setAccount', payload});
       yield call(register, payload.address);
     },

@@ -37,6 +37,13 @@ class UnlockByAddress extends React.Component {
             type:'success'
           })
           unlockRedirection(pageFrom)
+          if(modal.targetModalData) {
+            Notification.open({
+              type:'warning',
+              message:intl.get('wallet.in_watch_only_mode_title'),
+              description:intl.get('wallet.in_watch_only_mode_content')
+            });
+          }
         }
       })
     }
