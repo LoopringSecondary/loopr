@@ -68,7 +68,7 @@ export default function Home(props){
               <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                 {intl.get('trade.order_book')}
               </div>
-              <div style={{padding:'1px'}}>
+              <div>
                 <Sockets.Depth market={pair}>
                   <ListOrderBook market={pair} />
                 </Sockets.Depth>
@@ -94,7 +94,7 @@ export default function Home(props){
               <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                 {intl.get('trade.trade_history')}
               </div>
-              <div style={{padding:'1px'}}>
+              <div>
                 <Sockets.Trades market={pair}>
                   <TradeList market={pair} />
                 </Sockets.Trades>
