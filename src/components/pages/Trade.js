@@ -144,7 +144,7 @@ export default function Home(props){
                       </div>
                     </div>
                   </div>
-                  <Order.TradeForm side="sell" pair={pair} />
+                  <Order.TradeForm side="buy" pair={pair} />
                   {
                     false &&
                     <Tabs className="rs no-ink-bar" forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
