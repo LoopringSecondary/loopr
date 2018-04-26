@@ -699,14 +699,17 @@ class TradeForm extends React.Component {
     return (
       <div className="place-order-form">
         <Form layout="horizontal" className="">
-          <div className="row gutter-0 zb-b-b lh25">
-            <div className="col fs12 color-black-3 pl10">
-              {outTokenSymbol} {intl.get('trade.balance')} :
+          <div className="row gutter-0 zb-b-b lh25 align-items-center">
+            <div className="col">
+              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                {intl.get('trade.buy')} {tokenL}
+              </div>
             </div>
-            <div className="col-auto fs12 color-black-3 pr10">
-              {outTokenBalance}
+            <div className="col-auto fs12 color-black-2 pr10">
+              {outTokenSymbol} {intl.get('trade.balance')} {outTokenBalance}
             </div>
           </div>
+
           <div className="pl10 pr10 pt15">
             <div className="row ml0 mr0">
               <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>

@@ -75,17 +75,11 @@ export default function Home(props){
               </div>
             </div>
             <div className="col zb-b-r " style={{flex:'0 0 30%'}}>
-              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
-                {intl.get('trade.buy')} {tokenL}
-              </div>
               <div className="p0">
                 <Order.TradeForm side="buy" pair={pair} />
               </div>
             </div>
             <div className="col zb-b-r" style={{flex:'0 0 30%'}}>
-              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
-                {intl.get('trade.sell')} {tokenL}
-              </div>
               <div className="p0">
                 <Order.TradeForm side="sell" pair={pair} />
               </div>
