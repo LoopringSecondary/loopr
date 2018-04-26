@@ -390,7 +390,7 @@ Browser：{browser}\n
   airdrop:{
     cost_eth_gas:"Binding address will cost gas for transactions.",
     goback:"Back",
-    watch_only_not_allowed:"Watch-only wallet cannot bind addresses.",
+    watch_only_not_allowed:"Watch-only mode cannot bind addresses.",
   },
   wallet: {
     bind_tip: "Bind Address for Airdrop",

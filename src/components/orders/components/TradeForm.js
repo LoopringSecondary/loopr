@@ -861,10 +861,6 @@ class TradeForm extends React.Component {
               }
               </Form.Item>
             }
-            <Button onClick={showModal.bind(this,{id:'settings/gasfee', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 mt15"
-                        size="large">
-                  Gas Fee
-            </Button>
           </div>
 
 

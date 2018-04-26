@@ -103,7 +103,7 @@ const GasFeeForm = ({
   return (
     <Card className="rs-p0" title={<div className="pl10 pr10">设置油费</div>} >
       <Form layout="horizontal" className="">
-        <Radio.Group value={4} className="d-block w-100">
+        <Radio.Group value={1} className="d-block w-100">
           <Radio value={1} className="d-flex align-items-center mb0 w-100 zb-b-b pl15 pr15">
             <div className="ml5 pt10 pb10">
                 <div className="fs14 color-black-1">
@@ -114,58 +114,40 @@ const GasFeeForm = ({
                 </div>
             </div>
           </Radio>
-          <Radio value={2} className="d-flex align-items-center mb0 w-100 zb-b-b pl15 pr15">
-            <div className="ml5 pt10 pb10">
-                <div className="fs14 color-black-1">
-                  0.000055ETH ≈ $0.55
-                </div>
-                <div className="fs12 color-black-3">
-                费用高，时间短（时间优先）
-                </div>
-            </div>
-          </Radio>
-          <Radio value={3} className="d-flex align-items-center mb0 w-100 zb-b-b pl15 pr15">
-            <div className="ml5 pt10 pb10">
-                <div className="fs14 color-black-1">
-                  0.000015ETH ≈ $0.15
-                </div>
-                <div className="fs12 color-black-3" >
-                费用低，时间长（成本优先）
-                </div>
-            </div>
-          </Radio>
+          {
+            true &&
+            <Radio value={2} className="d-flex align-items-center mb0 w-100 zb-b-b pl15 pr15">
+              <div className="ml5 pt10 pb10">
+                  <div className="fs14 color-black-1">
+                    0.000055ETH ≈ $0.55
+                  </div>
+                  <div className="fs12 color-black-3">
+                  费用高，时间短（时间优先）
+                  </div>
+              </div>
+            </Radio>
+          }
+          {
+            true &&
+            <Radio value={3} className="d-flex align-items-center mb0 w-100 zb-b-b pl15 pr15">
+              <div className="ml5 pt10 pb10">
+                  <div className="fs14 color-black-1">
+                    0.000015ETH ≈ $0.15
+                  </div>
+                  <div className="fs12 color-black-3" >
+                  费用低，时间长（成本优先）
+                  </div>
+              </div>
+            </Radio>
+          }
+
           <Radio value={4} className="d-flex align-items-center mb0 w-100 zb-b-b pl15 pr15">
             <div className="d-block w-100 row pt10 pb10 m0 gutter-0" >
               <div className="col fs14 color-black-2">
                 自定义设置
-                <span className="fs12 color-black-3 ml5">
+                <span hidden className="fs12 color-black-3 ml5">
                   0.000025ETH ≈ $0.25
                 </span>
-              </div>
-              <div className="fs14 color-black-1" style={{minWidth:'300px'}}>
-                <Form.Item label={null} colon={false} className="mb0">
-                  {form.getFieldDecorator('gasPrice', {
-                    initialValue:Number([trading.gasPrice]),
-                    rules:[]
-                  })(
-                    <Slider min={1} max={99} step={1} onChange={handleChange.bind(this, "gasPrice")}
-                      marks={{
-                        1: intl.get('settings.slow') ,
-                        99: intl.get('settings.fast') ,
-                      }}
-                    />
-                  )}
-                </Form.Item>
-              </div>
-            </div>
-          </Radio>
-          <Radio value={5} className="d-flex align-items-center mb0 w-100 zb-b-b pl15 pr15">
-            <div className="d-block w-100 row pt10 pb10 m0 gutter-0" >
-              <div className="col fs14 color-black-2">
-                高级设置
-              </div>
-              <div className="fs12 color-black-3" hidden>
-              { intl.get('settings.gasPrice')+':  '+ trading.gasPrice+" Gwei" }
               </div>
               <div hidden className="fs14 color-black-1" style={{minWidth:'300px'}}>
                 <Form.Item label={null} colon={false} className="mb0">
@@ -184,6 +166,35 @@ const GasFeeForm = ({
               </div>
             </div>
           </Radio>
+          {
+            false &&
+            <Radio value={5} className="d-flex align-items-center mb0 w-100 zb-b-b pl15 pr15">
+              <div className="d-block w-100 row pt10 pb10 m0 gutter-0" >
+                <div className="col fs14 color-black-2">
+                  高级设置
+                </div>
+                <div className="fs12 color-black-3" hidden>
+                { intl.get('settings.gasPrice')+':  '+ trading.gasPrice+" Gwei" }
+                </div>
+                <div hidden className="fs14 color-black-1" style={{minWidth:'300px'}}>
+                  <Form.Item label={null} colon={false} className="mb0">
+                    {form.getFieldDecorator('gasPrice', {
+                      initialValue:Number([trading.gasPrice]),
+                      rules:[]
+                    })(
+                      <Slider min={1} max={99} step={1} onChange={handleChange.bind(this, "gasPrice")}
+                        marks={{
+                          1: intl.get('settings.slow') ,
+                          99: intl.get('settings.fast') ,
+                        }}
+                      />
+                    )}
+                  </Form.Item>
+                </div>
+              </div>
+            </Radio>
+          }
+
         </Radio.Group>
       </Form>
       <div className="p15 text-right">
