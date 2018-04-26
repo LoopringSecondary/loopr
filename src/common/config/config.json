@@ -12,7 +12,7 @@
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0x8311804426a24495bd4306daf5f595a443a52e32",
-  "localStorageVersion":201804241629,
+  "localStorageVersion":201804251849,
   "walletAddress":"0xb94065482ad64d4c2b9252358d746b39e820a582",
   "contracts": [
     {
@@ -58,11 +58,201 @@
       "name": "Test"
     }
   ],
-  "supportedTokenRInMarkets":["WETH", "BAR"],
+  "supportedTokenRInMarkets":["WETH", "DAI", "LRC", "BAR"],
   "markets": [
     {
       "tokenx": "LRC",
       "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "DAI",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "EOS",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "OMG",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "RDN",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "IOST",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "SNT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BAT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "RHOC",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "KNC",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "REQ",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BNT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "VITE",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ARP",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "LRC",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "EOS",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "OMG",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "RDN",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "IOST",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "SNT",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BAT",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "RHOC",
+      "tokeny": "DAI",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "KNC",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "REQ",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BNT",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "VITE",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ARP",
+      "tokeny": "DAI",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "EOS",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "OMG",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "RDN",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "IOST",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "SNT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BAT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "RHOC",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "KNC",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "REQ",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BNT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "VITE",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ARP",
+      "tokeny": "LRC",
       "pricePrecision": 8
     },
     {
@@ -156,28 +346,28 @@
       "minTradeValue": 0.001
     },
     {
-        "name": "FooToken",
-        "symbol": "FOO",
-        "digits": 8,
-        "decimals": "8",
-        "unit": "FOO",
-        "address": "0xf5B3b365FA319342e89a3Da71ba393E12D9F63c3",
-        "allowance": "1000000000000000000000",
-        "allowanceWarn": "50000000000000000000",
-        "precision": 6,
-        "minTradeValue": 0.001
+      "name": "FooToken",
+      "symbol": "FOO",
+      "digits": 8,
+      "decimals": "8",
+      "unit": "FOO",
+      "address": "0xf5B3b365FA319342e89a3Da71ba393E12D9F63c3",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "50000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
     },
     {
-        "name": "BarToken",
-        "symbol": "BAR",
-        "digits": 18,
-        "decimals": "18",
-        "unit": "BAR",
-        "address": "0xb5f64747127be058Ee7239b363269FC8cF3F4A87",
-        "allowance": "1000000000000000000000",
-        "allowanceWarn": "50000000000000000000",
-        "precision": 6,
-        "minTradeValue": 0.001
+      "name": "BarToken",
+      "symbol": "BAR",
+      "digits": 18,
+      "decimals": "18",
+      "unit": "BAR",
+      "address": "0xb5f64747127be058Ee7239b363269FC8cF3F4A87",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "50000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
     },
     {
       "symbol": "EOS",
@@ -636,6 +826,54 @@
       "minTradeValue": 0.001
     },
     {
+      "symbol": "DAI",
+      "name": "DAI",
+      "digits": 18,
+      "address": "0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359",
+      "unit": "DAI",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "5000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "IOST",
+      "name": "IOST",
+      "digits": 18,
+      "address": "0xfa1a856cfa3409cfa145fa4e20eb270df3eb21ab",
+      "unit": "IOST",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "5000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "VITE",
+      "name": "VITE",
+      "digits": 18,
+      "address": "0x1b793E49237758dBD8b752AFC9Eb4b329d5Da016",
+      "unit": "VITE",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "5000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "ARP",
+      "name": "ARP",
+      "digits": 18,
+      "address": "0xBeB6fdF4ef6CEb975157be43cBE0047B248a8922",
+      "unit": "ARP",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
       "symbol": "ROL",
       "name": "DICE",
       "digits": 16,
@@ -836,6 +1074,18 @@
       "website": "",
       "allowance": "100000000000",
       "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "RHOC",
+      "name": "RCHAIN",
+      "digits": 8,
+      "address": "0x168296bb09e24a88805cb9c33356536b980d3fc5",
+      "unit": "RHOC",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "5000000000000000000",
       "precision": 6,
       "minTradeValue": 0.001
     },
