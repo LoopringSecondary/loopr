@@ -78,7 +78,7 @@ export default function Home(props){
               <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                 {intl.get('trade.buy')} {tokenL}
               </div>
-              <div className="p10">
+              <div className="p0">
                 <Order.TradeForm side="buy" pair={pair} />
               </div>
             </div>
@@ -86,7 +86,7 @@ export default function Home(props){
               <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                 {intl.get('trade.sell')} {tokenL}
               </div>
-              <div className="p10">
+              <div className="p0">
                 <Order.TradeForm side="sell" pair={pair} />
               </div>
             </div>

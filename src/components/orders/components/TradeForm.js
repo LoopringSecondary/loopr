@@ -698,105 +698,107 @@ class TradeForm extends React.Component {
 
     return (
       <div className="place-order-form">
-        <Form layout="horizontal">
-          {
-            false &&
-            <Form.Item>
-              <div className="row mb5">
-                <div className="col fs1 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
-                <div className="col-auto fs3 color-black-2">
-                  {
-                    `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
-                  }
+        <Form layout="horizontal" className="">
+          <div className="pl10 pr10 pt10">
+            {
+              false &&
+              <Form.Item>
+                <div className="row mb5">
+                  <div className="col fs1 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
+                  <div className="col-auto fs3 color-black-2">
+                    {
+                      `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
+                    }
+                  </div>
                 </div>
+              </Form.Item>
+            }
+            <div className="row ml0 mr0">
+              <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>
+              <div className="col-auto fs12 color-black-2">
+                $0.35
               </div>
+            </div>
+            <Form.Item className="mb15" label={null} colon={false} extra={
+              null &&
+              <div className="row">
+                <div className="col fs10">{priceValue}</div>
+              </div>
+            }>
+              {form.getFieldDecorator('price', {
+                initialValue: displayPrice,
+                rules: [{
+                  message: intl.get('trade.price_verification_message'),
+                  validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
+                }]
+              })(
+                <Input className="d-block w-100 fs3" placeholder="" size="large"
+                       prefix={null && <span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
+                       suffix={<span className="fs14 color-black-4">{tokenR}</span>}
+                       onChange={inputChange.bind(this, 'price')}
+                       onFocus={() => {
+                         const amount = form.getFieldValue("price")
+                         if (amount === 0) {
+                           form.setFieldsValue({"price": ''})
+                         }
+                       }}
+                       onBlur={() => {
+                         const amount = form.getFieldValue("price")
+                         if (amount === '') {
+                           form.setFieldsValue({"price": 0})
+                         }
+                       }}/>
+              )}
             </Form.Item>
-          }
-          <div className="row ml0 mr0">
-            <div className="col">{intl.get('trade.price')}</div>
-            <div className="col-auto">
-              $0.35
+            <div className="row ml0 mr0">
+              <div className="col fs12 color-black-2">{intl.get('trade.amount')}</div>
+              <div className="col-auto fs12 color-black-2">
+                1000.00
+              </div>
             </div>
+            <Form.Item className="mb15" label={null} colon={false} extra={
+              <div>
+                {
+                  false &&
+                  <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
+                }
+                <div className="fs10" style={{marginBottom:"-10px"}}>{amountSlider}</div>
+              </div>
+            }>
+              {form.getFieldDecorator('amount', {
+                initialValue: 0,
+                rules: [{
+                  message: intl.get('trade.amount_verification_message'),
+                  validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
+                }]
+              })(
+                <Input  className="d-block w-100 fs3" placeholder="" size="large"
+                      prefix={null && <span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
+                      suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
+                       onFocus={() => {
+                         const amount = Number(form.getFieldValue("amount"))
+                         if (amount === 0) {
+                           form.setFieldsValue({"amount": ''})
+                         }
+                       }}
+                       onBlur={() => {
+                         const amount = form.getFieldValue("amount")
+                         if (amount === '') {
+                           form.setFieldsValue({"amount": 0})
+                         }
+                       }}/>
+              )}
+            </Form.Item>
           </div>
-          <Form.Item label={null} colon={false} extra={
-            null &&
-            <div className="row">
-              <div className="col fs10">{priceValue}</div>
-            </div>
-          }>
-            {form.getFieldDecorator('price', {
-              initialValue: displayPrice,
-              rules: [{
-                message: intl.get('trade.price_verification_message'),
-                validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
-              }]
-            })(
-              <Input className="d-block w-100 fs3" placeholder="" size="large"
-                     prefix={null && <span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
-                     suffix={<span className="fs14 color-black-4">{tokenR}</span>}
-                     onChange={inputChange.bind(this, 'price')}
-                     onFocus={() => {
-                       const amount = form.getFieldValue("price")
-                       if (amount === 0) {
-                         form.setFieldsValue({"price": ''})
-                       }
-                     }}
-                     onBlur={() => {
-                       const amount = form.getFieldValue("price")
-                       if (amount === '') {
-                         form.setFieldsValue({"price": 0})
-                       }
-                     }}/>
-            )}
-          </Form.Item>
-          <div className="row ml0 mr0">
-            <div className="col">{intl.get('trade.amount')}</div>
-            <div className="col-auto">
-              1000.00
-            </div>
-          </div>
-          <Form.Item label={null} colon={false} extra={
-            <div>
-              {
-                false &&
-                <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
-              }
-              <div className="fs10" style={{marginBottom:"-10px"}}>{amountSlider}</div>
-            </div>
-          }>
-            {form.getFieldDecorator('amount', {
-              initialValue: 0,
-              rules: [{
-                message: intl.get('trade.amount_verification_message'),
-                validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
-              }]
-            })(
-              <Input  className="d-block w-100 fs3" placeholder="" size="large"
-                    prefix={null && <span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
-                    suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
-                     onFocus={() => {
-                       const amount = Number(form.getFieldValue("amount"))
-                       if (amount === 0) {
-                         form.setFieldsValue({"amount": ''})
-                       }
-                     }}
-                     onBlur={() => {
-                       const amount = form.getFieldValue("amount")
-                       if (amount === '') {
-                         form.setFieldsValue({"amount": 0})
-                       }
-                     }}/>
-            )}
-          </Form.Item>
-          <div className="mb15 zb-b-t">
-            <div className="row align-items-center ml0 mr0 pt5 pb5 zb-b-b">
+          <div className="zb-b-b">
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh30 zb-b-t">
               <div className="col-auto fs12 color-black-2">{intl.get('trade.total')}</div>
               <div className="col"></div>
               <div className="col-auto fs12 color-black-2">
                 {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
               </div>
             </div>
-            <div className="row align-items-center ml0 mr0 pt5 pb5 zb-b-b">
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh30 zb-b-t">
               <div className="col-auto fs12 color-black-2">
                 {intl.get('trade.lrc_fee')}
                 <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
@@ -807,7 +809,7 @@ class TradeForm extends React.Component {
               <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
               <div className="col-auto pl0 fs12 color-black-2">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
             </div>
-            <div className="row align-items-center ml0 mr0 zb-b-b pt5 pb5">
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh30 zb-b-t">
               <div className="col-auto fs12 color-black-2">
                 {intl.get('trade.time_to_live')}
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
@@ -819,59 +821,62 @@ class TradeForm extends React.Component {
               <div className="col-auto pl0 fs12 color-black-2">{ttlShow}</div>
             </div>
           </div>
-
-          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
+          <div className="p10">
+            {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
+              <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
+                {intl.get('trade.place_order_trezor_unsupport') }
+                <Tooltip title={intl.getHTML('trade.place_order_trezor_unsupport_tips')}>
+                  <Icon className="color-grey-500 mr10" type="question-circle"/>
+                </Tooltip>
+              </div>
+            }
+            {false && account && account.isUnlocked && isWatchOnly &&
             <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
               {intl.get('trade.place_order_trezor_unsupport') }
-              <Tooltip title={intl.getHTML('trade.place_order_trezor_unsupport_tips')}>
-                <Icon className="color-grey-500 mr10" type="question-circle"/>
+              <Tooltip title={intl.getHTML('trade.place_order_watch_only_tips')}>
+                <Icon className="color-gray-500 mr10" type="question-circle-o ml5"/>
               </Tooltip>
             </div>
-          }
-          {false && account && account.isUnlocked && isWatchOnly &&
-          <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
-            {intl.get('trade.place_order_trezor_unsupport') }
-            <Tooltip title={intl.getHTML('trade.place_order_watch_only_tips')}>
-              <Icon className="color-gray-500 mr10" type="question-circle-o ml5"/>
-            </Tooltip>
-          </div>
-          }
-          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' &&
-          <Form.Item className="mb0">
-            {
-              side == 'buy' &&
-              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
-                      size="large" loading={this.state.loading}>
-                {intl.get('trade.place_order')}
-              </Button>
             }
-            {
-              side == 'sell' &&
-              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
-                      size="large" loading={this.state.loading}>
-                {intl.get('trade.place_order')}
-              </Button>
-            }
-          </Form.Item>
-          }
-          {(!account || !account.isUnlocked) &&
+            {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' &&
             <Form.Item className="mb0">
-            {
-              side == 'buy' &&
-              <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 bg-green-500 border-none color-white"
-                      size="large">
-                {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
-              </Button>
-            }
-            {
-              side == 'sell' &&
-              <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 bg-red-500 border-none color-white"
-                      size="large">
-                {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
-              </Button>
-            }
+              {
+                side == 'buy' &&
+                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
+                        size="large" loading={this.state.loading}>
+                  {intl.get('trade.place_order')}
+                </Button>
+              }
+              {
+                side == 'sell' &&
+                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
+                        size="large" loading={this.state.loading}>
+                  {intl.get('trade.place_order')}
+                </Button>
+              }
             </Form.Item>
-          }
+            }
+            {(!account || !account.isUnlocked) &&
+              <Form.Item className="mb0">
+              {
+                side == 'buy' &&
+                <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 bg-green-500 border-none color-white"
+                        size="large">
+                  {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
+                </Button>
+              }
+              {
+                side == 'sell' &&
+                <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 bg-red-500 border-none color-white"
+                        size="large">
+                  {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
+                </Button>
+              }
+              </Form.Item>
+            }
+          </div>
+
+
         </Form>
       </div>
     );
