@@ -94,6 +94,18 @@ class DetailBlock extends React.Component {
     };
 
     const reSendTx = (txHash) => {
+      const state = window.STORE.getState();
+      if(state && state.account && state.account.walletType === 'Address') {
+        window.STORE.dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:{},
+            visible:true
+          }
+        });
+        return
+      }
       getPendingRawTxByHash(txHash).then(async (res) => {
         if (!res.error) {
           const tx = res.result;
