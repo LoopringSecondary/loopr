@@ -32,19 +32,23 @@ class TickerHeader extends React.Component {
           </div>
         }
       >
-        <div className="row align-items-center pt15 pb15 cursor-pointer" style={{background:'rgba(0,0,0,0.1)'}}>
-          <div className="col-auto pr5 pl20">
-            {
-              favors[pair] &&
-            <Icon onClick={tickers.toggleFavor} className="fs16 color-yellow-600 pointer" type="star" />
-            }
-            {
-              !favors[pair] &&
-            <Icon onClick={tickers.toggleFavor} className="fs16 color-white pointer" type="star-o" />
-            }
+        <div className="row align-items-center cursor-pointer" style={{background:'rgba(0,0,0,0.05)'}}>
+          <div hidden className="col-auto pr25 pl25 pt25 pb25 fs16 color-white" style={{background:'rgba(0,0,0,0.05)'}}>
+            <Icon type="left" className=""/> Wallet
           </div>
-          <div className="col">
-            <div className="fs16 color-white">{pair}</div>
+          <div className="col pl25 pr15 pt15 pb15">
+            <div className="fs16 color-white">
+              {pair}
+              {
+                false && favors[pair] &&
+              <Icon onClick={tickers.toggleFavor} className="mr10 fs16 color-yellow-600 pointer" type="star" />
+              }
+              {
+                false && !favors[pair] &&
+              <Icon onClick={tickers.toggleFavor} className="mr10 fs16 color-white pointer" type="star-o" />
+              }
+
+            </div>
             <div className="fs14 color-white color-white-2">{intl.get('exchanges.loopr')} <Icon hidden className="" type="down" /></div>
           </div>
           <div className="col-auto">
@@ -103,6 +107,15 @@ class LooprTicker extends React.Component {
              <div className="col-sm-6 col-lg-2">
               <NumberCaption title={<div>24H {intl.get('ticker.vol')}</div>} content={<div>{`${fm.getVolume(ticker.vol)}`}  <span className="">{tokenR}</span></div>} />
              </div>
+             {
+              true &&
+              <div className="col-auto pl25 pr25" style={{background:'rgba(0,0,0,0.05)'}}>
+               <div className="pt25 pb25 color-white fs16">
+                 <span className="ml5">Back to wallet</span>
+                 <Icon type="right" />
+               </div>
+              </div>
+             }
           </div>
       )
   }

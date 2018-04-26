@@ -182,7 +182,7 @@ export default function Home(props){
         <div className="zb-b">
           <div className="bg-white mt15">
             <Tabs defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
-              <Tabs.TabPane tab={<div className="fs16 lh20">{intl.get('tabs.my_open_orders')}</div>} key="orders">
+              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_open_orders')}</div>} key="orders">
                 <div className="">
                   {
                     window.WALLET && window.WALLET.getAddress() &&
@@ -196,7 +196,7 @@ export default function Home(props){
                   }
                 </div>
               </Tabs.TabPane>
-              <Tabs.TabPane tab={<div className="fs16 lh20">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
+              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
                 <div className="">
                   {
                     window.WALLET && window.WALLET.getAddress() &&

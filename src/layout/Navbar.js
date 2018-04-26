@@ -287,19 +287,36 @@ function Navbar(props){
     <div className="navbar-loopring">
       <div className="container">
         <div className="row align-items-stretch ml0">
-          <div className="col-auto pl0 pr0">
-            <Link to="/" className="d-block" >
-                <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
-            </Link>
-          </div>
-          <div className="col-auto pl10 pr0">
-            <Popover content={VersionTip} title={null} trigger="hover">
-              <span className="navbar-version-badge">
-                <Badge status="processing" className="" />
-                {intl.get('version.label')}
-              </span>
-            </Popover>
-          </div>
+          {
+            true &&
+            <div className="col-auto pl0 pr0">
+                <Link to="/" className="d-block" >
+                    <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
+                </Link>
+            </div>
+          }
+          {
+            window.location.href.indexOf('/trade') >= 0 &&
+            <div className="col-auto pl10 pr0">
+              <Popover content={VersionTip} title={null} trigger="hover">
+                <span className="navbar-version-badge">
+                  <Badge status="processing" className="" />
+                  {intl.get('version.label')}
+                </span>
+              </Popover>
+
+            </div>
+          }
+          {
+            false && window.location.href.indexOf('/trade') >= 0 &&
+            <div className="col-auto pl0">
+              <div className="fs16 pr15 ml15">
+                <Button type="primary">
+                  <Icon type="left"/> Back to wallet
+                </Button>
+              </div>
+            </div>
+          }
           <div className="col"></div>
           <div className="col-auto">
             <Menu
@@ -310,13 +327,13 @@ function Navbar(props){
               selectedKeys={selectedKeys}
             >
               {
-                window.WALLET && window.WALLET.getAddress() &&
+                false && window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
                   <Link className="fs16 color-black-1" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
               {
-                window.WALLET && window.WALLET.getAddress() &&
+                false && window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/trade">
                   <Link to="/trade" className="fs16 color-black-1">{intl.get('navbar.trade')}</Link>
                 </Menu.Item>
