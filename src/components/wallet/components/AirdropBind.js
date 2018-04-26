@@ -177,20 +177,43 @@ class AirdropBind extends React.Component {
           </Form.Item>
         </Form>
         <Alert className="mb10" type="info" showIcon message={
-          <div className="">{intl.get('airdrop.cost_eth_gas')}</div>
+
+          <div className="row">
+            <div className="col">
+              <div className="">{intl.get('airdrop.cost_eth_gas')}</div>
+            </div>
+            <div className="col-auto">
+              <div className="cursor-pointer">0.000018ETH ≈ $0.12<Icon type="right" className="" /></div>
+            </div>
+          </div>
         }
         />
         {
           isWatchOnly && window.IS_DEMO_WALLET &&
           <Alert className="mb10" type="warning" showIcon message={
-            <div>{intl.get('demo.airdrop_not_allowed')}</div>
+            <div className="row">
+              <div className="col">
+                <div>{intl.get('demo.airdrop_not_allowed')}</div>
+              </div>
+              <div className="col-auto">
+                <div className="cursor-pointer">解锁钱包 <Icon type="right" className="" /></div>
+              </div>
+            </div>
           }
           />
         }
         {
           isWatchOnly && !window.IS_DEMO_WALLET &&
-          <Alert className="mb10" type="warning" showIcon message={
-            <div>{intl.get('airdrop.watch_only_not_allowed')}</div>
+          <Alert className="mb10" type="error" showIcon message={
+            <div className="row">
+              <div className="col">
+                <div>{intl.get('airdrop.watch_only_not_allowed')}</div>
+              </div>
+              <div className="col-auto">
+                <div className="cursor-pointer">解锁钱包 <Icon type="right" className="" /></div>
+              </div>
+            </div>
+
           }
           />
         }
