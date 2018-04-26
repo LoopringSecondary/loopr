@@ -14,13 +14,8 @@ class ListActionsBar extends React.Component {
 
   render(){
     const {actions = {}, LIST = {}, className,id} = this.props;
-    const state = window.STORE.getState() || {}
-    const account = state.account
-    const gasPrice = state.settings.trading.gasPrice
-    const contractAddress = state.settings.trading.contract.address
     const {filters = {}} = LIST[id] || {}
     const tokenPair = filters.market;
-    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address';
     const { socket } = this.context;
     const reEmitPendingTransaction= () => {
       const owner = window.WALLET && window.WALLET.getAddress();
@@ -31,6 +26,21 @@ class ListActionsBar extends React.Component {
     };
 
     const cancelAll = () => {
+      const state = window.STORE.getState()
+      const account = state.account
+      const gasPrice = state.settings.trading.gasPrice
+      const contractAddress = state.settings.trading.contract.address
+      if(state && state.account && state.account.walletType === 'Address') {
+        this.props.dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:{},
+            visible:true
+          }
+        })
+        return
+      }
       Modal.confirm({
         title: intl.get('order.confirm_cancel_all',{pair:tokenPair}),
         onOk: async () => {
@@ -85,7 +95,7 @@ class ListActionsBar extends React.Component {
           <div className="col">
           </div>
           <div className="col-auto">
-            <Button type="primary" onClick={cancelAll} disabled={isWatchOnly}>{intl.get('order.cancel_all')}</Button>
+            <Button type="primary" onClick={cancelAll}>{intl.get('order.cancel_all')}</Button>
           </div>
         </div>
       </div>

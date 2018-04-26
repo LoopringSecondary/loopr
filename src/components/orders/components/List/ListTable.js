@@ -35,6 +35,17 @@ class  ListBlock extends React.Component{
       page = {}
     } = LIST[id] || {};
     const cancel = (item) => {
+      if(account && account.walletType === 'Address') {
+        this.props.dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:{},
+            visible:true
+          }
+        })
+        return
+      }
       Modal.confirm({
         title: intl.get('order.confirm_cancel_order'),
         onOk: async () => {
@@ -166,10 +177,9 @@ class  ListBlock extends React.Component{
         );
 
         let notEnough = false && (item.status === 'ORDER_OPENED')
-        const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
         return (
           <span className="text-nowrap">
-          {item.status === 'ORDER_OPENED' && <Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {isWatchOnly || txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>{intl.get('order.no')}</Button>}
+          {item.status === 'ORDER_OPENED' && <Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>{intl.get('order.no')}</Button>}
             {notEnough &&
             <Popover arrowPointAtCenter placement="topRight" content={content}
                      title={
