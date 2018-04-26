@@ -699,26 +699,15 @@ class TradeForm extends React.Component {
     return (
       <div className="place-order-form">
         <Form layout="horizontal" className="">
-          <div className="pl10 pr10 pt10">
-            {
-              false &&
-              <Form.Item>
-                <div className="row mb5">
-                  <div className="col fs1 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
-                  <div className="col-auto fs3 color-black-2">
-                    {
-                      `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
-                    }
-                  </div>
-                </div>
-              </Form.Item>
-            }
-            <div className="row ml0 mr0">
-              <div className="col fs12 color-black-3"></div>
-              <div className="col-auto fs12 color-black-3">
-                {`${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`}
-              </div>
+          <div className="row gutter-0 zb-b-b lh25">
+            <div className="col fs12 color-black-3 pl10">
+              {outTokenSymbol} {intl.get('trade.balance')} :
             </div>
+            <div className="col-auto fs12 color-black-3 pr10">
+              {outTokenBalance}
+            </div>
+          </div>
+          <div className="pl10 pr10 pt15">
             <div className="row ml0 mr0">
               <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>
               <div className="col-auto fs12 color-black-2">
@@ -754,7 +743,9 @@ class TradeForm extends React.Component {
             <div className="row ml0 mr0">
               <div className="col fs12 color-black-2">{intl.get('trade.amount')}</div>
               <div className="col-auto fs12 color-black-2">
-                {this.state.availableAmount >0 ? this.state.availableAmount : availableAmount} {intl.get('trade.available')}
+                <Tooltip title={intl.get('trade.available') + "" + intl.get('trade.amount')}>
+                  {this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
+                </Tooltip>
               </div>
             </div>
             <Form.Item className="mb15" label={null} colon={false} extra={
@@ -822,7 +813,7 @@ class TradeForm extends React.Component {
               <div className="col-auto pl0 fs12 color-black-2">{ttlShow}</div>
             </div>
           </div>
-          <div className="p10">
+          <div className="pl10 pr10 pt15 pb15">
             {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
               <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
                 {intl.get('trade.place_order_trezor_unsupport') }

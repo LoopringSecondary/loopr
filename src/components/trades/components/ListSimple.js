@@ -53,18 +53,18 @@ function ListBlock(props) {
       <table className="w-100">
         <tbody>
           <tr className="zb-b-b">
-            <th className="border-0 pl5">
-              <div className="col fs12 color-black-3 text-left lh20 font-weight-normal">
+            <th className="border-0 p0 pl5">
+              <div className="col fs12 color-black-3 text-left lh25 font-weight-normal">
                 {intl.get('global.price')}{false && tokenR}
               </div>
             </th>
-            <th className="border-0 pl5">
-              <div className="col-auto fs12 color-black-3 text-center lh20 font-weight-normal">
+            <th className="border-0 p0 pl5">
+              <div className="col-auto fs12 color-black-3 text-center lh25 font-weight-normal">
                 {intl.get('global.amount_label')}{false && tokenL}
               </div>
             </th>
-            <th className="border-0 pl5 pr5">
-              <div className="col-auto fs12 color-black-3 text-center lh20 font-weight-normal">
+            <th className="border-0 p0 pl5 pr5">
+              <div className="col-auto fs12 color-black-3 text-center lh25 font-weight-normal">
                 {intl.get('global.time')}
               </div>
             </th>
@@ -73,17 +73,17 @@ function ListBlock(props) {
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1].map((item,index)=>
               <tr key={index} className="cursor-pointer">
                 <td className="border-0 pl5 pr5">
-                 <div className="fs12 color-green-500 text-left lh20">
+                 <div className="fs12 color-green-500 text-left lh20 p0">
                    0.00118642
                  </div>
                 </td>
                 <td className="border-0 pl5 pr5">
-                  <div className="fs12 color-black-2 text-center lh20" >
+                  <div className="fs12 color-black-2 text-centet lh20 p0" >
                     10
                   </div>
                 </td>
                 <td className="border-0 pl5 pr5">
-                  <div className="fs12 color-black-2 text-center lh20">
+                  <div className="fs12 color-black-2 text-centet lh20 p0">
                     21:23:55
                   </div>
                 </td>
