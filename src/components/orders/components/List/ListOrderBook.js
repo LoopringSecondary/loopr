@@ -14,7 +14,7 @@ function ListOrderBook(props) {
           {intl.get('global.price')} {tokenR}
         </div>
         <div className="col-auto fs12 color-black-3 text-center" style={{width:'100px'}}>
-          {intl.get('global.amount')} {tokenL}
+          {intl.get('global.amount_label')} {tokenL}
         </div>
         <div className="col-auto fs12 color-black-3 text-center" style={{width:'80px'}}>
           {intl.get('global.total')} {tokenR}

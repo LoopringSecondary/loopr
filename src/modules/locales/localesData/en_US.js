@@ -10,7 +10,7 @@ export default {
     yes:"Yes",
     no:"No",
     price:'Price',
-    amount:'Amount',
+    amount_label:'Amount',
     total:'Total',
     time:'Time',
   },
