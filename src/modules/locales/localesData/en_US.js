@@ -477,10 +477,10 @@ I got this great idea:
       not_recover: 'It cannot be recovered if you lose it',
       stolen: "Your funds will be stolen if you use this file on a malicious/phishing site.",
       backup: "Make a backup",
-      backup_tip: 'Loopr wallet don\'t keep a copy of your privatekey, keystore file, or mnemonic words. We urge you to back up these information immediately.',
+      backup_tip: 'Loopr doesn\'t keep a copy of your privatekey, keystore file, or mnemonic words. Make sure you back up these information immediately.',
       secure: "Secure it like the millions of dollars it may one day be worth.",
       download: "I understand, download the wallet file.",
-      copy_mnemonic: "I understand, copy mnemonic.",
+      copy_mnemonic: "I understand, copy the mnemonic phrases.",
       copy_privatekey: "I understand, copy the privatekey.",
       wrong_password: "Wrong password~",
       input_password: "Please provide your password.",
@@ -493,7 +493,7 @@ I got this great idea:
       text_keystore: "Text Keystore",
       qr_keystore: "Qrcode Keystore",
       leave_backup_page:"Go To My Wallet",
-      confirm_to_leave_backup_page:"Are you sure to leave backup page ?"
+      confirm_to_leave_backup_page:"Are you certain not to back up the generated wallet?"
     },
     token: "Token",
     title_metamask_account_change: "Account changed in MetaMask",
