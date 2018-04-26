@@ -91,7 +91,7 @@ function ListBlock(props) {
             )
           }
           {
-            items.length == 0 &&
+            false && items.length == 0 &&
             <tr >
               <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
             </tr>

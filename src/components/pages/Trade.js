@@ -62,59 +62,123 @@ export default function Home(props){
         </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
-        <div className="zb-b">
-          <div className="row align-items-stretch gutter-0 bg-white">
-            <div className="col-auto zb-b-r" style={{flex:'0 0 20%'}}>
-              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
-                {intl.get('trade.order_book')}
+        {
+          false &&
+          <div className="zb-b">
+            <div className="row align-items-stretch gutter-0 bg-white">
+              <div className="col-auto zb-b-r" style={{flex:'0 0 20%'}}>
+                <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                  {intl.get('trade.order_book')}
+                </div>
+                <div>
+                  <Sockets.Depth market={pair}>
+                    <ListOrderBook market={pair} />
+                  </Sockets.Depth>
+                </div>
               </div>
-              <div>
-                <Sockets.Depth market={pair}>
-                  <ListOrderBook market={pair} />
-                </Sockets.Depth>
+              <div className="col zb-b-r " style={{flex:'0 0 30%'}}>
+                <div className="p0">
+                  <Order.TradeForm side="buy" pair={pair} />
+                </div>
               </div>
-            </div>
-            <div className="col zb-b-r " style={{flex:'0 0 30%'}}>
-              <div className="p0">
-                <Order.TradeForm side="buy" pair={pair} />
+              <div className="col zb-b-r" style={{flex:'0 0 30%'}}>
+                <div className="p0">
+                  <Order.TradeForm side="sell" pair={pair} />
+                </div>
               </div>
-            </div>
-            <div className="col zb-b-r" style={{flex:'0 0 30%'}}>
-              <div className="p0">
-                <Order.TradeForm side="sell" pair={pair} />
+              <div className="col-auto" style={{flex:'0 0 20%'}}>
+                <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                  {intl.get('trade.trade_history')}
+                </div>
+                <div>
+                  <Sockets.Trades market={pair}>
+                    <TradeList market={pair} />
+                  </Sockets.Trades>
+                </div>
               </div>
-            </div>
-            <div className="col-auto" style={{flex:'0 0 20%'}}>
-              <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
-                {intl.get('trade.trade_history')}
-              </div>
-              <div>
-                <Sockets.Trades market={pair}>
-                  <TradeList market={pair} />
-                </Sockets.Trades>
-              </div>
-            </div>
-            {
-              false &&
-              <div className="col-md-3 zb-b-r">
-                <Tabs className="rs no-ink-bar" forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
-                  <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.sell')} {tokenL}</div>} key="sell">
-                    <div className="p15 zb-b-t">
-                      <Order.TradeForm side="sell" pair={pair} />
-                    </div>
-                  </Tabs.TabPane>
-                  <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.buy')} {tokenL}</div>} key="Buy">
-                    <div className="p15 zb-b-t">
-                      <Order.TradeForm side="buy" pair={pair} />
-                    </div>
-                  </Tabs.TabPane>
-                </Tabs>
-              </div>
+              {
+                false &&
+                <div className="col-md-3 zb-b-r">
+                  <Tabs className="rs no-ink-bar" forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+                    <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.sell')} {tokenL}</div>} key="sell">
+                      <div className="p15 zb-b-t">
+                        <Order.TradeForm side="sell" pair={pair} />
+                      </div>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.buy')} {tokenL}</div>} key="Buy">
+                      <div className="p15 zb-b-t">
+                        <Order.TradeForm side="buy" pair={pair} />
+                      </div>
+                    </Tabs.TabPane>
+                  </Tabs>
+                </div>
 
-            }
-
+              }
+            </div>
           </div>
-        </div>
+        }
+        {
+          true &&
+          <div className="zb-b">
+            <div className="row align-items-stretch gutter-0 bg-white">
+              <div className="col-auto zb-b-r" style={{flex:'0 0 30%'}}>
+                <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                  {intl.get('trade.order_book')}
+                </div>
+                <div>
+                  <Sockets.Depth market={pair}>
+                    <ListOrderBook market={pair} />
+                  </Sockets.Depth>
+                </div>
+              </div>
+              {
+                true &&
+                <div className="col zb-b-r" style={{flex:'0 0 40%'}}>
+                  <div className="fs2 lh25 color-black-1 zb-b-b text-center ">
+                    <div className="row align-items-stretch m0 gutter-10">
+                      <div className="col-auto pt10 pb10 pl10 color-primary-1">
+                        {intl.get('trade.buy')} {tokenL}
+                      </div>
+                      <div className="col-auto pt10 pb10 pl15">
+                        {intl.get('trade.sell')} {tokenL}
+                      </div>
+                    </div>
+                  </div>
+                  <Order.TradeForm side="sell" pair={pair} />
+                  {
+                    false &&
+                    <Tabs className="rs no-ink-bar" forceRender={true} defaultActiveKey="sell" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+                      <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.sell')} {tokenL}</div>} key="sell">
+                        <div className="zb-b-t">
+
+                        </div>
+                      </Tabs.TabPane>
+                      <Tabs.TabPane tab={<div className="fs2 p10 pl15 pr15 lh25">{intl.get('trade.buy')} {tokenL}</div>} key="Buy">
+                        <div className="zb-b-t">
+                          <Order.TradeForm side="buy" pair={pair} />
+                        </div>
+                      </Tabs.TabPane>
+                    </Tabs>
+                  }
+
+                </div>
+
+              }
+              <div className="col-auto" style={{flex:'0 0 30%'}}>
+                <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                  {intl.get('trade.trade_history')}
+                </div>
+                <div>
+                  <Sockets.Trades market={pair}>
+                    <TradeList market={pair} />
+                  </Sockets.Trades>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        }
+
         <div className="zb-b">
           <div className="bg-white mt15">
             <Tabs defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
