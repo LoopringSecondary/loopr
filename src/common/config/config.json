@@ -54,7 +54,7 @@
       "name": "Test"
     }
   ],
-  "supportedTokenRInMarkets":["WETH", "DAI", "LRC", "BAR"],
+  "supportedTokenRInMarkets":["WETH", "LRC", "BAR"],
   "markets": [
     {
       "tokenx": "LRC",
@@ -124,71 +124,6 @@
     {
       "tokenx": "ARP",
       "tokeny": "WETH",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "LRC",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "EOS",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "OMG",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "RDN",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "IOST",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "SNT",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "BAT",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "RHOC",
-      "tokeny": "DAI",
-      "pricePrecision": 3
-    },
-    {
-      "tokenx": "KNC",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "REQ",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "BNT",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "VITE",
-      "tokeny": "DAI",
-      "pricePrecision": 8
-    },
-    {
-      "tokenx": "ARP",
-      "tokeny": "DAI",
       "pricePrecision": 8
     },
     {

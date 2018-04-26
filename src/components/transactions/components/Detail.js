@@ -12,7 +12,7 @@ import {
 import Notification from 'Loopr/Notification';
 import {getGasPrice} from '../../../common/Loopring/relay/account';
 import Alert from 'Loopr/Alert'
-
+import moment from 'moment'
 
 
 const MetaItem = (props) => {
@@ -121,11 +121,11 @@ class DetailBlock extends React.Component {
     return (
       <Card title={intl.get('txs.tx_detail')}>
         <Spin spinning={loading}>
-          {!(ethTx && ethTx.blockNumber) && !loading && item.status === 'pending' &&
+          {!(ethTx && ethTx.blockNumber) && !loading && item.status === 'pending' && (moment().valueOf()/1e3 - item.createTime) > 300 &&
           <Alert className="mb15" type="info"  title ={intl.get("txs.resend_title")} description={intl.get('txs.resend_tips')}
                  actions={(<Button type='primary' onClick={reSendTx.bind(this, item.txHash)}>{intl.get("txs.resend")}</Button>)}
           />}
-          {(ethTx && ethTx.blockNumber) && item.status === 'pending' && !loading &&
+          {(ethTx && ethTx.blockNumber) && item.status === 'pending' && !loading && (moment().valueOf()/1e3 - item.createTime) > 300 &&
           <Alert className="mb15" type="info" title={intl.get('txs.not_need_resend')} description={
             <div className="">{intl.get('txs.not_resend_tips')}</div>}
           />

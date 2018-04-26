@@ -9,6 +9,8 @@ import {getEstimatedAllocatedAllowance, getFrozenLrcFee, getPendingRawTxByHash} 
 import {toBig} from "Loopring/common/formatter";
 import config from '../../../common/config'
 import Notification from 'Loopr/Notification'
+import moment from 'moment'
+
 
 const uiFormatter = window.uiFormatter;
 
@@ -214,7 +216,7 @@ class ListBlock extends React.Component {
             <span className="ml10">
               {statusCol}
               <span className="ml10 fs12">
-                {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && intl.get('txs.resend') }
+                {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && (<span className='ml5'>( {moment(item.createTime * 1e3).fromNow()} {((moment().valueOf()/1e3)-item.createTime) > 300 && <span className='color-primary-1'> {intl.get('txs.resend')}</span>})</span> ) }
               </span>
             </span>
           </a>
