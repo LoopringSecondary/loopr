@@ -9,7 +9,7 @@ function ListBlock(props) {
   const tokenR = market.split('-')[1].toUpperCase()
   const ListHeader = ({})=>{
     return (
-      <div className="row bg-grey-50 pb5 pt5 gutter-8">
+      <div className="row pb5 pt5 gutter-8 zb-b-b">
         <div className="col fs12 color-black-3 text-left">
           {intl.get('global.price')} {tokenR}
         </div>

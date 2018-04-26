@@ -64,7 +64,7 @@ export default function Home(props){
       <div className="container">
         <div className="zb-b">
           <div className="row align-items-stretch gutter-0 bg-white">
-            <div className="col-md-3 zb-b-r pr0">
+            <div className="col-md-3 zb-b-r pr0" style={{width:'20%'}}>
               <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                 {intl.get('trade.order_book')}
               </div>
@@ -90,8 +90,7 @@ export default function Home(props){
                 <Order.TradeForm side="sell" pair={pair} />
               </div>
             </div>
-
-            <div className="col-md-3 ">
+            <div className="col-md-3 " style={{width:'20%'}}>
               <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                 {intl.get('trade.trade_history')}
               </div>
