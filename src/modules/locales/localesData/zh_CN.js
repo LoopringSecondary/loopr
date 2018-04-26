@@ -441,7 +441,7 @@ export default {
     content_metamask_mainnet: "在您使用MetaMask解锁时，我们只支持Ethereum mainnet，请在您的MetaMask切换",
     title_metamask_logout: "您已从MetaMask登出",
     content_metamask_logout: "我们检测到您已经从MetaMask登出, 为了您资金安全您的钱包重新锁定",
-    content_metamask_unlock_again: "您刚刚切换了MetaMask network, 或您的电脑曾被锁定. 出于任何原因您的钱包已经被登出, 如要继续使用请确认MetaMask正在使用MainNetwork并再次解锁您的钱包",
+    content_metamask_unlock_again: "我们检测到您的网络环境或MetaMask network发生了变化，为了您的资产安全钱包已经被登出, 如要继续使用请确认MetaMask正在使用MainNetwork并再次解锁您的钱包",
     content_metamask_install: "您可能需要在浏览器安装MetaMask插件，安装完成后请刷新页面",
     content_metamask_locked: "与MetaMask连接失败, 请解锁后使用",
     content_metamask_install_title: '请先安装MetaMask',
