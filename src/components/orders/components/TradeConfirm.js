@@ -236,7 +236,7 @@ class TradeConfirm extends React.Component {
         <div className="fs28 color-grey-900">{intl.get('global.amount', {amount})} {token}</div>
         <div className="fs14 color-grey-500 mt5">{window.uiFormatter.getFormatNum(price)} x {intl.get('global.amount', {amount})} = {total} {token2} </div>
       </div>
-      <MetaItem label={intl.get('order.lrcfee')} value={`${window.uiFormatter.getFormatNum(lrcFee)} LRC`}/>
+      <MetaItem label={intl.get('trade.lrc_fee')} value={`${window.uiFormatter.getFormatNum(lrcFee)} LRC`}/>
       <MetaItem label={intl.get('order.margin')} value={`${marginSplit} %`}/>
       <MetaItem label={intl.get('order.since')} value={since}/>
       <MetaItem label={intl.get('order.till')} value={till}/>
