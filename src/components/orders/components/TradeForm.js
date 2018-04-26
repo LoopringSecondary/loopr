@@ -714,17 +714,18 @@ class TradeForm extends React.Component {
               </Form.Item>
             }
             <div className="row ml0 mr0">
-              <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>
-              <div className="col-auto fs12 color-black-2">
-                $0.35
+              <div className="col fs12 color-black-3"></div>
+              <div className="col-auto fs12 color-black-3">
+                {`${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`}
               </div>
             </div>
-            <Form.Item className="mb15" label={null} colon={false} extra={
-              null &&
-              <div className="row">
-                <div className="col fs10">{priceValue}</div>
+            <div className="row ml0 mr0">
+              <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>
+              <div className="col-auto fs12 color-black-2">
+                {priceValue}
               </div>
-            }>
+            </div>
+            <Form.Item className="mb15" label={null} colon={false}>
               {form.getFieldDecorator('price', {
                 initialValue: displayPrice,
                 rules: [{
@@ -753,7 +754,7 @@ class TradeForm extends React.Component {
             <div className="row ml0 mr0">
               <div className="col fs12 color-black-2">{intl.get('trade.amount')}</div>
               <div className="col-auto fs12 color-black-2">
-                1000.00
+                {this.state.availableAmount >0 ? this.state.availableAmount : availableAmount} {intl.get('trade.available')}
               </div>
             </div>
             <Form.Item className="mb15" label={null} colon={false} extra={
@@ -829,14 +830,6 @@ class TradeForm extends React.Component {
                   <Icon className="color-grey-500 mr10" type="question-circle"/>
                 </Tooltip>
               </div>
-            }
-            {false && account && account.isUnlocked && isWatchOnly &&
-            <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
-              {intl.get('trade.place_order_trezor_unsupport') }
-              <Tooltip title={intl.getHTML('trade.place_order_watch_only_tips')}>
-                <Icon className="color-gray-500 mr10" type="question-circle-o ml5"/>
-              </Tooltip>
-            </div>
             }
             {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' &&
             <Form.Item className="mb0">
