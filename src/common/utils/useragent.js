@@ -1,24 +1,38 @@
 import Useragent from 'useragent.js'
+
 export default class UserAgent {
-  constructor(){
+  constructor() {
     this.ua = Useragent.analyze(window.navigator.userAgent)
   }
-  isMobile(){
-     return !!this.useragent.match(/AppleWebKit.*Mobile.*/)
+
+  isMobile() {
+    return !!this.useragent.match(/AppleWebKit.*Mobile.*/)
   }
-  getLanguage(){
-    return (window.navigator.browserLanguage || window.navigator.language).toLowerCase()
+
+  getLanguage() {
+    const language = window.navigator.browserLanguage || window.navigator.language
+    if (language.startsWith('zh')) {
+      return 'zh-CN'
+    } else if (language.startsWith('en')) {
+      return 'en-US'
+    }
+
+    return 'en-US'
   }
-  getOS(){
+
+  getOS() {
     return this.ua.os
   }
-  getDevice(){
+
+  getDevice() {
     return this.ua.device
   }
-  getBrowser(){
+
+  getBrowser() {
     return this.ua.browser
   }
-  getOS(){
+
+  getOS() {
     return this.ua.platform
   }
 }
