@@ -263,6 +263,7 @@ Browser：{browser}\n
     amount: "Amount",
     amount_verification_message: "Please input a valid amount",
     available_amount: "Available Amount",
+    available: "available",
     total: "Total",
     advanced: "Advanced",
     time_to_live: "Time to Live",

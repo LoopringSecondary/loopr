@@ -267,6 +267,7 @@ export default {
     amount: "数量",
     amount_verification_message: "请输入合法的数量",
     available_amount: "有效数量",
+    available: "可用",
     total: "总计",
     advanced: "高级选项",
     time_to_live: "订单有效时间",
