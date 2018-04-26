@@ -101,7 +101,7 @@ class AirdropBind extends React.Component {
     window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
       if (response.error) {
         Notification.open({
-          message: intl.get('wallet.bind_success'),
+          message: intl.get('wallet.bind_failed'),
           type: 'error', description: response.error.message
         })
       } else {

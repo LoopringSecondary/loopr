@@ -268,8 +268,8 @@ I got this great idea:
     why: "Why",
     balance_not_enough: 'Balance insufficient. At leaset {required} {token} is required.',
     receive: 'Receive',
-    to_buy: 'Buy',We recommend to set it between 1 hour and 1 day.
-    time_to_live_input_place_holder: '',
+    to_buy: 'Buy',
+    time_to_live_input_place_holder: 'We recommend to set it between 1 hour and 1 day.',
     ring: "Ring",
     tips_time_to_live: "Your order is valid for a specified period known as Time-To-Live (TTL) and will expire automatically. Use this value to avoid canceling orders explicitly to save yourself some Ether. We recommend using amount between one hour and one day.",
     tips_lrc_fee: "The total fee in LRC to pay ring-miners to find counterparty orders that your order can trade with. The higher the fee is, the more likely and quicker your order will be matched and filled.",
