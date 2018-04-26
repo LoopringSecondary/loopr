@@ -37,7 +37,6 @@ function ListOrderBook(props) {
             {Number(item[0]).toFixed(8)}
           </div>
         }
-
         <div className="col-auto fs12 color-black-2 text-center" style={{width:'100px'}}>
           {Number(item[1]).toFixed(4)}
         </div>
@@ -67,8 +66,6 @@ function ListOrderBook(props) {
           }
         </div>
       </div>
-
-
     </div>
   )
 }
