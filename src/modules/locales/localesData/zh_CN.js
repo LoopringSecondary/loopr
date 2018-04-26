@@ -210,6 +210,7 @@ export default {
     price: '价格',
     total: '金额',
     LrcFee: 'LRC撮合费',
+    LrcReward:"LRC撮合奖励",
     filled: '成交率',
     options: "动作",
     balance_not_enough: "{token} 余额不足!",
