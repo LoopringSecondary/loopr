@@ -92,14 +92,14 @@ class Home extends React.Component {
           <Switch>
             <Route path={`${match.url}/portfolio`} exact render={() =>
               <div className="row no-gutters bg-white wallet-assets-container zb-b"
-                   >
+                   style={{border: '1px solid #fff'}}>
                 <Portfolio/>
               </div>
             }
             />
             <Route path={`${match.url}/assets`} exact render={() =>
               <div className="row no-gutters bg-white wallet-assets-container zb-b"
-                   >
+                   style={{border: '1px solid #fff'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar/>
                 </div>
@@ -111,7 +111,7 @@ class Home extends React.Component {
             />
             <Route path={`${match.url}/assets/:token`} exact render={() =>
               <div className="row no-gutters bg-white wallet-assets-container zb-b"
-                   >
+                   style={{border: '1px solid #fff'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar selectedToken={location.pathname.replace(`/wallet/assets/`, '')}/>
                 </div>
@@ -123,7 +123,7 @@ class Home extends React.Component {
             />
             <Route path={`${match.url}/assets2`} render={() =>
               <div className="row no-gutters bg-white wallet-assets-container zb-b"
-                   >
+                   style={{border: '1px solid #fff'}}>
                 <div className="col-4 zb-b-r">
                   <Token.ListSidebar/>
                 </div>
@@ -134,13 +134,13 @@ class Home extends React.Component {
             }
             />
             <Route path={`${match.url}/orders`} exact render={() =>
-              <div className="pb0 bg-white wallet-orders-container" >
+              <div className="pb0 bg-white wallet-orders-container" style={{border: '1px solid #fff'}}>
                 <Order.List id="orders/wallet"/>
               </div>
             }
             />
             <Route path={`${match.url}/trades`} render={() =>
-              <div className="pb0 bg-white wallet-trades-container" >
+              <div className="pb0 bg-white wallet-trades-container" style={{border: '1px solid #fff'}}>
                 <Trade.List/>
               </div>
             }
