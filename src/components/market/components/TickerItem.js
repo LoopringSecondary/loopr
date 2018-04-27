@@ -81,30 +81,32 @@ class LooprTicker extends React.Component {
       return (
           <div className="row align-items-center ml0 mr0 gutter-0">
              <div className="col-auto" style={{background:'rgba(0,0,0,0.15)'}}>
+              <Link to="/wallet">
                <div className="pt15 pb15 text-center" style={{width:'100px'}}>
-                <i className="icon-loopring icon-loopring-coins fs18 color-white"></i>
-                 <div className="color-white-2 fs12" >
-                   Back to Wallet
-                 </div>
+                  <i className="icon-loopring icon-loopring-coins fs18 color-white"></i>
+                   <div className="color-white-2 fs12" >
+                     {intl.get('ticker.back_to_wallet')}
+                   </div>
                </div>
+               </Link>
              </div>
              <div className="col-auto pl0">
                <TickerHeader pair={pair} tickers={tickers} />
              </div>
-             <div className="col-auto pl20 pr20">
-               <NumberCaption title={`24H ${intl.get('ticker.last')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.last)} {priceValue}</div>} />
+             <div className="col pl20 pr20">
+               <NumberCaption title={intl.get('ticker.last')} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.last)} {priceValue}</div>} />
              </div>
-             <div className="col-auto pl20 pr20">
+             <div className="col pl20 pr20">
               <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={
                 <TickerTrend mode="nocolor" side={fm.getChangeSide(ticker.change)}>
                   {fm.getChange(ticker.change)}
                 </TickerTrend>
               } />
              </div>
-             <div className="col-auto pl20 pr20">
+             <div className="col pl20 pr20">
               <NumberCaption title={`24H ${intl.get('ticker.low')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.low)}</div>} />
              </div>
-             <div className="col-auto pl20 pr20">
+             <div className="col pl20 pr20">
                <NumberCaption title={`24H ${intl.get('ticker.high')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.high)}</div>} />
              </div>
              <div className="col-auto pl20 pr20">

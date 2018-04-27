@@ -288,14 +288,9 @@ function Navbar(props){
     <div className="navbar-loopring">
       <div className="container">
         <div className="row align-items-stretch ml0">
-          {
-            true &&
-            <div className="col-auto pl0 pr0">
-                <Link to="/" className="d-block" >
-                    <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
-                </Link>
-            </div>
-          }
+          <div className="col-auto pl0 pr0">
+              <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
+          </div>
           {
              true &&
             <div className="col-auto pl10 pr0">

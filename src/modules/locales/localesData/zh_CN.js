@@ -126,6 +126,7 @@ export default {
     market: '市场',
     favorites: '自选',
     select_a_market:'选择交易市场',
+    back_to_wallet:'返回钱包',
   },
   exchanges: {
     loopr: '路印DEX 市场行情',

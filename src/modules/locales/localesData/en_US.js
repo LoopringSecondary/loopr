@@ -116,6 +116,7 @@ I got this great idea:
     market: 'Market',
     favorites: 'Favorites',
     select_a_market:'Select a market',
+    back_to_wallet:'Back to Wallet',
   },
   exchanges: {
     loopr: 'Loopring DEX Price',
