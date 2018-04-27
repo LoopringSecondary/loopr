@@ -143,7 +143,7 @@ class  ListBlock extends React.Component{
           status = <Badge className="fs12" status="default" text={intl.get('orders.status_expired')}/>
         }
         return (
-          <div>
+          <div className="text-left">
             {status}
             { item.status === 'ORDER_OPENED' && cancleBtn
             }

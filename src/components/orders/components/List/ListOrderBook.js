@@ -30,7 +30,7 @@ function ListOrderBook(props) {
           </div>
         </td>
         <td className="border-0 pr10">
-          <div className="fs12 color-black-2 text-center p0 lh20">
+          <div className="fs12 color-black-2 text-right p0 lh20">
             {Number(item[2]).toFixed(4)}
           </div>
         </td>
@@ -42,17 +42,17 @@ function ListOrderBook(props) {
       <tr className="zb-b-b">
         <th className="border-0 p0 pl10 lh25">
           <div className="fs12 color-black-3 text-left font-weight-normal">
-            {intl.get('global.price')}{false && tokenR}
+            {intl.get('global.price')} {tokenR}
           </div>
         </th>
         <th className="border-0 p0 pl5 pr5 lh25">
           <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
-            {intl.get('global.amount_label')}{false && tokenL}
+            {intl.get('global.amount_label')} {tokenL}
           </div>
         </th>
         <th className="border-0 p0 pr10 lh25">
-          <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
-            {intl.get('global.time')}
+          <div className="col-auto fs12 color-black-3 text-right font-weight-normal">
+            {intl.get('global.total')} {tokenR}
           </div>
         </th>
       </tr>
@@ -62,25 +62,7 @@ function ListOrderBook(props) {
       <div style={{height:'230px'}}>
         <table className="w-100" >
           {thead}
-          <tbody >
-            {
-              depth && depth.buy && depth.buy.map((item,index)=>
-               <ListItem key={index} item={item} side="buy" />
-              )
-            }
-            {
-              !(depth && depth.buy && depth.buy.length > 0) &&
-              <tr >
-                <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-      <div style={{height:'230px'}}>
-        <table className="w-100 zb-b-t" >
-          {thead}
-          <tbody style={{height:'210px'}}>
+          <tbody style={{height:'210px',paddingTop:'5px'}} >
             {
               false &&
               <tr className="">
@@ -105,6 +87,25 @@ function ListOrderBook(props) {
           </tbody>
         </table>
       </div>
+      <div style={{height:'230px'}}>
+        <table className="w-100 zb-b-t" >
+          {thead}
+          <tbody >
+            {
+              depth && depth.buy && depth.buy.map((item,index)=>
+               <ListItem key={index} item={item} side="buy" />
+              )
+            }
+            {
+              !(depth && depth.buy && depth.buy.length > 0) &&
+              <tr >
+                <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
     </div>
   )
 }
