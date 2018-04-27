@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Alert, Badge, Button, Spin, Popover} from 'antd';
+import {Alert, Badge, Button, Spin, Popover,Icon} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
@@ -282,20 +282,21 @@ class ListBlock extends React.Component {
     }
 
     const TokenActions = (token) => (
-      <div style={{minWidth: '80px', maxWidth: '150px'}}>
-        <div className="row no-gutters p5">
-          {
-            getTokenSupportedMarkets(token).map(item=>{
-              return (
-                <div className="col-12 fs16">
-                  <Button onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)} className="d-block w-100 text-left">
-                    {item.tokenx+"-"+item.tokeny}
-                  </Button>
+      <div style={{minWidth: '80px'}}>
+        {
+          getTokenSupportedMarkets(token).map(item=>{
+            return (
+              <div className="market-item-token-dropdown row cursor-pointer zb-b-b pl10 pr5 ml0 mr0 gutter-0 align-items-center" onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)}>
+                <div className="col fs14 lh30 " >
+                   {item.tokenx+"-"+item.tokeny}
                 </div>
-              )
-            })
-          }
-        </div>
+                <div className="col-auto fs12 color-black-4 pl25">
+                  <Icon type="right" />
+                </div>
+              </div>
+            )
+          })
+        }
       </div>
     );
 

@@ -43,7 +43,6 @@ class SelectContainer extends React.Component {
     }
     return (
        <Select {...selectProps}>
-         <Option key={-1} value={''}>All</Option>
         {
           options.map((option,index)=>{
             return (<Option key={index} value={option.value.toString()}>{option.label}</Option>);

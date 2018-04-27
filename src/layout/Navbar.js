@@ -289,20 +289,18 @@ function Navbar(props){
       <div className="container">
         <div className="row align-items-stretch ml0">
           <div className="col-auto pl0 pr0">
-              <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
+            <Link to="/wallet" className="d-block" >
+                <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
+            </Link>
           </div>
-          {
-             true &&
-            <div className="col-auto pl10 pr0">
-              <Popover content={VersionTip} title={null} trigger="hover">
-                <span className="navbar-version-badge">
-                  <Badge status="processing" className="" />
-                  {intl.get('version.label')}
-                </span>
-              </Popover>
-
-            </div>
-          }
+          <div className="col-auto pl10 pr0">
+            <Popover content={VersionTip} title={null} trigger="hover">
+              <span className="navbar-version-badge">
+                <Badge status="processing" className="" />
+                {intl.get('version.label')}
+              </span>
+            </Popover>
+          </div>
           <div className="col"></div>
           <div className="col-auto">
             <Menu
