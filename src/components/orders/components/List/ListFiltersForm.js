@@ -39,7 +39,7 @@ let FiltersForm = ({
       <div className="">
         <Form layout="inline">
           <div className="row">
-            <div className="col-atuo">
+            <div className="col-auto">
               <span>{intl.get('orders.market')}</span>
               <Form.Item label={null} >
                 {form.getFieldDecorator('market', {
@@ -113,9 +113,6 @@ let FiltersForm = ({
               </Form.Item>
             </div>
           </div>
-
-
-
           {
             false &&
             <Form.Item>
