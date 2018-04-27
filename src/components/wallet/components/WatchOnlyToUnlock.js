@@ -30,7 +30,7 @@ class WatchOnlyToUnlock extends React.Component {
       <div className="text-left">
         <Alert
           type="info"
-          title={intl.get('wallet.in_watch_only_mode_title')}
+          title={intl.get('wallet.using_watch_only_mode_title')}
           description={demoAddress === account.address ? intl.get('wallet.in_demo_account_mode_content') : intl.get('wallet.in_watch_only_mode_content')}
           actions={
             <div>
