@@ -30,14 +30,14 @@ function ListBlock(props) {
     e.clipboardData.setData("text", value);
   };
   const renders = {
-    ringHash: (value, item, index) => {
+    ringIndex: (value, item, index) => {
       const gapPosition = item.fillIndex === 0 ? 'top' : 'bottom';
       return (
         <div>
-          <a className="text-truncate text-left color-blue-500" onCopy={handleCopy.bind(this, value)}
+          <a className="text-truncate text-left color-blue-500"
              style={{maxWidth: '150px'}}
              onClick={showModal.bind(this, {id: 'trade/detail', item})}>
-            {uiFormatter.getShortAddress(value)}
+            {value}
           </a>
         </div>
       )

@@ -590,6 +590,7 @@ Browser：{browser}\n
     ring_info:"Ring Information",
     ring_detail:'Ring Details',
     ring_hash:"Ring Hash",
+    ring_index:"Ring Index",
     miner:"Miner",
     total_lrc_fee:"Trading Fee (LRC)",
     total_split_fee:"Trading Fee (Margin-Split)",

@@ -70,6 +70,7 @@ class DetailBlock extends React.Component {
           <Spin spinning={loading}>
             {ring &&
             <div>
+              <MetaItem label={intl.get('ring.ring_index')} value={ring && ring.ringInfo.ringIndex}/>
               <MetaItem label={intl.get('ring.ring_hash')} value={ring && ring.ringInfo.ringHash}/>
               < MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
               <MetaItem label={intl.get('txs.tx_hash')} value={ring && ring.ringInfo.txHash} render={renders.txHash}/>
@@ -86,7 +87,7 @@ class DetailBlock extends React.Component {
                         value={ring && window.uiFormatter.getFormatTime(toNumber(ring.ringInfo.timestamp) * 1e3)}/>
               <MetaItem label={intl.get('ring.trade_amount')}
                         value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.tradeAmount)}/>
-              <div className="mb30"></div>
+              <div className="mb20"></div>
               {false && <Button type="default" className="d-block w-100" size="large"> {intl.get('ring.ring_more_info')}</Button>}
             </div>
             }
