@@ -9,13 +9,10 @@ import intl from 'react-intl-universal'
 import VideoBackGround from 'react-background-video-player'
 
 class  Home extends React.Component {
-
-
   state = {
     videoWidth:window.innerWidth,
     videoHeight:window.innerHeight
   };
-
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
   }
@@ -32,6 +29,9 @@ class  Home extends React.Component {
   };
 
   render(){
+    if(window.WALLET && window.WALLET.getAddress()){
+      window.routeActions.gotoPath('/wallet')
+    }
     const {dispatch } = this.props;
     const {videoWidth,videoHeight} = this.state;
     const showModal = (id)=>{

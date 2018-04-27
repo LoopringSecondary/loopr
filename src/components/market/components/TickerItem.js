@@ -32,11 +32,8 @@ class TickerHeader extends React.Component {
           </div>
         }
       >
-        <div className="row align-items-center cursor-pointer" style={{background:'rgba(0,0,0,0.05)'}}>
-          <div hidden className="col-auto pr25 pl25 pt25 pb25 fs16 color-white" style={{background:'rgba(0,0,0,0.05)'}}>
-            <Icon type="left" className=""/> Wallet
-          </div>
-          <div className="col pl25 pr15 pt15 pb15">
+        <div className="row align-items-center cursor-pointer ml0 mr0 gutter-0" style={{background:'rgba(0,0,0,0.05)'}}>
+          <div className="col pl35 pr35 pt15 pb15">
             <div className="fs16 color-white">
               {pair}
               {
@@ -49,11 +46,9 @@ class TickerHeader extends React.Component {
               }
 
             </div>
-            <div className="fs14 color-white color-white-2">{intl.get('exchanges.loopr')} <Icon hidden className="" type="down" /></div>
+            <div className="fs14 color-white color-white-2">{intl.get('ticker.select_a_market')} <Icon className="" type="down" /></div>
           </div>
-          <div className="col-auto">
-            <Icon type="caret-down" className="color-white" />
-          </div>
+
         </div>
       </Popover>
     );
@@ -84,38 +79,39 @@ class LooprTicker extends React.Component {
         </div>
       )
       return (
-          <div className="row align-items-center ml0 mr0 justify-content-between">
-             <div className="col-auto">
+          <div className="row align-items-center ml0 mr0 gutter-0">
+             <div className="col-auto" style={{background:'rgba(0,0,0,0.15)'}}>
+              <Link to="/wallet">
+               <div className="pt15 pb15 text-center" style={{width:'100px'}}>
+                  <i className="icon-loopring icon-loopring-coins fs18 color-white"></i>
+                   <div className="color-white-2 fs12" >
+                     {intl.get('ticker.back_to_wallet')}
+                   </div>
+               </div>
+               </Link>
+             </div>
+             <div className="col-auto pl0">
                <TickerHeader pair={pair} tickers={tickers} />
              </div>
-             <div className="col-auto">
-               <NumberCaption title={`24H ${intl.get('ticker.last')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.last)} {priceValue}</div>} />
+             <div className="col pl20 pr20">
+               <NumberCaption title={intl.get('ticker.last')} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.last)} {priceValue}</div>} />
              </div>
-             <div className="col-auto">
+             <div className="col pl20 pr20">
               <NumberCaption title={`24H ${intl.get('ticker.change')}`} content={
                 <TickerTrend mode="nocolor" side={fm.getChangeSide(ticker.change)}>
                   {fm.getChange(ticker.change)}
                 </TickerTrend>
               } />
              </div>
-             <div className="col-auto">
+             <div className="col pl20 pr20">
               <NumberCaption title={`24H ${intl.get('ticker.low')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.low)}</div>} />
              </div>
-             <div className="col-auto">
+             <div className="col pl20 pr20">
                <NumberCaption title={`24H ${intl.get('ticker.high')}`} content={<div className="text-truncate" style={{maxWidth:'160px'}}>{fm.getPrice(ticker.high)}</div>} />
              </div>
-             <div className="col-sm-6 col-lg-2">
+             <div className="col-auto pl20 pr20">
               <NumberCaption title={<div>24H {intl.get('ticker.vol')}</div>} content={<div>{`${fm.getVolume(ticker.vol)}`}  <span className="">{tokenR}</span></div>} />
              </div>
-             {
-              true &&
-              <div className="col-auto pl25 pr25" style={{background:'rgba(0,0,0,0.05)'}}>
-               <div className="pt25 pb25 color-white fs16">
-                 <span className="ml5">Back to wallet</span>
-                 <Icon type="right" />
-               </div>
-              </div>
-             }
           </div>
       )
   }

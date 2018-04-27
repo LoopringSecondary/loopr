@@ -64,27 +64,67 @@ class CancelConfirm extends React.Component {
     const worth = `${getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${math.accMul(amount, price.price).toFixed(2)}`
 
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address';
-
+    const title = type === 'order' ? intl.get('order.confirm_cancel_order') : intl.get('order.confirm_cancel_all', {pair: market || ''})
     return (
-      <Card title={intl.get('orders.cancel_order')}>
-        <div className='fs2 mb20'>
-          {type === 'order' ? intl.get('order.confirm_cancel_order') : intl.get('order.confirm_cancel_all', {pair: market || ''})}
+      <Card title={title}>
+        <div className="p15 pb25 text-center">
+          <div className="fs12 pt5 color-black-2">距离订单自动失效还有</div>
+          <div className="fs30 color-black-1">
+            05小时30分
+          </div>
+          <div className="fs12 pt5 pb5 color-black-2">订单有效期：05月01日 18 : 00 ~ 05月10日 0 : 00</div>
         </div>
         <Alert className="mb10" type="info" showIcon message={
-          <div className="row">
+          <div className="row align-items-center">
             <div className="col">
-              <div className="">{intl.get('orders.cancel_cost_gas')}</div>
+              <div className="color-black-2 fs14">订单自动失效 不会 消耗 ETH gas订单自动失效 不会 消耗 ETH gas</div>
             </div>
             <div className="col-auto">
-              <div className="cursor-pointer">{amount.toFixed(8)}ETH ≈ {worth}<Icon type="right" className=""/></div>
+              {
+                !loading &&
+                <a onClick={this.cancel} className="color-primary-1 fs12 cursor-pointer">
+                  等待自动失效
+                  <Icon type="right"/>
+                </a>
+              }
+              {
+                loading &&
+                <a className="color-black-3 fs12 cursor-pointer">
+                  等待订单自动失效
+                </a>
+              }
+            </div>
+          </div>
+        }/>
+        <Alert className="mb10" type="info" showIcon message={
+          <div className="row align-items-center">
+            <div className="col">
+              <div className="color-black-2 fs14">手动取消订单 需要 消耗 ETH gas</div>
+            </div>
+            <div className="col-auto">
+              {
+                false &&
+                <div className="">{amount.toFixed(8)}ETH ≈ {worth}</div>
+              }
+              {
+                !loading &&
+                <a onClick={this.ConfirmCancel} className="color-primary-1 fs12 cursor-pointer">
+                  确认取消订单
+                  <Icon type="right"/>
+                </a>
+              }
+              {
+                loading &&
+                <a className="color-black-3 fs12 cursor-pointer">
+                  取消中
+                </a>
+              }
             </div>
           </div>
         }/>
 
-        <Button type='primary' className="d-block w-100" size="large" loading={loading} onClick={this.ConfirmCancel}
-                disabled={isWatchOnly || loading}>{intl.get('order.yes')}</Button>
-        <Button type='default' className='d-block w-100 mt10' size="large" disabled={loading}
-                onClick={this.cancel}>{intl.get('order.no')}</Button>
+
+
       </Card>
     )
   }
