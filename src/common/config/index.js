@@ -108,6 +108,10 @@ function getMarketsByTokenR(token) {
   return config.markets.filter(item=>item.tokeny === token)
 }
 
+function getMarketsByTokenL(token) {
+  return config.markets.filter(item=>item.tokenx === token)
+}
+
 function getTokenSupportedMarket(token) {
   const supportedToken = getSupportedMarketsTokenR()
   let foundMarket = ''
@@ -129,6 +133,13 @@ function getTokenSupportedMarket(token) {
   }
   return foundMarket
 }
+
+function getTokenSupportedMarkets(token) {
+  const leftMarket = getMarketsByTokenL(token)
+  const rightMarket = getMarketsByTokenR(token)
+  return [...leftMarket, ...rightMarket]
+}
+
 function getMarkets() {
   return markets;
 }
@@ -165,6 +176,7 @@ export default {
   getSupportedMarketsTokenR,
   getMarketsByTokenR,
   getTokenSupportedMarket,
+  getTokenSupportedMarkets,
   getMarkets,
   getWalletAddress,
   getDelegateAddress
