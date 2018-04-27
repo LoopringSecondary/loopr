@@ -81,7 +81,7 @@ function ListOrderBook(props) {
             {
               !(depth && depth.sell && depth.sell.length > 0) &&
               <tr >
-                <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
+                <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20  pt10 pb10">{intl.get('global.no_data')}</td>
               </tr>
             }
           </tbody>
@@ -99,7 +99,7 @@ function ListOrderBook(props) {
             {
               !(depth && depth.buy && depth.buy.length > 0) &&
               <tr >
-                <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
+                <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20 pt10 pb10">{intl.get('global.no_data')}</td>
               </tr>
             }
           </tbody>

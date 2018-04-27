@@ -33,10 +33,12 @@ class TickerHeader extends React.Component {
         }
       >
         <div className="row align-items-center cursor-pointer" style={{background:'rgba(0,0,0,0.05)'}}>
-          <div hidden className="col-auto pr25 pl25 pt25 pb25 fs16 color-white" style={{background:'rgba(0,0,0,0.05)'}}>
-            <Icon type="left" className=""/> Wallet
+          <div className="col-auto" style={{background:'rgba(0,0,0,0.05)'}}>
+            <div className="pt25 pb25 pl10 pr10">
+              <Icon type="bars" className="color-white" />
+            </div>
           </div>
-          <div className="col pl25 pr15 pt15 pb15">
+          <div className="col pl30 pr30 pt15 pb15">
             <div className="fs16 color-white">
               {pair}
               {
@@ -51,9 +53,7 @@ class TickerHeader extends React.Component {
             </div>
             <div className="fs14 color-white color-white-2">{intl.get('exchanges.loopr')} <Icon hidden className="" type="down" /></div>
           </div>
-          <div className="col-auto">
-            <Icon type="caret-down" className="color-white" />
-          </div>
+
         </div>
       </Popover>
     );
@@ -107,15 +107,6 @@ class LooprTicker extends React.Component {
              <div className="col-sm-6 col-lg-2">
               <NumberCaption title={<div>24H {intl.get('ticker.vol')}</div>} content={<div>{`${fm.getVolume(ticker.vol)}`}  <span className="">{tokenR}</span></div>} />
              </div>
-             {
-              true &&
-              <div className="col-auto pl25 pr25" style={{background:'rgba(0,0,0,0.05)'}}>
-               <div className="pt25 pb25 color-white fs16">
-                 <span className="ml5">Back to wallet</span>
-                 <Icon type="right" />
-               </div>
-              </div>
-             }
           </div>
       )
   }

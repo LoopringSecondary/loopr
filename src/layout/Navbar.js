@@ -309,7 +309,7 @@ function Navbar(props){
             </div>
           }
           {
-            false && window.location.href.indexOf('/trade') >= 0 &&
+            true && window.location.href.indexOf('/trade') >= 0 &&
             <div className="col-auto pl0">
               <div className="fs16 pr15 ml15">
                 <Button type="primary">
@@ -328,13 +328,13 @@ function Navbar(props){
               selectedKeys={selectedKeys}
             >
               {
-                true && window.WALLET && window.WALLET.getAddress() &&
+                false && window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
                   <Link className="fs16 color-black-1" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
               {
-                true && window.WALLET && window.WALLET.getAddress() &&
+                false && window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/trade">
                   <Link to="/trade" className="fs16 color-black-1">{intl.get('navbar.trade')}</Link>
                 </Menu.Item>
