@@ -16,7 +16,7 @@ class UnlockByMetaMask extends React.Component {
     metamaskState:'',
     visible:false
   };
-
+  
   componentDidMount() {
     var u = navigator.userAgent, app = navigator.appVersion;
     if(u.indexOf('OPR') > -1) {
