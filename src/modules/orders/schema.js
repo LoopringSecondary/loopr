@@ -79,18 +79,18 @@ const schema = [
     }
   },
   {
-    title: () => intl.get('orders.status'),
-    name: 'status',
-    formatter: (item) => item.status,
+    title: () =>  intl.get('orders.time'),
+    name: 'timestamp',
+    formatter: (item) => getFormatTime(toNumber(item.originalOrder.validSince) * 1e3),
   },
   {
     title: () => intl.get('orders.filled'),
     name: 'filled',
   },
   {
-    title: () =>  intl.get('orders.time'),
-    name: 'timestamp',
-    formatter: (item) => getFormatTime(toNumber(item.originalOrder.validSince) * 1e3),
+    title: () => intl.get('orders.status'),
+    name: 'status',
+    formatter: (item) => item.status,
   },
 
 ]
