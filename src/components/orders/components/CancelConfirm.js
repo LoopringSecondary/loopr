@@ -64,27 +64,38 @@ class CancelConfirm extends React.Component {
     const worth = `${getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${math.accMul(amount, price.price).toFixed(2)}`
 
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address';
-
+    const title = type === 'order' ? intl.get('order.confirm_cancel_order') : intl.get('order.confirm_cancel_all', {pair: market || ''})
     return (
-      <Card title={intl.get('orders.cancel_order')}>
-        <div className='fs2 mb20'>
-          {type === 'order' ? intl.get('order.confirm_cancel_order') : intl.get('order.confirm_cancel_all', {pair: market || ''})}
-        </div>
+      <Card title={title}>
+        <Alert className="mb10" type="info" showIcon message={
+          <div className="row">
+            <div className="col">
+              <div className="">{intl.get('orders.auto_cancel_not_cost_gas')}</div>
+            </div>
+            <div className="col-auto">
+              <Button type='primary' className='d-block w-100' size="small" disabled={loading}
+                      onClick={this.cancel}>{intl.get('order.no')}</Button>
+            </div>
+          </div>
+        }/>
         <Alert className="mb10" type="info" showIcon message={
           <div className="row">
             <div className="col">
               <div className="">{intl.get('orders.cancel_cost_gas')}</div>
             </div>
             <div className="col-auto">
-              <div className="cursor-pointer">{amount.toFixed(8)}ETH ≈ {worth}<Icon type="right" className=""/></div>
+              {
+                false &&
+                <div className="">{amount.toFixed(8)}ETH ≈ {worth}</div>
+              }
+              <Button type='primary' className="d-block w-100" size="small" loading={loading} onClick={this.ConfirmCancel}
+                      disabled={isWatchOnly || loading}>{intl.get('order.yes')}</Button>
             </div>
           </div>
         }/>
 
-        <Button type='primary' className="d-block w-100" size="large" loading={loading} onClick={this.ConfirmCancel}
-                disabled={isWatchOnly || loading}>{intl.get('order.yes')}</Button>
-        <Button type='default' className='d-block w-100 mt10' size="large" disabled={loading}
-                onClick={this.cancel}>{intl.get('order.no')}</Button>
+
+
       </Card>
     )
   }

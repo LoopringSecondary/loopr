@@ -219,6 +219,8 @@ I got this great idea:
     basic_detail:"Basic Details",
     fill_detail:"Fill Details",
     cancel_cost_gas:"Cancel order will cost gas",
+    auto_cancel_not_cost_gas:"Order will be expired without ETH gas",
+    manual_cancel_cost_gas:" Cancel order manually will cost ETH gas",
     cancel_order:"Cancel Order"
   },
   settings: {

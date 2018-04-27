@@ -104,7 +104,7 @@ export default {
     balance_not_enough: '如果要完全撮合，还需要 {amount} {token} ',
     submit: "提交订单",
     confirm_cancel_order: "您确定要取消该笔订单？",
-    confirm_cancel_all: "您确定要取消全部{pair}订单？",
+    confirm_cancel_all: "您确定要取消全部 {pair} 订单？",
     cancel_order_success: "取消订单成功",
     cancel_order_failed: "取消订单失败",
     cancel_all_success: "取消全部{pair}订单成功",
@@ -230,6 +230,8 @@ export default {
     basic_detail: "基础详情",
     fill_detail: "撮合详情",
     cancel_cost_gas:"取消订单会消耗Gas",
+    auto_cancel_not_cost_gas:"自动取消订单不会消耗 ETH gas",
+    manual_cancel_cost_gas:"手动取消订单会消耗 ETH gas",
     cancel_order:"取消订单"
   },
   settings: {
