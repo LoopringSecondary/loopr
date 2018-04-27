@@ -27,10 +27,13 @@ function UnlockWallet({form,modal,account}) {
   return (
     <Card title={<div className="fs1">{intl.get('wallet.unlock_tip')}?</div>}>
         <div className="unlock-wallet-tabs">
-          <Tabs defaultActiveKey="address" tabPosition="left" animated={true}>
-            <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.watch_only')}</div>} key="address">
-              <UnlockByAddress modal={modal} account={account} pageFrom={pageFrom}/>
-            </Tabs.TabPane>
+          <Tabs defaultActiveKey={!account || account.walletType !== 'Address' ? "address" : "metamask"} tabPosition="left" animated={true}>
+            {
+              !account || account.walletType !== 'Address' &&
+              <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.watch_only')}</div>} key="address">
+                <UnlockByAddress modal={modal} account={account} pageFrom={pageFrom}/>
+              </Tabs.TabPane>
+            }
             <Tabs.TabPane className="pl10" tab={<div className="fs2 text-left">{intl.get('wallet.metamask')}</div>} key="metamask">
               <UnlockByMetaMask modal={modal} account={account} pageFrom={pageFrom}/>
             </Tabs.TabPane>

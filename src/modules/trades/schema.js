@@ -4,8 +4,8 @@ import intl from 'react-intl-universal';
 const schema = [
   {
     title: () => intl.get('trade.ring'),
-    description: 'The ring hash',
-    name: 'ringHash',
+    description: 'The ring Index',
+    name: 'ringIndex',
   },
   {
     title: () => intl.get('orders.market'),
