@@ -391,6 +391,8 @@ Browser：{browser}\n
     cost_eth_gas:"Binding address will cost gas for transactions.",
     goback:"Back",
     watch_only_not_allowed:"Watch-only mode cannot bind addresses.",
+    eth_adress_null:'Please unlocked your wallet and try again',
+    neo_address_null:'Please input your valid NEO address to bind'
   },
   wallet: {
     bind_tip: "Bind Address for Airdrop",
@@ -549,6 +551,7 @@ Browser：{browser}\n
     type_demo:'Demo Wallet',
     type_lock:'Locked Wallet',
     in_watch_only_mode_title:'Switched to Watch-only Mode',
+    using_watch_only_mode_title:'You Are Now using Watch-only Mode',
     unlock_by_cookie_address_notification:'Loopr has switched your account to the watch-only mode, and your private-key is no longer available to the browser.  You\'ll need to unlock your wallet again to perform some operations.',
     in_watch_only_mode_content: 'Your account is still in the watch-only mode. To perform this operation, you need to unlock your wallet again.',
     in_demo_account_mode_content: 'You are now using demo account. To perform this operation, you need to unlock your wallet again.',

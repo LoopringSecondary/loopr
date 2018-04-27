@@ -396,6 +396,8 @@ export default {
     cost_eth_gas: "绑定地址需要支付ETH油费",
     goback: "返回",
     watch_only_not_allowed: "观察者模式无法绑定空投",
+    eth_adress_null:'请解锁钱包后在重试',
+    neo_address_null:'请输入您想绑定的合法的NEO地址'
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
@@ -554,6 +556,7 @@ export default {
     type_demo: '演示钱包',
     type_lock: '未解锁',
     in_watch_only_mode_title:'已切换至观察模式',
+    using_watch_only_mode_title:'您正在使用观察模式',
     unlock_by_cookie_address_notification:'Loopr切换您的账户至观察模式，您的私钥对当前网页已失效。当您执行一些操作时可能需要再次解锁钱包。',
     in_watch_only_mode_content: '您的账户正在使用观察模式。要执行这个操作，需要您再次解锁钱包。',
     in_demo_account_mode_content: '您正在使用演示钱包，要执行这个操作，需要您再次解锁钱包。',
