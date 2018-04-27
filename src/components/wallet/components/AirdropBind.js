@@ -95,7 +95,7 @@ class AirdropBind extends React.Component {
   };
 
   render() {
-    const {form, modal, account} = this.props
+    const {form, account} = this.props
     const {project, address} = this.state;
     const isWatchOnly = account.walletType === 'Address'
     const _this = this
