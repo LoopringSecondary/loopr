@@ -44,7 +44,7 @@ let FiltersForm = ({
                       let pairs = window.CONFIG.getMarkets().map(item=>`${item.tokenx}-${item.tokeny}`)
                       let options = res.result.filter(item=>pairs.includes(item)).map(item=>({label:item,value:item}))
                       return [
-                        {label:`${intl.get('global.all')}${intl.get('orders.market')}`,value:""},
+                        {label:`${intl.get('global.all')} ${intl.get('orders.market')}`,value:""},
                         ...options,
                       ]
                     }}
@@ -70,7 +70,7 @@ let FiltersForm = ({
                     onChange={handleChange}
                     filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                   >
-                    <Select.Option value="">{intl.get('global.all')}{intl.get('trades.side')}</Select.Option>
+                    <Select.Option value="">{intl.get('global.all')} {intl.get('trades.side')}</Select.Option>
                     <Select.Option value="sell">{intl.get('trades.side_sell')}</Select.Option>
                     <Select.Option value="buy">{intl.get('trades.side_buy')}</Select.Option>
                   </Select>

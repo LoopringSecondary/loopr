@@ -49,7 +49,7 @@ let FiltersForm = ({
                     let pairs = window.CONFIG.getMarkets().map(item=>`${item.tokenx}-${item.tokeny}`)
                     let options = res.result.filter(item=>pairs.includes(item)).map(item=>({label:item,value:item}))
                     return [
-                      {label:`${intl.get('global.all')}${intl.get('orders.market')}`,value:""},
+                      {label:`${intl.get('global.all')} ${intl.get('orders.market')}`,value:""},
                       ...options,
                     ]
                   }}
@@ -75,7 +75,7 @@ let FiltersForm = ({
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="">{intl.get('global.all')}{intl.get('orders.status')} </Select.Option>
+                  <Select.Option value="">{intl.get('global.all')}&nbsp;{intl.get('orders.status')} </Select.Option>
                   <Select.Option value="ORDER_OPENED">{intl.get('orders.status_opened')}</Select.Option>
                   <Select.Option value="ORDER_FINISHED">{intl.get('orders.status_completed')}</Select.Option>
                   <Select.Option value="ORDER_CANCELLED">{intl.get('orders.status_canceled')}</Select.Option>
@@ -97,7 +97,7 @@ let FiltersForm = ({
                   onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
-                  <Select.Option value="">{intl.get('global.all')}{intl.get('orders.side')}</Select.Option>
+                  <Select.Option value="">{intl.get('global.all')}&nbsp;{intl.get('orders.side')}</Select.Option>
                   <Select.Option value="sell">{intl.get('orders.side_sell')}</Select.Option>
                   <Select.Option value="buy">{intl.get('orders.side_buy')}</Select.Option>
                 </Select>
