@@ -115,6 +115,7 @@ I got this great idea:
     vol: 'Volume',
     market: 'Market',
     favorites: 'Favorites',
+    select_a_market:'Select a market',
   },
   exchanges: {
     loopr: 'Loopring DEX Price',

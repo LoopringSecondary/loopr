@@ -308,16 +308,6 @@ function Navbar(props){
 
             </div>
           }
-          {
-            true && window.location.href.indexOf('/trade') >= 0 &&
-            <div className="col-auto pl0">
-              <div className="fs16 pr15 ml15">
-                <Button type="primary">
-                  <Icon type="left"/> Back to wallet
-                </Button>
-              </div>
-            </div>
-          }
           <div className="col"></div>
           <div className="col-auto">
             <Menu

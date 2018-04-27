@@ -125,6 +125,7 @@ export default {
     vol: '成交量',
     market: '市场',
     favorites: '自选',
+    select_a_market:'选择交易市场',
   },
   exchanges: {
     loopr: '路印DEX 市场行情',
