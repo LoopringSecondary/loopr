@@ -223,7 +223,9 @@ Browser：{browser}\n
     buy_amount: 'Buy Amount',
     order_detail: "Order Details",
     basic_detail:"Basic Details",
-    fill_detail:"Fill Details"
+    fill_detail:"Fill Details",
+    cancel_cost_gas:"Cancel order will cost gas",
+    cancel_order:"Cancel Order"
   },
   settings: {
     preference: "Preferences",
