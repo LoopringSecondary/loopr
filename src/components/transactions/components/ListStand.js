@@ -328,7 +328,7 @@ class ListBlock extends React.Component {
                 >
                   <Button className="mr15" type="primary">
                     <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-                    <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')}</span>
+                    <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token} </span>
                   </Button>
                 </Popover>
               </div>
@@ -336,7 +336,7 @@ class ListBlock extends React.Component {
             {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length === 0 &&
               <Button className="mr15" type="primary" disabled={true}>
                 <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-                <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')}</span>
+                <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token}</span>
               </Button>
             }
             {
