@@ -542,12 +542,24 @@
       .alert-description{
         color:rgba(255,255,255,0.9);
       }
-      .alert-btn{
-        color:rgba(255,255,255,0.95);
-        background:rgba(0,0,0,0.07);
-        &:hover{
-          background: #fff;
-          color:#333;
+      .alert-actions > div {
+        .alert-btn{
+          color:rgba(255,255,255,0.85);
+          background:rgba(0,0,0,0.07);
+          &:hover{
+            background: #fff;
+            color:#1890ff;
+          }
+        }
+        .alert-btn:last-child{
+          color:#0077FF;
+          // background: #fff;
+          background:rgba(0,0,0,0.20);
+          color:#fff;
+          &:hover{
+            background: #fff;
+            color:#1890ff;
+          }
         }
       }
       &.t-error{
