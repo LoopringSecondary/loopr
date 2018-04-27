@@ -387,8 +387,8 @@ export default {
     convert_succ_notification_title: '转换成功',
     transfer_succ_notification_title: '转账成功',
     custum_gas_title: '设置本订单生效的油费',
-    custum_gas_content: '如果您只是想转发一些数量的代币，根据当前以太坊Gas价格, 我们推荐您设置{gas}',
-    custum_gas_advance_content: '如果您只是想转发一些数量的代币，根据当前以太坊Gas价格, 我们推荐您设置Gas数量{gasLimit}, Gas价格{gasPrice}',
+    custum_gas_content: '我们推荐您设置{gas}',
+    custum_gas_advance_content: '我们推荐您设置Gas数量{gasLimit}, Gas价格{gasPrice}',
     token_convert: '转换{from}成{to}',
     gas_fast_setting: '快速设置',
     gas_custom_setting: '自定义设置'
@@ -396,7 +396,7 @@ export default {
   airdrop: {
     cost_eth_gas: "绑定地址需要支付ETH油费",
     goback: "返回",
-    watch_only_not_allowed: "观察者钱包无法绑定空投",
+    watch_only_not_allowed: "观察者模式无法绑定空投",
   },
   wallet: {
     bind_tip: "绑定空投接收地址",
