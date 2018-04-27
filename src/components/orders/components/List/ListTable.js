@@ -97,6 +97,14 @@ class  ListBlock extends React.Component{
       ),
       market: (value, item, index) => item.originalOrder && item.originalOrder.market,
       status: (value, item, index) => {
+        const cancleBtn = (
+            <a className="ml5 fs12 color-black-2"
+              onClick={cancel.bind(this, value, item)}
+              loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}
+              disabled={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>
+              {intl.get('order.no')}
+            </a>
+        )
         let status
         if (item.status === 'ORDER_OPENED') {
           status = <Badge className="fs12" status="processing" text={intl.get('orders.status_opened')}/>
@@ -116,6 +124,8 @@ class  ListBlock extends React.Component{
         return (
           <div>
             {status}
+            { item.status === 'ORDER_OPENED' && cancleBtn
+            }
           </div>
         )
       },
@@ -144,7 +154,6 @@ class  ListBlock extends React.Component{
         const balance = 100.00
         const required = fmS.getAmount(amountS)
         const lacked = required - balance
-
         const content = (
           <div className="p10">
             <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100"
@@ -177,9 +186,17 @@ class  ListBlock extends React.Component{
         );
 
         let notEnough = false && (item.status === 'ORDER_OPENED')
+        const cancleBtn = (
+            <Button size="small"
+              onClick={cancel.bind(this, value, item)}
+              loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}
+              disabled={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>
+              {intl.get('order.no')}
+            </Button>
+        )
         return (
           <span className="text-nowrap">
-          {item.status === 'ORDER_OPENED' && <Button onClick={cancel.bind(this, value, item)} loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})} disabled= {txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>{intl.get('order.no')}</Button>}
+          {item.status === 'ORDER_OPENED' && cancleBtn}
             {notEnough &&
             <Popover arrowPointAtCenter placement="topRight" content={content}
                      title={
@@ -225,7 +242,7 @@ class  ListBlock extends React.Component{
         render: renderGenerator,
         className: 'text-nowrap',
         // width:`${100/(schema.length+1)}%`,
-        width:`auto`,
+        // width:`auto`,
         // sorter: true,
       }
     })
@@ -235,7 +252,7 @@ class  ListBlock extends React.Component{
       // width:150,
       // fixed: 'right',
     }
-    columns.push(actionColumn)
+    // columns.push(actionColumn)
 
     const tableChange = (pagination, filters, sorter) => {
       // sorder {field,order}
