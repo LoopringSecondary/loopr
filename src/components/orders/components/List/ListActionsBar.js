@@ -25,7 +25,18 @@ class ListActionsBar extends React.Component {
       socket.emit('pendingTx_req', JSON.stringify(options))
     };
 
-    const cancelAll = () => {
+
+    const showModal = (payload = {}) => {
+      window.STORE.dispatch({
+        type: 'modals/modalChange',
+        payload: {
+          ...payload,
+          visible: true,
+        },
+      })
+    }
+
+    const cancelAll = async () => {
       const state = window.STORE.getState()
       const account = state.account
       const gasPrice = state.settings.trading.gasPrice
@@ -41,50 +52,78 @@ class ListActionsBar extends React.Component {
         })
         return
       }
-      Modal.confirm({
-        title: intl.get('order.confirm_cancel_all',{pair:tokenPair}),
-        onOk: async () => {
-          const seconds = toHex(Math.ceil(new Date().getTime() / 1e3));
-          const nonce = await window.STORAGE.wallet.getNonce(account.address);
-          const params = {
-            gasPrice: toHex(gasPrice * 1e9),
-            timestamp: seconds,
-            protocolAddress: contractAddress,
-            nonce: toHex(nonce)
-          };
-          let tx;
-          if (tokenPair) {
-            const tokenA = tokenPair.split('-')[0];
-            const tokenB = tokenPair.split('-')[1];
-            tx = generateCancelOrdersByTokenPairTx({
-              ...params,
-              gasLimit: config.getGasLimitByType('cancelOrderByTokenPair') ? config.getGasLimitByType('cancelOrderByTokenPair').gasLimit : configs['defaultGasLimit'],
-              tokenA: window.CONFIG.getTokenBySymbol(tokenA === 'ETH' ? 'WETH' : tokenA).address,
-              tokenB: window.CONFIG.getTokenBySymbol(tokenB === 'ETH' ? 'WETH' : tokenB).address
-            })
-          } else {
-            tx = generateCancelAllOrdresTx({
-              ...params,
-              gasLimit: config.getGasLimitByType('cancelAllOrder') ? config.getGasLimitByType('cancelAllOrder').gasLimit : configs['defaultGasLimit'],
-            })
-          }
+      const seconds = toHex(Math.ceil(new Date().getTime() / 1e3));
+      const nonce = await window.STORAGE.wallet.getNonce(account.address);
+      const params = {
+        gasPrice: toHex(gasPrice * 1e9),
+        timestamp: seconds,
+        protocolAddress: contractAddress,
+        nonce: toHex(nonce)
+      };
+      let tx;
+      if (tokenPair) {
+        const tokenA = tokenPair.split('-')[0];
+        const tokenB = tokenPair.split('-')[1];
+        tx = generateCancelOrdersByTokenPairTx({
+          ...params,
+          gasLimit: config.getGasLimitByType('cancelOrderByTokenPair') ? config.getGasLimitByType('cancelOrderByTokenPair').gasLimit : configs['defaultGasLimit'],
+          tokenA: window.CONFIG.getTokenBySymbol(tokenA === 'ETH' ? 'WETH' : tokenA).address,
+          tokenB: window.CONFIG.getTokenBySymbol(tokenB === 'ETH' ? 'WETH' : tokenB).address
+        })
+      } else {
+        tx = generateCancelAllOrdresTx({
+          ...params,
+          gasLimit: config.getGasLimitByType('cancelAllOrder') ? config.getGasLimitByType('cancelAllOrder').gasLimit : configs['defaultGasLimit'],
+        })
+      }
 
-          window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
-            if (!response.error) {
-              //window.STORAGE.transactions.addTx({hash: response.result, owner: account.address});
-              window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
-              notifyTransactionSubmitted({txHash:response.result,rawTx,from :window.WALLET.getAddress()}).then(()=> reEmitPendingTransaction());
-              Notification.open({message: intl.get('order.cancel_all_success',{pair:tokenPair}), type: "success", description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
-            } else {
-              Notification.open({message: intl.get('order.cancel_all_failed',{pair:tokenPair}), type: "error", description:response.error.message})
-            }
-          });
-        },
-        onCancel: () => {
-        },
-        okText: intl.get('order.yes'),
-        cancelText: intl.get('order.no'),
-      })
+      showModal({id:"order/cancel/confirm",type:'all',market:tokenPair|| '',tx});
+
+
+      // Modal.confirm({
+      //   title: intl.get('order.confirm_cancel_all',{pair:tokenPair}),
+      //   onOk: async () => {
+      //     const seconds = toHex(Math.ceil(new Date().getTime() / 1e3));
+      //     const nonce = await window.STORAGE.wallet.getNonce(account.address);
+      //     const params = {
+      //       gasPrice: toHex(gasPrice * 1e9),
+      //       timestamp: seconds,
+      //       protocolAddress: contractAddress,
+      //       nonce: toHex(nonce)
+      //     };
+      //     let tx;
+      //     if (tokenPair) {
+      //       const tokenA = tokenPair.split('-')[0];
+      //       const tokenB = tokenPair.split('-')[1];
+      //       tx = generateCancelOrdersByTokenPairTx({
+      //         ...params,
+      //         gasLimit: config.getGasLimitByType('cancelOrderByTokenPair') ? config.getGasLimitByType('cancelOrderByTokenPair').gasLimit : configs['defaultGasLimit'],
+      //         tokenA: window.CONFIG.getTokenBySymbol(tokenA === 'ETH' ? 'WETH' : tokenA).address,
+      //         tokenB: window.CONFIG.getTokenBySymbol(tokenB === 'ETH' ? 'WETH' : tokenB).address
+      //       })
+      //     } else {
+      //       tx = generateCancelAllOrdresTx({
+      //         ...params,
+      //         gasLimit: config.getGasLimitByType('cancelAllOrder') ? config.getGasLimitByType('cancelAllOrder').gasLimit : configs['defaultGasLimit'],
+      //       })
+      //     }
+      //
+      //     window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
+      //       if (!response.error) {
+      //         //window.STORAGE.transactions.addTx({hash: response.result, owner: account.address});
+      //         window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
+      //         notifyTransactionSubmitted({txHash:response.result,rawTx,from :window.WALLET.getAddress()}).then(()=> reEmitPendingTransaction());
+      //         Notification.open({message: intl.get('order.cancel_all_success',{pair:tokenPair}), type: "success", description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
+      //       } else {
+      //         Notification.open({message: intl.get('order.cancel_all_failed',{pair:tokenPair}), type: "error", description:response.error.message})
+      //       }
+      //     });
+      //   },
+      //   onCancel: () => {
+      //   },
+      //   okText: intl.get('order.yes'),
+      //   cancelText: intl.get('order.no'),
+      // })
     };
     return (
       <div className={className}>
