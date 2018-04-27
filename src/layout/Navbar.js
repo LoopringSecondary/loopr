@@ -283,6 +283,7 @@ function Navbar(props){
 
     </div>
   )
+  // window.location.href.indexOf('/trade') >= 0
   return (
     <div className="navbar-loopring">
       <div className="container">
@@ -296,7 +297,7 @@ function Navbar(props){
             </div>
           }
           {
-            window.location.href.indexOf('/trade') >= 0 &&
+             true &&
             <div className="col-auto pl10 pr0">
               <Popover content={VersionTip} title={null} trigger="hover">
                 <span className="navbar-version-badge">
@@ -327,13 +328,13 @@ function Navbar(props){
               selectedKeys={selectedKeys}
             >
               {
-                false && window.WALLET && window.WALLET.getAddress() &&
+                true && window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
                   <Link className="fs16 color-black-1" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
               {
-                false && window.WALLET && window.WALLET.getAddress() &&
+                true && window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/trade">
                   <Link to="/trade" className="fs16 color-black-1">{intl.get('navbar.trade')}</Link>
                 </Menu.Item>

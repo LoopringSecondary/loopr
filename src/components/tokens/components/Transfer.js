@@ -380,7 +380,7 @@ class Transfer extends React.Component {
              {this.state.gasPopularSetting &&
                <div>
                  <div className="pb10">{intl.get('token.custum_gas_content', {gas: estimateGas})}</div>
-                 <Form.Item className="mb0 pb10" colon={false} label={<div className="fs3 color-black-2">{intl.get('token.transaction_fee')}</div>}>
+                 <Form.Item className="mb0 pb10" colon={false} label={null}>
                    {form.getFieldDecorator('transactionFee', {
                      initialValue: settings.trading.gasPrice,
                      rules: []

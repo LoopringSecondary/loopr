@@ -381,8 +381,8 @@ Browser：{browser}\n
     convert_succ_notification_title: 'Convertion Succeeded!',
     transfer_succ_notification_title: 'Transfer Succeeded!',
     custum_gas_title:'Custom Gas For This Order',
-    custum_gas_content:'If you just want to send some token, according to Ethereum current gas price, we advice you to set {gas}',
-    custum_gas_advance_content:'If you just want to send some token, according to Ethereum current gas price, we advice you to set GasLimit to {gasLimit}, set GasPrice to {gasPrice}',
+    custum_gas_content:'we advice you to set {gas}',
+    custum_gas_advance_content:'we advice you to set GasLimit to {gasLimit}, set GasPrice to {gasPrice}',
     token_convert:'Convert {from} to {to}',
     gas_fast_setting: 'Fast Settings',
     gas_custom_setting: 'Custom Settings'
