@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Badge, Button, Icon, Modal, Popover, Progress, Table} from 'antd';
+import {Badge, Button, Icon, Modal, Popover, Progress, Table,Alert} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
 import {clearPrefix, toHex, toNumber} from "Loopring/common/formatter";
@@ -11,6 +11,7 @@ import config from "../../../../common/config";
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
 import PropTypes from 'prop-types';
+
 
 const uiFormatter = window.uiFormatter;
 const fm = window.uiFormatter.TokenFormatter;
@@ -48,6 +49,7 @@ class  ListBlock extends React.Component{
       }
       Modal.confirm({
         title: intl.get('order.confirm_cancel_order'),
+        content:(<div className="">{intl.get('airdrop.cost_eth_gas')}</div>),
         onOk: async () => {
           const nonce = await window.STORAGE.wallet.getNonce(account.address);
           const originalOrder = {...item.originalOrder};
