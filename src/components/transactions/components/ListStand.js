@@ -287,9 +287,8 @@ class ListBlock extends React.Component {
           {
             getTokenSupportedMarkets(token).map(item=>{
               return (
-                <div className="col-12 p5">
-                  <Button onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)} className="d-block w-100 text-left" type="primary">
-                    <i className="icon icon-loopring icon-loopring-transfer fs16 color-white mr5"/>
+                <div className="col-12 fs16">
+                  <Button onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)} className="d-block w-100 text-left">
                     {item.tokenx+"-"+item.tokeny}
                   </Button>
                 </div>
@@ -318,7 +317,7 @@ class ListBlock extends React.Component {
             {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length > 0 &&
               <Popover
                 title={null}
-                placement="right"
+                placement="bottom"
                 arrowPointAtCenter
                 content={TokenActions(filters.token)}
               >
