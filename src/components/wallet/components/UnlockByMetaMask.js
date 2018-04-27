@@ -179,7 +179,7 @@ class UnlockByMetaMask extends React.Component {
             <Steps.Step status="process" title={intl.get('wallet.metamask_unlock_step_refresh_title')}
               description={
                 <div>
-                  <div>{intl.get('wallet.metamask_unlock_step_refresh_content')} }</div>
+                  <div>{intl.get('wallet.metamask_unlock_step_refresh_content')} </div>
                   <Button onClick={refresh} type="primary" className="mt5">{intl.get('wallet.metamask_unlock_refresh_button')}</Button>
                 </div>
               }
