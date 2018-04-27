@@ -17,7 +17,8 @@ export async function fetchList(payload){
     filter.owner = window.WALLET && window.WALLET.getAddress()
     return getFills(filter).then(res=>{
       if(!res.error && res.result.data){
-        const fills = res.result.data.filter(({tokenS,tokenB}) => window.CONFIG.getTokenBySymbol(tokenS) && window.CONFIG.getTokenBySymbol(tokenB))
+        const fills = res.result.data.filter(({tokenS,tokenB}) => window.CONFIG.getTokenBySymbol(tokenS) &&
+          window.CONFIG.getTokenBySymbol(tokenB) && window.CONFIG.getMarketBySymbol(tokenS,tokenB));
         return {
           items:fills,
           page:{
