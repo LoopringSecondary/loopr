@@ -77,7 +77,7 @@ class CancelConfirm extends React.Component {
         <Alert className="mb10" type="info" showIcon message={
           <div className="row align-items-center">
             <div className="col">
-              <div className="color-black-2 fs14">订单自动失效 不会 消耗 ETH gas订单自动失效 不会 消耗 ETH gas</div>
+              <div className="color-black-2 fs14">订单自动失效 不会 消耗 ETH gas</div>
             </div>
             <div className="col-auto">
               {

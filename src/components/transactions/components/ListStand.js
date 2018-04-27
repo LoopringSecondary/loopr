@@ -218,7 +218,7 @@ class ListBlock extends React.Component {
             <span className="ml10">
               {statusCol}
               <span className="ml10 fs12">
-                {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && (<span className='ml5'>( {moment(item.createTime * 1e3).fromNow()} {((moment().valueOf()/1e3)-item.createTime) > 300 && <span className='color-primary-1'> {intl.get('txs.resend')}</span>})</span> ) }
+                {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && (<span className='ml5 color-black-3'>( {moment(item.createTime * 1e3).fromNow()} {((moment().valueOf()/1e3)-item.createTime) > 300 && <span className='color-primary-1'> {intl.get('txs.resend')}</span>})</span> ) }
               </span>
             </span>
           </a>

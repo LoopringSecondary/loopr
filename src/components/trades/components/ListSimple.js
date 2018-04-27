@@ -29,7 +29,7 @@ function ListBlock(props) {
             </th>
           </tr>
           {
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1].map((item,index)=>
+            items.map((item,index)=>
               <tr key={index} className="cursor-pointer">
                 <td className="border-0 pl0 pl10">
                  <div className="fs12 color-green-500 text-left lh20 p0">
@@ -50,7 +50,7 @@ function ListBlock(props) {
             )
           }
           {
-            false && items.length == 0 &&
+            items.length == 0 &&
             <tr >
               <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20 pt10 pb10">{intl.get('global.no_data')}</td>
             </tr>
