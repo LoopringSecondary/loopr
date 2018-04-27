@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Alert, Badge, Button, Spin} from 'antd';
+import {Alert, Badge, Button, Spin, Popover} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
@@ -10,7 +10,6 @@ import {toBig} from "Loopring/common/formatter";
 import config from '../../../common/config'
 import Notification from 'Loopr/Notification'
 import moment from 'moment'
-
 
 const uiFormatter = window.uiFormatter;
 
@@ -120,10 +119,13 @@ class ListBlock extends React.Component {
       }
     };
 
-    const gotoTrade = () => {
-      const foundMarket = config.getTokenSupportedMarket(token)
-      if(foundMarket) {
-        window.routeActions.gotoPath('/trade/'+foundMarket)
+    const getTokenSupportedMarkets = (selectedToken) => {
+      return config.getTokenSupportedMarkets(selectedToken)
+    };
+
+    const gotoTrade = (market) => {
+      if(config.isSupportedMarket(market)) {
+        window.routeActions.gotoPath('/trade/'+market)
         return
       }
       Notification.open({
@@ -276,9 +278,27 @@ class ListBlock extends React.Component {
             }
           </div>
         </div>
-
       )
     }
+
+    const TokenActions = (token) => (
+      <div style={{minWidth: '80px', maxWidth: '150px'}}>
+        <div className="row no-gutters p5">
+          {
+            getTokenSupportedMarkets(token).map(item=>{
+              return (
+                <div className="col-12 fs16">
+                  <Button onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)} className="d-block w-100 text-left">
+                    {item.tokenx+"-"+item.tokeny}
+                  </Button>
+                </div>
+              )
+            })
+          }
+        </div>
+      </div>
+    );
+
     return (
       <div className="">
         <div className="row zb-b-b pt15 pb15 ml0 mr0">
@@ -294,10 +314,23 @@ class ListBlock extends React.Component {
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
             </Button>
-            {filters.token !== 'ETH' && filters.token !== 'WETH' &&
-              <Button onClick={gotoTrade} className="mr15" type="primary">
+            {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length > 0 &&
+              <Popover
+                title={null}
+                placement="bottom"
+                arrowPointAtCenter
+                content={TokenActions(filters.token)}
+              >
+                <Button className="mr15" type="primary">
+                  <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+                  <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token} </span>
+                </Button>
+              </Popover>
+            }
+            {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length === 0 &&
+              <Button className="mr15" type="primary" disabled={true}>
                 <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-                <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_trade')} {filters.token}</span>
+                <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token}</span>
               </Button>
             }
             {
