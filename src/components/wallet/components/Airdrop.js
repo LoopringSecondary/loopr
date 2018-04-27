@@ -48,10 +48,8 @@ class Airdrop extends React.Component {
                   {this.findBindAddress(project) &&
                     <div className='list-inline-item'>
                     <Tooltip title={intl.get('wallet.binding')} >
-
                       <span>
                         <Icon type="check-circle" className="color-success-1" />
-                        <span hidden className="fs12 color-success-1 ml5">绑定成功</span>
                       </span>
                     </Tooltip>
                     </div>

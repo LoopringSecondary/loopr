@@ -226,7 +226,9 @@ export default {
     buy_amount: '买入数量',
     order_detail: "订单详情",
     basic_detail: "基础详情",
-    fill_detail: "撮合详情"
+    fill_detail: "撮合详情",
+    cancel_cost_gas:"取消订单会消耗Gas",
+    cancel_order:"取消订单"
   },
   settings: {
     preference: "偏好",

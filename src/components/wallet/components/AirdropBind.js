@@ -90,6 +90,18 @@ class AirdropBind extends React.Component {
   };
 
   bindAddress = async (address, project) => {
+    const state = window.STORE.getState()
+    if(state && state.account && state.account.walletType === 'Address') {
+      this.props.dispatch({
+        type:'modals/modalChange',
+        payload:{
+          id:'wallet/watchOnlyToUnlock',
+          originalData:{},
+          visible:true
+        }
+      })
+      return
+    }
     const {tradingConfig, page} = this.props;
     const nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
     const tx = generateBindAddressTx({
@@ -182,9 +194,9 @@ class AirdropBind extends React.Component {
             <div className="col">
               <div className="">{intl.get('airdrop.cost_eth_gas')}</div>
             </div>
-            <div className="col-auto">
+            {false && <div className="col-auto">
               <div className="cursor-pointer">0.000018ETH ≈ $0.12<Icon type="right" className="" /></div>
-            </div>
+            </div>}
           </div>
         }
         />
@@ -195,9 +207,9 @@ class AirdropBind extends React.Component {
               <div className="col">
                 <div>{intl.get('demo.airdrop_not_allowed')}</div>
               </div>
-              <div className="col-auto">
+              {false && <div className="col-auto">
                 <div className="cursor-pointer">解锁钱包 <Icon type="right" className="" /></div>
-              </div>
+              </div>}
             </div>
           }
           />
@@ -209,16 +221,16 @@ class AirdropBind extends React.Component {
               <div className="col">
                 <div>{intl.get('airdrop.watch_only_not_allowed')}</div>
               </div>
-              <div className="col-auto">
+              {false && <div className="col-auto">
                 <div className="cursor-pointer">解锁钱包 <Icon type="right" className="" /></div>
-              </div>
+              </div>}
             </div>
 
           }
           />
         }
         <Button type='primary' className="d-block w-100" size="large" onClick={this.bindAddress.bind(this, this.state.address, this.state.project)}
-                disabled={!project || !address || isWatchOnly}>{intl.get('wallet.bind_address')}</Button>
+                disabled={!project || !address}>{intl.get('wallet.bind_address')}</Button>
         <Button type='default' className='d-block w-100 mt10' size="large" onClick={this.cancel}>{intl.get('airdrop.goback')}</Button>
       </Card>
     );
