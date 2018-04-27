@@ -14,8 +14,11 @@ export async function fetchList(payload){
     filter.owner = window.WALLET && window.WALLET.getAddress();
     return getOrders(filter).then(res=>{
       if(!res.error && res.result.data){
+        const orders = res.result.data.filter(order => window.CONFIG.getTokenBySymbol(order.originalOrder.tokenB) && window.CONFIG.getTokenBySymbol(order.originalOrder.tokenB).digits &&
+          window.CONFIG.getTokenBySymbol(order.originalOrder.tokenS)&&  window.CONFIG.getTokenBySymbol(order.originalOrder.tokenS).digits &&
+          window.CONFIG.getMarketBySymbol(order.originalOrder.tokenB,order.originalOrder.tokenS) && window.CONFIG.getMarketBySymbol(order.originalOrder.tokenB,order.originalOrder.tokenS).pricePrecision);
         return {
-          items:res.result.data,
+          items:orders,
           page:{
             current:res.result.pageIndex,
             size:res.result.pageSize,
