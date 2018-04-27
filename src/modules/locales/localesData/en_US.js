@@ -94,7 +94,7 @@ I got this great idea:
     balance_not_enough: 'In order for your order to be fully filled, {amount} more {token} is required.',
     submit: "Submit Order",
     confirm_cancel_order: "Do you want to cancel this order?",
-    confirm_cancel_all: "This operation will cancel all the {pair} orders. Do you want to proceed?",
+    confirm_cancel_all: "Are you sure to cancel all  {pair} orders ?",
     cancel_order_success: "Your order has been cancelled.",
     cancel_order_failed: "Woops, order cancellation somehow failed.",
     cancel_all_success: "All your {pair} orders have been cancelled.",
@@ -219,9 +219,16 @@ I got this great idea:
     basic_detail:"Basic Details",
     fill_detail:"Fill Details",
     cancel_cost_gas:"Cancel order will cost gas",
-    auto_cancel_not_cost_gas:"Order will be expired without ETH gas",
-    manual_cancel_cost_gas:" Cancel order manually will cost ETH gas",
-    cancel_order:"Cancel Order"
+    auto_cancel_not_cost_gas:"Order expired will not cost gas",
+    manual_cancel_cost_gas:" Cancel order manually will cost gas",
+    cancel_order:"Cancel Order",
+    canceling:"Canceling",
+    order_canceling:"Order Canceling",
+    order_validity:"Order Validity",
+    wait_expire:"Wait for expiring automatically",
+    confirm_to_cancel:"Confirm to Cancel Order",
+    order_will_expire:"This order will be expired automatically in",
+    expire_duration:"{days,plural,=0{} =1{1 day} other {# days}} {hours,plural,=0{} =1{1 hour} other {# hours}} {minutes,plural,=1{1 minute} other {# minutes}}"
   },
   settings: {
     preference: "Preferences",
