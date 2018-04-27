@@ -38,58 +38,73 @@ function ListOrderBook(props) {
     )
   }
 
+  const thead = (
+      <tr className="zb-b-b">
+        <th className="border-0 p0 pl10 lh25">
+          <div className="fs12 color-black-3 text-left font-weight-normal">
+            {intl.get('global.price')}{false && tokenR}
+          </div>
+        </th>
+        <th className="border-0 p0 pl5 pr5 lh25">
+          <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
+            {intl.get('global.amount_label')}{false && tokenL}
+          </div>
+        </th>
+        <th className="border-0 p0 pr10 lh25">
+          <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
+            {intl.get('global.time')}
+          </div>
+        </th>
+      </tr>
+  )
   return (
     <div className={className} style={{...style}}>
-      <table className="w-100">
-        <tbody>
-          <tr className="zb-b-b">
-            <th className="border-0 p0 pl10 lh25">
-              <div className="fs12 color-black-3 text-left font-weight-normal">
-                {intl.get('global.price')}{false && tokenR}
-              </div>
-            </th>
-            <th className="border-0 p0 pl5 pr5 lh25">
-              <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
-                {intl.get('global.amount_label')}{false && tokenL}
-              </div>
-            </th>
-            <th className="border-0 p0 pr10 lh25">
-              <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
-                {intl.get('global.time')}
-              </div>
-            </th>
-          </tr>
-          {
-            depth && depth.buy && depth.buy.map((item,index)=>
-             <ListItem key={index} item={item} side="buy" />
-            )
-          }
-          {
-            !(depth && depth.buy && depth.buy.length > 0) &&
-            <tr >
-              <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
-            </tr>
-          }
-          <tr className="">
-            <td colSpan="10" className="border-0 zb-b-t">
-              <div className="zb-b-b fs12 color-black-3 lh20 pl10 pr10">
-                Spread 0.1
-              </div>
-            </td>
-          </tr>
-          {
-            depth && depth.sell && depth.sell.map((item,index)=>
-             <ListItem key={index} item={item} side="sell" />
-            )
-          }
-          {
-            !(depth && depth.sell && depth.sell.length > 0) &&
-            <tr >
-              <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+      <div style={{height:'230px'}}>
+        <table className="w-100" >
+          {thead}
+          <tbody >
+            {
+              depth && depth.buy && depth.buy.map((item,index)=>
+               <ListItem key={index} item={item} side="buy" />
+              )
+            }
+            {
+              !(depth && depth.buy && depth.buy.length > 0) &&
+              <tr >
+                <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div style={{height:'230px'}}>
+        <table className="w-100 zb-b-t" >
+          {thead}
+          <tbody style={{height:'210px'}}>
+            {
+              false &&
+              <tr className="">
+                <td colSpan="10" className="border-0 zb-b-t">
+                  <div className="zb-b-b fs12 color-black-3 lh20 pl10 pr10">
+                    Spread 0.1
+                  </div>
+                </td>
+              </tr>
+            }
+            {
+              depth && depth.sell && depth.sell.map((item,index)=>
+               <ListItem key={index} item={item} side="sell" />
+              )
+            }
+            {
+              !(depth && depth.sell && depth.sell.length > 0) &&
+              <tr >
+                <td colSpan="10" className="fs12 border-0 text-center color-black-3 lh20">{intl.get('global.no_data')}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
