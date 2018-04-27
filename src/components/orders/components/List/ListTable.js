@@ -242,7 +242,7 @@ class  ListBlock extends React.Component{
         render: renderGenerator,
         className: 'text-nowrap',
         // width:`${100/(schema.length+1)}%`,
-        width:`auto`,
+        // width:`auto`,
         // sorter: true,
       }
     })
