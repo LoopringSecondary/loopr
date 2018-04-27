@@ -104,20 +104,28 @@ class AirdropBind extends React.Component {
       form.validateFields(async (err, values) => {
         _this.setState({loading:true})
         if (!err) {
+          const {tradingConfig, page} = this.props;
           const state = window.STORE.getState()
           if(state && state.account && state.account.walletType === 'Address') {
+            page.onClose();
+            this.props.dispatch({
+              type:'modals/modalChange',
+              payload:{
+                id:'wallet/airdrop',
+                visible:false
+              }
+            })
             this.props.dispatch({
               type:'modals/modalChange',
               payload:{
                 id:'wallet/watchOnlyToUnlock',
-                originalData:{},
+                originalData:{id:'wallet/airdrop'},
                 visible:true
               }
             })
             _this.setState({loading:false})
             return
           }
-          const {tradingConfig, page} = this.props;
           const nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
           const tx = generateBindAddressTx({
             projectId: project.projectId,
@@ -185,7 +193,7 @@ class AirdropBind extends React.Component {
           }
           <Form.Item label={null}>
             {form.getFieldDecorator('ethAddress', {
-              initialValue: window.WALLET.getAddress(),
+              initialValue: account.address,
               rules: [{
                 message: intl.get('airdrop.eth_adress_null'),
                 validator: (rule, value, cb) => validateNeoAddress(value) ? cb() : cb(true)
@@ -266,5 +274,17 @@ function mapStateToProps(state) {
   }
 }
 
-export default Form.create()(connect(mapStateToProps)(AirdropBind))
+export default connect(mapStateToProps)(
+  Form.create({
+    mapPropsToFields(props) {
+      return {
+        ethAddress: Form.createFormField(
+          props.account.address
+        ),
+      }
+    }
+  })(
+    AirdropBind
+  )
+)
 
