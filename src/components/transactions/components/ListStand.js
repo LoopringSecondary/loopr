@@ -282,7 +282,7 @@ class ListBlock extends React.Component {
     }
 
     const TokenActions = (token) => (
-      <div style={{minWidth: '150px', maxWidth: '250px'}}>
+      <div style={{minWidth: '80px', maxWidth: '150px'}}>
         <div className="row no-gutters p5">
           {
             getTokenSupportedMarkets(token).map(item=>{
@@ -316,22 +316,17 @@ class ListBlock extends React.Component {
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
             </Button>
             {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length > 0 &&
-              <div className="col-auto" onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault()
-              }}>
-                <Popover
-                  title={null}
-                  placement="right"
-                  arrowPointAtCenter
-                  content={TokenActions(filters.token)}
-                >
-                  <Button className="mr15" type="primary">
-                    <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-                    <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token} </span>
-                  </Button>
-                </Popover>
-              </div>
+              <Popover
+                title={null}
+                placement="right"
+                arrowPointAtCenter
+                content={TokenActions(filters.token)}
+              >
+                <Button className="mr15" type="primary">
+                  <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+                  <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token} </span>
+                </Button>
+              </Popover>
             }
             {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length === 0 &&
               <Button className="mr15" type="primary" disabled={true}>
