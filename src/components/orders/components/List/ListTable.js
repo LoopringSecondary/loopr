@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Badge, Button, Icon, Modal, Popover, Progress, Table, Alert} from 'antd';
+import {Badge, Button, Icon, Modal, Popover, Progress, Table, Alert, Spin} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
 import {clearPrefix, toHex, toNumber} from "Loopring/common/formatter";
@@ -18,9 +18,14 @@ const fm = window.uiFormatter.TokenFormatter;
 
 class ListBlock extends React.Component {
 
+  state = {
+    cancelings:[],
+  }
+
   render() {
     const {LIST, actions, className, style, account, gasPrice, contractAddress, txs} = this.props;
     const {dispatch, id} = this.props;
+    const _this = this
     const {
       items = [],
       loading,
@@ -39,6 +44,8 @@ class ListBlock extends React.Component {
 
 
     const cancel = async (item) => {
+      const beforeCancel = _this.state.cancelings
+      _this.setState({cancelings:[...beforeCancel, item.originalOrder.hash]})
       if (account && account.walletType === 'Address') {
         this.props.dispatch({
           type: 'modals/modalChange',
@@ -48,6 +55,7 @@ class ListBlock extends React.Component {
             visible: true
           }
         })
+        _this.setState({cancelings:[...beforeCancel]})
         return
       };
       const nonce = await window.STORAGE.wallet.getNonce(account.address);
@@ -65,6 +73,7 @@ class ListBlock extends React.Component {
         gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder').gasLimit : configs['defaultGasLimit'],
         protocolAddress: contractAddress,
       });
+      _this.setState({cancelings:[...beforeCancel]})
       showModal({id: 'order/cancel/confirm', type: 'order', tx, order:item.originalOrder})
 
       // Modal.confirm({
@@ -145,12 +154,17 @@ class ListBlock extends React.Component {
         }
         return (
           <div className="text-left">
-            {status}
-            {item.status === 'ORDER_OPENED' && !txs.isOrderCanceling({
+            {item.status === 'ORDER_OPENED' && (!this.state.cancelings.includes(item.originalOrder.hash) && !txs.isOrderCanceling({
               validSince: item.originalOrder.validSince,
               tokenPair: item.originalOrder.market,
               orderHash: item.originalOrder.hash
-            }) && cancleBtn}
+            })) &&
+              <span>
+                {status}
+                {cancleBtn}
+              </span>
+            }
+            {item.status === 'ORDER_OPENED' && this.state.cancelings.includes(item.originalOrder.hash) && <span className='fs12 color-black-2 ml5'><Spin size="small"/></span>}
             {item.status === 'ORDER_OPENED' && txs.isOrderCanceling({
               validSince: item.originalOrder.validSince,
               tokenPair: item.originalOrder.market,
