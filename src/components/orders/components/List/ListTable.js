@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Badge, Button, Icon, Modal, Popover, Progress, Table,Alert} from 'antd';
+import {Badge, Button, Icon, Modal, Popover, Progress, Table, Alert} from 'antd';
 import schema from '../../../../modules/orders/schema';
 import {generateCancelOrderTx} from 'Loopring/relay/order'
 import {clearPrefix, toHex, toNumber} from "Loopring/common/formatter";
@@ -16,11 +16,17 @@ import PropTypes from 'prop-types';
 const uiFormatter = window.uiFormatter;
 const fm = window.uiFormatter.TokenFormatter;
 
-class  ListBlock extends React.Component{
+class ListBlock extends React.Component {
 
-  render(){
-    const {LIST, actions, className, style, account, gasPrice, contractAddress,txs} = this.props;
+  render() {
+    const {LIST, actions, className, style, account, gasPrice, contractAddress, txs} = this.props;
     const {dispatch, id} = this.props;
+    const {
+      items = [],
+      loading,
+      page = {}
+    } = LIST[id] || {};
+
     const showModal = (payload = {}) => {
       dispatch({
         type: 'modals/modalChange',
@@ -29,12 +35,9 @@ class  ListBlock extends React.Component{
           visible: true,
         },
       })
-    }
-    const {
-      items = [],
-      loading,
-      page = {}
-    } = LIST[id] || {};
+    };
+
+
     const cancel = async (item) => {
       if (account && account.walletType === 'Address') {
         this.props.dispatch({
@@ -46,23 +49,23 @@ class  ListBlock extends React.Component{
           }
         })
         return
-      }
-          const nonce = await window.STORAGE.wallet.getNonce(account.address);
-          const originalOrder = {...item.originalOrder};
-          originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
-          originalOrder.owner = originalOrder.address;
-          originalOrder.v = toNumber(originalOrder.v);
-          originalOrder.tokenB = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
-          originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
-          originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
-          const tx = generateCancelOrderTx({
-            order: originalOrder,
-            nonce: toHex(nonce),
-            gasPrice: toHex(gasPrice * 1e9),
-            gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder').gasLimit : configs['defaultGasLimit'],
-            protocolAddress: contractAddress,
-          });
-      showModal({id: 'order/cancel/confirm',type:'order',tx})
+      };
+      const nonce = await window.STORAGE.wallet.getNonce(account.address);
+      const originalOrder = {...item.originalOrder};
+      originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
+      originalOrder.owner = originalOrder.address;
+      originalOrder.v = toNumber(originalOrder.v);
+      originalOrder.tokenB = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
+      originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
+      originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
+      const tx = generateCancelOrderTx({
+        order: originalOrder,
+        nonce: toHex(nonce),
+        gasPrice: toHex(gasPrice * 1e9),
+        gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder').gasLimit : configs['defaultGasLimit'],
+        protocolAddress: contractAddress,
+      });
+      showModal({id: 'order/cancel/confirm', type: 'order', tx, order:item.originalOrder})
 
       // Modal.confirm({
       //   title: intl.get('order.confirm_cancel_order'),
@@ -119,12 +122,10 @@ class  ListBlock extends React.Component{
       market: (value, item, index) => item.originalOrder && item.originalOrder.market,
       status: (value, item, index) => {
         const cancleBtn = (
-            <a className="ml5 fs12 color-black-2"
-              onClick={cancel.bind(this, value, item)}
-              loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}
-              disabled={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>
-              {intl.get('order.no')}
-            </a>
+          <a className="ml5 fs12 color-black-2"
+             onClick={cancel.bind(this, item)}>
+            {intl.get('order.no')}
+          </a>
         )
         let status
         if (item.status === 'ORDER_OPENED') {
@@ -145,7 +146,16 @@ class  ListBlock extends React.Component{
         return (
           <div className="text-left">
             {status}
-            { item.status === 'ORDER_OPENED' && cancleBtn
+            {item.status === 'ORDER_OPENED' && !txs.isOrderCanceling({
+              validSince: item.originalOrder.validSince,
+              tokenPair: item.originalOrder.market,
+              orderHash: item.originalOrder.hash
+            }) && cancleBtn}
+            {item.status === 'ORDER_OPENED' && txs.isOrderCanceling({
+              validSince: item.originalOrder.validSince,
+              tokenPair: item.originalOrder.market,
+              orderHash: item.originalOrder.hash
+              }) && <span className='fs12 color-black-2 ml5'>{intl.get('orders.canceling')}</span>
             }
           </div>
         )
@@ -165,7 +175,9 @@ class  ListBlock extends React.Component{
         } else {
           percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
         }
-        return <a onClick={showModal.bind(this,{id:'order/detail/fills',item:item,title:intl.get('orders.fill_detail')})}><Progress type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/> </a>
+        return <a
+          onClick={showModal.bind(this, {id: 'order/detail/fills', item: item, title: intl.get('orders.fill_detail')})}><Progress
+          type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/> </a>
       },
       action: (value, item, index) => {
         const tokenS = item.originalOrder.tokenS
@@ -180,21 +192,25 @@ class  ListBlock extends React.Component{
             <div className="bg-red-50 pt10 pb10 pl15 pr15 border-red-100"
                  style={{borderRadius: '4px', border: '1px solid'}}>
               <div className="pb5 fs16 color-red-600">
-                {intl.get('orders.balance_not_enough',{token:tokenS})}
+                {intl.get('orders.balance_not_enough', {token: tokenS})}
               </div>
               <div className="pb5 fs12 color-red-400">
-                {intl.get('orders.balance')} : <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(balance)}</span>
-                {intl.get('orders.required')} : <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(required)}</span>
-                {intl.get('orders.lacked')}: <span className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(lacked)}</span>
+                {intl.get('orders.balance')} : <span
+                className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(balance)}</span>
+                {intl.get('orders.required')} : <span
+                className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(required)}</span>
+                {intl.get('orders.lacked')}: <span
+                className="font-weight-bold mr10">{window.uiFormatter.getFormatNum(lacked)}</span>
               </div>
               <div className="pt5">
                 <Button onClick={showModal.bind(this, {id: 'token/receive'})} type="primary"
-                        className="bg-red-500 border-none">{intl.get('orders.receive',{token:tokenS})}</Button>
+                        className="bg-red-500 border-none">{intl.get('orders.receive', {token: tokenS})}</Button>
                 <span className="color-grey-500 ml5 mr5"> or </span>
                 {
                   tokenS !== 'WETH' &&
                   <Button onClick={window.routeActions.gotoPath.bind(this, `/trade/${tokenS}-WETH`)}
-                          className="bg-red-500 border-none" type="primary">{intl.get('orders.buy',{token:tokenS})}</Button>
+                          className="bg-red-500 border-none"
+                          type="primary">{intl.get('orders.buy', {token: tokenS})}</Button>
                 }
                 {
                   tokenS === 'WETH' &&
@@ -208,12 +224,20 @@ class  ListBlock extends React.Component{
 
         let notEnough = false && (item.status === 'ORDER_OPENED')
         const cancleBtn = (
-            <Button size="small"
-              onClick={cancel.bind(this, value, item)}
-              loading={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}
-              disabled={txs.isOrderCanceling({validSince:item.originalOrder.validSince,tokenPair:item.originalOrder.market,orderHash:item.originalOrder.hash})}>
-              {intl.get('order.no')}
-            </Button>
+          <Button size="small"
+                  onClick={cancel.bind(this, item)}
+                  loading={txs.isOrderCanceling({
+                    validSince: item.originalOrder.validSince,
+                    tokenPair: item.originalOrder.market,
+                    orderHash: item.originalOrder.hash
+                  })}
+                  disabled={txs.isOrderCanceling({
+                    validSince: item.originalOrder.validSince,
+                    tokenPair: item.originalOrder.market,
+                    orderHash: item.originalOrder.hash
+                  })}>
+            {intl.get('order.no')}
+          </Button>
         )
         return (
           <span className="text-nowrap">
@@ -295,7 +319,7 @@ class  ListBlock extends React.Component{
       onChange: tableChange,
       bordered: false,
       size: 'default',
-      locale:{emptyText:intl.get('global.no_data')},
+      locale: {emptyText: intl.get('global.no_data')},
       rowKey: (record) => record.originalOrder.hash, // set each record PK ( primary key)
     }
 
@@ -308,9 +332,7 @@ class  ListBlock extends React.Component{
   }
 }
 
-ListBlock.propTypes = {
-
-};
+ListBlock.propTypes = {};
 ListBlock.contextTypes = {
   socket: PropTypes.object.isRequired
 };
