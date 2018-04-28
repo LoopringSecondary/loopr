@@ -40,17 +40,17 @@ function ListOrderBook(props) {
 
   const thead = (
       <tr className="zb-b-b">
-        <th className="border-none p0 pl10 lh24">
+        <th className="border-none p0 pl10 lh25">
           <div className="fs12 color-black-3 text-left font-weight-normal">
             {intl.get('global.price')} {tokenR}
           </div>
         </th>
-        <th className="border-none p0 pl5 pr5 lh24">
+        <th className="border-none p0 pl5 pr5 lh25">
           <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
             {intl.get('global.amount_label')} {tokenL}
           </div>
         </th>
-        <th className="border-none p0 pr10 lh24">
+        <th className="border-none p0 pr10 lh25">
           <div className="col-auto fs12 color-black-3 text-right font-weight-normal">
             {intl.get('global.total')} {tokenR}
           </div>
