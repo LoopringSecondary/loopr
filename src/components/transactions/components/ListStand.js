@@ -307,11 +307,11 @@ class ListBlock extends React.Component {
             <div className="fs1 color-black-1 ml15">{filters.token}</div>
           </div>
           <div className="col text-right pl0 pr0">
-            <Button onClick={gotoTransfer} className="mr5" type="primary">
+            <Button onClick={gotoTransfer} className="mr5" type="default">
               <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_transfer')} {filters.token}</span>
             </Button>
-            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="primary">
+            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="default">
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
             </Button>
