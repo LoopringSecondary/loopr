@@ -18,9 +18,9 @@ class Convert extends React.Component {
     frozenWethAmount: 0,
     selectMaxWarn: false,
     inputMaxWarn: false,
-    errorMsg: ''
+    errorMsg: '',
+    loading:false
   }
-
 
   componentDidMount() {
     const {modal} = this.props;
@@ -70,6 +70,7 @@ class Convert extends React.Component {
     function handleSubmit() {
       form.validateFields((err, values) => {
         if (!err) {
+          _this.setState({loading:true})
           let nonce = 0
           window.STORAGE.wallet.getNonce(account.address).then(result => {
             nonce = result
@@ -86,6 +87,7 @@ class Convert extends React.Component {
                 type:'error'
               })
               // _this.setState({errorMsg: res.error.message})
+              _this.setState({loading:false})
             } else {
             //  window.STORAGE.transactions.addTx({hash: response.result, owner: account.address})
               window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:nonce})
@@ -104,6 +106,7 @@ class Convert extends React.Component {
                   </div>
                 )
               })
+              _this.setState({loading:false})
             }
           }).catch(error=>{
             console.error(error)
@@ -113,6 +116,7 @@ class Convert extends React.Component {
               type:'error'
             })
             // _this.setState({errorMsg: error.message})
+            _this.setState({loading:false})
           })
         }
       });
@@ -264,7 +268,7 @@ class Convert extends React.Component {
                 {intl.get('token.no_eth_balance_warn')}
               </div>
             }
-            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large">{intl.get('token.convert_confirm')}</Button>
+            <Button onClick={handleSubmit.bind(this)} type="primary" className="d-block w-100" size="large" loading={this.state.loading}>{intl.get('token.convert_confirm')}</Button>
             {this.state.errorMsg &&
               <div className="fs14 color-red-500 text-center mt10">
                 {this.state.errorMsg}
