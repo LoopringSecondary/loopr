@@ -38,15 +38,29 @@ class TradeFormTab extends React.Component {
     }
     return (
       <div className="">
-        <div className="fs2 lh25 color-black-1 zb-b-b text-center ">
-          <div className="row align-items-stretch m0 gutter-10">
-            <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer ${side === 'buy' ? 'color-black-1' : 'color-black-3'}`} onClick={changeForm.bind(this,'buy')}>
-              {intl.get('trade.buy')} {tokenL}
+        <div className="fs2 lh25 color-black-1 zb-b-b text-center" style={{padding:'0px 0px 0px'}}>
+          {
+            false &&
+            <Button.Group size="large">
+              <Button type="default" className="border-grey-100 pl25 pr25">
+                {intl.get('trade.buy')} {tokenL}
+              </Button>
+              <Button type="default" className="border-grey-100 pl25 pr25">
+                {intl.get('trade.sell')} {tokenL}
+              </Button>
+            </Button.Group>
+          }
+          {
+            true &&
+            <div className="row align-items-stretch m0 gutter-10">
+              <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer zb-b-r ${side === 'buy' ? 'color-green-500 bg-white ' : 'color-black-1'}`} onClick={changeForm.bind(this,'buy')}>
+                {intl.get('trade.buy')} {tokenL}
+              </div>
+              <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer ${side === 'sell' ? 'color-red-500 bg-white zb-b-r' : 'color-black-1'}`} onClick={changeForm.bind(this,'sell')}>
+                {intl.get('trade.sell')} {tokenL}
+              </div>
             </div>
-            <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer ${side === 'sell' ? 'color-black-1' : 'color-black-3'}`} onClick={changeForm.bind(this,'sell')}>
-              {intl.get('trade.sell')} {tokenL}
-            </div>
-          </div>
+          }
         </div>
         <div className="">
           {
@@ -113,7 +127,9 @@ export default function Home(props){
                 </div>
                 <div>
                   <Sockets.Depth market={pair}>
-                    <ListOrderBook market={pair} />
+                    <Sockets.Prices>
+                      <ListOrderBook market={pair} />
+                    </Sockets.Prices>
                   </Sockets.Depth>
                 </div>
               </div>

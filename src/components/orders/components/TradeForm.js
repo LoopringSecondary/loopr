@@ -712,18 +712,9 @@ class TradeForm extends React.Component {
               </div>
             </div>
           }
-          <div className="row gutter-0 zb-b-b lh25 align-items-center">
-              <div className="col">
-                <div className="fs12 color-black-3 pl10 zb-b-b">
-                  {outTokenSymbol} {intl.get('trade.balance')}
-                </div>
-              </div>
-              <div className="col-auto fs12 color-black-3 pr10">
-                {outTokenBalance}
-              </div>
-            </div>
 
-          <div className="pl10 pr10 pt15">
+
+          <div className="pl10 pr10 pt10">
             <div className="row ml0 mr0">
               <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>
               <div className="col-auto fs12 color-black-2">
@@ -755,6 +746,7 @@ class TradeForm extends React.Component {
                          }
                        }}/>
               )}
+
             </Form.Item>
             <div className="row ml0 mr0">
               <div className="col fs12 color-black-2">{intl.get('trade.amount')}</div>
@@ -798,6 +790,16 @@ class TradeForm extends React.Component {
               )}
             </Form.Item>
           </div>
+          <div className="row gutter-0 lh35 zb-b-t align-items-center">
+              <div className="col">
+                <div className="fs12 color-black-2 pl10 ">
+                {intl.get('trade.balance')}
+                </div>
+              </div>
+              <div className="col-auto fs12 color-black-2 pr10">
+                {outTokenBalance} {outTokenSymbol}
+              </div>
+            </div>
           <div className="zb-b-b">
             <div className="row align-items-center ml0 mr0 pl10 pr10 lh35 zb-b-t">
               <div className="col-auto fs12 color-black-2">{intl.get('trade.total')}</div>

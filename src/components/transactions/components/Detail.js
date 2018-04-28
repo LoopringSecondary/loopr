@@ -134,12 +134,12 @@ class DetailBlock extends React.Component {
       <Card title={intl.get('txs.tx_detail')}>
         <Spin spinning={loading}>
           {!(ethTx && ethTx.blockNumber) && !loading && item.status === 'pending' && (moment().valueOf()/1e3 - item.createTime) > 300 &&
-          <Alert className="mb15" type="info"  title ={intl.get("txs.resend_title")} description={intl.get('txs.resend_tips')}
+          <Alert className="mb15" type="info" theme="light"  title ={intl.get("txs.resend_title")} description={<div className="fs12">{intl.get('txs.resend_tips')}</div>}
                  actions={(<Button type='primary' onClick={reSendTx.bind(this, item.txHash)}>{intl.get("txs.resend")}</Button>)}
           />}
           {(ethTx && ethTx.blockNumber) && item.status === 'pending' && !loading && (moment().valueOf()/1e3 - item.createTime) > 300 &&
-          <Alert className="mb15" type="info" title={intl.get('txs.not_need_resend')} description={
-            <div className="">{intl.get('txs.not_resend_tips')}</div>}
+          <Alert className="mb15" type="info" theme="light" title={intl.get('txs.not_need_resend')} description={
+            <div className="fs12">{intl.get('txs.not_resend_tips')}</div>}
           />
           }
           <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
@@ -149,9 +149,15 @@ class DetailBlock extends React.Component {
           <MetaItem label={intl.get('txs.confirm_time')}
                     value={window.uiFormatter.getFormatTime(toNumber(item.updateTime) * 1e3)}/>
           <MetaItem label={intl.get('txs.type')} value={getType()}/>
-          <MetaItem label={intl.get('token.gas_limit')} value={ethTx && window.uiFormatter.getFormatNum(ethTx.gas)}/>
-          <MetaItem label={intl.get('token.gas_price')}
-                    value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>
+          {ethTx && <MetaItem label={intl.get('token.gas')} value={
+            <div className="mr15">
+              <div className="row justify-content-end">{`${toBig(ethTx.gasPrice.toString()).times(ethTx.gas).times('1e-18').toString(10)}  ETH`}</div>
+              <div className="row justify-content-end fs14 color-black-3">{`Gas(${toNumber(ethTx.gas).toString(10)}) * Gas Price(${toNumber(ethTx.gasPrice)/(1e9).toString(10)} Gwei)`}</div>
+            </div>
+          }/>}
+          {false && <MetaItem label={intl.get('token.gas_limit')} value={ethTx && window.uiFormatter.getFormatNum(ethTx.gas)}/>}
+          {false && <MetaItem label={intl.get('token.gas_price')}
+                    value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>}
           <MetaItem label={intl.get('wallet.nonce')} value={toNumber(item.nonce)}/>
           <MetaItem label={intl.get('txs.value')} value={ethTx && toBig(ethTx.value).div(1e18).toNumber() + ' ETH'}/>
         </Spin>

@@ -44,10 +44,10 @@ function ListBlock(props) {
     },
     side: (value, item, index) => {
       if (item.side === 'sell') {
-        return <div className="color-green-500">{intl.get('orders.side_sell')}</div>
+        return <div className="color-red-500">{intl.get('orders.side_sell')}</div>
       }
       if (item.side === 'buy') {
-        return <div className="color-red-500">{intl.get('orders.side_buy')}</div>
+        return <div className="color-green-500">{intl.get('orders.side_buy')}</div>
       }
     },
     amount: (value, item, index) => {

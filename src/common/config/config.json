@@ -12,7 +12,7 @@
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0x8311804426a24495bd4306daf5f595a443a52e32",
-  "localStorageVersion":201804262343,
+  "localStorageVersion":201804281025,
   "walletAddress":"0xb94065482ad64d4c2b9252358d746b39e820a582",
   "contracts": [
     {
@@ -42,19 +42,19 @@
   ],
   "relays": [
     {
-      "value": "//pre-relay1.loopring.io",
-      "name": "Pre-Production Relay"
-    },
-    {
       "value": "//relay1.loopring.io",
       "name": "Default Loopring Relay"
+    },
+    {
+      "value": "//pre-relay1.loopring.io",
+      "name": "Pre-Production Relay"
     },
     {
       "value": "//13.231.66.20",
       "name": "Test"
     }
   ],
-  "supportedTokenRInMarkets":["WETH", "LRC", "BAR"],
+  "supportedTokenRInMarkets":["WETH", "LRC"],
   "markets": [
     {
       "tokenx": "LRC",
@@ -185,11 +185,6 @@
       "tokenx": "ARP",
       "tokeny": "LRC",
       "pricePrecision": 8
-    },
-    {
-      "tokenx": "FOO",
-      "tokeny": "BAR",
-      "pricePrecision": 4
     }
   ],
   "txs": [
@@ -271,30 +266,6 @@
       "address": "0xEF68e7C694F40c8202821eDF525dE3782458639f",
       "unit": "LRC",
       "website": "https://loopring.org",
-      "allowance": "1000000000000000000000",
-      "allowanceWarn": "50000000000000000000",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
-      "name": "FooToken",
-      "symbol": "FOO",
-      "digits": 8,
-      "decimals": "8",
-      "unit": "FOO",
-      "address": "0xf5B3b365FA319342e89a3Da71ba393E12D9F63c3",
-      "allowance": "1000000000000000000000",
-      "allowanceWarn": "50000000000000000000",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
-      "name": "BarToken",
-      "symbol": "BAR",
-      "digits": 18,
-      "decimals": "18",
-      "unit": "BAR",
-      "address": "0xb5f64747127be058Ee7239b363269FC8cF3F4A87",
       "allowance": "1000000000000000000000",
       "allowanceWarn": "50000000000000000000",
       "precision": 6,

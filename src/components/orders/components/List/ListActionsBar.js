@@ -14,7 +14,8 @@ class ListActionsBar extends React.Component {
 
   render(){
     const {actions = {}, LIST = {}, className,id} = this.props;
-    const {filters = {}} = LIST[id] || {}
+    const {filters = {},  items} = LIST[id] || {}
+    const hasOpenedOrder = items && items.find(item=> item.status === "ORDER_OPENED")
     const tokenPair = filters.market;
     const { socket } = this.context;
     const reEmitPendingTransaction= () => {
@@ -134,7 +135,7 @@ class ListActionsBar extends React.Component {
           <div className="col">
           </div>
           <div className="col-auto">
-            <Button type="primary" onClick={cancelAll}>{intl.get('order.cancel_all')}</Button>
+            {hasOpenedOrder && <Button type="primary" onClick={cancelAll}>{intl.get('order.cancel_all')}</Button>}
           </div>
         </div>
       </div>

@@ -33,7 +33,7 @@ class TickerHeader extends React.Component {
         }
       >
         <div className="row align-items-center cursor-pointer ml0 mr0 gutter-0" style={{background:'rgba(0,0,0,0.05)'}}>
-          <div className="col pl35 pr35 pt15 pb15">
+          <div className="col pl25 pr45 pt15 pb15">
             <div className="fs16 color-white">
               {pair}
               {
@@ -46,7 +46,7 @@ class TickerHeader extends React.Component {
               }
 
             </div>
-            <div className="fs14 color-white color-white-2">{intl.get('ticker.select_a_market')} <Icon className="" type="down" /></div>
+            <div className="fs14 color-white color-white-2">{intl.get('ticker.select_a_market')} <Icon className="ml5" type="down" /></div>
           </div>
 
         </div>
@@ -75,22 +75,12 @@ class LooprTicker extends React.Component {
       const NumberCaption = ({title,content})=>(
         <div className="pt15 pb15">
           <div className="fs16 color-white">{content}</div>
-          <div className="fs14 color-white-2">{title}</div>
+          <div className="fs13 color-white-2">{title}</div>
         </div>
       )
       return (
           <div className="row align-items-center ml0 mr0 gutter-0">
-             <div className="col-auto" style={{background:'rgba(0,0,0,0.15)'}}>
-              <Link to="/wallet">
-               <div className="pt15 pb15 text-center" style={{width:'100px'}}>
-                  <i className="icon-loopring icon-loopring-coins fs18 color-white"></i>
-                   <div className="color-white-2 fs12" >
-                     {intl.get('ticker.back_to_wallet')}
-                   </div>
-               </div>
-               </Link>
-             </div>
-             <div className="col-auto pl0">
+             <div className="col pl0 text-nowrap">
                <TickerHeader pair={pair} tickers={tickers} />
              </div>
              <div className="col pl20 pr20">
