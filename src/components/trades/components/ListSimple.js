@@ -14,12 +14,12 @@ function ListBlock(props) {
           <tr className="zb-b-b">
             <th className="border-0 p0 pl10">
               <div className="col fs12 color-black-3 text-left lh25 font-weight-normal">
-                {intl.get('global.price')} {tokenR}
+                {intl.get('global.price')} ({tokenR})
               </div>
             </th>
             <th className="border-0 p0 pl5 pr5">
               <div className="col-auto fs12 color-black-3 text-center lh25 font-weight-normal">
-                {intl.get('global.amount_label')} {tokenL}
+                {intl.get('global.amount_label')} ({tokenL})
               </div>
             </th>
             <th className="border-0 p0 pr10">
