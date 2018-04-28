@@ -123,8 +123,35 @@ class ListBlock extends React.Component {
       return config.getTokenSupportedMarkets(selectedToken)
     };
 
+    const updateOrders = (pair)=>{
+      this.props.dispatch({
+        type:'orders/filtersChange',
+        payload:{
+          id:'orders/trade',
+          filters:{
+            market:pair
+          }
+        }
+      })
+
+    }
+    const updateTrades = (pair)=>{
+      this.props.dispatch({
+        type:'orders/filtersChange',
+        payload:{
+          id:'orders/trade',
+          filters:{
+            market:pair
+          }
+        }
+      })
+    }
+
     const gotoTrade = (market) => {
       if(config.isSupportedMarket(market)) {
+        updateOrders(market)
+        updateTrades(market)
+        window.STORAGE.markets.setCurrent(market)
         window.routeActions.gotoPath('/trade/'+market)
         return
       }
