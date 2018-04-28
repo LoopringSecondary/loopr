@@ -284,9 +284,9 @@ class ListBlock extends React.Component {
     const TokenActions = (token) => (
       <div style={{minWidth: '80px'}}>
         {
-          getTokenSupportedMarkets(token).map(item=>{
+          getTokenSupportedMarkets(token).map((item,index)=>{
             return (
-              <div className="market-item-token-dropdown row cursor-pointer zb-b-b pl10 pr5 ml0 mr0 gutter-0 align-items-center" onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)}>
+              <div key={index} className="market-item-token-dropdown row cursor-pointer zb-b-b pl10 pr5 ml0 mr0 gutter-0 align-items-center" onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)}>
                 <div className="col fs14 lh30 " >
                    {item.tokenx+"-"+item.tokeny}
                 </div>

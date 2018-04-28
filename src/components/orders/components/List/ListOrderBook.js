@@ -61,12 +61,12 @@ function ListOrderBook(props) {
     <div className={className} style={{...style}}>
       <div style={{height:'229px',overflow:'auto'}}>
         <table className="w-100" >
-          {thead}
           <tbody style={{height:'210px',paddingTop:'5px'}} >
+           {thead}
             {
-              depth && depth.sell && depth.sell.length < 8 &&
+              false && depth && depth.sell && depth.sell.length < 8 &&
               Array(8-depth.sell.length).fill(1).map((item,index)=>
-                <tr className="">
+                <tr className="" key={index}>
                   <td colSpan="10" className="border-none p0" style={{lineHeight:'26px'}}>
                     <div className="fs12 color-black-3" style={{lineHeight:'26px'}}>
                       &nbsp;
@@ -92,6 +92,7 @@ function ListOrderBook(props) {
       <div style={{height:'230px',overflow:'auto'}}>
         <table className="w-100 zb-b-t" >
           <tbody >
+            {thead}
             {
               depth && depth.buy && depth.buy.map((item,index)=>
                <ListItem key={index} item={item} side="buy" />
