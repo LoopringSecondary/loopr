@@ -152,10 +152,10 @@ class  ListBlock extends React.Component{
       },
       side: (value, item, index) => {
         if (item.originalOrder.side === 'sell') {
-          return <div className="color-green-500">{intl.get('orders.side_sell')}</div>
+          return <div className="color-red-500">{intl.get('orders.side_sell')}</div>
         }
         if (item.originalOrder.side === 'buy') {
-          return <div className="color-red-500">{intl.get('orders.side_buy')}</div>
+          return <div className="color-green-500">{intl.get('orders.side_buy')}</div>
         }
       },
       filled: (value, item, index) => {
