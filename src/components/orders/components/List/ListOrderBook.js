@@ -30,7 +30,7 @@ function ListOrderBook(props) {
   const ListItem = ({item,side})=>{
     if(item && item.length === 3){
       return (
-        <tr className="cursor-pointer">
+        <tr className="">
           <td className="border-none pl10">
             {
               side === 'sell' &&
@@ -50,7 +50,7 @@ function ListOrderBook(props) {
             }
           </td>
           <td className="border-none pl5 pr5">
-            <div className="fs12 color-black-2 text-center p0 lh24">
+            <div className="fs12 color-black-2 text-left p0 lh24">
               {Number(item[1]).toFixed(4)}
             </div>
           </td>
@@ -84,7 +84,7 @@ function ListOrderBook(props) {
                </div>
              </th>
              <th className="border-none p0 pl5 pr5 lh25">
-               <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
+               <div className="col-auto fs12 color-black-3 text-left font-weight-normal">
                  {intl.get('global.amount_label')} ({tokenL})
                </div>
              </th>
@@ -130,7 +130,7 @@ function ListOrderBook(props) {
                 </div>
               </th>
               <th className="border-none p0 pl5 pr5 lh25">
-                <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
+                <div className="col-auto fs12 color-black-3 text-left font-weight-normal">
                   {intl.get('global.amount_label')} ({tokenL})
                 </div>
               </th>
