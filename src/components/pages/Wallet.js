@@ -75,13 +75,25 @@ class Home extends React.Component {
                 />
               )
             }}>
-
             </Sockets.PendingTxs>
           }
           <Tabs className="rs no-ink-bar" onChange={handleTabChange}
-                activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
-            {false && <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_portfolio")}</div>}
-                          key="portfolio"/>}
+                activeKey={location.pathname.replace(`${match.path}/`, '')}
+                animated={false}
+                tabBarExtraContent={
+                  <Alert
+                    message="新手交易指引"
+                    type="info"
+                    className="mt15"
+                    showIcon
+                  />
+                }
+          >
+            {
+              false &&
+              <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_portfolio")}</div>}
+                          key="portfolio"/>
+             }
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_assets")}</div>}
                           key="assets"/>
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_orders")}</div>}
@@ -89,6 +101,7 @@ class Home extends React.Component {
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_trades")}</div>}
                           key="trades"/>
           </Tabs>
+
           <Switch>
             <Route path={`${match.url}/portfolio`} exact render={() =>
               <div className="row no-gutters bg-white wallet-assets-container"

@@ -342,7 +342,7 @@ function Navbar(props){
                           <Icon className="ml0 fs10" type="down" />
                         </div>
                         <div className="" style={{marginTop:'2px'}}>
-                          <span className="navbar-login-status-badge color-primary-1">
+                          <span className="navbar-login-status-badge color-primary-1 d-block w-100" >
                             <Badge status="processing" className="" />
                             {getWalletType()}
                           </span>
