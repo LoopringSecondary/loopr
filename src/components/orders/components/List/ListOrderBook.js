@@ -14,6 +14,9 @@ function ListOrderBook(props) {
   const tokenRPrice = prices.getTokenBySymbol(tokenR)
   let sell = []
   if(depth && depth.sell) {
+    if(depth.sell.length > 8) {
+      depth.sell = depth.sell.slice(depth.sell.length - 8, depth.sell.length)
+    }
     sell = Array(8-depth.sell.length).fill([]).concat(depth.sell)
   }
   const priceValue = (exchangeRatio) => {
@@ -61,9 +64,9 @@ function ListOrderBook(props) {
     } else {
       return (
         <tr className="cursor-pointer">
-          <td className="border-none pl10">&nbsp;</td>
-          <td className="border-none pl5 pr5">&nbsp;</td>
-          <td className="border-none pr10">&nbsp;</td>
+          <td className="border-none pl10"><div className="fs12 color-red-500 text-left p0 lh24">&nbsp;</div></td>
+          <td className="border-none pl5 pr5"><div className="fs12 color-black-2 text-center p0 lh24">&nbsp;</div></td>
+          <td className="border-none pr10"><div className="fs12 color-black-2 text-right p0 lh24">&nbsp;</div></td>
         </tr>
       )
     }

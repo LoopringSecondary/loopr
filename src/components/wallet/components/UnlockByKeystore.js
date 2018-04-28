@@ -76,6 +76,9 @@ class UnlockByKeyStore extends React.Component {
                   keyStore: '',
                   loading: false
                 });
+                if(modal.targetModalData) {
+                  modal.showModal({...modal.targetModalData})
+                }
               }
             }
           });
