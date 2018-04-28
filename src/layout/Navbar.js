@@ -285,9 +285,9 @@ function Navbar(props){
   )
   // window.location.href.indexOf('/trade') >= 0
   return (
-    <div className="navbar-loopring">
+    <div className="navbar-loopring zb-b-b">
       <div className="container">
-        <div className="row align-items-stretch ml0">
+        <div className="row align-items-stretch ml0 mr0">
           <div className="col-auto pl0 pr0">
             <Link to="/wallet" className="d-block" >
                 <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
@@ -324,13 +324,20 @@ function Navbar(props){
               }
             </Menu>
           </div>
-          <div className="col"></div>
-          <div className="col-auto pl0">
+          <div className="col zb-b-r"></div>
+          <div className="col-auto pl20 pr20 zb-b-r">
+            <div className="fs16 color-black-1 cursor-pointer">
+              <Tooltip title={intl.get('userguide.btn_title')}>
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </div>
+          </div>
+          <div className="col-auto pl5 pr5 zb-b-r">
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}
             </Select>
           </div>
-          <div className="col-auto d-flex align-items-center pl0 ">
+          <div className="col-auto d-flex align-items-center zb-b-r">
             <Popover content={accountMenus} title={null} trigger="hover">
                 {
                   account.address &&
@@ -341,11 +348,9 @@ function Navbar(props){
                           &nbsp;
                           <Icon className="ml0 fs10" type="down" />
                         </div>
-                        <div className="" style={{marginTop:'2px'}}>
-                          <span className="navbar-login-status-badge color-primary-1 d-block w-100" >
-                            <Badge status="processing" className="" />
-                            {getWalletType()}
-                          </span>
+                        <div className="" style={{marginTop:'0px'}}>
+                          <Badge status="processing" className="" />
+                          <span className="fs12 color-primary-1">{getWalletType()}</span>
                         </div>
                       </div>
                   </div>

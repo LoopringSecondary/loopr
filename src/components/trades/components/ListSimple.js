@@ -32,7 +32,7 @@ function ListBlock(props) {
           </tr>
           {
             trades.map((item,index)=>
-              <tr key={index} className="cursor-pointer">
+              <tr key={index} className="">
                 <td className="border-0 pl0 pl10">
                   <div className="fs12 color-green-500 text-left lh20 p0">
                     {item.price}

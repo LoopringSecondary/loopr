@@ -81,12 +81,13 @@ class Home extends React.Component {
                 activeKey={location.pathname.replace(`${match.path}/`, '')}
                 animated={false}
                 tabBarExtraContent={
-                  <Alert
-                    message={intl.get('userguide.btn_title')}
-                    type="info"
-                    className="mt15"
-                    showIcon
-                  />
+                    null &&
+                    <Alert
+                      message={intl.get('userguide.btn_title')}
+                      type="info"
+                      className="mt15"
+                      showIcon
+                    />
                 }
           >
             {

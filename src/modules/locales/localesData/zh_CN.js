@@ -13,7 +13,7 @@ export default {
     time:'时间',
   },
   userguide:{
-    btn_title:'新手交易指引',
+    btn_title:'新手指引',
   },
   version: {
     label: 'Beta2',
