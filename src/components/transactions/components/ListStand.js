@@ -397,7 +397,7 @@ class ListBlock extends React.Component {
                  description={
                    <div className="text-left">
                      <div className="fs18 color-warning-1">
-                       {token} {intl.get('txs.balance_not_enough')}
+                        {intl.get('txs.balance_not_enough',{token})}
                      </div>
                      <div>
                        <Button onClick={gotoReceive.bind(this, token)}

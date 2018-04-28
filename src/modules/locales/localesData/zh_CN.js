@@ -178,7 +178,7 @@ export default {
     cancel_all: '取消全部订单',
     cancel_pair_order: "取消{pair}订单",
     others: "其他",
-    balance_not_enough: "余额不足以支持您所有有效的订单完全成交",
+    balance_not_enough: "{token}余额不足以支持您所有有效的订单完全成交",
     value: "金额",
     tx_hash: "交易Hash",
     block_num: "块高度",

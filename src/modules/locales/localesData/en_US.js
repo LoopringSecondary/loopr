@@ -168,7 +168,7 @@ I got this great idea:
     cancel_all: 'Canceled All Orders',
     cancel_pair_order: "Canceled All {pair} Orders",
     others: "Others",
-    balance_not_enough: "Your balance is insufficient!",
+    balance_not_enough: "Your {token} balance is insufficient for all your orders!",
     value: "Value",
     tx_hash: "Tx Hash",
     block_num: "Block#",
