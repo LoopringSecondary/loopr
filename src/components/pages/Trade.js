@@ -113,7 +113,9 @@ export default function Home(props){
                 </div>
                 <div>
                   <Sockets.Depth market={pair}>
-                    <ListOrderBook market={pair} />
+                    <Sockets.Prices>
+                      <ListOrderBook market={pair} />
+                    </Sockets.Prices>
                   </Sockets.Depth>
                 </div>
               </div>

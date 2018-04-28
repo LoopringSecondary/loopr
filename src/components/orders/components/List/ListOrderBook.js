@@ -1,15 +1,28 @@
 import React from 'react';
 import intl from 'react-intl-universal';
+import { Tooltip } from 'antd'
+import Currency from '../../../../modules/settings/CurrencyContainer'
+import {accMul} from '../../../../common/Loopring/common/math'
+
 const uiFormatter = window.uiFormatter
 const fm = window.uiFormatter.TokenFormatter
 
 function ListOrderBook(props) {
-  const {className, style,depth,market=""} = props;
+  const {className, style,depth,market="",prices} = props;
   const tokenL = market.split('-')[0].toUpperCase()
   const tokenR = market.split('-')[1].toUpperCase()
+  const tokenRPrice = prices.getTokenBySymbol(tokenR)
   let sell = []
   if(depth && depth.sell) {
     sell = Array(8-depth.sell.length).fill([]).concat(depth.sell)
+  }
+  const priceValue = (exchangeRatio) => {
+    return (
+      <span className="fs10">
+        <Currency/>
+        {exchangeRatio > 0 && tokenRPrice ? accMul(exchangeRatio, tokenRPrice.price).toFixed(2) : 0}
+      </span>
+    )
   }
   const ListItem = ({item,side})=>{
     if(item && item.length === 3){
@@ -19,13 +32,17 @@ function ListOrderBook(props) {
             {
               side === 'sell' &&
               <div className="fs12 color-red-500 text-left p0 lh24">
-                {Number(item[0]).toFixed(8)}
+                <Tooltip placement="left" title={priceValue(Number(item[0]).toFixed(8))}>
+                  {Number(item[0]).toFixed(8)}
+                </Tooltip>
               </div>
             }
             {
               side === 'buy' &&
               <div className="fs12 color-green-500 text-left p0 lh24">
-                {Number(item[0]).toFixed(8)}
+                <Tooltip placement="left" title={priceValue(Number(item[0]).toFixed(8))}>
+                  {Number(item[0]).toFixed(8)}
+                </Tooltip>
               </div>
             }
           </td>
@@ -51,6 +68,7 @@ function ListOrderBook(props) {
       )
     }
   }
+
   return (
     <div className={className} style={{...style}}>
       <div style={{height:'229px',overflow:'hidden'}}>
