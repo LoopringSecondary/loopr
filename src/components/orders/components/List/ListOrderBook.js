@@ -37,32 +37,28 @@ function ListOrderBook(props) {
       </tr>
     )
   }
-
-  const thead = (
-      <tr className="zb-b-b">
-        <th className="border-none p0 pl10 lh24">
-          <div className="fs12 color-black-3 text-left font-weight-normal">
-            {intl.get('global.price')} {tokenR}
-          </div>
-        </th>
-        <th className="border-none p0 pl5 pr5 lh24">
-          <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
-            {intl.get('global.amount_label')} {tokenL}
-          </div>
-        </th>
-        <th className="border-none p0 pr10 lh24">
-          <div className="col-auto fs12 color-black-3 text-right font-weight-normal">
-            {intl.get('global.total')} {tokenR}
-          </div>
-        </th>
-      </tr>
-  )
   return (
     <div className={className} style={{...style}}>
       <div style={{height:'229px',overflow:'auto'}}>
         <table className="w-100" >
           <tbody style={{height:'210px',paddingTop:'5px'}} >
-           {thead}
+           <tr className="zb-b-b">
+             <th className="border-none p0 pl10 lh25">
+               <div className="fs12 color-black-3 text-left font-weight-normal">
+                 {intl.get('trade.sell')}{intl.get('global.price')} ({tokenR})
+               </div>
+             </th>
+             <th className="border-none p0 pl5 pr5 lh25">
+               <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
+                 {intl.get('global.amount_label')} ({tokenL})
+               </div>
+             </th>
+             <th className="border-none p0 pr10 lh25">
+               <div className="col-auto fs12 color-black-3 text-right font-weight-normal">
+                 {intl.get('global.total')} ({tokenR})
+               </div>
+             </th>
+           </tr>
             {
               false && depth && depth.sell && depth.sell.length < 8 &&
               Array(8-depth.sell.length).fill(1).map((item,index)=>
@@ -92,7 +88,23 @@ function ListOrderBook(props) {
       <div style={{height:'230px',overflow:'auto'}}>
         <table className="w-100 zb-b-t" >
           <tbody >
-            {thead}
+            <tr className="zb-b-b">
+              <th className="border-none p0 pl10 lh25">
+                <div className="fs12 color-black-3 text-left font-weight-normal">
+                  {intl.get('trade.buy')}{intl.get('global.price')} ({tokenR})
+                </div>
+              </th>
+              <th className="border-none p0 pl5 pr5 lh25">
+                <div className="col-auto fs12 color-black-3 text-center font-weight-normal">
+                  {intl.get('global.amount_label')} ({tokenL})
+                </div>
+              </th>
+              <th className="border-none p0 pr10 lh25">
+                <div className="col-auto fs12 color-black-3 text-right font-weight-normal">
+                  {intl.get('global.total')} ({tokenR})
+                </div>
+              </th>
+            </tr>
             {
               depth && depth.buy && depth.buy.map((item,index)=>
                <ListItem key={index} item={item} side="buy" />

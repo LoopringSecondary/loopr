@@ -45,10 +45,10 @@ export default class PageRoutes extends React.Component {
   }
   componentDidMount() {
     const _this = this
-    window.forceUpdate = ()=>{
-      // forceUpdate(_this)
-      _this.forceUpdate()
-    }
+    // window.forceUpdate = ()=>{
+    //   // forceUpdate(_this)
+    //   _this.forceUpdate()
+    // }
   }
   render() {
     return (

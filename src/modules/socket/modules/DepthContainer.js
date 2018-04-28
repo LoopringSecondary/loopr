@@ -18,7 +18,6 @@ class DepthContainer extends React.Component {
       const options = {
         "delegateAddress" :window.CONFIG.getDelegateAddress(),
         "market":nextProps.market,
-        "length":40,
       };
       socket.emit('depth_req',JSON.stringify(options),this.responseHandler.bind(this))
     }
@@ -40,7 +39,6 @@ class DepthContainer extends React.Component {
         const options = {
           "delegateAddress" :window.CONFIG.getDelegateAddress(),
           "market":this.props.market,
-          "length":40,
         }
         socket.emit('depth_req',JSON.stringify(options),this.responseHandler.bind(this))
         socket.on('depth_res', this.responseHandler.bind(this))
