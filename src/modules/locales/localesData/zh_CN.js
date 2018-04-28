@@ -12,6 +12,9 @@ export default {
     total:'总计',
     time:'时间',
   },
+  userguide:{
+    btn_title:'新手交易指引',
+  },
   version: {
     label: 'Beta2',
     title: 'Beta2（仅对超前的测试者开放）',

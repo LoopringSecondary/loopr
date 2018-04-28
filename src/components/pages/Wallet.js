@@ -82,7 +82,7 @@ class Home extends React.Component {
                 animated={false}
                 tabBarExtraContent={
                   <Alert
-                    message="新手交易指引"
+                    message={intl.get('userguide.btn_title')}
                     type="info"
                     className="mt15"
                     showIcon

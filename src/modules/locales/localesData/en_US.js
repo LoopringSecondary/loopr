@@ -14,6 +14,9 @@ export default {
     total:'Total',
     time:'Time',
   },
+  userguide:{
+    btn_title:'User Trading Guide',
+  },
   version:{
     label:'Beta2',
     title:'Beta2',

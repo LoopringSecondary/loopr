@@ -20,7 +20,7 @@ function ListBlock(props) {
               </div>
             </th>
             <th className="border-0 p0 pl5 pr5">
-              <div className="col-auto fs12 color-black-3 text-center lh25 font-weight-normal">
+              <div className="col-auto fs12 color-black-3 text-left lh25 font-weight-normal">
                 {intl.get('global.amount_label')} ({tokenL})
               </div>
             </th>
@@ -39,7 +39,7 @@ function ListBlock(props) {
                   </div>
                 </td>
                 <td className="border-0 pl5 pr5">
-                  <div className="fs12 color-black-2 text-center lh20 p0" >
+                  <div className="fs12 color-black-2 text-left lh20 p0" >
                     {item.amount}
                   </div>
                 </td>
