@@ -154,6 +154,7 @@ class ListBlock extends React.Component {
         }
         return (
           <div className="text-left">
+            {item.status !== 'ORDER_OPENED' && status}
             {item.status === 'ORDER_OPENED' && (!this.state.cancelings.includes(item.originalOrder.hash) && !txs.isOrderCanceling({
               validSince: item.originalOrder.validSince,
               tokenPair: item.originalOrder.market,
