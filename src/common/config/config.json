@@ -54,7 +54,7 @@
       "name": "Test"
     }
   ],
-  "supportedTokenRInMarkets":["WETH", "LRC", "BAR"],
+  "supportedTokenRInMarkets":["WETH", "LRC"],
   "markets": [
     {
       "tokenx": "LRC",
@@ -185,11 +185,6 @@
       "tokenx": "ARP",
       "tokeny": "LRC",
       "pricePrecision": 8
-    },
-    {
-      "tokenx": "FOO",
-      "tokeny": "BAR",
-      "pricePrecision": 4
     }
   ],
   "txs": [
