@@ -14,6 +14,10 @@ export default {
     total:'Total',
     time:'Time',
   },
+  userguide:{
+    title:'User Guide',
+    visible:false,
+  },
   version:{
     label:'Beta2',
     title:'Beta2',

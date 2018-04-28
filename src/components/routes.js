@@ -9,6 +9,7 @@ import WalletModals from './wallet/components/Modals';
 import OrdersModals from './orders/components/Modals';
 import TradesModals from './trades/components/Modals';
 import TxsModals from './transactions/components/Modals';
+import PagesModals from './pages/Modals';
 import forceUpdate from 'react-deep-force-update'
 
 const UnLogged = ()=>{
@@ -62,6 +63,7 @@ export default class PageRoutes extends React.Component {
             {RingsRoutes}
           </Switch>
           <TokenModals />
+          <PagesModals />
           <WalletModals />
           <SettingsModals />
           <OrdersModals />

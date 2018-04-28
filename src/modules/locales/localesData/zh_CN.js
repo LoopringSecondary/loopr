@@ -12,6 +12,10 @@ export default {
     total:'总计',
     time:'时间',
   },
+  userguide:{
+    title:'新手指引',
+    visibe:true,
+  },
   version: {
     label: 'Beta2',
     title: 'Beta2（仅对超前的测试者开放）',

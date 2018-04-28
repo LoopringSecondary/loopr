@@ -61,11 +61,14 @@ class  Home extends React.Component {
               </div>
             }
           </div>
-          <div className="position-absolute w-100" style={{bottom:'0px'}}>
-            <Sockets.TickersByLoopring>
-              <Market.TickerCarousel />
-            </Sockets.TickersByLoopring>
-          </div>
+          {
+            false &&
+            <div className="position-absolute w-100" style={{bottom:'0px'}}>
+              <Sockets.TickersByLoopring>
+                <Market.TickerCarousel />
+              </Sockets.TickersByLoopring>
+            </div>
+          }
         </div>
       </Layout>
     )
