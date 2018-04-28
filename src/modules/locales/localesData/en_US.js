@@ -16,6 +16,7 @@ export default {
   },
   userguide:{
     title:'User Guide',
+    visible:false,
   },
   version:{
     label:'Beta2',

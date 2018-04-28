@@ -284,6 +284,7 @@ function Navbar(props){
     </div>
   )
   // window.location.href.indexOf('/trade') >= 0
+  const userguide = intl.get('userguide.visible')
   return (
     <div className="navbar-loopring zb-b-b">
       <div className="container">
@@ -335,11 +336,26 @@ function Navbar(props){
             </Menu>
           </div>
           <div className="col zb-b-r"></div>
-          <div className="col-auto pl20 pr20 zb-b-r">
-            <div className="fs16 color-black-1 cursor-pointer">
-              <Icon onClick={showModal.bind(this,{id:'userguide'})} type="question-circle-o" />
+          {
+            userguide &&
+            <div className="col-auto pl20 pr20 zb-b-r">
+              <div className="fs16 color-black-1 cursor-pointer">
+                <Icon onClick={showModal.bind(this,{id:'userguide'})} type="question-circle-o" />
+              </div>
             </div>
-          </div>
+          }
+          {
+            !userguide &&
+            <div className="col-auto pl20 pr20 zb-b-r">
+              <Tooltip title={intl.get('global.comingsoon')}>
+                <div className="fs16 color-black-1 cursor-pointer">
+                  <Icon type="question-circle-o" />
+                </div>
+              </Tooltip>
+            </div>
+          }
+
+
           <div className="col-auto pl0 pr0 zb-b-r">
             <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
               {localesOptions}

@@ -14,6 +14,7 @@ export default {
   },
   userguide:{
     title:'新手指引',
+    visibe:true,
   },
   version: {
     label: 'Beta2',
