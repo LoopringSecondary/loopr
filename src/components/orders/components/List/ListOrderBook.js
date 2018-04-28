@@ -14,6 +14,9 @@ function ListOrderBook(props) {
   const tokenRPrice = prices.getTokenBySymbol(tokenR)
   let sell = []
   if(depth && depth.sell) {
+    if(depth.sell.length > 8) {
+      depth.sell = depth.sell.slice(depth.sell.length - 8, depth.sell.length)
+    }
     sell = Array(8-depth.sell.length).fill([]).concat(depth.sell)
   }
   const priceValue = (exchangeRatio) => {
