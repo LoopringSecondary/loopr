@@ -33,7 +33,7 @@ class TickerHeader extends React.Component {
         }
       >
         <div className="row align-items-center cursor-pointer ml0 mr0 gutter-0" style={{background:'rgba(0,0,0,0.05)'}}>
-          <div className="col pl35 pr35 pt15 pb15">
+          <div className="col pl25 pr45 pt15 pb15">
             <div className="fs16 color-white">
               {pair}
               {
@@ -46,7 +46,7 @@ class TickerHeader extends React.Component {
               }
 
             </div>
-            <div className="fs14 color-white color-white-2">{intl.get('ticker.select_a_market')} <Icon className="" type="down" /></div>
+            <div className="fs14 color-white color-white-2">{intl.get('ticker.select_a_market')} <Icon className="ml5" type="down" /></div>
           </div>
 
         </div>
@@ -84,7 +84,8 @@ class LooprTicker extends React.Component {
               <Link to="/wallet">
                <div className="pt15 pb15 text-center" style={{width:'100px'}}>
                   <i className="icon-loopring icon-loopring-coins fs18 color-white"></i>
-                   <div className="color-white-2 fs12" >
+                   <div className="color-white-2 fs14 lh20" >
+                     <Icon type="left" className="fs10"></Icon>
                      {intl.get('ticker.back_to_wallet')}
                    </div>
                </div>
