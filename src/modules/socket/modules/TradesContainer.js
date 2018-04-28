@@ -24,6 +24,7 @@ class TradesContainer extends React.Component {
     return true // to make sure the parent container's render
   }
   responseHandler(res){
+    console.log('trades_res')
     res = JSON.parse(res)
     if(!res.error && res.data ){
       this.setState({
