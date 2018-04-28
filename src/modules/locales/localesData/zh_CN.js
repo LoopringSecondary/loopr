@@ -230,9 +230,16 @@ export default {
     basic_detail: "基础详情",
     fill_detail: "撮合详情",
     cancel_cost_gas:"取消订单会消耗Gas",
-    auto_cancel_not_cost_gas:"自动取消订单不会消耗 ETH gas",
-    manual_cancel_cost_gas:"手动取消订单会消耗 ETH gas",
-    cancel_order:"取消订单"
+    auto_cancel_not_cost_gas:"订单自动失效不会消耗ETH Gas",
+    manual_cancel_cost_gas:"手动取消订单会消耗ETH Gas",
+    cancel_order:"取消订单",
+    canceling:"取消中",
+    order_canceling:"订单取消中",
+    order_validity:"订单有效期",
+    wait_expire:"等待订单自动失效",
+    confirm_to_cancel:"确认取消订单",
+    order_will_expire:"距离订单自动失效还有",
+    expire_duration:"{days,plural,=0{} other {# 天}} {hours,plural,=0{} other {# 小时}} {minutes,plural,=1{1 分钟} other {# 分钟}}"
   },
   settings: {
     preference: "偏好",
