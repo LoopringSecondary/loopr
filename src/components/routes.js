@@ -45,10 +45,10 @@ export default class PageRoutes extends React.Component {
   }
   componentDidMount() {
     const _this = this
-    window.forceUpdate = ()=>{
-      // forceUpdate(_this)
-      _this.forceUpdate()
-    }
+    // window.forceUpdate = ()=>{
+    //   // forceUpdate(_this)
+    //   _this.forceUpdate()
+    // }
   }
   render() {
     return (
@@ -56,11 +56,9 @@ export default class PageRoutes extends React.Component {
           <Switch>
             <Route path="/" exact component={Pages.HomeDark} />
             <Route path="/home" exact component={Pages.HomeDark} />
-            <Route path="/home/light" exact component={Pages.HomeLight} />
             <Route path="/auth" render={UnLogged} />
             <Route path="/wallet" render={Logged} />
             <Route path="/trade" render={Logged} />
-            <Route path="/test" render={Pages.Test} />
             {RingsRoutes}
           </Switch>
           <TokenModals />

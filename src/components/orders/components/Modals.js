@@ -6,7 +6,7 @@ import PlaceOrderSuccess from './PlaceOrderSuccess'
 import PlaceOrderError from './PlaceOrderError'
 import ModalContainer from '../../../modules/modals/container'
 import Sockets from '../../../modules/socket/containers'
-
+import CancelConfirm from './CancelConfirm'
 function Modals(props){
   return (
     <div>
@@ -21,11 +21,16 @@ function Modals(props){
      <ModalContainer id="trade/place-order-error">
          <PlaceOrderError />
      </ModalContainer>
-     <ModalContainer id="order/detail">
+     <ModalContainer id="order/detail" width="60%">
          <Detail />
      </ModalContainer>
-      <ModalContainer id="order/detail/fills">
+      <ModalContainer id="order/detail/fills" width="60%">
         <Fills />
+      </ModalContainer>
+      <ModalContainer id="order/cancel/confirm">
+        <Sockets.Prices>
+        <CancelConfirm />
+        </Sockets.Prices>
       </ModalContainer>
     </div>
   );

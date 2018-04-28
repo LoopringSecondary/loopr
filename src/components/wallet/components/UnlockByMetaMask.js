@@ -16,7 +16,7 @@ class UnlockByMetaMask extends React.Component {
     metamaskState:'',
     visible:false
   };
-
+  
   componentDidMount() {
     var u = navigator.userAgent, app = navigator.appVersion;
     if(u.indexOf('OPR') > -1) {
@@ -65,6 +65,9 @@ class UnlockByMetaMask extends React.Component {
           type:'success'
         })
         unlockRedirection(pageFrom)
+        if(modal.targetModalData) {
+          modal.showModal({...modal.targetModalData})
+        }
         let alert = false
         var accountInterval = setInterval(function() {
           if ((!window.web3 || !window.web3.eth.accounts[0]) && !alert) {
@@ -176,7 +179,7 @@ class UnlockByMetaMask extends React.Component {
             <Steps.Step status="process" title={intl.get('wallet.metamask_unlock_step_refresh_title')}
               description={
                 <div>
-                  <div>{intl.get('wallet.metamask_unlock_step_refresh_content')} }</div>
+                  <div>{intl.get('wallet.metamask_unlock_step_refresh_content')}</div>
                   <Button onClick={refresh} type="primary" className="mt5">{intl.get('wallet.metamask_unlock_refresh_button')}</Button>
                 </div>
               }

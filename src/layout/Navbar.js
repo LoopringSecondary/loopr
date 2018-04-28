@@ -23,7 +23,6 @@ function Navbar(props){
 
   }
   const account = props.account;
-  const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
 
   const localeChange = (value)=>{
     props.dispatch({
@@ -57,6 +56,22 @@ function Navbar(props){
       payload:{}
     })
   };
+
+  const needUnlockCheck = (payload) => {
+    const state = window.STORE.getState()
+    if(state && state.account && state.account.walletType === 'Address') {
+      props.dispatch({
+        type:'modals/modalChange',
+        payload:{
+          id:'wallet/watchOnlyToUnlock',
+          originalData:payload,
+          visible:true
+        }
+      })
+    } else {
+      showModal(payload)
+    }
+  }
 
   const localesOptions = locales.map(locale => <Select.Option className="fs16" value={locale.value} key={locale.value}><span className="fs16">{locale.name}</span></Select.Option>);
   function copyToClipboard() {
@@ -96,7 +111,7 @@ function Navbar(props){
     <div className="fs18" >
       {
         account.isUnlocked &&
-        <div style={{width:'300px'}}>
+        <div style={{width:'260px'}}>
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col">
@@ -118,21 +133,12 @@ function Navbar(props){
             </div>
 
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
-              {!isWatchOnly &&
-                <div className="fs14 color-black-2 navbar-account-grid">
-                    <a onClick={showModal.bind(this,{id:'token/transfer', item:''})}>
-                      <i className="grid-icon icon-loopring icon-loopring-transfer fs16 color-black-2 d-block"></i>
-                      <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.send')}</div>
-                    </a>
-                </div>
-              }
-              {isWatchOnly &&
-                <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">
+              <div className="fs14 color-black-2 navbar-account-grid">
+                <a onClick={needUnlockCheck.bind(this,{id:'token/transfer', item:''})}>
                   <i className="grid-icon icon-loopring icon-loopring-transfer fs16 color-black-2 d-block"></i>
                   <div className="grid-title text-truncate text-nowrap">{intl.get('navbar.subs.send')}</div>
-                </div>
-              }
-
+                </a>
+              </div>
             </div>
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
               <div className="fs14 color-black-2 navbar-account-grid">
@@ -192,18 +198,17 @@ function Navbar(props){
                 </div>
             </div>
           </div>
-          <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
-            <div className="row align-items-center ">
-              <div className="col">
-                <div className="fs12 color-primary-1">
-                 {intl.get('navbar.refresh_page_tip_title')}
-                </div>
-                <div className="fs12 color-black-3 mt5">
-                  {intl.get('navbar.refresh_page_tip_description')}
+          {
+            false &&
+            <div className="zb-b-t bg-grey-50 fs14 p10 pl15 pr15" style={{borderRadius:'0 0 4px 4px'}}>
+              <div className="row align-items-center ">
+                <div className="col">
+
                 </div>
               </div>
             </div>
-          </div>
+          }
+
         </div>
       }
       {!account.isUnlocked &&
@@ -211,7 +216,7 @@ function Navbar(props){
           <div className="zb-b-b fs14 p10 pl15 pr15">
             <div className="row align-items-center">
               <div className="col-auto">
-                <a  onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Portfolio'})} className="color-grey-900">
+                <a  onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'Portfolio',targetModalData: {}})} className="color-grey-900">
                 <Icon type="unlock" className="mr5" />{intl.get('navbar.subs.unlock')}
                 </a>
               </div>
@@ -278,12 +283,13 @@ function Navbar(props){
 
     </div>
   )
+  // window.location.href.indexOf('/trade') >= 0
   return (
     <div className="navbar-loopring">
       <div className="container">
         <div className="row align-items-stretch ml0">
           <div className="col-auto pl0 pr0">
-            <Link to="/" className="d-block" >
+            <Link to="/wallet" className="d-block" >
                 <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'-3px'}}  />
             </Link>
           </div>
@@ -305,13 +311,13 @@ function Navbar(props){
               selectedKeys={selectedKeys}
             >
               {
-                window.WALLET && window.WALLET.getAddress() &&
+                false && window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/wallet">
                   <Link className="fs16 color-black-1" to="/wallet">{intl.get('navbar.wallet')}</Link>
                 </Menu.Item>
               }
               {
-                window.WALLET && window.WALLET.getAddress() &&
+                false && window.WALLET && window.WALLET.getAddress() &&
                 <Menu.Item key="/trade">
                   <Link to="/trade" className="fs16 color-black-1">{intl.get('navbar.trade')}</Link>
                 </Menu.Item>

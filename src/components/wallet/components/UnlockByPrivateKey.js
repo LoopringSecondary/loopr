@@ -37,6 +37,9 @@ class UnlockByPrivateKey extends React.Component {
         this.setState({privateKey: null});
         modal.hideModal({id: 'wallet/unlock'});
         unlockRedirection(pageFrom)
+        if(modal.targetModalData) {
+          modal.showModal({...modal.targetModalData})
+        }
       }catch (e){
         message.error(e.message)
       }
@@ -57,6 +60,9 @@ class UnlockByPrivateKey extends React.Component {
           type:'success'
         })
         unlockRedirection(pageFrom)
+        if(modal.targetModalData) {
+          modal.showModal({...modal.targetModalData})
+        }
       } catch (e) {
         message.error(e.message)
       }

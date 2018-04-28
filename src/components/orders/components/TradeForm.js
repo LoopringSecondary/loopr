@@ -24,7 +24,6 @@ class TradeForm extends React.Component {
   }
 
   render() {
-    console.log('trade form render')
     const tokenDivDigist = (token) => {
       const tokenCopy = {...token}
       tokenCopy.balance = tokenCopy.balance > 0 ? fm.toBig(tokenCopy.balance).div("1e"+tokenCopy.digits) : fm.toBig(0)
@@ -124,9 +123,26 @@ class TradeForm extends React.Component {
       })
     }
 
+    const needUnlockCheck = () => {
+      if(isWatchOnly) {
+        dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:{},
+            visible:true
+          }
+        })
+      }
+    }
+
     async function handleSubmit() {
       if(!window.WALLET_UNLOCK_TYPE) {
         return
+      }
+      if(isWatchOnly) {
+        needUnlockCheck()
+        return;
       }
       if(!lrcBalance || lrcBalance.balance.lessThan(9000)){
         if(window.CONFIG.getChainId() !== 7107171 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
@@ -432,7 +448,10 @@ class TradeForm extends React.Component {
       if (type === 'price') {
         price = e.target.value.toString()
         if (!amountReg.test(price)) return false
-        price = fm.toNumber(fm.toFixed(fm.toNumber(price), marketConfig.pricePrecision))
+        const priceArr = price.split(".")
+        if(priceArr.length === 2 && priceArr[1].length > marketConfig.pricePrecision){
+          price = fm.toNumber(fm.toFixed(fm.toNumber(price), marketConfig.pricePrecision))
+        }
         e.target.value = price
         this.setState({priceInput: price})
         amount = Number(form.getFieldValue("amount"))
@@ -679,171 +698,185 @@ class TradeForm extends React.Component {
 
     return (
       <div className="place-order-form">
-        <Form layout="horizontal">
-          <Form.Item>
-            <div className="row mb5">
-              <div className="col fs1 color-black-1 text-capitalize">{side === "sell" ? intl.get('trade.sell') : intl.get('trade.buy')} {tokenL}</div>
-              <div className="col-auto fs3 color-black-2">
+        <Form layout="horizontal" className="">
+          {
+            false &&
+            <div className="row gutter-0 zb-b-b lh25 align-items-center">
+              <div className="col">
+                <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+                  {intl.get('trade.buy')} {tokenL}
+                </div>
+              </div>
+              <div className="col-auto fs12 color-black-2 pr10">
+                {outTokenSymbol} {intl.get('trade.balance')} {outTokenBalance}
+              </div>
+            </div>
+          }
+          <div className="row gutter-0 zb-b-b lh25 align-items-center">
+              <div className="col">
+                <div className="fs12 color-black-3 pl10 zb-b-b">
+                  {outTokenSymbol} {intl.get('trade.balance')}
+                </div>
+              </div>
+              <div className="col-auto fs12 color-black-3 pr10">
+                {outTokenBalance}
+              </div>
+            </div>
+
+          <div className="pl10 pr10 pt15">
+            <div className="row ml0 mr0">
+              <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>
+              <div className="col-auto fs12 color-black-2">
+                {priceValue}
+              </div>
+            </div>
+            <Form.Item className="mb15" label={null} colon={false}>
+              {form.getFieldDecorator('price', {
+                initialValue: displayPrice,
+                rules: [{
+                  message: intl.get('trade.price_verification_message'),
+                  validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
+                }]
+              })(
+                <Input className="d-block w-100 fs3" placeholder="" size="large"
+                       prefix={null && <span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
+                       suffix={<span className="fs14 color-black-4">{tokenR}</span>}
+                       onChange={inputChange.bind(this, 'price')}
+                       onFocus={() => {
+                         const amount = form.getFieldValue("price")
+                         if (amount === 0) {
+                           form.setFieldsValue({"price": ''})
+                         }
+                       }}
+                       onBlur={() => {
+                         const amount = form.getFieldValue("price")
+                         if (amount === '') {
+                           form.setFieldsValue({"price": 0})
+                         }
+                       }}/>
+              )}
+            </Form.Item>
+            <div className="row ml0 mr0">
+              <div className="col fs12 color-black-2">{intl.get('trade.amount')}</div>
+              <div className="col-auto fs12 color-black-2">
+                <Tooltip title={intl.get('trade.available') + "" + intl.get('trade.amount')}>
+                  {this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
+                </Tooltip>
+              </div>
+            </div>
+            <Form.Item className="mb15" label={null} colon={false} extra={
+              <div>
                 {
-                  `${outTokenSymbol} ${intl.get('trade.balance')}: ${outTokenBalance}`
+                  false &&
+                  <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
                 }
+                <div className="fs10" style={{marginBottom:"-10px"}}>{amountSlider}</div>
+              </div>
+            }>
+              {form.getFieldDecorator('amount', {
+                initialValue: 0,
+                rules: [{
+                  message: intl.get('trade.amount_verification_message'),
+                  validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
+                }]
+              })(
+                <Input  className="d-block w-100 fs3" placeholder="" size="large"
+                      prefix={null && <span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
+                      suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
+                       onFocus={() => {
+                         const amount = Number(form.getFieldValue("amount"))
+                         if (amount === 0) {
+                           form.setFieldsValue({"amount": ''})
+                         }
+                       }}
+                       onBlur={() => {
+                         const amount = form.getFieldValue("amount")
+                         if (amount === '') {
+                           form.setFieldsValue({"amount": 0})
+                         }
+                       }}/>
+              )}
+            </Form.Item>
+          </div>
+          <div className="zb-b-b">
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh35 zb-b-t">
+              <div className="col-auto fs12 color-black-2">{intl.get('trade.total')}</div>
+              <div className="col"></div>
+              <div className="col-auto fs12 color-black-2">
+                {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
               </div>
             </div>
-          </Form.Item>
-          <Form.Item label={null} colon={false} extra={
-            null &&
-            <div className="row">
-              <div className="col fs10">{priceValue}</div>
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh35 zb-b-t">
+              <div className="col-auto fs12 color-black-2">
+                {intl.get('trade.lrc_fee')}
+                <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
+                  <Icon className="ml5 fs4" type="question-circle-o"/>
+                </Tooltip>
+              </div>
+              <div className="col"></div>
+              <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
+              <div className="col-auto pl0 fs12 color-black-2">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
             </div>
-          }>
-            {form.getFieldDecorator('price', {
-              initialValue: displayPrice,
-              rules: [{
-                message: intl.get('trade.price_verification_message'),
-                validator: (rule, value, cb) => validatePirce(value) ? cb() : cb(true)
-              }]
-            })(
-              <Input className="d-block w-100" placeholder="" size="large"
-                     prefix={<span className="addon-before fs3 color-black-2">{intl.get('trade.price')}</span>}
-                     suffix={<span className="fs14 color-black-4">{tokenR}</span>}
-                     onChange={inputChange.bind(this, 'price')}
-                     onFocus={() => {
-                       const amount = form.getFieldValue("price")
-                       if (amount === 0) {
-                         form.setFieldsValue({"price": ''})
-                       }
-                     }}
-                     onBlur={() => {
-                       const amount = form.getFieldValue("price")
-                       if (amount === '') {
-                         form.setFieldsValue({"price": 0})
-                       }
-                     }}/>
-            )}
-          </Form.Item>
-          <Form.Item label={null} colon={false} extra={
-            <div>
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh35 zb-b-t">
+              <div className="col-auto fs12 color-black-2">
+                {intl.get('trade.time_to_live')}
+                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
+                  <Icon className="ml5 fs4 color-black-2" type="question-circle-o"/>
+                </Tooltip>
+              </div>
+              <div className="col"></div>
+              <div className="col-auto pl0 pr5">{true && editOrderTTL}</div>
+              <div className="col-auto pl0 fs12 color-black-2">{ttlShow}</div>
+            </div>
+          </div>
+          <div className="pl10 pr10 pt15 pb15">
+            {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
+              <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
+                {intl.get('trade.place_order_trezor_unsupport') }
+                <Tooltip title={intl.getHTML('trade.place_order_trezor_unsupport_tips')}>
+                  <Icon className="color-grey-500 mr10" type="question-circle"/>
+                </Tooltip>
+              </div>
+            }
+            {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' &&
+            <Form.Item className="mb0">
               {
-                false &&
-                <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
+                side == 'buy' &&
+                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
+                        size="large" loading={this.state.loading}>
+                  {intl.get('trade.place_order')}
+                </Button>
               }
-              <div className="fs10" style={{marginBottom:"-10px"}}>{amountSlider}</div>
-            </div>
-          }>
-            {form.getFieldDecorator('amount', {
-              initialValue: 0,
-              rules: [{
-                message: intl.get('trade.amount_verification_message'),
-                validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
-              }]
-            })(
-              <Input placeholder="" size="large"
-                    prefix={<span className="addon-before fs3 color-black-2">{intl.get('trade.amount')}</span>}
-                    suffix={<span className="fs14 color-black-4">{tokenL}</span>} onChange={inputChange.bind(this, 'amount')}
-                     onFocus={() => {
-                       const amount = Number(form.getFieldValue("amount"))
-                       if (amount === 0) {
-                         form.setFieldsValue({"amount": ''})
-                       }
-                     }}
-                     onBlur={() => {
-                       const amount = form.getFieldValue("amount")
-                       if (amount === '') {
-                         form.setFieldsValue({"amount": 0})
-                       }
-                     }}/>
-            )}
-          </Form.Item>
-          <div className="mb15">
-            <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
-                <div className="col-auto fs3 color-black-2">{intl.get('trade.total')}</div>
-                <div className="col"></div>
-                <div className="col-auto fs3 color-black-2">
-                  {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
-                </div>
-              </div>
+              {
+                side == 'sell' &&
+                <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
+                        size="large" loading={this.state.loading}>
+                  {intl.get('trade.place_order')}
+                </Button>
+              }
             </Form.Item>
-            <Form.Item className="mb0" style={{padding:'7px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
-                <div className="col-auto fs3 color-black-2">
-                  {intl.get('trade.lrc_fee')}
-                  <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
-                    <Icon className="ml5 fs4" type="question-circle-o"/>
-                  </Tooltip>
-                </div>
-                <div className="col"></div>
-                <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
-                <div className="col-auto pl0 fs3 color-black-2">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
-              </div>
-            </Form.Item>
-            <Form.Item className="mb0" style={{padding:'8px 0px'}} colon={false} label={null}>
-              <div className="row align-items-center">
-                <div className="col-auto fs3 color-black-2">
-                  {intl.get('trade.time_to_live')}
-                  <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                    <Icon className="ml5 fs4 color-black-2" type="question-circle-o"/>
-                  </Tooltip>
-                </div>
-                <div className="col"></div>
-                <div className="col-auto pl0 pr5">{true && editOrderTTL}</div>
-                <div className="col-auto pl0 fs3 color-black-2">{ttlShow}</div>
-              </div>
-            </Form.Item>
+            }
+            {(!account || !account.isUnlocked) &&
+              <Form.Item className="mb0">
+              {
+                side == 'buy' &&
+                <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 bg-green-500 border-none color-white"
+                        size="large">
+                  {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
+                </Button>
+              }
+              {
+                side == 'sell' &&
+                <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom',targetModalData: {}})} type="" className="d-block w-100 bg-red-500 border-none color-white"
+                        size="large">
+                  {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
+                </Button>
+              }
+              </Form.Item>
+            }
           </div>
 
-          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
-            <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
-              {intl.get('trade.place_order_trezor_unsupport') }
-              <Tooltip title={intl.getHTML('trade.place_order_trezor_unsupport_tips')}>
-                <Icon className="color-grey-500 mr10" type="question-circle"/>
-              </Tooltip>
-            </div>
-          }
-          {account && account.isUnlocked && isWatchOnly &&
-          <div className="bg-blue-grey-50 text-center pt15 pb15" style={{borderRadius:'4px'}}>
-            {intl.get('trade.place_order_trezor_unsupport') }
-            <Tooltip title={intl.getHTML('trade.place_order_watch_only_tips')}>
-              <Icon className="color-gray-500 mr10" type="question-circle-o ml5"/>
-            </Tooltip>
-          </div>
-          }
-          {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE && window.WALLET_UNLOCK_TYPE !== 'Trezor' && !isWatchOnly &&
-          <Form.Item className="mb0">
-            {
-              side == 'buy' &&
-              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-green-500 border-none color-white"
-                      size="large" loading={this.state.loading}>
-                {intl.get('trade.place_order')}
-              </Button>
-            }
-            {
-              side == 'sell' &&
-              <Button onClick={handleSubmit.bind(this)} type="" className="d-block w-100 bg-red-500 border-none color-white"
-                      size="large" loading={this.state.loading}>
-                {intl.get('trade.place_order')}
-              </Button>
-            }
-          </Form.Item>
-          }
-          {(!account || !account.isUnlocked) &&
-            <Form.Item className="mb0">
-            {
-              side == 'buy' &&
-              <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom'})} type="" className="d-block w-100 bg-green-500 border-none color-white"
-                      size="large">
-                {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
-              </Button>
-            }
-            {
-              side == 'sell' &&
-              <Button onClick={showModal.bind(this,{id:'wallet/unlock', pageFrom:'TradeFrom'})} type="" className="d-block w-100 bg-red-500 border-none color-white"
-                      size="large">
-                {intl.get('trade.unlock_your_wallet')} {intl.get('trade.to_trade')}
-              </Button>
-            }
-            </Form.Item>
-          }
+
         </Form>
       </div>
     );

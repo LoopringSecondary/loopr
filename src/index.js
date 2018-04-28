@@ -9,6 +9,7 @@ import CONFIG from './common/config'
 import STORAGE from './modules/storage'
 import {setLocale} from "./common/utils/localeSetting";
 import {configs} from './common/config/data'
+import UserAgent from './common/utils/useragent'
 
 window.CONTAINERS = containers
 window.REDUX = redux
@@ -24,6 +25,7 @@ if(latestVersion > oldVersion) {
 window.STORAGE = STORAGE
 window.WALLET_UNLOCK_TYPE = ''
 window.WALLET = null
+window.USER_AGENT = new UserAgent();
 
 setLocale(window.STORAGE.settings.get().preference.language);
 
@@ -60,4 +62,6 @@ app.router(require('./router').default);
 // 5. Start
 app.start('#root');
 
+// STORE is available when current route has rendered
+// Becarefull to use STORE in render funtion
 window.STORE = app._store

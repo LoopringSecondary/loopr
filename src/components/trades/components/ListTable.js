@@ -30,24 +30,24 @@ function ListBlock(props) {
     e.clipboardData.setData("text", value);
   };
   const renders = {
-    ringHash: (value, item, index) => {
+    ringIndex: (value, item, index) => {
       const gapPosition = item.fillIndex === 0 ? 'top' : 'bottom';
       return (
         <div>
-          <a className="text-truncate text-left color-blue-500" onCopy={handleCopy.bind(this, value)}
+          <a className="text-truncate text-left color-blue-500"
              style={{maxWidth: '150px'}}
              onClick={showModal.bind(this, {id: 'trade/detail', item})}>
-            {uiFormatter.getShortAddress(value)}
+            {value}
           </a>
         </div>
       )
     },
     side: (value, item, index) => {
       if (item.side === 'sell') {
-        return <div className="color-green-500">{intl.get('orders.side_sell')}</div>
+        return <div className="color-red-500">{intl.get('orders.side_sell')}</div>
       }
       if (item.side === 'buy') {
-        return <div className="color-red-500">{intl.get('orders.side_buy')}</div>
+        return <div className="color-green-500">{intl.get('orders.side_buy')}</div>
       }
     },
     amount: (value, item, index) => {
@@ -71,6 +71,10 @@ function ListBlock(props) {
     lrcFee: (value, item, index) => {
       const fmLrc = new fm({symbol: 'LRC'});
       return <span> {uiFormatter.getFormatNum(fmLrc.getAmount(item.lrcFee))} {'LRC'} </span>
+    },
+    lrcReward: (value, item, index) => {
+      const fmLrc = new fm({symbol: 'LRC'});
+      return <span> {uiFormatter.getFormatNum(fmLrc.getAmount(item.lrcReward))} {'LRC'} </span>
     },
     time: (value, item, index) => {
       return uiFormatter.getFormatTime(toNumber(item.createTime) * 1e3)

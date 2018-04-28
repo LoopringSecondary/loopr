@@ -2,6 +2,8 @@ import intl from 'react-intl-universal';
 import locale from '../../modules/locales/localesData'
 import moment from 'moment';
 
+
+
 const locales = {
   "en-US": locale.en_US,
   "zh-CN": locale.zh_CN,
@@ -29,3 +31,5 @@ export function setLocale(value) {
   window.locale = value || 'en-US'
 
 }
+
+

@@ -1,10 +1,19 @@
 import React from 'react';
-import {Link} from 'dva/router';
-import {Card,Spin} from 'antd';
-import {toNumber} from "Loopring/common/formatter";
+import {Card, Spin, Button} from 'antd';
+import {toNumber,toBig,toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
 import {getTransactionByhash} from 'Loopring/ethereum/utils'
-import {toBig} from "../../../common/Loopring/common/formatter";
+import {
+  getEstimatedAllocatedAllowance,
+  getFrozenLrcFee,
+  getPendingRawTxByHash,
+  notifyTransactionSubmitted
+} from "Loopring/relay/utils";
+import Notification from 'Loopr/Notification';
+import {getGasPrice} from '../../../common/Loopring/relay/account';
+import Alert from 'Loopr/Alert'
+import moment from 'moment'
+
 
 const MetaItem = (props) => {
   const {label, value, render} = props
@@ -47,17 +56,17 @@ class DetailBlock extends React.Component {
     const {modals} = this.props;
     const modal = modals['transaction/detail'];
     const item = modal.item;
-    const {ethTx,loading} = this.state;
+    const {ethTx, loading} = this.state;
     const handleCopy = (value, e) => {
       e.preventDefault();
       e.clipboardData.setData("text", value);
     };
     const renders = {
-      txHash: (value) => <a className="text-truncate d-block" target="_blank" onCopy={handleCopy.bind(this,value)}
+      txHash: (value) => <a className="text-truncate d-block" target="_blank" onCopy={handleCopy.bind(this, value)}
                             href={`https://etherscan.io/tx/${value}`}>{value}</a>,
       blockNumber: (value) => <a className="text-truncate d-block" target="_blank"
                                  href={`https://etherscan.io/block/${value}`}>{value}</a>,
-      address: (value) => <a className="text-truncate d-block" target="_blank" onCopy={handleCopy.bind(this,value)}
+      address: (value) => <a className="text-truncate d-block" target="_blank" onCopy={handleCopy.bind(this, value)}
                              href={`https://etherscan.io/address/${value}`}>{value}</a>,
     };
     const getType = () => {
@@ -72,7 +81,7 @@ class DetailBlock extends React.Component {
         case 'convert_outcome':
           return item.symbol === 'ETH' ? intl.get('txs.type_convert_title_eth') : intl.get('txs.type_convert_title_weth');
         case 'convert_income':
-          return item.symbol === 'WETH' ? intl.get('txs.type_convert_title_eth'): intl.get('txs.type_convert_title_weth');
+          return item.symbol === 'WETH' ? intl.get('txs.type_convert_title_eth') : intl.get('txs.type_convert_title_weth');
         case 'cancel_order':
           return intl.get('txs.cancel_order')
         case 'cutoff':
@@ -83,9 +92,56 @@ class DetailBlock extends React.Component {
           return intl.get('txs.others')
       }
     };
+
+    const reSendTx = (txHash) => {
+      const state = window.STORE.getState();
+      if(state && state.account && state.account.walletType === 'Address') {
+        window.STORE.dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:{},
+            visible:true
+          }
+        });
+        return
+      }
+      getPendingRawTxByHash(txHash).then(async (res) => {
+        if (!res.error) {
+          const tx = res.result;
+          const gasPriceRes = await getGasPrice();
+          tx.gasPrice = toHex(toBig(gasPriceRes.result));
+          tx.data = tx.input;
+          window.WALLET.sendTransaction(tx).then(({response, rawTx}) => {
+            if (!response.error) {
+              Notification.open({message: intl.get("txs.resend_success"), type: "success", description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
+              notifyTransactionSubmitted({txHash: response.result, rawTx, from: window.WALLET.getAddress()});
+            } else {
+              Notification.open({message: intl.get("txs.resend_failed"), type: "error", description:response.error.message})
+            }
+          })
+        } else {
+          Notification.open({
+            type: 'error',
+            message: intl.get('txs.can_not_resend'),
+            description: intl.get('txs.not_detail')
+          });
+        }
+      })
+    };
+
     return (
       <Card title={intl.get('txs.tx_detail')}>
         <Spin spinning={loading}>
+          {!(ethTx && ethTx.blockNumber) && !loading && item.status === 'pending' && (moment().valueOf()/1e3 - item.createTime) > 300 &&
+          <Alert className="mb15" type="info" theme="light"  title ={intl.get("txs.resend_title")} description={intl.get('txs.resend_tips')}
+                 actions={(<Button type='primary' onClick={reSendTx.bind(this, item.txHash)}>{intl.get("txs.resend")}</Button>)}
+          />}
+          {(ethTx && ethTx.blockNumber) && item.status === 'pending' && !loading && (moment().valueOf()/1e3 - item.createTime) > 300 &&
+          <Alert className="mb15" type="info" title={intl.get('txs.not_need_resend')} description={
+            <div className="">{intl.get('txs.not_resend_tips')}</div>}
+          />
+          }
           <MetaItem label={intl.get('txs.tx_hash')} value={item.txHash} render={renders.txHash}/>
           <MetaItem label={intl.get('txs.to')} value={item.to} render={renders.address}/>
           <MetaItem label={intl.get('txs.block_num')} value={item.blockNumber} render={renders.blockNumber}/>
@@ -97,7 +153,7 @@ class DetailBlock extends React.Component {
           <MetaItem label={intl.get('token.gas_price')}
                     value={ethTx && window.uiFormatter.getFormatNum(toNumber(ethTx.gasPrice) / 1e9) + " Gwei"}/>
           <MetaItem label={intl.get('wallet.nonce')} value={toNumber(item.nonce)}/>
-          <MetaItem label={intl.get('txs.value')} value={ethTx && toBig(ethTx.value).div(1e18).toNumber()+ ' ETH'}/>
+          <MetaItem label={intl.get('txs.value')} value={ethTx && toBig(ethTx.value).div(1e18).toNumber() + ' ETH'}/>
         </Spin>
       </Card>
     );

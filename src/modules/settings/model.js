@@ -20,26 +20,7 @@ const setRelayIds = (relays) => {
 export default {
   namespace: 'settings',
   state: {
-    preference: {
-      language: preference ? preference.language : "en-US",
-      currency: preference ? preference.currency : "USD",
-      timezone: preference ? preference.timezone : "UTC+00:00"
-    },
-    trading: {
-      contract: {
-        version: selectedContract.version,
-        address: selectedContract.address
-      },
-      timeToLive: trading ? trading.timeToLive : configs.defaultExpireTime,
-      timeToLiveUnit: trading ? trading.timeToLiveUnit : configs.defaultExpireTimeUnit,
-      lrcFee: trading ? trading.lrcFee : configs.defaultLrcFeePermillage,
-      marginSplit: trading ? trading.marginSplit : configs.defaultMarginSplitPercentage,
-      gasPrice: trading ? trading.gasPrice : configs.defaultGasPrice
-    },
-    relay: {
-      selected: selectedRelay,
-      nodes: sortedRelays
-    }
+    ...window.STORAGE.settings.get()
   },
   reducers: {
     preferenceChange(state, { payload }) {

@@ -1,12 +1,11 @@
 import React from 'react';
-import {Icon} from 'antd';
 import intl from 'react-intl-universal';
 
 const schema = [
   {
     title: () => intl.get('trade.ring'),
-    description: 'The ring hash',
-    name: 'ringHash',
+    description: 'The ring Index',
+    name: 'ringIndex',
   },
   {
     title: () => intl.get('orders.market'),
@@ -36,7 +35,11 @@ const schema = [
     description: 'The total lrc fee.',
     name: 'lrcFee',
   },
-
+  {
+    title: () => intl.get('orders.LrcReward'),
+    description: 'The total lrc Reward.',
+    name: 'lrcReward',
+  },
   {
     title: () => intl.get('orders.time'),
     description: 'The ring matched time',

@@ -36,9 +36,13 @@
     .ant-input{
     	background: #f3f3f3 !important;
     	border:none !important;
+      background: #f5f5f5 !important;
+      border: 1px solid #f3f3f3 !important;
+      border-radius: 0px !important;
     }
     .ant-input-lg{
     	height:44px !important;
+      font-size:1.4rem !important;
     }
     .ant-popover-title{
       min-width:auto !important;
@@ -54,6 +58,22 @@
     }
     .ant-select-selection-selected-value{
       font-size:13px !important;
+    }
+    .loopring-select-wrapper{
+      background: #f3f3f3 !important;
+      .ant-form-item{
+        margin-right:0px !important;
+      }
+      .ant-select{
+        width:auto !important;
+      }
+      font-size:14px;
+      // line-height: 1.6;
+      // height: 32px;
+      .select-prefix{
+        padding-left: 10px;
+        padding-right: 5px;
+      }
     }
     .ant-form label{
       font-size:14px !important;
@@ -117,13 +137,13 @@
    	border:none !important;
    }
    .ant-table .ant-table-thead > tr > th{
-      padding:15px 8px !important;
+      padding:10px 8px !important;
 			// &:last-child{
 			// 	border-right:1px solid #eee !important;
 			// }
    }
     .ant-table .ant-table-tbody > tr > td{
-       padding:12px 8px !important;
+       padding:10px 8px !important;
        font-weight: normal;
       // &:last-child{
       //  border-right:1px solid #eee !important;
@@ -239,6 +259,9 @@
       .ant-tabs-bar{
         margin-bottom:0px !important;
         border-bottom:0px !important;
+      }
+      .ant-tabs-nav-container{
+        margin-bottom: 0px;
       }
       .ant-tabs-nav .ant-tabs-tab .anticon{
         margin-right:0px !important;
@@ -428,13 +451,13 @@
   .ant-table .ant-table-thead > tr > th{
     color:rgba(0,0,0,0.55) !important;
     background:#fff !important;
-    font-size:14px;
+    font-size:13px;
   }
   .ant-table .ant-table-tbody > tr > td{
     border-right:none !important;
     border-bottom:none;
     color:rgba(0,0,0,0.55) !important;
-    font-size:14px;
+    font-size:13px;
   }
   .loopring-notify{
     .ant-notification-notice-close{
@@ -471,6 +494,7 @@
   .loopring-alert{
     .alert-btn{
       border:none;
+      min-width:80px;
     }
     &.s-medium{
       padding:15px;
@@ -487,9 +511,10 @@
         padding-right: 1.5rem;
       }
       .alert-description{
-        font-size:1.3rem;
-        line-height: 1.6;
+        font-size:1.4rem;
+        line-height: 1.5rem;
         padding-right: 1.5rem;
+        margin-top: 0.2rem;
       }
       .alert-actions{
         margin-top: .5rem;
@@ -532,14 +557,26 @@
         color:rgba(255,255,255,1);
       }
       .alert-description{
-        color:rgba(255,255,255,0.95);
+        color:rgba(255,255,255,0.9);
       }
-      .alert-btn{
-        color:rgba(255,255,255,0.95);
-        background:rgba(0,0,0,0.07);
-        &:hover{
-          background: #fff;
-          color:#333;
+      .alert-actions > div {
+        .alert-btn{
+          color:rgba(255,255,255,0.85);
+          background:rgba(0,0,0,0.07);
+          &:hover{
+            background: #fff;
+            color:#1890ff;
+          }
+        }
+        .alert-btn:last-child{
+          color:#0077FF;
+          // background: #fff;
+          background:rgba(0,0,0,0.20);
+          color:#fff;
+          &:hover{
+            background: #fff;
+            color:#1890ff;
+          }
         }
       }
       &.t-error{
@@ -750,6 +787,14 @@
       }
     }
   }
+  .ant-card.rs-p0{
+    .ant-card-head{
+      padding:0px;
+    }
+    .ant-card-body{
+      padding:0px;
+    }
+  }
   .settings-card{
     .ant-card-body{
       padding:0px !important
@@ -798,6 +843,17 @@
     min-height:calc(~"100vh - 150px");
     min-height:-webkit-calc(~"100vh - 150px");
     min-height:-moz-calc(~"100vh - 150px");
+  }
+
+  .ant-radio-inner:after{
+    border-radius: 50% !important;
+  }
+  .market-item-token-dropdown{
+    color:rgba(0,0,0,0.5);
+    &:hover{
+      color:#fff;
+      background: #0077FF;
+    }
   }
 
 

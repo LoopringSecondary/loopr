@@ -1,14 +1,15 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Badge, Spin, Alert, Button, Icon} from 'antd';
+import {Alert, Badge, Button, Spin, Popover,Icon} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
 import CoinIcon from '../../common/CoinIcon'
-import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from "Loopring/relay/utils";
+import {getEstimatedAllocatedAllowance, getFrozenLrcFee, getPendingRawTxByHash} from "Loopring/relay/utils";
 import {toBig} from "Loopring/common/formatter";
 import config from '../../../common/config'
 import Notification from 'Loopr/Notification'
+import moment from 'moment'
 
 const uiFormatter = window.uiFormatter;
 
@@ -37,7 +38,6 @@ class ListBlock extends React.Component {
   }
 
   getNeeded = (currentToken) => {
-
     getEstimatedAllocatedAllowance(window.WALLET.getAddress(), currentToken).then(res => {
       if (!res.error) {
         const orderAmount = toBig(res.result);
@@ -45,13 +45,13 @@ class ListBlock extends React.Component {
           getFrozenLrcFee(window.WALLET.getAddress()).then(res => {
             if (!res.error) {
               const lrcFee = toBig(res.result);
-              this.setState({needed: orderAmount.plus(lrcFee), token: currentToken});
+              this.setState({needed: orderAmount.plus(lrcFee)});
             } else {
-              this.setState({needed: orderAmount, token: currentToken});
+              this.setState({needed: orderAmount});
             }
           })
         } else {
-          this.setState({needed: orderAmount, token: currentToken});
+          this.setState({needed: orderAmount});
         }
       }
     })
@@ -60,9 +60,9 @@ class ListBlock extends React.Component {
   render() {
     const {LIST, actions, prices, assets} = this.props;
     const {items = [], loading, page = {}, filters} = LIST;
-    const {token, needed} = this.state;
+    const token = filters.token
+    const {needed} = this.state;
     const balance = token && assets.getTokenBySymbol(token).balance;
-    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',
@@ -80,23 +80,52 @@ class ListBlock extends React.Component {
       })
     };
     const gotoConvert = (item) => {
-      showModal({
+      const originalData = {
         id: 'token/convert',
         item,
         showFrozenAmount: true
-      })
+      }
+      const state = window.STORE.getState()
+      if(state && state.account && state.account.walletType === 'Address') {
+        this.props.dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:originalData,
+            visible:true
+          }
+        })
+      } else {
+        showModal(originalData)
+      }
     }
     const gotoTransfer = () => {
-      showModal({
+      const originalData = {
         id: 'token/transfer',
         item: {symbol: token}
-      })
+      }
+      const state = window.STORE.getState()
+      if(state && state.account && state.account.walletType === 'Address') {
+        this.props.dispatch({
+          type:'modals/modalChange',
+          payload:{
+            id:'wallet/watchOnlyToUnlock',
+            originalData:originalData,
+            visible:true
+          }
+        })
+      } else {
+        showModal(originalData)
+      }
     };
 
-    const gotoTrade = () => {
-      const foundMarket = config.getTokenSupportedMarket(token)
-      if(foundMarket) {
-        window.routeActions.gotoPath('/trade/'+foundMarket)
+    const getTokenSupportedMarkets = (selectedToken) => {
+      return config.getTokenSupportedMarkets(selectedToken)
+    };
+
+    const gotoTrade = (market) => {
+      if(config.isSupportedMarket(market)) {
+        window.routeActions.gotoPath('/trade/'+market)
         return
       }
       Notification.open({
@@ -183,9 +212,15 @@ class ListBlock extends React.Component {
       </span>
       )
       const caption = (
-        <div className="">
-          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5 d-block pointer">
-            {title} <span className="ml10">{statusCol}</span>
+        <div className="d-block">
+          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5  pointer">
+            {title}
+            <span className="ml10">
+              {statusCol}
+              <span className="ml10 fs12">
+                {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && (<span className='ml5 color-black-3'>( {moment(item.createTime * 1e3).fromNow()} {((moment().valueOf()/1e3)-item.createTime) > 300 && <span className='color-primary-1'> {intl.get('txs.resend')}</span>})</span> ) }
+              </span>
+            </span>
           </a>
           <div className="fs3 color-black-3">
             <span className="d-inline-block  text-truncate text-nowrap mr15">
@@ -197,7 +232,7 @@ class ListBlock extends React.Component {
             </a>
           </div>
         </div>
-      )
+      );
       return (
         <div className="mt15 pb15 zb-b-b">
           <div className="row align-items-center no-gutters flex-nowrap" key={index}>
@@ -243,9 +278,28 @@ class ListBlock extends React.Component {
             }
           </div>
         </div>
-
       )
     }
+
+    const TokenActions = (token) => (
+      <div style={{minWidth: '80px'}}>
+        {
+          getTokenSupportedMarkets(token).map((item,index)=>{
+            return (
+              <div key={index} className="market-item-token-dropdown row cursor-pointer zb-b-b pl10 pr5 ml0 mr0 gutter-0 align-items-center" onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)}>
+                <div className="col fs14 lh30 " >
+                   {item.tokenx+"-"+item.tokeny}
+                </div>
+                <div className="col-auto fs12 color-black-4 pl25">
+                  <Icon type="right" />
+                </div>
+              </div>
+            )
+          })
+        }
+      </div>
+    );
+
     return (
       <div className="">
         <div className="row zb-b-b pt15 pb15 ml0 mr0">
@@ -253,7 +307,7 @@ class ListBlock extends React.Component {
             <div className="fs1 color-black-1 ml15">{filters.token}</div>
           </div>
           <div className="col text-right pl0 pr0">
-            <Button onClick={gotoTransfer} className="mr5" type="primary" disabled={isWatchOnly}>
+            <Button onClick={gotoTransfer} className="mr5" type="primary">
               <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_transfer')} {filters.token}</span>
             </Button>
@@ -261,23 +315,36 @@ class ListBlock extends React.Component {
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
             </Button>
-            {filters.token !== 'ETH' && filters.token !== 'WETH' &&
-              <Button onClick={gotoTrade} className="mr15" type="primary" disabled={isWatchOnly}>
+            {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length > 0 &&
+              <Popover
+                title={null}
+                placement="bottom"
+                arrowPointAtCenter
+                content={TokenActions(filters.token)}
+              >
+                <Button className="mr15" type="primary">
+                  <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+                  <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token} </span>
+                </Button>
+              </Popover>
+            }
+            {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length === 0 &&
+              <Button className="mr15" type="primary" disabled={true}>
                 <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-                <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_trade')} {filters.token}</span>
+                <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token}</span>
               </Button>
             }
             {
               (filters.token === 'ETH') &&
-              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
-                <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
+              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary">
+                <i className="icon-loopring icon-loopring-convert fs16 mr5"/>
                 {intl.get('token.token_convert', {from:"", to:'WETH'})}
               </Button>
             }
             {
               (filters.token === 'WETH') &&
-              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary" disabled={isWatchOnly}>
-                <i className="icon-loopring icon-loopring-trade fs16 mr5"/>
+              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary">
+                <i className="icon-loopring icon-loopring-convert fs16 mr5"/>
                 {intl.get('token.token_convert', {from:"", to:'ETH'})}
               </Button>
             }

@@ -12,6 +12,7 @@ class AirdropBind extends React.Component {
   state = {
     address: null,
     project: null,
+    loading: false
   };
 
   componentDidMount() {
@@ -89,76 +90,95 @@ class AirdropBind extends React.Component {
     });
   };
 
-  bindAddress = async (address, project) => {
-    const {tradingConfig, page} = this.props;
-    const nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
-    const tx = generateBindAddressTx({
-      projectId: project.projectId,
-      address,
-      gasPrice: toHex(tradingConfig.gasPrice * 1e9),
-      nonce: toHex(nonce)
-    });
-    window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
-      if (response.error) {
-        Notification.open({
-          message: intl.get('wallet.bind_failed'),
-          type: 'error', description: response.error.message
-        })
-      } else {
-        Notification.open({
-          message: intl.get('wallet.bind_success'),
-          type: 'success',
-          description: (<Button className="alert-btn mr5"
-                                onClick={() => window.open(`https://etherscan.io/tx/${response.result}`, '_blank')}> {intl.get('token.transfer_result_etherscan')}</Button>)
-        });
-        //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
-        window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
-        notifyTransactionSubmitted({txHash:response.result,rawTx,from:window.WALLET.getAddress()});
-        this.setState({address: null, project: null});
-        page.onClose();
-        // modal.hideModal({id: 'wallet/bind'});
-        // modal.hideModal({id: 'wallet/airdrop'});
-      }
-    });
-
-  };
-  bindEnter = (e) => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      const address = e.target.value;
-      const project = this.state.project;
-      this.bindAddress(address, project);
-    }
-  };
-
-
   addressChange = (e) => {
     this.setState({address: e.target.value})
   };
 
   render() {
+    const {form, account} = this.props
     const {project, address} = this.state;
-    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
+    const isWatchOnly = account.walletType === 'Address'
+    const _this = this
+
+    const bindAddress = (address, project) => {
+      form.validateFields(async (err, values) => {
+        _this.setState({loading:true})
+        if (!err) {
+          const {tradingConfig, page} = this.props;
+          const state = window.STORE.getState()
+          if(state && state.account && state.account.walletType === 'Address') {
+            page.onClose();
+            this.props.dispatch({
+              type:'modals/modalChange',
+              payload:{
+                id:'wallet/airdrop',
+                visible:false
+              }
+            })
+            this.props.dispatch({
+              type:'modals/modalChange',
+              payload:{
+                id:'wallet/watchOnlyToUnlock',
+                originalData:{id:'wallet/airdrop'},
+                visible:true
+              }
+            })
+            _this.setState({loading:false})
+            return
+          }
+          const nonce = await window.STORAGE.wallet.getNonce(window.WALLET.getAddress());
+          const tx = generateBindAddressTx({
+            projectId: project.projectId,
+            address,
+            gasPrice: toHex(tradingConfig.gasPrice * 1e9),
+            nonce: toHex(nonce)
+          });
+          window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
+            if (response.error) {
+              _this.setState({loading:false})
+              Notification.open({
+                message: intl.get('wallet.bind_failed'),
+                type: 'error', description: response.error.message
+              })
+            } else {
+              Notification.open({
+                message: intl.get('wallet.bind_success'),
+                type: 'success',
+                description: (<Button className="alert-btn mr5"
+                                      onClick={() => window.open(`https://etherscan.io/tx/${response.result}`, '_blank')}> {intl.get('token.transfer_result_etherscan')}</Button>)
+              });
+              //    window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
+              window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
+              notifyTransactionSubmitted({txHash:response.result,rawTx,from:window.WALLET.getAddress()});
+              this.setState({address: null, project: null,loading:false});
+              page.onClose();
+              // modal.hideModal({id: 'wallet/bind'});
+              // modal.hideModal({id: 'wallet/airdrop'});
+            }
+          }).catch(e=>{
+            _this.setState({loading:false})
+          });
+        } else {
+          _this.setState({loading:false})
+        }
+      })
+    };
+
+    const bindEnter = (e) => {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        const address = e.target.value;
+        const project = this.state.project;
+        bindAddress(address, project);
+      }
+    };
+
+    function validateNeoAddress(value) {
+      return value
+    }
+
     return (
       <Card title={intl.get('wallet.bind_tip')}>
-        <Alert className="mb15" type="info" showIcon message={
-          <div className="">{intl.get('airdrop.cost_eth_gas')}</div>
-        }
-        />
-        {
-          isWatchOnly && window.IS_DEMO_WALLET &&
-          <Alert className="mb15" type="warning" showIcon message={
-            <div>{intl.get('demo.airdrop_not_allowed')}</div>
-          }
-          />
-        }
-        {
-          isWatchOnly && !window.IS_DEMO_WALLET &&
-          <Alert className="mb15" type="warning" showIcon message={
-            <div>{intl.get('airdrop.watch_only_not_allowed')}</div>
-          }
-          />
-        }
         <Form>
           {
             false &&
@@ -172,34 +192,76 @@ class AirdropBind extends React.Component {
             </Form.Item>
           }
           <Form.Item label={null}>
-            <Input
-              addonBefore={'ETH ' + intl.get('wallet.address')}
-              size="large"
-              className="fs14"
-              value={window.WALLET.getAddress()}
-              disabled
-            />
+            {form.getFieldDecorator('ethAddress', {
+              initialValue: account.address,
+              rules: [{
+                message: intl.get('airdrop.eth_adress_null'),
+                validator: (rule, value, cb) => validateNeoAddress(value) ? cb() : cb(true)
+              }]
+            })(
+              <Input
+                addonBefore={'ETH ' + intl.get('wallet.address')}
+                size="large"
+                className="fs14"
+                disabled
+              />
+            )}
           </Form.Item>
-
           <Form.Item label={null}>
-            <Input
-              addonBefore={<div style={{minWidth:''}}>{project && project.name} {intl.get('wallet.address')}</div> }
-              addonAfter={<Tooltip title={<div>{intl.get('wallet.get_address', {project: project ? project.name : ''})}? <a href={project && project.website} target='_blank'>{intl.get('wallet.go_to', {project: project ? project.name : ''})}</a> </div>}><Icon className="fs3" type="question-circle-o"/></Tooltip>}
-              size="large"
-              className="fs14"
-              placeholder={intl.get('wallet.address_tip', {project: project ? project.name : ''})}
-              onChange={this.addressChange}
-              value={address}
-              onKeyDown={this.bindEnter}
-            />
+            {form.getFieldDecorator('neoAddress', {
+              initialValue: address,
+              rules: [{
+                message: intl.get('airdrop.neo_address_null'),
+                validator: (rule, value, cb) => validateNeoAddress(value) ? cb() : cb(true)
+              }]
+            })(
+              <Input
+                addonBefore={<div style={{minWidth:''}}>{project && project.name} {intl.get('wallet.address')}</div> }
+                addonAfter={<Tooltip title={<div>{intl.get('wallet.get_address', {project: project ? project.name : ''})}? <a href={project && project.website} target='_blank'>{intl.get('wallet.go_to', {project: project ? project.name : ''})}</a> </div>}><Icon className="fs3" type="question-circle-o"/></Tooltip>}
+                size="large"
+                className="fs14"
+                placeholder={intl.get('wallet.address_tip', {project: project ? project.name : ''})}
+                onChange={this.addressChange}
+                onKeyDown={bindEnter}
+              />
+            )}
           </Form.Item>
         </Form>
+        <Alert className="mb10" type="info" showIcon message={
+          <div className="row">
+            <div className="col">
+              <div className="">{intl.get('airdrop.cost_eth_gas')}</div>
+            </div>
+          </div>
+        }
+        />
+        {
+          isWatchOnly && window.IS_DEMO_WALLET &&
+          <Alert className="mb10" type="warning" showIcon message={
+            <div className="row">
+              <div className="col">
+                <div>{intl.get('demo.airdrop_not_allowed')}</div>
+              </div>
+            </div>
+          }
+          />
+        }
+        {
+          isWatchOnly && !window.IS_DEMO_WALLET &&
+          <Alert className="mb10" type="error" showIcon message={
+            <div className="row">
+              <div className="col">
+                <div>{intl.get('airdrop.watch_only_not_allowed')}</div>
+              </div>
+            </div>
 
-
-        <div className="mb25"></div>
-        <Button type='primary' className="d-block w-100" size="" onClick={this.bindAddress.bind(this, this.state.address, this.state.project)}
-                disabled={!project || !address || isWatchOnly}>{intl.get('wallet.bind_address')}</Button>
-        <Button type='default' className='d-block w-100 mt10' size="" onClick={this.cancel}>{intl.get('airdrop.goback')}</Button>
+          }
+          />
+        }
+        <Button type='primary' className="d-block w-100" size="large" onClick={bindAddress.bind(this, this.state.address, this.state.project)} loading={this.state.loading}>
+          {intl.get('wallet.bind_address')}
+        </Button>
+        <Button type='default' className='d-block w-100 mt10' size="large" onClick={this.cancel}>{intl.get('airdrop.goback')}</Button>
       </Card>
     );
   }
@@ -208,8 +270,21 @@ class AirdropBind extends React.Component {
 function mapStateToProps(state) {
   return {
     tradingConfig: state.settings.trading,
-  };
+    account: state.account
+  }
 }
 
-export default connect(mapStateToProps)(AirdropBind)
+export default connect(mapStateToProps)(
+  Form.create({
+    mapPropsToFields(props) {
+      return {
+        ethAddress: Form.createFormField(
+          props.account.address
+        ),
+      }
+    }
+  })(
+    AirdropBind
+  )
+)
 

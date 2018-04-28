@@ -9,6 +9,10 @@ export default {
     wallet:"Wallet",
     yes:"Yes",
     no:"No",
+    price:'Price',
+    amount_label:'Amount',
+    total:'Total',
+    time:'Time',
   },
   version:{
     label:'Beta2',
@@ -28,13 +32,13 @@ export default {
 ## ISSUES \n
 Select Topics: Unlock Wallet | Generate Wallet | Bind Airdrop Addresses | Send/Receive | Trading | History Data | Others \n
 Browser: Chrome | Safari | Internet Explorer | Others (please specify)\n
-Operation System:\n 
+Operation System:\n
 Your Ethereum address: (if applicable)\n
 I've found some issues:
 \n
 \n
 ## SUGGESTIONS:\n
-I got this great idea: 
+I got this great idea:
 \n
 \n
 `,
@@ -90,7 +94,7 @@ I got this great idea:
     balance_not_enough: 'In order for your order to be fully filled, {amount} more {token} is required.',
     submit: "Submit Order",
     confirm_cancel_order: "Do you want to cancel this order?",
-    confirm_cancel_all: "This operation will cancel all the {pair} orders. Do you want to proceed?",
+    confirm_cancel_all: "Are you sure to cancel all  {pair} orders ?",
     cancel_order_success: "Your order has been cancelled.",
     cancel_order_failed: "Woops, order cancellation somehow failed.",
     cancel_all_success: "All your {pair} orders have been cancelled.",
@@ -111,6 +115,8 @@ I got this great idea:
     vol: 'Volume',
     market: 'Market',
     favorites: 'Favorites',
+    select_a_market:'Select a market',
+    back_to_wallet:'Back to Wallet',
   },
   exchanges: {
     loopr: 'Loopring DEX Price',
@@ -143,7 +149,7 @@ I got this great idea:
     status_pending: 'Pending',
     status_success: 'Succeeded',
     status_failed: 'Failed',
-    type: 'Type',
+    type: 'Types',
     type_transfer: 'Send',
     type_convert: 'Convert',
     buy: "Buy",
@@ -151,12 +157,12 @@ I got this great idea:
     type_convert_title_weth: 'Convert to ETH',
     type_receive: 'Receive',
     type_enable: 'Enable',
-    type_enable_title: "Enable {symbol} to Trade",
-    type_transfer_title: "Send {symbol}",
-    type_receive_title: "Receive {symbol}",
-    cancel_order: 'Cancel Order',
-    cancel_all: 'Cancel All Orders',
-    cancel_pair_order: "Cancel All {pair} Orders",
+    type_enable_title: "Enabled {symbol} to Trade",
+    type_transfer_title: "Sent {symbol}",
+    type_receive_title: "Received {symbol}",
+    cancel_order: 'Canceled Order',
+    cancel_all: 'Canceled All Orders',
+    cancel_pair_order: "Canceled All {pair} Orders",
     others: "Others",
     balance_not_enough: "Your balance is insufficient!",
     value: "Value",
@@ -169,17 +175,25 @@ I got this great idea:
     failed: "Failed",
     pending: "Pending",
     no_txs:'No data',
+    resend:"Resend",
+    resend_tips:"Increase gas price and resend this tx if you want it to be confirmed earlier. Only one of the two transactions will be confirmed, and only one transaction will be charged.",
+    not_resend_tips:"Tx has already been confirmed, it doesn't need to be resent. ",
+    resend_success:"Resent Successfully",
+    resend_failed:"Resent Failed",
+    can_not_resend:"Can't not resend",
+    not_detail:"Can't get detail information of this tx.",
+    resend_title:"The tx has not been confirmed for a long time."
   },
   orders: {
     order: "Order",
     time: "Time",
-    market: 'Market',
+    market: 'Markets',
     status: 'Status',
     status_opened: 'Open',
     status_completed: 'Completed',
     status_canceled: 'Cancelled',
     status_expired: 'Expired',
-    side: 'Side',
+    side: 'Sides',
     side_sell: 'Sell',
     side_buy: 'Buy',
     create_time: 'Created',
@@ -187,7 +201,8 @@ I got this great idea:
     amount: 'Amount',
     price: 'Price',
     total: 'Total',
-    LrcFee: 'Trading Fee (LRC）',
+    LrcFee: 'Trading Fee',
+    LrcReward:'Trading Reward',
     filled: 'Filled',
     options: "Options",
     balance_not_enough: "Your {token} balance is insufficient!",
@@ -202,7 +217,18 @@ I got this great idea:
     buy_amount: 'Buy Amount',
     order_detail: "Order Details",
     basic_detail:"Basic Details",
-    fill_detail:"Fill Details"
+    fill_detail:"Fill Details",
+    cancel_cost_gas:"Cancel order will cost gas",
+    auto_cancel_not_cost_gas:"Order expired will not cost gas",
+    manual_cancel_cost_gas:" Cancel order manually will cost gas",
+    cancel_order:"Cancel Order",
+    canceling:"Canceling",
+    order_canceling:"Order Canceling",
+    order_validity:"Order Validity",
+    wait_expire:"Wait for expiring automatically",
+    confirm_to_cancel:"Confirm to Cancel Order",
+    order_will_expire:"This order will be expired automatically in",
+    expire_duration:"{days,plural,=0{} =1{1 day} other {# days}} {hours,plural,=0{} =1{1 hour} other {# hours}} {minutes,plural,=1{1 minute} other {# minutes}}"
   },
   settings: {
     preference: "Preferences",
@@ -234,12 +260,15 @@ I got this great idea:
     orderForm: "Order Form",
     sell: "Sell",
     buy: "Buy",
+    order_book:'Order Book',
+    trade_history:'Trade History',
     balance: "Balance",
     price: "Price",
     price_verification_message: "Please input a valid price",
     amount: "Amount",
     amount_verification_message: "Please input a valid amount",
     available_amount: "Available Amount",
+    available: "available",
     total: "Total",
     advanced: "Advanced",
     time_to_live: "Expire in",
@@ -252,7 +281,7 @@ I got this great idea:
     day: "Day",
     week: "Week",
     month: "Month",
-    lrc_fee: "Trading Fee (LRC)",
+    lrc_fee: "Trading Fee",
     margin_split: "Margin Split",
     place_order: "Place Order",
     unlock_your_wallet: "Unlock a Wallet",
@@ -297,7 +326,7 @@ I got this great idea:
     current_lrc_fee: 'LRC Fee'
   },
   trades: {
-    side: 'Side',
+    side: 'Sides',
     side_sell: 'Sell',
     side_buy: 'Buy',
   },
@@ -357,8 +386,8 @@ I got this great idea:
     convert_succ_notification_title: 'Convertion Succeeded!',
     transfer_succ_notification_title: 'Transfer Succeeded!',
     custum_gas_title:'Adjust Gas',
-    custum_gas_content:'If you just want to send some token, according to Ethereum current gas price, we advice you to set {gas}',
-    custum_gas_advance_content:'If you just want to send some token, according to Ethereum current gas price, we advice you to set GasLimit to {gasLimit}, set GasPrice to {gasPrice}',
+    custum_gas_content:'we advice you to set {gas}',
+    custum_gas_advance_content:'we advice you to set GasLimit to {gasLimit}, set GasPrice to {gasPrice}',
     token_convert:'Convert {from} to {to}',
     gas_fast_setting: 'Fast Settings',
     gas_custom_setting: 'Custom Settings'
@@ -366,7 +395,9 @@ I got this great idea:
   airdrop:{
     cost_eth_gas:"Binding address takes one Ethereum transaction.",
     goback:"Back",
-    watch_only_not_allowed:"Watch-only wallet cannot bind addresses.",
+    watch_only_not_allowed:"Watch-only mode cannot bind addresses.",
+    eth_adress_null:'Please unlocked your wallet and try again',
+    neo_address_null:'Please input your valid NEO address to bind'
   },
   wallet: {
     bind_tip: "Airdrop Binding",
@@ -411,8 +442,8 @@ I got this great idea:
     failed_connect_metamask_title: 'Failed To Connect With MetaMask',
     content_metamask_mainnet: "We only support Ethereum mainnet when using MetaMask",
     title_metamask_logout: "Logout From MetaMask",
-    content_metamask_logout: "We detected you have logout from MetaMask, for your assets safety we have relocked your wallet",
-    content_metamask_unlock_again: "You may have changed your MetaMask network, or your computer has ever been locked. For either reason, you should make sure your MetaMask is using MainNetwork and unlock your wallet again",
+    content_metamask_logout: "We detected you have logged out from MetaMask, for your assets safety we have relocked your wallet",
+    content_metamask_unlock_again: "We detected your computer or MetaMask network has changed, for your assets safety we have relocked your wallet, you should make sure your MetaMask is using MainNetwork and unlock your wallet again",
     content_metamask_install: "Your may need to install MetaMask extension to your browser first, please reload our page after installed",
     content_metamask_locked: "Failed to connect with MetaMask, please unlock and use",
     content_metamask_install_title:'You should install MetaMask first',
@@ -524,6 +555,12 @@ I got this great idea:
     type_privatekey:'PrivateKey',
     type_demo:'Demo Wallet',
     type_lock:'Locked Wallet',
+    in_watch_only_mode_title:'Switched to Watch-only Mode',
+    using_watch_only_mode_title:'You Are Now using Watch-only Mode',
+    unlock_by_cookie_address_notification:'Loopr has switched your account to the watch-only mode, and your private-key is no longer available to the browser.  You\'ll need to unlock your wallet again to perform some operations.',
+    in_watch_only_mode_content: 'Your account is still in the watch-only mode. To perform this operation, you need to unlock your wallet again.',
+    in_demo_account_mode_content: 'You are now using demo account. To perform this operation, you need to unlock your wallet again.',
+    continue_watch:'Continue Watch-Only',
   },
   demo:{
     badge_title:'Demo Wallet',
@@ -561,6 +598,7 @@ I got this great idea:
     ring_info:"Ring Information",
     ring_detail:'Ring Details',
     ring_hash:"Ring Hash",
+    ring_index:"Ring Index",
     miner:"Miner",
     total_lrc_fee:"Trading Fee (LRC)",
     total_split_fee:"Trading Fee (Margin-Split)",
