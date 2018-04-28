@@ -9,7 +9,7 @@ class TradesContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      depth:{},
+      trades:[],
     }
   }
   shouldComponentUpdate(nextProps){
@@ -18,19 +18,18 @@ class TradesContainer extends React.Component {
       const options = {
         "delegateAddress" :window.CONFIG.getDelegateAddress(),
         "market":nextProps.market,
-        "length":40,
       };
       socket.emit('trades_req',JSON.stringify(options),this.responseHandler.bind(this))
     }
     return true // to make sure the parent container's render
   }
   responseHandler(res){
-    console.log('trades_res',res)
+    console.log('trades_res')
     res = JSON.parse(res)
     if(!res.error && res.data ){
-      // this.setState({
-      //   depth:{...res.data.depth}
-      // })
+      this.setState({
+        trades:res.data
+      })
     }
   }
   componentDidMount() {
@@ -40,7 +39,6 @@ class TradesContainer extends React.Component {
         const options = {
           "delegateAddress" :window.CONFIG.getDelegateAddress(),
           "market":this.props.market,
-          "length":40,
         }
         socket.emit('trades_req',JSON.stringify(options),this.responseHandler.bind(this))
         socket.on('trades_res', this.responseHandler.bind(this))
@@ -63,7 +61,7 @@ class TradesContainer extends React.Component {
     const {children,...rest} = this.props
     const childProps = {
       ...rest,
-      depth:{...this.state.depth}
+      trades:this.state.trades
     }
     const {render} = this.props
     if(render){
