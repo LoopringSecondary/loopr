@@ -272,30 +272,6 @@
       "minTradeValue": 0.001
     },
     {
-      "name": "FooToken",
-      "symbol": "FOO",
-      "digits": 8,
-      "decimals": "8",
-      "unit": "FOO",
-      "address": "0xf5B3b365FA319342e89a3Da71ba393E12D9F63c3",
-      "allowance": "1000000000000000000000",
-      "allowanceWarn": "50000000000000000000",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
-      "name": "BarToken",
-      "symbol": "BAR",
-      "digits": 18,
-      "decimals": "18",
-      "unit": "BAR",
-      "address": "0xb5f64747127be058Ee7239b363269FC8cF3F4A87",
-      "allowance": "1000000000000000000000",
-      "allowanceWarn": "50000000000000000000",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
       "symbol": "EOS",
       "name": "EOS",
       "digits": 18,
