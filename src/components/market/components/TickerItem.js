@@ -75,7 +75,7 @@ class LooprTicker extends React.Component {
       const NumberCaption = ({title,content})=>(
         <div className="pt15 pb15">
           <div className="fs16 color-white">{content}</div>
-          <div className="fs14 color-white-2">{title}</div>
+          <div className="fs13 color-white-2">{title}</div>
         </div>
       )
       return (
@@ -84,7 +84,7 @@ class LooprTicker extends React.Component {
               <Link to="/wallet">
                <div className="pt15 pb15 text-center" style={{minWidth:'120px'}}>
                   <i className="icon-loopring icon-loopring-coins fs18 color-white"></i>
-                   <div className="color-white-2 fs14 lh20 text-nowrap" >
+                   <div className="color-white-2 fs13 lh20 text-nowrap" >
                      <Icon type="left" className="fs10"></Icon>
                      {intl.get('ticker.back_to_wallet')}
                    </div>

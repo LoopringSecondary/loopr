@@ -327,8 +327,8 @@ function Navbar(props){
           <div className="col zb-b-r"></div>
           <div className="col-auto pl20 pr20 zb-b-r">
             <div className="fs16 color-black-1 cursor-pointer">
-              <Tooltip title={intl.get('userguide.btn_title')}>
-                <Icon type="question-circle-o" />
+              <Tooltip title={intl.get('userguide.title')}>
+                <Icon onClick={showModal.bind(this,{id:'userguide'})} type="question-circle-o" />
               </Tooltip>
             </div>
           </div>
