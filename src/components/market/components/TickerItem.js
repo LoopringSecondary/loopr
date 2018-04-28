@@ -80,18 +80,7 @@ class LooprTicker extends React.Component {
       )
       return (
           <div className="row align-items-center ml0 mr0 gutter-0">
-             <div className="col-auto" style={{background:'rgba(0,0,0,0.12)'}}>
-              <Link to="/wallet">
-               <div className="pt15 pb15 text-center" style={{minWidth:'120px'}}>
-                  <i className="icon-loopring icon-loopring-coins fs18 color-white"></i>
-                   <div className="color-white-2 fs13 lh20 text-nowrap" >
-                     <Icon type="left" className="fs10"></Icon>
-                     {intl.get('ticker.back_to_wallet')}
-                   </div>
-               </div>
-               </Link>
-             </div>
-             <div className="col-auto pl0">
+             <div className="col pl0 text-nowrap">
                <TickerHeader pair={pair} tickers={tickers} />
              </div>
              <div className="col pl20 pr20">
