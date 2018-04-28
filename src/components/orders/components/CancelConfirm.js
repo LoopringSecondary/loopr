@@ -88,7 +88,9 @@ class CancelConfirm extends React.Component {
               className="fs12 pt5 pb5 color-black-2">{intl.get('orders.order_validity')}：{window.uiFormatter.getFormatTime(order.validSince)}
               ~ {window.uiFormatter.getFormatTime(order.validUntil)}</div>
           </div>
-          <Alert className="mb10" type="info" showIcon message={
+
+        </div>}
+        <Alert className="mb10" type="info" showIcon message={
             <div className="row align-items-center">
               <div className="col">
                 <div className="color-black-2 fs14">{intl.get('orders.auto_cancel_not_cost_gas')}</div>
@@ -110,7 +112,6 @@ class CancelConfirm extends React.Component {
               </div>
             </div>
           }/>
-        </div>}
         <Alert className="mb10" type="info" showIcon message={
           <div className="row align-items-center">
             <div className="col">

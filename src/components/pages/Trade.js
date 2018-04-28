@@ -43,7 +43,7 @@ class TradeFormTab extends React.Component {
             <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer ${side === 'buy' ? 'color-black-1' : 'color-black-3'}`} onClick={changeForm.bind(this,'buy')}>
               {intl.get('trade.buy')} {tokenL}
             </div>
-            <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer ${side === 'sell' ? 'color-black-1' : 'color-black-3'}`} onClick={changeForm.bind(this,'sell')}>
+            <div className={`col-auto pt10 pb10 pl5 pr15 cursor-pointer ${side === 'sell' ? 'color-black-1' : 'color-black-3'}`} onClick={changeForm.bind(this,'sell')}>
               {intl.get('trade.sell')} {tokenL}
             </div>
           </div>

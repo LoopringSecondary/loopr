@@ -149,7 +149,7 @@ I got this great idea:
     status_pending: 'Pending',
     status_success: 'Succeeded',
     status_failed: 'Failed',
-    type: 'Type',
+    type: 'Types',
     type_transfer: 'Send',
     type_convert: 'Convert',
     buy: "Buy",
@@ -187,13 +187,13 @@ I got this great idea:
   orders: {
     order: "Order",
     time: "Time",
-    market: 'Market',
+    market: 'Markets',
     status: 'Status',
     status_opened: 'Open',
     status_completed: 'Completed',
     status_canceled: 'Cancelled',
     status_expired: 'Expired',
-    side: 'Side',
+    side: 'Sides',
     side_sell: 'Sell',
     side_buy: 'Buy',
     create_time: 'Created',
@@ -326,7 +326,7 @@ I got this great idea:
     current_lrc_fee: 'LRC Fee'
   },
   trades: {
-    side: 'Side',
+    side: 'Sides',
     side_sell: 'Sell',
     side_buy: 'Buy',
   },
