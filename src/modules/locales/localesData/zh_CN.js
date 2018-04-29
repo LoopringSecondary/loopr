@@ -244,7 +244,8 @@ export default {
     wait_expire:"等待订单自动失效",
     confirm_to_cancel:"确认取消订单",
     order_will_expire:"距离订单自动失效还有",
-    expire_duration:"{days,plural,=0{} other {# 天}} {hours,plural,=0{} other {# 小时}} {minutes,plural,=1{1 分钟} other {# 分钟}}"
+    expire_duration:"{days,plural,=0{} other {# 天}} {hours,plural,=0{} other {# 小时}} {minutes,plural,=1{1 分钟} other {# 分钟}}",
+    open_order_list:"未完全成交订单列表"
   },
   settings: {
     preference: "偏好",
