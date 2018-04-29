@@ -73,7 +73,27 @@ function Navbar(props){
     }
   }
 
-  const localesOptions = locales.map(locale => <Select.Option className="fs16" value={locale.value} key={locale.value}><span className="fs16">{locale.name}</span></Select.Option>);
+  const getFlagIcon = (name)=>{
+    console.log('name',name)
+    switch (name) {
+      case "zh-CN":
+        return (
+          <img style={{height:'18px',width:'24px'}} src={require('../assets/images/flag-ch.png')} />
+          )
+        break;
+      case "en-US":
+        return <img style={{height:'18px',width:'24px'}} src={require('../assets/images/flag-en.png')} />
+        break;
+      default:
+        return name
+        break;
+    }
+  }
+  const localesOptions = locales.map(locale =>
+    <Select.Option className="fs16" value={locale.value} key={locale.value}>
+      {getFlagIcon(locale.value)}
+    </Select.Option>
+  );
   function copyToClipboard() {
 
     if(account.isUnlocked ){
@@ -285,34 +305,35 @@ function Navbar(props){
   )
   // window.location.href.indexOf('/trade') >= 0
   const userguide = intl.get('userguide.visible')
+  const isTradingPage = window.location.href.indexOf('/trade')>-1 && window.location.href.indexOf('/trades')<0
   return (
     <div className="navbar-loopring zb-b-b">
       <div className="container">
-        <div className="row align-items-stretch ml0 mr0">
-          <div className="col-auto pl10 pr10 zb-b-l pr">
-            <Link to="/wallet" className="d-block" >
-                <Popover content={VersionTip} title={null} trigger="hover" >
-                  <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'0px'}}  />
-                  <span style={{position:'absolute',top:'-24px',right:'10px'}}>
-                      <span className="navbar-version-badge">
-                        <Badge status="processing" className="" />
-                        {intl.get('version.label')}
-                      </span>
-                  </span>
-                </Popover>
-            </Link>
-          </div>
+        <div className="row align-items-stretch ml0 mr0 zb-b-l">
+            <div className="col-auto pl25 pr10 zb-b-r pr" style={{width:'200px'}}>
+              <Link to="/wallet" className="d-block" >
+                  <Popover content={VersionTip} title={null} trigger="hover" >
+                    <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'0px'}}  />
+                    <span style={{position:'absolute',top:'-22px',right:'50px'}}>
+                        <span className="navbar-version-badge">
+                          <Badge status="processing" className="" />
+                          {intl.get('version.label')}
+                        </span>
+                    </span>
+                  </Popover>
+              </Link>
+            </div>
           {
-            window.location.href.indexOf('/trade')>-1 && window.location.href.indexOf('/trades')<0 &&
-            <div className="col-auto zb-b-l pl15 pr15">
-                <Link to="/wallet">
+             isTradingPage&&
+            <div className="col-auto pl20">
+                <Link to="/wallet" className="d-block">
                   <i className="icon-loopring icon-loopring-coins fs18 color-balck-1"></i>
                   <span className="fs14 ml5">{intl.get('ticker.back_to_wallet')}</span>
                 </Link>
             </div>
           }
 
-          <div className="col zb-b-l"></div>
+          <div className="col"></div>
           <div className="col-auto">
             <Menu
               theme="light"
@@ -346,7 +367,7 @@ function Navbar(props){
           }
           {
             !userguide &&
-            <div className="col-auto pl20 pr20 zb-b-r">
+            <div className="col-auto pl15 pr15 zb-b-r">
               <Tooltip title={intl.get('global.comingsoon')}>
                 <div className="fs16 color-black-1 cursor-pointer">
                   <Icon type="question-circle-o" />
@@ -356,8 +377,8 @@ function Navbar(props){
           }
 
 
-          <div className="col-auto pl0 pr0 zb-b-r">
-            <Select value={props.locales.locale} onChange={localeChange} className="navbar-language mr5 fs16">
+          <div className="col-auto pl15 pr15 zb-b-r">
+            <Select showArrow={false} dropdownMatchSelectWidth={false} value={props.locales.locale} onChange={localeChange} className="navbar-language fs16">
               {localesOptions}
             </Select>
           </div>

@@ -398,11 +398,12 @@ class ListBlock extends React.Component {
             </div>
           }
           {!!balance && !!needed.gt(toBig(balance)) &&
-          <Alert style={{border: '0px'}} type="warning"
+          <Alert type="warning"
                  title={intl.get('txs.balance_not_enough_title',{token})}
+                 theme="light"
                  description={
                    <div className="text-left">
-                     <div className="fs18">
+                     <div className="fs14 lh25">
                        <span>{intl.get('txs.balance_not_enough',{token,balance,needed})}</span>
                      </div>
                    </div>
@@ -411,10 +412,10 @@ class ListBlock extends React.Component {
                    <div>
                      <Button onClick={gotoReceive.bind(this, token)}  type = 'primary'
                              className="border-none  ">{intl.get('txs.type_receive')} {token}</Button>
-                     {token !== 'WETH' && <Button  type = 'primary' onClick={gotoTrade.bind(this, token)}
-                                                  className="m5 border-none  ">{intl.get('txs.buy')} {token}</Button>}
-                     {token === 'WETH' && <Button  type = 'primary' onClick={gotoConvert.bind(this, {symbol: token})}
-                                                  className="m5 border-none  ">{intl.get('txs.type_convert_title_eth')}</Button>}
+                     {token !== 'WETH' && <Button  onClick={gotoTrade.bind(this, token)}
+                                                  className="m5 border-none">{intl.get('txs.buy')} {token}</Button>}
+                     {token === 'WETH' && <Button  onClick={gotoConvert.bind(this, {symbol: token})}
+                                                  className="m5 border-none">{intl.get('txs.type_convert_title_eth')}</Button>}
                    </div>
                  }
           />
@@ -425,7 +426,7 @@ class ListBlock extends React.Component {
             )
           }
           {
-            items.length === 0 &&
+            !loading && items.length === 0 &&
             <div className="text-center pt25 pb25 fs-12 color-grey-400">
               {intl.get('txs.no_txs')}
             </div>

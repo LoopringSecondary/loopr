@@ -32,8 +32,8 @@ class TickerHeader extends React.Component {
           </div>
         }
       >
-        <div className="row align-items-center cursor-pointer ml0 mr0 gutter-0" style={{background:'rgba(0,0,0,0.05)'}}>
-          <div className="col pl25 pr45 pt15 pb15">
+        <div className="row align-items-center cursor-pointer ml0 mr0 gutter-0" style={{background:'rgba(0,0,0,0.05)',width:'200px'}}>
+          <div className="col pl25 pt15 pb15">
             <div className="fs16 color-white">
               {pair}
               {
