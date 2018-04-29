@@ -6,7 +6,7 @@ export default {
   namespace: 'tokens',
   state: {
     items: [...configTokens],
-    selected:initTokens.selected || {ETH:true},
+    selected:initTokens.selected || {LRC:true},
     favored:initTokens.favored || {},
     loading: false,
     loaded: false,

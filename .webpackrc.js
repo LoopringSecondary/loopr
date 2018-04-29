@@ -15,6 +15,8 @@ export default {
     "@link-color": "#0077FF",
     "@border-radius-base": "0px",
     "@line-height-base" : 1.6,
+    "@normal-color" :"#eee",
+    "@border-color-base" : "hsv(0, 0, 90%)",
   },
   "html": {
     "template": "./public/index.ejs",
