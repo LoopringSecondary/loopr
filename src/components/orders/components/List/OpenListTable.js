@@ -2,7 +2,7 @@ import React from 'react';
 import {toBig, toNumber} from "../../../../common/Loopring/common/formatter";
 import intl from 'react-intl-universal';
 import {getOrders} from "Loopring/relay/order";
-import {Card, Table, Pagination} from 'antd';
+import {Card, Table, Pagination,Progress} from 'antd';
 
 const scheam = [
   {
@@ -14,8 +14,8 @@ const scheam = [
       const amount = side === 'buy' ? item.originalOrder.amountB : item.originalOrder.amountS;
       const symbol = side === 'buy' ? item.originalOrder.tokenB : item.originalOrder.tokenS;
       const sideLocale = side === 'sell' ? <span className="color-red-500">{intl.get('orders.side_sell')}</span> :
-        <span className="color-green-500">{intl.get('orders.side_buy')}</span>
-      return sideLocale + " " + window.uiFormatter.getFormatNum(toNumber((toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision))) + ' ' + symbol
+        <span className="color-green-500">{intl.get('orders.side_buy')}</span>;
+      return <div>{sideLocale}  <span>{window.uiFormatter.getFormatNum(toNumber((toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision))) + ' ' + symbol}</span></div>
     }
   },
   {
@@ -47,6 +47,19 @@ const scheam = [
       const total = (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
       return window.uiFormatter.getFormatNum(toNumber(total)) + ' ' + symbol
     },
+  },
+  {
+    title: () => intl.get('orders.filled'),
+    name: 'filled',
+    formatter:(item) => {
+      let percent = 0;
+      if (item.originalOrder.side.toLowerCase() === 'sell') {
+        percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
+      } else {
+        percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
+      }
+      return <Progress type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/>
+    }
   },
   {
     title: () => intl.get('orders.time'),
@@ -102,9 +115,16 @@ export default class OpenListTable extends React.Component {
   render() {
     const {orders, loading, pageSize, total, pageIndex} = this.state;
     const columns = scheam.map(field => {
+      const renderGenerator = (value, item, index) => {
+        if (typeof field.formatter === 'function') {
+          value = field.formatter(item)
+        }
+      return value
+      };
       return {
         title: field.title(),
         dataIndex: field.name,
+        render:renderGenerator,
         className: 'text-nowrap',
         width: `auto`,
       }
@@ -125,9 +145,6 @@ export default class OpenListTable extends React.Component {
         <Table  {...tableProps}/>
         {total > pageSize && <Pagination total={total} current={pageIndex} pageSize={pageSize} onChange={this.onChange}
                                          className='text-right'/>}
-        <div>
-          {console.log("State:",JSON.stringify({orders, loading, pageSize, total, pageIndex}))}
-        </div>
       </Card>
     )
   }
