@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Alert, Badge, Button, Spin, Popover,Icon} from 'antd';
+import { Badge, Button, Spin, Popover,Icon} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
@@ -10,6 +10,8 @@ import {toBig} from "Loopring/common/formatter";
 import config from '../../../common/config'
 import Notification from 'Loopr/Notification'
 import moment from 'moment'
+import Alert from 'Loopr/Alert'
+
 
 const uiFormatter = window.uiFormatter;
 
@@ -60,9 +62,12 @@ class ListBlock extends React.Component {
   render() {
     const {LIST, actions, prices, assets} = this.props;
     const {items = [], loading, page = {}, filters} = LIST;
-    const token = filters.token
-    const {needed} = this.state;
-    const balance = token && assets.getTokenBySymbol(token).balance;
+    const token = filters.token;
+    let {needed} = this.state;
+    let balance = token && assets.getTokenBySymbol(token).balance;
+    const tokenConfig = window.CONFIG.getTokenBySymbol(token);
+    needed = toBig((tokenConfig && tokenConfig.digits && toBig(needed).div('1e'+tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
+    balance = toBig((tokenConfig && tokenConfig.digits && toBig(balance).div('1e'+tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',
@@ -84,7 +89,7 @@ class ListBlock extends React.Component {
         id: 'token/convert',
         item,
         showFrozenAmount: true
-      }
+      };
       const state = window.STORE.getState()
       if(state && state.account && state.account.walletType === 'Address') {
         this.props.dispatch({
@@ -393,20 +398,23 @@ class ListBlock extends React.Component {
             </div>
           }
           {!!balance && !!needed.gt(toBig(balance)) &&
-          <Alert style={{border: '0px'}} type="warning" showIcon closable
+          <Alert style={{border: '0px'}} type="warning"
+                 title={intl.get('txs.balance_not_enough_title',{token})}
                  description={
                    <div className="text-left">
-                     <div className="fs18 color-warning-1">
-                        {intl.get('txs.balance_not_enough',{token})}
+                     <div className="fs18">
+                       <span>{intl.get('txs.balance_not_enough',{token,balance,needed})}</span>
                      </div>
-                     <div>
-                       <Button onClick={gotoReceive.bind(this, token)}
-                               className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
-                       {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
-                                                    className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
-                       {token === 'WETH' && <Button onClick={gotoConvert.bind(this, {symbol:token})}
-                                                    className="m5 border-none color-white bg-warning-1">{intl.get('txs.type_convert_title_eth')}</Button>}
-                     </div>
+                   </div>
+                 }
+                 actions={
+                   <div>
+                     <Button onClick={gotoReceive.bind(this, token)}  type = 'primary'
+                             className="border-none  ">{intl.get('txs.type_receive')} {token}</Button>
+                     {token !== 'WETH' && <Button  type = 'primary' onClick={gotoTrade.bind(this, token)}
+                                                  className="m5 border-none  ">{intl.get('txs.buy')} {token}</Button>}
+                     {token === 'WETH' && <Button  type = 'primary' onClick={gotoConvert.bind(this, {symbol: token})}
+                                                  className="m5 border-none  ">{intl.get('txs.type_convert_title_eth')}</Button>}
                    </div>
                  }
           />
