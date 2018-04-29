@@ -285,34 +285,35 @@ function Navbar(props){
   )
   // window.location.href.indexOf('/trade') >= 0
   const userguide = intl.get('userguide.visible')
+  const isTradingPage = window.location.href.indexOf('/trade')>-1 && window.location.href.indexOf('/trades')<0
   return (
     <div className="navbar-loopring zb-b-b">
       <div className="container">
         <div className="row align-items-stretch ml0 mr0">
-          <div className="col-auto pl10 pr10 zb-b-l pr">
-            <Link to="/wallet" className="d-block" >
-                <Popover content={VersionTip} title={null} trigger="hover" >
-                  <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'0px'}}  />
-                  <span style={{position:'absolute',top:'-24px',right:'10px'}}>
-                      <span className="navbar-version-badge">
-                        <Badge status="processing" className="" />
-                        {intl.get('version.label')}
-                      </span>
-                  </span>
-                </Popover>
-            </Link>
-          </div>
+            <div className="col-auto pl25 pr10 zb-b-l pr" style={{width:'200px'}}>
+              <Link to="/wallet" className="d-block" >
+                  <Popover content={VersionTip} title={null} trigger="hover" >
+                    <i className="icon-loopring icon-loopring-logo d-block" style={{fontSize:'36px',marginTop:'0px'}}  />
+                    <span style={{position:'absolute',top:'-22px',right:'50px'}}>
+                        <span className="navbar-version-badge">
+                          <Badge status="processing" className="" />
+                          {intl.get('version.label')}
+                        </span>
+                    </span>
+                  </Popover>
+              </Link>
+            </div>
           {
-            window.location.href.indexOf('/trade')>-1 && window.location.href.indexOf('/trades')<0 &&
-            <div className="col-auto zb-b-l pl15 pr15">
-                <Link to="/wallet">
+             isTradingPage&&
+            <div className="col-auto zb-b-l pl25">
+                <Link to="/wallet" className="d-block">
                   <i className="icon-loopring icon-loopring-coins fs18 color-balck-1"></i>
                   <span className="fs14 ml5">{intl.get('ticker.back_to_wallet')}</span>
                 </Link>
             </div>
           }
 
-          <div className="col zb-b-l"></div>
+          <div className="col"></div>
           <div className="col-auto">
             <Menu
               theme="light"
