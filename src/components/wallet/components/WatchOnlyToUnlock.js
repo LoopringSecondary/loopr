@@ -16,10 +16,11 @@ class WatchOnlyToUnlock extends React.Component {
   render() {
     const { modal,account} = this.props
     const demoAddress = configs.demoAccount
+    const {originalData, pageFrom} = modal
 
-    const toUnlock = (payload) => {
+    const toUnlock = () => {
       modal.hideModal({id: 'wallet/watchOnlyToUnlock'});
-      modal.showModal({id:'wallet/unlock', targetModalData: payload})
+      modal.showModal({id:'wallet/unlock', targetModalData: originalData, pageFrom})
     }
 
     const cancel = () => {
@@ -35,7 +36,7 @@ class WatchOnlyToUnlock extends React.Component {
           actions={
             <div>
               <Button className="alert-btn mr5" size="large" onClick={cancel} >{intl.get('wallet.continue_watch')}</Button>
-              <Button type="primary" className="alert-btn mr5" size="large" onClick={toUnlock.bind(this, modal.originalData)} >{intl.get('wallet.to_unlock')}</Button>
+              <Button type="primary" className="alert-btn mr5" size="large" onClick={toUnlock} >{intl.get('wallet.to_unlock')}</Button>
             </div>
           }
          />
