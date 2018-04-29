@@ -97,6 +97,7 @@ class ListBlock extends React.Component {
           payload:{
             id:'wallet/watchOnlyToUnlock',
             originalData:originalData,
+            pageFrom:'',
             visible:true
           }
         })
@@ -116,6 +117,7 @@ class ListBlock extends React.Component {
           payload:{
             id:'wallet/watchOnlyToUnlock',
             originalData:originalData,
+            pageFrom:'',
             visible:true
           }
         })
