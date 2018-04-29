@@ -114,10 +114,10 @@ class Home extends React.Component {
             <Route path={`${match.url}/assets`} exact render={() =>
               <div className="row no-gutters bg-white wallet-assets-container"
                    style={{borderRadius: '0px', border: '1px solid rgba(0,0,0,0.08)'}}>
-                <div className="col-4 zb-b-r">
+                <div className="col zb-b-r" style={{flex:'0 0 30%'}}>
                   <Token.ListSidebar/>
                 </div>
-                <div className="col-8 pb15">
+                <div className="col pb15" style={{flex:'0 0 70%'}}>
                   <Transaction.ListStand/>
                 </div>
               </div>

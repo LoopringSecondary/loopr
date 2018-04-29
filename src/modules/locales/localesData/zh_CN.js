@@ -16,6 +16,20 @@ export default {
     title:'新手指引',
     visibe:true,
   },
+  testtips:{
+      title:'正在测试中',
+      description:`
+    <div className="fs12 text-nowrap">
+        1. 交易模式与传统交易所显著不同
+    </div>
+    <div className="fs12">
+        2. 当前版本的内容仅供参考
+    </div>
+    <div className="fs12">
+        3. 正式版本发布后可正常使用
+    </div>
+  `,
+},
   version: {
     label: 'Beta2',
     title: 'Beta2（仅对超前的测试者开放）',
@@ -178,8 +192,7 @@ export default {
     cancel_all: '取消全部订单',
     cancel_pair_order: "取消{pair}订单",
     others: "其他",
-    balance_not_enough_title:"您的{token}余额不足!",
-    balance_not_enough: "您的余额是{balance}{token}，但是您所有有效的订单完全成交需要{needed}{token}.",
+    balance_not_enough: "{token}余额不足以支持您所有有效的订单完全成交",
     value: "金额",
     tx_hash: "交易Hash",
     block_num: "块高度",
