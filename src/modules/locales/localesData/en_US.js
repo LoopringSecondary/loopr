@@ -247,7 +247,8 @@ I got this great idea:
     wait_expire:"Wait for expiring automatically",
     confirm_to_cancel:"Confirm to Cancel Order",
     order_will_expire:"This order will be expired automatically in",
-    expire_duration:"{days,plural,=0{} =1{1 day} other {# days}} {hours,plural,=0{} =1{1 hour} other {# hours}} {minutes,plural,=1{1 minute} other {# minutes}}"
+    expire_duration:"{days,plural,=0{} =1{1 day} other {# days}} {hours,plural,=0{} =1{1 hour} other {# hours}} {minutes,plural,=1{1 minute} other {# minutes}}",
+    open_order_list:"Opened Orders List"
   },
   settings: {
     preference: "Preferences",

@@ -15,12 +15,13 @@ let headers = {
 
 export async function getOrders(filter) {
   try {
-    await validator.validate({value: filter.delegateAddress, type: 'ADDRESS'})
-    await validator.validate({value: filter.pageIndex, type: 'OPTION_NUMBER'})
-    await filter.market && validator.validate({value: filter.market, type: 'STRING'})
-    await filter.owner && validator.validate({value: filter.owner, type: 'ADDRESS'})
-    await filter.orderHash && validator.validate({value: filter.orderHash, type: 'STRING'})
-    await filter.pageSize && validator.validate({value: filter.pageSize, type: 'OPTION_NUMBER'})
+    const {delegateAddress, pageIndex, market, owner, orderHash, pageSize} = filter
+    if (delegateAddress) validator.validate({value: filter.delegateAddress, type: 'ADDRESS'})
+    if (pageIndex >= 0) validator.validate({value: filter.pageIndex, type: 'OPTION_NUMBER'})
+    if (market) filter.market && validator.validate({value: filter.market, type: 'STRING'})
+    if (owner) filter.owner && validator.validate({value: filter.owner, type: 'ADDRESS'})
+    if (orderHash) filter.orderHash && validator.validate({value: filter.orderHash, type: 'STRING'})
+    if (pageSize) filter.pageSize && validator.validate({value: filter.pageSize, type: 'OPTION_NUMBER'})
   } catch (e) {
     console.error(e)
     return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)

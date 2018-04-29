@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import { Badge, Button, Spin, Popover,Icon} from 'antd';
+import {Badge, Button, Spin, Popover, Icon} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
@@ -66,8 +66,8 @@ class ListBlock extends React.Component {
     let {needed} = this.state;
     let balance = token && assets.getTokenBySymbol(token).balance;
     const tokenConfig = window.CONFIG.getTokenBySymbol(token);
-    needed = toBig((tokenConfig && tokenConfig.digits && toBig(needed).div('1e'+tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
-    balance = toBig((tokenConfig && tokenConfig.digits && toBig(balance).div('1e'+tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
+    needed = toBig((tokenConfig && tokenConfig.digits && toBig(needed).div('1e' + tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
+    balance = toBig((tokenConfig && tokenConfig.digits && toBig(balance).div('1e' + tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',
@@ -91,14 +91,14 @@ class ListBlock extends React.Component {
         showFrozenAmount: true
       };
       const state = window.STORE.getState()
-      if(state && state.account && state.account.walletType === 'Address') {
+      if (state && state.account && state.account.walletType === 'Address') {
         this.props.dispatch({
-          type:'modals/modalChange',
-          payload:{
-            id:'wallet/watchOnlyToUnlock',
-            originalData:originalData,
+          type: 'modals/modalChange',
+          payload: {
+            id: 'wallet/watchOnlyToUnlock',
+            originalData: originalData,
             pageFrom:'',
-            visible:true
+            visible: true
           }
         })
       } else {
@@ -111,14 +111,14 @@ class ListBlock extends React.Component {
         item: {symbol: token}
       }
       const state = window.STORE.getState()
-      if(state && state.account && state.account.walletType === 'Address') {
+      if (state && state.account && state.account.walletType === 'Address') {
         this.props.dispatch({
-          type:'modals/modalChange',
-          payload:{
-            id:'wallet/watchOnlyToUnlock',
-            originalData:originalData,
+          type: 'modals/modalChange',
+          payload: {
+            id: 'wallet/watchOnlyToUnlock',
+            originalData: originalData,
             pageFrom:'',
-            visible:true
+            visible: true
           }
         })
       } else {
@@ -130,42 +130,42 @@ class ListBlock extends React.Component {
       return config.getTokenSupportedMarkets(selectedToken)
     };
 
-    const updateOrders = (pair)=>{
+    const updateOrders = (pair) => {
       this.props.dispatch({
-        type:'orders/filtersChange',
-        payload:{
-          id:'orders/trade',
-          filters:{
-            market:pair
+        type: 'orders/filtersChange',
+        payload: {
+          id: 'orders/trade',
+          filters: {
+            market: pair
           }
         }
       })
 
     }
-    const updateTrades = (pair)=>{
+    const updateTrades = (pair) => {
       this.props.dispatch({
-        type:'orders/filtersChange',
-        payload:{
-          id:'orders/trade',
-          filters:{
-            market:pair
+        type: 'orders/filtersChange',
+        payload: {
+          id: 'orders/trade',
+          filters: {
+            market: pair
           }
         }
       })
     }
 
     const gotoTrade = (market) => {
-      if(config.isSupportedMarket(market)) {
+      if (config.isSupportedMarket(market)) {
         updateOrders(market)
         updateTrades(market)
         window.STORAGE.markets.setCurrent(market)
-        window.routeActions.gotoPath('/trade/'+market)
+        window.routeActions.gotoPath('/trade/' + market)
         return
       }
       Notification.open({
-        type:'warning',
-        message:intl.get('trade.not_supported_token_to_trade_title', {token:token}),
-        description:intl.get('trade.not_supported_token_to_trade_content')
+        type: 'warning',
+        message: intl.get('trade.not_supported_token_to_trade_title', {token: token}),
+        description: intl.get('trade.not_supported_token_to_trade_content')
       });
     };
 
@@ -198,18 +198,18 @@ class ListBlock extends React.Component {
         case 'convert_income':
           change = '+';
           icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
-          if(item.symbol === 'WETH'){
+          if (item.symbol === 'WETH') {
             title = intl.get('txs.type_convert_title_eth')
-          }else{
+          } else {
             title = intl.get('txs.type_convert_title_weth')
           }
           break;
         case 'convert_outcome':
           change = '-';
           icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
-          if(item.symbol === 'WETH'){
+          if (item.symbol === 'WETH') {
             title = intl.get('txs.type_convert_title_weth')
-          }else{
+          } else {
             title = intl.get('txs.type_convert_title_eth')
           }
           break;
@@ -226,7 +226,7 @@ class ListBlock extends React.Component {
         case 'cutoff_trading_pair':
           change = '-';
           icon = <i className="icon icon-loopring icon-loopring-close fs30"/>
-          title = intl.get('txs.cancel_pair_order',{pair: item.content.market})
+          title = intl.get('txs.cancel_pair_order', {pair: item.content.market})
           break;
         case 'others':
           change = '-';
@@ -241,18 +241,21 @@ class ListBlock extends React.Component {
       const statusCol = (
         <span className="text-left">
         {item.status === 'pending' && <Badge status="warning" text={intl.get('txs.status_pending')}/>}
-        {item.status === 'success' && <Badge status="success" text={intl.get('txs.status_success')}/>}
-        {item.status === 'failed' && <Badge status="error" text={intl.get('txs.status_failed')}/>}
+          {item.status === 'success' && <Badge status="success" text={intl.get('txs.status_success')}/>}
+          {item.status === 'failed' && <Badge status="error" text={intl.get('txs.status_failed')}/>}
       </span>
       )
       const caption = (
         <div className="d-block">
-          <a onClick={showModal.bind(this,{id:'transaction/detail',item})} className="fs2 color-black-1 hover-color-primary-1 mb5  pointer">
+          <a onClick={showModal.bind(this, {id: 'transaction/detail', item})}
+             className="fs2 color-black-1 hover-color-primary-1 mb5  pointer">
             {title}
             <span className="ml10">
               {statusCol}
               <span className="ml10 fs12">
-                {item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && (<span className='ml5 color-black-3'>( {moment(item.createTime * 1e3).fromNow()} {((moment().valueOf()/1e3)-item.createTime) > 300 && <span className='color-primary-1'> {intl.get('txs.resend')}</span>})</span> ) }
+                {item.status === 'pending' && item.type !== 'receive' && item.type !== 'convert_income' && (<span
+                  className='ml5 color-black-3'>( {moment(item.createTime * 1e3).fromNow()} {((moment().valueOf() / 1e3) - item.createTime) > 300 &&
+                <span className='color-primary-1'> {intl.get('txs.resend')}</span>})</span> )}
               </span>
             </span>
           </a>
@@ -260,8 +263,8 @@ class ListBlock extends React.Component {
             <span className="d-inline-block  text-truncate text-nowrap mr15">
               {uiFormatter.getFormatTime(item.createTime * 1000)}
             </span>
-            <a onClick={showModal.bind(this,{id:'transaction/detail',item})} target="_blank"
-               className="d-inline-block text-truncate text-nowrap" style={{width:'180px'}}>
+            <a onClick={showModal.bind(this, {id: 'transaction/detail', item})} target="_blank"
+               className="d-inline-block text-truncate text-nowrap" style={{width: '180px'}}>
               TxHash: {item.txHash}
             </a>
           </div>
@@ -318,14 +321,16 @@ class ListBlock extends React.Component {
     const TokenActions = (token) => (
       <div style={{minWidth: '80px'}}>
         {
-          getTokenSupportedMarkets(token).map((item,index)=>{
+          getTokenSupportedMarkets(token).map((item, index) => {
             return (
-              <div key={index} className="market-item-token-dropdown row cursor-pointer zb-b-b pl10 pr5 ml0 mr0 gutter-0 align-items-center" onClick={gotoTrade.bind(this, item.tokenx+"-"+item.tokeny)}>
-                <div className="col fs14 lh30 " >
-                   {item.tokenx+"-"+item.tokeny}
+              <div key={index}
+                   className="market-item-token-dropdown row cursor-pointer zb-b-b pl10 pr5 ml0 mr0 gutter-0 align-items-center"
+                   onClick={gotoTrade.bind(this, item.tokenx + "-" + item.tokeny)}>
+                <div className="col fs14 lh30 ">
+                  {item.tokenx + "-" + item.tokeny}
                 </div>
                 <div className="col-auto fs12 color-black-4 pl25">
-                  <Icon type="right" />
+                  <Icon type="right"/>
                 </div>
               </div>
             )
@@ -343,43 +348,49 @@ class ListBlock extends React.Component {
           <div className="col text-right pl0 pr0">
             <Button onClick={gotoTransfer} className="mr5" type="default">
               <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
-              <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_transfer')} {filters.token}</span>
+              <span
+                style={{position: "relative", top: '-2px'}}>{intl.get('tokens.options_transfer')} {filters.token}</span>
             </Button>
-            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="default">
+            <Button onClick={gotoReceive.bind(this, filters.token)} className="mr5" type="default">
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
-              <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
+              <span
+                style={{position: "relative", top: '-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
             </Button>
             {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length > 0 &&
-              <Popover
-                title={null}
-                placement="bottom"
-                arrowPointAtCenter
-                content={TokenActions(filters.token)}
-              >
-                <Button className="mr15" type="primary">
-                  <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-                  <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token} </span>
-                </Button>
-              </Popover>
+            <Popover
+              title={null}
+              placement="bottom"
+              arrowPointAtCenter
+              content={TokenActions(filters.token)}
+            >
+              <Button className="mr15" type="primary">
+                <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+                <span style={{
+                  position: "relative",
+                  top: '-2px'
+                }}> {intl.get('tokens.options_trade')} {filters.token} </span>
+              </Button>
+            </Popover>
             }
             {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length === 0 &&
-              <Button className="mr15" type="primary" disabled={true}>
-                <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-                <span style={{position:"relative",top:'-2px'}}> {intl.get('tokens.options_trade')} {filters.token}</span>
-              </Button>
+            <Button className="mr15" type="primary" disabled={true}>
+              <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+              <span
+                style={{position: "relative", top: '-2px'}}> {intl.get('tokens.options_trade')} {filters.token}</span>
+            </Button>
             }
             {
               (filters.token === 'ETH') &&
-              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary">
+              <Button onClick={gotoConvert.bind(this, {symbol: filters.token})} className="mr15" type="primary">
                 <i className="icon-loopring icon-loopring-convert fs16 mr5"/>
-                {intl.get('token.token_convert', {from:"", to:'WETH'})}
+                {intl.get('token.token_convert', {from: "", to: 'WETH'})}
               </Button>
             }
             {
               (filters.token === 'WETH') &&
-              <Button onClick={gotoConvert.bind(this, {symbol:filters.token})} className="mr15" type="primary">
+              <Button onClick={gotoConvert.bind(this, {symbol: filters.token})} className="mr15" type="primary">
                 <i className="icon-loopring icon-loopring-convert fs16 mr5"/>
-                {intl.get('token.token_convert', {from:"", to:'ETH'})}
+                {intl.get('token.token_convert', {from: "", to: 'ETH'})}
               </Button>
             }
           </div>
@@ -390,7 +401,7 @@ class ListBlock extends React.Component {
               <div className="fs2 color-black-1">{intl.get('txs.title')}</div>
             </div>
             <div className="col-auto">
-              <ListFiltersFormSimple actions={actions} LIST={LIST} style={{marginTop:'-3px'}}/>
+              <ListFiltersFormSimple actions={actions} LIST={LIST} style={{marginTop: '-3px'}}/>
             </div>
           </div>
           {
@@ -400,27 +411,29 @@ class ListBlock extends React.Component {
             </div>
           }
           {!!balance && !!needed.gt(toBig(balance)) &&
-          <Alert type="warning"
-                 title={intl.get('txs.balance_not_enough_title',{token})}
-                 theme="light"
-                 description={
-                   <div className="text-left">
-                     <div className="fs14 lh25">
-                       <span>{intl.get('txs.balance_not_enough',{token,balance,needed})}</span>
+          <div style={{cursor:'pointer'}} onClick={showModal.bind(this, {id: 'order/open/detail', token})}>
+            <Alert type="warning"
+                   title={intl.get('txs.balance_not_enough_title', {token})}
+                   theme="light"
+                   description={
+                     <div className="text-left">
+                       <div className="fs14 lh25">
+                         <span>{intl.get('txs.balance_not_enough', {token, balance, needed})}</span>
+                       </div>
                      </div>
-                   </div>
-                 }
-                 actions={
-                   <div>
-                     <Button onClick={gotoReceive.bind(this, token)}  type = 'primary'
-                             className="border-none  ">{intl.get('txs.type_receive')} {token}</Button>
-                     {token !== 'WETH' && <Button  onClick={gotoTrade.bind(this, token)}
-                                                  className="m5 border-none">{intl.get('txs.buy')} {token}</Button>}
-                     {token === 'WETH' && <Button  onClick={gotoConvert.bind(this, {symbol: token})}
-                                                  className="m5 border-none">{intl.get('txs.type_convert_title_eth')}</Button>}
-                   </div>
-                 }
-          />
+                   }
+                   actions={
+                     <div>
+                       <Button onClick={gotoReceive.bind(this, token)} type='primary'
+                               className="border-none  ">{intl.get('txs.type_receive')} {token}</Button>
+                       {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
+                                                    className="m5 border-none">{intl.get('txs.buy')} {token}</Button>}
+                       {token === 'WETH' && <Button onClick={gotoConvert.bind(this, {symbol: token})}
+                                                    className="m5 border-none">{intl.get('txs.type_convert_title_eth')}</Button>}
+                     </div>
+                   }
+            />
+          </div>
           }
           {
             items.map((item, index) =>
