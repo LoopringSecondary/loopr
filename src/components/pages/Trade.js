@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import TradeList from '../trades/components/ListSimple'
@@ -124,6 +124,25 @@ export default function Home(props){
               <div className="col-auto zb-b-r" style={{flex:'0 0 30%'}}>
                 <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                   {intl.get('trade.order_book')}
+                  <span className="ml5">
+                    <Tooltip title={
+                      <div className="p5 lh24">
+                        <div className="fs14">交易深度正在测试中</div>
+                        <div className="fs12 text-nowrap">
+                          1. 交易模式与传统交易所显著不同
+                        </div>
+                        <div className="fs12">
+                          2. 当前版本的内容仅供参考
+                        </div>
+                        <div className="fs12">
+                          3. 正式版本可正常使用
+                        </div>
+
+                      </div>
+                    } className="">
+                      <Icon type="question-circle-o"  />
+                    </Tooltip>
+                  </span>
                 </div>
                 <div>
                   <Sockets.Depth market={pair}>
@@ -139,6 +158,25 @@ export default function Home(props){
               <div className="col-auto" style={{flex:'0 0 30%'}}>
                 <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                   {intl.get('trade.trade_history')}
+                  <span className="ml5">
+                    <Tooltip title={
+                      <div className="p5 lh24">
+                        <div className="fs14">成交记录正在测试中</div>
+                        <div className="fs12 text-nowrap">
+                          1. 交易模式与传统交易所显著不同
+                        </div>
+                        <div className="fs12">
+                          2. 当前版本的内容仅供参考
+                        </div>
+                        <div className="fs12">
+                          3. 正式版本可正常使用
+                        </div>
+
+                      </div>
+                    } className="">
+                      <Icon type="question-circle-o"  />
+                    </Tooltip>
+                  </span>
                 </div>
                 <div>
                   <Sockets.Trades market={pair}>
