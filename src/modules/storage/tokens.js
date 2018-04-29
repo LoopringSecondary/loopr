@@ -10,7 +10,7 @@ const getCurrent = ()=>{
     }
     return current
   }else{
-    return 'ETH'
+    return 'LRC'
   }
 }
 
