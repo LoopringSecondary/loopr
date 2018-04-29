@@ -409,7 +409,7 @@ class ListBlock extends React.Component {
             </div>
           }
           {!!balance && !!needed.gt(toBig(balance)) &&
-          <div className='' onClick={showModal.bind(this, {id: 'order/open/detail', token})}>
+          <div style={{cursor:'pointer'}} onClick={showModal.bind(this, {id: 'order/open/detail', token})}>
             <Alert type="warning"
                    title={intl.get('txs.balance_not_enough_title', {token})}
                    theme="light"

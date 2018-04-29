@@ -49,6 +49,11 @@ const scheam = [
     },
   },
   {
+    title: () => intl.get('orders.time'),
+    name: 'timestamp',
+    formatter: (item) => window.uiFormatter.getFormatTime(toNumber(item.originalOrder.validSince) * 1e3),
+  },
+  {
     title: () => intl.get('orders.filled'),
     name: 'filled',
     formatter:(item) => {
@@ -60,11 +65,6 @@ const scheam = [
       }
       return <Progress type="circle" percent={Number(percent)} width={36} format={percent => `${percent}%`}/>
     }
-  },
-  {
-    title: () => intl.get('orders.time'),
-    name: 'timestamp',
-    formatter: (item) => window.uiFormatter.getFormatTime(toNumber(item.originalOrder.validSince) * 1e3),
   }
 ];
 
