@@ -183,7 +183,8 @@ I got this great idea:
     cancel_pair_order: "Canceled All {pair} Orders",
     others: "Others",
     balance_not_enough_title:"Your {token} balance is insufficient!",
-    balance_not_enough: "your balance is {balance} {token}, but {needed} {token} is needed for all your orders to be completely filled.",
+    balance_not_enough: "your balance is {balance} {token}, but {needed} {token} is needed for your opened orders to be completely filled.",
+    open_orders: "Opened Orders",
     value: "Value",
     tx_hash: "Tx Hash",
     block_num: "Block#",
@@ -248,7 +249,7 @@ I got this great idea:
     confirm_to_cancel:"Confirm to Cancel Order",
     order_will_expire:"This order will be expired automatically in",
     expire_duration:"{days,plural,=0{} =1{1 day} other {# days}} {hours,plural,=0{} =1{1 hour} other {# hours}} {minutes,plural,=1{1 minute} other {# minutes}}",
-    open_order_list:"Opened Orders List"
+    open_order_list:"Opened Orders"
   },
   settings: {
     preference: "Preferences",

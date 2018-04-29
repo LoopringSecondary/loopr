@@ -119,7 +119,6 @@ export default {
     place_success: "下单成功!",
     place_success_tip: '恭喜, 您的订单已经可以等待交易',
     place_warn: '您的订单只能被部分撮合',
-    balance_not_enough: '如果要完全撮合，还需要 {amount} {token} ',
     submit: "提交订单",
     confirm_cancel_order: "您确定要取消该笔订单？",
     confirm_cancel_all: "您确定要取消全部 {pair} 订单？",
@@ -192,7 +191,9 @@ export default {
     cancel_all: '取消全部订单',
     cancel_pair_order: "取消{pair}订单",
     others: "其他",
-    balance_not_enough: "{token}余额不足以支持您所有有效的订单完全成交",
+    balance_not_enough_title:"您的{token}余额不足!",
+    balance_not_enough: "您的余额是{balance}{token}，但是您的订单全部成交需要{needed}{token}，否则只能部分成交",
+    open_orders: "进行中订单",
     value: "金额",
     tx_hash: "交易Hash",
     block_num: "块高度",
@@ -258,7 +259,7 @@ export default {
     confirm_to_cancel:"确认取消订单",
     order_will_expire:"距离订单自动失效还有",
     expire_duration:"{days,plural,=0{} other {# 天}} {hours,plural,=0{} other {# 小时}} {minutes,plural,=1{1 分钟} other {# 分钟}}",
-    open_order_list:"未完全成交订单列表"
+    open_order_list:"进行中订单"
   },
   settings: {
     preference: "偏好",
