@@ -44,6 +44,12 @@ class TransactionsContainer extends React.Component {
             size:res.data.pageSize,
           }
         })
+      }else{
+        this.actions.itemsChange({
+          items:[],
+          page:{
+          }
+        })
       }
     })
   }

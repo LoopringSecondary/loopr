@@ -19,6 +19,10 @@ export function getFormatTime(seconds, style) {
   return moment(toNumber(seconds)).format(style);
 }
 
+export function getFormattedTime(timestamp='0',format="YYYY-MM-DD hh:mm:ss"){
+  return moment(timestamp,'X').format(format)
+}
+
 export function getSeconds(value, unit) {
   value = Number(value);
   switch(unit){
@@ -49,6 +53,7 @@ export function getFormatNum(number) {
 export default {
   getShortAddress,
   getFormatTime,
+  getFormattedTime,
   getSeconds,
   TokenFormatter,
   TickerFormatter,

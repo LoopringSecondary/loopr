@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Alert, Badge, Button, Spin, Popover,Icon} from 'antd';
+import { Badge, Button, Spin, Popover,Icon} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
@@ -10,6 +10,8 @@ import {toBig} from "Loopring/common/formatter";
 import config from '../../../common/config'
 import Notification from 'Loopr/Notification'
 import moment from 'moment'
+import Alert from 'Loopr/Alert'
+
 
 const uiFormatter = window.uiFormatter;
 
@@ -60,9 +62,12 @@ class ListBlock extends React.Component {
   render() {
     const {LIST, actions, prices, assets} = this.props;
     const {items = [], loading, page = {}, filters} = LIST;
-    const token = filters.token
-    const {needed} = this.state;
-    const balance = token && assets.getTokenBySymbol(token).balance;
+    const token = filters.token;
+    let {needed} = this.state;
+    let balance = token && assets.getTokenBySymbol(token).balance;
+    const tokenConfig = window.CONFIG.getTokenBySymbol(token);
+    needed = toBig((tokenConfig && tokenConfig.digits && toBig(needed).div('1e'+tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
+    balance = toBig((tokenConfig && tokenConfig.digits && toBig(balance).div('1e'+tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',
@@ -84,7 +89,7 @@ class ListBlock extends React.Component {
         id: 'token/convert',
         item,
         showFrozenAmount: true
-      }
+      };
       const state = window.STORE.getState()
       if(state && state.account && state.account.walletType === 'Address') {
         this.props.dispatch({
@@ -123,8 +128,35 @@ class ListBlock extends React.Component {
       return config.getTokenSupportedMarkets(selectedToken)
     };
 
+    const updateOrders = (pair)=>{
+      this.props.dispatch({
+        type:'orders/filtersChange',
+        payload:{
+          id:'orders/trade',
+          filters:{
+            market:pair
+          }
+        }
+      })
+
+    }
+    const updateTrades = (pair)=>{
+      this.props.dispatch({
+        type:'orders/filtersChange',
+        payload:{
+          id:'orders/trade',
+          filters:{
+            market:pair
+          }
+        }
+      })
+    }
+
     const gotoTrade = (market) => {
       if(config.isSupportedMarket(market)) {
+        updateOrders(market)
+        updateTrades(market)
+        window.STORAGE.markets.setCurrent(market)
         window.routeActions.gotoPath('/trade/'+market)
         return
       }
@@ -307,11 +339,11 @@ class ListBlock extends React.Component {
             <div className="fs1 color-black-1 ml15">{filters.token}</div>
           </div>
           <div className="col text-right pl0 pr0">
-            <Button onClick={gotoTransfer} className="mr5" type="primary">
+            <Button onClick={gotoTransfer} className="mr5" type="default">
               <i className="icon-loopring icon-loopring-transfer fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_transfer')} {filters.token}</span>
             </Button>
-            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="primary">
+            <Button onClick={gotoReceive.bind(this,filters.token)} className="mr5" type="default">
               <i className="icon-loopring icon-loopring-receive fs16 mr5"></i>
               <span style={{position:"relative",top:'-2px'}}>{intl.get('tokens.options_receive')} {filters.token}</span>
             </Button>
@@ -366,20 +398,24 @@ class ListBlock extends React.Component {
             </div>
           }
           {!!balance && !!needed.gt(toBig(balance)) &&
-          <Alert style={{border: '0px'}} type="warning" showIcon closable
+          <Alert type="warning"
+                 title={intl.get('txs.balance_not_enough_title',{token})}
+                 theme="light"
                  description={
                    <div className="text-left">
-                     <div className="fs18 color-warning-1">
-                       {token} {intl.get('txs.balance_not_enough')}
+                     <div className="fs14 lh25">
+                       <span>{intl.get('txs.balance_not_enough',{token,balance,needed})}</span>
                      </div>
-                     <div>
-                       <Button onClick={gotoReceive.bind(this, token)}
-                               className="border-none color-white bg-warning-1">{intl.get('txs.type_receive')} {token}</Button>
-                       {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
-                                                    className="m5 border-none color-white bg-warning-1">{intl.get('txs.buy')} {token}</Button>}
-                       {token === 'WETH' && <Button onClick={gotoConvert.bind(this, {symbol:token})}
-                                                    className="m5 border-none color-white bg-warning-1">{intl.get('txs.type_convert_title_eth')}</Button>}
-                     </div>
+                   </div>
+                 }
+                 actions={
+                   <div>
+                     <Button onClick={gotoReceive.bind(this, token)}  type = 'primary'
+                             className="border-none  ">{intl.get('txs.type_receive')} {token}</Button>
+                     {token !== 'WETH' && <Button  onClick={gotoTrade.bind(this, token)}
+                                                  className="m5 border-none">{intl.get('txs.buy')} {token}</Button>}
+                     {token === 'WETH' && <Button  onClick={gotoConvert.bind(this, {symbol: token})}
+                                                  className="m5 border-none">{intl.get('txs.type_convert_title_eth')}</Button>}
                    </div>
                  }
           />
@@ -390,7 +426,7 @@ class ListBlock extends React.Component {
             )
           }
           {
-            items.length === 0 &&
+            !loading && items.length === 0 &&
             <div className="text-center pt25 pb25 fs-12 color-grey-400">
               {intl.get('txs.no_txs')}
             </div>

@@ -14,6 +14,24 @@ export default {
     total:'Total',
     time:'Time',
   },
+  userguide:{
+    title:'User Guide',
+    visible:false,
+  },
+  testtips:{
+    title:'Is In The Test',
+    description:`
+      <div className="fs12">
+          1. Trading mode is very different from traditional exchanges
+      </div>
+      <div className="fs12">
+          2. Current version you see is for your reference only
+      </div>
+      <div className="fs12">
+          3. Final version will work very well with no bugs
+      </div>
+    `,
+  },
   version:{
     label:'Beta2',
     title:'Beta2',
@@ -164,7 +182,8 @@ I got this great idea:
     cancel_all: 'Canceled All Orders',
     cancel_pair_order: "Canceled All {pair} Orders",
     others: "Others",
-    balance_not_enough: "Your balance is insufficient!",
+    balance_not_enough_title:"Your {token} balance is insufficient!",
+    balance_not_enough: "your balance is {balance} {token}, but {needed} {token} is needed for all your orders to be completely filled.",
     value: "Value",
     tx_hash: "Tx Hash",
     block_num: "Block#",
@@ -219,8 +238,8 @@ I got this great idea:
     basic_detail:"Basic Details",
     fill_detail:"Fill Details",
     cancel_cost_gas:"Cancel order will cost gas",
-    auto_cancel_not_cost_gas:"Order expired will not cost gas",
-    manual_cancel_cost_gas:" Cancel order manually will cost gas",
+    auto_cancel_not_cost_gas:"Order expired costs no gas",
+    manual_cancel_cost_gas:" Cancel order manually shall cost gas",
     cancel_order:"Cancel Order",
     canceling:"Canceling",
     order_canceling:"Order Canceling",

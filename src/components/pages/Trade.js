@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import TradeList from '../trades/components/ListSimple'
@@ -38,15 +38,29 @@ class TradeFormTab extends React.Component {
     }
     return (
       <div className="">
-        <div className="fs2 lh25 color-black-1 zb-b-b text-center ">
-          <div className="row align-items-stretch m0 gutter-10">
-            <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer ${side === 'buy' ? 'color-black-1' : 'color-black-3'}`} onClick={changeForm.bind(this,'buy')}>
-              {intl.get('trade.buy')} {tokenL}
+        <div className="fs2 lh25 color-black-1 zb-b-b text-center" style={{padding:'0px 0px 0px'}}>
+          {
+            false &&
+            <Button.Group size="large">
+              <Button type="default" className="border-grey-100 pl25 pr25">
+                {intl.get('trade.buy')} {tokenL}
+              </Button>
+              <Button type="default" className="border-grey-100 pl25 pr25">
+                {intl.get('trade.sell')} {tokenL}
+              </Button>
+            </Button.Group>
+          }
+          {
+            true &&
+            <div className="row align-items-stretch m0 gutter-10">
+              <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer zb-b-r ${side === 'buy' ? 'color-green-500 bg-white ' : 'color-black-1'}`} onClick={changeForm.bind(this,'buy')}>
+                {intl.get('trade.buy')} {tokenL}
+              </div>
+              <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer ${side === 'sell' ? 'color-red-500 bg-white zb-b-r' : 'color-black-1'}`} onClick={changeForm.bind(this,'sell')}>
+                {intl.get('trade.sell')} {tokenL}
+              </div>
             </div>
-            <div className={`col-auto pt10 pb10 pl5 pr15 cursor-pointer ${side === 'sell' ? 'color-black-1' : 'color-black-3'}`} onClick={changeForm.bind(this,'sell')}>
-              {intl.get('trade.sell')} {tokenL}
-            </div>
-          </div>
+          }
         </div>
         <div className="">
           {
@@ -110,10 +124,24 @@ export default function Home(props){
               <div className="col-auto zb-b-r" style={{flex:'0 0 30%'}}>
                 <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                   {intl.get('trade.order_book')}
+                  <span className="ml5">
+                    <Tooltip title={
+                      <div className="p5">
+                        <div className="fs14 lh25">{intl.get('trade.order_book')} {intl.get('testtips.title')}</div>
+                        <div className="lh20 fs12">
+                          {intl.getHTML('testtips.description')}
+                        </div>
+                      </div>
+                    }>
+                      <Icon type="question-circle-o"  />
+                    </Tooltip>
+                  </span>
                 </div>
                 <div>
                   <Sockets.Depth market={pair}>
-                    <ListOrderBook market={pair} />
+                    <Sockets.Prices>
+                      <ListOrderBook market={pair} />
+                    </Sockets.Prices>
                   </Sockets.Depth>
                 </div>
               </div>
@@ -123,6 +151,16 @@ export default function Home(props){
               <div className="col-auto" style={{flex:'0 0 30%'}}>
                 <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                   {intl.get('trade.trade_history')}
+                  <span className="ml5">
+                    <Tooltip title={
+                      <div className="p5">
+                        <div className="fs14 lh25">{intl.get('trade.trade_history')} {intl.get('testtips.title')}</div>
+                        <div className="fs12 lh24">{intl.getHTML('testtips.description')}</div>
+                      </div>
+                    } className="">
+                      <Icon type="question-circle-o"  />
+                    </Tooltip>
+                  </span>
                 </div>
                 <div>
                   <Sockets.Trades market={pair}>

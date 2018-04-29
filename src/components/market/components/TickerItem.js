@@ -32,8 +32,8 @@ class TickerHeader extends React.Component {
           </div>
         }
       >
-        <div className="row align-items-center cursor-pointer ml0 mr0 gutter-0" style={{background:'rgba(0,0,0,0.05)'}}>
-          <div className="col pl35 pr35 pt15 pb15">
+        <div className="row align-items-center cursor-pointer ml0 mr0 gutter-0" style={{background:'rgba(0,0,0,0.05)',width:'200px'}}>
+          <div className="col pl25 pt15 pb15">
             <div className="fs16 color-white">
               {pair}
               {
@@ -46,7 +46,7 @@ class TickerHeader extends React.Component {
               }
 
             </div>
-            <div className="fs14 color-white color-white-2">{intl.get('ticker.select_a_market')} <Icon className="" type="down" /></div>
+            <div className="fs14 color-white color-white-2">{intl.get('ticker.select_a_market')} <Icon className="ml5" type="down" /></div>
           </div>
 
         </div>
@@ -66,7 +66,7 @@ class LooprTicker extends React.Component {
       const tokenR = pair.split('-')[1]
       const ticker = tickers.loopr || {} // fix bug: when init loopr is null
       const priceValue = (
-        <span className="">
+        <span className="color-white-2">
           <Currency />
           {(price*ticker.last).toFixed(3)}
         </span>
@@ -75,22 +75,12 @@ class LooprTicker extends React.Component {
       const NumberCaption = ({title,content})=>(
         <div className="pt15 pb15">
           <div className="fs16 color-white">{content}</div>
-          <div className="fs14 color-white-2">{title}</div>
+          <div className="fs13 color-white-2">{title}</div>
         </div>
       )
       return (
           <div className="row align-items-center ml0 mr0 gutter-0">
-             <div className="col-auto" style={{background:'rgba(0,0,0,0.15)'}}>
-              <Link to="/wallet">
-               <div className="pt15 pb15 text-center" style={{width:'100px'}}>
-                  <i className="icon-loopring icon-loopring-coins fs18 color-white"></i>
-                   <div className="color-white-2 fs12" >
-                     {intl.get('ticker.back_to_wallet')}
-                   </div>
-               </div>
-               </Link>
-             </div>
-             <div className="col-auto pl0">
+             <div className="col pl0 text-nowrap">
                <TickerHeader pair={pair} tickers={tickers} />
              </div>
              <div className="col pl20 pr20">
@@ -120,31 +110,31 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     const priceValue = (
-      <span className="fs14 color-black-2">
+      <span className="fs14 color-black-3">
         <Currency />{(price*ticker.last).toFixed(3)}
       </span>
     )
     return (
-        <div className="row bg-white zb-b justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0">
+        <div className="row bg-white zb-b justify-content-between no-gutters pt10 pb10 pl10 pr10 ml0 mr0">
           <div className="col-auto">
-            <div className="fs14 color-black-2">
+            <div className="fs14 color-black-1">
               {fm.getPrice(ticker.last)} {priceValue}
             </div>
-            <div className="fs14 color-black-3 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
+            <div className="fs13 color-black-3 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
             {intl.get(`exchanges.${ticker.exchange}`)}
             </div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs14">
+            <div className="fs14 ">
               <TickerTrend side={fm.getChangeSide(ticker.change)}>
                 {fm.getChange(ticker.change)}
               </TickerTrend>
             </div>
-            <div className="fs14 color-black-3 ">24H {intl.get('ticker.change')}</div>
+            <div className="fs13 color-black-3 ">24H {intl.get('ticker.change')}</div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs14 color-black-2">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
-            <div className="fs14 color-black-3">24H {intl.get('ticker.vol')}</div>
+            <div className="fs14 color-black-1">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
+            <div className="fs13 color-black-3">24H {intl.get('ticker.vol')}</div>
           </div>
         </div>
       )

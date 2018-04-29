@@ -75,13 +75,26 @@ class Home extends React.Component {
                 />
               )
             }}>
-
             </Sockets.PendingTxs>
           }
           <Tabs className="rs no-ink-bar" onChange={handleTabChange}
-                activeKey={location.pathname.replace(`${match.path}/`, '')} animated={false}>
-            {false && <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_portfolio")}</div>}
-                          key="portfolio"/>}
+                activeKey={location.pathname.replace(`${match.path}/`, '')}
+                animated={false}
+                tabBarExtraContent={
+                    null &&
+                    <Alert
+                      message={intl.get('userguide.btn_title')}
+                      type="info"
+                      className="mt15"
+                      showIcon
+                    />
+                }
+          >
+            {
+              false &&
+              <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_portfolio")}</div>}
+                          key="portfolio"/>
+             }
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 "> {intl.get("tabs.my_assets")}</div>}
                           key="assets"/>
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_orders")}</div>}
@@ -89,6 +102,7 @@ class Home extends React.Component {
             <Tabs.TabPane tab={<div className="fs16 pl15 pr15 pt20 pb20 ">{intl.get("tabs.my_trades")}</div>}
                           key="trades"/>
           </Tabs>
+
           <Switch>
             <Route path={`${match.url}/portfolio`} exact render={() =>
               <div className="row no-gutters bg-white wallet-assets-container"
@@ -100,10 +114,10 @@ class Home extends React.Component {
             <Route path={`${match.url}/assets`} exact render={() =>
               <div className="row no-gutters bg-white wallet-assets-container"
                    style={{borderRadius: '0px', border: '1px solid rgba(0,0,0,0.08)'}}>
-                <div className="col-4 zb-b-r">
+                <div className="col zb-b-r" style={{flex:'0 0 30%'}}>
                   <Token.ListSidebar/>
                 </div>
-                <div className="col-8 pb15">
+                <div className="col pb15" style={{flex:'0 0 70%'}}>
                   <Transaction.ListStand/>
                 </div>
               </div>

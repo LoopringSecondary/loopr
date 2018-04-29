@@ -26,7 +26,12 @@ export async function fetchList(payload){
           }
         }
       }else{
-        // res.error.code
+        // tmp code because server has no error-code
+        return {
+          items:[],
+          page:{
+          }
+        }
       }
     })
 }

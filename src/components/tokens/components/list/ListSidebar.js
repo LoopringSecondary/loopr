@@ -203,48 +203,52 @@ class ListSidebar extends React.Component {
     }
     const TokenListAcionsBar = (
       <div className="row zb-b-b p15 pl10 pr10 no-gutters align-items-center">
-        <div className="col mr5">
+        <div className="col">
           <Input
             placeholder=""
             prefix={<Icon type="search" className="color-grey-600"/>}
+            suffix={
+              <div className="row gutter-0 align-items-center">
+                <div className="col"></div>
+                <div className="col-auto pr5">
+                  <Tooltip title={intl.get('tokens.only_show_favorites')}>
+                    {
+                      filters.ifOnlyShowMyFavorite &&
+                      <Icon type="star" onClick={toggleMyFavorite.bind(this)}
+                            className="fs16 color-primary-1 border-none pointer"
+                      />
+                    }
+                    {
+                      !filters.ifOnlyShowMyFavorite &&
+                      <Icon onClick={toggleMyFavorite.bind(this)} className="fs16 color-black-2 pointer"
+                            type="star-o"/>
+                    }
+                  </Tooltip>
+                </div>
+                <div className="col-auto zb-b-l pl5">
+                  <Tooltip title={intl.get('tokens.hide_small_balances')}>
+                    {
+                      filters.ifHideSmallBalance &&
+                      <Icon onClick={toggleSmallBalance.bind(this)} className="fs18 color-primary-1 pointer"
+                            style={{position: 'relative', marginTop: '2px'}}
+                            type="eye"/>
+                    }
+                    {
+                      !filters.ifHideSmallBalance &&
+                      <Icon onClick={toggleSmallBalance.bind(this)} className="fs18 color-black-2 pointer"
+                            style={{position: 'relative', marginTop: '2px'}}
+                            type="eye-o"/>
+                    }
+                  </Tooltip>
+                </div>
+              </div>
+            }
             className="d-block w-100"
             onChange={searchToken.bind(this)}
             value={filters.keywords}
             addonAfter={null}
           />
         </div>
-        <div className="col-auto">
-          <Tooltip title={intl.get('tokens.only_show_favorites')}>
-            {
-              filters.ifOnlyShowMyFavorite &&
-              <Icon type="star" onClick={toggleMyFavorite.bind(this)}
-                    className="ml5 mr5 fs16 color-primary-1 border-none pointer"
-              />
-            }
-            {
-              !filters.ifOnlyShowMyFavorite &&
-              <Icon onClick={toggleMyFavorite.bind(this)} className="ml5 mr5 fs16 color-black-2 pointer"
-                    type="star-o"/>
-            }
-          </Tooltip>
-        </div>
-        <div className="col-auto">
-          <Tooltip title={intl.get('tokens.hide_small_balances')}>
-            {
-              filters.ifHideSmallBalance &&
-              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-primary-1 pointer"
-                    style={{position: 'relative', marginTop: '2px'}}
-                    type="eye"/>
-            }
-            {
-              !filters.ifHideSmallBalance &&
-              <Icon onClick={toggleSmallBalance.bind(this)} className="ml5 fs18 color-black-2 pointer"
-                    style={{position: 'relative', marginTop: '2px'}}
-                    type="eye-o"/>
-            }
-          </Tooltip>
-        </div>
-
       </div>
     )
     const TokenItemActions = (token) => (
@@ -489,16 +493,18 @@ class ListSidebar extends React.Component {
       }
     };
     otherTokens.sort(sorter);
+
     let sortedTokens = new Array()
+    if (lrcToken) {
+      sortedTokens.push(lrcToken)
+    }
     if (ethToken) {
       sortedTokens.push(ethToken)
     }
     if (wethToken) {
       sortedTokens.push(wethToken)
     }
-    if (lrcToken) {
-      sortedTokens.push(lrcToken)
-    }
+
     sortedTokens = sortedTokens.concat(otherTokens)
 
     let formatedTokens = [...sortedTokens]
