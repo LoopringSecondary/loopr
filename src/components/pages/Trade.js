@@ -126,20 +126,13 @@ export default function Home(props){
                   {intl.get('trade.order_book')}
                   <span className="ml5">
                     <Tooltip title={
-                      <div className="p5 lh24">
-                        <div className="fs14">交易深度正在测试中</div>
-                        <div className="fs12 text-nowrap">
-                          1. 交易模式与传统交易所显著不同
+                      <div className="p5">
+                        <div className="fs14 lh25">{intl.get('trade.order_book')} {intl.get('testtips.title')}</div>
+                        <div className="lh20 fs12">
+                          {intl.getHTML('testtips.description')}
                         </div>
-                        <div className="fs12">
-                          2. 当前版本的内容仅供参考
-                        </div>
-                        <div className="fs12">
-                          3. 正式版本可正常使用
-                        </div>
-
                       </div>
-                    } className="">
+                    }>
                       <Icon type="question-circle-o"  />
                     </Tooltip>
                   </span>
@@ -160,18 +153,9 @@ export default function Home(props){
                   {intl.get('trade.trade_history')}
                   <span className="ml5">
                     <Tooltip title={
-                      <div className="p5 lh24">
-                        <div className="fs14">成交记录正在测试中</div>
-                        <div className="fs12 text-nowrap">
-                          1. 交易模式与传统交易所显著不同
-                        </div>
-                        <div className="fs12">
-                          2. 当前版本的内容仅供参考
-                        </div>
-                        <div className="fs12">
-                          3. 正式版本可正常使用
-                        </div>
-
+                      <div className="p5">
+                        <div className="fs14 lh25">{intl.get('trade.trade_history')} {intl.get('testtips.title')}</div>
+                        <div className="fs12 lh24">{intl.getHTML('testtips.description')}</div>
                       </div>
                     } className="">
                       <Icon type="question-circle-o"  />
