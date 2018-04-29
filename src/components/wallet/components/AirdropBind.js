@@ -120,6 +120,7 @@ class AirdropBind extends React.Component {
               payload:{
                 id:'wallet/watchOnlyToUnlock',
                 originalData:{id:'wallet/airdrop'},
+                pageFrom:'',
                 visible:true
               }
             })

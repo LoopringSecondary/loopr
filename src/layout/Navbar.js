@@ -65,6 +65,7 @@ function Navbar(props){
         payload:{
           id:'wallet/watchOnlyToUnlock',
           originalData:payload,
+          pageFrom:'',
           visible:true
         }
       })
