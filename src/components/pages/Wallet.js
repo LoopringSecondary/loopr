@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Tabs} from 'antd'
+import {Alert, Tabs,Icon} from 'antd'
 import {FormattedMessage} from 'react-intl';
 import {Redirect, Route, Switch} from 'dva/router'
 import Trade from '../trades/pages'
@@ -62,6 +62,15 @@ class Home extends React.Component {
     return (
       <Layout {...this.props}>
         <div className="container">
+          {
+            false &&
+            <Alert className="mt15" message={
+              <div className="m">
+                <Icon type="notification" className="mr5" />
+                ARP VITE Trade News (todo)
+              </div>
+            } type="info" closable showIcon={false}/>
+          }
           {
             toBig(this.state.oldWeth).gt(1e16) &&
             <Sockets.PendingTxs render={({txs}) => {
