@@ -31,12 +31,14 @@ export async function getEstimatedAllocatedAllowance(owner, token) {
   } catch (e) {
     throw new Error('Invalid Address')
   }
-  const params = [{owner, token}];
+  const delegateAddress = window.CONFIG.getDelegateAddress()
+  const params = [{owner, token,delegateAddress}];
   const body = {};
   body.method = 'loopring_getEstimatedAllocatedAllowance';
   body.params = params;
   return request({
     method: 'post',
+
     body,
   })
 
