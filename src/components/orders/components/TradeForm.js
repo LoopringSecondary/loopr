@@ -717,9 +717,14 @@ class TradeForm extends React.Component {
 
           <div className="pl10 pr10 pt10">
             <div className="row ml0 mr0">
-              <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>
+              <div className="col fs12 color-black-1">
+                {intl.get('trade.price')}
+                <span className="color-black-3 ml5">
+                  {priceValue}
+                </span>
+              </div>
               <div className="col-auto fs12 color-black-2">
-                {priceValue}
+
               </div>
             </div>
             <Form.Item className="mb15" label={null} colon={false}>
@@ -750,11 +755,15 @@ class TradeForm extends React.Component {
 
             </Form.Item>
             <div className="row ml0 mr0">
-              <div className="col fs12 color-black-2">{intl.get('trade.amount')}</div>
+              <div className="col fs12 color-black-2">
+                {intl.get('trade.amount')}
+                <span className="color-black-3 fs12 ml5">
+                  <Tooltip title={intl.get('trade.available') + " " + intl.get('trade.amount')}>
+                    {intl.get('trade.available')}{this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
+                  </Tooltip>
+                </span>
+              </div>
               <div className="col-auto fs12 color-black-2">
-                <Tooltip title={intl.get('trade.available') + "" + intl.get('trade.amount')}>
-                  {this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
-                </Tooltip>
               </div>
             </div>
             <Form.Item className="mb15" label={null} colon={false} extra={
