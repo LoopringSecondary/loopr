@@ -69,7 +69,10 @@ const TickerTable = (props)=>{
           <tr className="">
             <th className="fs12 border-0 color-black-3" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
             <th className="fs12 border-0 color-black-3">{intl.get('ticker.last')}</th>
-            <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}</th>
+            {
+              false &&
+              <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}</th>
+            }
             <th className="fs12 border-0 color-black-3">{intl.get('ticker.vol')}</th>
           </tr>
           {
@@ -91,11 +94,15 @@ const TickerTable = (props)=>{
                     {item.last || 0.00}
                   </TickerTrend>
                 </td>
-                <td className="fs12 border-0 color-balck-2">
-                  <TickerTrend side={tickerFm.getChangeSide(item.change)}>
-                    {item.change || 0}
-                  </TickerTrend>
-                </td>
+                {
+                  false &&
+                  <td className="fs12 border-0 color-balck-2">
+                    <TickerTrend side={tickerFm.getChangeSide(item.change)}>
+                      {item.change || 0}
+                    </TickerTrend>
+                  </td>
+                }
+
                 <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
               </tr>
             )

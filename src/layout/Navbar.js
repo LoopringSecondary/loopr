@@ -359,7 +359,7 @@ function Navbar(props){
           </div>
           <div className="col zb-b-r"></div>
           {
-            userguide &&
+            false && userguide &&
             <div className="col-auto pl20 pr20 zb-b-r">
               <div className="fs16 color-black-1 cursor-pointer">
                 <Icon onClick={showModal.bind(this,{id:'userguide'})} type="question-circle-o" />
@@ -367,7 +367,7 @@ function Navbar(props){
             </div>
           }
           {
-            !userguide &&
+            false && !userguide &&
             <div className="col-auto pl15 pr15 zb-b-r">
               <Tooltip title={intl.get('global.comingsoon')}>
                 <div className="fs16 color-black-1 cursor-pointer">
