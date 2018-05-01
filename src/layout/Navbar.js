@@ -133,14 +133,12 @@ function Navbar(props){
       {
         account.isUnlocked &&
         <div style={{width:'260px'}}>
-          <div className="zb-b-b fs14 p10 pl15 pr15">
-            <div className="row align-items-center">
-              <div className="col">
-                <div className="fs14 color-black-2 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
-              </div>
-              <div className="col-auto pr10">
-                <Button className="fs14" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
-              </div>
+          <div className="row align-items-center gutter-0 pl15 zb-b-b pr15">
+            <div className="col pr10 pt10 pb10">
+              <div className="fs14 color-black-2 text-wrap">{account.address}</div>
+            </div>
+            <div className="col-auto zb-b-l pl10 pt10 pb10 ">
+              <a className="fs12 color-primary-1" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</a>
             </div>
           </div>
           <div className="row ml0 mr0 zb-b-b navbar-account-grids">
