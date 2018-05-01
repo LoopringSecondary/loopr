@@ -11,6 +11,7 @@ export default {
     amount_label:'数量',
     total:'总计',
     time:'时间',
+    custom:'自定义',
   },
   userguide:{
     title:'新手指引',
@@ -31,8 +32,8 @@ export default {
   `,
 },
   version: {
-    label: 'Beta2',
-    title: 'Beta2（仅对超前的测试者开放）',
+    label: 'Beta3',
+    title: 'Beta3（仅对超前的测试者开放）',
     description: 'Loopr是开源的，非托管的以太坊钱包。请谨慎的测试，路印基金会不会承担您任何数字资产的损失。',
     extra: '体验版在持续优化完善，更新发布比较频繁，遇到各种问题，请大家体谅',
     feedback: '问题反馈',

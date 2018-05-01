@@ -34,9 +34,18 @@ function ListBlock(props) {
             trades.map((item,index)=>
               <tr key={index} className="">
                 <td className="border-0 pl0 pl10">
-                  <div className="fs12 color-green-500 text-left lh20 p0">
-                    {item.price}
-                  </div>
+                  {
+                    item.side === 'buy' &&
+                    <div className="fs12 color-green-500 text-left lh20 p0">
+                      {item.price}
+                    </div>
+                  }
+                  {
+                    item.side === 'sell' &&
+                    <div className="fs12 color-red-500 text-left lh20 p0">
+                      {item.price}
+                    </div>
+                  }
                 </td>
                 <td className="border-0 pl5 pr5">
                   <div className="fs12 color-black-2 text-left lh20 p0" >
@@ -45,7 +54,7 @@ function ListBlock(props) {
                 </td>
                 <td className="border-0 pr10">
                   <div className="fs12 color-black-2 text-right lh20 p0">
-                    {uiFormatter.getFormattedTime(item.createTime,'MM-DD hh:mm')}
+                    {uiFormatter.getFormattedTime(item.createTime,'MM-DD HH:mm')}
                   </div>
                 </td>
               </tr>
