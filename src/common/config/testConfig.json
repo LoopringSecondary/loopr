@@ -7,17 +7,17 @@
   "defaultGasLimit": "0x15f90",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
-  "delegateAddress": "0x768ba25e13f212a0841610b0baecffc322e6b096",
+  "delegateAddress": "0xa0af16edd397d9e826295df9e564b10d57e3c457",
   "chainId": 7107171,
   "bindContractAddress": "0x87ab705372cb463c967d396ee2cb2b25da0efb7e",
   "minimumLrcfeeInEth":0.00045,
   "demoAccount":"0x750ad4351bb728cec7d639a9511f9d6488f1e259",
-  "localStorageVersion":201804262128,
+  "localStorageVersion":201805011828,
   "walletAddress":"0xa44282db26ec80c6cfdd748ec09f386a64d645bd",
   "contracts": [
     {
-      "address": "0x2120475fbee40e84c801aded7b26aad7ddab03df",
-      "version": "v1.5"
+      "address": "0x456044789a41b277f033e4d79fab2139d69cd154",
+      "version": "v1.5.1"
     }
   ],
   "txs": [
@@ -212,11 +212,11 @@
   "relays": [
     {
       "value": "//13.112.62.24",
-      "name": "Fukun"
+      "name": "Test Relay"
     },
     {
       "value": "//13.112.62.24",
-      "name": "Test Relay"
+      "name": "Fukun"
     }
   ],
   "supportedTokenRInMarkets":["WETH", "BAR"],

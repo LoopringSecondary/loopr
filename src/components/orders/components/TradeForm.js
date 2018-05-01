@@ -606,7 +606,7 @@ class TradeForm extends React.Component {
               tipFormatter={null} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
     )
     const priceValue = (
-      <span className="fs10">
+      <span className="fs12">
         <Currency />
         {this.state.priceInput >0 ? accMul(this.state.priceInput, tokenRPrice.price).toFixed(2) : accMul(displayPrice, tokenRPrice.price).toFixed(2)}
       </span>
@@ -755,7 +755,8 @@ class TradeForm extends React.Component {
               <div className="col fs12 color-black-2">
                 {intl.get('trade.amount')}
                 <span className="color-black-3 fs12 ml5">
-                  {intl.get('trade.available')}{this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
+                  {this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
+                  &nbsp;{intl.get('trade.available')}
                 </span>
               </div>
               <div className="col-auto fs12 color-black-2">
@@ -796,7 +797,7 @@ class TradeForm extends React.Component {
               <div className="col-auto fs12 color-black-1">
                 {intl.get('trade.total')}&nbsp;:&nbsp;&nbsp;
               </div>
-              <div className={`col-auto fs12 color-${side==='buy'? 'green':'red'}-500`}>
+              <div className={`col-auto font-weight-bold fs12 color-black-1`}>
                 {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
               </div>
               <div className="col"></div>
@@ -804,7 +805,7 @@ class TradeForm extends React.Component {
                 {
                   outTokenSymbol === tokenR &&
                   <div>
-                    {intl.get('trade.balance')} {outTokenBalance} {outTokenSymbol}
+                    {outTokenSymbol}&nbsp;{intl.get('trade.balance')}&nbsp;{outTokenBalance}
                   </div>
                 }
               </div>
@@ -816,7 +817,7 @@ class TradeForm extends React.Component {
                 <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
                 {intl.get('trade.lrc_fee')}
                 &nbsp;:&nbsp;&nbsp;
-                <span className={`fs12 color-${side==='buy'? 'green':'red'}-500`}>{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</span>
+                <span className={`font-weight-bold fs12 color-black-1`}>{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</span>
                 </Tooltip>
               </div>
               <div className="col"></div>
@@ -829,7 +830,7 @@ class TradeForm extends React.Component {
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
                 {intl.get('trade.time_to_live')}
                 &nbsp;:&nbsp;&nbsp;
-                <span className={`col-auto fs12 color-${side==='buy'? 'green':'red'}-500`}>{ttlShow}</span>
+                <span className={`col-auto font-weight-bold fs12 color-black-1`}>{ttlShow}</span>
                 </Tooltip>
               </div>
               <div className="col"></div>
