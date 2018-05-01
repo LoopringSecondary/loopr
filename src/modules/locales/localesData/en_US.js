@@ -33,8 +33,8 @@ export default {
     `,
   },
   version:{
-    label:'Beta2',
-    title:'Beta2',
+    label:'Beta3',
+    title:'Beta3',
     description:'LOOPRING.IO (Loopr2) is an open-sourced reference implementeation of a web-based non-custodial Ethereum wallet that enable users to trade ERC20 tokens using the Loopring Protocol. Before proceed, you should review the codebase. Loopr2 is not for for-profit product and the Loopring Foundation will not take responsiblity for any loss of your crypto-assets.',
     feedback:'Feedback',
     feedback_submit:'Report an issue',
