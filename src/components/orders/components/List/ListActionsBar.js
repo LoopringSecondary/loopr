@@ -48,6 +48,7 @@ class ListActionsBar extends React.Component {
           payload:{
             id:'wallet/watchOnlyToUnlock',
             originalData:{},
+            pageFrom:'',
             visible:true
           }
         })

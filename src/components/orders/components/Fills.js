@@ -88,8 +88,6 @@ export default class Fills extends React.Component {
         return uiFormatter.getFormatTime(toNumber(item.createTime) * 1e3)
       },
     };
-
-
     let columns = fillSchema.map(field => {
       return {
         title: field.title(),

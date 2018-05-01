@@ -13,6 +13,7 @@ export default {
     amount_label:'Amount',
     total:'Total',
     time:'Time',
+    custom:'Custom',
   },
   userguide:{
     title:'User Guide',
@@ -33,8 +34,8 @@ export default {
     `,
   },
   version:{
-    label:'Beta2',
-    title:'Beta2',
+    label:'Beta3',
+    title:'Beta3',
     description:'LOOPRING.IO (Loopr2) is an open-sourced reference implementeation of a web-based non-custodial Ethereum wallet that enable users to trade ERC20 tokens using the Loopring Protocol. Before proceed, you should review the codebase. Loopr2 is not for for-profit product and the Loopring Foundation will not take responsiblity for any loss of your crypto-assets.',
     feedback:'Feedback',
     feedback_submit:'Report an issue',
@@ -183,7 +184,8 @@ I got this great idea:
     cancel_pair_order: "Canceled All {pair} Orders",
     others: "Others",
     balance_not_enough_title:"Your {token} balance is insufficient!",
-    balance_not_enough: "your balance is {balance} {token}, but {needed} {token} is needed for all your orders to be completely filled.",
+    balance_not_enough: "your balance is {balance} {token}, but {needed} {token} is needed for your opened orders to be completely filled.",
+    open_orders: "Opened Orders",
     value: "Value",
     tx_hash: "Tx Hash",
     block_num: "Block#",
@@ -247,7 +249,8 @@ I got this great idea:
     wait_expire:"Wait for expiring automatically",
     confirm_to_cancel:"Confirm to Cancel Order",
     order_will_expire:"This order will be expired automatically in",
-    expire_duration:"{days,plural,=0{} =1{1 day} other {# days}} {hours,plural,=0{} =1{1 hour} other {# hours}} {minutes,plural,=1{1 minute} other {# minutes}}"
+    expire_duration:"{days,plural,=0{} =1{1 day} other {# days}} {hours,plural,=0{} =1{1 hour} other {# hours}} {minutes,plural,=1{1 minute} other {# minutes}}",
+    open_order_list:"Opened Orders"
   },
   settings: {
     preference: "Preferences",
