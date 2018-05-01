@@ -75,7 +75,6 @@ function Navbar(props){
   }
 
   const getFlagIcon = (name)=>{
-    console.log('name',name)
     switch (name) {
       case "zh-CN":
         return (
@@ -303,7 +302,6 @@ function Navbar(props){
     </div>
   )
   // window.location.href.indexOf('/trade') >= 0
-  const userguide = intl.get('userguide.visible')
   const isTradingPage = window.location.href.indexOf('/trade')>-1 && window.location.href.indexOf('/trades')<0
   return (
     <div className="navbar-loopring zb-b-b">
@@ -357,7 +355,7 @@ function Navbar(props){
           </div>
           <div className="col zb-b-r"></div>
           {
-            false && userguide &&
+            false &&
             <div className="col-auto pl20 pr20 zb-b-r">
               <div className="fs16 color-black-1 cursor-pointer">
                 <Icon onClick={showModal.bind(this,{id:'userguide'})} type="question-circle-o" />
@@ -365,7 +363,7 @@ function Navbar(props){
             </div>
           }
           {
-            false && !userguide &&
+            false &&
             <div className="col-auto pl15 pr15 zb-b-r">
               <Tooltip title={intl.get('global.comingsoon')}>
                 <div className="fs16 color-black-1 cursor-pointer">
