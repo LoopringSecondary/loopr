@@ -58,16 +58,36 @@ class Home extends React.Component {
         payload: {id: "token/withdrawall", visible: true, item: {symbol: "WETH_OLD", balance: this.state.oldWeth}}
       })
     };
+    const gotoTrade = (market)=>{
+      window.routeActions.gotoPath(`/trade/${market}`)
+    }
+
 
     return (
       <Layout {...this.props}>
         <div className="container">
           {
-            false &&
+            true &&
             <Alert className="mt15" message={
-              <div className="m">
-                <Icon type="notification" className="mr5" />
-                ARP VITE Trade News (todo)
+              <div className="row gutter-0 align-items-center">
+                <div className="col-auto fs12">
+                  <Icon type="notification" className="mr5 fs20" />
+                </div>
+                <div className="col pl10">
+                  <div className="color-black-1 fs14 lh20">Test Loopring’s web wallet & DEX</div>
+                  <div className="color-black-2 fs12" >
+                    Participate in the private sale of ARP and VITE tokens by submitting your first Loopring DEX orders.
+                    <span onClick={gotoTrade.bind(this,'VITE-WETH')} className="fs12 color-primary-1 ml10 mr10 cursor-pointer">
+                      {intl.get('trade.buy')} VITE<Icon type="right"/>
+                    </span>
+                    <span onClick={gotoTrade.bind(this,'ARP-WETH')} className="fs12 color-primary-1 cursor-pointer">
+                      {intl.get('trade.buy')} ARP<Icon type="right"/>
+                    </span>
+                  </div>
+                </div>
+                <div className="col-auto">
+
+                </div>
               </div>
             } type="info" closable showIcon={false}/>
           }
