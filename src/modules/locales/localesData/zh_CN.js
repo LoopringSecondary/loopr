@@ -11,6 +11,7 @@ export default {
     amount_label:'数量',
     total:'总计',
     time:'时间',
+    custom:'自定义',
   },
   userguide:{
     title:'新手指引',

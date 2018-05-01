@@ -642,7 +642,7 @@ class TradeForm extends React.Component {
           )}
         </div>
       } trigger="click">
-        <a className="fs12 pointer color-black-3"><Icon type="right" /></a>
+        <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
       </Popover>
     )
     const editOrderTTL = (
@@ -683,7 +683,7 @@ class TradeForm extends React.Component {
           </Form.Item>}
         </div>
       } trigger="click">
-          <a className="fs12 pointer color-black-3"><Icon type="right" /></a>
+          <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
       </Popover>
     )
 
@@ -804,41 +804,38 @@ class TradeForm extends React.Component {
                 {
                   outTokenSymbol === tokenR &&
                   <div>
-                    {intl.get('trade.balance')}&nbsp;:&nbsp;&nbsp;{outTokenBalance} {outTokenSymbol}
+                    {intl.get('trade.balance')} {outTokenBalance} {outTokenSymbol}
                   </div>
                 }
               </div>
             </div>
-            <div className="row align-items-center ml0 mr0 pl10 pr10 lh40 zb-b-t cursor-pointer">
+
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh40 zb-b-t">
+
               <div className="col-auto fs12 color-black-1">
+                <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
                 {intl.get('trade.lrc_fee')}
                 &nbsp;:&nbsp;&nbsp;
-              </div>
-              <div className={`col-auto fs12 color-${side==='buy'? 'green':'red'}-500`}>{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
-              <div className="col"></div>
-              <div className="col-auto pr5">
-                <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
-                  <Icon className="ml5 fs4" type="question-circle-o"/>
+                <span className={`fs12 color-${side==='buy'? 'green':'red'}-500`}>{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</span>
                 </Tooltip>
               </div>
-              <div className="col-auto pl0 pr0">{true && editLRCFee}</div>
-
+              <div className="col"></div>
+              <div className="col-auto pl0 pr0">{editLRCFee}</div>
             </div>
-            <div className="row align-items-center ml0 mr0 pl10 pr10 lh40 zb-b-t cursor-pointer">
+
+
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh40 zb-b-t">
               <div className="col-auto fs12 color-black-1">
+                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
                 {intl.get('trade.time_to_live')}
                 &nbsp;:&nbsp;&nbsp;
-              </div>
-              <div className={`col-auto fs12 color-${side==='buy'? 'green':'red'}-500`}>{ttlShow}</div>
-              <div className="col"></div>
-              <div className="col-auto pl0 pr5 fs12 color-black-2">
-                <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                  <Icon className="ml5 fs4 color-black-2" type="question-circle-o"/>
+                <span className={`col-auto fs12 color-${side==='buy'? 'green':'red'}-500`}>{ttlShow}</span>
                 </Tooltip>
               </div>
-              <div className="col-auto pl0 pr0">{true && editOrderTTL}</div>
-
+              <div className="col"></div>
+              <div className="col-auto pl0 pr0">{editOrderTTL}</div>
             </div>
+
           </div>
           <div className="pl10 pr10 pt15 pb15">
             {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&
