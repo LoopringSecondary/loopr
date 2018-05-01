@@ -67,7 +67,7 @@ class Home extends React.Component {
       <Layout {...this.props}>
         <div className="container">
           {
-            true &&
+            false &&
             <Alert className="mt15" message={
               <div className="row gutter-0 align-items-center">
                 <div className="col-auto fs12">

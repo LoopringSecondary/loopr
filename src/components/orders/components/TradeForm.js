@@ -755,7 +755,8 @@ class TradeForm extends React.Component {
               <div className="col fs12 color-black-2">
                 {intl.get('trade.amount')}
                 <span className="color-black-3 fs12 ml5">
-                  {intl.get('trade.available')}{this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
+                  {this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
+                  &nbsp;{intl.get('trade.available')}
                 </span>
               </div>
               <div className="col-auto fs12 color-black-2">
@@ -804,7 +805,7 @@ class TradeForm extends React.Component {
                 {
                   outTokenSymbol === tokenR &&
                   <div>
-                    {intl.get('trade.balance')} {outTokenBalance} {outTokenSymbol}
+                    {outTokenSymbol}&nbsp;{intl.get('trade.balance')}&nbsp;{outTokenBalance}
                   </div>
                 }
               </div>
