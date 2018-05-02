@@ -10,6 +10,7 @@ import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from '../../../common/L
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
 import moment from 'moment'
+import ReactDOM from 'react-dom'
 
 class TradeForm extends React.Component {
   state = {
@@ -721,67 +722,75 @@ class TradeForm extends React.Component {
       </Popover>
     )
 
-    const editOrderTTLPattern = (
-      <Popover overlayClassName="place-order-form-popover"
-         content={
-           <Collapse accordion defaultActiveKey={['easy']} onChange={timeToLivePatternChanged}>
-             <Collapse.Panel header="Easy" key="easy">
-               <div className="row pt5 pb5">
-                 <div className="col-auto">
-                   {intl.get('trade.custom_time_to_live_title')}
-                 </div>
-                 <div className="col"></div>
-                 <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-               </div>
-               <div>
-                 {this.state.timeToLivePopularSetting &&
-                 <Form.Item className="ttl mb0" colon={false} label={null}>
-                   {form.getFieldDecorator('timeToLivePopularSetting')(
-                     <RadioGroup onChange={timeToLiveValueChange.bind(this, 'popular')}>
-                       <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
-                       <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
-                       <RadioButton value="1week">1 {intl.get('trade.week')}</RadioButton>
-                       <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
-                     </RadioGroup>
-                   )}
-                 </Form.Item>}
-                 {!this.state.timeToLivePopularSetting &&
-                 <Form.Item className="mb5 ttl" colon={false} label={null}>
-                   {form.getFieldDecorator('timeToLive', {
-                     rules: [{
-                       message: intl.get('trade.integer_verification_message'),
-                       validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
-                     }]
-                   })(
-                     <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}
-                            onChange={timeToLiveValueChange.bind(this, 'moreValue')}/>
-                   )}
-                 </Form.Item>}
-               </div>
-             </Collapse.Panel>
-             <Collapse.Panel header="Advance" key="advance">
-               <Form.Item className="mb5 ttl" colon={false} label={null}>
-                 {form.getFieldDecorator('timeToLiveTimeSelector', {
-                   initialValue:[moment(), moment().add(1, 'days')]
-                 })(
-                   <DatePicker.RangePicker
-                     locale={settings.preference.language}
-                     getCalendarContanier={triggerNode => triggerNode.parentNode}
-                     showTime={{ format: 'HH:mm' }}
-                     format="YYYY-MM-DD HH:mm"
-                     placeholder={['Start Time', 'End Time']}
-                     onChange={timeToLiveTimeSelected}
-                   />
-                 )}
-               </Form.Item>
-             </Collapse.Panel>
-           </Collapse>
-         } trigger="click">
-          <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
-        </Popover>
-    )
-
     let outTokenBalance = 0
+
+    const editOrderTTLPattern = (
+      <Popover overlayClassName="place-order-form-popover" ref="popover"
+               content={
+                 <div>
+                   <Collapse accordion defaultActiveKey={['easy']} onChange={timeToLivePatternChanged}>
+                     <Collapse.Panel header="Easy" key="easy">
+                       <div className="row pt5 pb5">
+                         <div className="col-auto">
+                           {intl.get('trade.custom_time_to_live_title')}
+                         </div>
+                         <div className="col"></div>
+                         <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
+                       </div>
+                       <div>
+                         {this.state.timeToLivePopularSetting &&
+                         <Form.Item className="ttl mb0" colon={false} label={null}>
+                           {form.getFieldDecorator('timeToLivePopularSetting')(
+                             <RadioGroup onChange={timeToLiveValueChange.bind(this, 'popular')}>
+                               <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
+                               <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
+                               <RadioButton value="1week">1 {intl.get('trade.week')}</RadioButton>
+                               <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
+                             </RadioGroup>
+                           )}
+                         </Form.Item>}
+                         {!this.state.timeToLivePopularSetting &&
+                         <Form.Item className="mb5 ttl" colon={false} label={null}>
+                           {form.getFieldDecorator('timeToLive', {
+                             rules: [{
+                               message: intl.get('trade.integer_verification_message'),
+                               validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
+                             }]
+                           })(
+                             <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}
+                                    onChange={timeToLiveValueChange.bind(this, 'moreValue')}/>
+                           )}
+                         </Form.Item>}
+                       </div>
+                     </Collapse.Panel>
+                     <Collapse.Panel header="Advance" key="advance">
+                       <Form.Item className="mb5 ttl" colon={false} label={null}>
+                         {form.getFieldDecorator('timeToLiveTimeSelector', {
+                           initialValue:[moment(), moment().add(1, 'days')]
+                         })(
+                           <DatePicker.RangePicker
+                             locale={settings.preference.language}
+                             getCalendarContainer={trigger =>
+                             {
+                               // return trigger.parentNode.parentNode.parentNode
+                               return ReactDOM.findDOMNode(this.refs.popover);
+                             }
+
+                             }
+                             showTime={{ format: 'HH:mm' }}
+                             format="YYYY-MM-DD HH:mm"
+                             placeholder={['Start Time', 'End Time']}
+                             onChange={timeToLiveTimeSelected}
+                           />
+                         )}
+                       </Form.Item>
+                     </Collapse.Panel>
+                   </Collapse>
+                 </div>
+               } trigger="click">
+        <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
+      </Popover>
+    )
     let outTokenSymbol
     if(side === 'buy'){
       outTokenBalance = fmR.getAmount(tokenRBalanceOriginal.balance)
