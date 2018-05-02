@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import TradeList from '../trades/components/ListSimple'
@@ -124,6 +124,18 @@ export default function Home(props){
               <div className="col-auto zb-b-r" style={{flex:'0 0 30%'}}>
                 <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                   {intl.get('trade.order_book')}
+                  <span className="ml5">
+                    <Tooltip title={
+                      <div className="p5">
+                        <div className="fs14 lh25">{intl.get('trade.order_book')} {intl.get('testtips.title')}</div>
+                        <div className="lh20 fs12">
+                          {intl.getHTML('testtips.description')}
+                        </div>
+                      </div>
+                    }>
+                      <Icon type="question-circle-o"  />
+                    </Tooltip>
+                  </span>
                 </div>
                 <div>
                   <Sockets.Depth market={pair}>
@@ -139,6 +151,16 @@ export default function Home(props){
               <div className="col-auto" style={{flex:'0 0 30%'}}>
                 <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                   {intl.get('trade.trade_history')}
+                  <span className="ml5">
+                    <Tooltip title={
+                      <div className="p5">
+                        <div className="fs14 lh25">{intl.get('trade.trade_history')} {intl.get('testtips.title')}</div>
+                        <div className="fs12 lh24">{intl.getHTML('testtips.description')}</div>
+                      </div>
+                    } className="">
+                      <Icon type="question-circle-o"  />
+                    </Tooltip>
+                  </span>
                 </div>
                 <div>
                   <Sockets.Trades market={pair}>

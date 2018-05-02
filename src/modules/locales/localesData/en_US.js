@@ -18,6 +18,20 @@ export default {
     title:'User Guide',
     visible:false,
   },
+  testtips:{
+    title:'Is In The Test',
+    description:`
+      <div className="fs12">
+          1. Trading mode is very different from traditional exchanges
+      </div>
+      <div className="fs12">
+          2. Current version you see is for your reference only
+      </div>
+      <div className="fs12">
+          3. Final version will work very well with no bugs
+      </div>
+    `,
+  },
   version:{
     label:'Beta2',
     title:'Beta2',

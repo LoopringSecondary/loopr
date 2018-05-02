@@ -130,6 +130,7 @@ class TradeForm extends React.Component {
           payload:{
             id:'wallet/watchOnlyToUnlock',
             originalData:{},
+            pageFrom:'TradeFrom',
             visible:true
           }
         })

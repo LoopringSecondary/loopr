@@ -66,7 +66,7 @@ class LooprTicker extends React.Component {
       const tokenR = pair.split('-')[1]
       const ticker = tickers.loopr || {} // fix bug: when init loopr is null
       const priceValue = (
-        <span className="">
+        <span className="color-white-2">
           <Currency />
           {(price*ticker.last).toFixed(3)}
         </span>
@@ -110,31 +110,31 @@ const ExchangeItem = ({pair='',ticker={},price=0})=>{
     const tokenL = pair.split('-')[0]
     const tokenR = pair.split('-')[1]
     const priceValue = (
-      <span className="fs14 color-black-2">
+      <span className="fs14 color-black-3">
         <Currency />{(price*ticker.last).toFixed(3)}
       </span>
     )
     return (
-        <div className="row bg-white zb-b justify-content-between no-gutters pt15 pb15 pl10 pr10 ml0 mr0">
+        <div className="row bg-white zb-b justify-content-between no-gutters pt10 pb10 pl10 pr10 ml0 mr0">
           <div className="col-auto">
-            <div className="fs14 color-black-2">
+            <div className="fs14 color-black-1">
               {fm.getPrice(ticker.last)} {priceValue}
             </div>
-            <div className="fs14 color-black-3 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
+            <div className="fs13 color-black-3 text-truncate text-capitalize" style={{maxWidth:'120px'}}>
             {intl.get(`exchanges.${ticker.exchange}`)}
             </div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs14">
+            <div className="fs14 ">
               <TickerTrend side={fm.getChangeSide(ticker.change)}>
                 {fm.getChange(ticker.change)}
               </TickerTrend>
             </div>
-            <div className="fs14 color-black-3 ">24H {intl.get('ticker.change')}</div>
+            <div className="fs13 color-black-3 ">24H {intl.get('ticker.change')}</div>
           </div>
           <div className="col-auto text-right">
-            <div className="fs14 color-black-2">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
-            <div className="fs14 color-black-3">24H {intl.get('ticker.vol')}</div>
+            <div className="fs14 color-black-1">{fm.getVolume(ticker.vol) || fm.getVolume(ticker.amount*ticker.last) }</div>
+            <div className="fs13 color-black-3">24H {intl.get('ticker.vol')}</div>
           </div>
         </div>
       )
