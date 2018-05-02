@@ -21,7 +21,8 @@ class TradeConfirm extends React.Component {
     since: '',
     till: '',
     tokenB: null,
-    tokenS: null
+    tokenS: null,
+    loading:false
   };
 
   componentDidMount() {
@@ -137,9 +138,9 @@ class TradeConfirm extends React.Component {
     const {modals, assets = {}, tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
     let {warn} = modal;
-    let {signedOrder, tokenS} = this.state;
+    let {signedOrder} = this.state;
     const _this = this;
-    modals.hideModal({id: 'trade/confirm'});
+    this.setState({loading:true});
     placeOrder(signedOrder).then(async (res) => {
       if (res.error) {
         Notification.open({
@@ -201,10 +202,14 @@ class TradeConfirm extends React.Component {
               _this.openNotification(balanceWarn);
               _this.updateOrders();
             }
+            _this.setState({loading:false});
+             modals.hideModal({id: 'trade/confirm'});
           });
         } else {
           const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
           this.openNotification(balanceWarn);
+          this.setState({loading:false});
+          modals.hideModal({id: 'trade/confirm'});
           _this.updateOrders();
         }
       }
@@ -234,7 +239,7 @@ class TradeConfirm extends React.Component {
     const {modals, tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
     let {side, amount, pair, total, marginSplit, price, lrcFee} = modal;
-    let {order, signedOrder, since, till} = this.state;
+    let {order, signedOrder, since, till,loading} = this.state;
     marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
     const token = pair.split('-')[0];
     const token2 = pair.split('-')[1];
@@ -289,8 +294,8 @@ class TradeConfirm extends React.Component {
         <div className="fs12 color-grey-500 mb10">
           {intl.get('order.place_tip')}
         </div>
-        <Button onClick={this.handelSubmit} disabled={!signedOrder} type="primary" className="d-block w-100"
-                size="large">
+        <Button onClick={this.handelSubmit} disabled={!signedOrder && loading} type="primary" className="d-block w-100"
+                size="large" loading={loading}>
           {intl.get('order.submit')}
         </Button>
       </div>
