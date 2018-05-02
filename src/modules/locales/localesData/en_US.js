@@ -13,7 +13,7 @@ export default {
     amount_label:'Amount',
     total:'Total',
     time:'Time',
-    custom:'Custom',
+    custom:'Customize',
   },
   userguide:{
     title:'User Guide',
