@@ -411,7 +411,7 @@ class ListBlock extends React.Component {
             </div>
           }
           {!!balance && !!needed.gt(toBig(balance)) &&
-          <div style={{cursor:'pointer'}} onClick={showModal.bind(this, {id: 'order/open/detail', token})}>
+          <div style={{cursor:'pointer'}}>
             <Alert type="warning"
                    title={intl.get('txs.balance_not_enough_title', {token})}
                    theme="light"
@@ -430,6 +430,7 @@ class ListBlock extends React.Component {
                                                     className="m5 border-none">{intl.get('txs.buy')} {token}</Button>}
                        {token === 'WETH' && <Button onClick={gotoConvert.bind(this, {symbol: token})}
                                                     className="m5 border-none">{intl.get('txs.type_convert_title_eth')}</Button>}
+                        <a className="cursor-pointer fs12 ml5 color-primary-1" onClick={showModal.bind(this, {id: 'order/open/detail', token})}>{intl.get('txs.open_orders')}</a>
                      </div>
                    }
             />

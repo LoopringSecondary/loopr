@@ -145,7 +145,7 @@ class TradeForm extends React.Component {
         needUnlockCheck()
         return;
       }
-      if(!lrcBalance || lrcBalance.balance.lessThan(9000)){
+      if(!lrcBalance || lrcBalance.balance.lessThan(900)){
         if(window.CONFIG.getChainId() !== 7107171 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
           Notification.open({
             type:'warning',
@@ -179,13 +179,13 @@ class TradeForm extends React.Component {
           let allowed = false
           let priceSymbol = fm.getDisplaySymbol(settings.preference.currency)
           if(settings.preference.currency === 'USD') {
-            priceSymbol = '1' + priceSymbol
-            if(totalWorth > 1) {
+            priceSymbol = '100' + priceSymbol
+            if(totalWorth > 100) {
               allowed = true
             }
           } else {
-            priceSymbol = '10' + priceSymbol
-            if(totalWorth > 10) {
+            priceSymbol = '500' + priceSymbol
+            if(totalWorth > 500) {
               allowed = true
             }
           }
@@ -606,7 +606,7 @@ class TradeForm extends React.Component {
               tipFormatter={null} disabled={availableAmount === 0 && this.state.availableAmount <= 0}/>
     )
     const priceValue = (
-      <span className="fs10">
+      <span className="fs12">
         <Currency />
         {this.state.priceInput >0 ? accMul(this.state.priceInput, tokenRPrice.price).toFixed(2) : accMul(displayPrice, tokenRPrice.price).toFixed(2)}
       </span>
@@ -642,7 +642,7 @@ class TradeForm extends React.Component {
           )}
         </div>
       } trigger="click">
-        <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
+        <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
       </Popover>
     )
     const editOrderTTL = (
@@ -683,7 +683,7 @@ class TradeForm extends React.Component {
           </Form.Item>}
         </div>
       } trigger="click">
-          <a className="fs12 pointer color-black-3 mr5"><Icon type="edit" /></a>
+          <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
       </Popover>
     )
 
@@ -713,13 +713,15 @@ class TradeForm extends React.Component {
               </div>
             </div>
           }
-
-
           <div className="pl10 pr10 pt10">
             <div className="row ml0 mr0">
-              <div className="col fs12 color-black-2">{intl.get('trade.price')}</div>
+              <div className="col fs12 color-black-1">
+                {intl.get('trade.price')}
+                <span className="color-black-3 ml5">
+                  {priceValue}
+                </span>
+              </div>
               <div className="col-auto fs12 color-black-2">
-                {priceValue}
               </div>
             </div>
             <Form.Item className="mb15" label={null} colon={false}>
@@ -750,19 +752,18 @@ class TradeForm extends React.Component {
 
             </Form.Item>
             <div className="row ml0 mr0">
-              <div className="col fs12 color-black-2">{intl.get('trade.amount')}</div>
-              <div className="col-auto fs12 color-black-2">
-                <Tooltip title={intl.get('trade.available') + "" + intl.get('trade.amount')}>
+              <div className="col fs12 color-black-2">
+                {intl.get('trade.amount')}
+                <span className="color-black-3 fs12 ml5">
                   {this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}
-                </Tooltip>
+                  &nbsp;{intl.get('trade.available')}
+                </span>
+              </div>
+              <div className="col-auto fs12 color-black-2">
               </div>
             </div>
             <Form.Item className="mb15" label={null} colon={false} extra={
               <div>
-                {
-                  false &&
-                  <div className="fs10">{`${intl.get('trade.available_amount')} ${this.state.availableAmount >0 ? this.state.availableAmount : availableAmount}`}</div>
-                }
                 <div className="fs10" style={{marginBottom:"-10px"}}>{amountSlider}</div>
               </div>
             }>
@@ -791,46 +792,51 @@ class TradeForm extends React.Component {
               )}
             </Form.Item>
           </div>
-          <div className="row gutter-0 lh35 zb-b-t align-items-center">
-              <div className="col">
-                <div className="fs12 color-black-2 pl10 ">
-                {intl.get('trade.balance')}
-                </div>
-              </div>
-              <div className="col-auto fs12 color-black-2 pr10">
-                {outTokenBalance} {outTokenSymbol}
-              </div>
-            </div>
           <div className="zb-b-b">
-            <div className="row align-items-center ml0 mr0 pl10 pr10 lh35 zb-b-t">
-              <div className="col-auto fs12 color-black-2">{intl.get('trade.total')}</div>
-              <div className="col"></div>
-              <div className="col-auto fs12 color-black-2">
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh40 zb-b-t">
+              <div className="col-auto fs12 color-black-1">
+                {intl.get('trade.total')}&nbsp;:&nbsp;&nbsp;
+              </div>
+              <div className={`col-auto font-weight-bold fs12 color-black-1`}>
                 {`${this.state.total} ${tokenR}`} ≈ {totalPrice}
               </div>
+              <div className="col"></div>
+              <div className="col-auto fs12 color-black-3">
+                {
+                  outTokenSymbol === tokenR &&
+                  <div>
+                    {outTokenSymbol}&nbsp;{intl.get('trade.balance')}&nbsp;{outTokenBalance}
+                  </div>
+                }
+              </div>
             </div>
-            <div className="row align-items-center ml0 mr0 pl10 pr10 lh35 zb-b-t">
-              <div className="col-auto fs12 color-black-2">
-                {intl.get('trade.lrc_fee')}
+
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh40 zb-b-t">
+
+              <div className="col-auto fs12 color-black-1">
                 <Tooltip title={intl.getHTML('trade.tips_lrc_fee')}>
-                  <Icon className="ml5 fs4" type="question-circle-o"/>
+                {intl.get('trade.lrc_fee')}
+                &nbsp;:&nbsp;&nbsp;
+                <span className={`font-weight-bold fs12 color-black-1`}>{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</span>
                 </Tooltip>
               </div>
               <div className="col"></div>
-              <div className="col-auto pl0 pr5">{true && editLRCFee}</div>
-              <div className="col-auto pl0 fs12 color-black-2">{calculatedLrcFee} LRC ≈ {lrcFeeWorth}</div>
+              <div className="col-auto pl0 pr0">{editLRCFee}</div>
             </div>
-            <div className="row align-items-center ml0 mr0 pl10 pr10 lh35 zb-b-t">
-              <div className="col-auto fs12 color-black-2">
-                {intl.get('trade.time_to_live')}
+
+
+            <div className="row align-items-center ml0 mr0 pl10 pr10 lh40 zb-b-t">
+              <div className="col-auto fs12 color-black-1">
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                  <Icon className="ml5 fs4 color-black-2" type="question-circle-o"/>
+                {intl.get('trade.time_to_live')}
+                &nbsp;:&nbsp;&nbsp;
+                <span className={`col-auto font-weight-bold fs12 color-black-1`}>{ttlShow}</span>
                 </Tooltip>
               </div>
               <div className="col"></div>
-              <div className="col-auto pl0 pr5">{true && editOrderTTL}</div>
-              <div className="col-auto pl0 fs12 color-black-2">{ttlShow}</div>
+              <div className="col-auto pl0 pr0">{editOrderTTL}</div>
             </div>
+
           </div>
           <div className="pl10 pr10 pt15 pb15">
             {account && account.isUnlocked && window.WALLET_UNLOCK_TYPE === 'Trezor' &&

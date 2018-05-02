@@ -75,7 +75,6 @@ function Navbar(props){
   }
 
   const getFlagIcon = (name)=>{
-    console.log('name',name)
     switch (name) {
       case "zh-CN":
         return (
@@ -133,14 +132,12 @@ function Navbar(props){
       {
         account.isUnlocked &&
         <div style={{width:'260px'}}>
-          <div className="zb-b-b fs14 p10 pl15 pr15">
-            <div className="row align-items-center">
-              <div className="col">
-                <div className="fs14 color-black-2 text-wrap" style={{maxWidth:'180px'}}>{account.address}</div>
-              </div>
-              <div className="col-auto pr10">
-                <Button className="fs14" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</Button>
-              </div>
+          <div className="row align-items-center gutter-0 pl15 zb-b-b pr15">
+            <div className="col pr10 pt10 pb10">
+              <div className="fs14 color-black-2 text-wrap">{account.address}</div>
+            </div>
+            <div className="col-auto zb-b-l pl10 pt10 pb10 ">
+              <a className="fs12 color-primary-1" type="primary" size="small" onClick={copyToClipboard}>{intl.get('navbar.subs.copy')}</a>
             </div>
           </div>
           <div className="row ml0 mr0 zb-b-b navbar-account-grids">
@@ -305,7 +302,6 @@ function Navbar(props){
     </div>
   )
   // window.location.href.indexOf('/trade') >= 0
-  const userguide = intl.get('userguide.visible')
   const isTradingPage = window.location.href.indexOf('/trade')>-1 && window.location.href.indexOf('/trades')<0
   return (
     <div className="navbar-loopring zb-b-b">
@@ -359,7 +355,7 @@ function Navbar(props){
           </div>
           <div className="col zb-b-r"></div>
           {
-            userguide &&
+            false &&
             <div className="col-auto pl20 pr20 zb-b-r">
               <div className="fs16 color-black-1 cursor-pointer">
                 <Icon onClick={showModal.bind(this,{id:'userguide'})} type="question-circle-o" />
@@ -367,7 +363,7 @@ function Navbar(props){
             </div>
           }
           {
-            !userguide &&
+            false &&
             <div className="col-auto pl15 pr15 zb-b-r">
               <Tooltip title={intl.get('global.comingsoon')}>
                 <div className="fs16 color-black-1 cursor-pointer">
