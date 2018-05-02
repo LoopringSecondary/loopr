@@ -30,7 +30,6 @@ class DetailBlock extends React.Component {
     const {modal} = this.props;
     const _this = this;
     const state = window.STORE.getState();
-    debugger;
     const protocolAddress = state && state.settings && state.settings.trading && state.settings.trading.contract && state.settings.trading.contract.address;
       getRingByHash({ringIndex:modal.item.ringIndex,protocolAddress}).then(res => {
       if (!res.error) {
