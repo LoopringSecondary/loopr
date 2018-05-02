@@ -726,10 +726,11 @@ class TradeForm extends React.Component {
 
     const editOrderTTLPattern = (
       <Popover overlayClassName="place-order-form-popover" ref="popover"
+               title={<div className="pt5 pb5">{intl.get('trade.custom_time_to_live_title')}</div>}
                content={
-                 <div>
+                 <div style={{width:'382px'}}>
                    <Collapse accordion defaultActiveKey={['easy']} onChange={timeToLivePatternChanged}>
-                     <Collapse.Panel header="Easy" key="easy">
+                     <Collapse.Panel header="设置持续时间" key="easy">
                        <div className="row pt5 pb5">
                          <div className="col-auto">
                            {intl.get('trade.custom_time_to_live_title')}
@@ -763,7 +764,7 @@ class TradeForm extends React.Component {
                          </Form.Item>}
                        </div>
                      </Collapse.Panel>
-                     <Collapse.Panel header="Advance" key="advance">
+                     <Collapse.Panel header="设置有效期" key="advance">
                        <Form.Item className="mb5 ttl" colon={false} label={null}>
                          {form.getFieldDecorator('timeToLiveTimeSelector', {
                            initialValue:[moment(), moment().add(1, 'days')]
