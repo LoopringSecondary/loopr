@@ -15,7 +15,7 @@ import {getEstimatedAllocatedAllowance} from '../../../common/Loopring/relay/uti
 class Convert extends React.Component {
   state = {
     amount: 0,
-    frozenWethAmount: 0,
+    frozenWethAmount: fm.toBig(0),
     selectMaxWarn: false,
     inputMaxWarn: false,
     errorMsg: '',
@@ -30,8 +30,8 @@ class Convert extends React.Component {
       const wethConfig = config.getTokenBySymbol('WETH')
       getEstimatedAllocatedAllowance(window.WALLET.getAddress(), 'WETH').then(res=>{
         if (!res.error) {
-          let frozenAmount = fm.toBig(res.result).div('1e'+wethConfig.digits).toNumber()
-          if(frozenAmount >0){
+          let frozenAmount = fm.toBig(res.result).div('1e'+wethConfig.digits);
+          if(frozenAmount.gt(0)){
             this.setState({frozenWethAmount:frozenAmount})
           }
         }
@@ -40,33 +40,30 @@ class Convert extends React.Component {
   }
 
   render() {
-    const {form, modal, account, settings, assets, prices} = this.props
-    let selectedToken = modal.item || {}
-    selectedToken = {...config.getTokenBySymbol(selectedToken.symbol), ...assets.getTokenBySymbol(selectedToken.symbol)}
-    const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
-    selectedToken.balance = balance
-    const price = prices.getTokenBySymbol(selectedToken.symbol)
-    const ethConfig = config.getTokenBySymbol('ETH')
-    const ethBalance = assets.getTokenBySymbol('ETH')
-    ethBalance.balance = fm.toBig(ethBalance.balance).div("1e"+ethConfig.digits).toNumber()
-    const wethConfig = config.getTokenBySymbol('WETH')
-    const wethBalance = assets.getTokenBySymbol('WETH')
-    wethBalance.balance = fm.toBig(wethBalance.balance).div("1e"+wethConfig.digits).toNumber()
-    let convertAmount = 0, adviceConvert = 0
-    if(selectedToken.symbol === 'ETH' && modal.showFrozenAmount && this.state.frozenWethAmount > 0) {
-      if(wethBalance.balance < this.state.frozenWethAmount) {
-        convertAmount = this.state.frozenWethAmount - wethBalance.balance
-        if(convertAmount < 1) {
-          adviceConvert = 1
-        } else {
+    const {form, modal, account, settings, assets, prices} = this.props;
+    let selectedToken = modal.item || {};
+    selectedToken = {...config.getTokenBySymbol(selectedToken.symbol), ...assets.getTokenBySymbol(selectedToken.symbol)};
+    selectedToken.balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits)
+    const price = prices.getTokenBySymbol(selectedToken.symbol);
+    const ethConfig = config.getTokenBySymbol('ETH');
+    const ethBalance = assets.getTokenBySymbol('ETH');
+    ethBalance.balance = fm.toBig(ethBalance.balance).div("1e"+ethConfig.digits);
+    const wethConfig = config.getTokenBySymbol('WETH');
+    const wethBalance = assets.getTokenBySymbol('WETH');
+    wethBalance.balance = fm.toBig(wethBalance.balance).div("1e"+wethConfig.digits);
+    let convertAmount = 0, adviceConvert = 0;
+    if(selectedToken.symbol === 'ETH' && modal.showFrozenAmount && this.state.frozenWethAmount.gt(0)) {
+      if(wethBalance.balance.lt(this.state.frozenWethAmount) ) {
+        convertAmount = this.state.frozenWethAmount.minus(wethBalance.balance);
+        if(convertAmount.gt(0)) {
           adviceConvert = Math.ceil(convertAmount)
         }
       }
     }
-    const _this = this
+    const _this = this;
     const viewInEtherscan = (txHash) => {
       window.open(`https://etherscan.io/tx/${txHash}`,'_blank')
-    }
+    };
     function handleSubmit() {
       form.validateFields((err, values) => {
         if (!err) {
@@ -109,7 +106,6 @@ class Convert extends React.Component {
               _this.setState({loading:false})
             }
           }).catch(error=>{
-            console.error(error)
             Notification.open({
               message:intl.get('token.convert_failed'),
               description:error.message,
@@ -144,14 +140,15 @@ class Convert extends React.Component {
 
     function selectMax(e) {
       e.preventDefault();
-      let wrapAmount = fm.toNumber(selectedToken.balance)
-      let selectMaxWarn = false
+      let wrapAmount = selectedToken.balance;
+      let selectMaxWarn = false;
       if(selectedToken.symbol === "ETH") {
-        wrapAmount = Math.max(math.accSub(selectedToken.balance, 0.1), 0)
+        const maxAmount = wrapAmount.minus(0.1);
+        wrapAmount = maxAmount.gt(0) ?  maxAmount : fm.toBig(0);
         selectMaxWarn = true
       }
       this.setState({amount: wrapAmount, selectMaxWarn:selectMaxWarn, inputMaxWarn:false})
-      form.setFieldsValue({"amount": wrapAmount})
+      form.setFieldsValue({"amount": wrapAmount.toString()})
     }
 
     function validateAmount(value) {
@@ -224,7 +221,7 @@ class Convert extends React.Component {
             </div>
           }>
             {form.getFieldDecorator('amount', {
-              initialValue: convertAmount,
+              initialValue: adviceConvert.toString(),
               rules: [
                 {message: intl.get('token.amount_verification_message'), transform:(value)=>fm.toNumber(value),
                   validator: (rule, value, cb) => validateAmount(value) ? cb() : cb(true)
