@@ -201,7 +201,6 @@ class TradeConfirm extends React.Component {
               _this.openNotification(balanceWarn);
               _this.updateOrders();
             }
-
           });
         } else {
           const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
