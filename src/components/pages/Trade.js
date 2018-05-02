@@ -203,7 +203,8 @@ export default function Home(props){
           </div>
 
         </div>
-        <Card className="rs-p0 mt15" title={<div className="fs16 color-black-1 pl10 pr10">{intl.get('testtips.trades_faq')}</div>}>
+        <Card className="rs-p0 mt15 border-none zb-b" title={null}>
+          <div className="fs16 color-black-1 p10 zb-b-b">{intl.get('testtips.trades_faq')}</div>
           <div className="p10">
             <div className="fs14 color-black-1 lh30">
               {intl.getHTML('testtips.trades_faq_q1')}
