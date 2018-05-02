@@ -30,7 +30,15 @@ export default {
         3. 正式版本发布后可正常使用
     </div>
   `,
+  tradetips_title:"交易提示（Beta3期间）",
+  tradetips_description:`
+    1. 交易地址上必须持有1000+LRC
+    <br />
+    2. 每个订单的成交额不能低于500元
+  `,
+
 },
+
   version: {
     label: 'Beta3',
     title: 'Beta3（仅对超前的测试者开放）',
@@ -134,7 +142,13 @@ export default {
     buy_token: "买 {token}",
     receive_token: "接收 {token}",
     convert_token: "转换 {token}",
-    why_buy_price_avaliable_but_could_not_deal:'该订单的价格符合撮合条件，矿工可能正在撮合并提交以太坊交易，这需要花一些时间。但如果订单规模或LRC Fee设置过小，矿工能获得的收益不足以支付以太坊油费时也可能会选择不撮合。如果您希望尽快成交，可以提高订单规模或设置更高的LRC Fee提交一个更有吸引力的订单。'
+    why_buy_price_avaliable_but_could_not_deal:`
+    <div class="p5">
+        <div class="fs14 lh25"> 订单深度提示 </div>
+        <div class="fs12"> 1、该深度可能正在撮合中：矿工需要一些时间提交以太坊交易  </div>
+        <div class="fs12"> 2、该深度可能已不被撮合：矿工获得的撮合收益（LRC Fee）小于撮合成本（以太交易油费）  </div>
+    </div>
+    `
   },
   ticker: {
     last: '最新价',

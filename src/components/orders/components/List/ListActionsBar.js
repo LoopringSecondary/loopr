@@ -15,7 +15,7 @@ class ListActionsBar extends React.Component {
   render(){
     const {actions = {}, LIST = {}, className,id} = this.props;
     const {filters = {},  items} = LIST[id] || {}
-    const hasOpenedOrder = items && items.find(item=> item.status === "ORDER_OPENED")
+    const hasOpenedOrder = items && items.filter(item=> item.status === "ORDER_OPENED").length>1
     const tokenPair = filters.market;
     const { socket } = this.context;
     const reEmitPendingTransaction= () => {

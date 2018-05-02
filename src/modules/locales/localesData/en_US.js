@@ -13,7 +13,7 @@ export default {
     amount_label:'Amount',
     total:'Total',
     time:'Time',
-    custom:'Custom',
+    custom:'Customize',
   },
   userguide:{
     title:'User Guide',
@@ -31,6 +31,12 @@ export default {
       <div className="fs12">
           3. Final version will work very well with no bugs
       </div>
+    `,
+    tradetips_title:"Trading Tips ( Beta3 Only )",
+    tradetips_description:`
+      1. You trading address must have 1000+LRC.
+      <br />
+      2. The amount of every order shall not be less than 100USD
     `,
   },
   version:{
@@ -125,7 +131,14 @@ I got this great idea:
     buy_token:"Buy {token}",
     receive_token:"Receive {token}",
     convert_token:"Convert {token}",
-    why_buy_price_avaliable_but_could_not_deal:'Your price is available currently, miner may mining your order or ...'
+    why_buy_price_avaliable_but_could_not_deal:`
+    <div class="p5">
+        <div class="fs14 lh25"> Order Depth Tips </div>
+        <div class="fs12">1. The depth maybe under matching: Miners may need some time to submit txs to ethereum.
+  </div>
+        <div class="fs12">2. The depth maybe deprecated: Miners's matching income (LRC Fee) is lower than matching cost ( ethereum gas ) </div>
+    </div>
+    `
   },
   ticker: {
     last: 'Last Price',
