@@ -186,7 +186,7 @@ class ListBlock extends React.Component {
       },
       filled: (value, item, index) => {
         let percent = 0;
-        if (item.originalOrder.side.toLowerCase() === 'sell') {
+        if (!item.originalOrder.buyNoMoreThanAmountB) {
           percent = (item.dealtAmountS / item.originalOrder.amountS * 100).toFixed(1)
         } else {
           percent = (item.dealtAmountB / item.originalOrder.amountB * 100).toFixed(1)
