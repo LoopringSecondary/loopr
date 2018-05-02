@@ -42,11 +42,11 @@ function ListOrderBook(props) {
   const ListItem = ({item,side})=>{
     if(item && item.length === 3){
       return (
-        <tr className={side === 'buy' && item.largerThanSell1 ? "" : ""}>
-          <td className="border-none pl10">
+        <tr className={`${side === 'buy' && item.largerThanSell1 ? "bg-grey-50" : ""}`}>
+          <td className="border-none pl10" style={{lineHeight:'15px',paddingTop:'8px',paddingBottom:'2px'}}>
             {
               side === 'sell' &&
-              <div className="fs12 color-red-500 text-left p0 lh24">
+              <div className="fs12 color-red-500 text-left p0">
                 <Tooltip placement="left" title={priceValue(Number(item[0]).toFixed(8))}>
                   {Number(item[0]).toFixed(8)}
                 </Tooltip>
@@ -54,25 +54,25 @@ function ListOrderBook(props) {
             }
             {
               side === 'buy' &&
-              <div className="fs12 color-green-500 text-left p0 lh24">
+              <div className="fs12 color-green-500 text-left pl0 pr0" >
                 <Tooltip placement="left" title={priceValue(Number(item[0]).toFixed(8))}>
                   {Number(item[0]).toFixed(8)}
                 </Tooltip>
                 {item.largerThanSell1 &&
-                  <Tooltip placement="right" title={intl.get('order.why_buy_price_avaliable_but_could_not_deal')}>
-                    <Icon type="question-circle-o" />
+                  <Tooltip placement="top" title={intl.getHTML('order.why_buy_price_avaliable_but_could_not_deal')}>
+                    <Icon type="question-circle" className="ml5" />
                   </Tooltip>
                 }
               </div>
             }
           </td>
-          <td className="border-none pl5 pr5">
-            <div className="fs12 color-black-2 text-left p0 lh24">
+          <td className="border-none pl5 pr5" style={{lineHeight:'15px',paddingTop:'8px',paddingBottom:'2px'}}>
+            <div className="fs12 color-black-2 text-left p0">
               {Number(item[1]).toFixed(4)}
             </div>
           </td>
-          <td className="border-none pr10">
-            <div className="fs12 color-black-2 text-right p0 lh24">
+          <td className="border-none pr10 style={{lineHeight:'15px',paddingTop:'8px',paddingBottom:'2x'}}">
+            <div className="fs12 color-black-2 text-right p0">
               {Number(item[2]).toFixed(4)}
             </div>
           </td>

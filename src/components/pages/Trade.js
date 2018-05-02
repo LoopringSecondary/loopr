@@ -10,6 +10,7 @@ import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import ModalContainer from '../../modules/modals/container'
 import intl from 'react-intl-universal'
+import Alert from 'Loopr/Alert'
 
 const ToLogin = ({modal})=>{
   return (
@@ -103,6 +104,14 @@ export default function Home(props){
         </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
+        <Alert className="mt5 mb10 border-blue-100 border" type="info" theme="light"
+          title={<div className="fs14">{intl.get('testtips.tradetips_title')}</div>}
+          description={
+            <div className="fs12 color-black-2 lh20">
+              {intl.getHTML('testtips.tradetips_description')}
+            </div>
+          }
+          type="info" closable showIcon={false}/>
         {
           true &&
           <div className="zb-b">
