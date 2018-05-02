@@ -21,7 +21,8 @@ class TradeConfirm extends React.Component {
     since: '',
     till: '',
     tokenB: null,
-    tokenS: null
+    tokenS: null,
+    loading:false
   };
 
   componentDidMount() {
@@ -92,13 +93,22 @@ class TradeConfirm extends React.Component {
     const {modal} = this.props;
     return (
       <div>
-        <Button className="alert-btn mr5" onClick={() => modal.showModal({id: 'token/receive', symbol: item.value.symbol.toUpperCase()})}> {intl.get('order.receive_token',{token:item.value.symbol.toUpperCase()})}</Button>
-        {item.value.symbol.toUpperCase() !== 'WETH' && item.value.symbol.toUpperCase() !== 'BAR'  && item.value.symbol.toUpperCase() !== 'FOO' &&
-        <Button className="alert-btn mr5" onClick={() => window.routeActions.gotoPath( `/trade/${item.value.symbol.toUpperCase()}-WETH`)}> {intl.get('order.buy_token',{token:item.value.symbol.toUpperCase()})}</Button>}
-        {(item.value.symbol.toUpperCase() === 'BAR'  || item.value.symbol.toUpperCase() === 'FOO') &&
-        <Button className="alert-btn mr5" onClick={() => window.routeActions.gotoPath( '/trade/FOO-BAR')}> {intl.get('order.buy_token',{token:item.value.symbol.toUpperCase()})}</Button>}
+        <Button className="alert-btn mr5" onClick={() => modal.showModal({
+          id: 'token/receive',
+          symbol: item.value.symbol.toUpperCase()
+        })}> {intl.get('order.receive_token', {token: item.value.symbol.toUpperCase()})}</Button>
+        {item.value.symbol.toUpperCase() !== 'WETH' && item.value.symbol.toUpperCase() !== 'BAR' && item.value.symbol.toUpperCase() !== 'FOO' &&
+        <Button className="alert-btn mr5"
+                onClick={() => window.routeActions.gotoPath(`/trade/${item.value.symbol.toUpperCase()}-WETH`)}> {intl.get('order.buy_token', {token: item.value.symbol.toUpperCase()})}</Button>}
+        {(item.value.symbol.toUpperCase() === 'BAR' || item.value.symbol.toUpperCase() === 'FOO') &&
+        <Button className="alert-btn mr5"
+                onClick={() => window.routeActions.gotoPath('/trade/FOO-BAR')}> {intl.get('order.buy_token', {token: item.value.symbol.toUpperCase()})}</Button>}
         {item.value.symbol.toUpperCase() === 'WETH' &&
-        <Button className="alert-btn mr5" onClick={() => modal.showModal( {id: 'token/convert', item: {symbol: 'ETH'}, showFrozenAmount: true})}> {intl.get('order.convert_token',{token:item.value.symbol.toUpperCase()})}</Button>}
+        <Button className="alert-btn mr5" onClick={() => modal.showModal({
+          id: 'token/convert',
+          item: {symbol: 'ETH'},
+          showFrozenAmount: true
+        })}> {intl.get('order.convert_token', {token: item.value.symbol.toUpperCase()})}</Button>}
       </div>
     )
   };
@@ -114,9 +124,12 @@ class TradeConfirm extends React.Component {
     warn.forEach((item) => {
       Notification.open({
         message: intl.get('order.place_warn'),
-        description:  intl.get('order.balance_not_enough', {token: item.value.symbol,amount:window.uiFormatter.getFormatNum(item.value.required)}),
+        description: intl.get('order.balance_not_enough', {
+          token: item.value.symbol,
+          amount: window.uiFormatter.getFormatNum(item.value.required)
+        }),
         type: 'warning',
-        actions:this.ActionItem(item)
+        actions: this.ActionItem(item)
       })
     })
   };
@@ -125,9 +138,9 @@ class TradeConfirm extends React.Component {
     const {modals, assets = {}, tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
     let {warn} = modal;
-    let {signedOrder, tokenS} = this.state;
+    let {signedOrder} = this.state;
     const _this = this;
-    modals.hideModal({id: 'trade/confirm'});
+    this.setState({loading:true});
     placeOrder(signedOrder).then(async (res) => {
       if (res.error) {
         Notification.open({
@@ -136,16 +149,13 @@ class TradeConfirm extends React.Component {
           description: res.error.message
         })
       } else {
-        const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
-        this.openNotification(balanceWarn);
-        _this.updateOrders();
         if (warn) {
           const gasLimit = config.getGasLimitByType('approve') ? config.getGasLimitByType('approve').gasLimit : configs['defaultGasLimit'];
           const gasPrice = toHex(Number(tradingConfig.gasPrice) * 1e9);
           const delegateAddress = configs.delegateAddress;
           const txs = [];
           const approveWarn = warn.filter(item => item.type === "AllowanceNotEnough");
-          let nonce = approveWarn.length > 0 ? await window.STORAGE.wallet.getNonce(window.WALLET.getAddress()): 0;
+          let nonce = approveWarn.length > 0 ? await window.STORAGE.wallet.getNonce(window.WALLET.getAddress()) : 0;
           approveWarn.forEach(item => {
             const tokenConfig = window.CONFIG.getTokenBySymbol(item.value.symbol);
             const token = new Token({address: tokenConfig.address});
@@ -170,19 +180,37 @@ class TradeConfirm extends React.Component {
           });
 
           eachLimit(txs, 1, async function (tx, callback) {
-            const {response,rawTx} = await window.WALLET.sendTransaction(tx);
+            const {response, rawTx} = await window.WALLET.sendTransaction(tx);
             if (response.error) {
               callback(response.error.message)
             } else {
-            //  window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
+              //  window.STORAGE.transactions.addTx({hash: response.result, owner: window.WALLET.getAddress()});
               window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
-              notifyTransactionSubmitted({txHash:response.result,rawTx,from:window.WALLET.getAddress()});
+              notifyTransactionSubmitted({txHash: response.result, rawTx, from: window.WALLET.getAddress()});
               callback()
             }
           }, function (error) {
-
+            _this.reEmitPendingTransaction();
+            if(error){
+              Notification.open({
+                message: intl.get('trade.place_order_failed'),
+                type: "error",
+                description: error.message
+              });
+            }else {
+              const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
+              _this.openNotification(balanceWarn);
+              _this.updateOrders();
+            }
+            _this.setState({loading:false});
+             modals.hideModal({id: 'trade/confirm'});
           });
-          this.reEmitPendingTransaction();
+        } else {
+          const balanceWarn = warn ? warn.filter(item => item.type === "BalanceNotEnough") : [];
+          this.openNotification(balanceWarn);
+          this.setState({loading:false});
+          modals.hideModal({id: 'trade/confirm'});
+          _this.updateOrders();
         }
       }
     });
@@ -211,7 +239,7 @@ class TradeConfirm extends React.Component {
     const {modals, tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
     let {side, amount, pair, total, marginSplit, price, lrcFee} = modal;
-    let {order, signedOrder, since, till} = this.state;
+    let {order, signedOrder, since, till,loading} = this.state;
     marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
     const token = pair.split('-')[0];
     const token2 = pair.split('-')[1];
@@ -234,7 +262,8 @@ class TradeConfirm extends React.Component {
       <div className="caption zb-b-b text-center p25 pt0">
         <div className="fs16 color-grey-500 mb5">{intl.get(`order.${side === 'sell' ? 'selling' : 'buying'}`)}</div>
         <div className="fs28 color-grey-900">{intl.get('global.amount', {amount})} {token}</div>
-        <div className="fs14 color-grey-500 mt5">{window.uiFormatter.getFormatNum(price)} x {intl.get('global.amount', {amount})} = {total} {token2} </div>
+        <div className="fs14 color-grey-500 mt5">{window.uiFormatter.getFormatNum(price)}
+          x {intl.get('global.amount', {amount})} = {total} {token2} </div>
       </div>
       <MetaItem label={intl.get('trade.lrc_fee')} value={`${window.uiFormatter.getFormatNum(lrcFee)} LRC`}/>
       <MetaItem label={intl.get('order.margin')} value={`${marginSplit} %`}/>
@@ -265,8 +294,8 @@ class TradeConfirm extends React.Component {
         <div className="fs12 color-grey-500 mb10">
           {intl.get('order.place_tip')}
         </div>
-        <Button onClick={this.handelSubmit} disabled={!signedOrder} type="primary" className="d-block w-100"
-                size="large">
+        <Button onClick={this.handelSubmit} disabled={!signedOrder && loading} type="primary" className="d-block w-100"
+                size="large" loading={loading}>
           {intl.get('order.submit')}
         </Button>
       </div>
