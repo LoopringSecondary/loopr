@@ -295,6 +295,7 @@ I got this great idea:
     total: "Total",
     advanced: "Advanced",
     time_to_live: "Expire in",
+    time_to_live_advance:'Valid Time',
     more: "More",
     popular_option: "Less",
     integer_verification_message: "Please input an integer value",

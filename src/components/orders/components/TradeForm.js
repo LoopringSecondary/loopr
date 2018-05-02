@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip,Popconfirm,Popover} from 'antd';
+import {Form,InputNumber,Button,Icon,Modal,Input,Radio,Select,Checkbox,Slider,Collapse,Tooltip,Popconfirm,Popover,DatePicker} from 'antd';
 import * as fm from '../../../common/Loopring/common/formatter'
 import {accAdd, accSub, accMul, accDiv} from '../../../common/Loopring/common/math'
 import {configs} from '../../../common/config/data'
@@ -9,16 +9,20 @@ import Currency from '../../../modules/settings/CurrencyContainer'
 import {getEstimatedAllocatedAllowance, getFrozenLrcFee} from '../../../common/Loopring/relay/utils'
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
+import moment from 'moment'
 
 class TradeForm extends React.Component {
   state = {
     priceInput: 0,
     amountInput:0,
     availableAmount: 0,
+    timeToLivePatternSelect: 'easy',
     timeToLivePopularSetting: true,
     sliderMilliLrcFee:0,
     timeToLive:0,
     timeToLiveUnit:'',
+    timeToLiveStart: null,
+    timeToLiveEnd: null,
     total:0,
     loading: false,
   }
@@ -80,15 +84,22 @@ class TradeForm extends React.Component {
     let calculatedLrcFee = 0
     calculateLrcFee(total, sliderMilliLrcFee)
     let ttlInSecond = 0, ttlShow = ''
-    const ttl = this.state.timeToLive ? Number(this.state.timeToLive) : Number(settings.trading.timeToLive)
-    const unit = this.state.timeToLiveUnit ? this.state.timeToLiveUnit : settings.trading.timeToLiveUnit
-    switch(unit){
-      case 'minute': ttlInSecond = ttl * 60 ; ttlShow = `${ttl} ${intl.get('trade.minute')}`; break;
-      case 'hour': ttlInSecond = ttl * 3600 ; ttlShow = `${ttl} ${intl.get('trade.hour')}`; break;
-      case 'day': ttlInSecond = ttl * 86400; ttlShow = `${ttl} ${intl.get('trade.day')}`; break;
-      case 'week': ttlInSecond = ttl * 7 * 86400; ttlShow = `${ttl} ${intl.get('trade.week')}`; break;
-      case 'month': ttlInSecond = ttl * 30 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
+    if(this.state.timeToLivePatternSelect === 'easy') {
+      const ttl = this.state.timeToLive ? Number(this.state.timeToLive) : Number(settings.trading.timeToLive)
+      const unit = this.state.timeToLiveUnit ? this.state.timeToLiveUnit : settings.trading.timeToLiveUnit
+      switch(unit){
+        case 'minute': ttlInSecond = ttl * 60 ; ttlShow = `${ttl} ${intl.get('trade.minute')}`; break;
+        case 'hour': ttlInSecond = ttl * 3600 ; ttlShow = `${ttl} ${intl.get('trade.hour')}`; break;
+        case 'day': ttlInSecond = ttl * 86400; ttlShow = `${ttl} ${intl.get('trade.day')}`; break;
+        case 'week': ttlInSecond = ttl * 7 * 86400; ttlShow = `${ttl} ${intl.get('trade.week')}`; break;
+        case 'month': ttlInSecond = ttl * 30 * 86400; ttlShow = `${ttl} ${intl.get('trade.month')}`; break;
+      }
+    } else {
+      if(this.state.timeToLiveStart && this.state.timeToLiveEnd) {
+        ttlShow = `${this.state.timeToLiveStart.format("lll")} ~ ${this.state.timeToLiveEnd.format("lll")}`
+      }
     }
+
     const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address'
     const lrcPrice = prices.getTokenBySymbol('LRC')
 
@@ -162,10 +173,18 @@ class TradeForm extends React.Component {
           tradeInfo.amount = Number(values.amount)
           tradeInfo.price = Number(values.price)
           tradeInfo.total = accMul(tradeInfo.amount, tradeInfo.price)
-          tradeInfo.timeToLive = ttlInSecond
+          // tradeInfo.timeToLive = ttlInSecond
+          if(this.state.timeToLivePatternSelect === 'easy') {
+            tradeInfo.validSince = moment().unix()
+            tradeInfo.validUntil = moment().add(ttlInSecond, 'seconds').unix()
+          } else {
+            tradeInfo.validSince = this.state.timeToLiveStart.unix()
+            tradeInfo.validUntil = this.state.timeToLiveEnd.unix()
+          }
           if (values.marginSplit) {
             tradeInfo.marginSplit = Number(values.marginSplit)
           }
+          console.log(11111, tradeInfo)
           const totalWorth = calculateWorthInLegalCurrency(tokenR, tradeInfo.total)
           if(totalWorth <= 0) {
             Notification.open({
@@ -551,6 +570,22 @@ class TradeForm extends React.Component {
       }
     }
 
+    function timeToLivePatternChanged(value) {
+      _this.setState({timeToLivePatternSelect: value})
+      if(value === 'advance') {
+        const timeToLiveTimeSelector = form.getFieldValue('timeToLiveTimeSelector')
+        if(timeToLiveTimeSelector.length === 2) {
+          _this.setState({timeToLiveStart: timeToLiveTimeSelector[0], timeToLiveEnd: timeToLiveTimeSelector[1]})
+        }
+      }
+    }
+
+    function timeToLiveTimeSelected(value) {
+      if(value.length === 2) {
+        _this.setState({timeToLiveStart: value[0], timeToLiveEnd: value[1]})
+      }
+    }
+
     const formItemLayout = {
       labelCol: {
         xs: {span: 24},
@@ -685,6 +720,66 @@ class TradeForm extends React.Component {
       } trigger="click">
           <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
       </Popover>
+    )
+
+    const editOrderTTLPattern = (
+      <Popover overlayClassName="place-order-form-popover"
+         content={
+           <Collapse accordion defaultActiveKey={['easy']} onChange={timeToLivePatternChanged}>
+             <Collapse.Panel header="Easy" key="easy">
+               <div className="row pt5 pb5">
+                 <div className="col-auto">
+                   {intl.get('trade.custom_time_to_live_title')}
+                 </div>
+                 <div className="col"></div>
+                 <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
+               </div>
+               <div>
+                 {this.state.timeToLivePopularSetting &&
+                 <Form.Item className="ttl mb0" colon={false} label={null}>
+                   {form.getFieldDecorator('timeToLivePopularSetting')(
+                     <RadioGroup onChange={timeToLiveValueChange.bind(this, 'popular')}>
+                       <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
+                       <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
+                       <RadioButton value="1week">1 {intl.get('trade.week')}</RadioButton>
+                       <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
+                     </RadioGroup>
+                   )}
+                 </Form.Item>}
+                 {!this.state.timeToLivePopularSetting &&
+                 <Form.Item className="mb5 ttl" colon={false} label={null}>
+                   {form.getFieldDecorator('timeToLive', {
+                     rules: [{
+                       message: intl.get('trade.integer_verification_message'),
+                       validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
+                     }]
+                   })(
+                     <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}
+                            onChange={timeToLiveValueChange.bind(this, 'moreValue')}/>
+                   )}
+                 </Form.Item>}
+               </div>
+             </Collapse.Panel>
+             <Collapse.Panel header="Advance" key="advance">
+               <Form.Item className="mb5 ttl" colon={false} label={null}>
+                 {form.getFieldDecorator('timeToLiveTimeSelector', {
+                   initialValue:[moment(), moment().add(1, 'days')]
+                 })(
+                   <DatePicker.RangePicker
+                     locale={settings.preference.language}
+                     getCalendarContanier={triggerNode => triggerNode.parentNode}
+                     showTime={{ format: 'HH:mm' }}
+                     format="YYYY-MM-DD HH:mm"
+                     placeholder={['Start Time', 'End Time']}
+                     onChange={timeToLiveTimeSelected}
+                   />
+                 )}
+               </Form.Item>
+             </Collapse.Panel>
+           </Collapse>
+         } trigger="click">
+          <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
+        </Popover>
     )
 
     let outTokenBalance = 0
@@ -828,13 +923,14 @@ class TradeForm extends React.Component {
             <div className="row align-items-center ml0 mr0 pl10 pr10 lh40 zb-b-t">
               <div className="col-auto fs12 color-black-1">
                 <Tooltip title={intl.getHTML('trade.tips_time_to_live')}>
-                {intl.get('trade.time_to_live')}
+                {this.state.timeToLivePatternSelect === 'easy' && intl.get('trade.time_to_live')}
+                  {this.state.timeToLivePatternSelect === 'advance' && intl.get('trade.time_to_live_advance')}
                 &nbsp;:&nbsp;&nbsp;
                 <span className={`col-auto font-weight-bold fs12 color-black-1`}>{ttlShow}</span>
                 </Tooltip>
               </div>
               <div className="col"></div>
-              <div className="col-auto pl0 pr0">{editOrderTTL}</div>
+              <div className="col-auto pl0 pr0">{editOrderTTLPattern}</div>
             </div>
 
           </div>
