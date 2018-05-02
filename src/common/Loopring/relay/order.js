@@ -175,6 +175,8 @@ export function sign(order, privateKey) {
   }
 
   const hash = getOrderHash(order);
+  console.log('Hash',toHex(hash));
+  console.log('prefixedHash:',toHex(hashPersonalMessage(hash)));
   const signature = ecsign(hashPersonalMessage(hash), privateKey);
   const v = toNumber(signature.v);
   const r = toHex(signature.r);
