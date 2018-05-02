@@ -184,7 +184,6 @@ class TradeForm extends React.Component {
           if (values.marginSplit) {
             tradeInfo.marginSplit = Number(values.marginSplit)
           }
-          console.log(11111, tradeInfo)
           const totalWorth = calculateWorthInLegalCurrency(tokenR, tradeInfo.total)
           if(totalWorth <= 0) {
             Notification.open({
