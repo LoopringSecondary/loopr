@@ -38,6 +38,11 @@ export default {
       <br />
       2. The amount of every order shall not be less than 100USD
     `,
+    trades_faq:'FAQ',
+    trades_faq_q1:"Coming Soon",
+    trades_faq_a1:``,
+    trades_faq_q2:"",
+    trades_faq_a2:``,
   },
   version:{
     label:'Beta3',
