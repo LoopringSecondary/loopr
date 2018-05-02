@@ -419,7 +419,7 @@ class ListBlock extends React.Component {
                    description={
                      <div className="text-left">
                        <div className="fs14 lh25">
-                         <span>{intl.get('txs.balance_not_enough', {token, balance, needed})}</span>
+                         <span>{intl.get('txs.balance_not_enough', {token,balance:window.uiFormatter.getFormatNum(balance), needed:window.uiFormatter.getFormatNum(needed)})}</span>
                        </div>
                      </div>
                    }

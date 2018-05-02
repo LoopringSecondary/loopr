@@ -102,7 +102,7 @@ let Preview = ({
         <div className="col">
           <div className="text-center">
             <CoinIcon size="60" symbol={extraData.tokenSymbol} />
-            <div className="fs20 color-black font-weight-bold">{`${extraData.amount} ${extraData.tokenSymbol} `}</div>
+            <div className="fs20 color-black font-weight-bold">{`${window.uiFormatter.getFormatNum(extraData.amount)} ${extraData.tokenSymbol} `}</div>
             <div className="fs14 color-black-3">{priceValue}</div>
           </div>
         </div>

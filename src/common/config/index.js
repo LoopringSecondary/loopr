@@ -24,7 +24,6 @@ function requestWhiteList() {
 
 async function  isinWhiteList(address) {
  return await requestWhiteList().then(whiteList =>{
-    console.log('WhiteList:', JSON.stringify(whiteList));
     const result = whiteList.find(add => add.toLowerCase() === address.toLowerCase());
     return !!result;
   });
