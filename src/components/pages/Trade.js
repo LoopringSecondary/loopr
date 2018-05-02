@@ -105,12 +105,10 @@ export default function Home(props){
       </Sockets.TickersByPair>
       <div className="container">
         <Alert className="mt5 mb10 border-blue-100 border" type="info" theme="light"
-          title="Trading tips for Beta3"
+          title={intl.get('testtips.tradetips_title')}
           description={
             <div className="fs12 color-black-2 lh20">
-              1. Your address has 1000+LRC
-              <br/>
-              2. Total amount of every order should more than $100 (Just Beta3 Only)
+              {intl.getHTML('testtips.tradetips_description')}
             </div>
           }
           type="info" closable showIcon={false}/>
