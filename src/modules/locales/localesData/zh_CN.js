@@ -133,7 +133,8 @@ export default {
     refresh: "刷新",
     buy_token: "买 {token}",
     receive_token: "接收 {token}",
-    convert_token: "转换 {token}"
+    convert_token: "转换 {token}",
+    why_buy_price_avaliable_but_could_not_deal:'该订单的价格符合撮合条件，矿工可能正在撮合并提交以太坊交易，这需要花一些时间。但如果订单规模或LRC Fee设置过小，矿工能获得的收益不足以支付以太坊油费时也可能会选择不撮合。如果您希望尽快成交，可以提高订单规模或设置更高的LRC Fee提交一个更有吸引力的订单。'
   },
   ticker: {
     last: '最新价',
