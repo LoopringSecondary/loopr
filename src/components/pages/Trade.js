@@ -105,7 +105,7 @@ export default function Home(props){
       </Sockets.TickersByPair>
       <div className="container">
         <Alert className="mt5 mb10 border-blue-100 border" type="info" theme="light"
-          title={intl.get('testtips.tradetips_title')}
+          title={<div className="fs14">{intl.get('testtips.tradetips_title')}</div>}
           description={
             <div className="fs12 color-black-2 lh20">
               {intl.getHTML('testtips.tradetips_description')}

@@ -30,11 +30,11 @@ export default {
         3. 正式版本发布后可正常使用
     </div>
   `,
-  tradetips_title:"交易提示（仅限于Beta3）",
+  tradetips_title:"交易提示（Beta3期间）",
   tradetips_description:`
-    1、交易地址上必须持有1000+LRC
+    1. 交易地址上必须持有1000+LRC
     <br />
-    2、每个订单的成交额不能低于100美金
+    2. 每个订单的成交额不能低于500元
   `,
 
 },
