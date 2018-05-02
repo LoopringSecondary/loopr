@@ -1,6 +1,6 @@
 import React from 'react';
 import intl from 'react-intl-universal';
-import { Tooltip } from 'antd'
+import { Tooltip,Icon } from 'antd'
 import Currency from '../../../../modules/settings/CurrencyContainer'
 import {accMul} from '../../../../common/Loopring/common/math'
 
@@ -12,13 +12,24 @@ function ListOrderBook(props) {
   const tokenL = market.split('-')[0].toUpperCase()
   const tokenR = market.split('-')[1].toUpperCase()
   const tokenRPrice = prices.getTokenBySymbol(tokenR)
-  let sell = []
-  if(depth && depth.sell) {
-    if(depth.sell.length > 8) {
-      depth.sell = depth.sell.slice(depth.sell.length - 8, depth.sell.length)
+  let sell = [], buy = []
+  if(depth) {
+    if(depth.sell) {
+      if(depth.sell.length > 8) {
+        depth.sell = depth.sell.slice(depth.sell.length - 8, depth.sell.length)
+      }
+      sell = Array(8-depth.sell.length).fill([]).concat(depth.sell)
     }
-    sell = Array(8-depth.sell.length).fill([]).concat(depth.sell)
+    if(depth.buy) {
+      buy = [...depth.buy].map(item=>{
+        if(Number(item[0]) > Number(sell[7][0])) {
+          item.largerThanSell1 = true
+        }
+        return item
+      })
+    }
   }
+
   const priceValue = (exchangeRatio) => {
     return (
       <span className="fs10">
@@ -27,10 +38,11 @@ function ListOrderBook(props) {
       </span>
     )
   }
+
   const ListItem = ({item,side})=>{
     if(item && item.length === 3){
       return (
-        <tr className="">
+        <tr className={side === 'buy' && item.largerThanSell1 ? "" : ""}>
           <td className="border-none pl10">
             {
               side === 'sell' &&
@@ -46,6 +58,11 @@ function ListOrderBook(props) {
                 <Tooltip placement="left" title={priceValue(Number(item[0]).toFixed(8))}>
                   {Number(item[0]).toFixed(8)}
                 </Tooltip>
+                {item.largerThanSell1 &&
+                  <Tooltip placement="right" title={intl.get('order.why_buy_price_avaliable_but_could_not_deal')}>
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                }
               </div>
             }
           </td>
@@ -95,18 +112,6 @@ function ListOrderBook(props) {
              </th>
            </tr>
             {
-              false && depth && depth.sell && depth.sell.length < 8 &&
-              Array(8-depth.sell.length).fill(1).map((item,index)=>
-                <tr className="" key={index}>
-                  <td colSpan="10" className="border-none p0" style={{lineHeight:'26px'}}>
-                    <div className="fs12 color-black-3" style={{lineHeight:'26px'}}>
-                      &nbsp;
-                    </div>
-                  </td>
-                </tr>
-              )
-            }
-            {
               sell && sell.map((item,index)=>
                <ListItem key={index} item={item} side="sell" />
               )
@@ -141,7 +146,7 @@ function ListOrderBook(props) {
               </th>
             </tr>
             {
-              depth && depth.buy && depth.buy.map((item,index)=>
+              buy && buy.map((item,index)=>
                <ListItem key={index} item={item} side="buy" />
               )
             }

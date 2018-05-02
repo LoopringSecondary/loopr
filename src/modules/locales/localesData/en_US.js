@@ -124,7 +124,8 @@ I got this great idea:
     refresh: "Refresh",
     buy_token:"Buy {token}",
     receive_token:"Receive {token}",
-    convert_token:"Convert {token}"
+    convert_token:"Convert {token}",
+    why_buy_price_avaliable_but_could_not_deal:'Your price is available currently, miner may mining your order or ...'
   },
   ticker: {
     last: 'Last Price',
