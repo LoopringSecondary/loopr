@@ -85,8 +85,7 @@ class CancelConfirm extends React.Component {
               {intl.get("orders.expire_duration", this.computeTime(toNumber(order.validUntil)))}
             </div>
             <div
-              className="fs12 pt5 pb5 color-black-2">{intl.get('orders.order_validity')}：{window.uiFormatter.getFormatTime(toNumber(order.validSince) * 1e3)}
-              ~ {window.uiFormatter.getFormatTime(toNumber(order.validUntil) * 1e3)}</div>
+              className="fs12 pt5 pb5 color-black-2">{intl.get('orders.order_validity')}：{window.uiFormatter.getFormatTime(toNumber(order.validSince) * 1e3)} ~ {window.uiFormatter.getFormatTime(toNumber(order.validUntil) * 1e3)}</div>
           </div>
 
         </div>}
