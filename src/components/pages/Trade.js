@@ -237,13 +237,9 @@ export default function Home(props){
                 </div>
               </div>
             </Card>
-
             }
-
           </div>
-
         </div>
-
         <div className="mb50"></div>
       </div>
     </Layout>
