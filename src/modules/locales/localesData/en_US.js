@@ -604,7 +604,7 @@ I got this great idea:
     in_watch_only_mode_content: 'Your account is still in the watch-only mode. To perform this operation, you need to unlock your wallet again.',
     in_demo_account_mode_content: 'You are now using demo account. To perform this operation, you need to unlock your wallet again.',
     continue_watch:'Continue Watch-Only',
-    metamask_installed_locked_title: 'Failed Unlock with MetaMask',
+    metamask_installed_locked_title: 'Trying to unlock with MetaMask',
     metamask_installed_locked_content: 'We detected you have installed MetaMask browser extension and want to unlock Loopr with it, please created or unlocked an account in MetaMask first, then try to unlock with MetaMask in Loopr again',
   },
   demo:{

@@ -643,7 +643,7 @@ export default {
     in_watch_only_mode_content: '您的账户正在使用观察模式。要执行这个操作，需要您再次解锁钱包。',
     in_demo_account_mode_content: '您正在使用演示钱包，要执行这个操作，需要您再次解锁钱包。',
     continue_watch:'继续使用观察模式',
-    metamask_installed_locked_title: '尝试解锁MetaMask失败',
+    metamask_installed_locked_title: '尝试使用MetaMask解锁Loopr',
     metamask_installed_locked_content: '我们检测到您已安装MetaMask浏览器插件并尝试用MetaMask解锁Loopr，请先在您的MetaMask浏览器插件创建账户或解锁后再尝试用MetaMask解锁',
   },
   demo: {
