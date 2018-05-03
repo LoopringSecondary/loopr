@@ -71,9 +71,7 @@ class CancelConfirm extends React.Component {
     const {tx, type, market, order} = modal;
     const price = prices.getTokenBySymbol('ETH');
     const amount = toBig(tx.gasPrice).times(tx.gasLimit).div(1e18).toNumber();
-    const now = Math.floor(moment().valueOf() / 1e3);
     const worth = `${getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${math.accMul(amount, price.price).toFixed(2)}`
-    const isWatchOnly = window.WALLET_UNLOCK_TYPE === 'Address';
     const title = type === 'order' ? intl.get('order.confirm_cancel_order') : intl.get('order.confirm_cancel_all', {pair: market || ''})
     return (
       <Card title={title}>
