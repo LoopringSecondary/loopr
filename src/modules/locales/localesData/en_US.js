@@ -13,7 +13,7 @@ export default {
     amount_label:'Amount',
     total:'Total',
     time:'Time',
-    custom:'Custom',
+    custom:'Customize',
   },
   userguide:{
     title:'User Guide',
@@ -32,6 +32,17 @@ export default {
           3. Final version will work very well with no bugs
       </div>
     `,
+    tradetips_title:"Trading Tips ( Beta3 Only )",
+    tradetips_description:`
+      1. You trading address must have 1000+LRC ( Beta3 Only ).
+      <br />
+      2. The amount of every order shall not be less than 100USD ( Beta3 Only ).
+    `,
+    trades_faq:'FAQ',
+    trades_faq_q1:"",
+    trades_faq_a1:``,
+    trades_faq_q2:"",
+    trades_faq_a2:``,
   },
   version:{
     label:'Beta3',
@@ -117,14 +128,22 @@ I got this great idea:
     cancel_order_success: "Your order has been cancelled.",
     cancel_order_failed: "Woops, order cancellation somehow failed.",
     cancel_all_success: "All your {pair} orders have been cancelled.",
-    cancel_all_failed: "Woops, order cancellation somehow failed.",
+    cancel_all_failed: "Whoops, order cancellation somehow failed.",
     yes: "Confirm",
     no: "Cancel",
     cancel_all: "Cancel All",
     refresh: "Refresh",
     buy_token:"Buy {token}",
     receive_token:"Receive {token}",
-    convert_token:"Convert {token}"
+    convert_token:"Convert {token}",
+    why_buy_price_avaliable_but_could_not_deal:`
+    <div class="p5">
+        <div class="fs14 lh25"> Order Depth Tips </div>
+        <div class="fs12">1. The depth maybe under matching: Miners may need some time to submit txs to ethereum.
+  </div>
+        <div class="fs12">2. The depth maybe deprecated: Miners's matching income (LRC Fee) is lower than matching cost ( ethereum gas ) </div>
+    </div>
+    `
   },
   ticker: {
     last: 'Last Price',
@@ -311,8 +330,8 @@ I got this great idea:
     lrcFee_increased: "We need to increase your order's trading fee from {userSet}LRC to a minimum of {increased}LRC. Do you want to continue?",
     notice: "Please notice",
     placing_order: 'Placing Order',
-    place_order_failed: "Woops, order submission somehow failed!",
-    not_inWhiteList:"Woops, your account has not been whitelisted for this action!",
+    place_order_failed: "Whoops, order submission somehow failed!",
+    not_inWhiteList:"Whoops, your account has not been whitelisted for this action!",
     not_allow:"LOOPRING.IO (Loopr2) is still in its beta, please come back later when it's ready for more people to use.",
     you_should_do_things: "You should do things followed",
     failed_reasons: "Causes of failure:",
@@ -336,7 +355,7 @@ I got this great idea:
     custom_time_to_live_title:'Adjust Order Time-To-Live',
     send_failed: 'Place Order Failed !',
     failed_fetch_data:'Failed fetch data from server, you could wait a moment and come back later',
-    eth_is_required:'ETH is required to pay Ethereun transaction fees, calculated with your current order cost that need to send Ethereum transactions, totally required {required} ETH.',
+    eth_is_required:'ETH is required to pay Ethereum transaction fees, calculated with your current order cost that need to send Ethereum transactions, totally required {required} ETH.',
     lrcfee_is_required:'LRC is required to pay trade fees, added on your history orders need LRC, totally required {required} LRC.',
     not_supported_token_to_trade_title:'{token} Is Not Supported To Trade Now',
     not_supported_token_to_trade_content:'Please look forward to opening more markets',
@@ -403,9 +422,9 @@ I got this great idea:
     transfer_again_convert: "Convert Again",
     add_custom_token_tip:"Please input a valid address ",
     send_failed: 'Sending Failed!',
-    convert_failed: 'Convertion Failed',
+    convert_failed: 'Converted Failed',
     recommended_value:"Recommended value:",
-    convert_succ_notification_title: 'Convertion Succeeded!',
+    convert_succ_notification_title: 'Converted Succeeded!',
     transfer_succ_notification_title: 'Transfer Succeeded!',
     custum_gas_title:'Adjust Gas',
     custum_gas_content:'we advice you to set {gas}',
@@ -608,9 +627,9 @@ I got this great idea:
     token_digits: "Token Digits",
     confirm_save: "Save",
     save_successfully: "Token added successfully",
-    supportToken: "This token has alredy been added.",
+    supportToken: "This token has already been added.",
     add_token_failed: "Failed to read the token's information from Ethereum blockchain.",
-    already_add: "This token has alredy been added."
+    already_add: "This token has already been added."
   },
   portfolio: {
     total_value: "Total Value",

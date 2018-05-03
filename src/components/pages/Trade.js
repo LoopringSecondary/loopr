@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip,Alert } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import TradeList from '../trades/components/ListSimple'
@@ -10,6 +10,7 @@ import Market from '../market/components'
 import Sockets from '../../modules/socket/containers'
 import ModalContainer from '../../modules/modals/container'
 import intl from 'react-intl-universal'
+// import Alert from 'Loopr/Alert'
 
 const ToLogin = ({modal})=>{
   return (
@@ -133,6 +134,9 @@ export default function Home(props){
               </div>
               <div className="col zb-b-r" style={{flex:'0 0 40%'}}>
                 <TradeFormTab pair={pair} />
+                <div className="fs12 p10 pt0 color-black-3" style={{marginTop:'-10px'}}>
+                  {intl.getHTML('testtips.tradetips_description')}
+                </div>
               </div>
               <div className="col-auto" style={{flex:'0 0 30%'}}>
                 <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
@@ -153,9 +157,12 @@ export default function Home(props){
                     <TradeList market={pair} />
                   </Sockets.Trades>
                 </div>
+
               </div>
 
+
             </div>
+
           </div>
         }
 
@@ -190,9 +197,53 @@ export default function Home(props){
                   }
                 </div>
               </Tabs.TabPane>
+              { intl.getHTML('testtips.trades_faq_q1') &&
+              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('testtips.trades_faq')}</div>} key="faq">
+              </Tabs.TabPane>
+              }
             </Tabs>
+            { intl.getHTML('testtips.trades_faq_q1') &&
+            <Card className="rs-p0 border-none" title={null}>
+              <div className="p10 zb-b-t">
+                <div className="fs14 color-black-1 lh30">
+                  {intl.getHTML('testtips.trades_faq_q1')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a1')}
+                </div>
+                <div className="fs14 color-black-1 lh30 mt10">
+                  {intl.getHTML('testtips.trades_faq_q2')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a2')}
+                </div>
+                <div className="fs14 color-black-1 lh30 mt10">
+                  {intl.getHTML('testtips.trades_faq_q3')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a3')}
+                </div>
+                <div className="fs14 color-black-1 lh30 mt10">
+                  {intl.getHTML('testtips.trades_faq_q4')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a4')}
+                </div>
+                <div className="fs14 color-black-1 lh30 mt10">
+                  {intl.getHTML('testtips.trades_faq_q5')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a5')}
+                </div>
+              </div>
+            </Card>
+
+            }
+
           </div>
+
         </div>
+
         <div className="mb50"></div>
       </div>
     </Layout>

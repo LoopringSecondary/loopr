@@ -69,11 +69,10 @@ class Transfer extends React.Component {
       if(tokenConfig) {
         selectedToken = {...tokenConfig, ...selectedToken}
         if(selectedToken && selectedToken.digits) {
-          const balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits).toNumber()
-          selectedToken.balance = balance
+          selectedToken.balance = fm.toBig(selectedToken.balance).div("1e"+selectedToken.digits);
         }
       } else {
-        selectedToken.balance = 0
+        selectedToken.balance = fm.toBig(0)
       }
       return selectedToken
     }
@@ -199,13 +198,13 @@ class Transfer extends React.Component {
 
     function setGas(v) {
       setTimeout(()=>{
-        const gas = fm.toBig(v).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
+        const gas = fm.toBig(v).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8);
         if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
-          const token = getToken(this.state.tokenSymbol)
-          let balance = token.balance
-          balance = Math.max(0, balance - gas)
-          this.setState({value: balance})
-          form.setFieldsValue({"amount": balance})
+          const token = getToken(this.state.tokenSymbol);
+          let balance = token.balance;
+          balance = balance.gt(gas) ? balance.minus(gas) : fm.toBig(0);
+          this.setState({value: balance});
+          form.setFieldsValue({"amount": balance.toString()})
         }
         this.setState({sliderGasPrice: v, selectedGasLimit:fm.toNumber(GasLimit), selectedGas: gas.toString(10)})
       },0)
@@ -214,11 +213,11 @@ class Transfer extends React.Component {
     function selectMax(e) {
       e.preventDefault();
       if(_this.state.tokenSymbol) {
-        const token = getToken(_this.state.tokenSymbol)
-        let balance = token.balance
+        const token = getToken(_this.state.tokenSymbol);
+        let balance = fm.toBig(token.balance);
         if(_this.state.tokenSymbol === 'ETH') {
-          let gasPrice = settings.trading.gasPrice
-          let gasLimit = GasLimit
+          let gasPrice = settings.trading.gasPrice;
+          let gasLimit = GasLimit;
           if(_this.state.gasPopularSetting) {
             if(_this.state.selectedGasPrice) {
               gasPrice = _this.state.selectedGasPrice
@@ -229,16 +228,16 @@ class Transfer extends React.Component {
           } else {
             gasPrice = _this.state.sliderGasPrice
           }
-          const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9).toNumber()
-          balance = Math.max(0, balance - gas)
+          const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9).toNumber();
+          balance = balance.gt(gas) ?  balance.minus(gas) : fm.toBig(0);
         }
-        _this.setState({value: balance, sendMax:true})
-        form.setFieldsValue({"amount": balance})
+        _this.setState({value: balance, sendMax:true});
+        form.setFieldsValue({"amount": balance.toString()})
       }
     }
 
     function validateTokenSelect(value) {
-      const result = form.validateFields(["amount"], {force:true})
+      const result = form.validateFields(["amount"], {force:true});
       if(value) {
         return true
       } else {

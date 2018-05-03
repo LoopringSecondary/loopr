@@ -47,13 +47,13 @@ class ListBlock extends React.Component {
           getFrozenLrcFee(window.WALLET.getAddress()).then(res => {
             if (!res.error) {
               const lrcFee = toBig(res.result);
-              this.setState({needed: orderAmount.plus(lrcFee)});
+              this.setState({needed: orderAmount.plus(lrcFee),token:currentToken});
             } else {
-              this.setState({needed: orderAmount});
+              this.setState({needed: orderAmount,token:currentToken});
             }
           })
         } else {
-          this.setState({needed: orderAmount});
+          this.setState({needed: orderAmount,token:currentToken});
         }
       }
     })
@@ -63,6 +63,7 @@ class ListBlock extends React.Component {
     const {LIST, actions, prices, assets} = this.props;
     const {items = [], loading, page = {}, filters} = LIST;
     const token = filters.token;
+    const currentToken  = this.state.token;
     let {needed} = this.state;
     let balance = token && assets.getTokenBySymbol(token).balance;
     const tokenConfig = window.CONFIG.getTokenBySymbol(token);
@@ -410,7 +411,7 @@ class ListBlock extends React.Component {
               <Spin/>
             </div>
           }
-          {!!balance && !!needed.gt(toBig(balance)) &&
+          {!!currentToken && (currentToken.toLowerCase() === token.toLowerCase()) && !!balance && needed.gt(toBig(balance)) &&
           <div style={{cursor:'pointer'}}>
             <Alert type="warning"
                    title={intl.get('txs.balance_not_enough_title', {token})}
@@ -418,7 +419,7 @@ class ListBlock extends React.Component {
                    description={
                      <div className="text-left">
                        <div className="fs14 lh25">
-                         <span>{intl.get('txs.balance_not_enough', {token, balance, needed})}</span>
+                         <span>{intl.get('txs.balance_not_enough', {token,balance:window.uiFormatter.getFormatNum(balance), needed:window.uiFormatter.getFormatNum(needed)})}</span>
                        </div>
                      </div>
                    }
