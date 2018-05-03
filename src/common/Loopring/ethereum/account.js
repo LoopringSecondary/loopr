@@ -202,7 +202,7 @@ export class KeyAccount extends Account {
   }
 
   /**
-   * @description Return V3 type keystore of this account
+   * @description Returns V3 type keystore of this account
    * @param password
    * @returns {{version, id, address, crypto}}
    */

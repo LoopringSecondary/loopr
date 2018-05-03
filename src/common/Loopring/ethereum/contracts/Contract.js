@@ -4,9 +4,7 @@ export default class Contract {
 
   constructor(abi) {
     const funAbi = abi.filter(({type}) => type === 'function');
-    this.abi = funAbi;
     this.abiFunctions = funAbi.reduce((acc, item) => {
-
       const inputTypes = item.inputs.map(({type})=>type);
       const key = `${item.name}(${inputTypes.toString()})`;
       return ({
@@ -32,7 +30,6 @@ export default class Contract {
       throw  new Error(`No  ${method} method according to abi `)
     }
   }
-
 
   /**
    * @description Decodes outputs
