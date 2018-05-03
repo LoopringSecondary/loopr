@@ -74,19 +74,22 @@ class TradeConfirm extends React.Component {
       })
     }
     window.WALLET.signOrder(order).then(function (signedOrder) {
-      signedOrder.powNonce = 100;
-      this.setState({
-        order,
-        signedOrder,
-        since,
-        till,
-        tokenB,
-        tokenS
+        signedOrder.powNonce = 100;
+        this.setState({
+          order,
+          signedOrder,
+          since,
+          till,
+          tokenB,
+          tokenS
+        })
+      }.bind(this)).catch(err => {
+      Notification.open({
+        message: intl.get('trade.sign_order_failed'),
+        type: "error",
+        description: err.message
       })
-    }.bind(this)).catch(err => {
-      console.log('signOrder error', err)
     });
-
   }
 
   ActionItem = (item) => {
