@@ -1,5 +1,6 @@
 import validator from '../common/validator'
 import request from '../common/request'
+import {id} from '../common/request'
 import Response from '../common/response'
 import code from "../common/code"
 
@@ -22,6 +23,7 @@ export async function getTransactionCount(host, {address, tag}) {
   const body = {};
   body.method = 'eth_getTransactionCount';
   body.params = params;
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -39,6 +41,7 @@ export async function  sendRawTransaction(host,{signedTx}) {
   const body = {};
   body.method = 'eth_sendRawTransaction';
   body.params = [signedTx];
+  body.id = id();
   return request(host,{
     method: 'post',
     body,
@@ -55,6 +58,7 @@ export function getGasPrice(host) {
   const body = {};
   body.method = 'eth_gasPrice';
   body.params = params;
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -71,6 +75,7 @@ export function estimateGas(host, {tx}) {
   const body = {};
   body.method = 'eth_estimateGas';
   body.params = [tx];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -98,6 +103,7 @@ export function getAccountBalance(host, {address, tag}) {
   const body = {};
   body.method = 'eth_getBalance';
   body.params = params;
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -120,6 +126,7 @@ export function getTransactionByhash(host, {hash}) {
   const body = {};
   body.method = 'eth_getTransactionByHash';
   body.params = params;
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -146,6 +153,7 @@ export function call(host, {tx, tag}) {
   const body = {};
   body.method = 'eth_call';
   body.params = params;
+  body.id = id();
   return request(host, {
     method: 'post',
     body,

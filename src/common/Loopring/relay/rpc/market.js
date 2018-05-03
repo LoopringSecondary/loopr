@@ -1,4 +1,5 @@
 import request from '../../common/request'
+import {id} from '../../common/request'
 import validator from '../validator'
 import Response from '../../common/response'
 import code from "../../common/code"
@@ -18,6 +19,7 @@ export function getPriceQuote(host, {currency}) {
   const body = {};
   body.method = 'loopring_getPriceQuote';
   body.params = [{currency}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -33,6 +35,7 @@ export function getSupportedMarket(host) {
   const body = {};
   body.method = 'loopring_getSupportedMarket';
   body.params = [{}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -48,6 +51,7 @@ export function getSupportedTokens(host) {
   const body = {};
   body.method = 'loopring_getSupportedTokens';
   body.params = [{}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -70,6 +74,7 @@ export function getDepth(host, filter) {
   const body = {};
   body.method = 'loopring_getDepth';
   body.params = [filter];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -85,6 +90,7 @@ export function getTicker(host) {
   const body = {};
   body.method = 'loopring_getTicker';
   body.params = [{}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -100,6 +106,7 @@ export function getTickers(host,{market}) {
   const body = {};
   body.method = 'loopring_getTickers';
   body.params = [{market}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -123,6 +130,7 @@ export function getTrend(host, {market, interval}) {
   const body = {};
   body.method = 'loopring_getTrend';
   body.params = [{market, interval}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,

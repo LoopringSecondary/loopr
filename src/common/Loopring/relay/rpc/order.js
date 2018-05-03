@@ -1,4 +1,5 @@
 import request from '../../common/request'
+import {id} from '../../common/request'
 import Response from '../../common/response'
 import code from "../../common/code"
 import {soliditySHA3} from 'ethereumjs-abi'
@@ -25,6 +26,7 @@ export function getOrders(host, filter) {
   const body = {};
   body.method = 'loopring_getOrders';
   body.params = [filter];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -51,6 +53,7 @@ export function getCutoff(host, {address, delegateAddress, blockNumber}) {
   const body = {};
   body.method = 'loopring_getCutoff';
   body.params = [{address, delegateAddress, blockNumber}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -74,6 +77,7 @@ export function placeOrder(host, {order}) {
   const body = {};
   body.method = 'loopring_submitOrder';
   body.params = [order];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,

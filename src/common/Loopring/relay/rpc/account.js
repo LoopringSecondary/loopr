@@ -1,4 +1,5 @@
 import request from '../../common/request'
+import {id} from '../../common/request'
 import validator from '../validator'
 import Response from '../../common/response'
 import code from "../../common/code"
@@ -20,6 +21,7 @@ export function getBalance(host, {delegateAddress, owner}) {
   let body = {};
   body.method = 'loopring_getBalance';
   body.params = [{delegateAddress, owner}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -41,6 +43,7 @@ export function register(host, {owner}) {
   let body = {};
   body.method = 'loopring_unlockWallet';
   body.params = [{owner}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -68,6 +71,7 @@ export function notifyTransactionSubmitted(host, {txHash, rawTx, from}) {
   const body = {};
   body.method = 'loopring_notifyTransactionSubmitted';
   body.params = [{hash: txHash, nonce, to, value, gasPrice, gas: gasLimit, input: data, from,}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body
@@ -104,6 +108,7 @@ export function getTransactions(host, {owner, status, txHash, pageIndex, pageSiz
   const body = {};
   body.method = 'loopring_getTransactions';
   body.params = [{owner, status, txHash, pageIndex, pageSize}];
+  body.id = id();
   return request(host, {
     method: 'post',
     body,
@@ -126,6 +131,7 @@ export function getEstimatedAllocatedAllowance(host,{owner, token}) {
   const body = {};
   body.method = 'loopring_getEstimatedAllocatedAllowance';
   body.params = [{owner, token}];
+  body.id = id();
   return request(host,{
     method: 'post',
     body,
@@ -147,6 +153,7 @@ export function getFrozenLrcFee(host,{owner}) {
   const body = {};
   body.method = 'loopring_getFrozenLRCFee';
   body.params = [{owner}];
+  body.id = id();
   return request(host,{
     method: 'post',
     body,
@@ -168,6 +175,7 @@ export function getOldWethBalance(host,{owner}) {
   const body = {};
   body.method = 'loopring_getOldVersionWethBalance';
   body.params = [{owner}];
+  body.id = id();
   return request(host,{
     method: 'post',
     body,
@@ -189,6 +197,7 @@ export function getPortfolio(host,{owner}) {
   const body = {};
   body.method = 'loopring_getPortfolio';
   body.params = [{owner}];
+  body.id = id();
   return request(host,{
     method: 'post',
     body,
