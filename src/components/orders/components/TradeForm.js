@@ -714,64 +714,21 @@ class TradeForm extends React.Component {
         <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
       </Popover>
     )
-    const editOrderTTL = (
-      <Popover overlayClassName="place-order-form-popover"
-        title={
-          <div className="row pt5 pb5">
-            <div className="col-auto">
-              {intl.get('trade.custom_time_to_live_title')}
-            </div>
-            <div className="col"></div>
-            <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-          </div>
-        }
-      content={
-        <div>
-          {this.state.timeToLivePopularSetting &&
-          <Form.Item className="ttl mb0" colon={false} label={null}>
-            {form.getFieldDecorator('timeToLivePopularSetting')(
-              <RadioGroup onChange={timeToLiveValueChange.bind(this, 'popular')}>
-                <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
-                <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
-                <RadioButton value="1week">1 {intl.get('trade.week')}</RadioButton>
-                <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
-              </RadioGroup>
-            )}
-          </Form.Item>}
-          {!this.state.timeToLivePopularSetting &&
-          <Form.Item className="mb5 ttl" colon={false} label={null}>
-            {form.getFieldDecorator('timeToLive', {
-              rules: [{
-                message: intl.get('trade.integer_verification_message'),
-                validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
-              }]
-            })(
-              <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}
-                     onChange={timeToLiveValueChange.bind(this, 'moreValue')}/>
-            )}
-          </Form.Item>}
-        </div>
-      } trigger="click">
-          <a className="fs12 pointer color-black-3">{intl.get('global.custom')}<Icon type="right" /></a>
-      </Popover>
-    )
-
     let outTokenBalance = 0
     const customPanelStyle = {
       background: '#fff',
       borderRadius: 4,
-      border: '1px solid #eee',
+      border: 'none',
       overflow: 'hidden',
     };
     const editOrderTTLPattern = (
-      <Popover overlayClassName="place-order-form-popover" ref="popover"
-               title={<div className="pt5 pb5">{intl.get('trade.custom_time_to_live_title')}</div>}
+      <Popover overlayClassName="place-order-form-popover p0" ref="popover"
+               title={null &&<div className="pt5 pb5">{intl.get('trade.custom_time_to_live_title')}</div>}
                content={
                  <div style={{width:'382px'}}>
                    <Collapse accordion style={customPanelStyle} defaultActiveKey={['easy']} onChange={timeToLivePatternChanged}>
                      <Collapse.Panel header={intl.get('trade.order_ttl_expire_in')} key="easy">
                        <div className="pt5 pb5">
-                           {false && intl.get('trade.custom_time_to_live_title')}
                            <Form.Item className="ttl mb0" colon={false} label={null}>
                              {form.getFieldDecorator('timeToLivePopularSetting')(
                                <Radio.Group onChange={timeToLiveValueChange.bind(this, 'popular')}>
