@@ -25,7 +25,8 @@ const getNonce = async (address) => {
   }
 };
 
-const storeUnlockedAddress = (address) => {
+const storeUnlockedAddress = (unlockType, address) => {
+  localStorage.unlockedType = unlockType
   localStorage.unlockedAddress = address
 }
 
@@ -33,7 +34,12 @@ const getUnlockedAddress = () => {
   return localStorage.unlockedAddress || ''
 }
 
+const getUnlockedType = () => {
+  return localStorage.unlockedType || ''
+}
+
 const clearUnlockedAddress = () => {
+  localStorage.unlockedType = ''
   localStorage.unlockedAddress = ''
 }
 
@@ -48,6 +54,7 @@ export default {
   getNonce,
   storeUnlockedAddress,
   getUnlockedAddress,
+  getUnlockedType,
   clearUnlockedAddress
 }
 

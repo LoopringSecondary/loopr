@@ -255,16 +255,17 @@ class Transfer extends React.Component {
     }
 
     function validateAmount(value) {
-      let tokenSymbol = this.state.tokenSymbol
-      if(this.state.showTokenSelector) {
-        tokenSymbol = form.getFieldValue("token")
-      }
-      if(tokenSymbol && isNumber(value)) {
-        const token = getToken(tokenSymbol)
-        return value && value <= token.balance
-      } else {
-        return false
-      }
+      // let tokenSymbol = this.state.tokenSymbol
+      // if(this.state.showTokenSelector) {
+      //   tokenSymbol = form.getFieldValue("token")
+      // }
+      // if(tokenSymbol && isNumber(value)) {
+      //   const token = getToken(tokenSymbol)
+      //   return value && value <= token.balance
+      // } else {
+      //   return false
+      // }
+      return isNumber(value) && value >=0
     }
 
     function amountFocus() {
