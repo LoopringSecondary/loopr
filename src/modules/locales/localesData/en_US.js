@@ -34,12 +34,12 @@ export default {
     `,
     tradetips_title:"Trading Tips ( Beta3 Only )",
     tradetips_description:`
-      1. You trading address must have 1000+LRC.
+      1. You trading address must have 1000+LRC ( Beta3 Only ).
       <br />
-      2. The amount of every order shall not be less than 100USD
+      2. The amount of every order shall not be less than 100USD ( Beta3 Only ).
     `,
     trades_faq:'FAQ',
-    trades_faq_q1:"Coming Soon",
+    trades_faq_q1:"",
     trades_faq_a1:``,
     trades_faq_q2:"",
     trades_faq_a2:``,

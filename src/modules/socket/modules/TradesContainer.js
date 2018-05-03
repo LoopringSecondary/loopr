@@ -17,6 +17,7 @@ class TradesContainer extends React.Component {
       const { socket } = this.context
       const options = {
         "delegateAddress" :window.CONFIG.getDelegateAddress(),
+        "side" :'sell',
         "market":nextProps.market,
       };
       socket.emit('trades_req',JSON.stringify(options),this.responseHandler.bind(this))
@@ -39,6 +40,7 @@ class TradesContainer extends React.Component {
         const options = {
           "delegateAddress" :window.CONFIG.getDelegateAddress(),
           "market":this.props.market,
+          "side" :'sell',
         }
         socket.emit('trades_req',JSON.stringify(options),this.responseHandler.bind(this))
         socket.on('trades_res', this.responseHandler.bind(this))

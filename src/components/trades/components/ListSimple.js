@@ -35,14 +35,14 @@ function ListBlock(props) {
               <tr key={index} className="">
                 <td className="border-0 pl0 pl10">
                   {
-                    item.side === 'buy' &&
-                    <div className="fs12 color-green-500 text-left lh20 p0">
+                    false && item.side === 'buy' &&
+                    <div className="fs12 color-black-2 text-left lh20 p0">
                       {item.price}
                     </div>
                   }
                   {
                     item.side === 'sell' &&
-                    <div className="fs12 color-red-500 text-left lh20 p0">
+                    <div className="fs12 color-black-2 text-left lh20 p0">
                       {item.price}
                     </div>
                   }
