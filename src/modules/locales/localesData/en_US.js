@@ -313,6 +313,7 @@ I got this great idea:
     total: "Total",
     advanced: "Advanced",
     time_to_live: "Expire in",
+    time_to_live_advance:'Valid Time',
     more: "More",
     popular_option: "Less",
     integer_verification_message: "Please input an integer value",
@@ -331,6 +332,7 @@ I got this great idea:
     notice: "Please notice",
     placing_order: 'Placing Order',
     place_order_failed: "Whoops, order submission somehow failed!",
+    sign_order_failed:"Whoops, order signature somehow failed!",
     not_inWhiteList:"Whoops, your account has not been whitelisted for this action!",
     not_allow:"LOOPRING.IO (Loopr2) is still in its beta, please come back later when it's ready for more people to use.",
     you_should_do_things: "You should do things followed",
@@ -364,7 +366,9 @@ I got this great idea:
     not_supported_market_title: "Not Supported Market",
     not_supported_market_content: "{market} is not supported market",
     current_lrc_fee_ratio:'LRC Fee Ratio',
-    current_lrc_fee: 'LRC Fee'
+    current_lrc_fee: 'LRC Fee',
+    order_ttl_expire_in: 'Set Order Expire In',
+    order_ttl_from_to: 'Set Order Valid Since and Until',
   },
   trades: {
     side: 'Sides',
@@ -602,6 +606,8 @@ I got this great idea:
     in_watch_only_mode_content: 'Your account is still in the watch-only mode. To perform this operation, you need to unlock your wallet again.',
     in_demo_account_mode_content: 'You are now using demo account. To perform this operation, you need to unlock your wallet again.',
     continue_watch:'Continue Watch-Only',
+    metamask_installed_locked_title: 'Trying to unlock with MetaMask',
+    metamask_installed_locked_content: 'We detected you have installed MetaMask browser extension and want to unlock Loopr with it, please created or unlocked an account in MetaMask first, then try to unlock with MetaMask in Loopr again',
   },
   demo:{
     badge_title:'Demo Wallet',

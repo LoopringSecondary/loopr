@@ -5,6 +5,7 @@ import MetaMaskUnlockAccount from '../../../modules/account/MetaMaskUnlockAccoun
 import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
 import Notification from 'Loopr/Notification'
+import {unlockWithMetaMask} from '../../../components/common/Unlock'
 
 const walletType = "MetaMask"
 
@@ -148,7 +149,12 @@ class UnlockByMetaMask extends React.Component {
     }
 
     const refresh = () => {
-      window.location.reload()
+      if (window.web3 && window.web3.eth.accounts[0]) {
+        this.connectToMetamask()
+      } else {
+        window.STORAGE.wallet.storeUnlockedAddress('MetaMask', '')
+        window.location.reload()
+      }
     }
 
     return (
@@ -180,7 +186,7 @@ class UnlockByMetaMask extends React.Component {
               description={
                 <div>
                   <div>{intl.get('wallet.metamask_unlock_step_refresh_content')}</div>
-                  <Button onClick={refresh} type="primary" className="mt5">{intl.get('wallet.metamask_unlock_refresh_button')}</Button>
+                  <Button onClick={refresh} type="primary" className="mt5" loading={this.state.loading}>{intl.get('wallet.metamask_unlock_refresh_button')}</Button>
                 </div>
               }
             />

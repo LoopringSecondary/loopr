@@ -371,7 +371,8 @@ export default {
     available: "可用",
     total: "总计",
     advanced: "高级选项",
-    time_to_live: "订单有效时间",
+    time_to_live: "有效时间",
+    time_to_live_advance:'有效时间',
     more: "更多",
     popular_option: "常用选项",
     integer_verification_message: "请输入数字类型",
@@ -390,6 +391,7 @@ export default {
     notice: "请注意",
     placing_order: '订单提交结果',
     place_order_failed: "订单提交失败 !",
+    sign_order_failed:"订单签名失败！",
     not_inWhiteList: "您不在白名单中",
     not_allow: "路印钱包仍在内测阶段,请耐心等待正式版本发布!",
     you_should_do_things: "你可以按以下提示尝试",
@@ -424,7 +426,9 @@ export default {
     not_allowed_place_order_worth_title: '订单金额过小',
     not_allowed_place_order_worth_content: '由于您当前订单总价值小于{worth}, 无法下单',
     current_lrc_fee_ratio: '当前LRC Fee比率',
-    current_lrc_fee: '当前LRC Fee'
+    current_lrc_fee: '当前LRC Fee',
+    order_ttl_expire_in: '设置持续时间',
+    order_ttl_from_to: '设置起止时间',
   },
   trades: {
     side: '方向',
@@ -662,6 +666,8 @@ export default {
     in_watch_only_mode_content: '您的账户正在使用观察模式。要执行这个操作，需要您再次解锁钱包。',
     in_demo_account_mode_content: '您正在使用演示钱包，要执行这个操作，需要您再次解锁钱包。',
     continue_watch:'继续使用观察模式',
+    metamask_installed_locked_title: '尝试使用MetaMask解锁Loopr',
+    metamask_installed_locked_content: '我们检测到您已安装MetaMask浏览器插件并尝试用MetaMask解锁Loopr，请先在您的MetaMask浏览器插件创建账户或解锁后再尝试用MetaMask解锁',
   },
   demo: {
     badge_title: '演示账号',

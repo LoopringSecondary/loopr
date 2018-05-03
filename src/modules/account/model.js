@@ -6,16 +6,31 @@ import AddressUnlockAccount from './AddressUnlockAccount'
 import {register} from "Loopring/relay/account";
 import Notification from 'Loopr/Notification'
 import intl from 'react-intl-universal';
+import {unlockWithMetaMask} from '../../components/common/Unlock'
 
-const unlockedAddress = window.STORAGE.wallet.getUnlockedAddress()
-if(unlockedAddress) {
-  window.WALLET_UNLOCK_TYPE = 'Address'
-  window.WALLET = new AddressUnlockAccount({address: unlockedAddress})
-  Notification.open({
-    type:'warning',
-    message:intl.get('wallet.in_watch_only_mode_title'),
-    description:intl.get('wallet.unlock_by_cookie_address_notification')
-  });
+const unlockedType = window.STORAGE.wallet.getUnlockedType()
+let unlockedAddress = window.STORAGE.wallet.getUnlockedAddress()
+if(unlockedType && unlockedType === 'MetaMask' && window.web3) {
+  if(window.web3.eth.accounts[0]) {
+    unlockedAddress = window.web3.eth.accounts[0]
+    unlockWithMetaMask(window.web3)
+  } else {
+    Notification.open({
+      type:'warning',
+      message:intl.get('wallet.metamask_installed_locked_title'),
+      description:intl.get('wallet.metamask_installed_locked_content')
+    });
+  }
+} else {
+  if(unlockedAddress) {
+    window.WALLET_UNLOCK_TYPE = 'Address'
+    window.WALLET = new AddressUnlockAccount({address: unlockedAddress})
+    Notification.open({
+      type:'warning',
+      message:intl.get('wallet.in_watch_only_mode_title'),
+      description:intl.get('wallet.unlock_by_cookie_address_notification')
+    });
+  }
 }
 
 export default {
@@ -23,7 +38,7 @@ export default {
   state: {
     address: unlockedAddress || null,
     isUnlocked: unlockedAddress ? true : false,
-    walletType: unlockedAddress ? 'Address' : null, //PrivateKey, KeyStore,Mnemonic, MetaMask, Trezor, LedgerHQ
+    walletType: unlockedType ? unlockedType : unlockedAddress ? 'Address' : null, //PrivateKey, KeyStore,Mnemonic, MetaMask, Trezor, LedgerHQ
   },
   reducers: {
     setAccount(state, {payload}) {
@@ -97,7 +112,7 @@ export default {
     },
 
     * setWallet({payload}, {put, call}) {
-      window.STORAGE.wallet.storeUnlockedAddress(payload.address)
+      window.STORAGE.wallet.storeUnlockedAddress(payload.walletType, payload.address)
       yield put({type: 'setAccount', payload});
       yield call(register, payload.address);
     },

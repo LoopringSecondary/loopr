@@ -28,14 +28,12 @@ class TradeConfirm extends React.Component {
   componentDidMount() {
     const {modals, tradingConfig} = this.props;
     const modal = modals['trade/confirm'] || {};
-    let {side, pair, amount, total, timeToLive, marginSplit, lrcFee} = modal;
+    let {side, pair, amount, total, validSince,validUntil, marginSplit, lrcFee} = modal;
     const token = pair.split('-')[0];
     const token2 = pair.split('-')[1];
     marginSplit = marginSplit === undefined ? tradingConfig.marginSplit : marginSplit;
-    timeToLive = timeToLive === undefined ? window.uiFormatter.getSeconds(tradingConfig.timeToLive, tradingConfig.timeToLiveUnit) : timeToLive;
-    const start = new Date().getTime();
-    const since = window.uiFormatter.getFormatTime(start);
-    const till = window.uiFormatter.getFormatTime(start + Number(timeToLive) * 1000);
+    const since = window.uiFormatter.getFormatTime(validSince * 1e3);
+    const till = window.uiFormatter.getFormatTime(validUntil * 1e3);
     let order = {};
     order.delegateAddress = window.CONFIG.getDelegateAddress();
     order.protocol = tradingConfig.contract.address;
@@ -47,8 +45,8 @@ class TradeConfirm extends React.Component {
     order.amountB = toHex(toBig(side.toLowerCase() === "buy" ? amount : total).times('1e' + tokenB.digits));
     order.amountS = toHex(toBig(side.toLowerCase() === "sell" ? amount : total).times('1e' + tokenS.digits));
     order.lrcFee = toHex(toBig(lrcFee).times(1e18));
-    order.validSince = toHex(Math.ceil(start / 1e3));
-    order.validUntil = toHex(Math.ceil(start / 1e3) + Number(timeToLive));
+    order.validSince = toHex(validSince);
+    order.validUntil = toHex(validUntil);
     order.marginSplitPercentage = Number(marginSplit);
     order.buyNoMoreThanAmountB = side.toLowerCase() === "buy";
     order.walletAddress = window.CONFIG.getWalletAddress();
@@ -74,19 +72,22 @@ class TradeConfirm extends React.Component {
       })
     }
     window.WALLET.signOrder(order).then(function (signedOrder) {
-      signedOrder.powNonce = 100;
-      this.setState({
-        order,
-        signedOrder,
-        since,
-        till,
-        tokenB,
-        tokenS
+        signedOrder.powNonce = 100;
+        this.setState({
+          order,
+          signedOrder,
+          since,
+          till,
+          tokenB,
+          tokenS
+        })
+      }.bind(this)).catch(err => {
+      Notification.open({
+        message: intl.get('trade.sign_order_failed'),
+        type: "error",
+        description: err.message
       })
-    }.bind(this)).catch(err => {
-      console.log('signOrder error', err)
     });
-
   }
 
   ActionItem = (item) => {
