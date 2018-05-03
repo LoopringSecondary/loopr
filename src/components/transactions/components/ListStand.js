@@ -196,6 +196,16 @@ class ListBlock extends React.Component {
           icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
           title = intl.get('txs.type_receive_title', {symbol: item.symbol})
           break;
+        case 'sell':
+          change = '-';
+          icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
+          title = intl.get('txs.type_sell_title', {symbol: item.symbol})
+          break;
+        case 'buy':
+          change = '+';
+          icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
+          title = intl.get('txs.type_buy_title', {symbol: item.symbol})
+          break;
         case 'convert_income':
           change = '+';
           icon = <i className="icon icon-loopring icon-loopring-convert fs30"/>
@@ -254,7 +264,7 @@ class ListBlock extends React.Component {
             <span className="ml10">
               {statusCol}
               <span className="ml10 fs12">
-                {item.status === 'pending' && item.type !== 'receive' && item.type !== 'convert_income' && (<span
+                {item.status === 'pending' && item.type !== 'receive' && item.type !== 'convert_income' && item.type !== 'sell' && item.type !== 'buy' && (<span
                   className='ml5 color-black-3'>( {moment(item.createTime * 1e3).fromNow()} {((moment().valueOf() / 1e3) - item.createTime) > 300 &&
                 <span className='color-primary-1'> {intl.get('txs.resend')}</span>})</span> )}
               </span>

@@ -194,7 +194,7 @@
     },
     {
       "type":"token_transfer",
-      "gasLimit":"0x15f90"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"approve",
