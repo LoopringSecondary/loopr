@@ -224,6 +224,20 @@ export default function Home(props){
             <div className="fs13 color-black-2 lh25">
               {intl.getHTML('testtips.trades_faq_a3')}
             </div>
+            <div className="fs14 color-black-1 lh30 mt10">
+              {intl.getHTML('testtips.trades_faq_q4')}
+            </div>
+            <div className="fs13 color-black-2 lh25">
+              {intl.getHTML('testtips.trades_faq_a4')}
+            </div>
+            <div className="fs14 color-black-1 lh30 mt10">
+              {intl.getHTML('testtips.trades_faq_q5')}
+            </div>
+            <div className="fs13 color-black-2 lh25">
+              {intl.getHTML('testtips.trades_faq_a5')}
+            </div>
+
+
           </div>
         </Card>
         <div className="mb50"></div>
