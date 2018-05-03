@@ -197,49 +197,53 @@ export default function Home(props){
                   }
                 </div>
               </Tabs.TabPane>
-              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('testtips.trades_faq')}</div>} key="faq">
-              </Tabs.TabPane>
+              { intl.getHTML('testtips.trades_faq_q1') &&
+                <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('testtips.trades_faq')}</div>} key="faq">
+                </Tabs.TabPane>
+              }
             </Tabs>
+            { intl.getHTML('testtips.trades_faq_q1') &&
+            <Card className="rs-p0 border-none" title={null}>
+              <div className="p10 zb-b-t">
+                <div className="fs14 color-black-1 lh30">
+                  {intl.getHTML('testtips.trades_faq_q1')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a1')}
+                </div>
+                <div className="fs14 color-black-1 lh30 mt10">
+                  {intl.getHTML('testtips.trades_faq_q2')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a2')}
+                </div>
+                <div className="fs14 color-black-1 lh30 mt10">
+                  {intl.getHTML('testtips.trades_faq_q3')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a3')}
+                </div>
+                <div className="fs14 color-black-1 lh30 mt10">
+                  {intl.getHTML('testtips.trades_faq_q4')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a4')}
+                </div>
+                <div className="fs14 color-black-1 lh30 mt10">
+                  {intl.getHTML('testtips.trades_faq_q5')}
+                </div>
+                <div className="fs13 color-black-2 lh25">
+                  {intl.getHTML('testtips.trades_faq_a5')}
+                </div>
+              </div>
+            </Card>
+
+            }
+
           </div>
 
         </div>
-        <Card className="rs-p0 mt15 border-none zb-b" title={null}>
-          <div className="fs16 color-black-1 p10 zb-b-b">{intl.get('testtips.trades_faq')}</div>
-          <div className="p10">
-            <div className="fs14 color-black-1 lh30">
-              {intl.getHTML('testtips.trades_faq_q1')}
-            </div>
-            <div className="fs13 color-black-2 lh25">
-              {intl.getHTML('testtips.trades_faq_a1')}
-            </div>
-            <div className="fs14 color-black-1 lh30 mt10">
-              {intl.getHTML('testtips.trades_faq_q2')}
-            </div>
-            <div className="fs13 color-black-2 lh25">
-              {intl.getHTML('testtips.trades_faq_a2')}
-            </div>
-            <div className="fs14 color-black-1 lh30 mt10">
-              {intl.getHTML('testtips.trades_faq_q3')}
-            </div>
-            <div className="fs13 color-black-2 lh25">
-              {intl.getHTML('testtips.trades_faq_a3')}
-            </div>
-            <div className="fs14 color-black-1 lh30 mt10">
-              {intl.getHTML('testtips.trades_faq_q4')}
-            </div>
-            <div className="fs13 color-black-2 lh25">
-              {intl.getHTML('testtips.trades_faq_a4')}
-            </div>
-            <div className="fs14 color-black-1 lh30 mt10">
-              {intl.getHTML('testtips.trades_faq_q5')}
-            </div>
-            <div className="fs13 color-black-2 lh25">
-              {intl.getHTML('testtips.trades_faq_a5')}
-            </div>
 
-
-          </div>
-        </Card>
         <div className="mb50"></div>
       </div>
     </Layout>

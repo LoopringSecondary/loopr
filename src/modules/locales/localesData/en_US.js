@@ -39,7 +39,7 @@ export default {
       2. The amount of every order shall not be less than 100USD ( Beta3 Only ).
     `,
     trades_faq:'FAQ',
-    trades_faq_q1:"Coming Soon",
+    trades_faq_q1:"",
     trades_faq_a1:``,
     trades_faq_q2:"",
     trades_faq_a2:``,
