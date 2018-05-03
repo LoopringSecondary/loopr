@@ -25,11 +25,14 @@ export function unlockWithMetaMask(web3){
     })
     let alert = false
     var accountInterval = setInterval(function() {
-      if ((!web3 || !web3.eth.accounts[0]) && window.STORE.getState() && !alert) {
+      if ((!web3 || !web3.eth.accounts[0]) && window.STORE && !alert) {
         alert = true
         console.log("MetaMask account locked:", selectedAccount)
         clearInterval(accountInterval)
-        window.STORE.getState().account.deleteAccount({})
+        window.STORE.dispatch({
+          type:'account/deleteAccount',
+          payload:{}
+        })
         Notification.open({
           message:intl.get('wallet.title_metamask_logout'),
           description:intl.get('wallet.content_metamask_logout'),
@@ -39,10 +42,13 @@ export function unlockWithMetaMask(web3){
       }
       // page will be reload automatically
       web3.version.getNetwork((err, netId) => {
-        if (netId !== '1' && window.STORE.getState() && !alert) {
+        if (netId !== '1' && window.STORE && !alert) {
           alert = true
           clearInterval(accountInterval)
-          window.STORE.getState().deleteAccount({})
+          window.STORE.dispatch({
+            type:'account/deleteAccount',
+            payload:{}
+          })
           Notification.open({
             message:intl.get('wallet.failed_connect_metamask_title'),
             description:intl.get('wallet.content_metamask_unlock_again'),
@@ -58,9 +64,12 @@ export function unlockWithMetaMask(web3){
           description:intl.get('wallet.content_metamask_account_change'),
           type:'info'
         })
-        if(selectedAccount && window.STORE.getState()) {
+        if(selectedAccount && window.STORE) {
           console.log("MetaMask account changed to:", selectedAccount)
-          window.STORE.getState().setWallet({address: selectedAccount, walletType:walletType})
+          window.STORE.dispatch({
+            type:'account/setWallet',
+            payload:{address: selectedAccount, walletType:walletType}
+          })
         }
       }
     }, 100);
