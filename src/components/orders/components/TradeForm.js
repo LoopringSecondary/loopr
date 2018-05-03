@@ -723,48 +723,50 @@ class TradeForm extends React.Component {
     )
 
     let outTokenBalance = 0
-
+    const customPanelStyle = {
+      background: '#fff',
+      borderRadius: 4,
+      border: '1px solid #eee',
+      overflow: 'hidden',
+    };
     const editOrderTTLPattern = (
       <Popover overlayClassName="place-order-form-popover" ref="popover"
                title={<div className="pt5 pb5">{intl.get('trade.custom_time_to_live_title')}</div>}
                content={
                  <div style={{width:'382px'}}>
-                   <Collapse accordion defaultActiveKey={['easy']} onChange={timeToLivePatternChanged}>
+                   <Collapse accordion style={customPanelStyle} defaultActiveKey={['easy']} onChange={timeToLivePatternChanged}>
                      <Collapse.Panel header="设置持续时间" key="easy">
-                       <div className="row pt5 pb5">
-                         <div className="col-auto">
-                           {intl.get('trade.custom_time_to_live_title')}
+                       <div className="pt5 pb5">
+                           {false && intl.get('trade.custom_time_to_live_title')}
+                           <Form.Item className="ttl mb0" colon={false} label={null}>
+                             {form.getFieldDecorator('timeToLivePopularSetting')(
+                               <Radio.Group onChange={timeToLiveValueChange.bind(this, 'popular')}>
+                                 <Radio className="mb5" value="1hour">1 {intl.get('trade.hour')}</Radio>
+                                 <Radio className="mb5" value="1day">1 {intl.get('trade.day')}</Radio>
+                                 <Radio className="mb5" value="1week">1 {intl.get('trade.week')}</Radio>
+                                 <Radio className="mb5" value="1month">1 {intl.get('trade.month')}</Radio>
+                                 <Radio className="mb5" value="more">
+                                  <span className="" href="" onClick={timeToLiveChange.bind(this)}>{intl.get('trade.more')}</span>
+                                 </Radio>
+                               </Radio.Group>
+                             )}
+                           </Form.Item>
+                           {!this.state.timeToLivePopularSetting &&
+                           <Form.Item className="mb0 d-block ttl" colon={false} label={null}>
+                             {form.getFieldDecorator('timeToLive', {
+                               rules: [{
+                                 message: intl.get('trade.integer_verification_message'),
+                                 validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
+                               }]
+                             })(
+                               <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}
+                                      onChange={timeToLiveValueChange.bind(this, 'moreValue')}/>
+                             )}
+                           </Form.Item>}
+
                          </div>
-                         <div className="col"></div>
-                         <div className="col-auto"><a href="" onClick={timeToLiveChange.bind(this)}>{this.state.timeToLivePopularSetting ? intl.get('trade.more') : intl.get('trade.popular_option')}</a></div>
-                       </div>
-                       <div>
-                         {this.state.timeToLivePopularSetting &&
-                         <Form.Item className="ttl mb0" colon={false} label={null}>
-                           {form.getFieldDecorator('timeToLivePopularSetting')(
-                             <RadioGroup onChange={timeToLiveValueChange.bind(this, 'popular')}>
-                               <RadioButton value="1hour">1 {intl.get('trade.hour')}</RadioButton>
-                               <RadioButton value="1day">1 {intl.get('trade.day')}</RadioButton>
-                               <RadioButton value="1week">1 {intl.get('trade.week')}</RadioButton>
-                               <RadioButton value="1month">1 {intl.get('trade.month')}</RadioButton>
-                             </RadioGroup>
-                           )}
-                         </Form.Item>}
-                         {!this.state.timeToLivePopularSetting &&
-                         <Form.Item className="mb5 ttl" colon={false} label={null}>
-                           {form.getFieldDecorator('timeToLive', {
-                             rules: [{
-                               message: intl.get('trade.integer_verification_message'),
-                               validator: (rule, value, cb) => validateOptionInteger(value) ? cb() : cb(true)
-                             }]
-                           })(
-                             <Input className="d-block w-100" placeholder={intl.get('trade.time_to_live_input_place_holder')} size="large" addonAfter={timeToLiveSelectAfter}
-                                    onChange={timeToLiveValueChange.bind(this, 'moreValue')}/>
-                           )}
-                         </Form.Item>}
-                       </div>
                      </Collapse.Panel>
-                     <Collapse.Panel header="设置有效期" key="advance">
+                     <Collapse.Panel header="设置起止时间" key="advance">
                        <Form.Item className="mb5 ttl" colon={false} label={null}>
                          {form.getFieldDecorator('timeToLiveTimeSelector', {
                            initialValue:[moment(), moment().add(1, 'days')]
