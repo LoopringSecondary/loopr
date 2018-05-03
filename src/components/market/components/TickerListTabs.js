@@ -25,6 +25,14 @@ const TickerTable = (props)=>{
         return item.market.toUpperCase().indexOf(keywords.toUpperCase()) > -1
     })
   }
+  const sorter = (a,b)=>{
+    if(a.vol === b.vol ){
+      return b.market - a.market
+    }else{
+      return Number(b.vol) - Number(a.vol)
+    }
+  }
+  items.sort(sorter)
   const updateOrders = (pair)=>{
     dispatch({
       type:'orders/filtersChange',
