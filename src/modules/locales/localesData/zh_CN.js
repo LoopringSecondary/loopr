@@ -391,6 +391,7 @@ export default {
     notice: "请注意",
     placing_order: '订单提交结果',
     place_order_failed: "订单提交失败 !",
+    sign_order_failed:"订单签名失败！",
     not_inWhiteList: "您不在白名单中",
     not_allow: "路印钱包仍在内测阶段,请耐心等待正式版本发布!",
     you_should_do_things: "你可以按以下提示尝试",
@@ -663,6 +664,8 @@ export default {
     in_watch_only_mode_content: '您的账户正在使用观察模式。要执行这个操作，需要您再次解锁钱包。',
     in_demo_account_mode_content: '您正在使用演示钱包，要执行这个操作，需要您再次解锁钱包。',
     continue_watch:'继续使用观察模式',
+    metamask_installed_locked_title: '尝试使用MetaMask解锁Loopr',
+    metamask_installed_locked_content: '我们检测到您已安装MetaMask浏览器插件并尝试用MetaMask解锁Loopr，请先在您的MetaMask浏览器插件创建账户或解锁后再尝试用MetaMask解锁',
   },
   demo: {
     badge_title: '演示账号',
