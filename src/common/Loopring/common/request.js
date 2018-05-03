@@ -18,11 +18,11 @@ function request(host, options) {
       options.body = JSON.stringify(options.body);
     }
     return fetch(host, options).then(res => res.json()).catch((e)=>{
-      return {error:{...e}}
+      return {error:e}
     })
   }catch(e){
     return new Promise((resolve)=>{
-      resolve({"error":{...e}})
+      resolve({"error":e})
     })
   }
 }
