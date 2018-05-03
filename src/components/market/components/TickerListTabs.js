@@ -27,7 +27,7 @@ const TickerTable = (props)=>{
   }
   const sorter = (a,b)=>{
     if(a.vol === b.vol ){
-      return b.market - a.market
+      return a.market - b.market
     }else{
       return Number(b.vol) - Number(a.vol)
     }
@@ -77,10 +77,7 @@ const TickerTable = (props)=>{
           <tr className="">
             <th className="fs12 border-0 color-black-3" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
             <th className="fs12 border-0 color-black-3">{intl.get('ticker.last')}</th>
-            {
-              false &&
-              <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}</th>
-            }
+            <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}</th>
             <th className="fs12 border-0 color-black-3">{intl.get('ticker.vol')}</th>
           </tr>
           {
@@ -102,15 +99,11 @@ const TickerTable = (props)=>{
                     {item.last || 0.00}
                   </TickerTrend>
                 </td>
-                {
-                  false &&
-                  <td className="fs12 border-0 color-balck-2">
-                    <TickerTrend side={tickerFm.getChangeSide(item.change)}>
-                      {item.change || 0}
-                    </TickerTrend>
-                  </td>
-                }
-
+                <td className="fs12 border-0 color-balck-2">
+                  <TickerTrend side={tickerFm.getChangeSide(item.change)}>
+                    {item.change || 0}
+                  </TickerTrend>
+                </td>
                 <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
               </tr>
             )
