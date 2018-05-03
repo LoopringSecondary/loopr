@@ -265,7 +265,6 @@ class Transfer extends React.Component {
       // } else {
       //   return false
       // }
-      console.log(111111, isNumber(value), (value >=0))
       return isNumber(value) && value >=0
     }
 
