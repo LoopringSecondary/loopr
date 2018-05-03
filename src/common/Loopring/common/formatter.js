@@ -24,8 +24,13 @@ export function toHex(mixed) {
 
   if (typeof mixed === 'string') {
     const regex = new RegExp(/^0x[0-9a-fA-F]*$/);
-    return regex.test(mixed) ? mixed : "0x" + toBuffer(String).toString('hex')
+    return regex.test(mixed) ? mixed : "0x" + toBuffer(mixed).toString('hex')
   }
+
+  if (!mixed) {
+    return "0x"
+  }
+
   throw new Error('Unsupported type')
 }
 
@@ -35,7 +40,7 @@ export function toNumber(mixed) {
   }
 
   if (mixed instanceof Big || mixed instanceof BN) {
-   return mixed.toNumber()
+    return mixed.toNumber()
   }
 
   if (typeof mixed === 'string') {
@@ -47,7 +52,7 @@ export function toNumber(mixed) {
 
 export function toBig(mixed) {
 
-  if(mixed instanceof Big){
+  if (mixed instanceof Big) {
     return mixed;
   }
 
@@ -96,8 +101,8 @@ export function formatAddress(mixed) {
 export function addHexPrefix(input) {
 
 
-  if(typeof input === 'string'){
-   return input.startsWith('0x') ? input : "0x" + input;
+  if (typeof input === 'string') {
+    return input.startsWith('0x') ? input : "0x" + input;
   }
 
   throw new Error('Unsupported type')
@@ -106,7 +111,7 @@ export function addHexPrefix(input) {
 export function clearPrefix(input) {
 
 
-  if(typeof input === 'string'){
+  if (typeof input === 'string') {
     return input.startsWith('0x') ? input.slice(2) : input;
   }
 
@@ -115,34 +120,37 @@ export function clearPrefix(input) {
 }
 
 export function getDisplaySymbol(settingsCurrency) {
-  switch(settingsCurrency) {
-    case 'CNY': return '￥';
-    case 'USD': return '$';
-    default: return ''
+  switch (settingsCurrency) {
+    case 'CNY':
+      return '￥';
+    case 'USD':
+      return '$';
+    default:
+      return ''
   }
 }
 
 export function toFixed(number, precision) {
-  if(number >0 && precision >0) {
+  if (number > 0 && precision > 0) {
     let numberArr = null
-    if(number.toString().indexOf('e-') > -1) {
+    if (number.toString().indexOf('e-') > -1) {
       numberArr = number.toFixed(16).toString().split('.')
     } else {
       numberArr = number.toString().split('.')
     }
-    if(numberArr.length === 2) {
+    if (numberArr.length === 2) {
       const decimal = numberArr[1].substring(0, Math.min(numberArr[1].length, precision))
-      if(toNumber(decimal) === 0) {
-        if(toNumber(numberArr[0]) === 0) {
-          return "0."+'0'.repeat(precision)
+      if (toNumber(decimal) === 0) {
+        if (toNumber(numberArr[0]) === 0) {
+          return "0." + '0'.repeat(precision)
         } else {
-          return numberArr[0]+"."+'0'.repeat(precision)
+          return numberArr[0] + "." + '0'.repeat(precision)
         }
       } else {
-        return numberArr[0]+"."+decimal
+        return numberArr[0] + "." + decimal
       }
     } else {
-      return numberArr[0]+"."+'0'.repeat(precision)
+      return numberArr[0] + "." + '0'.repeat(precision)
     }
   } else {
     return '0'
