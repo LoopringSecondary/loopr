@@ -78,7 +78,7 @@ class Transfer extends React.Component {
     }
     const _this = this
     const {form, modal, account, settings, assets, prices} = this.props
-    const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$")
+    const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*))$")
     const currentToken = modal.item
     let GasLimit = config.getGasLimitByType('eth_transfer').gasLimit
     if(currentToken && currentToken.symbol !== "ETH") {
@@ -255,16 +255,17 @@ class Transfer extends React.Component {
     }
 
     function validateAmount(value) {
-      let tokenSymbol = this.state.tokenSymbol
-      if(this.state.showTokenSelector) {
-        tokenSymbol = form.getFieldValue("token")
-      }
-      if(tokenSymbol && isNumber(value)) {
-        const token = getToken(tokenSymbol)
-        return value && value <= token.balance
-      } else {
-        return false
-      }
+      // let tokenSymbol = this.state.tokenSymbol
+      // if(this.state.showTokenSelector) {
+      //   tokenSymbol = form.getFieldValue("token")
+      // }
+      // if(tokenSymbol && isNumber(value)) {
+      //   const token = getToken(tokenSymbol)
+      //   return value && value <= token.balance
+      // } else {
+      //   return false
+      // }
+      return isNumber(value) && value >=0
     }
 
     function amountFocus() {
