@@ -331,6 +331,7 @@ I got this great idea:
     notice: "Please notice",
     placing_order: 'Placing Order',
     place_order_failed: "Whoops, order submission somehow failed!",
+    sign_order_failed:"Whoops, order signature somehow failed!",
     not_inWhiteList:"Whoops, your account has not been whitelisted for this action!",
     not_allow:"LOOPRING.IO (Loopr2) is still in its beta, please come back later when it's ready for more people to use.",
     you_should_do_things: "You should do things followed",
@@ -364,7 +365,7 @@ I got this great idea:
     not_supported_market_title: "Not Supported Market",
     not_supported_market_content: "{market} is not supported market",
     current_lrc_fee_ratio:'LRC Fee Ratio',
-    current_lrc_fee: 'LRC Fee'
+    current_lrc_fee: 'LRC Fee',
   },
   trades: {
     side: 'Sides',
