@@ -198,8 +198,8 @@ export default function Home(props){
                 </div>
               </Tabs.TabPane>
               { intl.getHTML('testtips.trades_faq_q1') &&
-                <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('testtips.trades_faq')}</div>} key="faq">
-                </Tabs.TabPane>
+              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('testtips.trades_faq')}</div>} key="faq">
+              </Tabs.TabPane>
               }
             </Tabs>
             { intl.getHTML('testtips.trades_faq_q1') &&
