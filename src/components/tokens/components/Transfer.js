@@ -139,7 +139,7 @@ class Transfer extends React.Component {
           if(tokenSymbol === "ETH") {
             tx.to = values.to;
             tx.value = fm.toHex(fm.toBig(values.amount).times(1e18))
-            tx.data = values.data || '0x';
+            tx.data = fm.toHex(values.data);
           } else {
             const tokenConfig = window.CONFIG.getTokenBySymbol(tokenSymbol)
             tx.to = tokenConfig.address;
