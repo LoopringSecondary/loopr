@@ -367,6 +367,8 @@ I got this great idea:
     not_supported_market_content: "{market} is not supported market",
     current_lrc_fee_ratio:'LRC Fee Ratio',
     current_lrc_fee: 'LRC Fee',
+    order_ttl_expire_in: 'Set Order Expire In',
+    order_ttl_from_to: 'Set Order Invalid Since and Until',
   },
   trades: {
     side: 'Sides',

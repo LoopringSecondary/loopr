@@ -426,7 +426,9 @@ export default {
     not_allowed_place_order_worth_title: '订单金额过小',
     not_allowed_place_order_worth_content: '由于您当前订单总价值小于{worth}, 无法下单',
     current_lrc_fee_ratio: '当前LRC Fee比率',
-    current_lrc_fee: '当前LRC Fee'
+    current_lrc_fee: '当前LRC Fee',
+    order_ttl_expire_in: '设置持续时间',
+    order_ttl_from_to: '设置起止时间',
   },
   trades: {
     side: '方向',

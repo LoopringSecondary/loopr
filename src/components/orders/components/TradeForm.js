@@ -547,22 +547,56 @@ class TradeForm extends React.Component {
       }
     }
 
+    // function timeToLiveValueChange(type, e) {
+    //   if(type === 'popular') {
+    //     const ttl = e.target.value
+    //     switch(ttl){
+    //       case '1hour': _this.setState({timeToLive: 1, timeToLiveUnit: 'hour'}); break;
+    //       case '1day': _this.setState({timeToLive: 1, timeToLiveUnit: 'day'});  break;
+    //       case '1week': _this.setState({timeToLive: 1, timeToLiveUnit: 'week'}); break;
+    //       case '1month': _this.setState({timeToLive: 1, timeToLiveUnit: 'month'}); break;
+    //     }
+    //   } else {
+    //     if(type === 'moreUnit') {
+    //       const ttl = form.getFieldValue('timeToLive')
+    //       const unit = e
+    //       _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
+    //     }
+    //     if(type === 'moreValue') {
+    //       const ttl = e.target.value
+    //       const unit = form.getFieldValue('timeToLiveUnit')
+    //       _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
+    //     }
+    //   }
+    // }
+
     function timeToLiveValueChange(type, e) {
       if(type === 'popular') {
         const ttl = e.target.value
-        switch(ttl){
-          case '1hour': _this.setState({timeToLive: 1, timeToLiveUnit: 'hour'}); break;
-          case '1day': _this.setState({timeToLive: 1, timeToLiveUnit: 'day'});  break;
-          case '1week': _this.setState({timeToLive: 1, timeToLiveUnit: 'week'}); break;
-          case '1month': _this.setState({timeToLive: 1, timeToLiveUnit: 'month'}); break;
+        switch (ttl) {
+          case '1hour':
+            _this.setState({timeToLivePopularSetting: true, timeToLive: 1, timeToLiveUnit: 'hour'});
+            break;
+          case '1day':
+            _this.setState({timeToLivePopularSetting: true, timeToLive: 1, timeToLiveUnit: 'day'});
+            break;
+          case '1week':
+            _this.setState({timeToLivePopularSetting: true, timeToLive: 1, timeToLiveUnit: 'week'});
+            break;
+          case '1month':
+            _this.setState({timeToLivePopularSetting: true, timeToLive: 1, timeToLiveUnit: 'month'});
+            break;
+          case 'more':
+            _this.setState({timeToLivePopularSetting: false});
+            break;
         }
       } else {
-        if(type === 'moreUnit') {
+        if (type === 'moreUnit') {
           const ttl = form.getFieldValue('timeToLive')
           const unit = e
           _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
         }
-        if(type === 'moreValue') {
+        if (type === 'moreValue') {
           const ttl = e.target.value
           const unit = form.getFieldValue('timeToLiveUnit')
           _this.setState({timeToLive: ttl, timeToLiveUnit: unit})
@@ -735,7 +769,7 @@ class TradeForm extends React.Component {
                content={
                  <div style={{width:'382px'}}>
                    <Collapse accordion style={customPanelStyle} defaultActiveKey={['easy']} onChange={timeToLivePatternChanged}>
-                     <Collapse.Panel header="设置持续时间" key="easy">
+                     <Collapse.Panel header={intl.get('trade.order_ttl_expire_in')} key="easy">
                        <div className="pt5 pb5">
                            {false && intl.get('trade.custom_time_to_live_title')}
                            <Form.Item className="ttl mb0" colon={false} label={null}>
@@ -745,9 +779,7 @@ class TradeForm extends React.Component {
                                  <Radio className="mb5" value="1day">1 {intl.get('trade.day')}</Radio>
                                  <Radio className="mb5" value="1week">1 {intl.get('trade.week')}</Radio>
                                  <Radio className="mb5" value="1month">1 {intl.get('trade.month')}</Radio>
-                                 <Radio className="mb5" value="more">
-                                  <span className="" href="" onClick={timeToLiveChange.bind(this)}>{intl.get('trade.more')}</span>
-                                 </Radio>
+                                 <Radio className="mb5" value="more">{intl.get('trade.more')}</Radio>
                                </Radio.Group>
                              )}
                            </Form.Item>
@@ -763,10 +795,9 @@ class TradeForm extends React.Component {
                                       onChange={timeToLiveValueChange.bind(this, 'moreValue')}/>
                              )}
                            </Form.Item>}
-
                          </div>
                      </Collapse.Panel>
-                     <Collapse.Panel header="设置起止时间" key="advance">
+                     <Collapse.Panel header={intl.get('trade.order_ttl_from_to')} key="advance">
                        <Form.Item className="mb5 ttl" colon={false} label={null}>
                          {form.getFieldDecorator('timeToLiveTimeSelector', {
                            initialValue:[moment(), moment().add(1, 'days')]
