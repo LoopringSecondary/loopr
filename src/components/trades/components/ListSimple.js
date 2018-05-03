@@ -31,21 +31,12 @@ function ListBlock(props) {
             </th>
           </tr>
           {
-            trades.map((item,index)=>
+            trades.filter(item=>item.side === 'sell').map((item,index)=>
               <tr key={index} className="">
                 <td className="border-0 pl0 pl10">
-                  {
-                    false && item.side === 'buy' &&
-                    <div className="fs12 color-black-2 text-left lh20 p0">
-                      {item.price}
-                    </div>
-                  }
-                  {
-                    item.side === 'sell' &&
-                    <div className="fs12 color-black-2 text-left lh20 p0">
-                      {item.price}
-                    </div>
-                  }
+                  <div className="fs12 color-black-2 text-left lh20 p0">
+                    {item.price}
+                  </div>
                 </td>
                 <td className="border-0 pl5 pr5">
                   <div className="fs12 color-black-2 text-left lh20 p0" >
