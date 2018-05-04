@@ -390,9 +390,14 @@ function Navbar(props){
                           &nbsp;
                           <Icon className="ml0 fs10" type="down" />
                         </div>
-                        <div className="" style={{marginTop:'0px'}}>
-                          <Badge status="processing" className="" />
-                          <span className="fs12 color-primary-1">{getWalletType()}</span>
+                        <div className="row gutter-0" style={{marginTop:'0px'}}>
+                          <div className="col">
+                            <Badge status="processing" className="" />
+                            <span className="fs12 color-primary-1">{getWalletType()}</span>
+                          </div>
+                          <div className="col-auto d-none">
+                            <span onClick={quit} className="fs12 ml5 color-black-1  cursor-pointer">解锁</span>
+                          </div>
                         </div>
                       </div>
                   </div>

@@ -77,8 +77,8 @@ const TickerTable = (props)=>{
           <tr className="">
             <th className="fs12 border-0 color-black-3" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
             <th className="fs12 border-0 color-black-3">{intl.get('ticker.last')}</th>
-            <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}</th>
-            <th className="fs12 border-0 color-black-3">{intl.get('ticker.vol')}</th>
+            <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}/24H</th>
+            <th className="fs12 border-0 color-black-3">{intl.get('ticker.vol')}/24H</th>
           </tr>
           {
             items.length>0 && items.map((item,index)=>
