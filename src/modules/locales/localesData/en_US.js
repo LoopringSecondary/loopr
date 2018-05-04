@@ -369,6 +369,7 @@ I got this great idea:
     current_lrc_fee: 'LRC Fee',
     order_ttl_expire_in: 'Set Order Expire In',
     order_ttl_from_to: 'Set Order Valid Since and Until',
+    not_supported_market:'Trading not supported currently'
   },
   trades: {
     side: 'Sides',
