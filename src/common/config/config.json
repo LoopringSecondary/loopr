@@ -42,12 +42,12 @@
   ],
   "relays": [
     {
-      "value": "//pre-relay1.loopring.io",
-      "name": "Pre-Production Relay"
-    },
-    {
       "value": "//relay1.loopring.io",
       "name": "Default Loopring Relay"
+    },
+    {
+      "value": "//pre-relay1.loopring.io",
+      "name": "Pre-Production Relay"
     },
     {
       "value": "//13.231.66.20",
@@ -194,7 +194,7 @@
     },
     {
       "type":"token_transfer",
-      "gasLimit":"0x15f90"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"approve",

@@ -38,20 +38,20 @@ export default {
   `,
   trades_faq:'交易FAQ',
 
-  trades_faq_q1:"Q1 : 为什么我的订单一直没有成交？",
+  trades_faq_q1:"Q1 : 为什么我的订单一直没有成交或者成交速度很慢？",
   trades_faq_a1:`
-    可能原因1：您的订单没有找到匹配的买单/卖单
+    可能原因1：您的订单没有与之价格匹配或者接近的买单/卖单
     <br />
-    可能原因2：您的订单的 LRC Fee 过小：矿工的撮合收益（LRC Fee）小于 撮合成本（以太交易的油费）, 导致矿工不撮合您的订单。
+    可能原因2：您的订单的 LRC 交易撮合费 过小：矿工的撮合收益（LRC撮合费为主）小于 撮合成本（以太交易的油费）, 导致矿工不撮合您的订单。
     <br />
-    可能原因3：您的订单已经被撮合了，并且已经被提交到以太网络，但是以太网络非常拥堵，导致交易无法确认（几分钟~几十分钟不等，甚至更长时间）
+    可能原因3：您的订单已经被撮合了，并且已经被提交到以太网络，但是以太网络非常拥堵，导致交易无法确认（几分钟到几十分钟不等，甚至更长时间）
     <br />
   `,
   trades_faq_q2:"Q2 : 从下单到交易成交需要多长时间？",
   trades_faq_a2:`
     从下单到成交的时间由两部分组成：
     <br />
-    交易撮合时间（矿工挖掘环路）：如果存在匹配的买单和卖单，你的订单很快就会被矿工撮合（几秒以内）。
+    交易撮合时间（矿工挖掘环路）：如果存在匹配的买单和卖单，并且矿工有撮合收益（订单撮合费 > 矿工撮合成本），你的订单很快就会被矿工撮合（几秒以内）。
     <br />
     交易提交时间（矿工提交环路）：矿工会把撮合成功的交易提交到以太网络，提交时间受以太网络拥堵情况的限制，从十几秒到几十分钟不等。
     <br />
@@ -382,7 +382,7 @@ export default {
     day: "天",
     week: "周",
     month: "月",
-    lrc_fee: "交易费",
+    lrc_fee: "撮合费",
     margin_split: "分润比例",
     place_order: "提交订单",
     unlock_your_wallet: "解锁你的钱包",
@@ -413,7 +413,7 @@ export default {
     place_order_watch_only_tips: '您当前使用地址解锁钱包，无法签名交易, 您可以切换其他方式解锁钱包后下单',
     custom_time_to_live: '设置本次有效的过期时间',
     custom_option_fee: '设置本次有效的值',
-    custom_lrc_fee_title: '设置本次生效的LRC手续费',
+    custom_lrc_fee_title: '设置本次生效的LRC撮合费',
     custom_time_to_live_title: '设置本次生效的有效时间',
     send_failed: '下单失败 !',
     failed_fetch_data: '从服务器获取数据失败, 请稍后在尝试',
@@ -658,7 +658,7 @@ export default {
     type_ledger: 'Ledger钱包',
     type_keystore: 'KeyStore钱包',
     type_mnemonic: '助记词钱包',
-    type_privateKey: '私钥钱包',
+    type_privatekey: '私钥钱包',
     type_demo: '演示钱包',
     type_lock: '未解锁',
     in_watch_only_mode_title:'已切换至观察模式',
