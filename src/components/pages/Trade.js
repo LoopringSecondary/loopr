@@ -213,15 +213,15 @@ export default function Home(props){
               <div className="p10 zb-b-t">
                 {
                   intl.getHTML('testtips.trades_faq') &&
-                  <Collapse accordion bordered={true} defaultActiveKey={[]}>
-                    {Array(8).fill(1).map((item,index)=>
+                  <Collapse accordion bordered={false} className="zb-b" defaultActiveKey={[]}>
+                    {Array(9).fill(1).map((item,index)=>
                       <Collapse.Panel className="border-none zb-b-b" header={
-                        <div className="fs14 color-black-1">
+                        <div className="fs16 color-black-1">
                           <span className="font-weight-bold mr5">{intl.get(`testtips.trades_faq_arr.${index}.category`)}</span>
                           {intl.get(`testtips.trades_faq_arr.${index}.title`)}
                         </div>
                       } key={index}>
-                        <div className="fs13 lh25 color-black-2">
+                        <div className="fs13 lh25 color-black-2 zb-b-t pt10 ">
                           {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
                         </div>
                       </Collapse.Panel>
