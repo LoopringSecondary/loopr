@@ -95,6 +95,12 @@ export default function Home(props){
       }
     })
   };
+  const customPanelStyle = {
+    background: '#f7f7f7',
+    borderRadius: 4,
+    border: 0,
+    overflow: 'hidden',
+  };
 
   return (
     <Layout {...props}>
@@ -207,10 +213,17 @@ export default function Home(props){
               <div className="p10 zb-b-t">
                 {
                   intl.getHTML('testtips.trades_faq') &&
-                  <Collapse accordion>
+                  <Collapse accordion bordered={true} defaultActiveKey={[]}>
                     {Array(8).fill(1).map((item,index)=>
-                      <Collapse.Panel header={intl.get(`testtips.trades_faq_arr.${index}.title`)} key={index}>
-                        {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
+                      <Collapse.Panel className="border-none zb-b-b" header={
+                        <div className="fs14 color-black-1">
+                          <span className="font-weight-bold mr5">{intl.get(`testtips.trades_faq_arr.${index}.category`)}</span>
+                          {intl.get(`testtips.trades_faq_arr.${index}.title`)}
+                        </div>
+                      } key={index}>
+                        <div className="fs13 lh25 color-black-2">
+                          {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
+                        </div>
                       </Collapse.Panel>
                     )}
                   </Collapse>
