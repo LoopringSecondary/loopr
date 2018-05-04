@@ -1,14 +1,18 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Alert, Button, Form, Icon, Input, message, Select} from 'antd';
+import {Alert, Button, Form, Icon, Input, message, Select,Radio} from 'antd';
 import {isValidateMnemonic} from "Loopring/common/mnemonic"
 import {fromMnemonic} from 'Loopring/ethereum/account';
 import MnemonicUnlockAccount from '../../../modules/account/MnemonicUnlockAccount'
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
+import {unlockRedirection} from '../../../common/utils/redirection'
 
 const Option = Select.Option;
+const RadioGroup = Radio.Group;
 const wallets = window.CONFIG.getWallets();
+
+
 
 class UnlockByMnemonic extends React.Component {
 
@@ -29,7 +33,8 @@ class UnlockByMnemonic extends React.Component {
     } else {
       address = null;
     }
-    this.setState({wallet, address});
+    password = wallet.name === 'Loopring Wallet' ? password:null;
+    this.setState({wallet, address,password});
     this.props.form.setFieldsValue({address})
   };
 
@@ -41,7 +46,7 @@ class UnlockByMnemonic extends React.Component {
 
   handlePasswordChange = (e) => {
     let {mnemonic, wallet, address} = this.state;
-    if (wallet && mnemonic && isValidateMnemonic(mnemonic)&& (wallet.name === 'Loopring Wallet' && e.target.value || wallet.name !== 'Loopring Wallet')) {
+    if (wallet && mnemonic && isValidateMnemonic(mnemonic) && (wallet.name === 'Loopring Wallet' && e.target.value || wallet.name !== 'Loopring Wallet')) {
       address = wallet.name === 'Loopring Wallet' ? this.decrypt(wallet.dpath, mnemonic, e.target.value) : this.decrypt(wallet.dpath, mnemonic)
     } else {
       address = null;
@@ -51,13 +56,13 @@ class UnlockByMnemonic extends React.Component {
   };
 
   handleMnemonicChange = (e) => {
-    let {wallet, address,password} = this.state;
+    let {wallet, address, password} = this.state;
     if (wallet && e.target.value && isValidateMnemonic(e.target.value) && (wallet.name === 'Loopring Wallet' && password || wallet.name !== 'Loopring Wallet')) {
       address = wallet.name === 'Loopring Wallet' ? this.decrypt(wallet.dpath, e.target.value, password) : this.decrypt(wallet.dpath, e.target.value)
     } else {
       address = null;
     }
-    this.setState({mnemonic: e.target.value, isMnemonicValid: isValidateMnemonic(e.target.value),address});
+    this.setState({mnemonic: e.target.value, isMnemonicValid: isValidateMnemonic(e.target.value), address});
     this.props.form.setFieldsValue({address})
   };
 
@@ -116,12 +121,36 @@ class UnlockByMnemonic extends React.Component {
       mnemonic: null,
       isMnemonicValid: false,
       password: null,
+      wallet: wallets[0],
+      address: null
     });
     Notification.open({
       message: intl.get('wallet.unlocked_notification_title'),
       description: intl.get('wallet.unlocked_notification_content'),
       type: 'success'
     })
+  };
+
+
+  unlockWallet = () => {
+    const {mnemonic, password,wallet} = this.state;
+    const {pageFrom,modal} =  this.props;
+    const dpath = wallet.dpath;
+    window.WALLET = new MnemonicUnlockAccount({mnemonic, dpath, password: password});
+    this.setWallet(0);
+    modal.hideModal({id: 'wallet/unlock'});
+    unlockRedirection(pageFrom)
+  };
+
+
+  confirm = ()=> {
+    const checked = this.props.form.getFieldValue('checked')
+
+    if(checked){
+      this.unlockWallet();
+    }else{
+      this.showAddresses()
+    }
   };
 
 
@@ -183,20 +212,35 @@ class UnlockByMnemonic extends React.Component {
             )}
           </Form.Item>}
 
-          <Form.Item className="mb15" label={intl.get('wallet.paste_mnemonic')}>
+          <Form.Item className="mb15" label={intl.get('wallet.compute_address')}>
             {form.getFieldDecorator('address', {
               initialValue: '',
               rules: []
             })(
-              <Input size="large"/>
+              <Input size="large" disabled/>
             )}
           </Form.Item>
 
+          {address && <Form.Item className="mb15" label='是不是您的地址'>
+            {form.getFieldDecorator('checked', {
+              initialValue: true,
+              rules: []
+            })(
+              <RadioGroup >
+                <Radio value={true}>{intl.get('global.yes')}</Radio>
+                <Radio value={false}>{intl.get('global.no')}</Radio>
+              </RadioGroup>
+            )}
+          </Form.Item>}
         </Form>
 
-        <Button type="primary" className="d-block w-100" size="large"
-                disabled={!this.state.mnemonic || !this.state.isMnemonicValid}
-                onClick={this.showAddresses}>{intl.get('wallet.unlock')}</Button>
+        <Button type="primary" className="d-block w-100 mb10" size="large"
+                disabled={!address}
+                onClick={this.confirm}>{this.props.form.getFieldValue('checked') ? intl.get('wallet.unlock'): intl.get('wallet.compute_more_address')}</Button>
+
+        {false &&  <Button  className="d-block w-100" size="large"
+                disabled={!address}
+                onClick={this.showAddresses}>{intl.get('wallet.find_more_address',{address})}</Button>}
       </div>
     )
   }

@@ -4,7 +4,7 @@
   "defaultLrcFeePermillage": 2,
   "defaultGasPrice": 21,
   "defaultMarginSplitPercentage": 50,
-  "defaultGasLimit": "0x1adb0",
+  "defaultGasLimit": "0x30d40",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
   "delegateAddress": "0x17233e07c67d086464fD408148c3ABB56245FA64",
@@ -198,27 +198,27 @@
     },
     {
       "type":"approve",
-      "gasLimit":"0xc350"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"withdraw",
-      "gasLimit":"0xc350"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"deposit",
-      "gasLimit":"0xc350"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"cancelOrder",
-      "gasLimit":"0x186a0"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"cancelAllOrder",
-      "gasLimit":"0xc350"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"cancelOrderByTokenPair",
-      "gasLimit":"0xea60"
+      "gasLimit":"0x30d40"
     }
 
   ],

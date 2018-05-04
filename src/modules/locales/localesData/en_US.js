@@ -543,6 +543,10 @@ I got this great idea:
     set_password: "Set a strong password",
     parse_failed:"Parse Keystore Failed",
     decrypt_failed:"Decrypt Keystore Failed",
+    find_more_address:"{address} isn't my address, look for more addresses",
+    confirm_address_unlock:"{address} is my address, unlock",
+    compute_address:"Computed Address",
+    compute_more_address:"Compute more addresses",
     backup: {
       backup_wallet: "Backup Wallet",
       keystore: "Keystore",
