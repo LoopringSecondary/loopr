@@ -484,6 +484,7 @@ export default {
     current_lrc_fee: '当前LRC Fee',
     order_ttl_expire_in: '设置持续时间',
     order_ttl_from_to: '设置起止时间',
+    not_supported_market:'暂未开放交易'
   },
   trades: {
     side: '方向',
