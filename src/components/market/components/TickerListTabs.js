@@ -25,6 +25,14 @@ const TickerTable = (props)=>{
         return item.market.toUpperCase().indexOf(keywords.toUpperCase()) > -1
     })
   }
+  const sorter = (a,b)=>{
+    if(a.vol === b.vol ){
+      return a.market - b.market
+    }else{
+      return Number(b.vol) - Number(a.vol)
+    }
+  }
+  items.sort(sorter)
   const updateOrders = (pair)=>{
     dispatch({
       type:'orders/filtersChange',
@@ -69,11 +77,8 @@ const TickerTable = (props)=>{
           <tr className="">
             <th className="fs12 border-0 color-black-3" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
             <th className="fs12 border-0 color-black-3">{intl.get('ticker.last')}</th>
-            {
-              false &&
-              <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}</th>
-            }
-            <th className="fs12 border-0 color-black-3">{intl.get('ticker.vol')}</th>
+            <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}/24H</th>
+            <th className="fs12 border-0 color-black-3">{intl.get('ticker.vol')}/24H</th>
           </tr>
           {
             items.length>0 && items.map((item,index)=>
@@ -94,15 +99,11 @@ const TickerTable = (props)=>{
                     {item.last || 0.00}
                   </TickerTrend>
                 </td>
-                {
-                  false &&
-                  <td className="fs12 border-0 color-balck-2">
-                    <TickerTrend side={tickerFm.getChangeSide(item.change)}>
-                      {item.change || 0}
-                    </TickerTrend>
-                  </td>
-                }
-
+                <td className="fs12 border-0 color-balck-2">
+                  <TickerTrend side={tickerFm.getChangeSide(item.change)}>
+                    {item.change || 0}
+                  </TickerTrend>
+                </td>
                 <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
               </tr>
             )
