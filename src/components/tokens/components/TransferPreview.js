@@ -23,11 +23,22 @@ let Preview = ({
     // tx.chainId = 1
     window.STORAGE.wallet.getNonce(account.address).then(nonce => {
       tx.nonce = fm.toHex(nonce)
-      if(window.WALLET_UNLOCK_TYPE === 'Ledger') {
+      let toConfirmWarn = '';
+      if (window.WALLET_UNLOCK_TYPE === 'Ledger') {
+        toConfirmWarn = intl.get('trade.confirm_warn_ledger')
+      }
+      if (window.WALLET_UNLOCK_TYPE === 'MetaMask') {
+        toConfirmWarn = intl.get('trade.confirm_warn_metamask')
+      }
+      if (window.WALLET_UNLOCK_TYPE === 'Trezor') {
+        toConfirmWarn = intl.get('trade.confirm_warn_trezor')
+      }
+      if (toConfirmWarn) {
         Notification.open({
-          message: intl.get('token.to_confirm_title'),
-          description: intl.get('token.to_confirm_ledger_content'),
-          type:'info'
+          duration:0,
+          message: intl.get('trade.to_confirm_title'),
+          description: toConfirmWarn,
+          type: 'info'
         })
       }
       return window.WALLET.sendTransaction(tx)

@@ -63,9 +63,9 @@ class TradeConfirm extends React.Component {
     if (window.WALLET_UNLOCK_TYPE === 'Trezor') {
       toConfirmWarn = intl.get('trade.confirm_warn_trezor')
     }
-
     if (toConfirmWarn) {
       Notification.open({
+        duration:0,
         message: intl.get('trade.to_confirm_title'),
         description: toConfirmWarn,
         type: 'info'
