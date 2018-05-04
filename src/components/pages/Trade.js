@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip,Alert } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip,Alert,Collapse } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import TradeList from '../trades/components/ListSimple'
@@ -205,8 +205,19 @@ export default function Home(props){
             { intl.getHTML('testtips.trades_faq') &&
             <Card className="rs-p0 border-none" title={null}>
               <div className="p10 zb-b-t">
-                {intl.getHTML('testtips.trades_faq_content')}
+                {
+                  intl.getHTML('testtips.trades_faq') &&
+                  <Collapse accordion>
+                    {Array(8).fill(1).map((item,index)=>
+                      <Collapse.Panel header={intl.get(`testtips.trades_faq_arr.${index}.title`)} key={index}>
+                        {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
+                      </Collapse.Panel>
+                    )}
+                  </Collapse>
+                }
+
               </div>
+
             </Card>
             }
           </div>
