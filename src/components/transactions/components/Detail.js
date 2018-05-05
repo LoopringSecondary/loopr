@@ -134,11 +134,11 @@ class DetailBlock extends React.Component {
     return (
       <Card title={intl.get('txs.tx_detail')}>
         <Spin spinning={loading}>
-          {!(ethTx && ethTx.blockNumber) && !loading && item.status === 'pending' && (moment().valueOf()/1e3 - item.createTime) > 300 &&
+          {!(ethTx && ethTx.blockNumber) && !loading && item.status === 'pending'&& item.type !== 'receive' && item.type !== 'convert_income' && item.type !== 'sell' && item.type !== 'buy' && (moment().valueOf()/1e3 - item.createTime) > 300 &&
           <Alert className="mb15" type="info" theme="light"  title ={intl.get("txs.resend_title")} description={<div className="fs12">{intl.get('txs.resend_tips')}</div>}
                  actions={(<Button type='primary' onClick={reSendTx.bind(this, item.txHash)}>{intl.get("txs.resend")}</Button>)}
           />}
-          {(ethTx && ethTx.blockNumber) && item.status === 'pending' && !loading && (moment().valueOf()/1e3 - item.createTime) > 300 &&
+          {(ethTx && ethTx.blockNumber) && item.status === 'pending' && item.type !== 'receive' && item.type !== 'convert_income' && item.type !== 'sell' && item.type !== 'buy' && !loading && (moment().valueOf()/1e3 - item.createTime) > 300 &&
           <Alert className="mb15" type="info" theme="light" title={intl.get('txs.not_need_resend')} description={
             <div className="fs12">{intl.get('txs.not_resend_tips')}</div>}
           />
