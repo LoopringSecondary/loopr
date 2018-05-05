@@ -4,14 +4,14 @@
   "defaultLrcFeePermillage": 2,
   "defaultGasPrice": 21,
   "defaultMarginSplitPercentage": 50,
-  "defaultGasLimit": "0x1adb0",
+  "defaultGasLimit": "0x30d40",
   "defaultExpireTime": 1,
   "defaultExpireTimeUnit": "day",
   "delegateAddress": "0x17233e07c67d086464fD408148c3ABB56245FA64",
   "chainId": 1,
   "bindContractAddress": "0xbf78B6E180ba2d1404c92Fc546cbc9233f616C42",
   "minimumLrcfeeInEth":0.00045,
-  "demoAccount":"0x8311804426a24495bd4306daf5f595a443a52e32",
+  "demoAccount":"0xeba7136a36da0f5e16c6bdbc739c716bb5b65a00",
   "localStorageVersion":201805022207,
   "walletAddress":"0xb94065482ad64d4c2b9252358d746b39e820a582",
   "contracts": [
@@ -42,12 +42,12 @@
   ],
   "relays": [
     {
-      "value": "//pre-relay1.loopring.io",
-      "name": "Pre-Production Relay"
-    },
-    {
       "value": "//relay1.loopring.io",
       "name": "Default Loopring Relay"
+    },
+    {
+      "value": "//pre-relay1.loopring.io",
+      "name": "Pre-Production Relay"
     },
     {
       "value": "//13.231.66.20",
@@ -194,31 +194,31 @@
     },
     {
       "type":"token_transfer",
-      "gasLimit":"0x15f90"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"approve",
-      "gasLimit":"0xc350"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"withdraw",
-      "gasLimit":"0xc350"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"deposit",
-      "gasLimit":"0xc350"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"cancelOrder",
-      "gasLimit":"0x186a0"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"cancelAllOrder",
-      "gasLimit":"0xc350"
+      "gasLimit":"0x30d40"
     },
     {
       "type":"cancelOrderByTokenPair",
-      "gasLimit":"0xea60"
+      "gasLimit":"0x30d40"
     }
 
   ],

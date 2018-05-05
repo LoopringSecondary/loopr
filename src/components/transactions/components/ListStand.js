@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'dva/router';
-import {Badge, Button, Spin, Popover, Icon} from 'antd';
+import {Badge, Button, Spin, Popover, Icon, Tooltip} from 'antd';
 import ListFiltersFormSimple from './ListFiltersFormSimple'
 import CurrencyContainer from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
@@ -374,11 +374,13 @@ class ListBlock extends React.Component {
             </Popover>
             }
             {filters.token !== 'ETH' && filters.token !== 'WETH' && getTokenSupportedMarkets(filters.token).length === 0 &&
-            <Button className="mr15" type="primary" disabled={true}>
-              <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
-              <span
-                style={{position: "relative", top: '-2px'}}> {intl.get('tokens.options_trade')} {filters.token}</span>
-            </Button>
+              <Tooltip title={intl.getHTML('trade.not_supported_market')}>
+                <Button className="mr15" type="primary" disabled={true}>
+                  <i className="icon-loopring icon-loopring-trade fs16 mr5"></i>
+                  <span
+                    style={{position: "relative", top: '-2px'}}> {intl.get('tokens.options_trade')} {filters.token}</span>
+                </Button>
+              </Tooltip>
             }
             {
               (filters.token === 'ETH') &&

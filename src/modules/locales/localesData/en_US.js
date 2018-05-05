@@ -38,11 +38,7 @@ export default {
       <br />
       2. The amount of every order shall not be less than 100USD ( Beta3 Only ).
     `,
-    trades_faq:'FAQ',
-    trades_faq_q1:"",
-    trades_faq_a1:``,
-    trades_faq_q2:"",
-    trades_faq_a2:``,
+    trades_faq:'',
   },
   version:{
     label:'Beta3',
@@ -203,7 +199,7 @@ I got this great idea:
     cancel_pair_order: "Canceled All {pair} Orders",
     others: "Others",
     balance_not_enough_title:"Your {token} balance is insufficient!",
-    balance_not_enough: "your balance is {balance} {token}, but {needed} {token} is needed for your opened orders to be completely filled.",
+    balance_not_enough: "Your open orders collectively need {needed} {token} while you only have {balance} {token}. Some of your orders will not be fully filled",
     open_orders: "Opened Orders",
     value: "Value",
     tx_hash: "Tx Hash",
@@ -369,6 +365,7 @@ I got this great idea:
     current_lrc_fee: 'LRC Fee',
     order_ttl_expire_in: 'Set Order Expire In',
     order_ttl_from_to: 'Set Order Valid Since and Until',
+    not_supported_market:'Trading not supported currently'
   },
   trades: {
     side: 'Sides',

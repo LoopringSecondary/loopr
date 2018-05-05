@@ -5,7 +5,6 @@ import {generateAbiData} from '../../../common/Loopring/ethereum/abi';
 import {configs} from '../../../common/config/data'
 import * as fm from '../../../common/Loopring/common/formatter'
 import config from '../../../common/config'
-import {accMul} from '../../../common/Loopring/common/math'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import {getGasPrice} from '../../../common/Loopring/relay/utils'
 import intl from 'react-intl-universal';
@@ -84,17 +83,17 @@ class Transfer extends React.Component {
     if(currentToken && currentToken.symbol !== "ETH") {
       GasLimit = config.getGasLimitByType('token_transfer').gasLimit
     }
-    let defaultGas = 0
+    let defaultGas = fm.toBig(0)
     if(this.state.gasPopularSetting) {
-      defaultGas = fm.toBig(this.state.sliderGasPrice).times(GasLimit).div(1e9).toNumber()
+      defaultGas = fm.toBig(this.state.sliderGasPrice).times(GasLimit).div(1e9)
     } else {
       if(this.state.selectedGasLimit >0 && this.state.selectedGasPrice >0) {
-        defaultGas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(this.state.selectedGasLimit)).div(1e9).toNumber().toFixed(8)
+        defaultGas = fm.toBig(this.state.selectedGasPrice).times(fm.toNumber(this.state.selectedGasLimit)).div(1e9)
       }
     }
-    let estimateGas = 0
+    let estimateGas = fm.toBig(0)
     if(this.state.estimateGasPrice > 0){
-      estimateGas = fm.toBig(this.state.estimateGasPrice).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
+      estimateGas = fm.toBig(this.state.estimateGasPrice).times(fm.toNumber(GasLimit)).div(1e9)
     }
     const ethPrice = prices.getTokenBySymbol('ETH')
 
@@ -198,11 +197,11 @@ class Transfer extends React.Component {
 
     function setGas(v) {
       setTimeout(()=>{
-        const gas = fm.toBig(v).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8);
+        const gas = fm.toBig(v).times(fm.toNumber(GasLimit)).div(1e9);
         if(this.state.sendMax && this.state.tokenSymbol === 'ETH') {
           const token = getToken(this.state.tokenSymbol);
           let balance = token.balance;
-          balance = balance.gt(gas) ? balance.minus(gas) : fm.toBig(0);
+          balance = balance.greaterThan(gas) ? balance.minus(gas) : fm.toBig(0);
           this.setState({value: balance});
           form.setFieldsValue({"amount": balance.toString()})
         }
@@ -228,7 +227,7 @@ class Transfer extends React.Component {
           } else {
             gasPrice = _this.state.sliderGasPrice
           }
-          const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9).toNumber();
+          const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9);
           balance = balance.gt(gas) ?  balance.minus(gas) : fm.toBig(0);
         }
         _this.setState({value: balance, sendMax:true});
@@ -290,12 +289,12 @@ class Transfer extends React.Component {
           if(this.state.selectedGasPrice) {
             gasPrice = this.state.selectedGasPrice
           }
-          const gas = fm.toBig(gasPrice).times(gasLimit).div(1e9).toNumber()
+          const gas = fm.toBig(gasPrice).times(gasLimit).div(1e9)
           const token = getToken(this.state.tokenSymbol)
-          let balance = token.balance
-          balance = Math.max(0, balance - gas)
+          let balance = fm.toBig(token.balance)
+          balance = balance.minus(gas).greaterThan(0) ? balance.minus(gas) : fm.toBig(0)
           this.setState({value: balance})
-          form.setFieldsValue({"amount": balance})
+          form.setFieldsValue({"amount": balance.toString()})
         }
         this.setState({selectedGasLimit: gasLimit})
       }
@@ -308,12 +307,12 @@ class Transfer extends React.Component {
         if(this.state.selectedGasLimit){
           gasLimit = this.state.selectedGasLimit
         }
-        const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9).toNumber()
+        const gas = fm.toBig(gasPrice).times(fm.toNumber(gasLimit)).div(1e9)
         const token = getToken(this.state.tokenSymbol)
-        let balance = token.balance
-        balance = Math.max(0, balance - gas)
+        let balance = fm.toBig(token.balance)
+        balance = balance.minus(gas).greaterThan(0) ? balance.minus(gas) : fm.toBig(0)
         this.setState({value: balance})
-        form.setFieldsValue({"amount": balance})
+        form.setFieldsValue({"amount": balance.toString()})
       }
       this.setState({selectedGasPrice: gasPrice})
     }
@@ -332,17 +331,9 @@ class Transfer extends React.Component {
     };
 
     const formatGas = (value) => {
-      const gas = fm.toBig(value).times(fm.toNumber(GasLimit)).div(1e9).toNumber().toFixed(8)
+      const gas = fm.toBig(value).times(fm.toNumber(GasLimit)).div(1e9).toString()
       return gas + " ETH";
     }
-
-    const priceValue = (
-      <span className="fs10">
-        ≈
-        <Currency />
-        {this.state.value >=0 && this.state.tokenSymbol && accMul(this.state.value, prices.getTokenBySymbol(this.state.tokenSymbol).price).toFixed(2)}
-      </span>
-    )
 
     function toContinue(e) {
       if(e.keyCode === 13) {
@@ -379,7 +370,7 @@ class Transfer extends React.Component {
            <div style={{maxWidth:'300px',padding:'5px'}}>
              {this.state.gasPopularSetting &&
                <div>
-                 <div className="pb10">{intl.get('token.custum_gas_content', {gas: estimateGas})}</div>
+                 <div className="pb10">{intl.get('token.custum_gas_content', {gas: estimateGas.toString()})}</div>
                  <Form.Item className="mb0 pb10" colon={false} label={null}>
                    {form.getFieldDecorator('transactionFee', {
                      initialValue: settings.trading.gasPrice,
@@ -433,7 +424,7 @@ class Transfer extends React.Component {
     const gasWorth = (
       <span className="">
         <Currency />
-        {defaultGas > 0 ? accMul(defaultGas, ethPrice.price).toFixed(2) : 0}
+        {defaultGas.greaterThan(0) ? defaultGas.times(ethPrice.price).toFixed(2) : 0}
       </span>
     )
 
@@ -490,13 +481,6 @@ class Transfer extends React.Component {
               <Input placeholder="" size="large" onKeyDown={toContinue.bind(this)}/>
             )}
           </Form.Item>
-          {false && <Tooltip
-            trigger={['focus']}
-            title={priceValue}
-            placement="topLeft"
-            overlayClassName="numeric-input">
-            </Tooltip>
-          }
           <Form.Item className="pt0 pb0" label={<div className="fs3 color-black-2">{intl.get('token.amount')}</div>} {...formItemLayout} colon={false}>
             {form.getFieldDecorator('amount', {
               initialValue: 0,
@@ -530,7 +514,7 @@ class Transfer extends React.Component {
               </div>
               <div className="col"></div>
               <div className="col-auto pl0 pr5">{editGas}</div>
-              <div className="col-auto pl0 fs3 color-black-2">{defaultGas} ETH ≈ {gasWorth}</div>
+              <div className="col-auto pl0 fs3 color-black-2">{defaultGas.toString()} ETH ≈ {gasWorth}</div>
             </div>
           </Form.Item>
           {_this.state.tokenSymbol === 'ETH' && !this.state.advanced &&
