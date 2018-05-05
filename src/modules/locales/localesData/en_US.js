@@ -199,7 +199,7 @@ I got this great idea:
     cancel_pair_order: "Canceled All {pair} Orders",
     others: "Others",
     balance_not_enough_title:"Your {token} balance is insufficient!",
-    balance_not_enough: "your balance is {balance} {token}, but {needed} {token} is needed for your opened orders to be completely filled.",
+    balance_not_enough: "Your open orders collectively need {needed} {token} while you only have {balance} {token}. Some of your orders will not be fully filled",
     open_orders: "Opened Orders",
     value: "Value",
     tx_hash: "Tx Hash",
