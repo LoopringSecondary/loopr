@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip,Alert } from 'antd'
+import { Icon,Popover,Tabs,Card,Steps,Button,Row,Col,Tooltip,Alert,Collapse } from 'antd'
 import { Route } from 'dva/router'
 import Trade from '../trades/pages'
 import TradeList from '../trades/components/ListSimple'
@@ -94,6 +94,12 @@ export default function Home(props){
         id:'orders/trade'
       }
     })
+  };
+  const customPanelStyle = {
+    background: '#f7f7f7',
+    borderRadius: 4,
+    border: 0,
+    overflow: 'hidden',
   };
 
   return (
@@ -197,45 +203,34 @@ export default function Home(props){
                   }
                 </div>
               </Tabs.TabPane>
-              { intl.getHTML('testtips.trades_faq_q1') &&
+              { intl.getHTML('testtips.trades_faq') &&
               <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('testtips.trades_faq')}</div>} key="faq">
               </Tabs.TabPane>
               }
             </Tabs>
-            { intl.getHTML('testtips.trades_faq_q1') &&
+            { intl.getHTML('testtips.trades_faq') &&
             <Card className="rs-p0 border-none" title={null}>
               <div className="p10 zb-b-t">
-                <div className="fs14 color-black-1 lh30">
-                  {intl.getHTML('testtips.trades_faq_q1')}
-                </div>
-                <div className="fs13 color-black-2 lh25">
-                  {intl.getHTML('testtips.trades_faq_a1')}
-                </div>
-                <div className="fs14 color-black-1 lh30 mt10">
-                  {intl.getHTML('testtips.trades_faq_q2')}
-                </div>
-                <div className="fs13 color-black-2 lh25">
-                  {intl.getHTML('testtips.trades_faq_a2')}
-                </div>
-                <div className="fs14 color-black-1 lh30 mt10">
-                  {intl.getHTML('testtips.trades_faq_q3')}
-                </div>
-                <div className="fs13 color-black-2 lh25">
-                  {intl.getHTML('testtips.trades_faq_a3')}
-                </div>
-                <div className="fs14 color-black-1 lh30 mt10">
-                  {intl.getHTML('testtips.trades_faq_q4')}
-                </div>
-                <div className="fs13 color-black-2 lh25">
-                  {intl.getHTML('testtips.trades_faq_a4')}
-                </div>
-                <div className="fs14 color-black-1 lh30 mt10">
-                  {intl.getHTML('testtips.trades_faq_q5')}
-                </div>
-                <div className="fs13 color-black-2 lh25">
-                  {intl.getHTML('testtips.trades_faq_a5')}
-                </div>
+                {
+                  intl.getHTML('testtips.trades_faq') &&
+                  <Collapse accordion bordered={false} className="zb-b" defaultActiveKey={[]}>
+                    {Array(9).fill(1).map((item,index)=>
+                      <Collapse.Panel className="border-none zb-b-b" header={
+                        <div className="fs16 color-black-1">
+                          <span className="font-weight-bold mr5">{intl.get(`testtips.trades_faq_arr.${index}.category`)}</span>
+                          {intl.get(`testtips.trades_faq_arr.${index}.title`)}
+                        </div>
+                      } key={index}>
+                        <div className="fs13 lh25 color-black-2 zb-b-t pt10 ">
+                          {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
+                        </div>
+                      </Collapse.Panel>
+                    )}
+                  </Collapse>
+                }
+
               </div>
+
             </Card>
             }
           </div>
