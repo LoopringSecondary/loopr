@@ -150,8 +150,16 @@ export default function Home(props){
                 </Tabs>
               </div>
               <div className="col-4 zb-b-r">
-                <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
-                  {intl.get('trade.order_book')}
+                <div className="fs2 lh25 color-black-1 zb-b-b text-center" style={{padding:'0px 0px 0px'}}>
+                  <div className="row align-items-stretch m0 gutter-10">
+                    <div className={`col-auto pt10 pb10 pl15 pr15 color-black-1`}>
+                      {intl.get('trade.order_book')}
+                    </div>
+                    <div className="col"></div>
+                    <div className={`col-auto pt10 pb10 pl10 pr10 cursor-pointer color-black-3 fs12`}>
+                     ☉ 合并深度
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <Sockets.Depth market={pair}>
