@@ -110,44 +110,13 @@ export default function Home(props){
         </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
-          <div className="zb-b">
-            <div className="row align-items-stretch gutter-0 bg-white">
+          <div className="zb-b bg-white">
+            <div className="row align-items-stretch gutter-0 ">
               <div className="col-4 zb-b-r">
                 <TradeFormTab pair={pair} />
                 <div className="fs12 p10 pt0 color-black-3" style={{marginTop:'-10px'}}>
                   {intl.getHTML('testtips.tradetips_description')}
                 </div>
-                <Tabs className="zb-b-t" defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
-                  <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_open_orders')}</div>} key="orders">
-                    <div className="">
-                      {
-                        window.WALLET && window.WALLET.getAddress() &&
-                        <Order.List id="orders/trade" />
-                      }
-                      {
-                        !(window.WALLET && window.WALLET.getAddress()) &&
-                        <ModalContainer apisOnly={true}>
-                          <ToLogin />
-                        </ModalContainer>
-                      }
-                    </div>
-                  </Tabs.TabPane>
-                  <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
-                    <div className="">
-                      {
-                        window.WALLET && window.WALLET.getAddress() &&
-                        <Trade.List />
-                      }
-                      {
-                        !(window.WALLET && window.WALLET.getAddress()) &&
-                        <ModalContainer apisOnly={true}>
-                          <ToLogin />
-                        </ModalContainer>
-                      }
-                    </div>
-                  </Tabs.TabPane>
-
-                </Tabs>
               </div>
               <div className="col-4 zb-b-r">
                 <div className="fs2 lh25 color-black-1 zb-b-b text-center" style={{padding:'0px 0px 0px'}}>
@@ -178,41 +147,65 @@ export default function Home(props){
                     <TradeList market={pair} />
                   </Sockets.Trades>
                 </div>
-
               </div>
-
-
             </div>
+            <Tabs className="zb-b-t" defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_open_orders')}</div>} key="orders">
+                <div className="">
+                  {
+                    window.WALLET && window.WALLET.getAddress() &&
+                    <Order.List id="orders/trade" />
+                  }
+                  {
+                    !(window.WALLET && window.WALLET.getAddress()) &&
+                    <ModalContainer apisOnly={true}>
+                      <ToLogin />
+                    </ModalContainer>
+                  }
+                </div>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
+                <div className="">
+                  {
+                    window.WALLET && window.WALLET.getAddress() &&
+                    <Trade.List />
+                  }
+                  {
+                    !(window.WALLET && window.WALLET.getAddress()) &&
+                    <ModalContainer apisOnly={true}>
+                      <ToLogin />
+                    </ModalContainer>
+                  }
+                </div>
+              </Tabs.TabPane>
+            </Tabs>
           </div>
-        <div className="zb-b">
-          <div className="bg-white mt15">
-            { intl.getHTML('testtips.trades_faq') &&
-            <Card className="rs-p0 border-none" title={intl.get('testtips.trades_faq')}>
-              <div className="p10 zb-b-t">
-                {
-                  intl.getHTML('testtips.trades_faq') &&
-                  <Collapse accordion bordered={false} className="zb-b" defaultActiveKey={[]}>
-                    {Array(9).fill(1).map((item,index)=>
-                      <Collapse.Panel className="border-none zb-b-b" header={
-                        <div className="fs16 color-black-1">
-                          <span className="font-weight-bold mr5">{intl.get(`testtips.trades_faq_arr.${index}.category`)}</span>
-                          {intl.get(`testtips.trades_faq_arr.${index}.title`)}
-                        </div>
-                      } key={index}>
-                        <div className="fs13 lh25 color-black-2 zb-b-t pt10 ">
-                          {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
-                        </div>
-                      </Collapse.Panel>
-                    )}
-                  </Collapse>
-                }
-
-              </div>
-
-            </Card>
+        { intl.getHTML('testtips.trades_faq') &&
+        <div className="mt15 zb-b bg-white">
+          <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+            {intl.get('testtips.trades_faq')}
+          </div>
+          <div className="zb-b-t">
+            {
+              intl.getHTML('testtips.trades_faq') &&
+              <Collapse accordion bordered={false} className="zb-b" defaultActiveKey={[]}>
+                {Array(9).fill(1).map((item,index)=>
+                  <Collapse.Panel className="border-none zb-b-b" header={
+                    <div className="fs16 color-black-1">
+                      <span className="font-weight-bold mr5">{intl.get(`testtips.trades_faq_arr.${index}.category`)}</span>
+                      {intl.get(`testtips.trades_faq_arr.${index}.title`)}
+                    </div>
+                  } key={index}>
+                    <div className="fs13 lh25 color-black-2 zb-b-t pt10 ">
+                      {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
+                    </div>
+                  </Collapse.Panel>
+                )}
+              </Collapse>
             }
           </div>
         </div>
+        }
         <div className="mb50"></div>
       </div>
     </Layout>
