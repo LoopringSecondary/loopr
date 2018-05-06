@@ -3,7 +3,6 @@ import HomeDark from './HomeDark'
 import Wallet from './Wallet'
 import Auth from './Auth'
 import Trade from './Trade'
-import TradeNew from './TradeNew'
 import Settings from "./Settings"
 import Portfolio from './Portfolio'
 import Test from './Test'
@@ -15,7 +14,6 @@ export default {
   Wallet,
   Auth,
   Trade,
-  TradeNew,
   Settings,
   Portfolio,
   Test,

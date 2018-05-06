@@ -41,10 +41,10 @@ class TradeFormTab extends React.Component {
       <div className="">
         <div className="fs2 lh25 color-black-1 zb-b-b text-center" style={{padding:'0px 0px 0px'}}>
           <div className="row align-items-stretch m0 gutter-10">
-            <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer zb-b-r ${side === 'buy' ? 'color-green-500 bg-white' : 'color-black-1'}`} onClick={changeForm.bind(this,'buy')}>
+            <div className={`col-6 pt10 pb10 pl15 pr15 cursor-pointer zb-b-r ${side === 'buy' ? 'color-green-500 bg-white' : 'color-black-1'}`} onClick={changeForm.bind(this,'buy')}>
               {intl.get('trade.buy')} {tokenL}
             </div>
-            <div className={`col-auto pt10 pb10 pl15 pr15 cursor-pointer ${side === 'sell' ? 'color-red-500 bg-white zb-b-r' : 'color-black-1'}`} onClick={changeForm.bind(this,'sell')}>
+            <div className={`col-6 pt10 pb10 pl15 pr15 cursor-pointer ${side === 'sell' ? 'color-red-500 bg-white zb-b-r' : 'color-black-1'}`} onClick={changeForm.bind(this,'sell')}>
               {intl.get('trade.sell')} {tokenL}
             </div>
           </div>
@@ -110,25 +110,28 @@ export default function Home(props){
         </Sockets.Prices>
       </Sockets.TickersByPair>
       <div className="container">
-        {
-          true &&
-          <div className="zb-b">
-            <div className="row align-items-stretch gutter-0 bg-white">
-              <div className="col-auto zb-b-r" style={{flex:'0 0 30%'}}>
-                <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
-                  {intl.get('trade.order_book')}
-                  <span className="ml5">
-                    <Tooltip title={
-                      <div className="p5">
-                        <div className="fs14 lh25">{intl.get('trade.order_book')} {intl.get('testtips.title')}</div>
-                        <div className="lh20 fs12">
-                          {intl.getHTML('testtips.description')}
-                        </div>
+          <div className="zb-b bg-white">
+            <div className="row align-items-stretch gutter-0 ">
+              <div className="col-4 zb-b-r">
+                <TradeFormTab pair={pair} />
+                <div className="fs12 p10 pt0 color-black-3" style={{marginTop:'-10px'}}>
+                  {intl.getHTML('testtips.tradetips_description')}
+                </div>
+              </div>
+              <div className="col-4 zb-b-r">
+                <div className="fs2 lh25 color-black-1 zb-b-b text-center" style={{padding:'0px 0px 0px'}}>
+                  <div className="row align-items-stretch m0 gutter-10">
+                    <div className={`col-auto pt10 pb10 pl15 pr15 color-black-1`}>
+                      {intl.get('trade.order_book')}
+                    </div>
+                    <div className="col"></div>
+                    {
+                      false &&
+                      <div className={`col-auto pt10 pb10 pl10 pr10 cursor-pointer color-black-3 fs12`}>
+                       ☉ 合并深度
                       </div>
-                    }>
-                      <Icon type="question-circle-o"  />
-                    </Tooltip>
-                  </span>
+                    }
+                  </div>
                 </div>
                 <div>
                   <Sockets.Depth market={pair}>
@@ -138,103 +141,77 @@ export default function Home(props){
                   </Sockets.Depth>
                 </div>
               </div>
-              <div className="col zb-b-r" style={{flex:'0 0 40%'}}>
-                <TradeFormTab pair={pair} />
-                <div className="fs12 p10 pt0 color-black-3" style={{marginTop:'-10px'}}>
-                  {intl.getHTML('testtips.tradetips_description')}
-                </div>
-              </div>
-              <div className="col-auto" style={{flex:'0 0 30%'}}>
+              <div className="col-4">
                 <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
                   {intl.get('trade.trade_history')}
-                  <span className="ml5">
-                    <Tooltip title={
-                      <div className="p5">
-                        <div className="fs14 lh25">{intl.get('trade.trade_history')} {intl.get('testtips.title')}</div>
-                        <div className="fs12 lh24">{intl.getHTML('testtips.description')}</div>
-                      </div>
-                    } className="">
-                      <Icon type="question-circle-o"  />
-                    </Tooltip>
-                  </span>
                 </div>
                 <div>
                   <Sockets.Trades market={pair}>
                     <TradeList market={pair} />
                   </Sockets.Trades>
                 </div>
-
               </div>
-
-
             </div>
 
           </div>
-        }
-
-        <div className="zb-b">
-          <div className="bg-white mt15">
-            <Tabs defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
-              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_open_orders')}</div>} key="orders">
-                <div className="">
-                  {
-                    window.WALLET && window.WALLET.getAddress() &&
-                    <Order.List id="orders/trade" />
-                  }
-                  {
-                    !(window.WALLET && window.WALLET.getAddress()) &&
-                    <ModalContainer apisOnly={true}>
-                      <ToLogin />
-                    </ModalContainer>
-                  }
-                </div>
-              </Tabs.TabPane>
-              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
-                <div className="">
-                  {
-                    window.WALLET && window.WALLET.getAddress() &&
-                    <Trade.List />
-                  }
-                  {
-                    !(window.WALLET && window.WALLET.getAddress()) &&
-                    <ModalContainer apisOnly={true}>
-                      <ToLogin />
-                    </ModalContainer>
-                  }
-                </div>
-              </Tabs.TabPane>
-              { intl.getHTML('testtips.trades_faq') &&
-              <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('testtips.trades_faq')}</div>} key="faq">
-              </Tabs.TabPane>
-              }
-            </Tabs>
-            { intl.getHTML('testtips.trades_faq') &&
-            <Card className="rs-p0 border-none" title={null}>
-              <div className="p10 zb-b-t">
+        <div className="zb-b mt10 bg-white">
+          <Tabs className="zb-b-t" defaultActiveKey="orders" animated={false} tabBarStyle={{marginBottom:'0px'}} onChange={tabChange}>
+            <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_open_orders')}</div>} key="orders">
+              <div className="">
                 {
-                  intl.getHTML('testtips.trades_faq') &&
-                  <Collapse accordion bordered={false} className="zb-b" defaultActiveKey={[]}>
-                    {Array(9).fill(1).map((item,index)=>
-                      <Collapse.Panel className="border-none zb-b-b" header={
-                        <div className="fs16 color-black-1">
-                          <span className="font-weight-bold mr5">{intl.get(`testtips.trades_faq_arr.${index}.category`)}</span>
-                          {intl.get(`testtips.trades_faq_arr.${index}.title`)}
-                        </div>
-                      } key={index}>
-                        <div className="fs13 lh25 color-black-2 zb-b-t pt10 ">
-                          {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
-                        </div>
-                      </Collapse.Panel>
-                    )}
-                  </Collapse>
+                  window.WALLET && window.WALLET.getAddress() &&
+                  <Order.List id="orders/trade" />
                 }
-
+                {
+                  !(window.WALLET && window.WALLET.getAddress()) &&
+                  <ModalContainer apisOnly={true}>
+                    <ToLogin />
+                  </ModalContainer>
+                }
               </div>
-
-            </Card>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<div className="fs16 lh25">{intl.get('tabs.my_recent_trades')}</div>} key="trades">
+              <div className="">
+                {
+                  window.WALLET && window.WALLET.getAddress() &&
+                  <Trade.List />
+                }
+                {
+                  !(window.WALLET && window.WALLET.getAddress()) &&
+                  <ModalContainer apisOnly={true}>
+                    <ToLogin />
+                  </ModalContainer>
+                }
+              </div>
+            </Tabs.TabPane>
+          </Tabs>
+        </div>
+        { intl.getHTML('testtips.trades_faq') &&
+        <div className="mt10 zb-b bg-white">
+          <div className="fs2 lh25 color-black-1 pt10 pb10 pl10 zb-b-b">
+            {intl.get('testtips.trades_faq')}
+          </div>
+          <div className="zb-b-t">
+            {
+              intl.getHTML('testtips.trades_faq') &&
+              <Collapse accordion bordered={false} className="zb-b" defaultActiveKey={[]}>
+                {Array(9).fill(1).map((item,index)=>
+                  <Collapse.Panel className="border-none zb-b-b" header={
+                    <div className="fs16 color-black-1">
+                      <span className="font-weight-bold mr5">{intl.get(`testtips.trades_faq_arr.${index}.category`)}</span>
+                      {intl.get(`testtips.trades_faq_arr.${index}.title`)}
+                    </div>
+                  } key={index}>
+                    <div className="fs13 lh25 color-black-2 zb-b-t pt10 ">
+                      {intl.getHTML(`testtips.trades_faq_arr.${index}.content`)}
+                    </div>
+                  </Collapse.Panel>
+                )}
+              </Collapse>
             }
           </div>
         </div>
+        }
         <div className="mb50"></div>
       </div>
     </Layout>

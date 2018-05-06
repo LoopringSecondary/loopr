@@ -33,9 +33,6 @@ const Logged = ()=>{
         <Route path={`/wallet`} component={Pages.Wallet} />
         <Route path="/trade/:pair" component={Pages.Trade} />
         <Route path="/trade"  exact component={Pages.Trade} />
-        <Route path="/trade2/:pair"  component={Pages.TradeNew} />
-        <Route path="/trade2" exact  component={Pages.TradeNew} />
-
       </Switch>
     )
   }else{
@@ -63,7 +60,6 @@ export default class PageRoutes extends React.Component {
             <Route path="/auth" render={UnLogged} />
             <Route path="/wallet" render={Logged} />
             <Route path="/trade" render={Logged} />
-            <Route path="/trade2" render={Logged} />
             {RingsRoutes}
           </Switch>
           <TokenModals />
