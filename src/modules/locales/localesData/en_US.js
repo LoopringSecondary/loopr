@@ -446,7 +446,7 @@ I got this great idea:
   mnemonic:{
     default_address:'Default Address',
     unlock_default_address:'Unlock Default Address',
-    choose_other_address:'Selec Othter Address',
+    choose_other_address:'Select Othter Address',
   },
   wallet: {
     bind_tip: "Airdrop Binding",
