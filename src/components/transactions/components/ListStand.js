@@ -177,6 +177,7 @@ class ListBlock extends React.Component {
       const priceToken = prices.getTokenBySymbol(item.symbol)
       item.guzhi = tokenFm.getAmountValue(origin.value, priceToken.price)
       item.value = tokenFm.getAmount(origin.value)
+      const gas = 0 // TODO
       let change
       let icon
       let title
@@ -292,38 +293,25 @@ class ListBlock extends React.Component {
             <div className="col pr10">
               {caption}
             </div>
-            {
-              item.type !== 'approve' && item.type !== "cancel_order" && item.type !== "cutoff_trading_pair"
-              && item.type !== "cutoff" &&
-              <div className="col-auto mr5">
-                {change === '+' &&
-                <div className="text-right">
+            <div className="col-auto mr5">
+              <div className="text-right">
+                {
+                  item.type !== 'approve' && item.type !== "cancel_order" && item.type !== "cutoff_trading_pair"
+                  && item.type !== "cutoff" &&
                   <div className="fs18 color-green-500 font-weight-bold">
-                    + {item.value} {item.symbol}
-                  </div>
-                  {
-                    false &&
-                    <div className="fs14 color-green-500">
-                      + <CurrencyContainer/>{item.guzhi}
-                    </div>
-                  }
+                  {change} {item.value} {item.symbol}
                 </div>
                 }
-                {change === '-' &&
-                <div className="text-right">
-                  <div className="fs18 color-red-500 font-weight-bold">
-                    - {item.value} {item.symbol}
-                  </div>
-                  {
-                    false &&
-                    <div className="fs14 color-red-500">
-                      - <CurrencyContainer/> {item.guzhi}
-                    </div>
-                  }
+                <div className="fs12 color-black-3">
+                    {gas} ETH Gas
+                    <Tooltip title="买卖产生的油费由矿工支付">
+                      <span className="bg-grey-50 color-black-3 ml5 fs10" style={{padding:'3px 6px'}}>
+                        <Icon type="question-circle-o" />&nbsp;矿工
+                      </span>
+                    </Tooltip>
                 </div>
-                }
               </div>
-            }
+            </div>
           </div>
         </div>
       )

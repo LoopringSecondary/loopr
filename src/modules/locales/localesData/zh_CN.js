@@ -41,7 +41,7 @@ export default {
   trades_faq:'交易FAQ',
   trades_faq_arr:[
     {
-        category:'费用问题',
+        category:'费用',
         title:'交易过程中哪些操作需要花钱？哪些操作不需要花钱？',
         content:`
             下单时：无需支付任何费用，也不冻结任何资产
@@ -72,7 +72,7 @@ export default {
         `,
     },
     {
-        category:'费用问题',
+        category:'费用',
         title:'为什么我的订单成交价比我的卖价更高？或者比我的买价更低？',
         content:`
             B用户想要以 $1 价格出售LRC
@@ -93,14 +93,14 @@ export default {
         `,
     },
     {
-        category:'费用问题',
+        category:'费用',
         title:'怎么更合理的设置交易撮合费(LRC)？',
         content:`
             即将发布
         `,
     },
     {
-        category:'速度问题',
+        category:'速度',
         title:'为什么我的订单一直没有成交或者成交速度很慢？',
         content:`
             可能原因1：您的订单没有与之价格匹配或者接近的买单/卖单
@@ -111,7 +111,7 @@ export default {
         `,
     },
     {
-        category:'速度问题',
+        category:'速度',
         title:'从下单到交易成交需要多长时间？',
         content:`
             从下单到成交的时间由两部分组成：
@@ -124,7 +124,7 @@ export default {
         `,
     },
     {
-        category:'速度问题',
+        category:'速度',
         title:'如何比其他人更快地抢到订单？',
         content:`
             矿工优先选择撮合收益最大的订单进行撮合交易。
@@ -137,7 +137,7 @@ export default {
         `,
     },
     {
-        category:'深度问题',
+        category:'深度',
         title:'为什么我的订单没有出现在深度里？',
         content:`
             可能原因1：您的订单和其他用户的订单价格相同，进行了深度合并。
@@ -150,14 +150,14 @@ export default {
         `,
     },
     {
-        category:'深度问题',
+        category:'深度',
         title:'为什么交易深度中出现买价比卖价更高的订单？',
         content:`
             即将发布
         `,
     },
     {
-        category:'资产问题',
+        category:'资产',
         title:'交易后我的资产如何提取？',
         content:`
             路印协议不托管你的任何数字资产，交易前无需充值，交易后无需提现。
