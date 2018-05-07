@@ -95,14 +95,14 @@ export default class DetermineWallet extends React.Component {
               <div className="zb-b-b fs16 color-primary-1 p10 zb-b-b bg-grey-50">
                 1. 选择路径
               </div>
-              <Radio.Group className="p10" onChange={()=>{}} value={"m/44'/60'/0'/0"}>
+              <Radio.Group className="" onChange={()=>{}} value={"m/44'/60'/0'/0"}>
                 {paths.filter(path => this.isSupported(path.path)).map((item,index)=>
-                  <Radio className="d-block pt5 pb5" value={item.path} key={index}>
+                  <Radio className="d-block zb-b-b p10" value={item.path} key={index}>
                     <span className="color-black-2 fs14 lh20">{item.path}</span>
                     <span className="color-black-3 fs12 ml10">{item.wallet.join(", ")}</span>
                   </Radio>
                 )}
-                <Radio className="d-block pt5 pb5 lh30" value={"custom"}>
+                <Radio className="d-block p10" value={"custom"}>
                     {intl.get('wallet.custom_path')}
                     <Input
                       className="d-inline ml10"
