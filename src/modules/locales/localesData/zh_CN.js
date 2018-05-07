@@ -673,6 +673,7 @@ export default {
     connect_trezor: "连接您的Trezor钱包",
     paste_mnemonic: "请粘贴您的助记词",
     select_wallet: "请选择您的钱包类型",
+    select_path:"选择路径",
     optional: "可选",
     mnemonic_tip: "请输入合法的助记词",
     paste_privatekey: "请粘贴您的私钥",
