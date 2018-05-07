@@ -224,7 +224,7 @@ I got this great idea:
     margin_split:"Margin Split",
     fill_buy:"Buy",
     fill_sell:"Sell",
-    miner_pay:"Miner paid for "
+    miner_pay:"Miner paid gas cost for matching orders."
   },
   orders: {
     order: "Order",
