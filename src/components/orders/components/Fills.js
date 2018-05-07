@@ -84,6 +84,10 @@ export default class Fills extends React.Component {
         const fmLrc = new fm({symbol: 'LRC'});
         return <span> {uiFormatter.getFormatNum(fmLrc.getAmount(item.lrcFee))} {'LRC'} </span>
       },
+      lrcReward:(value, item, index) => {
+        const fmLrc = new fm({symbol: 'LRC'});
+        return <span> {uiFormatter.getFormatNum(fmLrc.getAmount(item.lrcReward))} {'LRC'} </span>
+      },
       time: (value, item, index) => {
         return uiFormatter.getFormatTime(toNumber(item.createTime) * 1e3)
       },
