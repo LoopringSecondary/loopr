@@ -174,7 +174,7 @@ class UnlockByMnemonic extends React.Component {
           className="mb15"
         />
         <Form layout="horizontal" className="">
-          <Form.Item className="mb15" label={intl.get('wallet.select_wallet')}>
+          <Form.Item className="mb5" label={intl.get('wallet.select_wallet')}>
             {form.getFieldDecorator('wallet', {
               initialValue: '0',
               rules: [{
@@ -188,7 +188,7 @@ class UnlockByMnemonic extends React.Component {
             )}
           </Form.Item>
 
-          <Form.Item className="mb15" label={intl.get('wallet.paste_mnemonic')}>
+          <Form.Item className="mb5" label={intl.get('wallet.paste_mnemonic')}>
             {form.getFieldDecorator('mnemonic', {
               initialValue: '',
               rules: [{
@@ -197,10 +197,10 @@ class UnlockByMnemonic extends React.Component {
                 validator: (rule, value, cb) => isValidateMnemonic(value) ? cb() : cb(true)
               }]
             })(
-              <Input.TextArea size="large" autosize={{minRows: 3, maxRows: 6}} onChange={this.handleMnemonicChange}/>
+              <Input.TextArea size="large" autosize={{minRows: 2, maxRows: 6}} onChange={this.handleMnemonicChange}/>
             )}
           </Form.Item>
-          {wallet.name === 'Loopring Wallet' && <Form.Item className="mb25" label={intl.get('wallet.password')}>
+          {wallet.name === 'Loopring Wallet' && <Form.Item className="mb5" label={intl.get('wallet.password')}>
             {form.getFieldDecorator('password', {
               initialValue: '',
               rules: [{
@@ -212,7 +212,7 @@ class UnlockByMnemonic extends React.Component {
             )}
           </Form.Item>}
 
-          <Form.Item className="mb15" label={intl.get('wallet.compute_address')}>
+          <Form.Item className="mb15" label={intl.get('mnemonic.default_address')}>
             {form.getFieldDecorator('address', {
               initialValue: '',
               rules: []
@@ -220,27 +220,15 @@ class UnlockByMnemonic extends React.Component {
               <Input size="large" disabled/>
             )}
           </Form.Item>
-
-          {address && <Form.Item className="mb15" label='是不是您的地址'>
-            {form.getFieldDecorator('checked', {
-              initialValue: true,
-              rules: []
-            })(
-              <RadioGroup >
-                <Radio value={true}>{intl.get('global.yes')}</Radio>
-                <Radio value={false}>{intl.get('global.no')}</Radio>
-              </RadioGroup>
-            )}
-          </Form.Item>}
         </Form>
 
         <Button type="primary" className="d-block w-100 mb10" size="large"
                 disabled={!address}
-                onClick={this.confirm}>{this.props.form.getFieldValue('checked') ? intl.get('wallet.unlock'): intl.get('wallet.compute_more_address')}</Button>
+                onClick={this.confirm}>{intl.get('mnemonic.unlock_default_address')}</Button>
 
-        {false &&  <Button  className="d-block w-100" size="large"
+        <Button  className="d-block w-100" size="large"
                 disabled={!address}
-                onClick={this.showAddresses}>{intl.get('wallet.find_more_address',{address})}</Button>}
+                onClick={this.showAddresses}>{intl.get('mnemonic.choose_other_address')}</Button>
       </div>
     )
   }
