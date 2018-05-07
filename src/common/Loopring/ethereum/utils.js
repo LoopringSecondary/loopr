@@ -92,6 +92,23 @@ export async function getTransactionByhash(hash) {
   })
 }
 
+export async function getTransactionRecipt(hash) {
+  try {
+    validator.validate({value: hash, type: "ETH_DATA"})
+  } catch (e) {
+    throw new Error('Invalid Transaction Hash')
+  }
+  const params = [hash];
+  const body = {};
+  body.method = 'eth_getTransactionReceipt';
+  body.params = params;
+  return request({
+    method: 'post',
+    body,
+  })
+}
+
+
 export function generateBindAddressTx({projectId, address, gasPrice, gasLimit, nonce, chainId}) {
 
   const tx = {};
