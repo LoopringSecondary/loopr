@@ -588,6 +588,11 @@ export default {
     eth_adress_null:'请解锁钱包后在重试',
     neo_address_null:'请输入您想绑定的合法的NEO地址'
   },
+  mnemonic:{
+    default_address:'当前默认地址',
+    unlock_default_address:'解锁默认地址',
+    choose_other_address:'选择其他地址',
+  },
   wallet: {
     bind_tip: "绑定空投接收地址",
     cu_bind_address: "当前绑定的地址",
