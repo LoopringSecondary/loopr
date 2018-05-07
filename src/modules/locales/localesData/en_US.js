@@ -195,7 +195,7 @@ I got this great idea:
     type_transfer_title: "Sent {symbol}",
     type_receive_title: "Received {symbol}",
     type_buy_title:"Buy {symbol}",
-    type_sell_title:"Sell {symbol",
+    type_sell_title:"Sell {symbol}",
     cancel_order: 'Canceled Order',
     cancel_all: 'Canceled All Orders',
     cancel_pair_order: "Canceled All {pair} Orders",
@@ -220,7 +220,11 @@ I got this great idea:
     resend_failed:"Resent Failed",
     can_not_resend:"Can't not resend",
     not_detail:"Can't get detail information of this tx.",
-    resend_title:"The tx has not been confirmed for a long time."
+    resend_title:"The tx has not been confirmed for a long time.",
+    margin_split:"Margin Split",
+    fill_buy:"Buy",
+    fill_sell:"Sell",
+    miner_pay:"Miner paid for "
   },
   orders: {
     order: "Order",

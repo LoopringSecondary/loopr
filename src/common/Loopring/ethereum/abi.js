@@ -1,6 +1,7 @@
 import {soliditySHA3, rawEncode, methodID} from 'ethereumjs-abi';
 import validator from '../common/validator';
 import {sha3, ecsign, toBuffer, ecrecover, pubToAddress, bufferToHex, addHexPrefix} from 'ethereumjs-util';
+import {toHex} from "../common/formatter";
 
 
 export function solSHA3(types, data) {
@@ -21,10 +22,8 @@ function generateCancelOrderData(signedOrder, amount) {
   amount = amount || (buyNoMoreThanAmountB ? amountB : amountS);
   const orderValues = [amountS, amountB, validSince, validUntil, lrcFee, amount];
   const method = methodID('cancelOrder', ['address[5]', 'uint[6]', 'bool', 'uint8', 'uint8', 'bytes32', 'bytes32']).toString('hex');
-
   const data = rawEncode(['address[5]', 'uint[6]', 'bool', 'uint8', 'uint8', 'bytes32', 'bytes32'], [
     addresses, orderValues, buyNoMoreThanAmountB, marginSplitPercentage, v, r, s]).toString('hex');
-
   return '0x' + method + data;
 }
 

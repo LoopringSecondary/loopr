@@ -336,8 +336,8 @@ export default {
     type_enable_title: "授权 {symbol} 进行撮合交易",
     type_transfer_title: "转出 {symbol}",
     type_receive_title: "接收 {symbol}",
-    type_buy_title:"买 {symbol}",
-    type_sell_title:"卖 {symbol",
+    type_buy_title:"买入 {symbol}",
+    type_sell_title:"卖出 {symbol}",
     cancel_order: '取消订单',
     cancel_all: '取消全部订单',
     cancel_pair_order: "取消{pair}订单",
@@ -362,7 +362,11 @@ export default {
     resend_failed: "重新发送交易失败",
     can_not_resend: "无法发送",
     not_detail: "无法获得该交易的详细信息",
-    resend_title:"该交易长时间未被确认"
+    resend_title:"该交易长时间未被确认",
+    margin_split:"分润",
+    fill_buy:"买入",
+    fill_sell:"卖出",
+    miner_pay:"订单撮合的油费由矿工支付"
   },
   orders: {
     order: "订单",
