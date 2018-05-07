@@ -37,7 +37,7 @@ export default {
   namespace: 'account',
   state: {
     address: unlockedAddress || null,
-    isUnlocked: unlockedAddress ? true : false,
+    isUnlocked: !!unlockedAddress ,
     walletType: unlockedType ? unlockedType : unlockedAddress ? 'Address' : null, //PrivateKey, KeyStore,Mnemonic, MetaMask, Trezor, LedgerHQ
   },
   reducers: {

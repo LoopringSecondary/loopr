@@ -39,8 +39,8 @@ class UnlockByMnemonic extends React.Component {
   };
 
   handlePathChange = (path, callback) => {
-    const {mnemonic, password} = this.state;
-    window.WALLET = new MnemonicUnlockAccount({mnemonic: mnemonic, dpath: path, password: password});
+    const {mnemonic} = this.state;
+    window.WALLET = new MnemonicUnlockAccount({mnemonic: mnemonic, dpath: path});
     callback();
   };
 
@@ -67,14 +67,13 @@ class UnlockByMnemonic extends React.Component {
   };
 
   decrypt = (dpath, mnemonic, password) => {
-    debugger;
     return fromMnemonic(mnemonic, `${dpath}/0`, password).address;
   };
   showAddresses = () => {
     const {pageFrom} = this.props;
-    const {mnemonic, password} = this.state;
+    const {mnemonic} = this.state;
     const path = this.state.wallet.dpath;
-    window.WALLET = new MnemonicUnlockAccount({mnemonic: mnemonic, dpath: path, password: password});
+    window.WALLET = new MnemonicUnlockAccount({mnemonic: mnemonic, dpath: path});
     window.WALLET_UNLOCK_TYPE = 'Mnemonic';
     this.props.modal.showModal({
       id: 'wallet/determineWallet',
@@ -110,13 +109,12 @@ class UnlockByMnemonic extends React.Component {
       } catch (e) {
         message.error(e.message)
       }
-
     }
   };
 
   setWallet = (index) => {
     const {account} = this.props;
-    account.setMnemonic({...this.state, index});
+    account.setMnemonic({index});
     this.setState({
       mnemonic: null,
       isMnemonicValid: false,
@@ -137,22 +135,18 @@ class UnlockByMnemonic extends React.Component {
     const {pageFrom,modal} =  this.props;
     const dpath = wallet.dpath;
     window.WALLET = new MnemonicUnlockAccount({mnemonic, dpath, password: password});
-    this.setWallet(0);
+    this.props.account.setMnemonic({index:0});
     modal.hideModal({id: 'wallet/unlock'});
-    unlockRedirection(pageFrom)
-  };
-
-
-  confirm = ()=> {
-    const checked = this.props.form.getFieldValue('checked')
-
-    if(checked){
-      this.unlockWallet();
-    }else{
-      this.showAddresses()
+    Notification.open({
+      message: intl.get('wallet.unlocked_notification_title'),
+      description: intl.get('wallet.unlocked_notification_content'),
+      type: 'success'
+    });
+    unlockRedirection(pageFrom);
+    if(modal.targetModalData) {
+      modal.showModal({...modal.targetModalData})
     }
   };
-
 
   render() {
     const {form} = this.props;
@@ -224,7 +218,7 @@ class UnlockByMnemonic extends React.Component {
 
         <Button type="primary" className="d-block w-100 mb10" size="large"
                 disabled={!address}
-                onClick={this.confirm}>{intl.get('mnemonic.unlock_default_address')}</Button>
+                onClick={this.unlockWallet}>{intl.get('mnemonic.unlock_default_address')}</Button>
 
         <Button  className="d-block w-100" size="large"
                 disabled={!address}

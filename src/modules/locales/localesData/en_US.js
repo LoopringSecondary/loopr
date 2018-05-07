@@ -528,6 +528,7 @@ I got this great idea:
     connect_trezor: "Connect To Trezor",
     paste_mnemonic: "Paste Your Mnemonic Here",
     select_wallet: "Select Your Wallet Type",
+    select_path:"Select  Dpath ",
     optional: "Optional",
     mnemonic_tip: "Please input valid phrase",
     paste_privatekey: "Paste Your PrivateKey Here",

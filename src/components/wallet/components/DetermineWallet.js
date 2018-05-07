@@ -41,7 +41,8 @@ export default class DetermineWallet extends React.Component {
     this.setState({pageNum: pageNum - 1, addresses})
   };
 
-  handlePathChange = (path) => {
+  handlePathChange = (e) => {
+    const path = e.target.value;
     const {modal} = this.props;
     const {handlePathChange} = modal;
     handlePathChange(path, () => {
@@ -52,7 +53,13 @@ export default class DetermineWallet extends React.Component {
 
   };
   onCustomPathChange = (e) => {
-    this.setState({customPath: e.target.value})
+    const {selectedPath,customPath} =  this.state;
+    if(selectedPath === customPath){
+      this.setState({customPath: e.target.value,selectedPath:e.target.value});
+      this.handlePathChange(e)
+    }else{
+      this.setState({customPath: e.target.value});
+    }
   };
 
   isSupported = (path) => {
@@ -62,8 +69,6 @@ export default class DetermineWallet extends React.Component {
     }
     return true;
   };
-
-
 
   getBgcolor = (path) =>  {
     const {selectedPath} = this.state;
@@ -80,7 +85,7 @@ export default class DetermineWallet extends React.Component {
     setWallet(pageNum * pageSize + index);
     modal.hideModal({id: 'wallet/determineWallet'});
     modal.hideModal({id: 'wallet/unlock'});
-    unlockRedirection(pageFrom)
+    unlockRedirection(pageFrom);
     if(modal.targetModalData) {
       modal.showModal({...modal.targetModalData})
     }
@@ -93,28 +98,26 @@ export default class DetermineWallet extends React.Component {
           <div className='bg-grey-50'>
             <div className="bg-white zb-b">
               <div className="zb-b-b fs16 color-primary-1 p10 zb-b-b bg-grey-50">
-                1. 选择路径
+                1. {intl.get('wallet.select_path')}
               </div>
-              <Radio.Group className="" onChange={()=>{}} value={"m/44'/60'/0'/0"}>
+              <Radio.Group className="" onChange={this.handlePathChange} value={selectedPath}>
                 {paths.filter(path => this.isSupported(path.path)).map((item,index)=>
                   <Radio className="d-block zb-b-b p10" value={item.path} key={index}>
                     <span className="color-black-2 fs14 lh20">{item.path}</span>
                     <span className="color-black-3 fs12 ml10">{item.wallet.join(", ")}</span>
                   </Radio>
                 )}
-                <Radio className="d-block p10" value={"custom"}>
+                <Radio className="d-block p10" value={customPath}>
                     {intl.get('wallet.custom_path')}
                     <Input
                       className="d-inline ml10"
                       style={{width:'200px'}}
-                      addonAfter={<Icon type="caret-right" onClick={this.handlePathChange.bind(this, this.state.customPath)}/>}
                       value={customPath} onChange={this.onCustomPathChange}
                     />
                 </Radio>
               </Radio.Group>
             </div>
-            {
-              false &&
+            {false &&
               <List
                 grid={{column: 12}}
                 dataSource={paths.filter(path => this.isSupported(path.path))}
@@ -130,14 +133,12 @@ export default class DetermineWallet extends React.Component {
                           {item.path}
                         </div>
                         <div className="fs2 color-black-3">
-                          {
-                            item.wallet.join(", ").length <= 40 &&
+                          {item.wallet.join(", ").length <= 40 &&
                             <div className="text-nowrap text-truncate">
                               {item.wallet.join(", ")}
                             </div>
                           }
-                          {
-                            item.wallet.join(", ").length > 40 &&
+                          {item.wallet.join(", ").length > 40 &&
                             <Tooltip title={item.wallet.join(", ")}>
                               <div className="text-truncate">
                                 {item.wallet.join(", ")}
@@ -146,15 +147,12 @@ export default class DetermineWallet extends React.Component {
                           }
                         </div>
                       </div>
-
                   </div>
                 )}
               />
             }
-
           </div>
           <div className={`col-6 mb10 ${selectedPath === customPath && 'bg-blue-100 border-blue-200 border' }`}>
-
           </div>
           <div className='mb10 zb-b'>
             <div className="fs2 color-primary-1 p10 zb-b-b bg-grey-50">2. {intl.get('wallet.select_address')}</div>
