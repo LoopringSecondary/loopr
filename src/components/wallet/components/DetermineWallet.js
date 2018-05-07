@@ -92,7 +92,7 @@ export default class DetermineWallet extends React.Component {
       <Card title={<div className="fs1 color-black-1">{intl.get('wallet.select_account')}</div>}>
           <div className='bg-grey-50'>
             <div className="bg-white zb-b">
-              <div className="zb-b-b fs16 color-black-1 p10">
+              <div className="zb-b-b fs16 color-primary-1 p10 zb-b-b bg-grey-50">
                 1. 选择路径
               </div>
               <Radio.Group className="p10" onChange={()=>{}} value={"m/44'/60'/0'/0"}>
@@ -102,15 +102,14 @@ export default class DetermineWallet extends React.Component {
                     <span className="color-black-3 fs12 ml10">{item.wallet.join(", ")}</span>
                   </Radio>
                 )}
-                <Radio className="d-block pt5 pb5" value={"custom"}>
-                    <div className="color-black-2 fs14 lh20">
-                      {intl.get('wallet.custom_path')}
-                      <Input
-                        className="d-inline"
-                        addonAfter={<Icon type="caret-right" onClick={this.handlePathChange.bind(this, this.state.customPath)}/>}
-                        value={customPath} onChange={this.onCustomPathChange}/>
-                    </div>
-
+                <Radio className="d-block pt5 pb5 lh30" value={"custom"}>
+                    {intl.get('wallet.custom_path')}
+                    <Input
+                      className="d-inline ml10"
+                      style={{width:'200px'}}
+                      addonAfter={<Icon type="caret-right" onClick={this.handlePathChange.bind(this, this.state.customPath)}/>}
+                      value={customPath} onChange={this.onCustomPathChange}
+                    />
                 </Radio>
               </Radio.Group>
             </div>
@@ -158,7 +157,7 @@ export default class DetermineWallet extends React.Component {
 
           </div>
           <div className='mb10 zb-b'>
-            <div className="fs2 color-black-1 p10 zb-b-b">2. {intl.get('wallet.select_address')}</div>
+            <div className="fs2 color-primary-1 p10 zb-b-b bg-grey-50">2. {intl.get('wallet.select_address')}</div>
             <div className="pl10 pr10">
               {addresses.length > 0 && addresses.map((address, index) => {
                 return (
