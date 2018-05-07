@@ -212,7 +212,7 @@ class UnlockByMnemonic extends React.Component {
             )}
           </Form.Item>}
 
-          <Form.Item className="mb15" label={intl.get('mnemonic.current_address')}>
+          <Form.Item className="mb15" label={intl.get('mnemonic.default_address')}>
             {form.getFieldDecorator('address', {
               initialValue: '',
               rules: []
@@ -224,7 +224,7 @@ class UnlockByMnemonic extends React.Component {
 
         <Button type="primary" className="d-block w-100 mb10" size="large"
                 disabled={!address}
-                onClick={this.confirm}>{intl.get('mnemonic.unlock_current_address')}</Button>
+                onClick={this.confirm}>{intl.get('mnemonic.unlock_default_address')}</Button>
 
         <Button  className="d-block w-100" size="large"
                 disabled={!address}

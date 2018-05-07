@@ -589,8 +589,8 @@ export default {
     neo_address_null:'请输入您想绑定的合法的NEO地址'
   },
   mnemonic:{
-    current_address:'当前地址',
-    unlock_current_address:'解锁当前地址',
+    default_address:'当前默认地址',
+    unlock_default_address:'解锁默认地址',
     choose_other_address:'选择其他地址',
   },
   wallet: {

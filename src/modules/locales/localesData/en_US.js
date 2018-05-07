@@ -443,6 +443,11 @@ I got this great idea:
     eth_adress_null:'Please unlocked your wallet and try again',
     neo_address_null:'Please input your valid NEO address to bind'
   },
+  mnemonic:{
+    default_address:'Default Address',
+    unlock_default_address:'Unlock Default Address',
+    choose_other_address:'Selec Othter Address',
+  },
   wallet: {
     bind_tip: "Airdrop Binding",
     cu_bind_address: "Current Bound Address",
