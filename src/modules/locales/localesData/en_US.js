@@ -447,6 +447,11 @@ I got this great idea:
     eth_adress_null:'Please unlocked your wallet and try again',
     neo_address_null:'Please input your valid NEO address to bind'
   },
+  mnemonic:{
+    default_address:'Default Address',
+    unlock_default_address:'Unlock Default Address',
+    choose_other_address:'Select Othter Address',
+  },
   wallet: {
     bind_tip: "Airdrop Binding",
     cu_bind_address: "Current Bound Address",
@@ -527,6 +532,7 @@ I got this great idea:
     connect_trezor: "Connect To Trezor",
     paste_mnemonic: "Paste Your Mnemonic Here",
     select_wallet: "Select Your Wallet Type",
+    select_path:"Select  Dpath ",
     optional: "Optional",
     mnemonic_tip: "Please input valid phrase",
     paste_privatekey: "Paste Your PrivateKey Here",

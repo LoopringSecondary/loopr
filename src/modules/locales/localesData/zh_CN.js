@@ -592,6 +592,11 @@ export default {
     eth_adress_null:'请解锁钱包后在重试',
     neo_address_null:'请输入您想绑定的合法的NEO地址'
   },
+  mnemonic:{
+    default_address:'当前默认地址',
+    unlock_default_address:'解锁默认地址',
+    choose_other_address:'选择其他地址',
+  },
   wallet: {
     bind_tip: "绑定空投接收地址",
     cu_bind_address: "当前绑定的地址",
@@ -672,6 +677,7 @@ export default {
     connect_trezor: "连接您的Trezor钱包",
     paste_mnemonic: "请粘贴您的助记词",
     select_wallet: "请选择您的钱包类型",
+    select_path:"选择路径",
     optional: "可选",
     mnemonic_tip: "请输入合法的助记词",
     paste_privatekey: "请粘贴您的私钥",
