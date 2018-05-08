@@ -42,7 +42,7 @@ const ethereumSchemas = {
     data: {
       type: 'string',
       required: true,
-      pattern: /^0x[0-9a-fA-F]{8}([0-9a-fA-F]{64})*$ |^(0x)*$/g
+      pattern: /^0x[0-9a-fA-F]*$/g
     }
   },
   TX: {
