@@ -41,8 +41,7 @@ const schema = [
     name: 'amount',
     formatter: (item) => {
       const side = item.originalOrder.side.toLowerCase();
-      let token =  side === 'buy' ? window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB) : window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS);
-      token = token || {digits: 18, precision: 6};
+      const token =  side === 'buy' ? window.CONFIG.getTokenBySymbol(item.originalOrder.tokenB) : window.CONFIG.getTokenBySymbol(item.originalOrder.tokenS);
       const amount = side === 'buy' ? item.originalOrder.amountB : item.originalOrder.amountS;
       const symbol = side === 'buy' ? item.originalOrder.tokenB : item.originalOrder.tokenS;
       return window.uiFormatter.getFormatNum(toNumber((toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision))) + ' ' + symbol
@@ -69,8 +68,7 @@ const schema = [
       const tokenB = item.originalOrder.tokenB;
       const amountS = item.originalOrder.amountS;
       const amountB = item.originalOrder.amountB;
-      let token = side === 'buy' ? window.CONFIG.getTokenBySymbol(tokenS): window.CONFIG.getTokenBySymbol(tokenB);
-      token = token || {digits: 18, precision: 6};
+      const token = side === 'buy' ? window.CONFIG.getTokenBySymbol(tokenS): window.CONFIG.getTokenBySymbol(tokenB);
       const amount = side === 'buy' ? amountS : amountB;
       const symbol = side === 'buy' ? tokenS : tokenB;
       const total = (toNumber(amount) / Number('1e' + token.digits)).toFixed(token.precision)
@@ -81,8 +79,7 @@ const schema = [
     title: () => intl.get('orders.LrcFee'),
     name: 'lrcFee',
     formatter: (item) => {
-      let token = window.CONFIG.getTokenBySymbol('LRC');
-      token = token || {digits: 18, precision: 6};
+      const token = window.CONFIG.getTokenBySymbol('LRC');
       const total = (toNumber(item.originalOrder.lrcFee) / Number('1e' + token.digits)).toFixed(token.precision);
       return window.uiFormatter.getFormatNum(toNumber(total))  + ' LRC'
     }

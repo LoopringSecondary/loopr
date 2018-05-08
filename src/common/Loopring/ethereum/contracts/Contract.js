@@ -18,7 +18,7 @@ export default class Contract {
 
   /**
    * @description Encodes inputs data according to  ethereum abi
-   * @param method string can be full method or just method name , examples: 'balanceOf' or balanceOf(address)
+   * @param method string can be full method or just method name, examples: 'balanceOf' or balanceOf(address)
    * @param inputs array
    * @returns {*|string}
    */
@@ -33,7 +33,7 @@ export default class Contract {
 
   /**
    * @description Decodes outputs
-   * @param method method string can be full method or just method name , examples: 'balanceOf' or balanceOf(address)
+   * @param method string can be full method or just method name, examples: 'balanceOf' or balanceOf(address)
    * @param outputs string
    * @returns {*}
    */

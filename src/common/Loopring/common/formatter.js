@@ -33,7 +33,6 @@ export function toHex(mixed) {
   if (typeof mixed === 'string') {
     const regex = new RegExp(/^0x[0-9a-fA-F]*$/);
     return regex.test(mixed) ? mixed : addHexPrefix(toBuffer(String).toString('hex'))
-
   }
   throw new Error('Unsupported type')
 }
@@ -49,7 +48,7 @@ export function toNumber(mixed) {
   }
 
   if (mixed instanceof BigNumber || mixed instanceof BN) {
-   return mixed.toNumber()
+    return mixed.toNumber()
   }
 
   if (typeof mixed === 'string') {
@@ -66,7 +65,7 @@ export function toNumber(mixed) {
  */
 export function toBig(mixed) {
 
-  if(mixed instanceof BigNumber){
+  if (mixed instanceof BigNumber) {
     return mixed;
   }
 
@@ -83,6 +82,7 @@ export function toBig(mixed) {
   throw new Error('Unsupported type')
 
 }
+
 
 /**
  *
@@ -117,11 +117,11 @@ export function formatKey(mixed) {
  */
 export function formatAddress(mixed) {
   if (mixed instanceof Buffer) {
-    return '0x' + mixed.toString('hex')
+    return ethUtil.toChecksumAddress('0x' + mixed.toString('hex'))
   }
 
   if (typeof mixed === 'string') {
-    return mixed.startsWith("0x") ? mixed : "0x" + mixed
+    return ethUtil.toChecksumAddress(mixed.startsWith("0x") ? mixed : "0x" + mixed)
   }
   throw new Error('Unsupported type')
 
@@ -134,8 +134,8 @@ export function formatAddress(mixed) {
  */
 export function addHexPrefix(input) {
 
-  if(typeof input === 'string'){
-   return input.startsWith('0x') ? input : "0x" + input;
+  if (typeof input === 'string') {
+    return input.startsWith('0x') ? input : "0x" + input;
   }
   throw new Error('Unsupported type')
 }
@@ -146,7 +146,7 @@ export function addHexPrefix(input) {
  * @returns {string}
  */
 export function clearHexPrefix(input) {
-  if(typeof input === 'string'){
+  if (typeof input === 'string') {
     return input.startsWith('0x') ? input.slice(2) : input;
   }
   throw new Error('Unsupported type')
@@ -160,43 +160,44 @@ export function clearHexPrefix(input) {
 export function padLeftEven(hex) {
   return hex.length % 2 !== 0 ? `0${hex}` : hex;
 }
+
 /**
  * Returns symbol of a given kind of currency
  * @param settingsCurrency
  * @returns {*}
  */
 export function getDisplaySymbol(settingsCurrency) {
-  switch(settingsCurrency) {
-    case 'CNY': return '￥';
-    case 'USD': return '$';
-    default: return ''
+  switch (settingsCurrency) {
+    case 'CNY':
+      return '￥';
+    case 'USD':
+      return '$';
+    default:
+      return ''
   }
 }
 
 /**
  * Returns number in string with a given precision
- * @param number number | BigNumber | BN
+ * @param number number | BigNumber
  * @param precision number
+ * @param ceil bool  round up
  * @returns {string}
  */
-export function toFixed(number, precision) {
-  if(number >0 && precision >0) {
-    const numberArr = number.toFixed(16).toString().split('.');
-    if(numberArr.length === 2) {
-      const decimal = numberArr[1].substring(0, Math.min(numberArr[1].length, precision));
-      if(toNumber(decimal) === 0) {
-        if(toNumber(numberArr[0]) === 0) {
-          return "0."+'0'.repeat(precision)
-        } else {
-          return numberArr[0]+"."+'0'.repeat(precision)
-        }
-      } else {
-        return numberArr[0]+"."+decimal
-      }
-    }
-  } else {
-    return '0'
+export function toFixed(number, precision, ceil) {
+  precision = precision || 0;
+  ceil = ceil || true;
+  if (number instanceof BigNumber) {
+    const rm = ceil ? 0 : 1;
+    return number.toFixed(precision, rm)
   }
+
+  if (typeof number === 'number') {
+    return ceil ? (Math.ceil(number * Number('1e' + precision)) / Number('1e' + precision)).toFixed(precision) :
+      (Math.floor(number * Number('1e' + precision)) / Number('1e' + precision)).toFixed(precision);
+  }
+
+  throw new Error('Unsupported type')
 }
 
 
