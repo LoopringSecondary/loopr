@@ -10,7 +10,7 @@ export default {
       title,description,type,theme,actions,size,
     }
     if(type==='error'){
-      rest.duration = 0
+      rest.duration = 9
     }
     notification.success({
       ...rest,

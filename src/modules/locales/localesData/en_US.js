@@ -14,6 +14,7 @@ export default {
     total:'Total',
     time:'Time',
     custom:'Customize',
+    gas:'Gas',
   },
   userguide:{
     title:'User Guide',
