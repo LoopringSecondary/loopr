@@ -41,16 +41,18 @@ class Transfer extends React.Component {
     }
     this.setState({sliderGasPrice:settings.trading.gasPrice, selectedGasPrice:settings.trading.gasPrice, selectedGasLimit:fm.toNumber(GasLimit)})
     getGasPrice().then(res=>{
-      const gasPrice = fm.toBig(res.result).div(1e9).toNumber()
-      if(gasPrice >= 1 && gasPrice <= 99) {
-        this.setState({
-          gasMark: {
-            1: intl.get('token.slow'),
-            [gasPrice]: '',
-            99: intl.get('token.fast')
-          },
-          estimateGasPrice:gasPrice,
-        })
+      if(res.result) {
+        const gasPrice = fm.toBig(res.result).div(1e9).toNumber()
+        if(gasPrice >= 1 && gasPrice <= 99) {
+          this.setState({
+            gasMark: {
+              1: intl.get('token.slow'),
+              [gasPrice]: '',
+              99: intl.get('token.fast')
+            },
+            estimateGasPrice:gasPrice,
+          })
+        }
       }
     })
     if(modal.item) {
@@ -254,17 +256,17 @@ class Transfer extends React.Component {
     }
 
     function validateAmount(value) {
-      // let tokenSymbol = this.state.tokenSymbol
-      // if(this.state.showTokenSelector) {
-      //   tokenSymbol = form.getFieldValue("token")
-      // }
-      // if(tokenSymbol && isNumber(value)) {
-      //   const token = getToken(tokenSymbol)
-      //   return value && value <= token.balance
-      // } else {
-      //   return false
-      // }
-      return isNumber(value) && value >=0
+      let tokenSymbol = this.state.tokenSymbol
+      if(this.state.showTokenSelector) {
+        tokenSymbol = form.getFieldValue("token")
+      }
+      if(tokenSymbol && isNumber(value)) {
+        const token = getToken(tokenSymbol)
+        const v = fm.toBig(value)
+        return v.greaterThan(fm.toBig('0')) && !v.greaterThan(token.balance)
+      } else {
+        return false
+      }
     }
 
     function amountFocus() {
