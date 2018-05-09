@@ -858,7 +858,7 @@ class TradeForm extends React.Component {
             </div>
             <Form.Item className="mb15" label={null} colon={false} extra={
               <div>
-                <div className="fs10" style={{marginBottom:"-10px"}}>{amountSlider}</div>
+                <div className="" style={{marginBottom:"-10px"}}>{amountSlider}</div>
               </div>
             }>
               {form.getFieldDecorator('amount', {
