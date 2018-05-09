@@ -190,6 +190,8 @@ I got this great idea:
     type_others: 'Others',
     type_lrc_fee: 'LRC Fee',
     type_lrc_reward: 'LRC Reward',
+    type_sell: 'Sell',
+    type_buy: 'Buy',
     buy: "Buy",
     type_convert_title_eth: 'Convert to WETH',
     type_convert_title_weth: 'Convert to ETH',
