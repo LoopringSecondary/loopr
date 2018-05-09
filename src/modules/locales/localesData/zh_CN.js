@@ -14,6 +14,7 @@ export default {
     total:'总计',
     time:'时间',
     custom:'自定义',
+    gas:'油费',
   },
   userguide:{
     title:'新手指引',
@@ -331,6 +332,9 @@ export default {
     type_convert_title_eth: 'ETH 转换为 WETH',
     type_convert_title_weth: 'WETH 转换为 ETH',
     type_receive: '收款',
+    type_others: '其他',
+    type_lrc_fee: 'LRC撮合费',
+    type_lrc_reward: 'LRC撮合奖励',
     buy: "购买",
     type_enable: '授权',
     type_enable_title: "授权 {symbol} 进行撮合交易",
@@ -366,7 +370,7 @@ export default {
     margin_split:"分润",
     fill_buy:"买入",
     fill_sell:"卖出",
-    miner_pay:"订单撮合的油费由矿工支付"
+    miner_pay:"矿工支付了这个交易的油费哦"
   },
   orders: {
     order: "订单",

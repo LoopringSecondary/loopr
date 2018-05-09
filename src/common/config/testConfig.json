@@ -213,10 +213,6 @@
     {
       "value": "//13.112.62.24",
       "name": "Test Relay"
-    },
-    {
-      "value": "//13.112.62.24",
-      "name": "Fukun"
     }
   ],
   "supportedTokenRInMarkets":["WETH", "BAR"],
