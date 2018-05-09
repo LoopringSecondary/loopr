@@ -8,7 +8,7 @@ import Notification from 'Loopr/Notification'
 import intl from 'react-intl-universal';
 import {unlockWithMetaMask} from '../../components/common/Unlock'
 
-const unlockedType = window.STORAGE.wallet.getUnlockedType()
+let unlockedType = window.STORAGE.wallet.getUnlockedType()
 let unlockedAddress = window.STORAGE.wallet.getUnlockedAddress()
 if(unlockedType && unlockedType === 'MetaMask' && window.web3) {
   if(window.web3.eth.accounts[0]) {
@@ -23,6 +23,7 @@ if(unlockedType && unlockedType === 'MetaMask' && window.web3) {
   }
 } else {
   if(unlockedAddress) {
+    unlockedType = 'Address'
     window.WALLET_UNLOCK_TYPE = 'Address'
     window.WALLET = new AddressUnlockAccount({address: unlockedAddress})
     Notification.open({
@@ -30,6 +31,8 @@ if(unlockedType && unlockedType === 'MetaMask' && window.web3) {
       message:intl.get('wallet.in_watch_only_mode_title'),
       description:intl.get('wallet.unlock_by_cookie_address_notification')
     });
+  } else {
+    unlockedType = ''
   }
 }
 
@@ -37,7 +40,7 @@ export default {
   namespace: 'account',
   state: {
     address: unlockedAddress || null,
-    isUnlocked: unlockedAddress ? true : false,
+    isUnlocked: !!unlockedAddress ,
     walletType: unlockedType ? unlockedType : unlockedAddress ? 'Address' : null, //PrivateKey, KeyStore,Mnemonic, MetaMask, Trezor, LedgerHQ
   },
   reducers: {

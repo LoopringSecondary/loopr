@@ -36,7 +36,7 @@ export default class MnemonicUnlockAccount extends Account {
   }
   getAddresses(pageSize, pageNum) {
     const addresses = [];
-    if(this.dpath.substr(this.dpath.length-1,1) !== '/'){
+    if(this.dpath && this.dpath.substr(this.dpath.length-1,1) !== '/'){
       for (let i = 0; i < pageSize; i++) {
         addresses.push(fromMnemonic(this.mnemonic, this.dpath.concat(`/${pageSize * pageNum + i}`), this.password).address)
       }

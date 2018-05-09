@@ -82,7 +82,7 @@ function getSupportedMarketsTokenR() {
 function isSupportedMarket(market) {
   if(!market) return false
   const pair = market.split('-')
-  if(pair.length != 2) return false
+  if(pair.length !== 2) return false
   return markets.find(m=> {
     return (m.tokenx === pair[0].toUpperCase() && m.tokeny === pair[1].toUpperCase()) || (m.tokenx === pair[1].toUpperCase() && m.tokeny === pair[0].toUpperCase())
   })
@@ -158,6 +158,10 @@ function getDelegateAddress() {
   return config.delegateAddress;
 }
 
+function getWallets() {
+  return data.wallets
+}
+
 
 export default {
   getTokenBySymbol,
@@ -178,5 +182,6 @@ export default {
   getTokenSupportedMarkets,
   getMarkets,
   getWalletAddress,
-  getDelegateAddress
+  getDelegateAddress,
+  getWallets
 }

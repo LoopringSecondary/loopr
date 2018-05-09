@@ -8,10 +8,13 @@ export default {
     comingsoon: "即将到来",
     wallet: "钱包",
     price:'价格',
+    yes:"是",
+    no:"否",
     amount_label:'数量',
     total:'总计',
     time:'时间',
     custom:'自定义',
+    gas:'油费',
   },
   userguide:{
     title:'新手指引',
@@ -39,7 +42,7 @@ export default {
   trades_faq:'交易FAQ',
   trades_faq_arr:[
     {
-        category:'费用问题',
+        category:'费用',
         title:'交易过程中哪些操作需要花钱？哪些操作不需要花钱？',
         content:`
             下单时：无需支付任何费用，也不冻结任何资产
@@ -70,7 +73,7 @@ export default {
         `,
     },
     {
-        category:'费用问题',
+        category:'费用',
         title:'为什么我的订单成交价比我的卖价更高？或者比我的买价更低？',
         content:`
             B用户想要以 $1 价格出售LRC
@@ -91,14 +94,14 @@ export default {
         `,
     },
     {
-        category:'费用问题',
+        category:'费用',
         title:'怎么更合理的设置交易撮合费(LRC)？',
         content:`
             即将发布
         `,
     },
     {
-        category:'速度问题',
+        category:'速度',
         title:'为什么我的订单一直没有成交或者成交速度很慢？',
         content:`
             可能原因1：您的订单没有与之价格匹配或者接近的买单/卖单
@@ -109,7 +112,7 @@ export default {
         `,
     },
     {
-        category:'速度问题',
+        category:'速度',
         title:'从下单到交易成交需要多长时间？',
         content:`
             从下单到成交的时间由两部分组成：
@@ -122,7 +125,7 @@ export default {
         `,
     },
     {
-        category:'速度问题',
+        category:'速度',
         title:'如何比其他人更快地抢到订单？',
         content:`
             矿工优先选择撮合收益最大的订单进行撮合交易。
@@ -135,7 +138,7 @@ export default {
         `,
     },
     {
-        category:'深度问题',
+        category:'深度',
         title:'为什么我的订单没有出现在深度里？',
         content:`
             可能原因1：您的订单和其他用户的订单价格相同，进行了深度合并。
@@ -148,14 +151,14 @@ export default {
         `,
     },
     {
-        category:'深度问题',
+        category:'深度',
         title:'为什么交易深度中出现买价比卖价更高的订单？',
         content:`
             即将发布
         `,
     },
     {
-        category:'资产问题',
+        category:'资产',
         title:'交易后我的资产如何提取？',
         content:`
             路印协议不托管你的任何数字资产，交易前无需充值，交易后无需提现。
@@ -329,11 +332,16 @@ export default {
     type_convert_title_eth: 'ETH 转换为 WETH',
     type_convert_title_weth: 'WETH 转换为 ETH',
     type_receive: '收款',
+    type_others: '其他',
+    type_lrc_fee: 'LRC撮合费',
+    type_lrc_reward: 'LRC撮合奖励',
     buy: "购买",
     type_enable: '授权',
     type_enable_title: "授权 {symbol} 进行撮合交易",
     type_transfer_title: "转出 {symbol}",
     type_receive_title: "接收 {symbol}",
+    type_buy_title:"买入 {symbol}",
+    type_sell_title:"卖出 {symbol}",
     cancel_order: '取消订单',
     cancel_all: '取消全部订单',
     cancel_pair_order: "取消{pair}订单",
@@ -358,7 +366,11 @@ export default {
     resend_failed: "重新发送交易失败",
     can_not_resend: "无法发送",
     not_detail: "无法获得该交易的详细信息",
-    resend_title:"该交易长时间未被确认"
+    resend_title:"该交易长时间未被确认",
+    margin_split:"分润",
+    fill_buy:"买入",
+    fill_sell:"卖出",
+    miner_pay:"矿工支付了这个交易的油费哦"
   },
   orders: {
     order: "订单",
@@ -584,6 +596,11 @@ export default {
     eth_adress_null:'请解锁钱包后在重试',
     neo_address_null:'请输入您想绑定的合法的NEO地址'
   },
+  mnemonic:{
+    default_address:'当前默认地址',
+    unlock_default_address:'解锁默认地址',
+    choose_other_address:'选择其他地址',
+  },
   wallet: {
     bind_tip: "绑定空投接收地址",
     cu_bind_address: "当前绑定的地址",
@@ -656,6 +673,7 @@ export default {
     select_json: "选择JSON文件",
     unlock: "解锁",
     password: "密码",
+    password_tip:"请输入密码",
     password_strength: "密码强度",
     weak: "弱",
     average: "普通",
@@ -663,6 +681,7 @@ export default {
     connect_trezor: "连接您的Trezor钱包",
     paste_mnemonic: "请粘贴您的助记词",
     select_wallet: "请选择您的钱包类型",
+    select_path:"选择路径",
     optional: "可选",
     mnemonic_tip: "请输入合法的助记词",
     paste_privatekey: "请粘贴您的私钥",
@@ -683,6 +702,10 @@ export default {
     set_password: "设置一个安全的密码",
     parse_failed: "解析Keystore文件失败",
     decrypt_failed: "解码Keystore失败",
+    find_more_address:"{address},不是我的地址，去查找更多地址",
+    confirm_address_unlock:"{address}是我的地址，解锁",
+    compute_address:"计算的地址",
+    compute_more_address:"计算更多地址",
     backup: {
       backup_wallet: "备份钱包",
       keystore: "Keystore",

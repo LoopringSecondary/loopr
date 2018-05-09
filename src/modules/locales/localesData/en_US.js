@@ -14,6 +14,7 @@ export default {
     total:'Total',
     time:'Time',
     custom:'Customize',
+    gas:'Gas',
   },
   userguide:{
     title:'User Guide',
@@ -186,6 +187,9 @@ I got this great idea:
     type: 'Types',
     type_transfer: 'Send',
     type_convert: 'Convert',
+    type_others: 'Others',
+    type_lrc_fee: 'LRC Fee',
+    type_lrc_reward: 'LRC Reward',
     buy: "Buy",
     type_convert_title_eth: 'Convert to WETH',
     type_convert_title_weth: 'Convert to ETH',
@@ -194,6 +198,8 @@ I got this great idea:
     type_enable_title: "Enabled {symbol} to Trade",
     type_transfer_title: "Sent {symbol}",
     type_receive_title: "Received {symbol}",
+    type_buy_title:"Buy {symbol}",
+    type_sell_title:"Sell {symbol}",
     cancel_order: 'Canceled Order',
     cancel_all: 'Canceled All Orders',
     cancel_pair_order: "Canceled All {pair} Orders",
@@ -218,7 +224,11 @@ I got this great idea:
     resend_failed:"Resent Failed",
     can_not_resend:"Can't not resend",
     not_detail:"Can't get detail information of this tx.",
-    resend_title:"The tx has not been confirmed for a long time."
+    resend_title:"The tx has not been confirmed for a long time.",
+    margin_split:"Margin Split",
+    fill_buy:"Buy",
+    fill_sell:"Sell",
+    miner_pay:"Miner paid gas cost for matching orders."
   },
   orders: {
     order: "Order",
@@ -441,6 +451,11 @@ I got this great idea:
     eth_adress_null:'Please unlocked your wallet and try again',
     neo_address_null:'Please input your valid NEO address to bind'
   },
+  mnemonic:{
+    default_address:'Default Address',
+    unlock_default_address:'Unlock Default Address',
+    choose_other_address:'Select Othter Address',
+  },
   wallet: {
     bind_tip: "Airdrop Binding",
     cu_bind_address: "Current Bound Address",
@@ -513,6 +528,7 @@ I got this great idea:
     select_json: "Select JSON File",
     unlock: "Unlock",
     password: "Password",
+    password_tip:"Please input your password",
     password_strength:"Password Strength",
     weak:"weak",
     average:"average",
@@ -520,6 +536,7 @@ I got this great idea:
     connect_trezor: "Connect To Trezor",
     paste_mnemonic: "Paste Your Mnemonic Here",
     select_wallet: "Select Your Wallet Type",
+    select_path:"Select  Dpath ",
     optional: "Optional",
     mnemonic_tip: "Please input valid phrase",
     paste_privatekey: "Paste Your PrivateKey Here",
@@ -540,6 +557,10 @@ I got this great idea:
     set_password: "Set a strong password",
     parse_failed:"Parse Keystore Failed",
     decrypt_failed:"Decrypt Keystore Failed",
+    find_more_address:"{address} isn't my address, look for more addresses",
+    confirm_address_unlock:"{address} is my address, unlock",
+    compute_address:"Computed Address",
+    compute_more_address:"Compute more addresses",
     backup: {
       backup_wallet: "Backup Wallet",
       keystore: "Keystore",

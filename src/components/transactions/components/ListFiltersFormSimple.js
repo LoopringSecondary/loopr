@@ -31,6 +31,9 @@ let FiltersForm = ({
     {label:intl.get(`txs.type_receive`),value:'receive'},
     {label:intl.get(`txs.type_enable`),value:'approve'},
     {label:intl.get(`txs.type_convert`),value:'convert'},
+    {label:intl.get(`txs.type_others`),value:'others'},
+    {label:intl.get(`txs.type_lrc_fee`),value:'lrc_fee'},
+    {label:intl.get(`txs.type_lrc_reward`),value:'lrc_reward'},
   ]
   return (
       <div style={style}>
