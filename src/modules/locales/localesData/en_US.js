@@ -14,6 +14,7 @@ export default {
     total:'Total',
     time:'Time',
     custom:'Customize',
+    gas:'Gas',
   },
   userguide:{
     title:'User Guide',
@@ -186,6 +187,9 @@ I got this great idea:
     type: 'Types',
     type_transfer: 'Send',
     type_convert: 'Convert',
+    type_others: 'Others',
+    type_lrc_fee: 'LRC Fee',
+    type_lrc_reward: 'LRC Reward',
     buy: "Buy",
     type_convert_title_eth: 'Convert to WETH',
     type_convert_title_weth: 'Convert to ETH',

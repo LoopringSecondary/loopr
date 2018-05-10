@@ -197,17 +197,17 @@ class ListBlock extends React.Component {
           break;
         case "sell":
           change = '-';
-          icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
+          icon = <i className="icon icon-loopring icon-loopring-trade fs30"/>
           title = intl.get('txs.type_sell_title', {symbol: item.symbol})
           break;
         case 'buy':
           change = '+';
-          icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
+          icon = <i className="icon icon-loopring icon-loopring-trade fs30"/>
           title = intl.get('txs.type_buy_title', {symbol: item.symbol})
           break;
         case 'lrc_fee':
           change = '-';
-          icon = <i className="icon icon-loopring icon-loopring-receive fs30"/>
+          icon = <i className="icon icon-loopring icon-loopring-transfer fs30"/>
           title = intl.get('orders.LrcFee', {symbol: item.symbol})
           break;
         case 'lrc_reward':
@@ -309,11 +309,11 @@ class ListBlock extends React.Component {
                 {
                   item.type !== 'approve' && item.type !== "cancel_order" && item.type !== "cutoff_trading_pair"
                   && item.type !== "cutoff" &&
-                  <div className="fs18 color-green-500 font-weight-bold">
+                  <div className={`fs18 color-${change==='-' ? 'red':'green'}-500 font-weight-bold`}>
                     {change} {item.value} {item.symbol}
                   </div>
                 }
-                <TxGas item={item}/>
+                <TxGas item={item} change={change}/>
               </div>
             </div>
           </div>
