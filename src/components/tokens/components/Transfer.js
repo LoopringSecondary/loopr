@@ -263,7 +263,7 @@ class Transfer extends React.Component {
       if(tokenSymbol && isNumber(value)) {
         const token = getToken(tokenSymbol)
         const v = fm.toBig(value)
-        return v.greaterThan(fm.toBig('0')) && !v.greaterThan(token.balance)
+        return !v.lessThan(fm.toBig('0')) && !v.greaterThan(token.balance)
       } else {
         return false
       }
