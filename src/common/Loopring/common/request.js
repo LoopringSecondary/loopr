@@ -34,6 +34,7 @@ function request(options) {
     method = options.body.method;
     options.headers = options.headers || headers;
     options.body.id = id();
+    options.body.jsonrpc='2.0';
     options.body = JSON.stringify(options.body)
   }
   // options.credentials = 'include'
