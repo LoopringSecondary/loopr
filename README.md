@@ -1,17 +1,21 @@
-# Loopr2 - ERC20 Wallet and Loopring DEX
+# Loopr - ERC20 Wallet and Loopring DEX
 
 
 
 ### Introduction
 
-Loopr2 is a new version of Loopring Wallet & DEX  which is in development .
-If you need the production version, please go to [Loopr](https://github.com/Loopring/loopr).
+Loopr is a non-custodial Ethereum wallet and Loopring DEX，which is in Beta phase of V2. 
+
+Start your first decentralized trade at [loopring.io](https://loopring.io) or [https://loopr.io](https://loopr.io)
 
 #### Features
 
-- A web-based Ethereum wallet with Loopring protocol integration
-- Support multiple languages 
-- Responsive accross different platforms
+- Loopring protocol: A web-based Ethereum wallet with Loopring protocol integration
+- Unlock: unlock wallet by Metamask,TRZEOR,Ledger,Keystore,Mnemonic,Privatekey,Watch Only
+- Assets:View balances & eth transactions 
+- Trade: Sell & Buy tokens
+- Airdrop: Bind  address for LRN & LRQ
+- Support multiple languages
 - More ...
 
 

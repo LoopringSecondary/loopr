@@ -335,6 +335,8 @@ export default {
     type_others: '其他',
     type_lrc_fee: 'LRC撮合费',
     type_lrc_reward: 'LRC撮合奖励',
+    type_sell: '卖出',
+    type_buy: '买入',
     buy: "购买",
     type_enable: '授权',
     type_enable_title: "授权 {symbol} 进行撮合交易",
