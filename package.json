@@ -7,6 +7,7 @@
   },
   "theme": "./theme.js",
   "dependencies": {
+    "@babel/polyfill": "7.0.0-beta.46",
     "antd": "3.2.2",
     "async": "2.6.0",
     "async-validator": "1.8.2",
