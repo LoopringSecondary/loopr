@@ -437,7 +437,7 @@ class ListBlock extends React.Component {
                                className="border-none  ">{intl.get('txs.type_receive')} {token}</Button>
                        {token !== 'WETH' && <Button onClick={gotoTrade.bind(this, token)}
                                                     className="m5 border-none">{intl.get('txs.buy')} {token}</Button>}
-                       {token === 'WETH' && <Button onClick={gotoConvert.bind(this, {symbol: token})}
+                       {token === 'WETH' && <Button onClick={gotoConvert.bind(this, {symbol: 'ETH'})}
                                                     className="m5 border-none">{intl.get('txs.type_convert_title_eth')}</Button>}
                        <a className="cursor-pointer fs12 ml5 color-primary-1" onClick={showModal.bind(this, {
                          id: 'order/open/detail',
