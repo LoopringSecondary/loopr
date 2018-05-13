@@ -27,7 +27,11 @@ const TickerTable = (props)=>{
   }
   const sorter = (a,b)=>{
     if(a.vol === b.vol ){
-      return a.market - b.market
+      if(a.last === b.last){
+        return a.market - b.market
+      }else{
+        return Number(b.last) - Number(a.last)
+      }
     }else{
       return Number(b.vol) - Number(a.vol)
     }

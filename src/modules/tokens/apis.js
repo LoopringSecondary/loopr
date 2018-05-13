@@ -1,4 +1,3 @@
-import {getOrders} from 'Loopring/relay/order'
 import { tokens } from '../../common/config/data';
 
 export function fetchList({filters={},page={},sort={},}){
