@@ -84,6 +84,7 @@ export default {
     * setMnemonic({payload}, {put}) {
       const {index} = payload;
       window.WALLET.setIndex(index);
+      window.WALLET_UNLOCK_TYPE = 'Mnemonic';
       const address = window.WALLET.getAddress();
       yield put({type: 'setWallet', payload: {address, walletType: 'Mnemonic'}})
     },
