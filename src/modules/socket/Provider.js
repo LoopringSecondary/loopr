@@ -10,6 +10,7 @@ class SocketProvider extends React.Component {
     let options = {
       transports: ['websocket']
     }
+
     const socket = io(url,options)
     return new Promise((resolve)=>{
       socket.on('connect',()=>{
@@ -23,6 +24,7 @@ class SocketProvider extends React.Component {
     let options = {
       transports: ['websocket']
     }
+    console.log('props:',props.url)
     this.socket = io(props.url,options)
     this.socket.on('connect', (data) => {
       console.log('socket connected success!')
