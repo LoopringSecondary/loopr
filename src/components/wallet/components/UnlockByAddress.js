@@ -6,6 +6,7 @@ import intl from 'react-intl-universal';
 import {unlockRedirection} from '../../../common/utils/redirection'
 import {isValidEthAddress} from 'Loopring/ethereum/utils'
 import Notification from 'Loopr/Notification'
+import loopring from 'loopring'
 
 const walletType = "Address"
 
@@ -24,6 +25,8 @@ class UnlockByAddress extends React.Component {
     }
 
     function unlocked() {
+      console.log(loopring);
+      return
       form.validateFields((err, values) => {
         if (!err) {
           const selectedAddress = form.getFieldValue('address')

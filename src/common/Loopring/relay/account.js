@@ -62,3 +62,15 @@ export async function getGasPrice() {
     body,
   })
 }
+
+export async function claimTicket(param) {
+
+  let body = {};
+  body.method = 'loopring_applyTicket';
+  body.params = [{param}];
+  return request({
+    method:'post',
+    headers,
+    body,
+  })
+}

@@ -93,7 +93,12 @@ let basicSchemas = {
     type: 'string',
     required: true,
     enum: ['earliest', 'latest', 'pending'],
+  },
+  PHONE_NUM:{
+    type: 'string',
+    required: true,
+    pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,1,5,6,7,8,9])|(19[7]))\d{8}$/
   }
-}
+};
 
 export default basicSchemas

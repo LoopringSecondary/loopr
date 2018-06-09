@@ -38,6 +38,10 @@ export default class Account {
     return tx.sign(privateKey)
   }
 
+  sign(){
+
+  }
+
  async signOrder(){
 
   }
