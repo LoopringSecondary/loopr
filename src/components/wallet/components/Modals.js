@@ -11,6 +11,9 @@ import AirdropBind from './AirdropBind'
 import DemoAccount from './DemoAccount'
 import DetermineWallet from './DetermineWallet'
 import WatchOnlyToUnlock from './WatchOnlyToUnlock'
+import ClaimTicket from './ClaimTicket'
+
+
 
 function Modals(props){
   return (
@@ -54,6 +57,9 @@ function Modals(props){
         <AccountContainer>
           <WatchOnlyToUnlock />
         </AccountContainer>
+      </ModalContainer>
+      <ModalContainer id="claimTicket" >
+        <ClaimTicket/>
       </ModalContainer>
     </div>
   );
