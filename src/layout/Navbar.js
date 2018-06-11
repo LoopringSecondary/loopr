@@ -193,6 +193,16 @@ function Navbar(props){
                     </a>
                 </div>
             </div>
+            {account.walletType.toLowerCase() !== 'trezor'&& account.walletType.toLowerCase() !== 'address' && <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
+              <div className="fs14 color-black-2 text-right navbar-account-grid">
+                <a onClick={showModal.bind(this, {id: 'wallet/claimTicket'})} className="color-black-2 d-block text-center">
+                  <div className="grid-title">
+                    <Icon type="gift" className="grid-icon"/>
+                  </div>
+                  <div className="grid-title text-truncate text-nowrap">{intl.get('ticket.claim')}</div>
+                </a>
+              </div>
+            </div>}
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
               <Tooltip title={intl.get('global.comingsoon')}>
                 <div className="fs14 color-black-2 navbar-account-grid cursor-not-allowed">

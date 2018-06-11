@@ -679,5 +679,17 @@ I got this great idea:
     fee_recipient:"Fee Recipient",
     ring_more_info:"To learn more details about this ring, pleae visit https://ringinfo.io",
     no_ring:"No Such Ring"
+  },
+  ticket:{
+    claim:'Claim Ticket',
+    claim_suc:'Claim ticket successfully',
+    claim_fail:'Claim ticket failed',
+    title:'Claim ticket of Powering Cyber-Economy of the Future',
+    name:'Name',
+    phone:"Phone",
+    email:'Email',
+    email_tip:"Invalid email",
+    email_phone_tip:'Name and phone or email are required'
   }
+
 }

@@ -823,6 +823,17 @@ export default {
     fee_recipient: "费用接收地址",
     ring_more_info: "更多信息，请访问RingInfo",
     no_ring: "没有找到符合条件的撮合环路"
+  },
+  ticket:{
+    claim:'领取门票',
+    claim_suc:'领取成功',
+    claim_fail:'领取失败',
+    title:'领取数字经济领袖峰会门票',
+    name:'姓名',
+    phone:"电话",
+    email:'邮箱',
+    email_tip:" 不合法的邮箱",
+    email_phone_tip:'请提供姓名以及电话或者邮箱'
   }
 }
 

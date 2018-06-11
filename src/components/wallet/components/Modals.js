@@ -58,7 +58,7 @@ function Modals(props){
           <WatchOnlyToUnlock />
         </AccountContainer>
       </ModalContainer>
-      <ModalContainer id="claimTicket" >
+      <ModalContainer id="wallet/claimTicket" >
         <ClaimTicket/>
       </ModalContainer>
     </div>
