@@ -833,7 +833,8 @@ export default {
     phone:"电话",
     email:'邮箱',
     email_tip:" 不合法的邮箱",
-    email_phone_tip:'请提供姓名以及电话或者邮箱'
+    email_phone_tip:'请提供姓名以及电话或者邮箱',
+    open_tip:'暂时只对拥护LRC超过的用户{amount}开放'
   }
 }
 

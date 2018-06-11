@@ -689,7 +689,8 @@ I got this great idea:
     phone:"Phone",
     email:'Email',
     email_tip:"Invalid email",
-    email_phone_tip:'Name and phone or email are required'
+    email_phone_tip:'Name and phone or email are required',
+    open_tip:'Only open to holder who have more than {amount} LRC'
   }
 
 }

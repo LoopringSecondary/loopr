@@ -4,6 +4,8 @@ import validator from 'Loopring/common/validator'
 import {claimTicket,queryTicket} from "../../../common/Loopring/relay/account";
 import {toBuffer,toHex} from "../../../common/Loopring/common/formatter";
 import intl from 'react-intl-universal'
+import {getHash} from "../../../common/Loopring/ethereum/utils";
+import Notification from 'Loopr/Notification';
 
 
 const Item = Form.Item;
@@ -17,9 +19,9 @@ class ClaimTicket extends React.Component {
 
   componentDidMount(){
     const info = Math.floor(new Date().getTime()/1000).toString();
-    const sig = window.WALLET.signMessage(info);
+    const sig = window.WALLET.signMessage(getHash(info));
     const _this = this;
-    claimTicket({address:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}).then(res => {
+    queryTicket({sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
       if(!res.error){
         _this.setState({...res.result})
       }
@@ -41,12 +43,12 @@ class ClaimTicket extends React.Component {
     this.props.form.validateFields((err, values) => {
       if(!err && name && (phone || email)){
         const info = Math.floor(new Date().getTime()/1000).toString();
-        const sig = window.WALLET.signMessage(info);
-        claimTicket({name,phone,email,address:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}).then(res => {
+        const sig = window.WALLET.signMessage(getHash(info));
+        claimTicket({name,phone,email,sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
           if(!res.error){
             Notification.open({type:'success',message:intl.get('ticket.claim_suc')})
           }else{
-            Notification.open({type:'error',message:intl.get('ticket.claim_fail')})
+            Notification.open({type:'error',message:intl.get('ticket.claim_fail'),description:res.error.message})
           }
         })
       }else{

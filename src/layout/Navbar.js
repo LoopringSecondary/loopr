@@ -9,6 +9,9 @@ import {locales} from '../common/config/data'
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
 import UserAgent from '../common/utils/useragent.js'
+import {getFormatNum} from "../common/utils/uiFormatter";
+import Sockets from '../modules/socket/containers'
+import {toBig} from "../common/Loopring/common/formatter";
 
 function Navbar(props){
   let selectedKeys = []
@@ -39,7 +42,7 @@ function Navbar(props){
         currency: currency,
       }
     })
-  }
+  };
   const showModal = (payload)=>{
     props.dispatch({
       type:'modals/modalChange',
@@ -126,7 +129,17 @@ function Navbar(props){
     browser:ua.getBrowser().full,
     address: account.isUnlocked ? account.address : getWalletType(),
   })).replace(/%2B/gi, '+')
-  const emailUrl = `mailto:${intl.get('feedback.email_to')}?subject=${subject}&body=${body}`
+  const emailUrl = `mailto:${intl.get('feedback.email_to')}?subject=${subject}&body=${body}`;
+
+  const claimTicket = (assets) =>{
+   const asset = assets.getTokenBySymbol('LRC');
+   const balance = toBig(asset.balance).div(1e18);
+    if(balance.gte(0)){
+      showModal({id: 'wallet/claimTicket'})
+    }else{
+      Notification.open({type:'warning',message:intl.get('ticket.open_tip',{amount:getFormatNum(100000)})})
+    }
+  };
   const accountMenus = (
     <div className="fs18" >
       {
@@ -195,12 +208,17 @@ function Navbar(props){
             </div>
             {account.walletType.toLowerCase() !== 'trezor'&& account.walletType.toLowerCase() !== 'address' && <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
               <div className="fs14 color-black-2 text-right navbar-account-grid">
-                <a onClick={showModal.bind(this, {id: 'wallet/claimTicket'})} className="color-black-2 d-block text-center">
-                  <div className="grid-title">
-                    <Icon type="gift" className="grid-icon"/>
-                  </div>
-                  <div className="grid-title text-truncate text-nowrap">{intl.get('ticket.claim')}</div>
-                </a>
+                <Sockets.Assets render={(props)=>{
+
+                  return (
+                    <a onClick={() => claimTicket(props.assets)} className="color-black-2 d-block text-center">
+                      <div className="grid-title">
+                        <Icon type="gift" className="grid-icon"/>
+                      </div>
+                      <div className="grid-title text-truncate text-nowrap">{intl.get('ticket.claim')}</div>
+                    </a>
+                  )
+                }}/>
               </div>
             </div>}
             <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
@@ -270,6 +288,7 @@ function Navbar(props){
       }
     </div>
   )
+
   const VersionTip = (
     <div className="" style={{maxWidth:'280px'}}>
       <div className="p15">

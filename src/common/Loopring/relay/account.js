@@ -66,7 +66,7 @@ export async function claimTicket(param) {
 
   let body = {};
   body.method = 'loopring_applyTicket';
-  body.params = [{param}];
+  body.params = [param];
   return request({
     method:'post',
     headers,
@@ -78,7 +78,7 @@ export async function claimTicket(param) {
 export async function queryTicket(param) {
   let body = {};
   body.method = 'loopring_queryTicket';
-  body.params = [{param}];
+  body.params = [param];
   return request({
     method:'post',
     headers,

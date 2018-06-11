@@ -139,7 +139,6 @@ export default class LedgerUnlockAccount extends Account {
             r: addHexPrefix(result.r),
             s: addHexPrefix(result.s)
           };
-
           const eth = new EthTransaction(txToSerialize)
           const serializedTx = eth.serialize();
           resolve({result:serializedTx});
