@@ -604,6 +604,11 @@ export default {
     choose_other_address:'选择其他地址',
   },
   wallet: {
+    to_claim:'领取 {token}',
+    claim_token_suc:' 领取{token}成功',
+    claim_token_fail:'领取{token}失败',
+    not_open:'暂时还没有开发',
+    valid_add:'请绑定合法的{token}地址',
     bind_tip: "绑定空投接收地址",
     cu_bind_address: "当前绑定的地址",
     airdrop: "空投",

@@ -459,6 +459,11 @@ I got this great idea:
     choose_other_address:'Select Othter Address',
   },
   wallet: {
+    to_claim:'Claim {token}',
+    claim_token_suc:'Claim {token} Successfully',
+    claim_token_fail:'Claim {token} Failed',
+    not_open:'Temporarily closed',
+    valid_add:'Please bind valid {token} address',
     bind_tip: "Airdrop Binding",
     cu_bind_address: "Current Bound Address",
     airdrop: "Airdrop",

@@ -3,7 +3,6 @@ import {Card, Form, Input, Button} from 'antd';
 import validator from 'Loopring/common/validator'
 import {claimTicket} from "../../../common/Loopring/relay/account";
 import {toBuffer,toHex} from "../../../common/Loopring/common/formatter";
-import {claimTicket} from "../../../common/Loopring/relay/account";
 
 const Item = Form.Item;
 class ClaimTicket extends React.Component {
@@ -11,7 +10,6 @@ class ClaimTicket extends React.Component {
   state = {
     name: '',
     phone: '',
-    email: ''
   };
 
   componentDidMount() {
@@ -24,10 +22,6 @@ class ClaimTicket extends React.Component {
 
   nameChange = (e) =>{
     this.setState({name:e.target.value})
-  };
-
-  emailChange = (e) =>{
-    this.setState({email:e.target.value})
   };
 
   claim = () =>{
@@ -54,8 +48,8 @@ class ClaimTicket extends React.Component {
   };
 
   render() {
-    const {name, phone, email} = this.state;
-
+    const {name, phone} = this.state;
+    const {form} = this.props;
     return (
       <Card title='领取数字经济领袖峰会门票'>
         <Form >
@@ -74,23 +68,11 @@ class ClaimTicket extends React.Component {
               <Input className="d-block w-100 fs3" placeholder="" onChange={this.phoneChange}/>
             )}
           </Item>
-          <Item>
-            {form.getFieldDecorator('邮箱', {
-              initialValue: {email},
-              rules: [{
-                message: '不合法的邮箱',
-                required:true,
-                type:'email'
-              }]
-            })(
-              <Input className="d-block w-100 fs3" placeholder="" onChange={this.emailChange}/>
-            )}
-          </Item>
         </Form>
         <Button onClick={this.claim}>领取门票</Button>
       </Card>
     )
   }
-
-
 }
+
+export default Form.create()(ClaimTicket)

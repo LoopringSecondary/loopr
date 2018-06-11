@@ -114,7 +114,6 @@ export default class LedgerUnlockAccount extends Account {
         if (result.error) {
           return reject(this.ledger.getError(result.error));
         }
-
         try {
           resolve({v:result.v, r:addHexPrefix(result.r), s:addHexPrefix(result.s)});
         } catch (err) {
