@@ -18,10 +18,13 @@ class ClaimTicket extends React.Component {
   };
 
   componentDidMount(){
+
+    console.log(this.props);
+
     const info = Math.floor(new Date().getTime()/1000).toString();
     const sig = window.WALLET.signMessage(getHash(info));
     const _this = this;
-    queryTicket({sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
+   queryTicket({sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
       if(!res.error){
         _this.setState({...res.result})
       }
@@ -44,15 +47,18 @@ class ClaimTicket extends React.Component {
       if(!err && name && (phone || email)){
         const info = Math.floor(new Date().getTime()/1000).toString();
         const sig = window.WALLET.signMessage(getHash(info));
-        claimTicket({name,phone,email,sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
+        claimTicket({ticket:{name,phone,email},sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
           if(!res.error){
-            Notification.open({type:'success',message:intl.get('ticket.claim_suc')})
+            Notification.open({type:'success',message:intl.get('ticket.claim_suc')});
+            this.props.modal.hideThisModal();
           }else{
-            Notification.open({type:'error',message:intl.get('ticket.claim_fail'),description:res.error.message})
+            Notification.open({type:'error',message:intl.get('ticket.claim_fail'),description:res.error.message});
           }
         })
       }else{
-        if(!err){
+        if(!name){
+          Notification.open({type:'warning',message:intl.get('ticket.name_tip')})
+        }else if(!err){
           Notification.open({type:'warning',message:intl.get('ticket.email_phone_tip')})
         }else{
           Notification.open({type:'warning', message: intl.get('ticket.email_tip')})
@@ -74,13 +80,20 @@ class ClaimTicket extends React.Component {
     const {form} = this.props;
     return (
       <Card title={intl.get('ticket.title')}>
+        <Form >
           <Item label={intl.get('ticket.name')}>
-            <Input value={name} onChange={this.nameChange}/>
+            {form.getFieldDecorator('name', {
+              initialValue: name,
+              rules: [{
+                required: true, message: intl.get('ticket.name_tip'),
+              }],
+            })(
+              <Input  onChange={this.nameChange}/>
+            )}
           </Item>
           <Item label={intl.get('ticket.phone')}>
               <Input className="d-block w-100 fs3" value={phone} placeholder="" onChange={this.phoneChange}/>
           </Item>
-        <Form >
           <Item label={intl.get('ticket.email')}>
             {form.getFieldDecorator('email', {
               initialValue: email,

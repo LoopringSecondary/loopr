@@ -830,11 +830,16 @@ export default {
     claim_fail:'领取失败',
     title:'领取数字经济领袖峰会门票',
     name:'姓名',
-    phone:"电话",
+    phone:"电话(推荐)",
     email:'邮箱',
+    name_tip:"请输入您的姓名",
     email_tip:" 不合法的邮箱",
     email_phone_tip:'请提供姓名以及电话或者邮箱',
-    open_tip:'暂时只对拥护LRC超过的用户{amount}开放'
+    open_tip:'暂时只对拥护LRC超过的用户{amount}开放',
+    no_trezor:'暂时不支持TREZOR',
+    alert_title:'数字经济领袖峰会门票领取活动已经开放',
+    alert_action:'快去领取门票吧!',
+    unlock_tip:'请先去解锁您的钱包'
   }
 }
 
