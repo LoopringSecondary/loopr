@@ -60,7 +60,7 @@ class AirdropBind extends React.Component {
           gasPrice: toHex(tradingConfig.gasPrice * 1e9),
           nonce: toHex(nonce)
         });
-        window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
+        return window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
           if (response.error) {
             Notification.open({
               message: intl.get('wallet.bind_success'),
@@ -102,8 +102,8 @@ class AirdropBind extends React.Component {
 
     const bindAddress = (address, project) => {
       form.validateFields(async (err, values) => {
-        _this.setState({loading:true})
         if (!err) {
+          _this.setState({loading:true})
           const {tradingConfig, page} = this.props;
           const state = window.STORE.getState()
           if(state && state.account && state.account.walletType === 'Address') {
@@ -174,8 +174,17 @@ class AirdropBind extends React.Component {
       }
     };
 
-    function validateNeoAddress(value) {
-      return value
+    async function validateAddress(value) {
+      console.log(value)
+      if(project.projectId ===1){
+
+        if(value && value.length === 34){
+          return await window.AntShares.Wallets.Wallet.toScriptHash(value);
+        }
+        return false;
+      }else{
+        return value
+      }
     }
 
     return (
@@ -194,11 +203,7 @@ class AirdropBind extends React.Component {
           }
           <Form.Item label={null}>
             {form.getFieldDecorator('ethAddress', {
-              initialValue: account.address,
-              rules: [{
-                message: intl.get('airdrop.eth_adress_null'),
-                validator: (rule, value, cb) => validateNeoAddress(value) ? cb() : cb(true)
-              }]
+              initialValue: account.address
             })(
               <Input
                 addonBefore={'ETH ' + intl.get('wallet.address')}
@@ -212,8 +217,8 @@ class AirdropBind extends React.Component {
             {form.getFieldDecorator('neoAddress', {
               initialValue: address,
               rules: [{
-                message: intl.get('airdrop.neo_address_null'),
-                validator: (rule, value, cb) => validateNeoAddress(value) ? cb() : cb(true)
+                message: intl.get('airdrop.address_null',{token:project && project.name}),
+                validator: async (rule, value, cb) => await validateAddress(value) ? cb() : cb(true)
               }]
             })(
               <Input

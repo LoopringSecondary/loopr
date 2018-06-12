@@ -596,7 +596,7 @@ export default {
     goback: "返回",
     watch_only_not_allowed: "观察者模式无法绑定空投",
     eth_adress_null:'请解锁钱包后在重试',
-    neo_address_null:'请输入您想绑定的合法的NEO地址'
+    address_null:'请输入您想绑定的合法的{token}地址'
   },
   mnemonic:{
     default_address:'当前默认地址',

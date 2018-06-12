@@ -451,7 +451,7 @@ I got this great idea:
     goback:"Back",
     watch_only_not_allowed:"Watch-only mode cannot bind addresses.",
     eth_adress_null:'Please unlocked your wallet and try again',
-    neo_address_null:'Please input your valid NEO address to bind'
+    address_null:'Please input your valid {token} address to bind'
   },
   mnemonic:{
     default_address:'Default Address',
