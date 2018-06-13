@@ -25,6 +25,7 @@ class AssetsContainer extends React.Component {
   }
   responseHandler(res){
     console.log('balance_res')
+    if(!res) return null
     res = JSON.parse(res)
     if(!res.error && res.data && res.data.tokens){
       this.setState({

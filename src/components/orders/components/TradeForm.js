@@ -157,16 +157,16 @@ class TradeForm extends React.Component {
         needUnlockCheck()
         return;
       }
-      if(!lrcBalance || lrcBalance.balance.lessThan(900)){
-        if(window.CONFIG.getChainId() !== 7107171 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
-          Notification.open({
-            type:'warning',
-            message:intl.get('trade.not_inWhiteList'),
-            description:intl.get('trade.not_allow')
-          });
-          return
-        }
-      }
+      // if(!lrcBalance || lrcBalance.balance.lessThan(900)){
+      //   if(window.CONFIG.getChainId() !== 7107171 && !await window.CONFIG.isinWhiteList(window.WALLET.getAddress())){
+      //     Notification.open({
+      //       type:'warning',
+      //       message:intl.get('trade.not_inWhiteList'),
+      //       description:intl.get('trade.not_allow')
+      //     });
+      //     return
+      //   }
+      // }
       form.validateFields((err, values) => {
         if (!err) {
           _this.setState({loading:true})

@@ -16,6 +16,7 @@ class TrendsSocketContainer extends React.Component {
     const currency = window.STORAGE.settings.getCurrency() || 'CNY' // TODO
     const data = {currency}
     socket.on('trends_res', (res)=>{
+      if(!res) return null
       this.setState({
         trends:res.result,
       })

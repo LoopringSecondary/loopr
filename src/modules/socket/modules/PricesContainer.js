@@ -42,6 +42,7 @@ class PricesContainer extends React.Component {
       socket.emit('marketcap_req', JSON.stringify(options))
       socket.on('marketcap_res', (res) => {
         console.log('marketcap_res');
+        if(!res) return null
         res = JSON.parse(res);
         if (!res.error && res.data && res.data.tokens) {
           _this.setState({

@@ -21,6 +21,7 @@ class PortfolioSocketContainer extends React.Component {
     socket.emit('portfolio_req',JSON.stringify(query))
     socket.on('portfolio_res', (res)=>{
       console.log('portfolio_res')
+      if(!res) return null
       res = JSON.parse(res)
       if(!res.error){
         this.setState({
