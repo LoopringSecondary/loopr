@@ -25,6 +25,7 @@ class DepthContainer extends React.Component {
   }
   responseHandler(res){
     console.log('depth_res')
+    if(!res) return null
     res = JSON.parse(res)
     if(!res.error && res.data && res.data.depth){
       this.setState({

@@ -15,9 +15,8 @@ class PendingTxsContainer extends React.Component {
     }
   }
   responseHandler(res){
-
-
     console.log('pendingTxs_res')
+    if(!res) return null
     res = JSON.parse(res)
     if (!res.error && res.data && isArray(res.data)) {
       this.setState({
