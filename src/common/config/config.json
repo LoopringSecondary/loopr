@@ -187,7 +187,7 @@
       "pricePrecision": 8
     }
   ],
-  "newMarkets": ["FOO-WETH", "BAR-WETH"],
+  "newMarkets": [],
   "txs": [
     {
       "type":"eth_transfer",
