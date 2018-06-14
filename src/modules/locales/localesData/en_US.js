@@ -684,6 +684,7 @@ I got this great idea:
     claim:'Claim Ticket',
     claim_suc:'Claim ticket successfully',
     claim_fail:'Claim ticket failed',
+    claim_over:'The application for tickets has ended',
     title:'Claim Tickets of 2018 Blockchain Economic Summit',
     name:'Name',
     phone:"Phone(Recommended)",
@@ -695,7 +696,8 @@ I got this great idea:
     no_trezor:'TREOR is not supported Currently',
     alert_title:'Claiming Ticket of 2018 Blockchain Economic Summit is open now',
     alert_action:'Go to claim ticket!',
-    unlock_tip:'Please unlock your wallet first'
+    unlock_tip:'Please unlock your wallet first',
+    current:"Already claimed:"
   }
 
 }

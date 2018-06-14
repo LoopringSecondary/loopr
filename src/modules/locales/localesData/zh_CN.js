@@ -828,6 +828,7 @@ export default {
     claim:'领取门票',
     claim_suc:'领取成功',
     claim_fail:'领取失败',
+    claim_over:'门票申请活动已经结束',
     title:'领取2018年数字经济高峰论坛门票',
     name:'姓名',
     phone:"电话(推荐)",
@@ -839,7 +840,8 @@ export default {
     no_trezor:'暂时不支持TREZOR',
     alert_title:'2018年数字经济高峰论坛门票领取活动已经开放',
     alert_action:'快去领取门票吧!',
-    unlock_tip:'请先去解锁您的钱包'
+    unlock_tip:'请先去解锁您的钱包',
+    current:'已经领取'
   }
 }
 

@@ -10,7 +10,9 @@ import Notification from 'Loopr/Notification'
 import UserAgent from '../common/utils/useragent.js'
 import {getFormatNum} from "../common/utils/uiFormatter";
 import Sockets from '../modules/socket/containers'
-import {toBig} from "../common/Loopring/common/formatter";
+import {toBig,toHex} from "../common/Loopring/common/formatter";
+import {queryTicketCount,queryTicket} from "../common/Loopring/relay/account";
+import {getHash} from "../common/Loopring/ethereum/utils";
 
 function Navbar(props) {
   let selectedKeys = []
@@ -134,18 +136,34 @@ function Navbar(props) {
   })).replace(/%2B/gi, '+')
   const emailUrl = `mailto:${intl.get('feedback.email_to')}?subject=${subject}&body=${body}`;
 
-  const claimTicket = (assets) => {
+  const claimTicket = async (assets) => {
     if (!account.walletType || account.walletType.toLowerCase() === 'address') {
       Notification.open({type:'warning',message:intl.get('ticket.unlock_tip')});
       return;
     }
+    const info = Math.floor(new Date().getTime()/1000).toString();
+    const sig = await window.WALLET.signMessage(getHash(info));
+    const quRes = await queryTicket({sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}});
+    if(!(quRes.result && quRes.result.name)){
+      const res = await queryTicketCount();
+      if(res.error){
+        Notification.open({type:'error',message:intl.get('ticket.claim_fail'),description:res.error.message});
+        return
+      }else {
+        if(res.result >= 500){
+          Notification.open({type:'warning',message:intl.get('ticket.claim_over')});
+          return;
+        }
+      }
+    }
+
     if (account.walletType.toLowerCase() === 'trezor') {
       Notification.open({type:'warning',message:intl.get('ticket.no_trezor')});
       return;
     }
       const asset = assets.getTokenBySymbol('LRC');
       const balance = toBig(asset.balance).div(1e18);
-      if (balance.gte(5000)) {
+      if (balance.gte(0)) {
         showModal({id: 'wallet/claimTicket'})
       } else {
         Notification.open({type: 'warning', message: intl.get('ticket.open_tip', {amount: getFormatNum(5000)})})

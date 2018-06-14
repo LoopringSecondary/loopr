@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, Form, Input, Button} from 'antd';
 import validator from 'Loopring/common/validator'
-import {claimTicket,queryTicket} from "../../../common/Loopring/relay/account";
+import {claimTicket,queryTicket,queryTicketCount} from "../../../common/Loopring/relay/account";
 import {toBuffer,toHex} from "../../../common/Loopring/common/formatter";
 import intl from 'react-intl-universal'
 import {getHash} from "../../../common/Loopring/ethereum/utils";
@@ -14,18 +14,26 @@ class ClaimTicket extends React.Component {
   state = {
     name: '',
     phone: '',
-    email:''
+    email:'',
+    claimed:false,
+    count:''
   };
 
-  componentDidMount(){
+ async componentDidMount(){
 
-    console.log(this.props);
-
-    const info = Math.floor(new Date().getTime()/1000).toString();
-    const sig = window.WALLET.signMessage(getHash(info));
     const _this = this;
-   queryTicket({sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
+    queryTicketCount().then(res => {
       if(!res.error){
+        _this.setState({count:res.result})
+      }
+    });
+   const info = Math.floor(new Date().getTime()/1000).toString();
+   const sig = await window.WALLET.signMessage(getHash(info));
+    queryTicket({sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
+      if(!res.error){
+        if(res.result.name){
+          _this.setState({claimed:true})
+        }
         _this.setState({...res.result})
       }
     })
@@ -41,8 +49,22 @@ class ClaimTicket extends React.Component {
   emailChange = (e) =>{
     this.setState({email:e.target.value})
   };
-  claim = () =>{
-    const {name, phone, email} = this.state;
+  claim = async () =>{
+    const {name, phone, email,claimed} = this.state;
+    if(claimed){
+      const countres = await queryTicketCount();
+      if(countres.error){
+        Notification.open({type:'error',message:intl.get('ticket.claim_fail'),description:countres.error.message});
+        return;
+      }else{
+        const count  = countres.result;
+        if(count >= 500){
+          Notification.open({type:'warning',message:intl.get('ticket.claim_over')});
+          return;
+        }
+      }
+    }
+
     this.props.form.validateFields((err, values) => {
       if(!err && name && (phone || email)){
         const info = Math.floor(new Date().getTime()/1000).toString();
@@ -76,10 +98,10 @@ class ClaimTicket extends React.Component {
   };
 
   render() {
-    const {name, phone,email} = this.state;
+    const {name, phone,email,count} = this.state;
     const {form} = this.props;
     return (
-      <Card title={intl.get('ticket.title')}>
+      <Card title={intl.get('ticket.title') +'-----'+intl.get('ticket.current')+ ` (${count}/500)`}>
         <Form >
           <Item label={intl.get('ticket.name')}>
             {form.getFieldDecorator('name', {

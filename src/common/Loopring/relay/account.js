@@ -85,3 +85,15 @@ export async function queryTicket(param) {
     body,
   })
 }
+
+export async function queryTicketCount() {
+  let body = {};
+  body.method = 'loopring_ticketCount';
+  body.params = [];
+  return request({
+    method:'post',
+    headers,
+    body,
+  })
+}
+
