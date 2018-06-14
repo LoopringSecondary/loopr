@@ -73,7 +73,7 @@ class Airdrop extends React.Component {
     const _this = this;
     mapAsync(projects, async (project, callback) => {
       const address = await getBindAddress(window.WALLET.getAddress(), project.projectId);
-      if (project.projectId === 0) {
+      if (project.projectId === -1) {
         const scriptHash = await this.getScriptHash(address);
         if (scriptHash) {
           const params = '14' +scriptHash + '51c1157175657279417661696c61626c6542616c616e636567bc6f1242290998084d6453653cf64d7eb12095d7';
@@ -148,7 +148,7 @@ class Airdrop extends React.Component {
                 </div>
               </div>
               }
-              {this.findBindAddress(project) && <div className="col-auto pl0 pr5">
+              {false && this.findBindAddress(project) && <div className="col-auto pl0 pr5">
                 <div className="f2 ">
                   <a className="color-primary-1"
                      onClick={() => this.claimToken(project)}>{intl.get('wallet.to_claim', {token: project.lrx})}</a>

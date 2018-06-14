@@ -135,7 +135,7 @@ function Navbar(props) {
   const emailUrl = `mailto:${intl.get('feedback.email_to')}?subject=${subject}&body=${body}`;
 
   const claimTicket = (assets) => {
-    if (account.walletType.toLowerCase() === 'address') {
+    if (!account.walletType || account.walletType.toLowerCase() === 'address') {
       Notification.open({type:'warning',message:intl.get('ticket.unlock_tip')});
       return;
     }
@@ -145,12 +145,11 @@ function Navbar(props) {
     }
       const asset = assets.getTokenBySymbol('LRC');
       const balance = toBig(asset.balance).div(1e18);
-      if (balance.gte(0)) {
+      if (balance.gte(5000)) {
         showModal({id: 'wallet/claimTicket'})
       } else {
-        Notification.open({type: 'warning', message: intl.get('ticket.open_tip', {amount: getFormatNum(100000)})})
+        Notification.open({type: 'warning', message: intl.get('ticket.open_tip', {amount: getFormatNum(5000)})})
       }
-
   };
   const accountMenus = (
     <div className="fs18">
@@ -220,7 +219,7 @@ function Navbar(props) {
                 </a>
               </div>
             </div>
-            {account.walletType.toLowerCase() !== 'address' && <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
+            {<div className="col-sm-4 text-center pl0 pr0 zb-b-b">
               <div className="fs14 color-black-2 text-right navbar-account-grid">
                 <Sockets.Assets render={(props) => {
                   return (
