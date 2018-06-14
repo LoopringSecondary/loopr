@@ -1,5 +1,5 @@
 import Account from "./Account";
-import {hashPersonalMessage} from "ethereumjs-util"
+import {hashPersonalMessage,sha3} from "ethereumjs-util"
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import * as fm from "../../common/Loopring/common/formatter";
 import {getOrderHash} from "Loopring/relay/order";
@@ -22,7 +22,8 @@ export default class MetaMaskUnlockAccount extends Account {
     else return null
   }
 
-  async signMessage(hash){
+  async signMessage(message){
+    const hash = hashPersonalMessage(sha3(message))
     const signMethod = () => {
       return new Promise((resolve)=>{
         this.web3.eth.sign(this.account, hash, function(err, result){

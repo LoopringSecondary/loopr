@@ -451,7 +451,7 @@ I got this great idea:
     goback:"Back",
     watch_only_not_allowed:"Watch-only mode cannot bind addresses.",
     eth_adress_null:'Please unlocked your wallet and try again',
-    neo_address_null:'Please input your valid NEO address to bind'
+    address_null:'Please input your valid {token} address to bind'
   },
   mnemonic:{
     default_address:'Default Address',
@@ -459,6 +459,11 @@ I got this great idea:
     choose_other_address:'Select Othter Address',
   },
   wallet: {
+    to_claim:'Claim {token}',
+    claim_token_suc:'Claim {token} Successfully',
+    claim_token_fail:'Claim {token} Failed',
+    not_open:'Temporarily closed',
+    valid_add:'Please bind valid {token} address',
     bind_tip: "Airdrop Binding",
     cu_bind_address: "Current Bound Address",
     airdrop: "Airdrop",
@@ -674,5 +679,25 @@ I got this great idea:
     fee_recipient:"Fee Recipient",
     ring_more_info:"To learn more details about this ring, pleae visit https://ringinfo.io",
     no_ring:"No Such Ring"
+  },
+  ticket:{
+    claim:'Claim Ticket',
+    claim_suc:'Claim ticket successfully',
+    claim_fail:'Claim ticket failed',
+    claim_over:'The application for tickets has ended',
+    title:'Claim Tickets of 2018 Blockchain Economic Summit',
+    name:'Name',
+    phone:"Phone(Recommended)",
+    email:'Email',
+    name_tip:'Please input your name',
+    email_tip:"Invalid email",
+    email_phone_tip:'Name and phone or email are required',
+    open_tip:'Only open to holder who have more than {amount} LRC',
+    no_trezor:'TREOR is not supported Currently',
+    alert_title:'Claiming Ticket of 2018 Blockchain Economic Summit is open now',
+    alert_action:'Go to claim ticket!',
+    unlock_tip:'Please unlock your wallet first',
+    current:"Already claimed:"
   }
+
 }

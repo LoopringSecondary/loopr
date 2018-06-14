@@ -4,6 +4,9 @@ import {generateAbiData} from './abi';
 import {configs} from "../../config/data";
 import {toBuffer} from "../common/formatter";
 import {rawDecode} from 'ethereumjs-abi'
+import {sha3, hashPersonalMessage} from 'ethereumjs-util'
+
+
 
 export async function getTransactionCount(address, tag) {
   try {
@@ -235,5 +238,11 @@ export function isValidEthAddress(address) {
   } catch (e) {
     return false
   }
+}
+
+export function getHash(message){
+
+  return sha3(message)
+
 }
 

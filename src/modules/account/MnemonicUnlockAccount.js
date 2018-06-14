@@ -4,6 +4,7 @@ import EthTransaction from 'ethereumjs-tx'
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import {toHex, toBuffer, addHexPrefix} from '../../common/Loopring/common/formatter'
 import {sign} from 'Loopring/relay/order'
+import {hashPersonalMessage} from 'ethereumjs-util'
 
 export default class MnemonicUnlockAccount extends Account {
 
@@ -45,12 +46,13 @@ export default class MnemonicUnlockAccount extends Account {
   }
 
   signMessage(message) {
-    return this.signWithPrivateKey(message, this.privateKey)
+    const hash = hashPersonalMessage(toBuffer(message));
+    return this.signWithPrivateKey(hash, toBuffer(addHexPrefix(this.privateKey)))
   }
 
   async sendTransaction(tx) {
-    let newTx = new Transaction(tx)
-    await newTx.complete()
+    let newTx = new Transaction(tx);
+    await newTx.complete();
     const ethTx = new EthTransaction(newTx.raw);
     ethTx.sign(toBuffer(addHexPrefix(this.privateKey)));
     const signed = toHex(ethTx.serialize());
