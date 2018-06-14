@@ -21,6 +21,7 @@ class TickerSocketContainer extends React.Component {
   }
   responseHandler(res){
     console.log('ticker_res')
+    if(!res) return null
     res = JSON.parse(res)
     if(!res.error){
       this.setState({
