@@ -841,7 +841,8 @@ export default {
     alert_title:'2018年数字经济高峰论坛门票领取活动已经开放',
     alert_action:'快去领取门票吧!',
     unlock_tip:'请先去解锁您的钱包',
-    current:'已经领取'
+    current:'已经领取',
+    already_claim_tip:'您已经申请成功，是否要修改您的申请信息？'
   }
 }
 

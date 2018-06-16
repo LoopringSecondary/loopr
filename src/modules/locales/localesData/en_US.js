@@ -697,7 +697,8 @@ I got this great idea:
     alert_title:'Claiming Ticket of 2018 Blockchain Economic Summit is open now',
     alert_action:'Go to claim ticket!',
     unlock_tip:'Please unlock your wallet first',
-    current:"Already claimed:"
+    current:"Already claimed:",
+    already_claim_tip:'You have already Claimed one ticket, do you want to modify you information? '
   }
 
 }

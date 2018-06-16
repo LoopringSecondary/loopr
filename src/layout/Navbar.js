@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'dva';
 import moment from 'moment';
-import {Alert, Icon, Menu, message, Popover, Select, Badge, Row, Tooltip} from 'antd';
+import {Alert, Icon, Menu, message, Popover, Select, Badge, Modal, Tooltip} from 'antd';
 import {Link} from 'dva/router';
 import copy from 'copy-to-clipboard';
 import {locales} from '../common/config/data'
@@ -10,8 +10,8 @@ import Notification from 'Loopr/Notification'
 import UserAgent from '../common/utils/useragent.js'
 import {getFormatNum} from "../common/utils/uiFormatter";
 import Sockets from '../modules/socket/containers'
-import {toBig,toHex} from "../common/Loopring/common/formatter";
-import {queryTicketCount,queryTicket} from "../common/Loopring/relay/account";
+import {toBig, toHex} from "../common/Loopring/common/formatter";
+import {queryTicketCount, queryTicket} from "../common/Loopring/relay/account";
 import {getHash} from "../common/Loopring/ethereum/utils";
 
 function Navbar(props) {
@@ -138,29 +138,35 @@ function Navbar(props) {
 
   const claimTicket = async (assets) => {
     if (!account.walletType || account.walletType.toLowerCase() === 'address') {
-      Notification.open({type:'warning',message:intl.get('ticket.unlock_tip')});
+      Notification.open({type: 'warning', message: intl.get('ticket.unlock_tip')});
       return;
     }
-    const info = Math.floor(new Date().getTime()/1000).toString();
+    if (account.walletType.toLowerCase() === 'trezor') {
+      Notification.open({type: 'warning', message: intl.get('ticket.no_trezor')});
+      return;
+    }
+    const info = Math.floor(new Date().getTime() / 1000).toString();
     const sig = await window.WALLET.signMessage(getHash(info));
-    const quRes = await queryTicket({sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}});
-    if(!(quRes.result && quRes.result.name)){
+    const quRes = await queryTicket({
+      sign: {
+        owner: window.WALLET.getAddress(),
+        timestamp: info,
+        v: sig.v,
+        r: toHex(sig.r),
+        s: toHex(sig.s)
+      }
+    });
+    if (!(quRes.result && quRes.result.name)) {
       const res = await queryTicketCount();
-      if(res.error){
-        Notification.open({type:'error',message:intl.get('ticket.claim_fail'),description:res.error.message});
+      if (res.error) {
+        Notification.open({type: 'error', message: intl.get('ticket.claim_fail'), description: res.error.message});
         return
-      }else {
-        if(res.result >= 500){
-          Notification.open({type:'warning',message:intl.get('ticket.claim_over')});
+      } else {
+        if (res.result >= 500) {
+          Notification.open({type: 'warning', message: intl.get('ticket.claim_over')});
           return;
         }
       }
-    }
-
-    if (account.walletType.toLowerCase() === 'trezor') {
-      Notification.open({type:'warning',message:intl.get('ticket.no_trezor')});
-      return;
-    }
       const asset = assets.getTokenBySymbol('LRC');
       const balance = toBig(asset.balance).div(1e18);
       if (balance.gte(5000)) {
@@ -168,6 +174,16 @@ function Navbar(props) {
       } else {
         Notification.open({type: 'warning', message: intl.get('ticket.open_tip', {amount: getFormatNum(5000)})})
       }
+    } else {
+      Modal.confirm({
+        title: intl.get('ticket.already_claim_tip'),
+        onOk() {
+          showModal({id: 'wallet/claimTicket'})
+        },
+        onCancel() {
+        },
+      })
+    }
   };
   const accountMenus = (
     <div className="fs18">
@@ -374,10 +390,12 @@ function Navbar(props) {
                    description={
                      <div>
                        {intl.get('ticket.alert_title')},
-                       <a className='color-blue-500 ml5' onClick={() => claimTicket(props.assets)}>{intl.get('ticket.alert_action')}</a>
+                       <a className='color-blue-500 ml5'
+                          onClick={() => claimTicket(props.assets)}>{intl.get('ticket.alert_action')}</a>
                      </div>
                    }/>
-          )}}/>}
+          )
+        }}/>}
         <div className="row align-items-stretch ml0 mr0 zb-b-l">
           <div className="col-auto pl25 pr10 zb-b-r pr" style={{width: '200px'}}>
             <Link to="/wallet" className="d-block">
