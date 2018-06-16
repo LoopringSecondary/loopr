@@ -65,10 +65,10 @@ class ClaimTicket extends React.Component {
       }
     }
 
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if(!err && name && (phone || email)){
         const info = Math.floor(new Date().getTime()/1000).toString();
-        const sig = window.WALLET.signMessage(getHash(info));
+        const sig = await window.WALLET.signMessage(getHash(info));
         claimTicket({ticket:{name,phone,email},sign:{owner:window.WALLET.getAddress(),timestamp:info,v:sig.v,r:toHex(sig.r),s:toHex(sig.s)}}).then(res => {
           if(!res.error){
             Notification.open({type:'success',message:intl.get('ticket.claim_suc')});

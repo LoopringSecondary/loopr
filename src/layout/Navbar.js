@@ -163,7 +163,7 @@ function Navbar(props) {
     }
       const asset = assets.getTokenBySymbol('LRC');
       const balance = toBig(asset.balance).div(1e18);
-      if (balance.gte(5000)) {
+      if (balance.gte(0)) {
         showModal({id: 'wallet/claimTicket'})
       } else {
         Notification.open({type: 'warning', message: intl.get('ticket.open_tip', {amount: getFormatNum(5000)})})
