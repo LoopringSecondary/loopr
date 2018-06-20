@@ -1,4 +1,4 @@
 #loopr documentations
 
-- [English Documentataion](http://loopring.io/english)
-- [中文文档](http://loopring.io/chinese)
+- [English Documentataion](https://loopring.github.io/loopr/english)
+- [中文文档](https://loopring.github.io/loopr/chinese)

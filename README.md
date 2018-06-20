@@ -6,7 +6,7 @@ Loopr is a non-custodial Ethereum wallet and Loopring DEX，which is in Beta pha
 
 Start your first decentralized trade at [loopring.io](https://loopring.io) or [https://loopr.io](https://loopr.io)
 
-### [Documentations](http://loopring.io/english)
+### [Documentations](https://loopring.github.io/loopr/english)
 
 #### Start
 
@@ -21,7 +21,7 @@ Loopr 是一款开源的，非托管的以太坊钱包和去中心化交易所�
 访问 [loopring.io](https://loopring.io) 或者 [https://loopr.io](https://loopr.io)开始您的第一笔去中心化交易。
 
 
-### [文档](http://loopring.io/chinese)
+### [文档](https://loopring.github.io/loopr/chinese)
 
 #### 启动
 
