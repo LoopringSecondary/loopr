@@ -1,46 +1,33 @@
 # Loopr - ERC20 Wallet and Loopring DEX
 
-
-
 ### Introduction
 
-Loopr is a non-custodial Ethereum wallet and Loopring DEX，which is in Beta phase of V2. 
+Loopr is a non-custodial Ethereum wallet and Loopring DEX，which is in Beta phase of V3. 
 
 Start your first decentralized trade at [loopring.io](https://loopring.io) or [https://loopr.io](https://loopr.io)
 
-#### Features
+### [Documentations](http://loopring.io/english)
 
-- Loopring protocol: A web-based Ethereum wallet with Loopring protocol integration
-- Unlock: unlock wallet by Metamask,TRZEOR,Ledger,Keystore,Mnemonic,Privatekey,Watch Only
-- Assets:View balances & eth transactions 
-- Trade: Sell & Buy tokens
-- Airdrop: Bind  address for LRN & LRQ
-- Support multiple languages
-- More ...
-
-
-### Development 
-
-##### Stack
-
-- React
-- React-Router
-- Redux
-- Redux-saga: An alternative side effect model for Redux apps [Link](https://github.com/redux-saga/redux-saga)
-- Roadhog: Cli tool for creating react apps, configurable version of create-react-app. [Link](https://github.com/sorrycc/roadhog)
-- Antd: A react UI componnets library. [Link](https://github.com/ant-design/ant-design)
-- Dva: Lightweight front-end framework based on redux, redux-saga and react-router. [Link](https://github.com/dvajs/dva)
-
-
-#### start
+#### Start
 
 	npm install // install the node_modules
 	npm start // run for develop
 	npm run build // run for production
 
+### 介绍
+
+Loopr 是一款开源的，非托管的以太坊钱包和去中心化交易所，目前的版本是Beta 3。
+
+访问 [loopring.io](https://loopring.io) 或者 [https://loopr.io](https://loopr.io)开始您的第一笔去中心化交易。
 
 
+### [文档](http://loopring.io/chinese)
 
+#### 启动
+
+	npm install // 安装项目引用的包
+	npm start // 以开发模式启动
+	npm run build //编译构建项目
 
 
 
