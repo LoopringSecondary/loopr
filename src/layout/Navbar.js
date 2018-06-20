@@ -177,6 +177,7 @@ function Navbar(props) {
     } else {
       Modal.confirm({
         title: intl.get('ticket.already_claim_tip'),
+        content: intl.get('ticket.already_claim_tip_description'),
         onOk() {
           showModal({id: 'wallet/claimTicket'})
         },
@@ -315,7 +316,6 @@ function Navbar(props) {
             </div>
           </div>
         </div>
-        />
         <div className="zb-b-b fs14 color-grey-900 p10 pl15 pr15">
           <a onClick={showModal.bind(this, {id: 'wallet/generate'})} className="color-grey-900">
             <Icon type="plus" className="mr5"/>{intl.get('navbar.subs.generate')}
@@ -349,13 +349,16 @@ function Navbar(props) {
           <div className="col-auto fs12 color-black-3">{intl.get('version.label')}</div>
         </div>
       </div>
-      <div className="zb-b-t">
-        <div className="row pl10 pr10" style={{padding: '7px 0px'}}>
-          <div className="col fs12 color-black-2">{intl.get('version.update_time')}</div>
-          <div
-            className="col-auto fs12 color-black-3">{window.uiFormatter.getFormatTime(moment().format('x'), 'YYYYMMDD')}</div>
+      {
+        false &&
+        <div className="zb-b-t">
+          <div className="row pl10 pr10" style={{padding: '7px 0px'}}>
+            <div className="col fs12 color-black-2">{intl.get('version.update_time')}</div>
+            <div
+              className="col-auto fs12 color-black-3">{window.uiFormatter.getFormatTime(moment().format('x'), 'YYYYMMDD')}</div>
+          </div>
         </div>
-      </div>
+      }
       <div className="zb-b-t">
         <div className="row pl10 pr10" style={{padding: '7px 0px'}}>
           <div className="col fs12 color-black-2">{intl.get('version.feedback')}</div>

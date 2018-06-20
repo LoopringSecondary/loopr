@@ -698,7 +698,8 @@ I got this great idea:
     alert_action:'Go to claim ticket!',
     unlock_tip:'Please unlock your wallet first',
     current:"Already claimed:",
-    already_claim_tip:'You have already Claimed one ticket, do you want to modify you information? '
+    already_claim_tip:'You have already Claimed one ticket, do you want to modify you information? ',
+    already_claim_tip_description:'领取成功之后，24小时之内将会收到短信邀请,届时可凭短信入场。',
   }
 
 }
