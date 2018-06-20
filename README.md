@@ -13,6 +13,8 @@ Start your first decentralized trade at [loopring.io](https://loopring.io) or [h
 	npm install // install the node_modules
 	npm start // run for develop
 	npm run build // run for production
+	
+# Loopr - 以太坊钱包和去中心化交易所
 
 ### 介绍
 
