@@ -29,4 +29,4 @@ npm run build // run for production
 ```
 
 ## Documents in Other Languages
-- [中文文档](chinese_doc)
+- [中文文档](chinese)
