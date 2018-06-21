@@ -1,4 +1,7 @@
-#loopr documentations
+# Loopr Wallex
 
-- [English Documentataion](https://loopring.github.io/loopr/english)
-- [中文文档](https://loopring.github.io/loopr/chinese)
+## English
+- [English Documentataion](english_doc)
+
+## 中文（Chinese)
+- [中文文档](chinese_doc)
