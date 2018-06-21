@@ -1,6 +1,8 @@
+# Loopr
+
 Loopr is an ethereum wallet and also a loopring decentralized exchange.
 
-#### Features
+## Features
 
 - Loopring protocol: A web-based Ethereum wallet with Loopring protocol integration
 - Unlock: unlock wallet by Metamask,TRZEOR,Ledger,Keystore,Mnemonic,Privatekey,Watch Only
@@ -8,11 +10,9 @@ Loopr is an ethereum wallet and also a loopring decentralized exchange.
 - Trade: Sell & Buy tokens
 - Airdrop: Bind  address for LRN & LRQ
 - Support multiple languages
-- More ...
+## Development 
 
-### Development 
-
-##### Stack
+## Stack
 
 - React
 - React-Router
