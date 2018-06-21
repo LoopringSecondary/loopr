@@ -20,6 +20,13 @@ Loopr is an ethereum wallet and also a Loopring DEX, therefore we call it a Wall
 - [Antd](https://github.com/ant-design/ant-design): A react UI componnets library.
 - [Dva](https://github.com/dvajs/dva): Lightweight front-end framework based on redux, redux-saga and react-router.
 
+## Compile
+
+```
+npm install // install the node_modules
+npm start // run for develop
+npm run build // run for production
+```
 
 ## Documents in Other Languages
 - [中文文档](chinese_doc)
