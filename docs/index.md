@@ -1,5 +1,5 @@
 ## About
-Loopr is an ethereum wallet and also a Loopring DEX.
+Loopr is an ethereum wallet and also a Loopring DEX, therefore we call it a Wallex. If you are only interested in a Loopring DEX frontend, please check out [Circulr](https://loopring.github.io/circulr), another open-sourced frontend project by Loopring.
 
 ## Features
 
