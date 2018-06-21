@@ -1,5 +1,4 @@
-# Loopr Wallex
-
+## About
 Loopr is an ethereum wallet and also a Loopring DEX.
 
 ## Features
