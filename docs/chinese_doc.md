@@ -20,3 +20,10 @@ Loopr是一款开源的，非托管的以太坊钱包和去中心化交易所。
 - [Antd](https://github.com/ant-design/ant-design): 一个react 组件库。
 - [Dva](https://github.com/dvajs/dva):基于 redux、redux-saga 和 react-router 的轻量级前端框架。
 
+## 编译
+
+```
+npm install // 安装项目引用的包
+npm start // 以开发模式启动
+npm run build //编译构建项目
+```
