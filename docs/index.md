@@ -9,7 +9,6 @@ Loopr is an ethereum wallet and also a Loopring DEX.
 - Trade: Sell & Buy tokens
 - Airdrop: Bind  address for LRN & LRQ
 - Support multiple languages
-## Development 
 
 ## Stack
 
