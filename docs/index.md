@@ -1,5 +1,11 @@
+
 ## About
 Loopr is an ethereum wallet and also a Loopring DEX, therefore we call it a Wallex. If you are only interested in a Loopring DEX frontend, please check out [Circulr](https://loopring.github.io/circulr), another open-sourced frontend project by Loopring.
+
+
+## Documents in Other Languages
+- [Chinese (中文文档）](chinese.md)
+
 
 ## Features
 
@@ -27,6 +33,3 @@ npm install // install the node_modules
 npm start // run for develop
 npm run build // run for production
 ```
-
-## Documents in Other Languages
-- [中文文档](chinese)
