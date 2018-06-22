@@ -33,24 +33,23 @@ npm run build // run for production
 
 ## Deploy
 
-1. clone our project to local and cd the directory
+1. clone our project to local
 
 2. build project
 
    ```
    npm run build
    ```
-   
+
 3. [sign up](https://firebase.google.com/) for your firebase account(if you already have one, please continue to step 4)
 
-4. install firebase-cli  
+4. install firebase-cli
 
-  ```
-  npm install -g firebase-tools
-  ```
-
+   ```
+   npm install -g firebase-tools
+   ```
 5. deploy
-
-  ```
-  firebase  deploy
-  ```
+    ```
+    firbase deploy
+     ```
+    

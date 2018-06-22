@@ -41,13 +41,11 @@ npm run build //编译构建项目
 3. [注册](https://firebase.google.com/)firebase account(如果已经有账号，请继续下一步)
 
 4. 安装 firebase-cli  
-
-  ```
-  npm install -g firebase-tools
-  ```
-
+   ```
+   npm install -g firebase-tools
+   ```
 5. deploy
 
    ```
-   firebase  deploy
-   ```
+   firebase deploy
+   ```   
