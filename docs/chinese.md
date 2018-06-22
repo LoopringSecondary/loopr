@@ -27,3 +27,27 @@ npm install // 安装项目引用的包
 npm start // 以开发模式启动
 npm run build //编译构建项目
 ```
+
+## 部署
+
+1. clone 项目到本地
+
+2. build项目
+
+   ```
+   npm run build
+   ```
+
+3. [注册](https://firebase.google.com/)firebase account(如果已经有账号，请继续下一步)
+
+4. 安装 firebase-cli  
+
+  ```
+  npm install -g firebase-tools
+  ```
+
+5. deploy
+
+   ```
+   firebase  deploy
+   ```
