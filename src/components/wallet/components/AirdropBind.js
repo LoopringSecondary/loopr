@@ -91,7 +91,7 @@ class AirdropBind extends React.Component {
   };
 
   addressChange = (e) => {
-    this.setState({address: e.target.value})
+    this.setState({address:e.target.value })
   };
 
   render() {
@@ -101,6 +101,7 @@ class AirdropBind extends React.Component {
     const _this = this
 
     const bindAddress = (address, project) => {
+      address = address.trim()
       form.validateFields(async (err, values) => {
         if (!err) {
           _this.setState({loading:true})
@@ -218,7 +219,8 @@ class AirdropBind extends React.Component {
               initialValue: address,
               rules: [{
                 message: intl.get('airdrop.address_null',{token:project && project.name}),
-                validator: async (rule, value, cb) => await validateAddress(value) ? cb() : cb(true)
+                validator: async (rule, value, cb) => await validateAddress(value) ? cb() : cb(true),
+                transform:(value)=> value.trim()
               }]
             })(
               <Input
