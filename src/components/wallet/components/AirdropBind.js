@@ -3,9 +3,12 @@ import {Button, Card, Form, Input, Modal, Icon, Tooltip,Alert} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
 import {notifyTransactionSubmitted} from 'Loopring/relay/utils'
 import {connect} from 'dva';
-import {toHex} from "Loopring/common/formatter";
+import {toHex,trimAll} from "Loopring/common/formatter";
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification';
+
+
+
 
 class AirdropBind extends React.Component {
 
@@ -91,7 +94,7 @@ class AirdropBind extends React.Component {
   };
 
   addressChange = (e) => {
-    this.setState({address: e.target.value})
+    this.setState({address: trimAll(e.target.value)})
   };
 
   render() {
@@ -101,6 +104,9 @@ class AirdropBind extends React.Component {
     const _this = this
 
     const bindAddress = (address, project) => {
+
+      console.log(address)
+      return;
       form.validateFields(async (err, values) => {
         if (!err) {
           _this.setState({loading:true})
@@ -175,9 +181,8 @@ class AirdropBind extends React.Component {
     };
 
     async function validateAddress(value) {
-      console.log(value)
       if(project.projectId ===1){
-
+        value =  trimAll(value);
         if(value && value.length === 34){
           return await window.AntShares.Wallets.Wallet.toScriptHash(value);
         }
