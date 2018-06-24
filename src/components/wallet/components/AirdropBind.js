@@ -104,9 +104,6 @@ class AirdropBind extends React.Component {
     const _this = this
 
     const bindAddress = (address, project) => {
-
-      console.log(address)
-      return;
       form.validateFields(async (err, values) => {
         if (!err) {
           _this.setState({loading:true})
@@ -181,6 +178,7 @@ class AirdropBind extends React.Component {
     };
 
     async function validateAddress(value) {
+      console.log(value)
       if(project.projectId ===1){
         value =  trimAll(value);
         if(value && value.length === 34){
