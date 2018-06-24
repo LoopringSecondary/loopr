@@ -1,4 +1,5 @@
-import Transaction from "../../common/Loopring/ethereum/transaction";
+import {ecsign} from 'ethereumjs-util'
+
 
 export default class Account {
 
@@ -33,9 +34,9 @@ export default class Account {
     return this.unlockType
   }
 
-  signWithPrivateKey(rawTx, privateKey) {
-    let tx = new Transaction(rawTx)
-    return tx.sign(privateKey)
+  signWithPrivateKey(hash, privateKey) {
+
+    return ecsign(hash,privateKey)
   }
 
  async signOrder(){

@@ -4,6 +4,8 @@ import Transaction from "../../common/Loopring/ethereum/transaction";
 import {toHex, toBuffer, addHexPrefix} from '../../common/Loopring/common/formatter'
 import {privateKeytoAddress,download} from 'Loopring/ethereum/account';
 import {sign} from 'Loopring/relay/order'
+import {hashPersonalMessage} from 'ethereumjs-util'
+
 
 export default class PrivateKeyUnlockAccount extends Account {
 
@@ -18,12 +20,12 @@ export default class PrivateKeyUnlockAccount extends Account {
   }
 
   signMessage(message) {
-    console.log("private key sign");
-    return this.signWithPrivateKey(message, this.privateKey)
+    const hash = hashPersonalMessage(toBuffer(message));
+    return this.signWithPrivateKey(hash, toBuffer(addHexPrefix(this.privateKey)))
   }
 
   async sendTransaction(tx) {
-    let newTx = new Transaction(tx)
+    let newTx = new Transaction(tx);
     await newTx.complete();
     const ethTx = new EthTransaction(newTx.raw);
     ethTx.sign(toBuffer(addHexPrefix(this.privateKey)));

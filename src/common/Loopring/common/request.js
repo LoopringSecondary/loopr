@@ -27,7 +27,7 @@ let headers = {
   'Content-Type': 'application/json'
 };
 
-function request(options) {
+function request(options,url) {
   checkHost();
   let method;
     if (options.body) {
@@ -38,7 +38,7 @@ function request(options) {
     options.body = JSON.stringify(options.body)
   }
   // options.credentials = 'include'
-  const url =  method.startsWith('eth')? window.ETH_HOST : window.LOOPRING_PROVIDER_HOST;
+   url =  url ||(method.startsWith('eth')? window.ETH_HOST : window.LOOPRING_PROVIDER_HOST);
 
   return fetch(url, options)
     .then(checkStatus)
@@ -49,7 +49,7 @@ function request(options) {
     })
 }
 
-function id() {
+export function id() {
   return crypto.randomBytes(8).toString('hex');
 }
 

@@ -1,5 +1,5 @@
 import Account from "./Account";
-import {hashPersonalMessage} from "ethereumjs-util"
+import {hashPersonalMessage,sha3} from "ethereumjs-util"
 import Transaction from "../../common/Loopring/ethereum/transaction";
 import * as fm from "../../common/Loopring/common/formatter";
 import {getOrderHash} from "Loopring/relay/order";
@@ -22,17 +22,17 @@ export default class MetaMaskUnlockAccount extends Account {
     else return null
   }
 
-  async signMessage(hash){
+  async signMessage(message){
+    const hash = hashPersonalMessage(fm.toBuffer(message))
     const signMethod = () => {
       return new Promise((resolve)=>{
-        this.web3.eth.sign(this.account, hash, function(err, result){
+        this.web3.eth.sign(this.account, fm.toHex(hash), function(err, result){
           if(!err){
             const r = result.slice(0,66);
             const s = fm.addHexPrefix(result.slice(66,130));
             const v = fm.toNumber(fm.addHexPrefix(result.slice(130,132)));
             resolve({r, s, v})
           } else {
-            console.error(err);
             const errorMsg = err.message.substring(0, err.message.indexOf(' at '))
             resolve({error:{message:errorMsg}})
           }
@@ -75,7 +75,7 @@ export default class MetaMaskUnlockAccount extends Account {
 
   async signOrder(order) {
     const hash = getOrderHash(order);
-    const signed = await this.signMessage(fm.toHex(hashPersonalMessage(hash)))
+    const signed = await this.signMessage(hash)
     if(signed.error) {
       let errorMsg = signed.error.message
       if(errorMsg && errorMsg.startsWith("Error:")){

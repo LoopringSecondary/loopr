@@ -596,7 +596,7 @@ export default {
     goback: "返回",
     watch_only_not_allowed: "观察者模式无法绑定空投",
     eth_adress_null:'请解锁钱包后在重试',
-    neo_address_null:'请输入您想绑定的合法的NEO地址'
+    address_null:'请输入您想绑定的合法的{token}地址'
   },
   mnemonic:{
     default_address:'当前默认地址',
@@ -604,6 +604,11 @@ export default {
     choose_other_address:'选择其他地址',
   },
   wallet: {
+    to_claim:'领取 {token}',
+    claim_token_suc:' 领取{token}成功',
+    claim_token_fail:'领取{token}失败',
+    not_open:'暂时还没有开发',
+    valid_add:'请绑定合法的{token}地址',
     bind_tip: "绑定空投接收地址",
     cu_bind_address: "当前绑定的地址",
     airdrop: "空投",
@@ -818,6 +823,27 @@ export default {
     fee_recipient: "费用接收地址",
     ring_more_info: "更多信息，请访问RingInfo",
     no_ring: "没有找到符合条件的撮合环路"
+  },
+  ticket:{
+    claim:'领取门票',
+    claim_suc:'领取成功',
+    claim_fail:'领取失败',
+    claim_over:'门票申请活动已经结束',
+    title:'领取2018年数字经济高峰论坛门票',
+    name:'姓名',
+    phone:"电话(推荐)",
+    email:'邮箱',
+    name_tip:"请输入您的姓名",
+    email_tip:" 不合法的邮箱",
+    email_phone_tip:'请提供姓名以及电话或者邮箱',
+    open_tip:'暂时只对拥护LRC超过的用户{amount}开放',
+    no_trezor:'暂时不支持TREZOR',
+    alert_title:'2018年数字经济高峰论坛门票领取活动已经开放',
+    alert_action:'快去领取门票吧!',
+    unlock_tip:'请先去解锁您的钱包',
+    current:'已经领取',
+    already_claim_tip:'您已经申请成功，是否要修改您的申请信息？',
+    already_claim_tip_description:'领取成功之后，24小时之内将会收到短信邀请,届时可凭短信入场。'
   }
 }
 
