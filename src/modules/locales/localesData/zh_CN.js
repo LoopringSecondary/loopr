@@ -604,6 +604,7 @@ export default {
     choose_other_address:'选择其他地址',
   },
   wallet: {
+    to_claim:'领取 {token}',
     bind_tip: "绑定空投接收地址",
     cu_bind_address: "当前绑定的地址",
     airdrop: "空投",
