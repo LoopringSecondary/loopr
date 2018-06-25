@@ -53,7 +53,8 @@ let Preview = ({
       } else {
         extraData.txHash = response.result
       //  window.STORAGE.transactions.addTx({hash: response.result, owner: account.address})
-        window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce})
+        window.STORAGE.wallet.setWallet({address:window.WALLET.getAddress(),nonce:tx.nonce});
+        console.log('body:',)
         notifyTransactionSubmitted({rawTx,txHash:response.result,from:window.WALLET.getAddress()});
         const worth = `${fm.getDisplaySymbol(window.STORAGE.settings.get().preference.currency)}${accMul(result.extraData.amount, result.extraData.price).toFixed(2)}`
         Notification.open({

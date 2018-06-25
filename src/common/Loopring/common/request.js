@@ -38,8 +38,7 @@ function request(options,url) {
     options.body = JSON.stringify(options.body)
   }
   // options.credentials = 'include'
-   url =  url ||(method.startsWith('eth')? window.ETH_HOST : window.LOOPRING_PROVIDER_HOST);
-
+   url =  url || (method.startsWith('eth')? window.ETH_HOST : window.LOOPRING_PROVIDER_HOST);
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
@@ -52,5 +51,6 @@ function request(options,url) {
 export function id() {
   return crypto.randomBytes(8).toString('hex');
 }
+
 
 export default request;

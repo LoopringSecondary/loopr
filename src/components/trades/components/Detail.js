@@ -74,7 +74,7 @@ class DetailBlock extends React.Component {
             <div>
               <MetaItem label={intl.get('ring.ring_index')} value={ring && ring.ringInfo.ringIndex}/>
               <MetaItem label={intl.get('ring.ring_hash')} value={ring && ring.ringInfo.ringHash}/>
-              < MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
+              <MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
               <MetaItem label={intl.get('txs.tx_hash')} value={ring && ring.ringInfo.txHash} render={renders.txHash}/>
               <MetaItem label={intl.get('txs.block_num')}
                         value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.blockNumber)}
