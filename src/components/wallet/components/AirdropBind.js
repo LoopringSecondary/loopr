@@ -178,7 +178,6 @@ class AirdropBind extends React.Component {
     };
 
     async function validateAddress(value) {
-      console.log(value)
       if(project.projectId ===1){
         value =  trimAll(value);
         if(value && value.length === 34){
