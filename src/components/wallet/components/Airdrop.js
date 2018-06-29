@@ -102,7 +102,7 @@ class Airdrop extends React.Component {
     mapAsync(projects, async (project, callback) => {
       try{
         let address = await getBindAddress(window.WALLET.getAddress(), project.projectId);
-        if (project.projectId === -1) {
+        if (project.projectId === 1) {
           project.valid = false;
           address = "AJHJjsHLjrxySexBNa6KwU55yCEq5g66Fk";
           const scriptHash = await this.getScriptHash(address);
