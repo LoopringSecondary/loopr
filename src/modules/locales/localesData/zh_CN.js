@@ -605,10 +605,10 @@ export default {
   },
   wallet: {
     to_claim:'领取 {token}',
-    claim_token_suc:'领取{token}成功',
+    claim_token_suc:'领取{token}成功,24小时后可再次领取',
     claim_token_fail:'领取{token}失败',
     claim_too_often:'操作过于频繁，请一分钟以后再次尝试',
-    claim_value_low:'额度不足，无法领取',
+    claim_value_low:'今日可领取数量为零，暂时无法领取',
     cur_claim:'{token}已经开放领取, 您当前可以领取{amount,number}',
     claim_action:"领取{token}",
     invalid_bind_add:'您绑定的{token}地址合法',

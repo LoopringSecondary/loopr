@@ -460,10 +460,10 @@ I got this great idea:
   },
   wallet: {
     to_claim:'Claim {token}',
-    claim_token_suc:'Claim {token} Successfully',
+    claim_token_suc:'Claim {token} successfully,and it can be claimed again after 24 hours',
     claim_token_fail:'Claim {token} Failed',
     claim_too_often:'You operate too frequently. Please try again one minute later',
-    claim_value_low:'The quota is insufficient and cannot be claimed',
+    claim_value_low:'The quantity available for collection today is zero and is temporarily unavailable',
     cur_claim:'You can claim {amount,number} {token} currently',
     claim_action:"Go to claim {token}",
     invalid_bind_add:'Current bound {token} address is invalid',
