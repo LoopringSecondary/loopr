@@ -1,7 +1,7 @@
 import React from 'react';
-import {Card, Icon, Tooltip, Button,Alert} from 'antd';
+import {Card, Icon, Tooltip, Button, Alert} from 'antd';
 import {generateBindAddressTx, getBindAddress} from "Loopring/ethereum/utils";
-import {toHex, toBig, toNumber} from "Loopring/common/formatter";
+import {toHex, toBig, toNumber,clearPrefix} from "Loopring/common/formatter";
 import CoinIcon from '../../common/CoinIcon';
 import {projects} from "../../../common/config/data";
 import mapAsync from 'async/map';
@@ -55,6 +55,7 @@ class Airdrop extends React.Component {
     return moment().format('YYYYMMDDHHmm')
   };
   claimToken = async (project) => {
+    const {projects} = this.state;
     if (project.projectId !== 1) {
       Notification.open({type: 'error', message: intl.get('wallet.not_open')});
       return;
@@ -72,26 +73,33 @@ class Airdrop extends React.Component {
     const address = project.address;
     const scriptHash = await this.getScriptHash(address);
     if (scriptHash) {
-      const params = 'd1013d1c' + this.id()+'0000' + scriptHash + method;
+      const params = 'd1013d1c' + this.id() + '0000' + scriptHash + method;
       let body = {};
       body.method = 'sendrawtransaction';
       body.params = [params];
       const res = await request({method: 'post', body}, neohost);
       if (res.result) {
         Notification.open({
-          message:intl.get('wallet.claim_token_suc',{token:project.lrx}),
-          type:'success',
-          actions:(
+          message: intl.get('wallet.claim_token_suc', {token: project.lrx}),
+          type: 'success',
+          actions: (
             <div>
-              <Button className="alert-btn mr5" onClick={() =>  window.open(`http://state.otcgo.cn/traninfo.html?id=${res.result.txid}&network=mainnet`,'_blank')}>{intl.get('wallet.neo_bro')}</Button>
+              <Button className="alert-btn mr5"
+                      onClick={() => window.open(`https://neotracker.io/tx/${clearPrefix(res.result.txid)}`, '_blank')}>{intl.get('wallet.neo_bro')}</Button>
             </div>
           )
         });
+        const index = projects.indexOf(project)
         project.last = moment().valueOf();
-        projects[0] = project;
+        projects[index] = project;
+        Notification.open({type: 'success', message: '领取成功'});
         this.setState({projects})
       } else {
-        Notification.open({type: 'error', message: intl.get('wallet.claim_token_fail',{token:project.lrx}),description:res.error.message})
+        Notification.open({
+          type: 'error',
+          message: intl.get('wallet.claim_token_fail', {token: project.lrx}),
+          description: res.error.message
+        })
       }
     }
   };
@@ -99,7 +107,7 @@ class Airdrop extends React.Component {
   componentDidMount() {
     const _this = this;
     mapAsync(projects, async (project, callback) => {
-      try{
+      try {
         let address = await getBindAddress(window.WALLET.getAddress(), project.projectId);
         if (project.projectId === 1) {
           project.claimable = false;
@@ -117,16 +125,16 @@ class Airdrop extends React.Component {
               project.claimable = true
             }
           }
-        }else if(address){
+        } else if (address) {
           project.valid = true;
           project.claimable = false
         }
         callback(null, {...project, address})
-      }catch (e){
+      } catch (e) {
         callback(e)
       }
     }, (err, results) => {
-      if(!err){
+      if (!err) {
         _this.setState({projects: results});
       }
     })
@@ -139,17 +147,21 @@ class Airdrop extends React.Component {
 
   render() {
     const {projects} = this.state;
-    const neoProject  = projects.find(item => item.projectId ===1);
+    const neoProject = projects.find(item => item.projectId === 1);
     const HomePage = ({page}) => {
       return (
         <Card title={intl.get('wallet.airdrop')}>
-          {neoProject.claimable && <Alert type="success"  className="mb10"
-                 description={
-                   <div>
-                     {intl.get('wallet.cur_claim',{token:neoProject.lrx,amount:neoProject.amount})},
-                     <a className='color-blue-500 ml5' onClick={() => this.claimToken(neoProject)}>{intl.get('wallet.claim_action',{token:neoProject.lrx})}</a>
-                   </div>
-                 }/>}
+          {neoProject.claimable && <Alert type="success" className="mb10"
+                                          description={
+                                            <div>
+                                              {intl.get('wallet.cur_claim', {
+                                                token: neoProject.lrx,
+                                                amount: neoProject.amount
+                                              })},
+                                              <a className='color-blue-500 ml5'
+                                                 onClick={() => this.claimToken(neoProject)}>{intl.get('wallet.claim_action', {token: neoProject.lrx})}</a>
+                                            </div>
+                                          }/>}
           {this.state.projects.map((project, index) => {
             return (<div className="row zb-b-b pt10 pb10 ml0 mr0 align-items-center" key={index}>
               <div className="col-auto pl0">
@@ -171,7 +183,7 @@ class Airdrop extends React.Component {
                   }
                   {this.findBindAddress(project) && !project.valid &&
                   <div className='fs3 color-black-1 color-error-1 list-inline-item'>
-                    {intl.get('wallet.invalid_bind_add',{token:project.lrc})}
+                    {intl.get('wallet.invalid_bind_add', {token: project.lrc})}
                   </div>
                   }
                 </div>
@@ -189,7 +201,7 @@ class Airdrop extends React.Component {
                 </div>
                 }
               </div>
-              { false && project.claimable && <div className="col-auto pl0 pr5">
+              {false && project.claimable && <div className="col-auto pl0 pr5">
                 <div className="f2 ">
                   <a className="color-primary-1"
                      onClick={() => this.claimToken(project)}>{project.amount} {intl.get('wallet.to_claim', {token: project.lrx})}</a>
