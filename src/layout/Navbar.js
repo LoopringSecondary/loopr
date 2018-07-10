@@ -254,7 +254,7 @@ function Navbar(props) {
                 </a>
               </div>
             </div>
-            {<div className="col-sm-4 text-center pl0 pr0 zb-b-b">
+            {false && <div className="col-sm-4 text-center pl0 pr0 zb-b-b">
               <div className="fs14 color-black-2 text-right navbar-account-grid">
                 <Sockets.Assets render={(props) => {
                   return (
@@ -387,7 +387,7 @@ function Navbar(props) {
   return (
     <div className="navbar-loopring zb-b-b">
       <div className="container">
-        {window.WALLET_UNLOCK_TYPE && <Sockets.Assets render={(props) => {
+        {false && window.WALLET_UNLOCK_TYPE && <Sockets.Assets render={(props) => {
           return (
             <Alert type="success" closable className="mt15"
                    description={
