@@ -42,10 +42,6 @@
   ],
   "relays": [
     {
-      "value": "//pre-relay1.loopring.io",
-      "name": "Pre-Production Relay"
-    },
-    {
       "value": "//relay1.loopring.io",
       "name": "Default Loopring Relay"
     },
