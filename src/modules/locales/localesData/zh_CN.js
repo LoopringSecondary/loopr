@@ -612,7 +612,7 @@ export default {
     cur_claim:'{token}已经开放领取, 您当前可以领取{amount,number}',
     claim_action:"领取{token}",
     invalid_bind_add:'您绑定的{token}地址合法',
-    neo_bro:"在 state.otcgo.cn 查看交易详情",
+    neo_bro:"在 neotracker.io 查看交易详情",
     not_open:'暂时还没有开发',
     valid_add:'请绑定合法的{token}地址',
     bind_tip: "绑定空投接收地址",

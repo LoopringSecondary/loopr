@@ -467,7 +467,7 @@ I got this great idea:
     cur_claim:'You can claim {amount,number} {token} currently',
     claim_action:"Go to claim {token}",
     invalid_bind_add:'Current bound {token} address is invalid',
-    neo_bro:"View Transaction on state.otcgo.cn",
+    neo_bro:"View Transaction on neotracker.io",
     not_open:'Temporarily closed',
     valid_add:'Please bind valid {token} address',
     bind_tip: "Airdrop Binding",
