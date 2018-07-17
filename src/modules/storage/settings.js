@@ -55,11 +55,24 @@ const getContractVersion = ()=>{
   }
 }
 
+const setTokensConfig = (tokens)=>{
+  localStorage.tokensConfig = JSON.stringify(tokens)
+}
+
+const getTokensConfig = ()=>{
+  if(localStorage.tokensConfig){
+    return JSON.parse(localStorage.tokensConfig)
+  }else{
+    return []
+  }
+}
 
 export default {
   set,
   get,
   getRelay,
   getContractVersion,
+  setTokensConfig,
+  getTokensConfig
 }
 

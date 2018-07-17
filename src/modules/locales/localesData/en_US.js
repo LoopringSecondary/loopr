@@ -16,6 +16,10 @@ export default {
     custom:'Customize',
     gas:'Gas',
   },
+  init:{
+    init_failed: "Init failed",
+    failed_fetch_data_from_server: 'Failed fetch data from server, you could wait a moment and come back later',
+  },
   userguide:{
     title:'User Guide',
     visible:false,
