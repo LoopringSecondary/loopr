@@ -33,7 +33,7 @@ class TransactionsContainer extends React.Component {
     }
     socket.emit('transaction_req',JSON.stringify(query))
     socket.on('transaction_res', (res)=>{
-      console.log('transaction_res',res)
+     // console.log('transaction_res',res)
       if(!res) return null
       res = JSON.parse(res)
       if(!res.error && res.data ){

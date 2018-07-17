@@ -27,9 +27,9 @@ export async function getRings(filter){
   })
 }
 
-export async function getRingByHash({ringIndex,protocolAddress}) {
+export async function getRingByHash({ringIndex,delegateAddress}) {
   try {
-    await validator.validate({value: protocolAddress, type: 'ADDRESS'});
+    await validator.validate({value: delegateAddress, type: 'ADDRESS'});
   } catch (e) {
     return new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg)
   }
@@ -37,7 +37,7 @@ export async function getRingByHash({ringIndex,protocolAddress}) {
   ringIndex = toHex(toBig(ringIndex))
   let body = {};
   body.method = 'loopring_getRingMinedDetail';
-  body.params = [{ringIndex,protocolAddress}];
+  body.params = [{ringIndex,delegateAddress}];
   return request({
     method:'post',
     headers,

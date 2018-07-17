@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Card, Spin} from 'antd';
 import {getRingByHash} from 'Loopring/relay/ring'
 import {toNumber, toBig} from "Loopring/common/formatter";
+import config from '../../../common/config/'
 import intl from 'react-intl-universal'
 
 
@@ -29,9 +30,8 @@ class DetailBlock extends React.Component {
   componentDidMount() {
     const {modal} = this.props;
     const _this = this;
-    const state = window.STORE.getState();
-    const protocolAddress = state && state.settings && state.settings.trading && state.settings.trading.contract && state.settings.trading.contract.address;
-      getRingByHash({ringIndex:modal.item.ringIndex,protocolAddress}).then(res => {
+    const delegateAddress = config.getDelegateAddress();
+      getRingByHash({ringIndex:modal.item.ringIndex,delegateAddress}).then(res => {
       if (!res.error) {
         _this.setState({ring: res.result,loading:false});
       }else{
@@ -74,7 +74,7 @@ class DetailBlock extends React.Component {
             <div>
               <MetaItem label={intl.get('ring.ring_index')} value={ring && ring.ringInfo.ringIndex}/>
               <MetaItem label={intl.get('ring.ring_hash')} value={ring && ring.ringInfo.ringHash}/>
-              < MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
+              <MetaItem label={intl.get('ring.miner')} value={ring && ring.ringInfo.miner} render={renders.address}/>
               <MetaItem label={intl.get('txs.tx_hash')} value={ring && ring.ringInfo.txHash} render={renders.txHash}/>
               <MetaItem label={intl.get('txs.block_num')}
                         value={ring && window.uiFormatter.getFormatNum(ring.ringInfo.blockNumber)}

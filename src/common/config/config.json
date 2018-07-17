@@ -46,10 +46,6 @@
       "name": "Default Loopring Relay"
     },
     {
-      "value": "//pre-relay1.loopring.io",
-      "name": "Pre-Production Relay"
-    },
-    {
       "value": "//13.112.62.24",
       "name": "Test"
     }
