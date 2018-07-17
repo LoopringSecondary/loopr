@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Card, Spin} from 'antd';
 import {getRingByHash} from 'Loopring/relay/ring'
 import {toNumber, toBig} from "Loopring/common/formatter";
+import config from '../../../common/config/'
 import intl from 'react-intl-universal'
 
 
@@ -29,9 +30,8 @@ class DetailBlock extends React.Component {
   componentDidMount() {
     const {modal} = this.props;
     const _this = this;
-    const state = window.STORE.getState();
-    const protocolAddress = state && state.settings && state.settings.trading && state.settings.trading.contract && state.settings.trading.contract.address;
-      getRingByHash({ringIndex:modal.item.ringIndex,protocolAddress}).then(res => {
+    const delegateAddress = config.getDelegateAddress();
+      getRingByHash({ringIndex:modal.item.ringIndex,delegateAddress}).then(res => {
       if (!res.error) {
         _this.setState({ring: res.result,loading:false});
       }else{
