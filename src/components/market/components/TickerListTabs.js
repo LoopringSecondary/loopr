@@ -176,7 +176,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
         )
       }
       {
-        configs.newMarkets &&
+        configs.newMarkets && configs.newMarkets.length >0 &&
         <Tabs.TabPane tab={tab(<Icon type="bulb" className="ml5 mr5" />)} key="bulb">
           <div className="pl10 pr10">
             <TickerTable tickers={tickers} market="innovate" dispatch={dispatch} />
