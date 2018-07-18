@@ -1,21 +1,28 @@
 //const config = require('./config.json');
 import fetch from 'dva/fetch';
+import STORAGE from '../../modules/storage'
 
 const data = require('./data')
 const config = data.configs
 const tokensIcons = require('./tokens_icons.json');
 
-let tokens = config.tokens || []
+let tokens = [{
+  "symbol": "ETH",
+  "digits": 18,
+  "address": "",
+  "precision": 6,
+}, ...STORAGE.settings.getTokensConfig().map(item=>{
+  item.icon = tokensIcons[item.symbol]
+  return item
+})].filter(item=>{
+  return !config.ignoreTokens || !config.ignoreTokens.includes(item.symbol)
+})
 tokens.forEach(token=>{
   token.icon = tokensIcons[token.symbol]
 });
 const markets = config.markets
 const txs = config.txs;
 const projects =  data.projects;
-
-// mock some tokens's data read from localstorage
-const localTokens = [];
-tokens = tokens.concat(localTokens)
 
 function requestWhiteList() {
   const url = "//raw.githubusercontent.com/Loopring/mock-relay-data/master/whiteList.json";

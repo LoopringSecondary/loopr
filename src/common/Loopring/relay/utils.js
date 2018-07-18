@@ -125,6 +125,15 @@ export function getPendingRawTxByHash(txHash) {
   })
 }
 
+export async function getTokens() {
+  let body = {};
+  body.method = 'loopring_getLooprSupportedTokens';
+  body.params = [{}];
+  return request({
+    method: 'post',
+    body
+  })
+}
 
 
 
