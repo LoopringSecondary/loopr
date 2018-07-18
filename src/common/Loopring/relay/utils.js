@@ -135,5 +135,15 @@ export async function getTokens() {
   })
 }
 
+export async function getMarkets() {
+  let body = {};
+  body.method = 'loopring_getLooprSupportedMarket';
+  body.params = [{}];
+  return request({
+    method: 'post',
+    body
+  })
+}
+
 
 

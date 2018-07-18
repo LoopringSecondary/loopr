@@ -114,7 +114,7 @@ const TickerTable = (props)=>{
                     {item.change || 0}
                   </TickerTrend>
                 </td>
-                <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
+                <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {item.market.split('-')[1]}</td>
               </tr>
             )
           }
@@ -176,7 +176,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
         )
       }
       {
-        configs.newMarkets &&
+        configs.newMarkets && configs.newMarkets.length >0 &&
         <Tabs.TabPane tab={tab(<Icon type="bulb" className="ml5 mr5" />)} key="bulb">
           <div className="pl10 pr10">
             <TickerTable tickers={tickers} market="innovate" dispatch={dispatch} />
