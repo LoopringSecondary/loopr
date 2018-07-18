@@ -114,7 +114,7 @@ const TickerTable = (props)=>{
                     {item.change || 0}
                   </TickerTrend>
                 </td>
-                <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
+                <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {item.market.split('-')[1]}</td>
               </tr>
             )
           }
