@@ -40,22 +40,7 @@ function getCustomTokens(){
 }
 
 function getTokens(){
-  let tokens = [{
-    "symbol": "ETH",
-    "digits": 18,
-    "address": "",
-    "precision": 6,
-  }, ...STORAGE.settings.getTokensConfig().map(item=>{
-    item.icon = tokensIcons[item.symbol]
-    item.precision = item.digits > 6 ? 6 : item.digits
-    return item
-  })].filter(item=>{
-    return !config.ignoreTokens || !config.ignoreTokens.includes(item.symbol)
-  })
-  tokens.forEach(token=>{
-    token.icon = tokensIcons[token.symbol]
-  });
-  return tokens
+  return config.tokens || []
 }
 
 function getMarketByPair(pair) {
@@ -162,7 +147,7 @@ function getMarkets() {
   //   })
   // })
   // return markets
-  return STORAGE.settings.getMarketsConfig()
+  return config.markets.concat(config.newMarkets)
 }
 
 function getGasLimitByType(type) {

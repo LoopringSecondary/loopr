@@ -66,59 +66,6 @@ app.router(require('./router').default);
 // 5. Start
 app.start('#root');
 
-getTokens().then(res=>{
-  if(res.result) {
-    const tokens = new Array()
-    tokens.push({
-      "symbol": "ETH",
-      "digits": 18,
-      "address": "",
-      "precision": 6,
-    })
-    res.result.forEach(item=>{
-      if(!item.deny) {
-        const digit = Math.log10(item.decimals)
-        tokens.push({
-          "symbol": item.symbol,
-          "digits": digit,
-          "address": item.protocol,
-          "precision": Math.min(digit, 6),
-        })
-      }
-    })
-    STORAGE.settings.setTokensConfig(tokens)
-    app._store.dispatch({type:'tokens/itemsChange', payload:{items:tokens}})
-  }
-}).catch(error=> {
-  console.log(error)
-  Notification.open({
-    message:intl.get('notifications.title.init_failed'),
-    description:intl.get('notifications.message.failed_fetch_data_from_server'),
-    type:'error'
-  })
-})
-
-getMarkets().then(res=>{
-  if(res.result) {
-    const markets = res.result.map(item=>{
-      const pair = item.split('-')
-      return {
-        "tokenx": pair[0],
-        "tokeny": pair[1],
-        "pricePrecision":8
-      }
-    })
-    STORAGE.settings.setMarketsConfig(markets)
-  }
-}).catch(error=> {
-  console.log(error)
-  Notification.open({
-    message:intl.get('notifications.title.init_failed'),
-    description:intl.get('notifications.message.failed_fetch_data_from_server'),
-    type:'error'
-  })
-})
-
 // STORE is available when current route has rendered
 // Becarefull to use STORE in render funtion
 window.STORE = app._store
