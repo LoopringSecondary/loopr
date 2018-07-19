@@ -13,7 +13,6 @@ const TickerTable = (props)=>{
   const newMarkets = configs.newMarkets
   const isInNewMarket = (market) => {
     const m = market.toLowerCase().split('-')
-    //console.log(1, m, newMarkets.find((i)=>(i.tokenx === m[0] && i.tokeny === m[1]) || (i.tokeny === m[0] && i.tokenx === m[1])))
     return newMarkets.find((i)=> {
       return (i.tokenx.toLowerCase() === m[0] && i.tokeny.toLowerCase() === m[1]) || (i.tokeny.toLowerCase() === m[0] && i.tokenx.toLowerCase() === m[1])
     })
