@@ -11,6 +11,9 @@ import STORAGE from './modules/storage'
 import {setLocale} from "./common/utils/localeSetting";
 import {configs} from './common/config/data'
 import UserAgent from './common/utils/useragent'
+import {getTokens, getMarkets} from "Loopring/relay/utils";
+import Notification from 'Loopr/Notification'
+import intl from 'react-intl-universal'
 
 window.CONTAINERS = containers
 window.REDUX = redux

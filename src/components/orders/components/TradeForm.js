@@ -198,13 +198,13 @@ class TradeForm extends React.Component {
           let allowed = false
           let priceSymbol = fm.getDisplaySymbol(settings.preference.currency)
           if(settings.preference.currency === 'USD') {
-            priceSymbol = '100' + priceSymbol
-            if(totalWorth > 100) {
+            priceSymbol = '10' + priceSymbol
+            if(totalWorth > 10) {
               allowed = true
             }
           } else {
-            priceSymbol = '500' + priceSymbol
-            if(totalWorth > 500) {
+            priceSymbol = '50' + priceSymbol
+            if(totalWorth > 50) {
               allowed = true
             }
           }
@@ -695,7 +695,7 @@ class TradeForm extends React.Component {
     const editLRCFee = (
       <Popover overlayClassName="place-order-form-popover" title={<div className="pt5 pb5">{intl.get('trade.custom_lrc_fee_title')}</div>} content={
         <div>
-          <div className="pb5 fs12">{intl.get('trade.current_lrc_fee_ratio')} : {sliderMilliLrcFee}‰</div>
+          <div className="pb5 fs12">{intl.get('trade.current_lrc_fee_ratio')} : {fm.toNumber(sliderMilliLrcFee)/10}％</div>
           <div className="pb15 fs12">{intl.get('trade.current_lrc_fee')} : {calculatedLrcFee} LRC</div>
           {form.getFieldDecorator('lrcFeeSlider', {
             initialValue: configs.defaultLrcFeePermillage,

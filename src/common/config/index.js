@@ -1,21 +1,13 @@
 //const config = require('./config.json');
 import fetch from 'dva/fetch';
+import STORAGE from '../../modules/storage'
 
 const data = require('./data')
 const config = data.configs
 const tokensIcons = require('./tokens_icons.json');
 
-let tokens = config.tokens || []
-tokens.forEach(token=>{
-  token.icon = tokensIcons[token.symbol]
-});
-const markets = config.markets
 const txs = config.txs;
 const projects =  data.projects;
-
-// mock some tokens's data read from localstorage
-const localTokens = [];
-tokens = tokens.concat(localTokens)
 
 function requestWhiteList() {
   const url = "//raw.githubusercontent.com/Loopring/mock-relay-data/master/whiteList.json";
@@ -31,25 +23,24 @@ async function  isinWhiteList(address) {
 
 function getChainId(){
   return config.chainId
-
 }
 
 function getTokenBySymbol(symbol){
   if(!symbol){ return {} }
-  return tokens.find(token=>token.symbol.toLowerCase()===symbol.toLowerCase()) || {}
+  return getTokens().find(token=>token.symbol.toLowerCase()===symbol.toLowerCase()) || {}
 }
 
 function getTokenByAddress(address){
   if(!address){ return {} }
-  return tokens.find(token=>token.address.toLowerCase()===address.toLowerCase())
+  return getTokens().find(token=>token.address.toLowerCase()===address.toLowerCase())
 }
 
 function getCustomTokens(){
-  return tokens.filter(token=>token.custom)
+  return getTokens().filter(token=>token.custom)
 }
 
 function getTokens(){
-  return tokens
+  return config.tokens || []
 }
 
 function getMarketByPair(pair) {
@@ -83,14 +74,14 @@ function isSupportedMarket(market) {
   if(!market) return false
   const pair = market.split('-')
   if(pair.length !== 2) return false
-  return markets.find(m=> {
+  return getMarkets().find(m=> {
     return (m.tokenx === pair[0].toUpperCase() && m.tokeny === pair[1].toUpperCase()) || (m.tokenx === pair[1].toUpperCase() && m.tokeny === pair[0].toUpperCase())
   })
 }
 
 function getMarketBySymbol(tokenx, tokeny) {
   if (tokenx && tokeny) {
-    return markets.find(market=> {
+    return getMarkets().find(market=> {
         return (market.tokenx === tokenx && market.tokeny === tokeny) || (market.tokenx === tokeny && market.tokeny === tokenx)
       }
     ) || {
@@ -104,11 +95,11 @@ function getMarketBySymbol(tokenx, tokeny) {
 }
 
 function getMarketsByTokenR(token) {
-  return config.markets.filter(item=>item.tokeny === token)
+  return getMarkets().filter(item=>item.tokeny === token)
 }
 
 function getMarketsByTokenL(token) {
-  return config.markets.filter(item=>item.tokenx === token)
+  return getMarkets().filter(item=>item.tokenx === token)
 }
 
 function getTokenSupportedMarket(token) {
@@ -140,7 +131,23 @@ function getTokenSupportedMarkets(token) {
 }
 
 function getMarkets() {
-  return markets;
+  // const tokens = getTokens();
+  // const supportedMarktesR = getSupportedMarketsTokenR()
+  // let markets = new Array()
+  // tokens.filter(item => item.symbol !== 'ETH' && item.symbol !== 'WETH').forEach(token=> {
+  //   supportedMarktesR.forEach(marketR => {
+  //     if(marketR !== token.symbol) {
+  //       const tokenConfig = getTokenBySymbol(token.symbol)
+  //       markets.push({
+  //         "tokenx": token.symbol,
+  //         "tokeny": marketR,
+  //         "pricePrecision": tokenConfig.digits > 8 ? 8 : tokenConfig.digits
+  //       })
+  //     }
+  //   })
+  // })
+  // return markets
+  return config.markets.concat(config.newMarkets)
 }
 
 function getGasLimitByType(type) {

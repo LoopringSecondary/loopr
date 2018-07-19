@@ -55,11 +55,38 @@ const getContractVersion = ()=>{
   }
 }
 
+const setTokensConfig = (tokens)=>{
+  localStorage.tokensConfig = JSON.stringify(tokens)
+}
+
+const getTokensConfig = ()=>{
+  if(localStorage.tokensConfig){
+    return JSON.parse(localStorage.tokensConfig)
+  }else{
+    return []
+  }
+}
+
+const setMarketsConfig = (markets)=>{
+  localStorage.marketsConfig = JSON.stringify(markets)
+}
+
+const getMarketsConfig = ()=>{
+  if(localStorage.marketsConfig){
+    return JSON.parse(localStorage.marketsConfig)
+  }else{
+    return []
+  }
+}
 
 export default {
   set,
   get,
   getRelay,
   getContractVersion,
+  setTokensConfig,
+  getTokensConfig,
+  setMarketsConfig,
+  getMarketsConfig
 }
 

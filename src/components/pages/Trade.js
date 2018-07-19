@@ -114,9 +114,9 @@ export default function Home(props){
             <div className="row align-items-stretch gutter-0 ">
               <div className="col-4 zb-b-r">
                 <TradeFormTab pair={pair} />
-                <div className="fs12 p10 pt0 color-black-3" style={{marginTop:'-10px'}}>
+                {false && <div className="fs12 p10 pt0 color-black-3" style={{marginTop:'-10px'}}>
                   {intl.getHTML('testtips.tradetips_description')}
-                </div>
+                </div>}
               </div>
               <div className="col-4 zb-b-r">
                 <div className="fs2 lh25 color-black-1 zb-b-b text-center" style={{padding:'0px 0px 0px'}}>

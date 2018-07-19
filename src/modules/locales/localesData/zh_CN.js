@@ -16,6 +16,10 @@ export default {
     custom:'自定义',
     gas:'油费',
   },
+  init:{
+    init_failed: "初始化数据失败",
+    failed_fetch_data_from_server: '从服务器获取数据失败, 请稍后在尝试',
+  },
   userguide:{
     title:'新手指引',
     visibe:true,

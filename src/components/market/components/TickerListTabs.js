@@ -4,19 +4,31 @@ import { Link } from 'dva/router';
 import { Card,Tabs,Icon,Popover,Input } from 'antd';
 import intl from 'react-intl-universal';
 import TickerTrend from 'Loopr/TickerTrend'
+import {configs} from '../../../common/config/data'
 const tickerFm = window.uiFormatter.TickerFormatter
 
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
   const favors =  window.STORAGE.markets.getFavors()
+  const newMarkets = configs.newMarkets
+  const isInNewMarket = (market) => {
+    const m = market.toLowerCase().split('-')
+    return newMarkets.find((i)=> {
+      return (i.tokenx.toLowerCase() === m[0] && i.tokeny.toLowerCase() === m[1]) || (i.tokeny.toLowerCase() === m[0] && i.tokenx.toLowerCase() === m[1])
+    })
+  }
   let items = []
   if(market === 'favorites'){
     items = tickers.items.filter(item=>{
       return favors[item.market]
     })
-  }else{
+  } else if(market === 'innovate') {
     items = tickers.items.filter(item=>{
-      return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
+      return isInNewMarket(item.market)
+    })
+  } else {
+    items = tickers.items.filter(item=>{
+      return item.market.toLowerCase().split('-')[1] === market.toLowerCase() && !isInNewMarket(item.market)
     })
   }
   const keywords = tickers.filters && tickers.filters.token
@@ -28,7 +40,7 @@ const TickerTable = (props)=>{
   const sorter = (a,b)=>{
     if(a.vol === b.vol ){
       if(a.last === b.last){
-        return a.market - b.market
+        return b.market > a.market ? -1 : 1
       }else{
         return Number(b.last) - Number(a.last)
       }
@@ -108,12 +120,12 @@ const TickerTable = (props)=>{
                     {item.change || 0}
                   </TickerTrend>
                 </td>
-                <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {market==='favorites' ? '' : market}</td>
+                <td className="fs12 border-0 color-black-2">{Number(item.vol).toFixed(4)} {item.market.split('-')[1]}</td>
               </tr>
             )
           }
           {
-            items.length == 0 &&
+            items.length === 0 &&
             <tr >
               <td colSpan="10" className="fs12 border-0 text-center color-black-3">{intl.get('global.no_data')}</td>
             </tr>
@@ -133,7 +145,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
     }
     tickers.filtersChange({filters})
   }
-  let markets = window.CONFIG.getSupportedMarketsTokenR()
+  let markets = [...window.CONFIG.getSupportedMarketsTokenR()]
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
       <div className="pr10 pl15 tickers-search-input" style={{paddingTop:'0px'}}>
@@ -168,6 +180,14 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
             </div>
           </Tabs.TabPane>
         )
+      }
+      {
+        configs.newMarkets && configs.newMarkets.length >0 &&
+        <Tabs.TabPane tab={tab(<Icon type="bulb" className="ml5 mr5" />)} key="bulb">
+          <div className="pl10 pr10">
+            <TickerTable tickers={tickers} market="innovate" dispatch={dispatch} />
+          </div>
+        </Tabs.TabPane>
       }
 
     </Tabs>
