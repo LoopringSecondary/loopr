@@ -295,7 +295,7 @@ class TradeConfirm extends React.Component {
         <div className="fs12 color-grey-500 mb10">
           {intl.get('order.place_tip')}
         </div>
-        <Button onClick={this.handelSubmit} disabled={!signedOrder && loading} type="primary" className="d-block w-100"
+        <Button onClick={this.handelSubmit} disabled={!signedOrder || loading} type="primary" className="d-block w-100"
                 size="large" loading={loading}>
           {intl.get('order.submit')}
         </Button>
