@@ -808,7 +808,7 @@
     {
       "symbol": "DET",
       "name": "Decentralized Ecosystem Token",
-      "digits": 0,
+      "digits": 18,
       "address": "0xf72da6e99b864e26e3a386f2cc6022882ecb1125",
       "unit": "DET",
       "website": "",
