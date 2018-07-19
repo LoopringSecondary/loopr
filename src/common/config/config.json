@@ -203,6 +203,86 @@
       "tokenx": "DET",
       "tokeny": "LRC",
       "pricePrecision": 8
+    },
+    {
+      "tokenx": "HT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "HT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BNB",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BNB",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "WTC",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "WTC",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "AION",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "AION",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "CPC",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "CPC",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "PNT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "PNT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "GTO",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "GTO",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BKBT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BKBT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
     }
   ],
   "txs": [
@@ -818,6 +898,90 @@
       "minTradeValue": 0.001
     },
     {
+      "symbol": "BNB",
+      "name": "Binance Coin",
+      "digits": 18,
+      "address": "0xb8c77482e45f1f44de1745f52c74426c631bdd52",
+      "unit": "BNB",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "GTO",
+      "name": "Gifto",
+      "digits": 18,
+      "address": "0xc5bbae50781be1669306b9e001eff57a2957b09d",
+      "unit": "GTO",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "WTC",
+      "name": "Walton",
+      "digits": 18,
+      "address": "0xb7cb1c96db6b22b0d3d9536e0108d062bd488f74",
+      "unit": "WTC",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "HT",
+      "name": "HuobiToken",
+      "digits": 18,
+      "address": "0x6f259637dcd74c767781e37bc6133cd6a68aa161",
+      "unit": "HT",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "CPC",
+      "name": "CPChain",
+      "digits": 18,
+      "address": "0xfae4ee59cdd86e3be9e8b90b53aa866327d7c090",
+      "unit": "CPC",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "PNT",
+      "name": "Penta Network Token",
+      "digits": 18,
+      "address": "0x53066cddbc0099eb6c96785d9b3df2aaeede5da3",
+      "unit": "PNT",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "BKBT",
+      "name": "MetaGraphChain",
+      "digits": 18,
+      "address": "0x6a27348483d59150ae76ef4c0f3622a78b0ca698",
+      "unit": "BKBT",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
       "symbol": "ROL",
       "name": "DICE",
       "digits": 16,
@@ -1028,8 +1192,20 @@
       "address": "0x168296bb09e24a88805cb9c33356536b980d3fc5",
       "unit": "RHOC",
       "website": "",
-      "allowance": "1000000000000000000000",
-      "allowanceWarn": "5000000000000000000",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "AION",
+      "name": "AION",
+      "digits": 8,
+      "address": "0x4CEdA7906a5Ed2179785Cd3A40A69ee8bc99C466",
+      "unit": "AION",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
       "precision": 6,
       "minTradeValue": 0.001
     },
@@ -1051,18 +1227,6 @@
       "digits": 6,
       "address": "0xcb94be6f13a1182e4a4b6140cb7bf2025d28e41b",
       "unit": "TRST",
-      "website": "",
-      "allowance": "1000000000",
-      "allowanceWarn": "5000000",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
-      "symbol": "TRX",
-      "name": "Tron",
-      "digits": 6,
-      "address": "0xf230b790e05390fc8295f4d3f60332c93bed42e2",
-      "unit": "TRX",
       "website": "",
       "allowance": "1000000000",
       "allowanceWarn": "5000000",
