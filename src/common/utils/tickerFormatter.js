@@ -1,5 +1,6 @@
 let fm = {}
 fm.getVolume = (value)=>{
+  if(!value) return '0.00'
   value = Number(value)
   if(value>1000){
     return value.toFixed(0)

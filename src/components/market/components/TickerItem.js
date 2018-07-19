@@ -68,7 +68,7 @@ class LooprTicker extends React.Component {
       const priceValue = (
         <span className="color-white-2">
           <Currency />
-          {(price*ticker.last).toFixed(3)}
+          {ticker.last ? (price*ticker.last).toFixed(3) : '0.00'}
         </span>
       )
 
