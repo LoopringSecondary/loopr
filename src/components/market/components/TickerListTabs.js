@@ -10,7 +10,14 @@ const tickerFm = window.uiFormatter.TickerFormatter
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
   const favors =  window.STORAGE.markets.getFavors()
-  const newMarkets = configs.newMarkets ? configs.newMarkets.map(item => item.toLowerCase()) : []
+  const newMarkets = configs.newMarkets
+  const isInNewMarket = (market) => {
+    const m = market.toLowerCase().split('-')
+    //console.log(1, m, newMarkets.find((i)=>(i.tokenx === m[0] && i.tokeny === m[1]) || (i.tokeny === m[0] && i.tokenx === m[1])))
+    return newMarkets.find((i)=> {
+      return (i.tokenx.toLowerCase() === m[0] && i.tokeny.toLowerCase() === m[1]) || (i.tokeny.toLowerCase() === m[0] && i.tokenx.toLowerCase() === m[1])
+    })
+  }
   let items = []
   if(market === 'favorites'){
     items = tickers.items.filter(item=>{
@@ -18,11 +25,11 @@ const TickerTable = (props)=>{
     })
   } else if(market === 'innovate') {
     items = tickers.items.filter(item=>{
-      return newMarkets.includes(item.market.toLowerCase())
+      return isInNewMarket(item.market)
     })
   } else {
     items = tickers.items.filter(item=>{
-      return item.market.toLowerCase().split('-')[1] === market.toLowerCase() && !newMarkets.includes(item.market.toLowerCase())
+      return item.market.toLowerCase().split('-')[1] === market.toLowerCase() && !isInNewMarket(item.market)
     })
   }
   const keywords = tickers.filters && tickers.filters.token

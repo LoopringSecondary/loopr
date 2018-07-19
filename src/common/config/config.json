@@ -183,7 +183,28 @@
       "pricePrecision": 8
     }
   ],
-  "newMarkets": [],
+  "newMarkets": [
+    {
+      "tokenx": "TEN",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "TEN",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "DET",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "DET",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    }
+  ],
   "txs": [
     {
       "type":"eth_transfer",
@@ -766,6 +787,30 @@
       "digits": 18,
       "address": "0xBeB6fdF4ef6CEb975157be43cBE0047B248a8922",
       "unit": "ARP",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "TEN",
+      "name": "Tokenomy",
+      "digits": 18,
+      "address": "0xdd16ec0f66e54d453e6756713e533355989040e4",
+      "unit": "TEN",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "DET",
+      "name": "Decentralized Ecosystem Token",
+      "digits": 0,
+      "address": "0xf72da6e99b864e26e3a386f2cc6022882ecb1125",
+      "unit": "DET",
       "website": "",
       "allowance": "1000000000000000000000",
       "allowanceWarn": "100000000000000000000",
