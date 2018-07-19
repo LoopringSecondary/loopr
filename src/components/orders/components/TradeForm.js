@@ -198,13 +198,13 @@ class TradeForm extends React.Component {
           let allowed = false
           let priceSymbol = fm.getDisplaySymbol(settings.preference.currency)
           if(settings.preference.currency === 'USD') {
-            priceSymbol = '100' + priceSymbol
-            if(totalWorth > 100) {
+            priceSymbol = '10' + priceSymbol
+            if(totalWorth > 10) {
               allowed = true
             }
           } else {
-            priceSymbol = '500' + priceSymbol
-            if(totalWorth > 500) {
+            priceSymbol = '50' + priceSymbol
+            if(totalWorth > 50) {
               allowed = true
             }
           }
