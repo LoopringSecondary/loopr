@@ -158,6 +158,8 @@ I got this great idea:
     favorites: 'Favorites',
     select_a_market:'Select a market',
     back_to_wallet:'Back to Wallet',
+    new_listing: 'New listing：new tokens will regularly added for trading',
+    apply: 'Apply to list'
   },
   exchanges: {
     loopr: 'Loopring DEX Price',
