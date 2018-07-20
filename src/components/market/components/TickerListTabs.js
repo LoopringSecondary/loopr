@@ -88,6 +88,16 @@ const TickerTable = (props)=>{
 
   return (
     <div className="mb15" style={{minWidth:'400px',maxHeight:'400px',overflow:'auto'}}>
+      {market === 'innovate' && <div className="fs12 p10 bg-blue-50 mb10 ">
+        <div className="row no-gutters">
+          <div className="col">
+            {intl.get('ticker.new_listing')}
+          </div>
+          <div className="col-auto">
+            <a href='https://goo.gl/forms/2RUdyJxOPTdSBkbZ2' target="_blank">{intl.get('ticker.apply')}</a>
+          </div>
+        </div>
+      </div>}
       <table className="ticker-list-table">
         <tbody>
           <tr className="">
