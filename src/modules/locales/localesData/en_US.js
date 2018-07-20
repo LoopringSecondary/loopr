@@ -15,6 +15,8 @@ export default {
     time:'Time',
     custom:'Customize',
     gas:'Gas',
+    new_listing:'New Listing',
+    favorites:'Favorites',
   },
   init:{
     init_failed: "Init failed",

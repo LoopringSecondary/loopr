@@ -15,6 +15,8 @@ export default {
     time:'时间',
     custom:'自定义',
     gas:'油费',
+    new_listing:'创新区',
+    favorites:'自选',
   },
   init:{
     init_failed: "初始化数据失败",
