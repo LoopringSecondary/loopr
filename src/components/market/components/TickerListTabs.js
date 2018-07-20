@@ -97,8 +97,6 @@ const TickerTable = (props)=>{
             <a href='https://goo.gl/forms/2RUdyJxOPTdSBkbZ2' target="_blank">{intl.get('ticker.apply')}</a>
           </div>
         </div>
-
-
       </div>}
       <table className="ticker-list-table">
         <tbody>
