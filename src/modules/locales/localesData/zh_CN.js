@@ -300,7 +300,7 @@ export default {
     favorites: '自选',
     select_a_market:'选择交易市场',
     back_to_wallet:'返回钱包',
-    new_listing: '创新区：优质新币会定期添加到创新区进行交易',
+    new_listing: '我们会每周在创新区上架新币，完全免费！',
     apply: '申请上币'
   },
   exchanges: {
