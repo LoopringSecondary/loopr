@@ -283,6 +283,107 @@
       "tokenx": "BKBT",
       "tokeny": "LRC",
       "pricePrecision": 8
+    },
+
+    {
+      "tokenx": "BTO",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BTO",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BTK",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BTK",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "INK",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "INK",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BIZ",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BIZ",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "XMM",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "XMM",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "INSUR",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "INSUR",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "TRAC",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "TRAC",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BOS",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BOS",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ALI",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ALI",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "IDHUB",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "IDHUB",
+      "tokeny": "LRC",
+      "pricePrecision": 8
     }
   ],
   "txs": [
@@ -982,6 +1083,114 @@
       "minTradeValue": 0.001
     },
     {
+      "symbol": "BTO",
+      "name": "Bottos",
+      "digits": 18,
+      "address": "0x36905Fc93280f52362A1CBAB151F25DC46742Fb5",
+      "unit": "BTO",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "BTK",
+      "name": "BitcoinToken",
+      "digits": 18,
+      "address": "0xdb8646F5b487B5Dd979FAC618350e85018F557d4",
+      "unit": "BTK",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "BIZ",
+      "name": "BIZAIN Token",
+      "digits": 18,
+      "address": "0x399f9A95305114efAcB91d1d6C02CBe234dD36aF",
+      "unit": "BIZ",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "XMM",
+      "name": "Star Mall",
+      "digits": 18,
+      "address": "0x01A922DE9AF2C1158DD947EA5B794f0Dd995c7DF",
+      "unit": "XMM",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "INSUR",
+      "name": "InsurChain Coin",
+      "digits": 18,
+      "address": "0x6ea6531b603F270d23d9EDd2d8279135DC5D6773",
+      "unit": "INSUR",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "TRAC",
+      "name": "Trace Token",
+      "digits": 18,
+      "address": "0xaA7a9CA87d3694B5755f213B5D04094b8d0F0A6F",
+      "unit": "TRAC",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "BOS",
+      "name": "BOSTOKEN",
+      "digits": 18,
+      "address": "0x3C0cAC8290E2a6241814f812259278beA9050838",
+      "unit": "BOS",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "ALI",
+      "name": "AiLink Token",
+      "digits": 18,
+      "address": "0x4289c043A12392F1027307fB58272D8EBd853912",
+      "unit": "ALI",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "IDHUB",
+      "name": "Identity Hub Token",
+      "digits": 18,
+      "address": "0x29F20242051AccDA50D52a7E272A5F23237e4696",
+      "unit": "ALI",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
       "symbol": "ROL",
       "name": "DICE",
       "digits": 16,
@@ -999,6 +1208,18 @@
       "digits": 9,
       "address": "0x607F4C5BB672230e8672085532f7e901544a7375",
       "unit": "RLC",
+      "website": "",
+      "allowance": "1000000000000",
+      "allowanceWarn": "5000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "INK",
+      "name": "INK token",
+      "digits": 9,
+      "address": "0xf4c90e18727C5C76499eA6369C856A6d61D3E92E",
+      "unit": "INK",
       "website": "",
       "allowance": "1000000000000",
       "allowanceWarn": "5000000000",
