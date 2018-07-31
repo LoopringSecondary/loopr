@@ -87,14 +87,24 @@ const TickerTable = (props)=>{
   }
 
   return (
-    <div className="mb15" style={{maxHeight:'400px',overflow:'auto'}}>
+    <div className="mb15" style={{minWidth:'400px',maxHeight:'400px',overflow:'auto'}}>
+      {market === 'innovate' && <div className="fs12 p10 bg-blue-50 mb10 ">
+        <div className="row no-gutters">
+          <div className="col">
+            {intl.get('ticker.new_listing')}
+          </div>
+          <div className="col-auto">
+            <a href='https://goo.gl/forms/2RUdyJxOPTdSBkbZ2' target="_blank">{intl.get('ticker.apply')}</a>
+          </div>
+        </div>
+      </div>}
       <table className="ticker-list-table">
         <tbody>
           <tr className="">
-            <th className="fs12 border-0 color-black-3" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
-            <th className="fs12 border-0 color-black-3">{intl.get('ticker.last')}</th>
-            <th className="fs12 border-0 color-black-3">{intl.get('ticker.change')}/24H</th>
-            <th className="fs12 border-0 color-black-3">{intl.get('ticker.vol')}/24H</th>
+            <th className="fs14 border-0 color-black-3" style={{paddingLeft:"28px"}}>{intl.get('ticker.market')}</th>
+            <th className="fs14 border-0 color-black-3">{intl.get('ticker.last')}</th>
+            <th className="fs14 border-0 color-black-3">{intl.get('ticker.change')}/24H</th>
+            <th className="fs14 border-0 color-black-3">{intl.get('ticker.vol')}/24H</th>
           </tr>
           {
             items.length>0 && items.map((item,index)=>
@@ -148,9 +158,9 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
   let markets = [...window.CONFIG.getSupportedMarketsTokenR()]
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
-      <div className="pr10 pl15 tickers-search-input" style={{paddingTop:'0px'}}>
+      <div className="pr10 pl25 tickers-search-input" style={{paddingTop:'5px'}}>
        <Input
-        style={{width:'90px'}} className="" size="small" onChange={search} value={keywords}
+        style={{width:'100px'}} className="" size="small" onChange={search} value={keywords}
         prefix={<Icon type="search" />}
        />
       </div>
@@ -164,10 +174,10 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
   }
   const activeTab = favoredNumber > 0 ? 'favorites' : 'WETH'
   // tab(intl.get('ticker.favorites'))
-  const tab = (text)=> <div className="fs14">{text}</div>
+  const tab = (text)=> <div className="fs16 font-weight-bold">{text}</div>
   return (
     <Tabs className="tickers-market-tabs" defaultActiveKey={activeTab} animated={false} tabBarExtraContent={SearchInput}>
-      <Tabs.TabPane tab={tab(<Icon type="star" className="ml5 mr5" />)} key="favorites">
+      <Tabs.TabPane tab={tab(intl.get('global.favorites'))} key="favorites">
         <div className="pl10 pr10">
           <TickerTable tickers={tickers} market="favorites" dispatch={dispatch} />
         </div>
@@ -183,7 +193,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
       }
       {
         configs.newMarkets && configs.newMarkets.length >0 &&
-        <Tabs.TabPane tab={tab(<Icon type="bulb" className="ml5 mr5" />)} key="bulb">
+        <Tabs.TabPane tab={tab(intl.get('global.new_listing'))} key="bulb">
           <div className="pl10 pr10">
             <TickerTable tickers={tickers} market="innovate" dispatch={dispatch} />
           </div>

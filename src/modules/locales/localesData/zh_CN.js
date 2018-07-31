@@ -15,6 +15,8 @@ export default {
     time:'时间',
     custom:'自定义',
     gas:'油费',
+    new_listing:'创新区',
+    favorites:'自选',
   },
   init:{
     init_failed: "初始化数据失败",
@@ -298,6 +300,8 @@ export default {
     favorites: '自选',
     select_a_market:'选择交易市场',
     back_to_wallet:'返回钱包',
+    new_listing: '我们会每周在创新区上架新币，完全免费！',
+    apply: '申请上币'
   },
   exchanges: {
     loopr: '路印DEX 市场行情',

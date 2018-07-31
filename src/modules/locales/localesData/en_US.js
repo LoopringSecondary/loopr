@@ -15,6 +15,8 @@ export default {
     time:'Time',
     custom:'Customize',
     gas:'Gas',
+    new_listing:'New Listing',
+    favorites:'Favorites',
   },
   init:{
     init_failed: "Init failed",
@@ -156,6 +158,8 @@ I got this great idea:
     favorites: 'Favorites',
     select_a_market:'Select a market',
     back_to_wallet:'Back to Wallet',
+    new_listing: 'We will list new tokens every week, for free! Apply here.',
+    apply: 'Apply to list'
   },
   exchanges: {
     loopr: 'Loopring DEX Price',
