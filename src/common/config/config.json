@@ -388,37 +388,36 @@
   "txs": [
     {
       "type":"eth_transfer",
-      "gasLimit":"0x5208"
+      "gasLimit":"0x5319"
     },
     {
       "type":"token_transfer",
-      "gasLimit":"0x30d40"
+      "gasLimit":"0x187b1"
     },
     {
       "type":"approve",
-      "gasLimit":"0x30d40"
+      "gasLimit":"0x187b1"
     },
     {
       "type":"withdraw",
-      "gasLimit":"0x30d40"
+      "gasLimit":"0x187b1"
     },
     {
       "type":"deposit",
-      "gasLimit":"0x30d40"
+      "gasLimit":"0x187b1"
     },
     {
       "type":"cancelOrder",
-      "gasLimit":"0x30d40"
+      "gasLimit":"0x24b01"
     },
     {
       "type":"cancelAllOrder",
-      "gasLimit":"0x30d40"
+      "gasLimit":"0x187b1"
     },
     {
       "type":"cancelOrderByTokenPair",
-      "gasLimit":"0x30d40"
+      "gasLimit":"0x187b1"
     }
-
   ],
   "tokens": [
     {
