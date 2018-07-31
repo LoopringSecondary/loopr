@@ -80,10 +80,13 @@ class Transfer extends React.Component {
     const _this = this
     const {form, modal, account, settings, assets, prices} = this.props
     const amountReg = new RegExp("^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*))$")
-    const currentToken = modal.item
+    const currentToken = this.state.tokenSymbol
     let GasLimit = config.getGasLimitByType('eth_transfer').gasLimit
-    if(currentToken && currentToken.symbol !== "ETH") {
+    if(currentToken && currentToken !== "ETH") {
       GasLimit = config.getGasLimitByType('token_transfer').gasLimit
+    }
+    if(!this.state.selectedGasLimit || fm.toNumber(this.state.selectedGasLimit) !== fm.toNumber(GasLimit)) {
+      this.setState({selectedGasLimit : fm.toNumber(GasLimit)})
     }
     let defaultGas = fm.toBig(0)
     if(this.state.gasPopularSetting) {
