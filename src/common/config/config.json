@@ -483,6 +483,16 @@
       "tokenx": "ATN",
       "tokeny": "LRC",
       "pricePrecision": 8
+    },
+    {
+      "tokenx": "TUC",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "TUC",
+      "tokeny": "LRC",
+      "pricePrecision": 3
     }
   ],
   "txs": [
@@ -1642,6 +1652,18 @@
       "digits": 8,
       "address": "0x875089A734213cA39f0d93c2BbB8209827ec5e9f",
       "unit": "EPH",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "TUC",
+      "name": "Tuzy Coin",
+      "digits": 8,
+      "address": "0x5da8D37485b4374FC338fC1F1eA31D07EB7BEdD3",
+      "unit": "TUC",
       "website": "",
       "allowance": "100000000000",
       "allowanceWarn": "500000000",
