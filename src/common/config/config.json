@@ -237,12 +237,12 @@
     {
       "tokenx": "AION",
       "tokeny": "WETH",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "AION",
       "tokeny": "LRC",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "CPC",
@@ -307,12 +307,12 @@
     {
       "tokenx": "INK",
       "tokeny": "WETH",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "INK",
       "tokeny": "LRC",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "BIZ",
@@ -383,6 +383,116 @@
       "tokenx": "IDHUB",
       "tokeny": "LRC",
       "pricePrecision": 8
+    },
+    {
+      "tokenx": "FKX",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "FKX",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "QUBE",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "QUBE",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "SET",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "SET",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "TCT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "TCT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ECT",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "ECT",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "XMRC",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "XMRC",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "EPH",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "EPH",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "JNT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "JNT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "NTK",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "NTK",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ATN",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ATN",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "TUC",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "TUC",
+      "tokeny": "LRC",
+      "pricePrecision": 3
     }
   ],
   "txs": [
@@ -1181,7 +1291,91 @@
       "name": "Identity Hub Token",
       "digits": 18,
       "address": "0x29F20242051AccDA50D52a7E272A5F23237e4696",
-      "unit": "ALI",
+      "unit": "IDHUB",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "FKX",
+      "name": "Knoxstertoken",
+      "digits": 18,
+      "address": "0x009e864923b49263c7F10D19B7f8Ab7a9A5AAd33",
+      "unit": "FKX",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "QUBE",
+      "name": "QUBE",
+      "digits": 18,
+      "address": "0x57838fF342f36A1EC18224981ea8715a4667fB3a",
+      "unit": "QUBE",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "SET",
+      "name": "PointSet",
+      "digits": 18,
+      "address": "0xd2C6738D45b090ec05210fE8DCeEF4D8fc392892",
+      "unit": "SET",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "TCT",
+      "name": "TokenClub Token",
+      "digits": 18,
+      "address": "0x4824A7b64E3966B0133f4f4FFB1b9D6bEb75FFF7",
+      "unit": "TCT",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "JNT",
+      "name": "Jibrel Network Token",
+      "digits": 18,
+      "address": "0xa5Fd1A791C4dfcaacC963D4F73c6Ae5824149eA7",
+      "unit": "JNT",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "NTK",
+      "name": "Netkoin",
+      "digits": 18,
+      "address": "0x5D4d57cd06Fa7fe99e26fdc481b468f77f05073C",
+      "unit": "NTK",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "ATN",
+      "name": "ATN",
+      "digits": 18,
+      "address": "0x461733c17b0755CA5649B6DB08B3E213FCf22546",
+      "unit": "ATN",
       "website": "",
       "allowance": "1000000000000000000000",
       "allowanceWarn": "100000000000000000000",
@@ -1422,6 +1616,54 @@
       "digits": 8,
       "address": "0x4CEdA7906a5Ed2179785Cd3A40A69ee8bc99C466",
       "unit": "AION",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "ECT",
+      "name": "SuperEdge",
+      "digits": 8,
+      "address": "0x4CcC3759eB48fAF1c6cfadaD2619E7038db6b212",
+      "unit": "ECT",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "XMRC",
+      "name": "Monero Classic",
+      "digits": 8,
+      "address": "0x3Cba7924c6c8CA8e8BC39557DeBe1369b688866E",
+      "unit": "XMRC",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "EPH",
+      "name": "Euphoria",
+      "digits": 8,
+      "address": "0x875089A734213cA39f0d93c2BbB8209827ec5e9f",
+      "unit": "EPH",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "TUC",
+      "name": "Tuzy Coin",
+      "digits": 8,
+      "address": "0x5da8D37485b4374FC338fC1F1eA31D07EB7BEdD3",
+      "unit": "TUC",
       "website": "",
       "allowance": "100000000000",
       "allowanceWarn": "500000000",
