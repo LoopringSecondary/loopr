@@ -237,12 +237,12 @@
     {
       "tokenx": "AION",
       "tokeny": "WETH",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "AION",
       "tokeny": "LRC",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "CPC",
@@ -307,12 +307,12 @@
     {
       "tokenx": "INK",
       "tokeny": "WETH",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "INK",
       "tokeny": "LRC",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "BIZ",
@@ -427,32 +427,32 @@
     {
       "tokenx": "ECT",
       "tokeny": "WETH",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "ECT",
       "tokeny": "LRC",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "XMRC",
       "tokeny": "WETH",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "XMRC",
       "tokeny": "LRC",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "EPH",
       "tokeny": "WETH",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "EPH",
       "tokeny": "LRC",
-      "pricePrecision": 8
+      "pricePrecision": 3
     },
     {
       "tokenx": "JNT",
