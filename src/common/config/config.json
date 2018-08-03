@@ -425,26 +425,6 @@
       "pricePrecision": 8
     },
     {
-      "tokenx": "ECT",
-      "tokeny": "WETH",
-      "pricePrecision": 3
-    },
-    {
-      "tokenx": "ECT",
-      "tokeny": "LRC",
-      "pricePrecision": 3
-    },
-    {
-      "tokenx": "XMRC",
-      "tokeny": "WETH",
-      "pricePrecision": 3
-    },
-    {
-      "tokenx": "XMRC",
-      "tokeny": "LRC",
-      "pricePrecision": 3
-    },
-    {
       "tokenx": "EPH",
       "tokeny": "WETH",
       "pricePrecision": 3
@@ -1616,30 +1596,6 @@
       "digits": 8,
       "address": "0x4CEdA7906a5Ed2179785Cd3A40A69ee8bc99C466",
       "unit": "AION",
-      "website": "",
-      "allowance": "100000000000",
-      "allowanceWarn": "500000000",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
-      "symbol": "ECT",
-      "name": "SuperEdge",
-      "digits": 8,
-      "address": "0x4CcC3759eB48fAF1c6cfadaD2619E7038db6b212",
-      "unit": "ECT",
-      "website": "",
-      "allowance": "100000000000",
-      "allowanceWarn": "500000000",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
-      "symbol": "XMRC",
-      "name": "Monero Classic",
-      "digits": 8,
-      "address": "0x3Cba7924c6c8CA8e8BC39557DeBe1369b688866E",
-      "unit": "XMRC",
       "website": "",
       "allowance": "100000000000",
       "allowanceWarn": "500000000",
