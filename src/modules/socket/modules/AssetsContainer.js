@@ -2,9 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
-const configTokens = window.CONFIG.getTokens()
-const configSymbols = configTokens.map(item=>item.symbol)
-
 class AssetsContainer extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -30,7 +27,7 @@ class AssetsContainer extends React.Component {
     if(!res.error && res.data && res.data.tokens){
       this.setState({
         // get intersection of server config & client config
-        assets:res.data.tokens.filter(token=>configSymbols.includes(token.symbol))
+        assets:res.data.tokens
       })
     }
   }
@@ -59,8 +56,15 @@ class AssetsContainer extends React.Component {
     // console.log('AssetsContainer unmount')
     // socket.off('balance_res')
   }
+  filterSupportedToken() {
+    if(this.state.assets && window.REMOTE_CONFIG && window.REMOTE_CONFIG.tokens) {
+      return this.state.assets.filter(token=>window.REMOTE_CONFIG.tokens.find(item => item.symbol.toLowerCase() === token.symbol.toLowerCase()))
+    }
+    return []
+  }
   getTokenBySymbol(symbol,ifFormat){
-    let assetToken = this.state.assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {balance:0, allowance:0}
+    const assets = this.filterSupportedToken()
+    let assetToken = assets.find(item => item.symbol.toLowerCase() === symbol.toLowerCase() ) || {balance:0, allowance:0}
     if(ifFormat){
       if(assetToken){
         const balance =  Number(assetToken.balance)
