@@ -1077,18 +1077,6 @@
       "minTradeValue": 0.001
     },
     {
-      "symbol": "BNB",
-      "name": "Binance Coin",
-      "digits": 18,
-      "address": "0xb8c77482e45f1f44de1745f52c74426c631bdd52",
-      "unit": "BNB",
-      "website": "",
-      "allowance": "1000000000000000000000",
-      "allowanceWarn": "100000000000000000000",
-      "precision": 6,
-      "minTradeValue": 0.001
-    },
-    {
       "symbol": "GTO",
       "name": "Gifto",
       "digits": 18,
