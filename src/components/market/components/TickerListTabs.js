@@ -10,7 +10,10 @@ const tickerFm = window.uiFormatter.TickerFormatter
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
   const favors =  window.STORAGE.markets.getFavors()
-  const newMarkets = window.REMOTE_CONFIG && window.REMOTE_CONFIG.newMarkets || []
+  let newMarkets =  []
+  if(window.REMOTE_CONFIG && window.REMOTE_CONFIG.newMarkets) {
+    newMarkets = window.REMOTE_CONFIG.newMarkets
+  }
   const isInNewMarket = (market) => {
     const m = market.toLowerCase().split('-')
     return newMarkets.find((i)=> {
