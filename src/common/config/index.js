@@ -40,7 +40,11 @@ function getCustomTokens(){
 }
 
 function getTokens(){
-  return config.tokens || []
+  if(window.REMOTE_CONFIG && window.REMOTE_CONFIG.tokens) {
+    return window.REMOTE_CONFIG.tokens
+  }
+  return []
+  // return config.tokens || []
 }
 
 function getMarketByPair(pair) {
@@ -67,7 +71,11 @@ function getProjectByLrx(lrx) {
 }
 
 function getSupportedMarketsTokenR() {
-  return config.supportedTokenRInMarkets
+  if(window.REMOTE_CONFIG && window.REMOTE_CONFIG.supportedTokenRInMarkets) {
+    return window.REMOTE_CONFIG.supportedTokenRInMarkets
+  }
+  return []
+  // return config.supportedTokenRInMarkets
 }
 
 function isSupportedMarket(market) {
@@ -147,7 +155,10 @@ function getMarkets() {
   //   })
   // })
   // return markets
-  return config.markets.concat(config.newMarkets)
+  if(window.REMOTE_CONFIG && window.REMOTE_CONFIG.markets && window.REMOTE_CONFIG.newMarkets) {
+    return window.REMOTE_CONFIG.markets.concat(window.REMOTE_CONFIG.newMarkets)
+  }
+  return []
 }
 
 function getGasLimitByType(type) {

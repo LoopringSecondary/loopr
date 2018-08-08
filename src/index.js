@@ -11,7 +11,7 @@ import STORAGE from './modules/storage'
 import {setLocale} from "./common/utils/localeSetting";
 import {configs} from './common/config/data'
 import UserAgent from './common/utils/useragent'
-import {getTokens, getMarkets} from "Loopring/relay/utils";
+import {getRemoteConfig} from "Loopring/relay/utils";
 import Notification from 'Loopr/Notification'
 import intl from 'react-intl-universal'
 
@@ -65,6 +65,20 @@ app.router(require('./router').default);
 
 // 5. Start
 app.start('#root');
+
+getRemoteConfig().then(res=>{
+  if(res) {
+    window.REMOTE_CONFIG = res
+    app._store.dispatch({type:'tokens/itemsChange', payload:{items:res.tokens}})
+  }
+}).catch(error=> {
+  console.log(error)
+  Notification.open({
+    message:intl.get('notifications.title.init_failed'),
+    description:intl.get('notifications.message.failed_fetch_data_from_server'),
+    type:'error'
+  })
+})
 
 // STORE is available when current route has rendered
 // Becarefull to use STORE in render funtion

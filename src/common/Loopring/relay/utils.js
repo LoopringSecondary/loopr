@@ -1,5 +1,6 @@
 import request from '../common/request'
 import validator from '../common/validator'
+import fetch from 'dva/fetch';
 
 let headers = {
   'Content-Type': 'application/json'
@@ -145,5 +146,21 @@ export async function getMarkets() {
   })
 }
 
+export async function getRemoteConfig() {
+  return fetch("https://config.loopring.io/loopr/config.json", {
+    method:'get',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+    .then(res => {
+      return res.json()
+    })
+    .then(res => {
+      console.log(`https://config.loopring.io/loopr/config.json response:`, res);
+      return res
+    })
+}
 
 

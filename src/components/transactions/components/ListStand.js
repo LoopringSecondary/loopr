@@ -67,8 +67,10 @@ class ListBlock extends React.Component {
     let {needed} = this.state;
     let balance = token && assets.getTokenBySymbol(token).balance;
     const tokenConfig = window.CONFIG.getTokenBySymbol(token);
-    needed = toBig((tokenConfig && tokenConfig.digits && toBig(needed).div('1e' + tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
-    balance = toBig((tokenConfig && tokenConfig.digits && toBig(balance).div('1e' + tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
+    if(tokenConfig && tokenConfig.digits) {
+      needed = toBig((tokenConfig && tokenConfig.digits && toBig(needed).div('1e' + tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
+      balance = toBig((tokenConfig && tokenConfig.digits && toBig(balance).div('1e' + tokenConfig.digits)).toFixed(tokenConfig.precision || 6));
+    }
     const showModal = (payload) => {
       window.STORE.dispatch({
         type: 'modals/modalChange',

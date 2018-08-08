@@ -10,7 +10,7 @@ const tickerFm = window.uiFormatter.TickerFormatter
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
   const favors =  window.STORAGE.markets.getFavors()
-  const newMarkets = configs.newMarkets
+  const newMarkets = window.REMOTE_CONFIG && window.REMOTE_CONFIG.newMarkets || []
   const isInNewMarket = (market) => {
     const m = market.toLowerCase().split('-')
     return newMarkets.find((i)=> {
@@ -192,7 +192,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
         )
       }
       {
-        configs.newMarkets && configs.newMarkets.length >0 &&
+        window.REMOTE_CONFIG && window.REMOTE_CONFIG.newMarkets && window.REMOTE_CONFIG.newMarkets.length >0 &&
         <Tabs.TabPane tab={tab(intl.get('global.new_listing'))} key="bulb">
           <div className="pl10 pr10">
             <TickerTable tickers={tickers} market="innovate" dispatch={dispatch} />

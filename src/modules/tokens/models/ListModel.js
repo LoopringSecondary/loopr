@@ -121,6 +121,14 @@ export default {
     updateSuccess(state, action) {
       return { ...state, ...action.payload };
     },
+    itemsChange(state, action) {
+      return {
+        ...state,
+        items:[
+          ...action.payload.items,
+        ]
+      }
+    }
   },
 };
 
