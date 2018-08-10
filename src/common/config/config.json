@@ -515,12 +515,12 @@
       "pricePrecision": 3
     },
     {
-      "tokenx": "Cyber",
+      "tokenx": "CYBER",
       "tokeny": "LRC",
       "pricePrecision": 3
     },
     {
-      "tokenx": "Cyber",
+      "tokenx": "CYBER",
       "tokeny": "WETH",
       "pricePrecision": 3
     }
@@ -1725,11 +1725,11 @@
       "minTradeValue": 0.001
     },
     {
-      "symbol": "Cyber",
+      "symbol": "CYBER",
       "name": "CyberChain",
       "digits": 8,
       "address": "0x17e16D30a05324B44CF78Df847137Fa1220448f8",
-      "unit": "Cyber",
+      "unit": "CYBER",
       "website": "",
       "allowance": "100000000000",
       "allowanceWarn": "500000000",
