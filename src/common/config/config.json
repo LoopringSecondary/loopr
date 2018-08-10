@@ -463,6 +463,66 @@
       "tokenx": "TUC",
       "tokeny": "LRC",
       "pricePrecision": 3
+    },
+    {
+      "tokenx": "MT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "MT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "QCH",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "QCH",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "CVH",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "CVH",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "HVN",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "HVN",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "WIC",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "WIC",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "Cyber",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "Cyber",
+      "tokeny": "WETH",
+      "pricePrecision": 3
     }
   ],
   "txs": [
@@ -1341,6 +1401,42 @@
       "minTradeValue": 0.001
     },
     {
+      "symbol": "MT",
+      "name": "MT Token",
+      "digits": 18,
+      "address": "0x9b4e2B4B13d125238Aa0480dD42B4f6fC71b37CC",
+      "unit": "MT",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "QCH",
+      "name": "QChi",
+      "digits": 18,
+      "address": "0x687BfC3E73f6af55F0CccA8450114D107E781a0e",
+      "unit": "QCH",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "CVH",
+      "name": "Curriculum Vitae",
+      "digits": 18,
+      "address": "0x52DB8ebF894036ec997Da693C5fa237A4fb69d10",
+      "unit": "CVH",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
       "symbol": "ROL",
       "name": "DICE",
       "digits": 16,
@@ -1598,6 +1694,42 @@
       "digits": 8,
       "address": "0x5da8D37485b4374FC338fC1F1eA31D07EB7BEdD3",
       "unit": "TUC",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "HVN",
+      "name": "Hive Project Token",
+      "digits": 8,
+      "address": "0xC0Eb85285d83217CD7c891702bcbC0FC401E2D9D",
+      "unit": "HVN",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "WIC",
+      "name": "WaykiCoin",
+      "digits": 8,
+      "address": "0x4f878C0852722b0976A955d68B376E4Cd4Ae99E5",
+      "unit": "WIC",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "Cyber",
+      "name": "CyberChain",
+      "digits": 8,
+      "address": "0x17e16D30a05324B44CF78Df847137Fa1220448f8",
+      "unit": "Cyber",
       "website": "",
       "allowance": "100000000000",
       "allowanceWarn": "500000000",
