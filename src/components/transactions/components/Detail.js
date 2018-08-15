@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, Spin, Button,Tabs} from 'antd';
 import {toNumber,toBig,toHex} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
-import {getTransactionByhash} from 'Loopring/ethereum/utils'
+import {getTransactionByhash, getTransactionRecipt} from 'Loopring/ethereum/utils'
 import {
   getEstimatedAllocatedAllowance,
   getFrozenLrcFee,
@@ -43,13 +43,15 @@ class DetailBlock extends React.Component {
     const modal = modals['transaction/detail'];
     const item = modal.item;
     const _this = this;
-    getTransactionByhash(item.txHash).then(res => {
-      if (!res.error) {
-        const ethTx = res.result;
-        _this.setState({loading: false, ethTx})
-      } else {
-        _this.setState({loading: false})
+    Promise.all([getTransactionByhash(item.txHash), getTransactionRecipt(item.txHash)]).then(resps => {
+      if(resps && resps.length === 2) {
+        if(!resps[0].error && !resps[1].error) {
+          const ethTx = resps[0].result
+          ethTx.gas = resps[1].result.gasUsed
+          _this.setState({ethTx})
+        }
       }
+      _this.setState({loading: false})
     })
   }
 
