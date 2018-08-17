@@ -66,7 +66,12 @@ app.router(require('./router').default);
 // 5. Start
 app.start('#root');
 
+const getLocalConfig = () => {
+  return Promise.resolve(configs)
+}
+
 getRemoteConfig().then(res=>{
+// getLocalConfig().then(res=>{
   if(res) {
     window.REMOTE_CONFIG = res
     app._store.dispatch({type:'tokens/itemsChange', payload:{items:res.tokens}})
