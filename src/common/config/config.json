@@ -230,7 +230,7 @@
     {
       "tokenx": "BNT",
       "tokeny": "USDT",
-      "pricePrecision": 5
+      "pricePrecision": 2
     },
     {
       "tokenx": "VITE",
