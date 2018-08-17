@@ -4,15 +4,15 @@ import { Link } from 'dva/router';
 import { Card,Tabs,Icon,Popover,Input } from 'antd';
 import intl from 'react-intl-universal';
 import TickerTrend from 'Loopr/TickerTrend'
-import {configs} from '../../../common/config/data'
 const tickerFm = window.uiFormatter.TickerFormatter
 
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
   const favors =  window.STORAGE.markets.getFavors()
   let newMarkets =  []
-  if(window.REMOTE_CONFIG && window.REMOTE_CONFIG.newMarkets) {
-    newMarkets = window.REMOTE_CONFIG.newMarkets
+  const cacheConfigs = window.STORAGE.settings.getConfigs()
+  if(cacheConfigs && cacheConfigs.newMarkets) {
+    newMarkets = cacheConfigs.newMarkets
   }
   const isInNewMarket = (market) => {
     const m = market.toLowerCase().split('-')
@@ -159,6 +159,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
     tickers.filtersChange({filters})
   }
   let markets = [...window.CONFIG.getSupportedMarketsTokenR()]
+  let cacheConfigs = window.STORAGE.settings.getConfigs()
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
       <div className="pr10 pl25 tickers-search-input" style={{paddingTop:'5px'}}>
@@ -195,7 +196,7 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
         )
       }
       {
-        window.REMOTE_CONFIG && window.REMOTE_CONFIG.newMarkets && window.REMOTE_CONFIG.newMarkets.length >0 &&
+        cacheConfigs && cacheConfigs.newMarkets && cacheConfigs.newMarkets.length >0 &&
         <Tabs.TabPane tab={tab(intl.get('global.new_listing'))} key="bulb">
           <div className="pl10 pr10">
             <TickerTable tickers={tickers} market="innovate" dispatch={dispatch} />
