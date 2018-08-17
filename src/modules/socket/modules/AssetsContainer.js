@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import configs from '../../storage/settings'
 
 class AssetsContainer extends React.Component {
   constructor(props, context) {
@@ -57,8 +58,9 @@ class AssetsContainer extends React.Component {
     // socket.off('balance_res')
   }
   filterSupportedToken() {
-    if(this.state.assets && window.REMOTE_CONFIG && window.REMOTE_CONFIG.tokens) {
-      return this.state.assets.filter(token=>window.REMOTE_CONFIG.tokens.find(item => item.symbol.toLowerCase() === token.symbol.toLowerCase()))
+    const cacheConfigs = configs.getConfigs()
+    if(this.state.assets && cacheConfigs && cacheConfigs.tokens) {
+      return this.state.assets.filter(token=>cacheConfigs.tokens.find(item => item.symbol.toLowerCase() === token.symbol.toLowerCase()))
     }
     return []
   }

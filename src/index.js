@@ -14,6 +14,7 @@ import UserAgent from './common/utils/useragent'
 import {getRemoteConfig} from "Loopring/relay/utils";
 import Notification from 'Loopr/Notification'
 import intl from 'react-intl-universal'
+import settings from './modules/storage/settings'
 
 window.CONTAINERS = containers
 window.REDUX = redux
@@ -73,7 +74,7 @@ const getLocalConfig = () => {
 getRemoteConfig().then(res=>{
 // getLocalConfig().then(res=>{
   if(res) {
-    window.REMOTE_CONFIG = res
+    settings.setConfigs(res)
     app._store.dispatch({type:'tokens/itemsChange', payload:{items:res.tokens}})
   }
 }).catch(error=> {

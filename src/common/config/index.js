@@ -1,7 +1,6 @@
 //const config = require('./config.json');
 import fetch from 'dva/fetch';
-import STORAGE from '../../modules/storage'
-
+import settings from '../../modules/storage/settings'
 const data = require('./data')
 const config = data.configs
 const tokensIcons = require('./tokens_icons.json');
@@ -40,8 +39,9 @@ function getCustomTokens(){
 }
 
 function getTokens(){
-  if(window.REMOTE_CONFIG && window.REMOTE_CONFIG.tokens) {
-    return window.REMOTE_CONFIG.tokens
+  const cacheConfigs = settings.getConfigs()
+  if(cacheConfigs && cacheConfigs.tokens) {
+    return cacheConfigs.tokens
   }
   return []
   // return config.tokens || []
@@ -71,8 +71,9 @@ function getProjectByLrx(lrx) {
 }
 
 function getSupportedMarketsTokenR() {
-  if(window.REMOTE_CONFIG && window.REMOTE_CONFIG.supportedTokenRInMarkets) {
-    return window.REMOTE_CONFIG.supportedTokenRInMarkets
+  const cacheConfigs = settings.getConfigs()
+  if(cacheConfigs && cacheConfigs.supportedTokenRInMarkets) {
+    return cacheConfigs.supportedTokenRInMarkets
   }
   return []
   // return config.supportedTokenRInMarkets
@@ -155,8 +156,9 @@ function getMarkets() {
   //   })
   // })
   // return markets
-  if(window.REMOTE_CONFIG && window.REMOTE_CONFIG.markets && window.REMOTE_CONFIG.newMarkets) {
-    return window.REMOTE_CONFIG.markets.concat(window.REMOTE_CONFIG.newMarkets)
+  const cacheConfigs = settings.getConfigs()
+  if(cacheConfigs && cacheConfigs.markets && cacheConfigs.newMarkets) {
+    return cacheConfigs.markets.concat(cacheConfigs.newMarkets)
   }
   return []
 }
