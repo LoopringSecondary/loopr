@@ -1,7 +1,6 @@
 //const config = require('./config.json');
 import fetch from 'dva/fetch';
-import STORAGE from '../../modules/storage'
-
+import settings from '../../modules/storage/settings'
 const data = require('./data')
 const config = data.configs
 const tokensIcons = require('./tokens_icons.json');
@@ -40,7 +39,12 @@ function getCustomTokens(){
 }
 
 function getTokens(){
-  return config.tokens || []
+  const cacheConfigs = settings.getConfigs()
+  if(cacheConfigs && cacheConfigs.tokens) {
+    return cacheConfigs.tokens
+  }
+  return []
+  // return config.tokens || []
 }
 
 function getMarketByPair(pair) {
@@ -67,7 +71,12 @@ function getProjectByLrx(lrx) {
 }
 
 function getSupportedMarketsTokenR() {
-  return config.supportedTokenRInMarkets
+  const cacheConfigs = settings.getConfigs()
+  if(cacheConfigs && cacheConfigs.supportedTokenRInMarkets) {
+    return cacheConfigs.supportedTokenRInMarkets
+  }
+  return []
+  // return config.supportedTokenRInMarkets
 }
 
 function isSupportedMarket(market) {
@@ -147,7 +156,11 @@ function getMarkets() {
   //   })
   // })
   // return markets
-  return config.markets.concat(config.newMarkets)
+  const cacheConfigs = settings.getConfigs()
+  if(cacheConfigs && cacheConfigs.markets && cacheConfigs.newMarkets) {
+    return cacheConfigs.markets.concat(cacheConfigs.newMarkets)
+  }
+  return []
 }
 
 function getGasLimitByType(type) {
