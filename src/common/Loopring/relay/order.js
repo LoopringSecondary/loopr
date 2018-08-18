@@ -221,3 +221,43 @@ export function getOrderHash(order) {
 
   return solSHA3(orderTypes, orderData);
 }
+
+
+export function flexCancelOrder({sign,orderHash,tokenS,tokenB,cutoff,type}) {
+  const {owner,r,s,v} = sign;
+  try
+  {
+    validator.validate({value: owner, type: 'ADDRESS'});
+    validator.validate({value: s, type: 'ETH_DATA'});
+    validator.validate({value: r, type: 'ETH_DATA'});
+    validator.validate({value:type,type:'CANCEL_ORDER_TYPE'});
+    switch (type) {
+      case 1:
+        validator.validate({value: orderHash, type: 'ETH_DATA'});
+        break;
+      case 2:
+        break;
+      case 3:
+        validator.validate({value: cutoff, type: 'NUM'});
+        break;
+      case 4:
+        validator.validate({value: tokenS, type: 'ETH_ADDRESS'});
+        validator.validate({value: tokenB, type: 'ETH_ADDRESS'});
+        break;
+      default:
+    }
+    const body = {};
+    body.method = 'loopring_flexCancelOrder';
+    body.params = [{sign,orderHash,tokenS,tokenB,cutoff,type}];
+    body.jsonrpc = '2.0';
+    return request({
+      method: 'post',
+      body
+    });
+  }
+  catch (e)
+  {
+    return Promise.resolve(new Response(code.PARAM_INVALID.code, code.PARAM_INVALID.msg));
+  }
+
+}

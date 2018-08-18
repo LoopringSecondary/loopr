@@ -11,7 +11,9 @@ import config from "../../../../common/config";
 import intl from 'react-intl-universal';
 import Notification from 'Loopr/Notification'
 import PropTypes from 'prop-types';
-
+import moment from 'moment'
+import {sha3} from 'ethereumjs-util'
+import {flexCancelOrder} from '../../../../common/Loopring/relay/order'
 
 const uiFormatter = window.uiFormatter;
 const fm = window.uiFormatter.TokenFormatter;
@@ -19,7 +21,7 @@ const fm = window.uiFormatter.TokenFormatter;
 class ListBlock extends React.Component {
 
   state = {
-    cancelings:[],
+    cancelings: [],
   }
 
   render() {
@@ -44,79 +46,73 @@ class ListBlock extends React.Component {
 
 
     const cancel = async (item) => {
-      const beforeCancel = _this.state.cancelings
-      _this.setState({cancelings:[...beforeCancel, item.originalOrder.hash]})
       if (account && account.walletType === 'Address') {
         this.props.dispatch({
           type: 'modals/modalChange',
           payload: {
             id: 'wallet/watchOnlyToUnlock',
             originalData: {},
-            pageFrom:'',
+            pageFrom: '',
             visible: true
           }
         })
-        _this.setState({cancelings:[...beforeCancel]})
         return
-      };
-      const nonce = await window.STORAGE.wallet.getNonce(account.address);
-      const originalOrder = {...item.originalOrder};
-      originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
-      originalOrder.owner = originalOrder.address;
-      originalOrder.v = toNumber(originalOrder.v);
-      originalOrder.tokenB = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
-      originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
-      originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
-      const tx = generateCancelOrderTx({
-        order: originalOrder,
-        nonce: toHex(nonce),
-        gasPrice: toHex(gasPrice * 1e9),
-        gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder').gasLimit : configs['defaultGasLimit'],
-        protocolAddress: contractAddress,
-      });
-      _this.setState({cancelings:[...beforeCancel]})
-      showModal({id: 'order/cancel/confirm', type: 'order', tx, order:item.originalOrder})
+      }
 
-      // Modal.confirm({
-      //   title: intl.get('order.confirm_cancel_order'),
-      //   content:(<div className="">{intl.get('airdrop.cost_eth_gas')}</div>),
-      //   onOk: async () => {
-      //     const nonce = await window.STORAGE.wallet.getNonce(account.address);
-      //     const originalOrder = {...item.originalOrder};
-      //     originalOrder.marginSplitPercentage = toNumber(originalOrder.marginSplitPercentage);
-      //     originalOrder.owner = originalOrder.address;
-      //     originalOrder.v = toNumber(originalOrder.v);
-      //     originalOrder.tokenB = window.CONFIG.getTokenBySymbol(originalOrder.tokenB).address;
-      //     originalOrder.tokenS = window.CONFIG.getTokenBySymbol(originalOrder.tokenS).address;
-      //     originalOrder.authPrivateKey = clearPrefix(originalOrder.authPrivateKey);
-      //     const tx = generateCancelOrderTx({
-      //       order: originalOrder,
-      //       nonce: toHex(nonce),
-      //       gasPrice: toHex(gasPrice * 1e9),
-      //       gasLimit: config.getGasLimitByType('cancelOrder') ? config.getGasLimitByType('cancelOrder').gasLimit : configs['defaultGasLimit'],
-      //       protocolAddress: contractAddress,
-      //     });
-      //     window.WALLET.sendTransaction(tx).then(({response,rawTx}) => {
-      //       if (!response.error) {
-      //        // window.STORAGE.transactions.addTx({hash: response.result, owner: account.address});
-      //         window.STORAGE.wallet.setWallet({address: window.WALLET.getAddress(), nonce: tx.nonce});
-      //         notifyTransactionSubmitted({txHash:response.result,rawTx,from :window.WALLET.getAddress()}).then(() => {
-      //           reEmitPendingTransaction()
-      //         });
-      //         Notification.open({message: intl.get('order.cancel_order_success'), type: "success",description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
-      //       } else {
-      //         Notification.open({message: intl.get('order.cancel_order_failed'), type: "error", description:response.error.message})
-      //       }
-      //     })
-      //   },
-      //   onCancel: () => {
-      //   },
-      //   okText: intl.get('order.yes'),
-      //   cancelText: intl.get('order.no'),
-      // })
-      // };
+      Modal.confirm({
+        title: intl.get('order.confirm_cancel_order'),
+        okText: intl.get('global.yes'),
+        cancelText: intl.get('global.cancel'),
+        onOk : async () => {
+          const timestamp = Math.ceil(moment().valueOf() / 1e3).toString();
+          const type = 1;
+          const orderHash = item.originalOrder.hash;
+          const res = await window.WALLET.signMessage(sha3(timestamp))
+            if(!res.error){
+              const sign = {...res,owner:window.WALLET.getAddress(),timestamp}
+              flexCancelOrder({sign,type,orderHash}).then(resp=> {
+                if(!resp.error){
+                  Notification.open({
+                    message: intl.get('order.cancel_order_success'),
+                    type: "success"
+                  })
+                  updateOrders()
+                }else{
+                  Notification.open({
+                    message:  intl.get('order.cancel_order_failed'),
+                    type: "error",
+                    description: resp.error.message
+                  })
+                }
+              })
+            }else{
+              Notification.open({
+                message:  intl.get('order.cancel_order_failed'),
+                type: "error",
+                description: res.error.message
+              })
+            }
+        },
+        onCancel() {
 
+        },
+      })
     }
+   const updateOrders = () =>{
+      dispatch({
+        type: 'orders/filtersChange',
+        payload: {
+          id: 'orders/trade',
+        }
+      });
+     dispatch({
+       type: 'orders/filtersChange',
+       payload: {
+         id: 'orders/wallet',
+       }
+     })
+    }
+
     const handleCopy = (value, e) => {
       e.preventDefault();
       e.clipboardData.setData("text", value);
@@ -161,17 +157,18 @@ class ListBlock extends React.Component {
               tokenPair: item.originalOrder.market,
               orderHash: item.originalOrder.hash
             })) &&
-              <span>
+            <span>
                 {status}
-                {cancleBtn}
+              {cancleBtn}
               </span>
             }
-            {item.status === 'ORDER_OPENED' && this.state.cancelings.includes(item.originalOrder.hash) && <span className='fs12 color-black-2 ml5'><Spin size="small"/></span>}
+            {item.status === 'ORDER_OPENED' && this.state.cancelings.includes(item.originalOrder.hash) &&
+            <span className='fs12 color-black-2 ml5'><Spin size="small"/></span>}
             {item.status === 'ORDER_OPENED' && txs.isOrderCanceling({
               validSince: item.originalOrder.validSince,
               tokenPair: item.originalOrder.market,
               orderHash: item.originalOrder.hash
-              }) && <span className='fs12 color-black-2 ml5'>{intl.get('orders.canceling')}</span>
+            }) && <span className='fs12 color-black-2 ml5'>{intl.get('orders.canceling')}</span>
             }
           </div>
         )
