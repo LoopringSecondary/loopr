@@ -115,7 +115,7 @@ class Transfer extends React.Component {
     };
     const assetsSorted = assets.items.map((token,index) => {
       return getToken(token.symbol)
-    })
+    }).filter(item => item.symbol)
     assetsSorted.sort(sorter);
 
     function handleSubmit() {
