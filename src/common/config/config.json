@@ -622,22 +622,22 @@
     {
       "tokenx": "TRUE",
       "tokeny": "LRC",
-      "pricePrecision": 3
+      "pricePrecision": 8
     },
     {
       "tokenx": "TRUE",
       "tokeny": "WETH",
-      "pricePrecision": 3
+      "pricePrecision": 8
     },
     {
       "tokenx": "MOT",
       "tokeny": "LRC",
-      "pricePrecision": 3
+      "pricePrecision": 8
     },
     {
       "tokenx": "MOT",
       "tokeny": "WETH",
-      "pricePrecision": 3
+      "pricePrecision": 8
     }
   ],
   "txs": [
