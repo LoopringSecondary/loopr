@@ -47,7 +47,9 @@ class DetailBlock extends React.Component {
       if(resps && resps.length === 2) {
         if(!resps[0].error && !resps[1].error) {
           const ethTx = resps[0].result
-          ethTx.gas = resps[1].result.gasUsed
+          if(resps[1].result) {
+            ethTx.gas = resps[1].result.gasUsed
+          }
           _this.setState({ethTx})
         }
       }
