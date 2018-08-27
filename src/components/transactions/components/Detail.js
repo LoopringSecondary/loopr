@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card, Spin, Button,Tabs} from 'antd';
-import {toNumber,toBig,toHex} from "Loopring/common/formatter";
+import {toNumber,toBig,toHex,addHexPrefix} from "Loopring/common/formatter";
 import intl from 'react-intl-universal'
 import {getTransactionByhash, getTransactionRecipt} from 'Loopring/ethereum/utils'
 import {
@@ -45,9 +45,9 @@ class DetailBlock extends React.Component {
     const _this = this;
     Promise.all([getTransactionByhash(item.txHash), getTransactionRecipt(item.txHash)]).then(resps => {
       if(resps && resps.length === 2) {
-        if(!resps[0].error && !resps[1].error) {
-          const ethTx = resps[0].result
-          ethTx.gas = resps[1].result.gasUsed
+        if(!resps[0].error && !resps[1].error && resps[0].result && resps[1].result) {
+          const ethTx = resps[0].result;
+          ethTx.gas = resps[1].result.gasUsed;
           _this.setState({ethTx})
         }
       }
@@ -124,7 +124,7 @@ class DetailBlock extends React.Component {
           const tx = res.result;
           const gasPriceRes = await getGasPrice();
           tx.gasPrice = toHex(toBig(gasPriceRes.result));
-          tx.data = tx.input;
+          tx.data = addHexPrefix(tx.input);
           window.WALLET.sendTransaction(tx).then(({response, rawTx}) => {
             if (!response.error) {
               Notification.open({message: intl.get("txs.resend_success"), type: "success", description:(<Button className="alert-btn mr5" onClick={() => window.open(`https://etherscan.io/tx/${response.result}`,'_blank')}> {intl.get('token.transfer_result_etherscan')}</Button> )});
