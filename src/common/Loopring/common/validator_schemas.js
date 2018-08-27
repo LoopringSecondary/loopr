@@ -93,6 +93,11 @@ let basicSchemas = {
     type: 'string',
     required: true,
     enum: ['earliest', 'latest', 'pending'],
+  },
+  CANCEL_ORDER_TYPE:{
+    type: 'enum',
+    required: true,
+    enum: [1, 2, 3,4]
   }
 }
 

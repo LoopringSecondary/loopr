@@ -17,6 +17,7 @@ export default {
     gas:'Gas',
     new_listing:'New Listing',
     favorites:'Favorites',
+    cancel:'Cancel'
   },
   init:{
     init_failed: "Init failed",
