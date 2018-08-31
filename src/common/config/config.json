@@ -638,6 +638,36 @@
       "tokenx": "MOT",
       "tokeny": "WETH",
       "pricePrecision": 8
+    },
+    {
+      "tokenx": "BOE",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "BOE",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "CEN",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "CEN",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ST",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "ST",
+      "tokeny": "WETH",
+      "pricePrecision": 8
     }
   ],
   "txs": [
@@ -1588,6 +1618,30 @@
       "minTradeValue": 0.001
     },
     {
+      "symbol": "CEN",
+      "name": "Centaure Token",
+      "digits": 18,
+      "address": "0x5301Eae39a4cBa1CC2A74E861fDed062cA3E3420",
+      "unit": "CEN",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "ST",
+      "name": "Simple Token",
+      "digits": 18,
+      "address": "0x2C4e8f2D746113d0696cE89B35F0d8bF88E0AEcA",
+      "unit": "ST",
+      "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
       "symbol": "ROL",
       "name": "DICE",
       "digits": 16,
@@ -1881,6 +1935,18 @@
       "digits": 8,
       "address": "0x17e16D30a05324B44CF78Df847137Fa1220448f8",
       "unit": "CYBER",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "BOE",
+      "name": "Bodhi Ethereum",
+      "digits": 8,
+      "address": "0x970E035E2a013cf4bECD67E300d65BC32A56D826",
+      "unit": "BOE",
       "website": "",
       "allowance": "100000000000",
       "allowanceWarn": "500000000",
