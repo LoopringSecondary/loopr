@@ -106,6 +106,8 @@ class UnlockByMetaMask extends React.Component {
             })
             if(selectedAccount) {
               console.log("MetaMask account changed to:", selectedAccount)
+              window.WALLET = new MetaMaskUnlockAccount({web3: window.web3, address: selectedAccount})
+              window.WALLET_UNLOCK_TYPE = walletType
               account.setWallet({address: selectedAccount})
             }
           }
