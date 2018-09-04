@@ -17,7 +17,8 @@ export default {
     gas:'油费',
     new_listing:'创新区',
     favorites:'自选',
-    cancel:'取消'
+    cancel:'取消',
+    ok:"确定"
   },
   init:{
     init_failed: "初始化数据失败",
@@ -429,7 +430,8 @@ export default {
     confirm_to_cancel:"确认取消订单",
     order_will_expire:"距离订单自动失效还有",
     expire_duration:"{days,plural,=0{} other {# 天}} {hours,plural,=0{} other {# 小时}} {minutes,plural,=1{1 分钟} other {# 分钟}}",
-    open_order_list:"进行中订单"
+    open_order_list:"进行中订单",
+
   },
   settings: {
     preference: "偏好",
@@ -531,7 +533,10 @@ export default {
     current_lrc_fee: '当前LRC Fee',
     order_ttl_expire_in: '设置持续时间',
     order_ttl_from_to: '设置起止时间',
-    not_supported_market:'暂未开放交易'
+    not_supported_market:'暂未开放交易',
+    place_order_price_confirm:'您确定要要继续下单吗?',
+    place_order_price_high:"您当前的价格高于市场价20%",
+    place_order_price_low:"您当前的价格低于市场价20%",
   },
   trades: {
     side: '方向',
