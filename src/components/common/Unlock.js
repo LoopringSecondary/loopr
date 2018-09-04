@@ -66,6 +66,8 @@ export function unlockWithMetaMask(web3){
         })
         if(selectedAccount && window.STORE) {
           console.log("MetaMask account changed to:", selectedAccount)
+          window.WALLET = new MetaMaskUnlockAccount({web3: web3, address: selectedAccount})
+          window.WALLET_UNLOCK_TYPE = walletType
           window.STORE.dispatch({
             type:'account/setWallet',
             payload:{address: selectedAccount, walletType:walletType}
