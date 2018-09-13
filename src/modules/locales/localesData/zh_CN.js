@@ -535,8 +535,8 @@ export default {
     order_ttl_from_to: '设置起止时间',
     not_supported_market:'暂未开放交易',
     place_order_price_confirm:'您确定要要继续下单吗?',
-    place_order_price_high:"您当前的价格高于市场价20%",
-    place_order_price_low:"您当前的价格低于市场价20%",
+    place_order_price_high:"您当前的价格高于市场价5%",
+    place_order_price_low:"您当前的价格低于市场价5%",
   },
   trades: {
     side: '方向',

@@ -390,8 +390,8 @@ I got this great idea:
     order_ttl_from_to: 'Set Order Valid Since and Until',
     not_supported_market:'Trading not supported currently',
     place_order_price_confirm:"Are you sure you want to continue ?",
-    place_order_price_high:"Your price is 20% higher than the market price.",
-    place_order_price_low:"Your price is 20% lower than the market price.",
+    place_order_price_high:"Your price is 5% higher than the market price.",
+    place_order_price_low:"Your price is 5% lower than the market price.",
   },
   trades: {
     side: 'Sides',

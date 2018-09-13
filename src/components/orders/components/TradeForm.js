@@ -197,7 +197,7 @@ class TradeForm extends React.Component {
           const tokenLPrice = prices.getTokenBySymbol(tokenL);
           let mPrice = tokenLPrice.price && tokenRPrice.price ? tokenLPrice.price / tokenRPrice.price : tickerByLoopring ? tickerByLoopring.last : 0
           mPrice = fm.toNumber(fm.toFixed(mPrice, marketConfig.pricePrecision))
-          if (side === "buy" && 1.2 * mPrice < fm.toNumber(values.price)) {
+          if (side === "buy" && 1.05 * mPrice < fm.toNumber(values.price)) {
             Modal.confirm({
               title: intl.get('trade.place_order_price_confirm'),
               content: intl.get('trade.place_order_price_high'),
@@ -209,7 +209,7 @@ class TradeForm extends React.Component {
               onCancel() {
               },
             })
-          } else if (side === "sell" && 0.8 * mPrice > fm.toNumber(values.price)) {
+          } else if (side === "sell" && 0.95 * mPrice > fm.toNumber(values.price)) {
             Modal.confirm({
               title: intl.get('trade.place_order_price_confirm'),
               content: intl.get('trade.place_order_price_low'),
