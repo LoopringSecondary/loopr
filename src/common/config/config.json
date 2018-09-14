@@ -668,7 +668,48 @@
       "tokenx": "ST",
       "tokeny": "WETH",
       "pricePrecision": 8
+    },
+    {
+      "tokenx": "BRM",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "BRM",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "RTE",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "RTE",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "MRL",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "MRL",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "APPC",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "APPC",
+      "tokeny": "WETH",
+      "pricePrecision": 8
     }
+
   ],
   "txs": [
     {
@@ -1636,6 +1677,54 @@
       "address": "0x2C4e8f2D746113d0696cE89B35F0d8bF88E0AEcA",
       "unit": "ST",
       "website": "",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "BRM",
+      "name": "BrahmaOS",
+      "digits": 18,
+      "address": "0xD7732e3783b0047aa251928960063f863AD022D8",
+      "unit": "BRM",
+      "website": "https://www.brahmaos.io",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "RTE",
+      "name": "Rate3",
+      "digits": 18,
+      "address": "0x436F0F3a982074c4a05084485D421466a994FE53",
+      "unit": "RTE",
+      "website": "https://www.rate3.network",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "MRL",
+      "name": "Marcelo",
+      "digits": 18,
+      "address": "0x82125AFe01819Dff1535D0D6276d57045291B6c0",
+      "unit": "MRL",
+      "website": "https://www.marcelo-mrl.com",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "APPC",
+      "name": "AppCoins",
+      "digits": 18,
+      "address": "0x1a7a8BD9106F2B8D977E08582DC7d24c723ab0DB",
+      "unit": "APPC",
+      "website": "https://appcoins.io",
       "allowance": "1000000000000000000000",
       "allowanceWarn": "100000000000000000000",
       "precision": 6,
