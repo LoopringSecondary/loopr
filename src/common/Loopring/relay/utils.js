@@ -1,6 +1,7 @@
 import request from '../common/request'
 import validator from '../common/validator'
 import fetch from 'dva/fetch';
+import moment from 'moment';
 
 let headers = {
   'Content-Type': 'application/json'
@@ -147,11 +148,12 @@ export async function getMarkets() {
 }
 
 export async function getRemoteConfig() {
-  return fetch("https://config.loopring.io/loopr/config.json", {
+  const random = moment().format('YYMMDDhhmm')
+  return fetch(`https://config.loopring.io/loopr/config.json?${random}`, {
     method:'get',
     mode: 'cors',
     headers: {
-      'Accept': 'application/json'
+      'Accept': 'application/json',
     }
   })
     .then(res => {
