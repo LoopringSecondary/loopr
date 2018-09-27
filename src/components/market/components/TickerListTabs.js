@@ -9,37 +9,7 @@ const tickerFm = window.uiFormatter.TickerFormatter
 const TickerTable = (props)=>{
   const {tickers,market,dispatch} = props
   const favors =  window.STORAGE.markets.getFavors()
-  let newMarkets =  []
-  const cacheConfigs = window.STORAGE.settings.getConfigs()
-  if(cacheConfigs && cacheConfigs.newMarkets) {
-    newMarkets = cacheConfigs.newMarkets
-  }
-  const isInNewMarket = (market) => {
-    const m = market.toLowerCase().split('-')
-    return newMarkets.find((i)=> {
-      return (i.tokenx.toLowerCase() === m[0] && i.tokeny.toLowerCase() === m[1]) || (i.tokeny.toLowerCase() === m[0] && i.tokenx.toLowerCase() === m[1])
-    })
-  }
-  let items = []
-  if(market === 'favorites'){
-    items = tickers.items.filter(item=>{
-      return favors[item.market]
-    })
-  } else if(market === 'innovate') {
-    items = tickers.items.filter(item=>{
-      return isInNewMarket(item.market)
-    })
-  } else {
-    items = tickers.items.filter(item=>{
-      return item.market.toLowerCase().split('-')[1] === market.toLowerCase() && !isInNewMarket(item.market)
-    })
-  }
-  const keywords = tickers.filters && tickers.filters.token
-  if(keywords){
-    items = items.filter(item=>{
-        return item.market.toUpperCase().indexOf(keywords.toUpperCase()) > -1
-    })
-  }
+  const availableTickers = (tickers && tickers.items) ? tickers.items.filter(item=>item.label === 'whitelist') : []
   const sorter = (a,b)=>{
     if(a.vol === b.vol ){
       if(a.last === b.last){
@@ -50,6 +20,23 @@ const TickerTable = (props)=>{
     }else{
       return Number(b.vol) - Number(a.vol)
     }
+  }
+  availableTickers.sort(sorter)
+  let items = []
+  if(market === 'favorites'){
+    items = availableTickers.filter(item=>{
+      return favors[item.market]
+    })
+  } else {
+    items = availableTickers.filter(item=>{
+      return item.market.toLowerCase().split('-')[1] === market.toLowerCase()
+    })
+  }
+  const keywords = tickers.filters && tickers.filters.token
+  if(keywords){
+    items = tickers.items.filter(item=>{
+        return item.market.toUpperCase().indexOf(keywords.toUpperCase()) > -1
+    })
   }
   items.sort(sorter)
   const updateOrders = (pair)=>{
@@ -150,7 +137,7 @@ const TickerTable = (props)=>{
   )
 }
 
-const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
+const TickerTabs = ({tickersOfSource:tickers,dispatch})=>{
   const search = (e)=>{
     const value = e.target.value
     const filters = {
@@ -158,8 +145,68 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
     }
     tickers.filtersChange({filters})
   }
-  let markets = [...window.CONFIG.getSupportedMarketsTokenR()]
-  let cacheConfigs = window.STORAGE.settings.getConfigs()
+  const allTickers = (tickers && tickers.items) ? tickers.items.filter(item=>item.label === 'whitelist') : []
+  const sorter = (a,b)=>{
+    if(a.vol === b.vol ){
+      if(a.last === b.last){
+        return b.market > a.market ? -1 : 1
+      }else{
+        return Number(b.last) - Number(a.last)
+      }
+    }else{
+      return Number(b.vol) - Number(a.vol)
+    }
+  }
+  allTickers.sort(sorter)
+  // tickers.items = allTickers
+  const marketGroups = {}
+  allTickers.forEach(item=>{
+    const market = item.market.split('-')
+    let group = marketGroups[market[1]]
+    if(group){
+      group.push(item)
+    } else {
+      group = [item]
+    }
+    marketGroups[market[1]] = group
+  })
+  const marketItems = []
+  const tab = (text)=> <div className="fs16 font-weight-bold">{text}</div>
+  if(marketGroups && Object.keys(marketGroups).length > 0) {
+    const keys = Object.keys(marketGroups)
+    const wethIndex = keys.findIndex(item=> item === 'WETH')
+    if(wethIndex > -1) {
+      keys.splice(wethIndex, 1);
+      marketItems.push(
+        <Tabs.TabPane tab={tab('WETH')} key={'WETH'}>
+          <div className="pl10 pr10">
+            <TickerTable tickers={tickers} market={'WETH'} dispatch={dispatch}  />
+          </div>
+        </Tabs.TabPane>
+      )
+    }
+    const lrcIndex = keys.findIndex(item=> item === 'LRC')
+    if(lrcIndex > -1) {
+      keys.splice(lrcIndex, 1);
+      marketItems.push(
+        <Tabs.TabPane tab={tab('LRC')} key={'LRC'}>
+          <div className="pl10 pr10">
+            <TickerTable tickers={tickers} market={'LRC'} dispatch={dispatch}  />
+          </div>
+        </Tabs.TabPane>
+      )
+    }
+    keys.forEach(item => {
+      marketItems.push(
+        <Tabs.TabPane tab={tab(item)} key={item}>
+          <div className="pl10 pr10">
+            <TickerTable tickers={tickers} market={item} dispatch={dispatch}  />
+          </div>
+        </Tabs.TabPane>
+      )
+    })
+  }
+
   const keywords = tickers.filters && tickers.filters.token
   const SearchInput = (
       <div className="pr10 pl25 tickers-search-input" style={{paddingTop:'5px'}}>
@@ -177,33 +224,25 @@ const TickerTabs = ({tickersByLoopring:tickers,dispatch})=>{
     }
   }
   const activeTab = favoredNumber > 0 ? 'favorites' : 'WETH'
-  // tab(intl.get('ticker.favorites'))
-  const tab = (text)=> <div className="fs16 font-weight-bold">{text}</div>
   return (
-    <Tabs className="tickers-market-tabs" defaultActiveKey={activeTab} animated={false} tabBarExtraContent={SearchInput}>
-      <Tabs.TabPane tab={tab(intl.get('global.favorites'))} key="favorites">
-        <div className="pl10 pr10">
-          <TickerTable tickers={tickers} market="favorites" dispatch={dispatch} />
-        </div>
-      </Tabs.TabPane>
+    <Tabs
+      className="tickers-market-tabs"
+      defaultActiveKey={activeTab}
+      animated={false}
+      tabBarExtraContent={SearchInput}
+      onTabClick={() => {
+        tickers.filtersChange({'token':''})
+      }}
+    >
       {
-        markets.map((market,index)=>
-          <Tabs.TabPane tab={tab(market)} key={market}>
-            <div className="pl10 pr10">
-              <TickerTable tickers={tickers} market={market} dispatch={dispatch}  />
-            </div>
-          </Tabs.TabPane>
-        )
-      }
-      {
-        cacheConfigs && cacheConfigs.newMarkets && cacheConfigs.newMarkets.length >0 &&
-        <Tabs.TabPane tab={tab(intl.get('global.new_listing'))} key="bulb">
+        marketItems && marketItems.length > 0 &&
+        <Tabs.TabPane tab={tab(intl.get('global.favorites'))} key="favorites">
           <div className="pl10 pr10">
-            <TickerTable tickers={tickers} market="innovate" dispatch={dispatch} />
+            <TickerTable tickers={tickers} market="favorites" dispatch={dispatch}/>
           </div>
         </Tabs.TabPane>
       }
-
+      {marketItems}
     </Tabs>
   )
 }

@@ -1,6 +1,7 @@
 //const config = require('./config.json');
 import fetch from 'dva/fetch';
 import settings from '../../modules/storage/settings'
+
 const data = require('./data')
 const config = data.configs
 const tokensIcons = require('./tokens_icons.json');
@@ -39,12 +40,7 @@ function getCustomTokens(){
 }
 
 function getTokens(){
-  const cacheConfigs = settings.getConfigs()
-  if(cacheConfigs && cacheConfigs.tokens) {
-    return cacheConfigs.tokens
-  }
-  return []
-  // return config.tokens || []
+  return settings.getTokensConfig()
 }
 
 function getMarketByPair(pair) {
@@ -71,12 +67,7 @@ function getProjectByLrx(lrx) {
 }
 
 function getSupportedMarketsTokenR() {
-  const cacheConfigs = settings.getConfigs()
-  if(cacheConfigs && cacheConfigs.supportedTokenRInMarkets) {
-    return cacheConfigs.supportedTokenRInMarkets
-  }
-  return []
-  // return config.supportedTokenRInMarkets
+  return settings.getMarketR()
 }
 
 function isSupportedMarket(market) {
@@ -140,27 +131,7 @@ function getTokenSupportedMarkets(token) {
 }
 
 function getMarkets() {
-  // const tokens = getTokens();
-  // const supportedMarktesR = getSupportedMarketsTokenR()
-  // let markets = new Array()
-  // tokens.filter(item => item.symbol !== 'ETH' && item.symbol !== 'WETH').forEach(token=> {
-  //   supportedMarktesR.forEach(marketR => {
-  //     if(marketR !== token.symbol) {
-  //       const tokenConfig = getTokenBySymbol(token.symbol)
-  //       markets.push({
-  //         "tokenx": token.symbol,
-  //         "tokeny": marketR,
-  //         "pricePrecision": tokenConfig.digits > 8 ? 8 : tokenConfig.digits
-  //       })
-  //     }
-  //   })
-  // })
-  // return markets
-  const cacheConfigs = settings.getConfigs()
-  if(cacheConfigs && cacheConfigs.markets && cacheConfigs.newMarkets) {
-    return cacheConfigs.markets.concat(cacheConfigs.newMarkets)
-  }
-  return []
+  return settings.getMarketPairs()
 }
 
 function getGasLimitByType(type) {

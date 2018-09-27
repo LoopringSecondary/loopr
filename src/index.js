@@ -11,7 +11,7 @@ import STORAGE from './modules/storage'
 import {setLocale} from "./common/utils/localeSetting";
 import {configs} from './common/config/data'
 import UserAgent from './common/utils/useragent'
-import {getRemoteConfig} from "Loopring/relay/utils";
+import {getTokens} from "Loopring/relay/utils";
 import Notification from 'Loopr/Notification'
 import intl from 'react-intl-universal'
 import settings from './modules/storage/settings'
@@ -67,15 +67,28 @@ app.router(require('./router').default);
 // 5. Start
 app.start('#root');
 
-const getLocalConfig = () => {
-  return Promise.resolve(configs)
-}
-
-getRemoteConfig().then(res=>{
-// getLocalConfig().then(res=>{
-  if(res) {
-    settings.setConfigs(res)
-    app._store.dispatch({type:'tokens/itemsChange', payload:{items:res.tokens}})
+getTokens().then(res=>{
+  if(res.result) {
+    const tokens = []
+    tokens.push({
+      "symbol": "ETH",
+      "digits": 18,
+      "address": "",
+      "precision": 6,
+    })
+    res.result.forEach(item=>{
+      if(!item.deny) {
+        const digit = Math.log10(item.decimals)
+        tokens.push({
+          "symbol": item.symbol,
+          "digits": digit,
+          "address": item.protocol,
+          "precision": Math.min(digit, 6),
+        })
+      }
+    })
+    STORAGE.settings.setTokensConfig(tokens)
+    app._store.dispatch({type:'tokens/itemsChange', payload:{items:tokens}})
   }
 }).catch(error=> {
   console.log(error)
