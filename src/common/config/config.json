@@ -748,6 +748,46 @@
       "tokenx": "GUSD",
       "tokeny": "WETH",
       "pricePrecision": 3
+    },
+    {
+      "tokenx": "BITS",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "BITS",
+      "tokeny": "WETH",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "FOTC",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "FOTC",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "GPT",
+      "tokeny": "LRC",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "GPT",
+      "tokeny": "WETH",
+      "pricePrecision": 8
+    },
+    {
+      "tokenx": "EQC",
+      "tokeny": "LRC",
+      "pricePrecision": 3
+    },
+    {
+      "tokenx": "EQC",
+      "tokeny": "WETH",
+      "pricePrecision": 3
     }
   ],
   "txs": [
@@ -1794,6 +1834,30 @@
       "minTradeValue": 0.001
     },
     {
+      "symbol": "FOTC",
+      "name": "Fortecoin",
+      "digits": 18,
+      "address": "0xD9A1FE8b4d6De4F41c8A1b6AD3B6457916e546b4",
+      "unit": "FOTC",
+      "website": "https://fortecoinbiz.com",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "GPT",
+      "name": "Gridcube Platform Token",
+      "digits": 18,
+      "address": "0xE600daBd95d181FE5f6eEe1B079C2b64aa5fBCC7",
+      "unit": "GPT",
+      "website": "https://ito.gridcube.com",
+      "allowance": "1000000000000000000000",
+      "allowanceWarn": "100000000000000000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
       "symbol": "ROL",
       "name": "DICE",
       "digits": 16,
@@ -2099,6 +2163,30 @@
       "digits": 8,
       "address": "0x970E035E2a013cf4bECD67E300d65BC32A56D826",
       "unit": "BOE",
+      "website": "",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "BITS",
+      "name": "Bitsoko Community",
+      "digits": 8,
+      "address": "0xB72627650F1149Ea5e54834b2f468E5d430E67bf",
+      "unit": "BITS",
+      "website": "https://bitsoko.co.ke",
+      "allowance": "100000000000",
+      "allowanceWarn": "500000000",
+      "precision": 6,
+      "minTradeValue": 0.001
+    },
+    {
+      "symbol": "EQC",
+      "name": "Ethereum Qchain Token",
+      "digits": 8,
+      "address": "0xC438B4c0Dfbb1593be6DEE03Bbd1A84BB3aa6213",
+      "unit": "EQC",
       "website": "",
       "allowance": "100000000000",
       "allowanceWarn": "500000000",
