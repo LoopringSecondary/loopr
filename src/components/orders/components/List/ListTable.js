@@ -137,6 +137,9 @@ class ListBlock extends React.Component {
         if (item.status === 'ORDER_OPENED') {
           status = <Badge className="fs12" status="processing" text={intl.get('orders.status_opened')}/>
         }
+        if (item.status === 'ORDER_WAIT_SUBMIT_RING') {
+          status = <Badge className="fs12" status="processing" text={intl.get('orders.status_matching')}/>
+        }
         if (item.status === 'ORDER_FINISHED') {
           status = <Badge className="fs12" status="success" text={intl.get('orders.status_completed')}/>
         }

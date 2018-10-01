@@ -249,6 +249,7 @@ I got this great idea:
     market: 'Markets',
     status: 'Status',
     status_opened: 'Open',
+    status_matching: 'Matching',
     status_completed: 'Completed',
     status_canceled: 'Cancelled',
     status_expired: 'Expired',
