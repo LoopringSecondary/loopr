@@ -140,6 +140,9 @@ class ListBlock extends React.Component {
         if (item.status === 'ORDER_WAIT_SUBMIT_RING') {
           status = <Badge className="fs12" status="processing" text={intl.get('orders.status_matching')}/>
         }
+        if (item.status === 'ORDER_PENDING') {
+          status = <Badge className="fs12" status="processing" text={intl.get('orders.status_pending')}/>
+        }
         if (item.status === 'ORDER_FINISHED') {
           status = <Badge className="fs12" status="success" text={intl.get('orders.status_completed')}/>
         }
@@ -154,8 +157,8 @@ class ListBlock extends React.Component {
         }
         return (
           <div className="text-left">
-            {item.status !== 'ORDER_OPENED' && status}
-            {item.status === 'ORDER_OPENED' && (!this.state.cancelings.includes(item.originalOrder.hash) && !txs.isOrderCanceling({
+            {(item.status !== 'ORDER_OPENED' && item.status !== 'ORDER_WAIT_SUBMIT_RING') && status}
+            {(item.status === 'ORDER_OPENED' || item.status === 'ORDER_WAIT_SUBMIT_RING') && (!this.state.cancelings.includes(item.originalOrder.hash) && !txs.isOrderCanceling({
               validSince: item.originalOrder.validSince,
               tokenPair: item.originalOrder.market,
               orderHash: item.originalOrder.hash

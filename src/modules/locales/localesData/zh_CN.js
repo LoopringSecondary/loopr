@@ -391,6 +391,7 @@ export default {
     status: '状态',
     status_opened: '挂单中',
     status_matching: '撮合中',
+    status_pending: '打包中',
     status_completed: '已成交',
     status_canceled: '已取消',
     status_expired: '已过期',
