@@ -60,7 +60,7 @@ class ListBlock extends React.Component {
   };
 
   render() {
-    const {LIST, actions, prices, assets} = this.props;
+    const {LIST, actions, prices, assets, tickersOfSource} = this.props;
     const {items = [], loading, page = {}, filters} = LIST;
     const token = filters.token;
     const currentToken = this.state.token;
