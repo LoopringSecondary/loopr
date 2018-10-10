@@ -9,8 +9,10 @@ function Page(props){
       <Sockets.Transactions {...props}>
         <Sockets.Prices>
           <Sockets.Assets>
-            <Components.ListStand />
-            <Common.ListPagination className="mt25 ml15" />
+            <Sockets.TickersOfSource>
+              <Components.ListStand />
+              <Common.ListPagination className="mt25 ml15" />
+            </Sockets.TickersOfSource>
           </Sockets.Assets>
         </Sockets.Prices>
       </Sockets.Transactions>

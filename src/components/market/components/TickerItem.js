@@ -7,6 +7,7 @@ import Sockets from '../../../modules/socket/containers'
 import Currency from '../../../modules/settings/CurrencyContainer'
 import intl from 'react-intl-universal'
 import TickerTrend from 'Loopr/TickerTrend'
+import TickersOfSource from "../../../modules/socket/modules/TickersOfSource";
 
 const fm = window.uiFormatter.TickerFormatter
 
@@ -26,9 +27,9 @@ class TickerHeader extends React.Component {
         overlayClassName="tickers-list-popover"
         content={
           <div className="" style={{minWidth:'320px'}}>
-            <Sockets.TickersByLoopring>
+            <Sockets.TickersOfSource>
               <TickerListTabs />
-            </Sockets.TickersByLoopring>
+            </Sockets.TickersOfSource>
           </div>
         }
       >
