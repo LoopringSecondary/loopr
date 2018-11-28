@@ -58,9 +58,9 @@ class AssetsContainer extends React.Component {
     // socket.off('balance_res')
   }
   filterSupportedToken() {
-    const cacheConfigs = configs.getConfigs()
-    if(this.state.assets && cacheConfigs && cacheConfigs.tokens) {
-      return this.state.assets.filter(token=>cacheConfigs.tokens.find(item => item.symbol.toLowerCase() === token.symbol.toLowerCase()))
+    const tokenConfigs = configs.getTokensConfig()
+    if(this.state.assets && tokenConfigs) {
+      return this.state.assets.filter(token=>tokenConfigs.find(item => item.symbol.toLowerCase() === token.symbol.toLowerCase()))
     }
     return []
   }
