@@ -117,7 +117,7 @@ class AssetsWorth extends React.Component{
     assets.items.map(item=>{
       const tokenConfig = window.CONFIG.getTokenBySymbol(item.symbol)
       const amount = item.balance > 0 ? fm.toBig(item.balance).div("1e"+tokenConfig.digits) : fm.toBig(0)
-      const worth = amount.times(prices.getTokenBySymbol(item.symbol).price).toNumber().toFixed(1)
+      const worth = amount.times(fm.toBig(prices.getTokenBySymbol(item.symbol).price)).toNumber().toFixed(1)
       totalWorth = accAdd(totalWorth, worth)
     })
     if(totalWorth > 1000000001){

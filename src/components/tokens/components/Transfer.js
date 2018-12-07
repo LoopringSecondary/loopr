@@ -429,7 +429,7 @@ class Transfer extends React.Component {
     const gasWorth = (
       <span className="">
         <Currency />
-        {defaultGas.greaterThan(0) ? defaultGas.times(ethPrice.price).toFixed(2) : 0}
+        {defaultGas.greaterThan(0) ? defaultGas.times(fm.toBig(ethPrice.price)).toFixed(2) : 0}
       </span>
     )
 
